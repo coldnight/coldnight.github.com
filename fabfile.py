@@ -27,7 +27,7 @@ def deploy():
 
         commands = [
             "source .venv/bin/activate",
-            "pip install -U pelican",
+            "pip install -U pelican Markdown",
             "make html"
         ]
 

@@ -65,8 +65,15 @@ SOCIAL = (("G+", "https://plus.google.com/u/0/118104100603784013039"),
 
 DEFAULT_PAGINATION = 10
 
-MARKDOWN = (['codehilite(css_class=highlight)', 'extra',
-             'fenced_code', 'tables', 'sane_lists'])
+MARKDOWN = {
+    "extension_configs": {
+        "markdown.extensions.codehilite": {"css_class": "highlight"},
+        'markdown.extensions.extra': {},
+        'markdown.extensions.sane_lists': {},
+        "markdown.extensions.toc": {},
+    },
+    "output_format": "html5",
+}
 
 PLUGIN_PATHS = [u"pelican-plugins"]
 PLUGINS = ['sitemap']  # , 'gzip_cache']
