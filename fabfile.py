@@ -3,7 +3,7 @@ from fabric.api import sudo, cd, settings, env, task
 env.use_ssh_config = True
 
 repo_uri = "https://github.com/coldnight/coldnight.github.com"
-dest_path = "/srv/coldnight.github.com.new"
+dest_path = "/srv/coldnight.github.com"
 
 
 @task
