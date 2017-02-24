@@ -4,7 +4,6 @@
 AUTHOR = u'cold'
 SITENAME = u"cold's world"
 SITEURL = u'https://www.linuxzen.com'
-# SITEURL = u'http://localhost:8000'
 SITE_SOURCE = u"https://github.com/coldnight/coldnight.github.com"
 SITE_TAGLINE = u"木秀于林"
 FEED_DOMAIN = SITEURL
@@ -66,8 +65,8 @@ SOCIAL = (("G+", "https://plus.google.com/u/0/118104100603784013039"),
 
 DEFAULT_PAGINATION = 10
 
-MD_EXTENSIONS = (['codehilite(css_class=highlight)', 'extra',
-                  'fenced_code', 'tables', 'sane_lists'])
+MARKDOWN = (['codehilite(css_class=highlight)', 'extra',
+             'fenced_code', 'tables', 'sane_lists'])
 
 PLUGIN_PATHS = [u"pelican-plugins"]
 PLUGINS = ['sitemap']  # , 'gzip_cache']
