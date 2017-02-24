@@ -65,6 +65,10 @@ SOCIAL = (("G+", "https://plus.google.com/u/0/118104100603784013039"),
 
 DEFAULT_PAGINATION = 10
 
+PIWIK_SSL_URL = "piwik.linuxzen.com"
+PIWIK_URL = PIWIK_SSL_URL
+PIWIK_SITE_ID = "2"
+
 MARKDOWN = {
     "extension_configs": {
         "markdown.extensions.codehilite": {"css_class": "highlight"},
