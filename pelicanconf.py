@@ -30,15 +30,14 @@ ARCHIVES_URL = "archives.html"
 GITHUB_URL = u"https://github.com/coldnight/coldnight.github.com"
 GITHUB_POSITION = "right"
 
-FLOW_CONTENT = u"""
-<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_3767683'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s96.cnzz.com/stat.php%3Fid%3D3767683%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-"""
-STATIC_PATHS = [u"static/upload",
-                "extra/robots.txt",
-                "extra/bdsitemap.txt",
-                "extra/googledbee14f7be5461f0.html",
-                # "extra/404.html",
-                ]
+STATIC_PATHS = [
+    u"static/upload",
+    "extra/robots.txt",
+    "extra/bdsitemap.txt",
+    "extra/googledbee14f7be5461f0.html",
+    # "extra/404.html",
+]
+
 # STATIC_SAVE_AS = "static/upload/"
 EXTRA_PATH_METADATA = {
     "extra/robots.txt": {"path": "robots.txt"},
