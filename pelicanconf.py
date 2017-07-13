@@ -4,7 +4,7 @@
 AUTHOR = u'cold'
 SITENAME = u"cold's world"
 SITEURL = u'https://www.linuxzen.com'
-SITEURL = u'http://localhost:8080'
+# SITEURL = u'http://localhost:8080'
 SITE_SOURCE = u"https://github.com/coldnight/coldnight.github.com"
 SITE_TAGLINE = u"木秀于林"
 FEED_DOMAIN = SITEURL
