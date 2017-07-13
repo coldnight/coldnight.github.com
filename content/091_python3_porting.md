@@ -188,5 +188,5 @@ for k in digits.keys():
 
 ## 参考
 
-- (官方指南)[https://docs.python.org/3/howto/pyporting.html]
+- [官方指南](https://docs.python.org/3/howto/pyporting.html)
 - [Instagram 在 PyCon 2017 的演讲摘要](http://www.zlovezl.cn/articles/instagram-pycon-2017/)
