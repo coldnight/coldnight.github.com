@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 
+from datetime import date
+
+
 AUTHOR = u'cold'
 SITENAME = u"cold's world"
 SITEURL = u'https://www.linuxzen.com'
@@ -29,6 +32,8 @@ ARCHIVES_URL = "archives.html"
 
 GITHUB_URL = u"https://github.com/coldnight/coldnight.github.com"
 GITHUB_POSITION = "right"
+
+COPY_YEAR = date.today().strftime("%Y")
 
 STATIC_PATHS = [
     u"static/upload",
