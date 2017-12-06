@@ -64,7 +64,7 @@ LINKS = (('eleven', 'http://eleveni386.7axu.com'),
 # Social widget
 SOCIAL = (("G+", "https://plus.google.com/u/0/118104100603784013039"),
           ('Github', 'https://github.com/coldnight'),
-          ("Linkedin", "http://www.linkedin.com/pub/%E4%BC%9A-%E7%8E%8B/91/571/719"),
+          ("Linkedin", "https://www.linkedin.com/in/gray-king-71957191/"),
           ("Atom Feed", "https://www.linuxzen.com/feeds/all.atom.xml"),
           )
 
