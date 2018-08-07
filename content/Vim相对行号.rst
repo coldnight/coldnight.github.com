@@ -15,10 +15,12 @@ Vim  相对行号
 Vim 7.3
 
 .. image:: /static/upload/vim_rn_pre_74.png
+   :alt: Vim 7.3
 
 Vim 7.4
 
 .. image:: /static/upload/vim_rn_74.png
+   :alt: Vim 7.3
 
 
 从上面的图片看来, 启用相对行号后可以很直观的看到当前行距离上面/下面某行的行数

@@ -37,6 +37,7 @@ COPY_YEAR = date.today().strftime("%Y")
 
 STATIC_PATHS = [
     u"static/upload",
+    "extra/favicon.ico",
     "extra/robots.txt",
     "extra/bdsitemap.txt",
     "extra/googledbee14f7be5461f0.html",
@@ -45,6 +46,7 @@ STATIC_PATHS = [
 
 # STATIC_SAVE_AS = "static/upload/"
 EXTRA_PATH_METADATA = {
+    'extra/favicon.ico': {'path': 'favicon.ico'},
     "extra/robots.txt": {"path": "robots.txt"},
     "extra/bdsitemap.txt": {"path": "bdsitemap.txt"},
     "extra/googledbee14f7be5461f0.html": {"path": "googledbee14f7be5461f0.html"},
