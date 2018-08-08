@@ -363,7 +363,7 @@ Pipelines
 
 迁移到 GitLab 之后就弃用了 buildbot 改用 GitLab 自身的那一套 CI/CD。具体参见 `GitLab CI/CD <https://about.gitlab.com/features/gitlab-ci-cd/>`_ 。
 
-我们 CI 构建用的自己构建的 Docker 镜像，里面集成了
+我们 CI 构建用的自己构建的 Docker 镜像，里面集成了一些基础依赖包和部署需要的相关信息。
 
 homu-gitlab
 ++++++++++++
