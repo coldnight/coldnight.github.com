@@ -62,7 +62,7 @@ CMD vs ENTRYPOINT
    $ docker build . -t demo
 
 
-如果通过如下命令运行容器则默认启动 ``/bin/bash``:
+如果通过如下命令运行容器则默认启动 ``/bin/sh``:
 
 .. code-block:: shell
 
