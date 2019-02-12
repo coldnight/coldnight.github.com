@@ -88,7 +88,7 @@
 获取证书
 ---------
 
-1. 安装 [acme.sh](https://github.com/Neilpang/acme.sh)
+1. 安装 `acme.sh <https://github.com/Neilpang/acme.sh>`_
 
    .. code-block:: shell
 
