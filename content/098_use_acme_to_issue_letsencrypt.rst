@@ -16,10 +16,10 @@
 
 1. 通过工具在网站根目录下创建 ``.well-known/acme-challenge/some-random-letters``
 2. 工具将创建的路径告知 Let's Encrypt
-3. Let's Encrypt 通过路名请求该文件，如 ``http://example.com/.well-known/acme-challenge/some-random-letters``
+3. Let's Encrypt 通过域名名请求该文件，如 ``http://example.com/.well-known/acme-challenge/some-random-letters``
 4. 若能请求到则确认拥有该网站的控制权颁发证书，否则拒绝颁发
 
-为了简化多个域名颁发证书需指定不同的 Webroot，我们可以建立可以将所有域名的验证统一放在一个目录下，并新增一个配置片段供需要启用 HTTPS 的网站引用，新增 ``/etc/nginx/snippets/letsencrypt-acme-challenge.conf`` ，并填充如下内容
+为了简化多个域名颁发证书需指定不同的 Webroot，我们可以将所有域名的验证统一放在一个目录下，并新增一个配置片段供需要启用 HTTPS 的网站引用，新增 ``/etc/nginx/snippets/letsencrypt-acme-challenge.conf`` ，并填充如下内容
 
 .. code-block:: nginx
 
