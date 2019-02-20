@@ -18,29 +18,29 @@ cfengine执行和分发的策略被称为承诺,cfengine建议的结构是:
 系统为CentOS 5.5 32位最小化安装,本文将不会解释一些基本命令,如有疑问请移步google.
 
 下载:
-```bash 
+```bash
 wget https://cfengine.com/source-code/download?file=cfengine-3.2.3.tar.gz
 ```
 安装依赖:
-```bash 
+```bash
 yum -y install db4-devel pcre-devel openssl-devel flex
 ```
 编译安装:
-```bash 
+```bash
 tar -zxvf download\?file\=cfengine-3.2.3.tar.gz
 cd cfengine-3.2.3/
 ./configure --prefix=/usr/local/cfengine
-make &amp;&amp; make install
+make && make install
 ```
 为了保证cfengine正常工作创建cfengine工作目录:
-```bash 
+```bash
 mkdir -p /var/cfengine/masterfiles  # 存放要分发的承诺
 mkdir /var/cfengine/inputs          # 存放要执行的承诺
 mkdir /var/cfengine/outputs         # 存放执行承诺的输出
 mkdir /var/cfengine/bin             # 存放二进制文件
 ```
 复制二进制文件:
-```bash 
+```bash
 cp /usr/local/cfengine/sbin/cf-* /var/cfengine/bin/
 ls -l /var/cfengine/bin/
 total 964
@@ -55,14 +55,14 @@ total 964
 -rwxr-xr-x 1 root root 172251 Jan 13  2012 cf-serverd         # 分发承诺的守护进程
 ```
 一个cfengine的hello, world:
-```bash 
+```bash
 vi /var/cfengine/inputs/test.cf                                               # 新建一个承诺文件,添加下面内容
 ###################
 # 这里顺便解释一下cfengine的语法,cfengine的语法大都如下
-# &lt;它是什么&gt; &lt;它对什么起作用&gt; &lt;它叫什么&gt;
+# <它是什么> <它对什么起作用> <它叫什么>
 body common control                                   # 一个body 对common组启作用,名字是control(名字为control的common的组是最重要的一个组,cfengine以这个组为起点
 {
-bundlesequence =&gt; { "test" };                         # 定义要执行的承诺束为test
+bundlesequence => { "test" };                         # 定义要执行的承诺束为test
 }
 
 bundle agent test                                     # 一个承诺束,对cf-agent起作用,叫test
@@ -77,12 +77,12 @@ reports:                                              # 一个报告(仅仅显�
 R: Hello world!                                                      # R:代表一个report.
 ```
 为策略分发点创建配置文件:
-```bash 
+```bash
 cp /usr/local/cfengine/share/cfengine/masterfiles/* /var/cfengine/masterfile
 ```
 编辑策略文件:
 新建一个cftest1.cf承诺文件
-```bash 
+```bash
 vi /var/cfengine/masterfiles/cftest1.cf                  # 新建一个cftest1.cf
 # 添加如下内容:
 bundle agent test
@@ -93,58 +93,56 @@ reports:
 }
 ```
 然后编辑promises.cf文件加入执行这个承诺束的支持:
-```bash 
+```bash
 vi /var/cfengine/masterfiles/promises.cf
 body common control
 {
- bundlesequence =&gt; { "main", "test" };                                # 将test加入的承诺束队列
+ bundlesequence => { "main", "test" };                                # 将test加入的承诺束队列
 
- inputs =&gt; {
+ inputs => {
             "cfengine_stdlib.cf",
             "cftest1.cf",                                             # 将cftest1.cf引入进来
            };
 
- version =&gt; "Community Promises.cf 1.0.0";
+ version => "Community Promises.cf 1.0.0";
 }
 .......
 ```
-&nbsp;
 
 做好之后先本地同步,然后启动server:
 <pre>/var/cfengine/bin/cf-agent  --bootstrap --policy-server 172.16.1.1
 ```
 到如下提示表示成功:
-```bash 
--&gt; Bootstrap to 172.16.1.1 completed successfully
+```bash
+-> Bootstrap to 172.16.1.1 completed successfully
 netstat -antlp | grep cf
 tcp        0      0 :::5308                     :::*                        LISTEN      20173/cf-serverd
 ```
 然后执行策略:
-```bash 
+```bash
 /var/cfengine/bin/cf-agent
-R: --&gt; CFE is running on cfhub
+R: --> CFE is running on cfhub
 R: I'am cfengine 3 client
 ```
-&nbsp;
 
 cfengine默认是让本机地址的16位网络连接同步的,如果新加入一个另一网段的设备允许同步,比如允许192.168.1.网段同步,编辑/var/cfengine/masterfiles/promises.cf,找到bundle common def
-```bash 
+```bash
 vi /var/cfengine/masterfiles/promises.cf
 bundle common def
 {
  vars:                                            # 定义变量
    ... ...
-    "acl" slist =&gt; {
+    "acl" slist => {
                 "$(sys.policy_hub)/16", "192.168.1.",          # 这这个后面添加
   ... ...
 }
 ```
 服务端基本配置完成,客户端(cfengine host),按照本文前面安装的部分进行安装,创建工作目录,复制二进制文件,不用创建配置文件和承诺,然后执行:
-```bash 
+```bash
 /var/cfengine/bin/cf-agent  --bootstrap --policy-server 172.16.1.1
 ```
 会出现和服务器执行一样的提示,就表示成功,如果提示连接不成功,尝试关闭防火墙.同步后执行本地策略:
-```bash 
+```bash
 /var/cfengine/bin/cf-agent
 ```
 cfengine官方还是建议在生产环境加一个版本控制器用来创建承诺文件,然后给策略分发点用来分发给策略执行点.更多cfengine的语法请参见手册.

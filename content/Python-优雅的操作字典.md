@@ -118,7 +118,7 @@ Python字典的update方法可以使用一个字典来更新字典,也可以使�
 >>> info = dict(name='cold', blog='linuxzen.com')
 >>> for key, value in info.items():
 ...     print key, ':',  value
-... 
+...
 blog : linuxzen.com
 name : cold
 ```

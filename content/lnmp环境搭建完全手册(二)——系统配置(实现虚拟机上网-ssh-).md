@@ -10,14 +10,14 @@ Date: 2012-03-10 11:31
 一种host-only:这种模式不能访问外网,只能何宿主(也就是本机)主机通信.也就不能访问Internet
 
 这里介绍如何设置NAT模式上网.按说网卡选择NAT模式直接重启网卡就可以dhcp获取,但是我们在以后配置Linux服务器的时候为了方便管理肯定不会使用DHCP,所以我们使用静态ip的方式来设置NAT上网.
-首先右键你的虚拟机标签-&gt;Setting-&gt;选中Network Adapter.在右边选中NAT(也可直接双击右下角的网卡图标)
+首先右键你的虚拟机标签->Setting->选中Network Adapter.在右边选中NAT(也可直接双击右下角的网卡图标)
 ![www.linuxzen.com](/upload/QQ截图20120310101223.jpg)
 
 ![www.linuxzen.com](/upload/QQ截图20120310101241.jpg)
 
 做完这步之后我们还要编辑一下虚拟机的虚拟卡设置,以达到我们使用静态ip上网的需求:
 
-点击虚拟机的Edit(编辑)-&gt;Virtual Network Editor(虚拟网卡编辑器):
+点击虚拟机的Edit(编辑)->Virtual Network Editor(虚拟网卡编辑器):
 ![www.linuxzen.com](/upload/QQ截图20120310101559.jpg)
 在弹出的界面选中VMnet8 NAT,然后修改最下面的Subnet IP,改成你想要的网段,这里使用`192.168.3.0/24`.
 ![www.linuxzen.com](/upload/QQ截图20120310101834.jpg)
@@ -28,12 +28,12 @@ Date: 2012-03-10 11:31
 设置好后然后点击OK保存退出.
 
 一切已经就绪,下面我们就开始我们的Linux之旅.首先进入系统,在login:界面输入root用户,然后输入安装时输入的root密码.进入系统.首先我们来配置网卡.CentOS的网卡路径在"/etc/sysconifg/network-scripts/"下面,第一个网卡一般命名为eth0,网卡配置文件则是ifcfg-eth0,第二个是eth1,配置文件ifcfg-eth1,后面的以此类推.下面我们来配置网卡:
-```bash 
+```bash
 vi /etc/sysconfig/network-scripts/ifcfg-eth0
 ```
 (在这里说一下,Linux有一个很方便的功能当路径太长不方便记忆时,可打出一部分敲Tab键如果这个是唯一的就会自动补全,如果不是就敲两下Tab,就会列出所有可选内容,文件和命令一样)
 按i进入输入模式,将配置文件改成如下内容:
-```bash 
+```bash
 DEVICE=eth0                   # 设备名
 HWADDR=00:00:00:00:01         # MAC地址
 BOOTPROTO=static              # IP获取方式为static,如果是dhcp则是使用DHCP获取
@@ -44,7 +44,7 @@ GATEWAY=192.168.3.254         # 网关(也就是刚才虚拟网卡编辑器里NA
 ```
 编辑完成后按Esc进入末行模式然后输入:wq保存退出
 然后重启网卡,如果都是[OK]的就没有问题
-```bash 
+```bash
 service network restart
 ```
 查看网络配置的命令是
@@ -54,17 +54,17 @@ ifconfig
 ![www.linuxzen.com](/upload/QQ截图20120310104548.jpg)
 
 ping命令用来检测网络连通性,配置好后我们ping网关测试:
-```bash 
+```bash
 ping 192.168.3.254
 ```
 如果显示如下则表示是通的,如果不是则表示不通
 ![www.linuxzen.com](/upload/QQ截图20120310104753.jpg)
 如果能正常访问网络我们还需要配置一个DNS服务器,指定一个DNS服务器的配置文件为:/etc/resolv.conf.Linux可以配置3个DNS.
-```bash 
+```bash
 vi /etc/resolv.conf
 ```
 同样按i或a进入输入模式添加如下内容:
-```bash 
+```bash
 nameserver    192.168.3.254    # 本地DNS
 nameserver    202.106.0.20     # 北京地区网通DNS
 nameserver    8.8.8.8          # google的根DNS
@@ -77,7 +77,7 @@ nameserver    8.8.8.8          # google的根DNS
 
 我们首先要关闭selinux(一款美国国家安全局贡献出来的软件,如果会配置可以开启,如果不会就关闭)
 编辑/etc/selinux/config:
-```bash 
+```bash
 vi /etc/selinux/config
 ```
 然后按i进入输入模式,修改SELINUX参数为disabled:
@@ -95,11 +95,11 @@ SELINUXTYPE=disabled
 
 ```
 然后重启系统
-```bash 
+```bash
 reboot
 ```
 然后清空系统自带防火墙
-```bash 
+```bash
 iptables -Z
 iptables -F
 iptables -X
@@ -107,13 +107,13 @@ service iptables save
 ```
 然后我们就可以使用ssh连接Linux虚拟机
 首先确保Linux启动了ssh,ssh占用TCP的22端口.执行命令查看22端口是否开放:
-```bash 
+```bash
 netstat -antlp | grep 22
 ```
 如果出现如下内容则表示ssh已经启动:
 ![www.linuxzen.com](/upload/QQ截图20120310111326.jpg)
 如果没有启动尝试运行下面命令:
-```bash 
+```bash
 service sshd start        # 启动ssh服务
 chkconfig --add sshd      # 加入开机启动
 ```
