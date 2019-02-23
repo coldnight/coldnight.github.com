@@ -264,7 +264,7 @@ Go 同时存在其他两个块：**span** 和 **bitmap**。**两者都在堆外�
 ----
 
 - 原文链接 [A visual guide to Go Memory Allocator from scratch (Golang)](https://blog.learngoprogramming.com/a-visual-guide-to-golang-memory-allocator-from-ground-up-e132258453ed)
-- GitHub 地址：https://github.com/coldnight/go-memory-allocator-visual-guide
+- GitHub 地址：[go-memory-allocator-visual-guide](https://github.com/coldnight/go-memory-allocator-visual-guide)
 
 [TCMalloc]: http://goog-perftools.sourceforge.net/doc/tcmalloc.html
 [PAE]: https://zh.wikipedia.org/wiki/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%89%A9%E5%B1%95
