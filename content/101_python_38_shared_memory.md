@@ -6,8 +6,8 @@ Slug: python-38-shared-memory
 
 Python 在 2019-02-25 释出了 3.8 早期预览版 [3.8.0a2]，其中新增了 [multiprocessing.SharedMemory](https://docs.python.org/3.8/library/multiprocessing.shared_memory.html) 用以支持共享内存，大大提高多进程之间通信效率。简单看了一下实现代码主要涉及如下 Python 模块
 
-- Python 3.3 新增的内置类型 [memoryview](https://docs.python.org/3.8/library/stdtypes.html?highlight=memoryview#memoryview)
-- Python 3.2 新增的 [mmap](https://docs.python.org/3.8/library/mmap.html)
+- 内置类型 [memoryview](https://docs.python.org/3.8/library/stdtypes.html?highlight=memoryview#memoryview)
+- [mmap](https://docs.python.org/3.8/library/mmap.html)
 
 在 POSIX 平台下共享内存创建过程如下：
 
