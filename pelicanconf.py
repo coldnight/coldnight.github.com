@@ -88,7 +88,11 @@ MARKDOWN = {
 }
 
 PLUGIN_PATHS = [u"pelican-plugins"]
-PLUGINS = ["sitemap"]  # , 'gzip_cache']
+PLUGINS = [
+    "sitemap",
+    # 'gzip_cache',
+    "render_math",
+]
 
 SITEMAP = {
     "format": "xml",
