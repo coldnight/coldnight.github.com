@@ -162,7 +162,7 @@ withMadridAndBarcelonaCheckRomaBloomFilter
 
 幸运的是，布隆过滤器有一个可预测的误报率（FPP）：
 
-$$P_fp\approx\left(1-e-\frac{kn}{m}\right)^k$$
+$$P_fp\approx\left(1-e^{-\frac{kn}{m}}\right)^k$$
 
 - `n` 是已经添加元素的数量；
 - `k` 哈希的次数；
