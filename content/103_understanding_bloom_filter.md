@@ -285,13 +285,13 @@ PDSBloomFilterPlayground open
 
 - On Probabilistic Data Structures:
 
-  + Burton H. Bloom. [Space/Time Trace-offs in Hash Coding with Allowable Errors](http://crystal.uta.edu/~mcguigan/cse6350/papers/Bloom.pdf) (1970).
-  + Donald E. Knuth. [The Art of Computer Programming](https://www-cs-faculty.stanford.edu/~knuth/taocp.html) Volume 3: Sorting and Searching.
-  + [Bloom Filters by Example](http://llimllib.github.io/bloomfilter-tutorial/).
-  + Andrii Gakhov, [Probabilistic Data Structures and Algorithms for Big Data Applications](https://www.gakhov.com/books/pdsa.html).
+    + Burton H. Bloom. [Space/Time Trace-offs in Hash Coding with Allowable Errors](http://crystal.uta.edu/~mcguigan/cse6350/papers/Bloom.pdf) (1970).
+    + Donald E. Knuth. [The Art of Computer Programming](https://www-cs-faculty.stanford.edu/~knuth/taocp.html) Volume 3: Sorting and Searching.
+    + [Bloom Filters by Example](http://llimllib.github.io/bloomfilter-tutorial/).
+    + Andrii Gakhov, [Probabilistic Data Structures and Algorithms for Big Data Applications](https://www.gakhov.com/books/pdsa.html).
 
 - On Moldable Development:
 
-  + Andrei Chis’s PhD, “Moldable Tools” (2016). Available at [](http://scg.unibe.ch/archive/phd/chis-phd.pdf).
-  + Andrei Chis, “Playing with Face Detection in Pharo” (2018). Available at https://medium.com/@Chis_Andrei/playing-with-face-detection-in-pharo-e6dd297e0ca3.
-  + Tudor Girba, “Moldable Development” (2018). Available at https://www.youtube.com/watch?v=IcwHaF5aRTM.
+    + Andrei Chis’s PhD, “Moldable Tools” (2016). Available at [](http://scg.unibe.ch/archive/phd/chis-phd.pdf).
+    + Andrei Chis, “Playing with Face Detection in Pharo” (2018). Available at https://medium.com/@Chis_Andrei/playing-with-face-detection-in-pharo-e6dd297e0ca3.
+    + Tudor Girba, “Moldable Development” (2018). Available at https://www.youtube.com/watch?v=IcwHaF5aRTM.
