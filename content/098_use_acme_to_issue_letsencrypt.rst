@@ -98,7 +98,7 @@
 
    .. code-block:: shell
 
-      acme.sh -d example.com -d www.example.com -w /var/www/letsencrypt
+      acme.sh --issue -d example.com -d www.example.com -w /var/www/letsencrypt
 
 安装证书
 --------
