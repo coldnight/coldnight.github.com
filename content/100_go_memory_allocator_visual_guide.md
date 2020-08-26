@@ -14,7 +14,7 @@ Slug: go-memory-allocator-visual-guide
 
 下图是一个物理内存单元（Physical Memory Cell）的简要说明（非精准）
 
-![A simple illustration of a Physical Memory Cell](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6f9646b9048569f7000001.png)
+![A simple illustration of a Physical Memory Cell](static/upload/go-memory-allocator-visual-guide/5c6f9646b9048569f7000001.png)
 
 一个内存单元的概述经过大大简化之后描述如下：
 
@@ -25,7 +25,7 @@ Slug: go-memory-allocator-visual-guide
 
 下图简单的描述 CPU 和物理内存单元如何交互
 
-![Simple Illustration of how a Physical Memory Cell interacts with CPU](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fa15bb9048569f7000002.png)
+![Simple Illustration of how a Physical Memory Cell interacts with CPU](static/upload/go-memory-allocator-visual-guide/5c6fa15bb9048569f7000002.png)
 
 **数据总线（Data Bus）**：用于在 CPU 和内存中间传输数据。
 
@@ -33,7 +33,7 @@ Slug: go-memory-allocator-visual-guide
 
 下图是 CPU 和物理内存之间地址线的说明
 
-![Illustrative Representation of an Address Line between CPU and Physical Memory.](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fa25eb9048569f7000003.png)
+![Illustrative Representation of an Address Line between CPU and Physical Memory.](static/upload/go-memory-allocator-visual-guide/5c6fa25eb9048569f7000003.png)
 
 1. [DRAM] 中的每一个字节都分配了一个唯一的数字标识符（地址）。“**物理字节 != 地址线的数量（Physical bytes present != Number of address line）**”（e.g. 16 位 Intel 8088、[PAE]）
 2. 每一个“地址线”可以发送 1-bit 的值，用于表示给定字节地址中的“一个位（SINGLE BIT）”
@@ -52,11 +52,11 @@ Slug: go-memory-allocator-visual-guide
 
 虚拟地址表示参见下图（`/proc/$PID/maps`）：
 
-![Virtual Address Space Representation](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fbf14b9048569f7000004.png)
+![Virtual Address Space Representation](static/upload/go-memory-allocator-visual-guide/5c6fbf14b9048569f7000004.png)
 
 综上所述当 CPU 执行一个指令需要引用内存地址时。首先将在 VMA（Virtual Memory Areas）中的逻辑地址转换为线性地址。这个转换通过 [MMU] 完成。
 
-![This is not a physical diagram, only a depiction. address translation process not included for simplicity](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fc2c1b9048569f7000005.png)
+![This is not a physical diagram, only a depiction. address translation process not included for simplicity](static/upload/go-memory-allocator-visual-guide/5c6fc2c1b9048569f7000005.png)
 
 由于逻辑地址太大几乎很难独立的管理，所以引入术语 **页（pages）** 进行管理。当必要的分页操作被激活后，**虚拟地址空间被分成更小的称作页的区域**（大部分操作系统下是 4KB，可以修改）。页是虚拟内存中数据内存管理的最小单元。虚拟内存不存储任何内容，只是简单的将程序地址空间映射到底层物理内存之上。
 
@@ -64,11 +64,11 @@ Slug: go-memory-allocator-visual-guide
 
 下图是简单的汇编代码用于分配更多的堆内存
 
-![A simple assembly code asking for more heap memory.](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fc4f9b9048569f7000006.png)
+![A simple assembly code asking for more heap memory.](static/upload/go-memory-allocator-visual-guide/5c6fc4f9b9048569f7000006.png)
 
 下图描述堆内存的增长
 
-![heap memory increment](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fc53bb9048569f7000007.png)
+![heap memory increment](static/upload/go-memory-allocator-visual-guide/5c6fc53bb9048569f7000007.png)
 
 应用程序通过系统调用 [brk](http://man7.org/linux/man-pages/man2/brk.2.html)（`sbrk`/`mmap` 等）获得内存。内核仅更新堆 VMA 并调用它。
 
@@ -82,7 +82,7 @@ Slug: go-memory-allocator-visual-guide
 
 但是，内存分配器除了更新 `brk address` 还有其他职责。其中主要的一项就是如何**减少** `内部（internal）`和`外部（external）`碎片和如何快速分配当前块。考虑我们的程序以串行的方式（p1 到 p4）通过 `malloc(size)` 函数申请一块连续的内存然后通过 `free(pointer)` 函数进行释放。
 
-![An external fragmentation demonstration](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fcc0db9048569f7000008.png)
+![An external fragmentation demonstration](static/upload/go-memory-allocator-visual-guide/5c6fcc0db9048569f7000008.png)
 
 在 p4 阶段由于内存碎片化即使我们有足够的内存块依然无法满足申请的 6 个连续的内存块。
 
@@ -98,13 +98,13 @@ Slug: go-memory-allocator-visual-guide
 
 每一个内存页都被分为多个固定分配大小规格的空闲列表（`free list`） 用于减少碎片化。这样每一个线程都可以获得一个用于无锁分配小对象的缓存，这样可以让并行程序分配小对象（<=32KB）非常高效。
 
-![Thread Cache (Each Thread gets this Thread Local Thread Cache)](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fd07bb9048569f7000009.png)
+![Thread Cache (Each Thread gets this Thread Local Thread Cache)](static/upload/go-memory-allocator-visual-guide/5c6fd07bb9048569f7000009.png)
 
 ### 页堆
 
 TCMalloc 管理的堆由一组页组成，**一组连续的页面被表示为 span**。当分配的对象大于 32KB，将使用页堆（Page Heap）进行内存分配。
 
-![Page Heap (for span management)](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fd167b9048569f700000a.png)
+![Page Heap (for span management)](static/upload/go-memory-allocator-visual-guide/5c6fd167b9048569f700000a.png)
 
 当没有足够的空间分配小对象则会到页堆获取内存。如果页堆页没有足够的内存，则页堆会向操作系统申请更多的内存。
 
@@ -118,11 +118,11 @@ TCMalloc 管理的堆由一组页组成，**一组连续的页面被表示为 sp
 Go scheduler: Ms, Ps & Gs
 ](https://povilasv.me/go-scheduler/)》,然后继续阅读。
 
-![Size Classes in Go](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fd34eb9048569f700000b.png)
+![Size Classes in Go](static/upload/go-memory-allocator-visual-guide/5c6fd34eb9048569f700000b.png)
 
 如果页的规格大小为 1KB 那么 Go 管理粒度为 **8192B** 内存将被切分为 8 个像下图这样的块。
 
-![8 KB page divided into a size class of 1KB (In Go pages are maintained at the granularity of 8KB)](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fd4f7b9048569f700000c.png)
+![8 KB page divided into a size class of 1KB (In Go pages are maintained at the granularity of 8KB)](static/upload/go-memory-allocator-visual-guide/5c6fd4f7b9048569f700000c.png)
 
 Go 中这些页通过 **mspan** 结构体进行管理。
 
@@ -130,7 +130,7 @@ Go 中这些页通过 **mspan** 结构体进行管理。
 
 简单的说，`mspan` 是一个包含页起始地址、页的 span 规格和页的数量的双端链表。
 
-![Illustrative Representation of a mspan in Go memory allocator](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fd878b9048569f700000d.png)
+![Illustrative Representation of a mspan in Go memory allocator](static/upload/go-memory-allocator-visual-guide/5c6fd878b9048569f700000d.png)
 
 ### mcache
 
@@ -138,7 +138,7 @@ Go 像 TCMalloc 一样为每一个 **逻辑处理器（P）（Logical Processors
 
 **mcache** 包含所有大小规格的 **mspan** 作为缓存。
 
-![Illustrative Representation of a Relationship between P, mcache, and mspan in Go.](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fda2eb9048569f700000e.png)
+![Illustrative Representation of a Relationship between P, mcache, and mspan in Go.](static/upload/go-memory-allocator-visual-guide/5c6fda2eb9048569f700000e.png)
 
 > 由于每个 P 都拥有各自的 mcache，所以从 mcache 分配内存无需持有锁。
 
@@ -164,7 +164,7 @@ Go 像 TCMalloc 一样为每一个 **逻辑处理器（P）（Logical Processors
 1. **empty** mspanList -- 没有空闲对象或 span 已经被 mcache 缓存的 span 列表
 2. **nonempty** mspanList -- 有空闲对象的 span 列表
 
-![Illustrative Representation of a mcentral](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fdd13b9048569f700000f.png)
+![Illustrative Representation of a mcentral](static/upload/go-memory-allocator-visual-guide/5c6fdd13b9048569f700000f.png)
 
 每一个 mcentral 结构体都维护在 **mheap** 结构体内。
 
@@ -172,7 +172,7 @@ Go 像 TCMalloc 一样为每一个 **逻辑处理器（P）（Logical Processors
 
 > Go 使用 mheap 对象管理堆，只有一个全局变量。持有虚拟地址空间。
 
-![Illustrative Representation of a mheap.](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fdd76b9048569f7000010.png)
+![Illustrative Representation of a mheap.](static/upload/go-memory-allocator-visual-guide/5c6fdd76b9048569f7000010.png)
 
 就上我们从上图看到的：**mheap 存储了 mcentral 的数组**。**这个数组包含了各个的 span 的 mcentral**。
 
@@ -215,11 +215,11 @@ func main() {
     for {}
 }
 ```
-![process stats for a program](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6fefc5b9048569f7000011.png)
+![process stats for a program](static/upload/go-memory-allocator-visual-guide/5c6fefc5b9048569f7000011.png)
 
 从上面可以即使是一个简单的程序虚拟空间占用页大概 `~100MB` 左右，但是 RSS 仅仅占用 `696KB`。让我们先搞清楚这之间的差异。
 
-![map and smap stats.](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6ff023b9048569f7000012.png)
+![map and smap stats.](static/upload/go-memory-allocator-visual-guide/5c6ff023b9048569f7000012.png)
 
 这里有一块内存区域大小在 ~ `2MB`、`64MB` 和 `32MB`。这些是什么？
 
@@ -227,7 +227,7 @@ func main() {
 
 事实证明 Go 的虚拟内存布局中包含一系列 **arenas**。初始的堆映射是一个 **arena**，如 `64MB`（基于 go 1.11.5）。
 
-![current incremental arena size on a different system.](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c6ff112b9048569f7000013.png)
+![current incremental arena size on a different system.](static/upload/go-memory-allocator-visual-guide/5c6ff112b9048569f7000013.png)
 
 所以当前内存根据我们的程序需要以小增量映射，并且初始于一个 arena（~64MB）。
 
@@ -237,7 +237,7 @@ func main() {
 
 下图表示一个 64MB 的 arena
 
-![Single arena ( 64 MB ).](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c701deab9048569f7000014.png)
+![Single arena ( 64 MB ).](static/upload/go-memory-allocator-visual-guide/5c701deab9048569f7000014.png)
 
 Go 同时存在其他两个块：**span** 和 **bitmap**。**两者都在堆外分配并且包含每个 arena 的元数据**。大多用于垃圾回收期间（所以我们就讨论到这）。
 
@@ -249,7 +249,7 @@ Go 同时存在其他两个块：**span** 和 **bitmap**。**两者都在堆外�
 
 现在我们将通过下图结束 Go 内存分配可视化指南。
 
-![Visual Overview of Runtime Memory Allocator.](https://github.com/coldnight/go-memory-allocator-visual-guide/raw/master/images/5c70206cb9048569f7000015.png)
+![Visual Overview of Runtime Memory Allocator.](static/upload/go-memory-allocator-visual-guide/5c70206cb9048569f7000015.png)
 
 ----
 
