@@ -34,7 +34,8 @@ GITHUB_POSITION = "right"
 COPY_YEAR = date.today().strftime("%Y")
 
 STATIC_PATHS = [
-    u"static/upload",
+    "static/upload",
+    "static/css",
     "extra/favicon.ico",
     "extra/robots.txt",
     "extra/bdsitemap.txt",
@@ -104,7 +105,10 @@ SITE_KEYWORDS = u"Python, Linux, vim, 开源, Tornado"
 THEME = "attila"
 SITESUBTITLE = '纸上得来终觉浅，绝知此事要躬行'
 
-COLOR_SCHEME_CSS = 'darkly.css'
+COLOR_SCHEME_CSS = 'tomorrow.css'
+
+
+CSS_OVERRIDE = ['static/css/wide.css']
 
 HOME_COVER = "static/upload/cover.jpg"
 
