@@ -1,6 +1,6 @@
 Title: 使用Linux shell实时检测文件变更
 Tags: 检测,文件,实时,变更,uwsgi,shell,python,Linux,bottle
-Category: shell
+Category: Linux
 Date: 2012-05-18 11:16
 使用python做web开发,现在流行使用uwsgi调用python程序,但是使用uwsgi一段时间发现有一个弊端,就是每次更改源代码后必须重启uwsgi才能生效,包括更改模板文件也是,我是个懒人,再经过一段时间反复的更改-重启后我终于忍受不了,决定写一个脚本来定时程序目录的文件改动,并及时自动重启uwsgi,来解放我的双手可以不用理会这些琐碎的重启工作. 用了点时间来编写了一个脚本用来判断是否更改,然后判断是否需要重启uwsgi.
 

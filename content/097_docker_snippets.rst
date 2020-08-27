@@ -3,7 +3,7 @@ Docker Snippets
 
 :tags: docker, snippets
 :date: 2019-02-11 17:30
-:category: Docker
+:category: Linux
 :author: cold
 :status: published
 :slug: docker-snippets

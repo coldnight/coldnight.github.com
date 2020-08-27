@@ -1,6 +1,6 @@
 Title: nginx平台搭建nagios监控系统
 Tags: 配置,监控,rewrite,nginx认证,nginx支持cgi,nginx,nagios,Linux
-Category: 监控
+Category: Linux
 Date: 2012-02-26 10:48
 Nagios是一款开源的免费网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。
 

@@ -1,6 +1,6 @@
 Title: lvs+keepalived实现高可用群集配置详解
 Tags: 高可用,详解,群集,lvs,Linux,keepalived
-Category: 负载均衡
+Category: Linux
 Date: 2012-04-16 14:25
 lvs是一个开源的软件，由毕业于国防科技大学的章文嵩博士于1998年5月创立(中国人的项目)，可以实现LINUX平台下的简单负载均衡。LVS是Linux Virtual Server的缩写，意思是Linux虚拟服务器。本文将介绍lvs结合keepalived实现一个高科用的Linux群集系统.
 

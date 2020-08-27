@@ -3,7 +3,7 @@
 
 :tags: Scrum, Agile, 敏捷, 阅读
 :date: 2019-02-15
-:category: 读书
+:category: Other
 :author: cold
 :status: published
 :slug: scrum-read-notes

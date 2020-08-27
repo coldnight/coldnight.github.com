@@ -1,6 +1,6 @@
 Title: Linux一些比较实用的小技巧
 Tags: 命令,sz,ssh上传下载,shell,sed,rz,lrzsz,Linux,find,awk
-Category: shell
+Category: Linux
 Date: 2012-02-20 11:30
 在Linux中各种各样的小技巧可以帮助我们更好更快的完成我们的工作,下面就介绍一些我所知道的小技巧
 

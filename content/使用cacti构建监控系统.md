@@ -1,6 +1,6 @@
 Title: 使用cacti构建监控系统
 Tags: 监控,lnmp,Linux,CentOS,cacti
-Category: 监控
+Category: Linux
 Date: 2012-03-14 14:02
 Cacti是一套基于PHP,MySQL,SNMP及RRDTool开发的网络流量监测图形分析工具,它是通过 snmpget来获取数据，使用 RRDtool绘画图形,可以指定每一个用户能查看树状结构、host以及任何一张图，还可以与LDAP结合进行用户验证，同时也能自己增加模板，功能非常强大完善。界面友好。
 

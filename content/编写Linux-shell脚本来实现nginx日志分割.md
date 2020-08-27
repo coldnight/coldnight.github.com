@@ -1,6 +1,6 @@
 Title: 编写Linux shell脚本来实现nginx日志分割
 Tags: 日志,分割,shell,nginx,log,Linux,cut
-Category: shell
+Category: Linux
 Date: 2012-02-17 10:27
 nginx的accss日志每天都会产生大量的日志,不过不进行切割会使查看日志变得异常艰难,这里编写一个脚本结合crond来实现nginx的日志切割,切割的格式为日志后缀的数字越小表示离当前日期越近,比如access.log.2存放的内容要比access.log.1的内容要早.
 

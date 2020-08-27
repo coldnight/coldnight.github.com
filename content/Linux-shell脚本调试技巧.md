@@ -1,6 +1,6 @@
 Title: Linux shell脚本调试技巧
 Tags: 调试,技巧,shell,Linux
-Category: shell
+Category: Linux
 Date: 2012-01-17 17:04
 有时候shell脚本不会给予明显的调试信息,而且有时不报错,但是脚本没有达到预期的效果这时候脚本调试就可以帮你准确定位错误.
 

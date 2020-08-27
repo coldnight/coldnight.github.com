@@ -1,6 +1,6 @@
 Title: 从单一软件到处处实践 GTD
 Date: 2018-08-05
-Category: 效率
+Category: Other
 Slug: practice-gtd-everywhere
 Tags: GTD,高效
 

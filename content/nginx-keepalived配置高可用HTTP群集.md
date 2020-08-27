@@ -1,6 +1,6 @@
 Title: nginx+keepalived配置高可用HTTP群集
 Tags: 高可用,负载均衡,群集,反向代理,双机,nginx,keepalived
-Category: 负载均衡
+Category: Linux
 Date: 2012-02-09 17:35
 Nginx不仅是一款优秀的WEB服务器,同时可以根据nginx的反代理可以配置成强大的负载均衡器.这里就介绍如何把nginx配置成负载均衡器,并结合keepalived配置高可用的集群.
 一般集群主要架构为:

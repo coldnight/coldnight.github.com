@@ -1,6 +1,6 @@
 Title: MySQL优化笔记
 Tags: 编译参数,优化,mysql配置文件,MySQL服务,MySQL,my.cnf
-Category: MySQL
+Category: Linux
 Date: 2012-02-04 13:36
 之前安装时没注意MySQL的优化,先想对MySQL做一下优化.首先看一下没有优化之前各个参数:
 MySQL预编译参数:

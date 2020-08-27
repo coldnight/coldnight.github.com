@@ -1,6 +1,6 @@
 Title: heartbeat实现MySQL双机高可用
 Tags: 高可用,心跳,双机,vip,MySQL,heartbeat
-Category: MySQL
+Category: Linux
 Date: 2012-02-12 17:01
 对于一个网站或一个企业最重要的无疑就是数据,那么数据库的数据安全无疑就更加重要,所以我们必须保证数据库的数据完整,这里就介绍使用heartbeat来实现MySQL双机高可用.
 
