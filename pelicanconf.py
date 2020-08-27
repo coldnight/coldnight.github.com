@@ -24,8 +24,6 @@ TIMEZONE = "Asia/Shanghai"
 
 DEFAULT_LANG = u"zh"
 
-THEME = "zurb-F5-basic"
-
 DEFAULT_CATEGORY = u"Python"
 
 ARCHIVES_URL = "archives.html"
@@ -64,13 +62,6 @@ LINKS = (
     (u"Zey's Blog", "http://www.zeython.com/"),
 )
 
-# Social widget
-SOCIAL = (
-    ("GitHub", "https://github.com/coldnight"),
-    ("Linkedin", "https://www.linkedin.com/in/gray-king-71957191/"),
-    ("Atom Feed", "https://www.linuxzen.com/feeds/all.atom.xml"),
-)
-
 DEFAULT_PAGINATION = 10
 
 PIWIK_SSL_URL = "piwik.linuxzen.com"
@@ -100,10 +91,37 @@ SITEMAP = {
     "changefreqs": {"articles": "monthly", "indexes": "daily", "pages": "monthly"},
 }
 
-DESCRIPTION = (
+SITE_DESCRIPTION = (
     u"博主一个爱好开源技术的人，对 Python 比较熟悉，"
     u"也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，"
     u"其中包括但不限于 Linux/Python/Vim。"
 )
 
-KEYWORDS = u"Python, Linux, vim, 开源, Tornado"
+SITE_KEYWORDS = u"Python, Linux, vim, 开源, Tornado"
+
+
+# ------------- Theme --------------
+THEME = "attila"
+SITESUBTITLE = '纸上得来终觉浅，绝知此事要躬行'
+
+COLOR_SCHEME_CSS = 'darkly.css'
+
+HOME_COVER = "static/upload/cover.jpg"
+
+AUTHORS_BIO = {
+  "cold": {
+      "name": "Gray King",
+      "cover": "static/upload/cover.jpg",
+      "image": "https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200",
+      "website": "https://github.com/coldnight",
+      "location": "Beijing",
+      "bio": "纸上得来终觉浅，绝知此事要躬行",
+    }
+}
+
+SOCIAL = (
+    ("GitHub", "https://github.com/coldnight"),
+    ("Twitter", "https://twitter.com/grayking_w"),
+    ("Linkedin", "https://www.linkedin.com/in/gray-king-71957191/"),
+    ("rss", "/" + FEED_ALL_ATOM),
+)
