@@ -5,7 +5,7 @@ Tags: Rust, 借用, 生命周期
 Slug: rust-borrow-and-lifetimes
 
 
-译者注：这是我学习 Rust 生命周期对我最有帮助的文章之一，故翻译了一下。
+> 译者注：这是我学习 Rust 生命周期对我最有帮助的文章之一，故翻译了一下。
 
 
 原文链接：[Rust Borrow and Lifetimes](http://arthurtw.github.io/2014/11/30/rust-borrow-lifetimes.html)。
