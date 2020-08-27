@@ -4,31 +4,29 @@
 from datetime import date
 
 
-AUTHOR = u"cold"
-SITENAME = u"cold's world"
-SITEURL = u"https://www.linuxzen.com"
-# SITEURL = u'http://localhost:8080'
-SITE_SOURCE = u"https://github.com/coldnight/coldnight.github.com"
-SITE_TAGLINE = u"木秀于林"
+AUTHOR = "cold"
+SITENAME = "cold's world"
+SITEURL = "https://www.linuxzen.com"
+SITE_SOURCE = "https://github.com/coldnight/coldnight.github.com"
 FEED_DOMAIN = SITEURL
 FEED_ATOM = None
-FEED_ALL_ATOM = u"feeds/all.atom.xml"
+FEED_ALL_ATOM = "feeds/all.atom.xml"
 
 DISPLAY_PAGES_ON_MENU = False
 
 DISPLAY_PAGES_ON_RIGHT = True
 
-DISQUS_SITENAME = u"linuxzen"
+DISQUS_SITENAME = "linuxzen"
 
 TIMEZONE = "Asia/Shanghai"
 
-DEFAULT_LANG = u"zh"
+DEFAULT_LANG = "zh"
 
-DEFAULT_CATEGORY = u"Python"
+DEFAULT_CATEGORY = "Python"
 
 ARCHIVES_URL = "archives.html"
 
-GITHUB_URL = u"https://github.com/coldnight/coldnight.github.com"
+GITHUB_URL = "https://github.com/coldnight/coldnight.github.com"
 GITHUB_POSITION = "right"
 
 COPY_YEAR = date.today().strftime("%Y")
@@ -54,13 +52,13 @@ EXTRA_PATH_METADATA = {
 # Blogroll
 LINKS = (
     ("eleven", "http://eleveni386.7axu.com"),
-    (u"小邪兽_deepin", "http://neteue.com"),
-    (u"Frantic1048", "http://frantic1048.com/"),
-    (u"晓风'Blog", "http://www.dongxf.com/"),
-    (u"邪恶的二进制", "http://evilbinary.org/"),
-    (u"城南往事", "http://www.icnws.com"),
-    (u"一把汤勺", "http://jeepxiaozi.github.io/"),
-    (u"Zey's Blog", "http://www.zeython.com/"),
+    ("小邪兽_deepin", "http://neteue.com"),
+    ("Frantic1048", "http://frantic1048.com/"),
+    ("晓风'Blog", "http://www.dongxf.com/"),
+    ("邪恶的二进制", "http://evilbinary.org/"),
+    ("城南往事", "http://www.icnws.com"),
+    ("一把汤勺", "http://jeepxiaozi.github.io/"),
+    ("Zey's Blog", "http://www.zeython.com/"),
 )
 
 DEFAULT_PAGINATION = 10
@@ -79,7 +77,7 @@ MARKDOWN = {
     "output_format": "html5",
 }
 
-PLUGIN_PATHS = [u"pelican-plugins"]
+PLUGIN_PATHS = ["pelican-plugins"]
 PLUGINS = [
     "sitemap",
     # 'gzip_cache',
@@ -93,12 +91,12 @@ SITEMAP = {
 }
 
 SITE_DESCRIPTION = (
-    u"博主一个爱好开源技术的人，对 Python 比较熟悉，"
-    u"也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，"
-    u"其中包括但不限于 Linux/Python/Vim。"
+    "博主一个爱好开源技术的人，对 Python 比较熟悉，"
+    "也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，"
+    "其中包括但不限于 Linux/Python/Vim。"
 )
 
-SITE_KEYWORDS = u"Python, Linux, vim, 开源, Tornado"
+SITE_KEYWORDS = "Python, Linux, vim, 开源, Tornado"
 
 
 # ------------- Theme --------------
@@ -129,3 +127,12 @@ SOCIAL = (
     ("Linkedin", "https://www.linkedin.com/in/gray-king-71957191/"),
     ("rss", "/" + FEED_ALL_ATOM),
 )
+
+try:
+    import os
+    import sys
+
+    sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+    from local_pelicanconf import *
+except ImportError:
+    pass
