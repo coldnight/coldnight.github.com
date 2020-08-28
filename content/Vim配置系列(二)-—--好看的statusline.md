@@ -2,7 +2,7 @@ Title: Vim配置系列(二) —- 好看的statusline
 Tags: 配置,系列,漂亮,插件,vim,statusline,Powerline
 Category: Vim
 Date: 2013-01-05 15:01
-Vim是一款文本编辑器,但是这并不影响它有一个好看的外观,大家都知道Vim可以通过配色方案来改变Vim的外观,满足一些"好色之徒",之前大家可能也主意到截图中一个非常漂亮的statusline,这是通过Vim的一个Powerline的插件实现的.之前我们配置了Vundle的插件管理(传送门)我们可以用Vundle安装Powerline,在.vimrc(Windows可能是_vimrc)中添加:
+Vim是一款文本编辑器,但是这并不影响它有一个好看的外观,大家都知道Vim可以通过配色方案来改变Vim的外观,满足一些’好色之徒‘,之前大家可能也主意到截图中一个非常漂亮的statusline,这是通过Vim的一个Powerline的插件实现的.之前我们配置了Vundle的插件管理(传送门)我们可以用Vundle安装Powerline,在.vimrc(Windows可能是_vimrc)中添加:
 ```vim
 Bundle "Lokaltog/vim-powerline"
 ```
