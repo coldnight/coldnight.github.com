@@ -1,5 +1,5 @@
 Title: 【译】Rust 借用和生命周期
-Date: 2020-03-25
+Date: 2020-08-26
 Category: Rust
 Tags: Rust, 借用, 生命周期
 Slug: rust-borrow-and-lifetimes

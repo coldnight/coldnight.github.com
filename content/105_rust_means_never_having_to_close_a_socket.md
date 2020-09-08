@@ -1,5 +1,5 @@
 Title: 【译】Rust 意味着无需手动关闭 Socket 连接
-Date: 2020-06-20
+Date: 2020-08-27
 Category: Rust
 Tags: Rust, 借用, 所有权
 Slug: rust-means-never-having-to-close-a-socket
