@@ -26,7 +26,6 @@ jobs:
           args: git submodule update --init --recursive
       - name: GitHub Pages Pelican Build Action
         uses: nelsonjchen/gh-pages-pelican-action@0.1.10
-        with:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GH_PAGES_CNAME: www.linuxzen.com
