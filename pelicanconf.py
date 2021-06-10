@@ -111,6 +111,7 @@ CSS_OVERRIDE = ['static/css/wide.css']
 HOME_COVER = "static/upload/cover.jpg"
 
 HEADER_COVERS_BY_TAG = {}
+HEADER_COVERS_BY_CATEGORY = {}
 
 AUTHORS_BIO = {
   "cold": {
