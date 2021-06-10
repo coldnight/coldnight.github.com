@@ -110,6 +110,8 @@ CSS_OVERRIDE = ['static/css/wide.css']
 
 HOME_COVER = "static/upload/cover.jpg"
 
+HEADER_COVERS_BY_TAG = {}
+
 AUTHORS_BIO = {
   "cold": {
       "name": "Gray King",
