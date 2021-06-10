@@ -26,8 +26,8 @@ jobs:
           args: git submodule update --init --recursive
       - name: Replace SITEURL
         run: |
-          sed -i -e 's/www\.linuxzen\.com/coldnight.github.io' pelicanconf.py
-          sed -i -e 's/www\.linuxzen\.com/coldnight.github.io' publishconf.py
+          sed -i -e 's/www\.linuxzen\.com/coldnight.github.io/' pelicanconf.py
+          sed -i -e 's/www\.linuxzen\.com/coldnight.github.io/' publishconf.py
       - name: GitHub Pages Pelican Build Action
         uses: nelsonjchen/gh-pages-pelican-action@0.1.10
         env:
