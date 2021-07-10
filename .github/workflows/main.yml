@@ -24,6 +24,12 @@ jobs:
         uses: srt32/git-actions@v0.0.3
         with:
           args: git submodule update --init --recursive
+
+      - name: copy notes to static
+        uses: MadaraUchiha/copy-action@master
+        with:
+          source: "notes"
+          target: "content/static/notes"
       - name: GitHub Pages Pelican Build Action
         uses: nelsonjchen/gh-pages-pelican-action@0.1.10
         env:

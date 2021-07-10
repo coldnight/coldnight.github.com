@@ -14,6 +14,10 @@ FEED_ALL_ATOM = "feeds/all.atom.xml"
 
 DISPLAY_PAGES_ON_MENU = False
 
+MENUITEMS = [
+    ('Notes', '/static/notes/articles/notes/')
+]
+
 DISPLAY_PAGES_ON_RIGHT = True
 
 DISQUS_SITENAME = "linuxzen"
