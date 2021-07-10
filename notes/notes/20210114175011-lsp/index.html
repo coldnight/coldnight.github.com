@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>C&#43;&#43; LSP | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210114175011-lsp/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>C&#43;&#43; LSP</h1>
+    <time datetime="2021-01-14T17:50:00&#43;08:00">January 14, 2021</time>
+  </header>
+  <p>通过如下命令生成 clangd 识别的编译配置文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir build
+cd build
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ..
+mv compile_commands.json ../
+</code></pre></div><p>然后重启 <code>M-x lsp-restart-workspace RET</code> 即可。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

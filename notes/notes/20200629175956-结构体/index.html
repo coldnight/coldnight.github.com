@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>结构体 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>结构体</h1>
+    <time datetime="2020-06-29T17:59:00&#43;08:00">June 29, 2020</time>
+  </header>
+  <h2 id="结构体">结构体</h2>
+<h3 id="元组结构体-tuple-struct">元组结构体（tuple struct）</h3>
+<p>用于命名元组并和其他元组进行区分：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Color</span>(<span style="color:#66d9ef">i32</span>, <span style="color:#66d9ef">i32</span>, <span style="color:#66d9ef">i32</span>);
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span>(<span style="color:#66d9ef">i32</span>, <span style="color:#66d9ef">i32</span>, <span style="color:#66d9ef">i32</span>);
+
+<span style="color:#66d9ef">let</span> black <span style="color:#f92672">=</span> Color(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+<span style="color:#66d9ef">let</span> origin <span style="color:#f92672">=</span> Point(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+</code></pre></div><p>由于定义了元组结构体所有 <code>black</code> 和 <code>origin</code> 是两个不同的类型。</p>
+<h3 id="没有字段的结构体-类单元-unit-like-结构体">没有字段的结构体：类单元（Unit-Like）结构体</h3>
+<p>没有任何字段的结构体和单元类型 <code>()</code> 类似，用于实现一些特性（trait）但是没有任何数据。</p>
+<h3 id="方法语法">方法语法</h3>
+<ul>
+<li>
+<p><code>self</code> 占有所有权</p>
+</li>
+<li>
+<p><code>&amp;self</code> 不可变借用</p>
+</li>
+<li>
+<p><code>&amp;mut self</code> 可变借用</p>
+</li>
+<li>
+<p>自动引用和解引用</p>
+<p>在 Rust 中进行方法调用，如 <code>object.something</code> ，Rust 会自动添加 <code>&amp;</code> <code>&amp;mut</code> 或者 <code>*</code> , 用以自动匹配方法签名。以下是等价的：</p>
+</li>
+</ul>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">p1.distance(<span style="color:#f92672">&amp;</span>p2);
+(<span style="color:#f92672">&amp;</span>p1).distance(<span style="color:#f92672">&amp;</span>p2);
+</code></pre></div><p>方法如果不声明 <code>self</code> 行参则是一个关联方法（静态方法），通过 <code>::</code> 调用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Rectangle</span> {
+  width: <span style="color:#66d9ef">u32</span>,
+  height: <span style="color:#66d9ef">u32</span>,
+}
+
+<span style="color:#66d9ef">impl</span> Rectangle {
+  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">square</span>(size: <span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#a6e22e">Rectangle</span> {
+    Rectangle{ width: <span style="color:#a6e22e">size</span>, height: <span style="color:#a6e22e">size</span> }
+  }
+}
+
+<span style="color:#66d9ef">let</span> r <span style="color:#f92672">=</span> Rectangle::square(<span style="color:#ae81ff">10</span>);
+</code></pre></div><p>每一个结构体可以有多个 <code>impl</code> 块。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>机器学习系统的种类 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200907074200-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%A7%8D%E7%B1%BB/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>机器学习系统的种类</h1>
+    <time datetime="2020-09-07T07:42:00&#43;08:00">September 07, 2020</time>
+  </header>
+  <h2 id="监督式-无监督式学习">监督式/无监督式学习</h2>
+<h3 id="监督式学习">监督式学习</h3>
+<h4 id="定义">定义</h4>
+<p>训练数据经过标注包含素所需解决方案（标签或标记）</p>
+<h4 id="相关算法">相关算法</h4>
+<ul>
+<li>K-邻近算法</li>
+<li>线性回归</li>
+<li>逻辑回归：广泛用于分类，输出“属于某个给定类别的概率”的值</li>
+<li>支持向量机</li>
+<li>决策树和随机森林</li>
+<li>神经网络</li>
+</ul>
+<h4 id="适应场景">适应场景</h4>
+<ul>
+<li>分类任务</li>
+<li>预测变量</li>
+</ul>
+<h3 id="无监督式学习">无监督式学习</h3>
+<h4 id="定义">定义</h4>
+<p>训练数据未经标注</p>
+<h4 id="相关算法">相关算法</h4>
+<ul>
+<li>聚类算法
+<ul>
+<li>K-平均算法</li>
+<li>分层聚类分析</li>
+<li>最大期望算法</li>
+</ul>
+</li>
+<li>可视化和降维
+<ul>
+<li>主成分分析</li>
+<li>核主成分分析</li>
+<li>局部线性嵌入</li>
+<li>t-分布随机临近嵌入</li>
+</ul>
+</li>
+<li>关联规则学习
+<ul>
+<li>Apriori</li>
+<li>Eclat</li>
+</ul>
+</li>
+</ul>
+<h4 id="适应场景">适应场景</h4>
+<ul>
+<li>通过聚类算法检测相似（层次聚类算法精度更高，可以再次细分）</li>
+<li>可视化算法</li>
+<li>降维：不丢失太多信息的前提下简化数据，方法之一是合并特征，过程叫做特征提取</li>
+<li>异常检测：判断新的输入是正常还是异常，数据初筛、防作弊等</li>
+<li>关联规则学习：发现属性之间有趣的联系</li>
+</ul>
+<h3 id="半监督式学习">半监督式学习</h3>
+<p>大量未标记数据和少量标记数据进行学习。</p>
+<h3 id="强化学习">强化学习</h3>
+<p>观察环境、作出选择、执行操作、并获得回报（负值则为惩罚）。</p>
+<h2 id="批量学习和在线学习">批量学习和在线学习</h2>
+<p>在数据流中进行增量学习。</p>
+<h3 id="批量学习">批量学习</h3>
+<h3 id="在线学习">在线学习</h3>
+<p>在线学习也称为增量学习，同时支持恢复到上一状态，便于检测到性能下降及时中断和回滚。</p>
+<h4 id="核外学习">核外学习</h4>
+<p>超大数据集超出一台计算机的主存储器，每次加载部分数据并不断重复直至完成训练。</p>
+<h4 id="学习率">学习率</h4>
+<p>学习率高系统迅速适应新数据，同时快速忘记老数据，学习率低则反之。</p>
+<h2 id="基于实例和基于模型的学习">基于实例和基于模型的学习</h2>
+<h3 id="基于实例的学习">基于实例的学习</h3>
+<p>系统完全记住学习示例，然后通过某种相似度度量方式将其泛化到新的实例。</p>
+<h3 id="基于模型的学习">基于模型的学习</h3>
+<h4 id="模型选择">模型选择</h4>
+<p>观察数据得出模型的过程。</p>
+<h4 id="衡量模型表现">衡量模型表现</h4>
+<ol>
+<li>定义效用函数（或适应度函数）来衡量模型有多好</li>
+<li>定义成本函数来衡量模型有多差</li>
+</ol>
+<p>线性回归通常选择成本函数来衡量线性模型的预测和训练实例之间的差距。</p>
+<p>线性回归算法的意义所在：通过你提供的训练样本，找出最符合所提供数据的线性模型的参数，这就是训练过程。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

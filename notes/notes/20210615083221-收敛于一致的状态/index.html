@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>收敛于一致的状态 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210615083221-%E6%94%B6%E6%95%9B%E4%BA%8E%E4%B8%80%E8%87%B4%E7%9A%84%E7%8A%B6%E6%80%81/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>收敛于一致的状态</h1>
+    <time datetime="2021-06-15T08:32:00&#43;08:00">June 15, 2021</time>
+  </header>
+  <p>多个主节点看到的执行顺序不一致，病了同时按照各自看到的写入顺序执行，那么数据库最终将处于不一致状态。</p>
+<p>数据库必须以一种趋同的方式来解决冲突。</p>
+<h2 id="可能的解决方式">可能的解决方式</h2>
+<ul>
+<li>给每个写入分配唯一的 ID，如基于时间戳的<a href="/notes/notes/20210615083500-%E6%9C%80%E5%90%8E%E5%86%99%E5%85%A5%E8%80%85%E8%8E%B7%E8%83%9C/">最后写入者获胜</a>。</li>
+<li>为每个主节点分配一个唯一 ID，序列号高的优先于序列号低的主节点，可能导致数据丢失</li>
+<li>以某种方式合并值，如按照字母顺序拼接在一起</li>
+<li>利用预定义号的格式记录，然后依靠应用层逻辑，事后解决冲突（可能会提示用户）</li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>

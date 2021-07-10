@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>Rust 并发 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Rust 并发</h1>
+    <time datetime="2020-06-29T18:07:00&#43;08:00">June 29, 2020</time>
+  </header>
+  <h2 id="并发">并发</h2>
+<h3 id="std-marker-send-允许跨线程转移所有权">std::marker::Send 允许跨线程转移所有权</h3>
+<p><code>Send</code> 标记特性用于标识实现该特性的类型的所有权可以在线程中间转移，几乎所有 Rust 类型都实现了 <code>Send</code> ，但是也有一些例外如：</p>
+<ul>
+<li><code>Rc&lt;T&gt;</code> ，如果克隆后在多个线程中转移所有权可能会多个线程同时增加计数器，可以使用 <code>Arc&lt;T&gt;</code> 替代</li>
+</ul>
+<p>如果一个新的类型组合的类型都实现了 <code>Send</code> 那么该类型也自动实现了 <code>Send</code> ，几乎所有原始类型都实现了 <code>Send</code> .</p>
+<h3 id="std-marker-sync-允许多个线程同时访问">std::marker::Sync 允许多个线程同时访问</h3>
+<p><code>Sync</code> 标记特性用于标识实现该特性的类型可以在多个线程中引用，任何类型 <code>T</code> 是 <code>Sync</code> 并且 T 的引用 <code>&amp;T</code> 是 <code>Send</code> 则意味着引用可以安全的发送给其他线程。</p>
+<p>同 <code>Send</code> 类似，几乎所有原始类型都实现了 <code>Sync</code> ，组合了所有类型都是 <code>Sync</code> 的类型自动实现 <code>Sync</code> 。</p>
+<p>以下只能指针没有实现 <code>Sync</code></p>
+<ul>
+<li><code>Rc&lt;T&gt;</code> 同样没有实现 <code>Sync</code></li>
+<li><code>RcCell&lt;T&gt;</code> 和 <code>Cell&lt;T&gt;</code></li>
+</ul>
+<h3 id="自己实现-sync-和-send-是不安全的">自己实现 <code>Sync</code> 和 <code>Send</code> 是不安全的</h3>
+
+</article>
+
+
+
+</body>
+
+</html>

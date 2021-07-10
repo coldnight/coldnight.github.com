@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>闭包 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>闭包</h1>
+    <time datetime="2020-06-29T18:04:00&#43;08:00">June 29, 2020</time>
+  </header>
+  <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> add_one <span style="color:#f92672">=</span> <span style="color:#f92672">|</span> num <span style="color:#f92672">|</span> {
+  num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+};
+</code></pre></div><p>由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> add_one <span style="color:#f92672">=</span> <span style="color:#f92672">|</span> num: <span style="color:#66d9ef">i32</span> <span style="color:#f92672">|</span> {
+  num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+};
+
+<span style="color:#66d9ef">fn</span>  <span style="color:#a6e22e">add_one_v1</span>   (x: <span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span> { x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> }
+<span style="color:#66d9ef">let</span> add_one_v2 <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">u32</span><span style="color:#f92672">|</span> -&gt; <span style="color:#66d9ef">u32</span> { x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> };
+<span style="color:#66d9ef">let</span> add_one_v3 <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x<span style="color:#f92672">|</span>             { x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> };
+<span style="color:#66d9ef">let</span> add_one_v4 <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x<span style="color:#f92672">|</span>               x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  ;
+</code></pre></div><p>使用 <code>Fn</code> 存储闭包类型</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Cacher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>
+  <span style="color:#66d9ef">where</span> T: Fn(<span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span>
+{
+  calculation: <span style="color:#a6e22e">T</span>,
+  value: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u32</span><span style="color:#f92672">&gt;</span>,
+}
+
+<span style="color:#66d9ef">impl</span> Cacher<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>
+  <span style="color:#66d9ef">where</span> T: Fn(<span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span>
+{
+  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(calculation: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Cacher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    Cacher {
+      calculation,
+      value: None,
+    }
+  }
+
+  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">value</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, arg: <span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span> {
+    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(value) <span style="color:#f92672">=</span> self.value {
+        value
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">let</span> value <span style="color:#f92672">=</span> (self.calculation)(arg);
+        self.value <span style="color:#f92672">=</span> Some(value);
+        value
+    }
+  }
+}
+</code></pre></div><p>闭包和函数的区别：闭包会捕捉当前环境，但是函数不会。</p>
+<p>三种不同 <code>Fn</code> trait</p>
+<ul>
+<li><code>FnOnce</code> 定义时获取引用环境的变量的所有权，并只能调用一次（不能多次获得环境变量的所有权）</li>
+<li><code>Fn</code> 立即从所在环境借用值</li>
+<li><code>FnMut</code> 可以改变引用环境的引用值</li>
+</ul>
+<p>如果想要强制取得使用的所在环境变量的所有权，可以使用 <code>move</code> 关键字</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+  <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>];
+  <span style="color:#66d9ef">let</span> euqal_to_x <span style="color:#f92672">=</span> <span style="color:#66d9ef">move</span> <span style="color:#f92672">|</span>z<span style="color:#f92672">|</span> z <span style="color:#f92672">==</span> x;
+
+  <span style="color:#75715e">// x has move to closure, so can&#39;t use it anymore.
+</span><span style="color:#75715e"></span>}
+</code></pre></div>
+</article>
+
+
+
+</body>
+
+</html>

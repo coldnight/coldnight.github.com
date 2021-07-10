@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>哈希索引 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>哈希索引</h1>
+    <time datetime="2021-06-06T10:33:00&#43;08:00">June 06, 2021</time>
+  </header>
+  <h2 id="索引">索引</h2>
+<p>先来看一个世界上由 Bash 实现的最简单的数据库实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>db_set<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  echo <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">,</span>$2<span style="color:#e6db74">&#34;</span> &gt;&gt; database
+<span style="color:#f92672">}</span>
+
+db_get<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  grep <span style="color:#e6db74">&#34;^</span>$1<span style="color:#e6db74">,&#34;</span> database | sed -e <span style="color:#e6db74">&#34;s/^</span>$1<span style="color:#e6db74">,//&#34;</span> | tail -n <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>这种数据库通过追加文件尾部的方式高效写入，许多数据库内部都是用日志，日志是一个仅支持追加更新的数据文件。但是 db_get 的性能会随着数据量的变大而下降，为了解决这个问题就需要引入新的数据结构： <code>索引</code> 。</p>
+<p>索引是基于原始数据而派生而来的额外数据结构：适当的索引可以加速读取查询，但是回减慢写速度。</p>
+<p>key-value 索引通常使用 hash map 来实现，最简单的索引策略：保存内存中的 hash map，把每个键一一映射到数据文件中特定的字节偏移量。</p>
+<h2 id="优化磁盘占用">优化磁盘占用</h2>
+<ul>
+<li>将日志分解成一定大小的段，当文件达到一定大小时就关闭它，并将后续写入到新的段文件中。</li>
+<li>然后可以在这些段上执行压缩：丢弃重复的键，并且只保留每个键最近的更新。</li>
+<li>同时将变小后的多个段在后台合并在一起（段在写入后不再会进行修改所以不会出现竞争）。</li>
+<li>合并完成后将读取请求切换到新的合并段上，然后可以安全的删除旧的段文件。</li>
+</ul>
+<h2 id="实现中面临的问题">实现中面临的问题</h2>
+<ul>
+<li>文件格式：二进制。</li>
+<li>删除记录：通过特殊的墓碑标记。</li>
+<li>崩溃恢复：Bitcask 通过将 hash map 快照存储到磁盘。</li>
+<li>部分写入：文件校验丢弃损坏的部分。</li>
+<li>并发控制：只有一个写线程。</li>
+</ul>
+<h2 id="追加的好处">追加的好处</h2>
+<ol>
+<li>顺序写性能高。</li>
+<li>并发控制和崩溃恢复简单。</li>
+<li>段合并避免文件碎片化。</li>
+</ol>
+<h2 id="局限性">局限性</h2>
+<ul>
+<li>大量的键存储在内存可能导致内存耗尽，同时需要处理哈希冲突</li>
+<li>区间查询效率不高。</li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>

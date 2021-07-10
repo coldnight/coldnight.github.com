@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>语句和表达式 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200629174820-%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>语句和表达式</h1>
+    <time datetime="2020-06-29T17:48:00&#43;08:00">June 29, 2020</time>
+  </header>
+  <p>Rust 区分语句和表达式， Rust 是基于表达式的语言：</p>
+<ul>
+<li>
+<p>语句：执行动作并且不返回值</p>
+<ul>
+<li>使用 let 声明变量是语句，所以 let 语句不返回值，也就不能像 Python 那样将 let 语句赋值给其他变量</li>
+<li>函数声明也是语句</li>
+</ul>
+</li>
+<li>
+<p>表达式：计算并返回值，不以分号（;）结尾</p>
+<ul>
+<li>
+<p><code>5 + 6</code> 是一个表达式，计算并返回值  <code>11</code></p>
+</li>
+<li>
+<p>表达式可以作为语句的一部分</p>
+</li>
+<li>
+<p>函数调用是表达式</p>
+</li>
+<li>
+<p>宏调用是表达式</p>
+</li>
+<li>
+<p>用 <code>{}</code> 创建的块也是表达式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> {
+    <span style="color:#66d9ef">let</span> y <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>;
+    y <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>
+}
+</code></pre></div></li>
+<li>
+<p><code>if</code> <code>loop</code> <code>while</code> <code>for</code> 是表达式</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>在表达式后面增加分号（;）可以将一个表达式转为语句。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

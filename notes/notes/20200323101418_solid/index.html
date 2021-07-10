@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>SOLID | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200323101418_solid/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>SOLID</h1>
+    <time datetime="2020-03-23T00:00:00&#43;08:00">March 23, 2020</time>
+  </header>
+  <h2 id="srp-single-responsibility-principle">SRP: Single Responsibility Principle</h2>
+<ul>
+<li>
+<p>浅显的解释是软件模块只提供单一功能</p>
+</li>
+<li>
+<p>更进一步任何一个软件模块都应该有且只有一个被修改的原因</p>
+</li>
+<li>
+<p>再更进一步这个原则是关于人（Actor）的</p>
+<p>任何一个软件模块都应该只对一个用户或系统利益相关者负责。</p>
+</li>
+<li>
+<p>最终就是任何一个软件模块都应该只对某一类行为负责</p>
+</li>
+</ul>
+<h2 id="ocp-open-closed-principle">OCP：Open/Closed Principle</h2>
+<p>设计良好的软件应该易于扩展，同时抗拒修改。也就是说一个软件模块应该允许在不修改源码的情况下扩展它的行为。</p>
+<p>可以通过组合 SRP（代码分组）和调整依赖关系实现（DIP）。如果 A 组件不想被 B 组件上发生的修改所影响，那么就应该让 B 组件依赖于 A 组件。</p>
+<h2 id="lsp-liskov-substitution-principle">LSP：Liskov Substitution Principle</h2>
+<p>里氏替换原则：多态。</p>
+<p>每个类型是 S 的对象 o1 都存在一个类型为 T 的对象 o2，能使操作 T 类型的程序 P 在用 o2 替换 o1 时行为保持不变，我们就可以将 S 称为 T 的子类型。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LiskovSub</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    T o1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> S<span style="color:#f92672">();</span>
+    T o2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> T<span style="color:#f92672">();</span>
+
+    P<span style="color:#f92672">(</span>o1<span style="color:#f92672">);</span> <span style="color:#75715e">// ok
+</span><span style="color:#75715e"></span>    P<span style="color:#f92672">(</span>o2<span style="color:#f92672">);</span> <span style="color:#75715e">// ok
+</span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
+
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">P</span><span style="color:#f92672">(</span>T o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    o<span style="color:#f92672">.</span><span style="color:#a6e22e">doSomeThing</span><span style="color:#f92672">();</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>正长方形问题</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NonLiskovSub</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    Rectangle r <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Sqaure<span style="color:#f92672">();</span>
+    r<span style="color:#f92672">.</span><span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span>5<span style="color:#f92672">);</span>
+    r<span style="color:#f92672">.</span><span style="color:#a6e22e">setH</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">assert</span><span style="color:#f92672">(</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">area</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 10<span style="color:#f92672">);</span> <span style="color:#75715e">// 不成立
+</span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
+
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Reactangle</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> h <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> w<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">w</span> <span style="color:#f92672">=</span> w<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setH</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> h<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">h</span> <span style="color:#f92672">=</span> h<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">area</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">return</span> w <span style="color:#f92672">*</span> h<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Square</span> <span style="color:#66d9ef">extends</span> Rectangle <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> w<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      setSide<span style="color:#f92672">(</span>w<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setH</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> h<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      setSide<span style="color:#f92672">(</span>h<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setSide</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> s<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">w</span> <span style="color:#f92672">=</span> s<span style="color:#f92672">;</span>
+      <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">h</span> <span style="color:#f92672">=</span> s<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="isp-interface-segregation-principle">ISP: Interface-Segregation Principle</h2>
+<p>用户应该不依赖它不是用的方法。臃肿的方法拆分成更小更具体的角色接口。</p>
+<h2 id="dip-dependency-inversion-principle">DIP: Dependency Inversion Principle</h2>
+<p>如果想要设计一个灵活的系统，在源代码层面的依赖关系中就应该多引用抽象类行，而非具体实现。</p>
+<p>这一原则不针对已经稳定不变的部分，而是针对那些经常 <strong>变动的(volatile)</strong> 模块。</p>
+<ul>
+<li><strong><strong>应在代码中多使用抽象接口，尽量避免使用那些多变的具体实现类</strong></strong> 。同时应使用抽象工厂严格限制对象的创建过程。</li>
+<li><strong><strong>不要再具体实现类上创建衍生类</strong></strong> 。静态语言中继承依赖最强且最难被修改。</li>
+<li><strong><strong>不要覆盖（override）包含具体实现的函数</strong></strong> 。通过创建一个抽象函数，然后再为该函数提供多种具体实现。</li>
+<li><strong><strong>应避免在代码中写入与任何具体实现相关的名字，或者是其他容易变动的事物的名字</strong></strong> 。</li>
+</ul>
+<p>工厂模式之于非常重要。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

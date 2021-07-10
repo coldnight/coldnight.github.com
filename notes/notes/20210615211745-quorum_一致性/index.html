@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>Quorum 一致性 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210615211745-quorum_%E4%B8%80%E8%87%B4%E6%80%A7/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Quorum 一致性</h1>
+    <time datetime="2021-06-15T21:17:00&#43;08:00">June 15, 2021</time>
+  </header>
+  <h2 id="确定读写成功">确定读写成功</h2>
+<p>确定读写节点在多少节点成功才可以认为写入成功：需要保证读取时至少一个包含新值。</p>
+<p>n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至少查询 \(r\) 个节点，则只要 \(w + r &gt; n\) ，读取的节点中一定会包含最新值。</p>
+<ul>
+<li>\(w\) 仲裁写（法定票数写）</li>
+<li>\(r\) 仲裁读（法定票说读）</li>
+</ul>
+<p>一般 \(n\) 设置为奇数： \(w=r=(n+1)/2\) （向上取整）。</p>
+<h2 id="可容忍的失效节点数">可容忍的失效节点数</h2>
+<p>仲裁条件 \(w+r&gt;n\) 定义了系统可容忍的失效节点数。</p>
+<ul>
+<li>\(w&lt;n\) ，如果一个节点不可用，仍然可以处理写入。</li>
+<li>\(r&lt;n\) ，如果一个节点不可用，仍然可以处理读取。</li>
+<li>\(n=3\),\(w=2\),$r=2$，则可以容忍一个节点不可用</li>
+<li>\(n=5\),\(w=3\),\(r=3\), 则可以容忍两个节点不可用</li>
+</ul>
+<h2 id="局限性">局限性</h2>
+<ol>
+<li>如果采用了 <a href="/notes/notes/20210615212500-sloppy_quorum/">sloppy quorum</a>，写操作的 w 节点和读取的 r 节点可能完全不同，因此无法保证写请求一定存在重叠的节点。</li>
+<li>并发无法明确顺序，需要进行合并并发写入。如<a href="/notes/notes/20210615083500-%E6%9C%80%E5%90%8E%E5%86%99%E5%85%A5%E8%80%85%E8%8E%B7%E8%83%9C/">最后写入者获胜</a>。</li>
+<li>同时读写，写操作在一部分节点上完成，则读取新值还是旧值存在不确定性。</li>
+<li>部分节点写入成功，但是最终写入失败无法回滚。</li>
+<li>新值的节点失效，但恢复数据来自某个旧值，则总的新值节点数低于 w</li>
+<li>边界情况</li>
+</ol>
+
+</article>
+
+
+
+</body>
+
+</html>

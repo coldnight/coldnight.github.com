@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>数据编码与演化 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210610215330-%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A0%81%E4%B8%8E%E6%BC%94%E5%8C%96/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>数据编码与演化</h1>
+    <time datetime="2021-06-10T21:53:00&#43;08:00">June 10, 2021</time>
+  </header>
+  <p>模式演化要保证：</p>
+<ul>
+<li>向后兼容
+较新的代码可以读取旧代码编写的数据</li>
+<li>向前兼容
+较旧的代码可以读取较新代码编写的数据</li>
+</ul>
+<h2 id="数据编码格式">数据编码格式</h2>
+<h3 id="语言特定格式">语言特定格式</h3>
+<ul>
+<li>Python pickle</li>
+<li>Java java.io.Serializable</li>
+<li>Ruby Marshal</li>
+</ul>
+<h3 id="json-xml与二进制变体">JSON、XML与二进制变体</h3>
+<p>二进制变体</p>
+<ul>
+<li>Message Pack：二进制的 JSON</li>
+</ul>
+<h3 id="thrift-与-protocol-buffers--20210610222754-thrift-与-protocol-buffers-dot-md"><a href="/notes/notes/20210610222754-thrift_%E4%B8%8E_protocol_buffers/">Thrift 与 Protocol Buffers</a></h3>
+<h3 id="avro--20210610222725-avro-dot-md"><a href="/notes/notes/20210610222725-avro/">Avro</a></h3>
+<h2 id="数据流模式">数据流模式</h2>
+<h3 id="基于数据库的数据流">基于数据库的数据流</h3>
+<h4 id="不同是写写入不同的值">不同是写写入不同的值</h4>
+<h4 id="归档存储">归档存储</h4>
+<h3 id="基于服务的数据流-rest-和-rpc">基于服务的数据流：REST 和 RPC</h3>
+<h4 id="rpc-的问题">RPC 的问题</h4>
+<p>给人一种本地调用的错觉，却需要面临网络的不确定性：延迟和超时。</p>
+<h3 id="基于消息传递的数据流">基于消息传递的数据流</h3>
+<h4 id="消息中间件-rabbitmq-kafka">消息中间件：RabbitMQ、Kafka</h4>
+<h4 id="分布式-actor--20210612091808-actor-dot-md--框架-akka-erlang-otp">分布式<a href="/notes/notes/20210612091808-actor/"> Actor</a> 框架：Akka、Erlang OTP</h4>
+
+</article>
+
+
+
+</body>
+
+</html>

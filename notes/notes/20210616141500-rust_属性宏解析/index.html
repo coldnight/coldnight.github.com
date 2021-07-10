@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>Rust 属性宏解析 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210616141500-rust_%E5%B1%9E%E6%80%A7%E5%AE%8F%E8%A7%A3%E6%9E%90/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Rust 属性宏解析</h1>
+    <time datetime="2021-06-16T14:15:00&#43;08:00">June 16, 2021</time>
+  </header>
+  <h2 id="准备">准备</h2>
+<p>解析宏通过两个 crate 进行：</p>
+<ul>
+<li><a href="/notes/notes/20210616144334-quote/">quote</a> = &ldquo;1.0&rdquo;</li>
+<li><a href="/notes/notes/20210616144616-syn/">syn</a> = &ldquo;1.0&rdquo;</li>
+</ul>
+<h2 id="derive-属性宏">Derive 属性宏</h2>
+<p>探讨 Rust 宏系统中带属性（Attributes）的 Derive 宏的几种变体，以及如何进行解析。</p>
+<h3 id="属性宏的变体">属性宏的变体</h3>
+<ol>
+<li>
+<p>函数调用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
+  <span style="color:#75715e">#[attr(arg)]</span>
+  a: <span style="color:#66d9ef">i8</span>,
+}
+</code></pre></div></li>
+<li>
+<p>关键字参数调用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
+  <span style="color:#75715e">#[args(name = </span><span style="color:#e6db74">&#34;val&#34;</span><span style="color:#75715e">)]</span>
+  b: <span style="color:#66d9ef">i8</span>,
+}
+</code></pre></div></li>
+<li>
+<p>直接赋值</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
+  <span style="color:#75715e">#[meta = </span><span style="color:#e6db74">&#34;val&#34;</span><span style="color:#75715e">]</span>
+  c: <span style="color:#66d9ef">i8</span>,
+}
+</code></pre></div></li>
+</ol>
+<h3 id="函数调用">函数调用</h3>
+<h3 id="关键字参数调用">关键字参数调用</h3>
+<p>可以从 Struct 解析出各个字段，通过解析各个字段的 attrs 属性，并对 attrs 进行遍历，使用 <code>attr.parse_args()?</code> 即可解析出对应的关键字参数，咱们以前面的代码为例:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
+  <span style="color:#75715e">#[args(name = </span><span style="color:#e6db74">&#34;val&#34;</span><span style="color:#75715e">)]</span>
+  b: <span style="color:#66d9ef">i8</span>,
+}
+</code></pre></div><p>对应的解析代码为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> proc_macro::TokenStream;
+<span style="color:#66d9ef">use</span> quote::quote;
+<span style="color:#66d9ef">use</span> syn::{self, parse, DeriveInput};
+
+<span style="color:#75715e">#[proc_macro_derive(Custom, attributes(args))]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">derive</span>(input: <span style="color:#a6e22e">TokenStream</span>) -&gt; <span style="color:#a6e22e">TokenStream</span> {
+    <span style="color:#66d9ef">let</span> ast: <span style="color:#a6e22e">DeriveInput</span> <span style="color:#f92672">=</span> parse(input).unwrap();
+    <span style="color:#66d9ef">let</span> name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ast.ident;
+
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[];
+
+    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Data::Struct(ds) <span style="color:#f92672">=</span> ast.data {
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Fields::Named(fields) <span style="color:#f92672">=</span> ds.fields {
+            <span style="color:#66d9ef">for</span> field <span style="color:#66d9ef">in</span> fields.named.iter() {
+                <span style="color:#66d9ef">let</span> field_name <span style="color:#f92672">=</span> field.ident.clone().unwrap();
+                <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(attr) <span style="color:#f92672">=</span> field.attrs.clone().iter().next() {
+                    <span style="color:#66d9ef">match</span> parse_args_attr_value(<span style="color:#f92672">&amp;</span>attr) {
+                        Ok(v) <span style="color:#f92672">=&gt;</span> {
+                           <span style="color:#75715e">// TODO
+</span><span style="color:#75715e"></span>                        },
+                        Err(err) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> err.to_compile_error().into(),
+                    }
+                }
+            }
+        }
+    }
+    <span style="color:#66d9ef">let</span> tokens <span style="color:#f92672">=</span> quote<span style="color:#f92672">!</span>{
+    };
+    tokens.into()
+}
+
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">parse_args_attr_value</span>(attr: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">syn</span>::Attribute) -&gt; Result<span style="color:#f92672">&lt;</span>Option<span style="color:#f92672">&lt;</span>syn::LitStr<span style="color:#f92672">&gt;</span>, syn::Error<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(seg) <span style="color:#f92672">=</span> attr.path.segments.first() {
+        <span style="color:#66d9ef">if</span> seg.ident <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;args&#34;</span> {
+            <span style="color:#66d9ef">let</span> args <span style="color:#f92672">=</span> attr.parse_args()<span style="color:#f92672">?</span>;
+            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Meta::NameValue(values) <span style="color:#f92672">=</span> args {
+                <span style="color:#66d9ef">let</span> arg_name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>values.path.segments.first().unwrap().ident;
+                <span style="color:#66d9ef">if</span> arg_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span> {
+                    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Lit::Str(name) <span style="color:#f92672">=</span> values.lit {
+                        <span style="color:#66d9ef">return</span> Ok(Some(name));
+                    }
+                } <span style="color:#66d9ef">else</span> {
+                    <span style="color:#66d9ef">return</span> Err(syn::Error::new(attr.bracket_token.span, <span style="color:#e6db74">&#34;expected `args(name = \&#34;...\&#34;)`&#34;</span>.to_owned()));
+                }
+            }
+        }
+    }
+    <span style="color:#66d9ef">return</span> Ok(None)
+}
+</code></pre></div><h3 id="直接赋值">直接赋值</h3>
+<p>直接赋值类似于上面的关键字解析调用，但是对应的 <code>attr.parse_args</code> 需要替换为 <code>attr.parse_meta</code> ，比如解析：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
+  <span style="color:#75715e">#[meta = </span><span style="color:#e6db74">&#34;val&#34;</span><span style="color:#75715e">]</span>
+  c: <span style="color:#66d9ef">i8</span>,
+}
+</code></pre></div><p>对应的代码如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> proc_macro::TokenStream;
+<span style="color:#66d9ef">use</span> quote::quote;
+<span style="color:#66d9ef">use</span> syn::{self, parse, DeriveInput};
+
+<span style="color:#75715e">#[proc_macro_derive(Custom, attributes(args))]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">derive</span>(input: <span style="color:#a6e22e">TokenStream</span>) -&gt; <span style="color:#a6e22e">TokenStream</span> {
+    <span style="color:#66d9ef">let</span> ast: <span style="color:#a6e22e">DeriveInput</span> <span style="color:#f92672">=</span> parse(input).unwrap();
+    <span style="color:#66d9ef">let</span> name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ast.ident;
+
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[];
+
+    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Data::Struct(ds) <span style="color:#f92672">=</span> ast.data {
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Fields::Named(fields) <span style="color:#f92672">=</span> ds.fields {
+            <span style="color:#66d9ef">for</span> field <span style="color:#66d9ef">in</span> fields.named.iter() {
+                <span style="color:#66d9ef">let</span> field_name <span style="color:#f92672">=</span> field.ident.clone().unwrap();
+                <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(attr) <span style="color:#f92672">=</span> field.attrs.clone().iter().next() {
+                    <span style="color:#66d9ef">match</span> parse_meta_attr_value(<span style="color:#f92672">&amp;</span>attr) {
+                        Ok(v) <span style="color:#f92672">=&gt;</span> {
+                           <span style="color:#75715e">// TODO
+</span><span style="color:#75715e"></span>                        },
+                        Err(err) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> err.to_compile_error().into(),
+                    }
+                }
+            }
+        }
+    }
+    <span style="color:#66d9ef">let</span> tokens <span style="color:#f92672">=</span> quote<span style="color:#f92672">!</span>{
+    };
+    tokens.into()
+}
+
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">parse_meta_attr_value</span>(attr: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">syn</span>::Attribute) -&gt; Result<span style="color:#f92672">&lt;</span>Option<span style="color:#f92672">&lt;</span>syn::LitStr<span style="color:#f92672">&gt;</span>, syn::Error<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(seg) <span style="color:#f92672">=</span> attr.path.segments.first() {
+        <span style="color:#66d9ef">if</span> seg.ident <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;meta&#34;</span> {
+            <span style="color:#66d9ef">let</span> args <span style="color:#f92672">=</span> attr.parse_meta()<span style="color:#f92672">?</span>;
+            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Meta::NameValue(values) <span style="color:#f92672">=</span> args {
+                <span style="color:#66d9ef">let</span> arg_name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>values.path.segments.first().unwrap().ident;
+                <span style="color:#66d9ef">if</span> arg_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;meta&#34;</span> {
+                    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Lit::Str(name) <span style="color:#f92672">=</span> values.lit {
+                        <span style="color:#66d9ef">return</span> Ok(Some(name));
+                    }
+                } <span style="color:#66d9ef">else</span> {
+                    <span style="color:#66d9ef">return</span> Err(syn::Error::new(attr.bracket_token.span, <span style="color:#e6db74">&#34;expected `meta = \&#34;...\&#34;`&#34;</span>.to_owned()));
+                }
+            }
+        }
+    }
+    <span style="color:#66d9ef">return</span> Ok(None)
+}
+</code></pre></div>
+</article>
+
+
+
+</body>
+
+</html>

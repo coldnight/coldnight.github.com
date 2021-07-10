@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>《The Rust Programming Language》读书笔记 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200325165411_the_rust_programming_language/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>《The Rust Programming Language》读书笔记</h1>
+    <time datetime="2019-04-09T00:00:00&#43;08:00">April 09, 2019</time>
+  </header>
+  <ul>
+<li><a href="/notes/notes/20200629174820-%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F/">语句和表达式</a></li>
+<li><a href="/notes/notes/20200629174911-%E6%89%80%E6%9C%89%E6%9D%83/">所有权</a></li>
+<li><a href="/notes/notes/20200629174943-%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8/">引用和借用</a></li>
+<li><a href="/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/">结构体</a></li>
+<li><a href="/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/">枚举</a></li>
+<li><a href="/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/">模式匹配</a></li>
+<li><a href="/notes/notes/20200629180202-if_let/">if let</a></li>
+<li><a href="/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/">模块化</a></li>
+<li><a href="/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/">错误处理</a></li>
+<li><a href="/notes/notes/20200629180345-traits/">Traits</a></li>
+<li><a href="/notes/notes/20200629180413-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a></li>
+<li><a href="/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/">闭包</a></li>
+<li><a href="/notes/notes/20200629180506-%E8%BF%AD%E4%BB%A3%E5%99%A8/">迭代器</a></li>
+<li><a href="/notes/notes/20200629180545-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">智能指针</a></li>
+<li><a href="/notes/notes/20200629180623-rust_%E5%AE%8F/">Rust 宏</a></li>
+<li><a href="/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/">Rust 并发</a></li>
+</ul>
+<h2 id="函数指针">函数指针</h2>
+<p><code>fn</code> 区分闭包的 <code>Fn</code> 特性，函数指针都实现来三个闭包的特性。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">do</span>(f: <span style="color:#a6e22e">fn</span>(<span style="color:#66d9ef">i32</span>) -&gt; <span style="color:#66d9ef">i32</span>, arg: <span style="color:#66d9ef">i32</span>)  -&gt; <span style="color:#66d9ef">i32</span> {
+  f(arg) <span style="color:#f92672">+</span> f(arg)
+}
+</code></pre></div>
+</article>
+
+
+
+</body>
+
+</html>

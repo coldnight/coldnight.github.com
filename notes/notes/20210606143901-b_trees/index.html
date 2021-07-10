@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>B-trees | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210606143901-b_trees/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>B-trees</h1>
+    <time datetime="2021-06-06T14:39:00&#43;08:00">June 06, 2021</time>
+  </header>
+  <p>B-tree 是最广泛使用的索引结构。和<a href="/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/">排序字符串表：SSTables</a>一样，B-tree 保留按键排序的 key-value 对，
+这样可以实现高效的 key-value 查找和区间查询。</p>
+<h2 id="结构">结构</h2>
+<p>B-tree 将数据库分解成固定大小的页或块，传统上 4KB，这种设计更接近底层硬件，磁盘也是以固定大小的块排列的。</p>
+<figure><img src="/ox-hugo/b-tree-dot.png"/>
+</figure>
+
+<h2 id="分页因子">分页因子</h2>
+<p>B-tree 中一个页所包含的子页引用数量称为分支因子。</p>
+<h2 id="添加新键">添加新键</h2>
+<ol>
+<li>找到其范围新键的页</li>
+<li>如果页没有足够的可用空间来容纳新键，则将其分裂为两个半满的页，并更新父页以包含新的键范围。</li>
+</ol>
+<figure><img src="/ox-hugo/b-tree-dot-insert-before.png"/>
+</figure>
+
+<figure><img src="/ox-hugo/b-tree-dot-insert-after.png"/>
+</figure>
+
+<p>算法确保树保持平衡：具有 n 个键的 B-tree 总是具有 \(O(log n)\) 的深度。大多数据库适合 3~4 层的 B-tree。
+分支因子为 500 的 4KB 页的四级树可以存储高达 256TB。</p>
+<h2 id="可靠性-wal">可靠性：WAL</h2>
+<p>B-tree 底层的基本写操作是使用新的数据覆盖磁盘上的旧页。</p>
+<p>如果发生页分裂则需要覆盖多个不同的页，同时更新父页，这个操作比较危险，如果此时发生崩溃则会破坏索引。
+常见的 B-tree 使用额外的数据结构：预写日志（write-ahead log, WAL），也称为重做日志：</p>
+<ol>
+<li>追加的写 WAL；</li>
+<li>每个 B-tree 必须先更新 WAL 然后再修改树本身的页。</li>
+</ol>
+<p>通过使用「锁存器」保护进行并发控制，保护 B-tree 页被多个线程访问而看到树不一样的状态。</p>
+<h2 id="优化">优化</h2>
+<ol>
+<li>通过复制方案替代 WAL 进行崩溃恢复，修改的页被写入不同的位置，树中父页的新版本被创建，并指向新的位置。</li>
+<li>保存键的缩略信息，可以压入更多的键，保持更高的分支因子，减少层数。</li>
+<li>对树进行布局，相邻叶子页按顺序保存在磁盘。</li>
+<li>添加额外的指针到树中，如左右兄弟页。</li>
+<li>变体，如分形树：借鉴日志结构减少磁盘寻道。</li>
+</ol>
+
+</article>
+
+
+
+</body>
+
+</html>

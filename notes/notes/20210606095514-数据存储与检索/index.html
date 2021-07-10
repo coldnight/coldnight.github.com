@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>数据存储与检索 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210606095514-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E4%B8%8E%E6%A3%80%E7%B4%A2/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>数据存储与检索</h1>
+    <time datetime="2021-06-06T09:55:00&#43;08:00">June 06, 2021</time>
+  </header>
+  <h2 id="存储引擎">存储引擎</h2>
+<h3 id="哈希索引--20210606103354-哈希索引-dot-md"><a href="/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/">哈希索引</a></h3>
+<h4 id="日志结构存储引擎-lsm-tree--20210606100317-lsm-tree-dot-md">日志结构存储引擎：<a href="/notes/notes/20210606100317-lsm_tree/">LSM-Tree</a></h4>
+<h4 id="面向页的存储引擎-b-trees--20210606143901-b-trees-dot-md">面向页的存储引擎：<a href="/notes/notes/20210606143901-b_trees/">B-trees</a></h4>
+<h4 id="对比-lsm-tree--20210606100317-lsm-tree-dot-md--和-b-trees--20210606143901-b-trees-dot-md">对比 <a href="/notes/notes/20210606100317-lsm_tree/">LSM-Tree</a> 和 <a href="/notes/notes/20210606143901-b_trees/">B-trees</a></h4>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>LSM-Tree</th>
+<th>B-trees</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>性能</td>
+<td>写入更快，吞吐更高</td>
+<td>读取更快</td>
+<td>具体场景上需要进行基准测试</td>
+</tr>
+<tr>
+<td>存储</td>
+<td>可变大小的段，通常 nMB</td>
+<td>固定大小的页，传统 4KB</td>
+<td></td>
+</tr>
+<tr>
+<td>写入</td>
+<td>追加，写入更多不利于 SSD</td>
+<td>新的数据覆盖磁盘上旧的页</td>
+<td></td>
+</tr>
+<tr>
+<td>并发控制</td>
+<td>后台合并进行原子替换</td>
+<td>锁存器</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="其他索引结构">其他索引结构</h3>
+<ul>
+<li>
+<p>在索引中存储值</p>
+</li>
+<li>
+<p>多列索引</p>
+</li>
+<li>
+<p>全文索引和模糊索引</p>
+</li>
+<li>
+<p>在内存中保存所有内容</p>
+<p>优点：可以支持更复杂的数据结构，而无需考虑数据存储结构。</p>
+</li>
+</ul>
+<h2 id="事务处理与分析处理">事务处理与分析处理</h2>
+<h3 id="事务处理-oltp--20210610214348-oltp-dot-md">事务处理：<a href="/notes/notes/20210610214348-oltp/">OLTP</a></h3>
+<h3 id="分析处理-olap--20210610214521-olap-dot-md">分析处理：<a href="/notes/notes/20210610214521-olap/">OLAP</a></h3>
+<h3 id="对比">对比</h3>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>OLTP</th>
+<th>OLAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主要读属性</td>
+<td>基于键，每次查询返回少量记录</td>
+<td>对于大量记录进行汇总</td>
+</tr>
+<tr>
+<td>主要写属性</td>
+<td>随机访问，低延迟写入用户的输入</td>
+<td>批量导入（ETL）或事件流</td>
+</tr>
+<tr>
+<td>典型使用场景</td>
+<td>终端用户，通过网络应用程序</td>
+<td>内部分析师，为决策提供支持</td>
+</tr>
+<tr>
+<td>数据表征</td>
+<td>最新的数据状态（当前时间点）</td>
+<td>随着事件而变化的所有事件历史</td>
+</tr>
+<tr>
+<td>数据规模</td>
+<td>GB 到 TB</td>
+<td>TB 到 PB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="数据仓库">数据仓库</h3>
+<h3 id="星型与雪花型分析模式">星型与雪花型分析模式</h3>
+<p>星型模型也称为维度建模。</p>
+<h3 id="列式存储">列式存储</h3>
+<h3 id="列压缩">列压缩</h3>
+
+</article>
+
+
+
+</body>
+
+</html>

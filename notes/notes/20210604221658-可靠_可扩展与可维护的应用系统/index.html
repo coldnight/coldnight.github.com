@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>可靠、可扩展与可维护的应用系统 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210604221658-%E5%8F%AF%E9%9D%A0_%E5%8F%AF%E6%89%A9%E5%B1%95%E4%B8%8E%E5%8F%AF%E7%BB%B4%E6%8A%A4%E7%9A%84%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>可靠、可扩展与可维护的应用系统</h1>
+    <time datetime="2021-06-04T22:16:00&#43;08:00">June 04, 2021</time>
+  </header>
+  <h2 id="可靠性">可靠性</h2>
+<h3 id="故障与失效">故障与失效</h3>
+<ul>
+<li>故障（faults）或者错误：组件偏离其正常规格，可以提供容错（fault-tolerant）机制</li>
+<li>失效（failure）意味系统作为一个整体停止</li>
+</ul>
+<h3 id="硬件故障">硬件故障</h3>
+<h3 id="软件错误">软件错误</h3>
+<h3 id="人为失误">人为失误</h3>
+<p>避免优化方式：</p>
+<ul>
+<li>以最小出错方式设计系统。抽象、提供管理界面，使“做正确的事很轻松”，防止限制过多。</li>
+<li>分离最容易出错的地方，提供沙箱用以放心尝试。</li>
+<li>充分测试。</li>
+<li>提供快速恢复机制尽量减少故障影响：快速回滚，提供校验数据的工具。</li>
+<li>设置详细而清晰的监控系统</li>
+<li>培训和流程</li>
+</ul>
+<h2 id="可扩展性">可扩展性</h2>
+<h3 id="描述负载">描述负载</h3>
+<ul>
+<li>QPS</li>
+<li>数据库写入比例</li>
+<li>同时在线活动用户数</li>
+<li>缓存命中率等。</li>
+</ul>
+<h3 id="描述性能">描述性能</h3>
+<ul>
+<li>吞吐量（throughput）/每秒处理数据量</li>
+<li>延迟（latency）/响应时间（response time）：延迟是处理时间，响应时间是客户端看到的。</li>
+</ul>
+<p>最好通过百分位数来监控指标：p50/p80/p90/p95/p99/p999，p50 指标表示一半请求在这个指标之下，一半在这个指标之上。</p>
+<h3 id="应对负载增加">应对负载增加</h3>
+<ul>
+<li>无状态很方便扩容</li>
+<li>但有状态的分布式面临一定的挑战</li>
+</ul>
+<h2 id="可维护性">可维护性</h2>
+<h3 id="可运维性-运维更轻松">可运维性：运维更轻松</h3>
+<p>监控、文档、自动化、良好的默认配置、可手动控制系统状态让系统自我修复（比如熔断机制）。</p>
+<h3 id="简单性-简化复杂度">简单性：简化复杂度</h3>
+<p>抽象！</p>
+<h3 id="可演化性-易于改变">可演化性：易于改变</h3>
+<ul>
+<li>TDD</li>
+<li>重构</li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>

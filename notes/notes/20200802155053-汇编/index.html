@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>汇编 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>汇编</h1>
+    <time datetime="2020-08-02T15:50:00&#43;08:00">August 02, 2020</time>
+  </header>
+  <h2 id="程序编码">程序编码</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ gcc -Og -S mstore.c  <span style="color:#75715e"># outputs mstore.s</span>
+$ gcc -Og -c mstore.c  <span style="color:#75715e"># outptus mstore.o</span>
+$ objdump -d mstore.o
+</code></pre></div><p>所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。</p>
+<h2 id="数据格式">数据格式</h2>
+<table>
+<thead>
+<tr>
+<th>C 声明</th>
+<th>Intel 数据类型</th>
+<th>汇编代码后缀</th>
+<th>大小（字节）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char</td>
+<td>字节</td>
+<td>b</td>
+<td>1</td>
+</tr>
+<tr>
+<td>short</td>
+<td>字</td>
+<td>w</td>
+<td>2</td>
+</tr>
+<tr>
+<td>int</td>
+<td>双字</td>
+<td>l</td>
+<td>4</td>
+</tr>
+<tr>
+<td>long</td>
+<td>四字</td>
+<td>q</td>
+<td>8</td>
+</tr>
+<tr>
+<td>char*</td>
+<td>四字</td>
+<td>q</td>
+<td>8</td>
+</tr>
+<tr>
+<td>float</td>
+<td>单精度</td>
+<td>l</td>
+<td>4</td>
+</tr>
+<tr>
+<td>double</td>
+<td>双精度</td>
+<td>q</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="访问信息">访问信息</h2>
+<h3 id="寄存器">寄存器</h3>
+<p>一个 x86-64 的中央处理单元（CPU）包含一组 16 个存储 64 位值的 <code>通用目的寄存器</code> 。</p>
+<table>
+<thead>
+<tr>
+<th>四字</th>
+<th>双字</th>
+<th>字</th>
+<th>字节</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%rax</td>
+<td>%eax</td>
+<td>%ax</td>
+<td>%al</td>
+<td>返回值</td>
+</tr>
+<tr>
+<td>%rbx</td>
+<td>%ebx</td>
+<td>%bx</td>
+<td>%bl</td>
+<td>被调用者保存</td>
+</tr>
+<tr>
+<td>%rcx</td>
+<td>%ecx</td>
+<td>%cx</td>
+<td>%cl</td>
+<td>第四个参数</td>
+</tr>
+<tr>
+<td>%rdx</td>
+<td>%edx</td>
+<td>%dx</td>
+<td>%dl</td>
+<td>第三个参数</td>
+</tr>
+<tr>
+<td>%rsi</td>
+<td>%esi</td>
+<td>%si</td>
+<td>%sil</td>
+<td>第二个参数</td>
+</tr>
+<tr>
+<td>%rdi</td>
+<td>%edi</td>
+<td>%di</td>
+<td>%dil</td>
+<td>第一个参数</td>
+</tr>
+<tr>
+<td>%rbp</td>
+<td>%ebp</td>
+<td>%bp</td>
+<td>%bpl</td>
+<td>被调用者保存</td>
+</tr>
+<tr>
+<td>%rsp</td>
+<td>%esp</td>
+<td>%sp</td>
+<td>%spl</td>
+<td>栈指针</td>
+</tr>
+<tr>
+<td>%r8</td>
+<td>%r8d</td>
+<td>%r8w</td>
+<td>%r8b</td>
+<td>第五个参数</td>
+</tr>
+<tr>
+<td>%r9</td>
+<td>%r9d</td>
+<td>%r9w</td>
+<td>%r9b</td>
+<td>第六个参数</td>
+</tr>
+<tr>
+<td>%r10</td>
+<td>%r10d</td>
+<td>%r10w</td>
+<td>%r10b</td>
+<td>调用者保存</td>
+</tr>
+<tr>
+<td>%r11</td>
+<td>%r11d</td>
+<td>%r11w</td>
+<td>%r11b</td>
+<td>调用者保存</td>
+</tr>
+<tr>
+<td>%r12</td>
+<td>%r12d</td>
+<td>%r12w</td>
+<td>%r11b</td>
+<td>被调用者保存</td>
+</tr>
+<tr>
+<td>%r13</td>
+<td>%r13d</td>
+<td>%r13w</td>
+<td>%r13b</td>
+<td>被调用者保存</td>
+</tr>
+<tr>
+<td>%r14</td>
+<td>%r14d</td>
+<td>%r14w</td>
+<td>%r14</td>
+<td>被调用者保存</td>
+</tr>
+<tr>
+<td>%r15</td>
+<td>%r15d</td>
+<td>%r15w</td>
+<td>%r15</td>
+<td>被调用者保存</td>
+</tr>
+</tbody>
+</table>
+<p>相关规则：</p>
+<ul>
+<li>生成 1 字节和 2 字节数字的指令会保持剩下的字节不变</li>
+<li>生成 4 字节的数字的指令会把高位 4 个字节设置为 0</li>
+</ul>
+<p>寄存器的使用有一组编程规范控制着如何来管理栈、传递参数、从函数返回值，以及存储局部和临时数据。
+%rsp 用来指明运行时栈的结束位置。</p>
+<h3 id="操作数指示符">操作数指示符</h3>
+<p>分为几类：</p>
+<ol>
+<li>立即数（字面量）</li>
+<li>寄存器</li>
+<li>内存引用（支持多种寻址模式）</li>
+</ol>
+<p>假设寄存器是一个数组 R，内存是一个大的字节数组，寻址方式为索引，如 M[0] 就是访问内存的第一个字节。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>格式</th>
+<th>操作数值</th>
+<th>名称</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>立即数</td>
+<td>$Imm</td>
+<td>Imm</td>
+<td>立即数寻址</td>
+<td>$0x08</td>
+</tr>
+<tr>
+<td>寄存器</td>
+<td>\(r_a\)</td>
+<td>\(R[r_a]\)</td>
+<td>寄存器寻址</td>
+<td>%rdx</td>
+</tr>
+<tr>
+<td>存储器</td>
+<td>Imm</td>
+<td>M[Imm]</td>
+<td>绝对寻址</td>
+<td>0x80</td>
+</tr>
+<tr>
+<td>存储器</td>
+<td>(\(r_a\))</td>
+<td>M[R[\(r_a\)]]</td>
+<td>间接寻址</td>
+<td>(%rdx)</td>
+</tr>
+<tr>
+<td>存储器</td>
+<td>Imm(\(r_b\))</td>
+<td>M[Imm+R[\(r_b\)]]</td>
+<td>（基址 + 偏移量）寻址</td>
+<td>0x08(%rdx)</td>
+</tr>
+<tr>
+<td>存储器</td>
+<td>(\(r_b\),\(r_i\))</td>
+<td>M[R[\(r_b\)] + R[\(r_i\)]]</td>
+<td>变址寻址</td>
+<td>(%rdx,%rdx)</td>
+</tr>
+<tr>
+<td>存储器</td>
+<td>Imm(\(r_b\),\(r_i\))</td>
+<td>M[Imm + R[\(r_b\)] + R[\(r_i\)]]</td>
+<td>变址寻址</td>
+<td>0x08(%rdx,%rdx)</td>
+</tr>
+<tr>
+<td>存储器</td>
+<td>(,\(r_i\),s)</td>
+<td>M[R[\(r_i\)] * s]</td>
+<td>比例变址寻址</td>
+<td>(,%rdx,0x08)</td>
+</tr>
+<tr>
+<td>存储器</td>
+<td>Imm(,\(r_i\),s)</td>
+<td>M[Imm + R[\(r_i\)] * s]</td>
+<td>比例变址寻址</td>
+<td>0x08(,%rdx,0x08)</td>
+</tr>
+<tr>
+<td>存储器</td>
+<td>(\(r_b\),\(r_i\),s)</td>
+<td>M[R[\(r_b\)]+R[\(r_i\)] * s]</td>
+<td>比例变址寻址</td>
+<td>(%rdx,%rdx,0x08)</td>
+</tr>
+<tr>
+<td>存储器</td>
+<td>Imm(\(r_b\),\(r_i\),s)</td>
+<td>M[Imm + R[\(r_b\)]+R[\(r_i\)] * s]</td>
+<td>比例变址寻址</td>
+<td>0x08(%rdx,%rdx,0x08)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="数据传送指令">数据传送指令</h3>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>变体</th>
+<th>效果</th>
+<th>描述</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MOV S,D</td>
+<td>movb/movw/movl/movq</td>
+<td>D&lt;-S</td>
+<td>传送</td>
+<td></td>
+</tr>
+<tr>
+<td>MOVABSQ 1,R</td>
+<td></td>
+<td>R&lt;-1</td>
+<td>传送绝对的四字</td>
+<td></td>
+</tr>
+<tr>
+<td>MOVZ S,R</td>
+<td>movzbw/movzbl/movzwl/movzbq/movzwq</td>
+<td>R&lt;-零扩展(S)</td>
+<td>以零扩展进行传送</td>
+<td>目标只能是寄存器，后缀 bw  表示字节传送到字</td>
+</tr>
+<tr>
+<td>MOVS S,R</td>
+<td>movsbw/movsbl/movswl/movsbq/movswq/movslq</td>
+<td>R&lt;-符号扩展(S)</td>
+<td>以符号扩展进行传送</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>cltq</td>
+<td></td>
+<td>%rax&lt;-符号扩展(%eax)</td>
+<td>把 %eax 符号扩展到 %rax</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="压入和弹出栈数据">压入和弹出栈数据</h3>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>效果</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pushq S</td>
+<td>R[%rsp]&lt;-R[%rsp]-0x08; M[R[%rsp]]&lt;-R</td>
+<td>将四字压入栈</td>
+</tr>
+<tr>
+<td>popq D</td>
+<td>D&lt;-M[R[%rsp]];R[%rsp]&lt;-R[%rsp]+0x08</td>
+<td>将四字弹出栈</td>
+</tr>
+</tbody>
+</table>
+<h2 id="算数和逻辑操作">算数和逻辑操作</h2>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>指令</th>
+<th>效果</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>leaq</td>
+<td>leaq S,D</td>
+<td>D&lt;-&amp;S</td>
+<td>加载有效地址</td>
+</tr>
+<tr>
+<td>一元</td>
+<td>INC D</td>
+<td>D &lt;- D + 1</td>
+<td>加 1</td>
+</tr>
+<tr>
+<td></td>
+<td>DEC D</td>
+<td>D &lt;- D - 1</td>
+<td>减 1</td>
+</tr>
+<tr>
+<td></td>
+<td>NEG D</td>
+<td>D &lt;- -D</td>
+<td>取负</td>
+</tr>
+<tr>
+<td></td>
+<td>NOT D</td>
+<td>D &lt;- ~D</td>
+<td>取补</td>
+</tr>
+<tr>
+<td>二元</td>
+<td>ADD S,D</td>
+<td>D &lt;- D + S</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>SUB S,D</td>
+<td>D &lt;- D - S</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>IMUL S,D</td>
+<td>D &lt;- D * S</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>XOR  S,D</td>
+<td>D &lt;- D ^ S</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>OR S,D</td>
+<td>D &lt;- D ｜ S</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>AND S,D</td>
+<td>D &lt;- D &amp; S</td>
+<td></td>
+</tr>
+<tr>
+<td>位移</td>
+<td>SAL k,D</td>
+<td>D &lt;- D &laquo; k</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>SHL k,D</td>
+<td>D &lt;- D &laquo; k</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>SAR k,D</td>
+<td>D &lt;- D &raquo; k</td>
+<td><a href="/notes/notes/20200802165150-%E7%AE%97%E6%95%B0%E5%8F%B3%E7%A7%BB/">算数右移</a></td>
+</tr>
+<tr>
+<td></td>
+<td>SHR k,D</td>
+<td>D &lt;- D &raquo; k</td>
+<td><a href="/notes/notes/20200802165502-%E9%80%BB%E8%BE%91%E5%8F%B3%E7%A7%BB/">逻辑右移</a></td>
+</tr>
+<tr>
+<td>特殊</td>
+<td>imulq S</td>
+<td>R[%rdx]: R[%rax] &lt;- S x R[%rax]</td>
+<td>有符号全乘法（支持两个 64 位的数字全 128 位乘积，用两个寄存器表示 8 字）</td>
+</tr>
+<tr>
+<td></td>
+<td>mulq</td>
+<td>R[%rdx]: R[%rax] &lt;- S x R[%rax]</td>
+<td>无符号全乘法</td>
+</tr>
+<tr>
+<td></td>
+<td>cqto</td>
+<td>R[%rdx]: R[%rax] &lt;- 符号扩展(R[%rax])</td>
+<td>转换为 8 字</td>
+</tr>
+<tr>
+<td></td>
+<td>idivq S</td>
+<td>R[%rdx] &lt;- R[%rdx]: R[%rax] mod S</td>
+<td>有符号除法</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>R[%rdx] &lt;- (R[%rdx]: R[%rax]) / S</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>divq  S</td>
+<td>同上</td>
+<td>无符号除法</td>
+</tr>
+</tbody>
+</table>
+<p>leaq 将计算出的有效地址写入到目标寄存器，可以根据比例变址寻址进行复杂的数值计算。</p>
+<p><code>long t = x + 4 * y + 12 * z</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ASM" data-lang="ASM"><span style="color:#75715e">; x in %rdi, y in %rsi, z in %rdx
+</span><span style="color:#75715e"></span>
+scale:
+  <span style="color:#a6e22e">leaq</span> (%rdi,%rsi,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; x + 4*y
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">leaq</span> (%rdx,%rdx,<span style="color:#ae81ff">2</span>), %rdx   <span style="color:#75715e">; z + 2*z = 3 * z
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">leaq</span> (%rax,%rdx,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; (x + 4*y) + 4*(3*z) = x + 4*y + 12*z
+</span></code></pre></div><h2 id="控制">控制</h2>
+<p>测试数据值，然后根据测试的结果来改变控制流或者数据流。jump 指令可以指定控制应该被传递到程序的某个其他部分。</p>
+<h3 id="条件码">条件码</h3>
+<p>条件码寄存器存储了单个位的条件码来描述最近的算术或者逻辑操作的属性。常用的条件码有：</p>
+<ul>
+<li>CF：进位标志。最近的操作使最高位产生了进位。用来检查无符号操作的溢出。</li>
+<li>ZF：零标志。最近操作得出的结果为 0。</li>
+<li>SF：符号标志。最近的操作结果为负数。</li>
+<li>OF：溢出标志。最近的操作导致一个补码溢出 &ndash; 正溢出或负溢出。</li>
+</ul>
+<p>leaq 不改变任何条件码。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>最后写入者获胜 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20210615083500-%E6%9C%80%E5%90%8E%E5%86%99%E5%85%A5%E8%80%85%E8%8E%B7%E8%83%9C/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>最后写入者获胜</h1>
+    <time datetime="2021-06-15T08:35:00&#43;08:00">June 15, 2021</time>
+  </header>
+  <p>每个副本总是保存最新值，允许覆盖并丢弃旧值。假定每个写请求都最终同步到所有副本，只要我们有一个明确的方法来确定哪个写入时最新的，则副本可以最终收敛到相同的值。</p>
+<p>通过每个请求附加一个时间戳，选择最新即最大的时间戳，丢弃较早的写入。则为最后写入着获胜（last write wins，LWW）。</p>
+<h2 id="缺点">缺点</h2>
+<p>会造成数据丢失。</p>
+<h2 id="适用场景">适用场景</h2>
+<ul>
+<li>缓存系统。</li>
+</ul>
+<h2 id="确保安全无副作用">确保安全无副作用</h2>
+<p>唯一方法是只写入一次然后写入值视为不可变，这样旧避免对同一个主键的并发（覆盖）写。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

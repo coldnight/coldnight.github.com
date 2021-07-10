@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>模块化 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>模块化</h1>
+    <time datetime="2020-06-29T18:02:00&#43;08:00">June 29, 2020</time>
+  </header>
+  <h2 id="包-crate-和模块">包、crate 和模块</h2>
+<ul>
+<li>
+<p>Cargo.toml 表示一个包</p>
+<ul>
+<li>包含 0 个或 1 个库 crate（ <code>src/lib.rs</code> ）</li>
+<li>包含 0 个或多个可执行 crate （ <code>src/main.rs</code> <code>src/bin/*.rs</code> ）</li>
+<li>可以同时包含以上两种</li>
+</ul>
+</li>
+<li>
+<p>模块化系统</p>
+<ul>
+<li>
+<p>模块，一种组织代码和控制路径隐私的方法</p>
+<ul>
+<li>所有的项（函数，方法，结构体，枚举，模块和常量）默认私有</li>
+<li>不允许使用私有的子模块的代码</li>
+<li>可以使用父模块和同级模块的代码</li>
+</ul>
+</li>
+<li>
+<p>路径，一种命名项的方法</p>
+</li>
+<li>
+<p><code>use</code> , 一个将路径带到当前作用域的关键字</p>
+</li>
+<li>
+<p><code>pub</code> ，一个将项公开的关键字</p>
+</li>
+<li>
+<p><code>as</code> ，一个将带到当前作用域项重命名的关键字</p>
+</li>
+<li>
+<p><code>super</code> , 一个相当于文件系统里 <code>..</code> 作用的关键字</p>
+</li>
+<li>
+<p><code>*</code> ，通配符用于使用制定路径下的所有项</p>
+</li>
+<li>
+<p><code>pub use</code> 用于重新暴露可以访问的模块</p>
+</li>
+<li>
+<p>模块可以放在一个文件，也可以按照一定规则拆分到不同文件下</p>
+</li>
+<li>
+<p>使用同一个 <code>use</code> 清理嵌套的 <code>use</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::cmp::Ordering;
+<span style="color:#66d9ef">use</span> std::io;
+
+<span style="color:#66d9ef">use</span> std::{cmp::Ordering, io};
+
+<span style="color:#66d9ef">use</span> std::io;
+<span style="color:#66d9ef">use</span> std::io::Write;
+
+<span style="color:#66d9ef">use</span> std::{self, Write};
+</code></pre></div></li>
+</ul>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">mod</span> sound {
+  <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> instrument {
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> woodwind {
+      <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clarinet</span>() {
+        <span style="color:#66d9ef">super</span>::breathe_in();
+      }
+    }
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">breathe_in</span>() {
+
+    }
+  }
+
+  <span style="color:#66d9ef">mod</span> voice {
+
+  }
+}
+
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+
+   <span style="color:#75715e">// 绝对路径以 crate 开始，crate 表示根
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">crate</span>::sound::instrument::woodwind::clarinet();
+
+   <span style="color:#75715e">// 相对路径
+</span><span style="color:#75715e"></span>   sound::instrument::woodwind::clarinet();
+}
+</code></pre></div><p>上面例子 <code>sound</code> 模块并非公开，但是由于 <code>main</code> 和 <code>sound</code> 定义在同一模块下，所以允许在 <code>main</code> 中引用 <code>sound</code> 。</p>
+</li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>

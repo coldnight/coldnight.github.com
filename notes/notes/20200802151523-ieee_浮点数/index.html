@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>IEEE 浮点数 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="http://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="http://www.linuxzen.com/notes/notes/20200802151523-ieee_%E6%B5%AE%E7%82%B9%E6%95%B0/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>IEEE 浮点数</h1>
+    <time datetime="2020-08-02T15:15:00&#43;08:00">August 02, 2020</time>
+  </header>
+  <h2 id="浮点数小数表示形式">浮点数小数表示形式</h2>
+<p><code>.0111</code> = \(0x2^{-1}+2^{-2}+2^{-3}+2^{-4}\)</p>
+<h2 id="ieee-浮点数表示形式">IEEE 浮点数表示形式</h2>
+<p>\[ V=(-1)^s X M X 2^E \]</p>
+<ul>
+<li><code>s = 0</code> 表示负数， <code>s = 1</code> 表示正数</li>
+<li>M 是二进制表示的小数</li>
+<li>E 是阶码</li>
+</ul>
+<h2 id="浮点数二进制组成">浮点数二进制组成</h2>
+<ul>
+<li>一个单独符号位 s 表吗符合</li>
+<li>k 位阶码字段 exp 编码阶码 E</li>
+<li>n 位小数字段 frac 编码尾数 M</li>
+</ul>
+<h2 id="两种常见的格式">两种常见的格式</h2>
+<ol>
+<li><code>float</code>
+<ul>
+<li>s = 1</li>
+<li>k = 8</li>
+<li>n = 23</li>
+</ul>
+</li>
+<li><code>double</code>
+<ul>
+<li>s = 1</li>
+<li>k = 11</li>
+<li>n = 52</li>
+</ul>
+</li>
+</ol>
+<h3 id="三种计算方式">三种计算方式</h3>
+<p>前置的一些值</p>
+<ul>
+<li>e 是 exp 位表示的无符号数</li>
+<li>f 是 frac 位表示的小数</li>
+<li>\(Bias = 2^{k-1} -1\)</li>
+</ul>
+<h3 id="规格化的值">规格化的值</h3>
+<ul>
+<li>规则：阶码字段 exp 的位模式即不全为 0，也不全为 1（单精度 255，双精度 2047）</li>
+<li>计算方式
+<ul>
+<li>\(E = e - Bias\)</li>
+<li>$M = 1 + f $</li>
+</ul>
+</li>
+</ul>
+<h3 id="非规格化的值">非规格化的值</h3>
+<ul>
+<li>规则：阶码字段 exp 全是 0（用于表示 0）</li>
+<li>计算方式
+<ul>
+<li>\(E = 1 - Bias\)</li>
+<li>\(M = f\)</li>
+</ul>
+</li>
+</ul>
+<p>可以表示 +0 和 -0。</p>
+<h3 id="特殊值">特殊值</h3>
+<ul>
+<li>阶码字段 exp 全是 1
+<ul>
+<li>小数字段全 0 表示：无穷（s = 0 负无穷，s = 1 正无穷）</li>
+<li>小数字段非全 0 表示：NaN（Not a Number）</li>
+</ul>
+</li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>
