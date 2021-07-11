@@ -6,7 +6,45 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 11 Jul 2021 17:11:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Jul 2021 07:22:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>动态再平衡策略</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712072221-%E5%8A%A8%E6%80%81%E5%86%8D%E5%B9%B3%E8%A1%A1%E7%AD%96%E7%95%A5/</link>
+      <pubDate>Mon, 12 Jul 2021 07:22:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712072221-%E5%8A%A8%E6%80%81%E5%86%8D%E5%B9%B3%E8%A1%A1%E7%AD%96%E7%95%A5/</guid>
+      <description>为什么不用取模？ 节点数发生变化时，会导致很多关键字需要做节点数据迁移，会大大增加再平衡的成本。
+固定数量的分区 创建远超实际节点数的分区数量，然后再为每个节点分配多个分区。
+新加入节点 从现有的节点上匀走几个分区，直到分区再次达到平衡。
+删除节点 采取和上面相反的过程。
+优点  分区总数量不变，也不会改变关键字的分区映射关系。 唯一需要调整的分区与节点的映射关系。 分区和节点的映射关系调整可以逐步完成。  缺点  分区数量需要数据库创建时确定，并不能更改  动态分区 分区数据增长超过一个可配参数的阈值（HBase 10GB），它就拆分为两个分区，相反则合并相邻的分区。过程类似B-trees 的分裂操作。
+每个分区总是分配一个节点，一个节点可以承载多个分区。
+分区分裂 将其中的一半转移到其他节点以平衡负载。
+优点  分区数量可以自动适配数据总量。 空数据库可以配置初始分区解决少量数据集就一个分区避免系统热点（HBase 和 MongoDB）  按节点比例分区 使分区数与集群节点数成正比关系（Cassandra 和 Ketama），就是每个节点具有固定数量的分区。 当节点数不变时，每个分区的大小与数据集大小保持正比增长关系。
+新加入节点 随机选择固定数量的现有分区进行分裂，然后拿走这些分区的一半数据量。
+优点  较大的数据可以使每个分区的大小保持稳定。  缺点  存在不公平分裂。  </description>
+    </item>
+    
+    <item>
+      <title>基于词条的二级索引分区</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712071502-%E5%9F%BA%E4%BA%8E%E8%AF%8D%E6%9D%A1%E7%9A%84%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95%E5%88%86%E5%8C%BA/</link>
+      <pubDate>Mon, 12 Jul 2021 07:15:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712071502-%E5%9F%BA%E4%BA%8E%E8%AF%8D%E6%9D%A1%E7%9A%84%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95%E5%88%86%E5%8C%BA/</guid>
+      <description>对所有数据构建全局索引，为了避免瓶颈，对索引本身进行分区，比如：
+ 将 a～r 开始的关键字放在分区 0 将 s～z 开始的关键字放在分区 1  优点  可以支持高效的区间查询 读取更为高效  缺点  写入速度慢，会引入明显的写入放大 写入逻辑复杂 难以保证索引时刻最新，需要跨多个相关分区的分布式事务支持  实践 对全局二级索引的更新往往都是异步的。</description>
+    </item>
+    
+    <item>
+      <title>基于文档分区的二级索引</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712071105-%E5%9F%BA%E4%BA%8E%E6%96%87%E6%A1%A3%E5%88%86%E5%8C%BA%E7%9A%84%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/</link>
+      <pubDate>Mon, 12 Jul 2021 07:11:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712071105-%E5%9F%BA%E4%BA%8E%E6%96%87%E6%A1%A3%E5%88%86%E5%8C%BA%E7%9A%84%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95/</guid>
+      <description>每个分区各自维护自身的二级索引，读取时需要对所有分区节点进行查询然后对结果进行合并。
+这种方法虽然二级索引查询代价高，但依然广泛用于实践：MongoDB、Riak、Cassandra、ElasticSearch、SolrCloud 和 VoltDB。</description>
+    </item>
+    
     <item>
       <title>基于关键字哈希值分区</title>
       <link>https://www.linuxzen.com/notes/notes/20210711171149-%E5%9F%BA%E4%BA%8E%E5%85%B3%E9%94%AE%E5%AD%97%E5%93%88%E5%B8%8C%E5%80%BC%E5%88%86%E5%8C%BA/</link>
@@ -58,7 +96,9 @@
 目标 将数据和查询负载均匀的分步在所有节点上。如果分布不均匀会出现负载倾斜和系统热点。
 数据分区与数据复制 结合数据复制每个分区在多个节点都有副本，进行冗余提高可用性。
 键-值数据的分区 避免系统热点最简单的方法是将记录随机分配给所有节点上，缺点是：没办法知道数据保存在哪个节点上，所以读取时需要查询所有节点。
-基于关键字区间分区 基于关键字哈希值分区 负载倾斜与系统热点 </description>
+基于关键字区间分区 基于关键字哈希值分区 负载倾斜与系统热点 分区与二级索引 二级索引不能唯一标识一条记录，比如查询颜色为红色的汽车。二级索引带来的主要挑战是它们不能规整的映射到分区中。
+有两种方法来支持对二级索引进行分区：
+ 基于文档分区的二级索引 基于词条的二级索引分区  分区再平衡  动态再平衡策略 自动与手动再平衡操作  请求路由 策略  客户端可以连接任意节点，并由节点做转发不在当前节点的分区请求。 由路由层来充当分区感知的负载均衡器。 客户端直接感知分区和节点分配关系，客户端直连目标节点。  做出路由决策的组件  Zookeeper gossip 协议  </description>
     </item>
     
     <item>
