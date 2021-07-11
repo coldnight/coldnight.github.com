@@ -15,7 +15,7 @@ FEED_ALL_ATOM = "feeds/all.atom.xml"
 DISPLAY_PAGES_ON_MENU = False
 
 MENUITEMS = [
-    ('Notes', '/static/notes/articles/notes/')
+    ('Roam Research Notes', '/notes/articles/notes/')
 ]
 
 DISPLAY_PAGES_ON_RIGHT = True
@@ -38,7 +38,6 @@ COPY_YEAR = date.today().strftime("%Y")
 STATIC_PATHS = [
     "static/upload",
     "static/css",
-    "static/notes",
     "extra/favicon.ico",
     "extra/robots.txt",
     "extra/bdsitemap.txt",
@@ -46,21 +45,7 @@ STATIC_PATHS = [
     # "extra/404.html",
 ]
 
-
-
-
-def add_notes_dir_to_static(path):
-    import os
-    for pth in os.listdir(path):
-        full_path = os.path.join(path, pth)
-        st_path = full_path[len('content/'):]
-        if os.path.isdir(full_path):
-            STATIC_PATHS.append(st_path)
-            add_notes_dir_to_static(full_path)
-
-
-add_notes_dir_to_static('content/static/notes')
-print(STATIC_PATHS)
+OUTPUT_RETENTION = ["notes"]
 
 # STATIC_SAVE_AS = "static/upload/"
 EXTRA_PATH_METADATA = {
