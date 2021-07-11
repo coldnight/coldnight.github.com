@@ -53,12 +53,14 @@ def add_notes_dir_to_static(path):
     import os
     for pth in os.listdir(path):
         full_path = os.path.join(path, pth)
-        if os.path.isdir(pth):
-            STATIC_PATHS.append(full_path[len('content/'):])
+        st_path = full_path[len('content/'):]
+        if os.path.isdir(full_path):
+            STATIC_PATHS.append(st_path)
             add_notes_dir_to_static(full_path)
 
 
 add_notes_dir_to_static('content/static/notes')
+print(STATIC_PATHS)
 
 # STATIC_SAVE_AS = "static/upload/"
 EXTRA_PATH_METADATA = {
