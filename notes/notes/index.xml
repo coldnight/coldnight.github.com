@@ -6,7 +6,61 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 16 Jun 2021 14:46:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 11 Jul 2021 17:11:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于关键字哈希值分区</title>
+      <link>https://www.linuxzen.com/notes/notes/20210711171149-%E5%9F%BA%E4%BA%8E%E5%85%B3%E9%94%AE%E5%AD%97%E5%93%88%E5%B8%8C%E5%80%BC%E5%88%86%E5%8C%BA/</link>
+      <pubDate>Sun, 11 Jul 2021 17:11:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210711171149-%E5%9F%BA%E4%BA%8E%E5%85%B3%E9%94%AE%E5%AD%97%E5%93%88%E5%B8%8C%E5%80%BC%E5%88%86%E5%8C%BA/</guid>
+      <description>可以基于关键值哈希函数的方式分区，解决基于关键字区间分区数据倾斜与热点的问题。一个好的哈希函数可以处理数据倾斜并使其均匀分布，并且不需要在加密方面很强。
+优点 这种方法可以很好的将关键字均匀分配到多个分区中。
+缺点 丧失良好的区间查询性能。即使关键字相邻，也会分布在不同的分区上。</description>
+    </item>
+    
+    <item>
+      <title>基于关键字区间分区</title>
+      <link>https://www.linuxzen.com/notes/notes/20210711154220-%E5%9F%BA%E4%BA%8E%E5%85%B3%E9%94%AE%E5%AD%97%E5%8C%BA%E9%97%B4%E5%88%86%E5%8C%BA/</link>
+      <pubDate>Sun, 11 Jul 2021 15:42:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210711154220-%E5%9F%BA%E4%BA%8E%E5%85%B3%E9%94%AE%E5%AD%97%E5%8C%BA%E9%97%B4%E5%88%86%E5%8C%BA/</guid>
+      <description>为每个分区分配一段连续的关键字或者关键字区间范围。</description>
+    </item>
+    
+    <item>
+      <title>系统热点</title>
+      <link>https://www.linuxzen.com/notes/notes/20210711153934-%E7%B3%BB%E7%BB%9F%E7%83%AD%E7%82%B9/</link>
+      <pubDate>Sun, 11 Jul 2021 15:39:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210711153934-%E7%B3%BB%E7%BB%9F%E7%83%AD%E7%82%B9/</guid>
+      <description>负载倾斜会导致所有负载都集中在一个分区节点上，这种负载严重不成比例的分区即称为系统热点。
+应用层解决 即使通过基于关键字哈希值分区和基于关键字区间分区等策略解决了大部分热点问题，但是极端情况下依然会出现热点，比如社交媒体的热点时间都会导致热点，只能通过应用层解决，一个简单的技术：
+ 关键字开头或结尾添加一个随机数，两位随机数就可以将关键字的写操作分布到 100 个不同的分区上； 读取就必须从所有的 1000 个关键字中读取数据然后进行合并； 通过额外的元数据标记哪些关键字进行了特殊处理。  由于对读取造成的额外开销，所以通常只有对少量的热点关键词附加随机数才有意义。</description>
+    </item>
+    
+    <item>
+      <title>负载倾斜</title>
+      <link>https://www.linuxzen.com/notes/notes/20210711153606-%E8%B4%9F%E8%BD%BD%E5%80%BE%E6%96%9C/</link>
+      <pubDate>Sun, 11 Jul 2021 15:36:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210711153606-%E8%B4%9F%E8%BD%BD%E5%80%BE%E6%96%9C/</guid>
+      <description>分区不均匀时出现某些分区节点比其他分区承担更多的数据量和查询负载。倾斜会导致分区效率严重下降。</description>
+    </item>
+    
+    <item>
+      <title>数据分区</title>
+      <link>https://www.linuxzen.com/notes/notes/20210711153015-%E6%95%B0%E6%8D%AE%E5%88%86%E5%8C%BA/</link>
+      <pubDate>Sun, 11 Jul 2021 15:30:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210711153015-%E6%95%B0%E6%8D%AE%E5%88%86%E5%8C%BA/</guid>
+      <description>每一条数据都属于特定的分区，每个分区都是一个小型数据库。
+目的 提高扩展性，分散大的数据集和查询负载。
+目标 将数据和查询负载均匀的分步在所有节点上。如果分布不均匀会出现负载倾斜和系统热点。
+数据分区与数据复制 结合数据复制每个分区在多个节点都有副本，进行冗余提高可用性。
+键-值数据的分区 避免系统热点最简单的方法是将记录随机分配给所有节点上，缺点是：没办法知道数据保存在哪个节点上，所以读取时需要查询所有节点。
+基于关键字区间分区 基于关键字哈希值分区 负载倾斜与系统热点 </description>
+    </item>
+    
     <item>
       <title>syn</title>
       <link>https://www.linuxzen.com/notes/notes/20210616144616-syn/</link>
@@ -455,7 +509,7 @@ LSM-Tree 基本思想：保存在后台并合并的排序字符串表：SSTables
       <description>数据系统基础 可靠、可扩展与可维护的应用系统 数据模型与查询语言 数据存储与检索 数据编码与演化 分布式数据系统 目的：扩展性、容错和高可用、延迟考虑（多机房）
 扩展：
  垂直扩展：提升单机性能 水平扩展：无共享结构，由软件实现核心逻辑  复制与分区：
- 复制：多节点冗余 分区：数据库拆分 分片：分区分配给不同的节点  数据复制 </description>
+ 复制：多节点冗余 分区：数据库拆分 分片：分区分配给不同的节点  数据复制 数据分区 </description>
     </item>
     
     <item>
