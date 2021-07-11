@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Taking Smart Notes With Org-mode</title>
-    <link>http://www.linuxzen.com/notes/</link>
+    <link>https://www.linuxzen.com/notes/</link>
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 16 Jun 2021 14:46:00 +0800</lastBuildDate><atom:link href="http://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Jun 2021 14:46:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>syn</title>
-      <link>http://www.linuxzen.com/notes/notes/20210616144616-syn/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210616144616-syn/</link>
       <pubDate>Wed, 16 Jun 2021 14:46:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210616144616-syn/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210616144616-syn/</guid>
       <description> syn::Span 代码位置  </description>
     </item>
     
     <item>
       <title>quote</title>
-      <link>http://www.linuxzen.com/notes/notes/20210616144334-quote/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210616144334-quote/</link>
       <pubDate>Wed, 16 Jun 2021 14:43:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210616144334-quote/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210616144334-quote/</guid>
       <description>循环展开 let fields = vec![ syn::Ident::new(&amp;#34;foo&amp;#34;, syn::Span::call_site()), syn::Ident::new(&amp;#34;bar&amp;#34;, syn::Span::call_site()), ]; let token = quote!{ #(#fields),* }; // -&amp;gt; foo,bar </description>
     </item>
     
     <item>
       <title>Rust 属性宏解析</title>
-      <link>http://www.linuxzen.com/notes/notes/20210616141500-rust_%E5%B1%9E%E6%80%A7%E5%AE%8F%E8%A7%A3%E6%9E%90/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210616141500-rust_%E5%B1%9E%E6%80%A7%E5%AE%8F%E8%A7%A3%E6%9E%90/</link>
       <pubDate>Wed, 16 Jun 2021 14:15:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210616141500-rust_%E5%B1%9E%E6%80%A7%E5%AE%8F%E8%A7%A3%E6%9E%90/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210616141500-rust_%E5%B1%9E%E6%80%A7%E5%AE%8F%E8%A7%A3%E6%9E%90/</guid>
       <description>准备 解析宏通过两个 crate 进行：
  quote = &amp;ldquo;1.0&amp;rdquo; syn = &amp;ldquo;1.0&amp;rdquo;  Derive 属性宏 探讨 Rust 宏系统中带属性（Attributes）的 Derive 宏的几种变体，以及如何进行解析。
 属性宏的变体   函数调用
@@ -41,10 +41,10 @@
     
     <item>
       <title>Happens-before 关系和并发</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615215426-happens_before_%E5%85%B3%E7%B3%BB%E5%92%8C%E5%B9%B6%E5%8F%91/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615215426-happens_before_%E5%85%B3%E7%B3%BB%E5%92%8C%E5%B9%B6%E5%8F%91/</link>
       <pubDate>Tue, 15 Jun 2021 21:54:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615215426-happens_before_%E5%85%B3%E7%B3%BB%E5%92%8C%E5%B9%B6%E5%8F%91/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615215426-happens_before_%E5%85%B3%E7%B3%BB%E5%92%8C%E5%B9%B6%E5%8F%91/</guid>
       <description>确定前后关系  服务器为每个主键维护一个版本号，每当主键新值写入时递增版本号，并将新版本号与写入值一起保存。 当客户端读取主键时，服务器将返回所有（未被覆盖的）当前值以及最新的版本号。且要求写入之前，客户端必须先发送读请求。 客户端写主键，写请求必须包含之前读到的版本号，读到的值和新值合并后的集合。写请求的响应可以像读操作一样，会返回所有当前值，这样可以一步步链接起多个写入的值。 当服务器收到带有特定版本号的写入时，覆盖该版本号或者更低版本的所有值，但必须保存更高版本号所有值。  当写请求包含了前一次读取的版本号时，意味着修改时基于以前的状态。否则它将与所有的其他写入同时进行，不会覆盖任何已有值，其传入的值将包含在后续读请求的返回值列表中。
 合并同时写入的值 上面算法不会导致数据丢失，但是客户端需要做一些额外的工作：如果多个操作并发发生，则客户端必须通过合并并发写入的值来继承旧值。同时删除需要特殊的墓碑标记，防止被合并回去。
 版本矢量 每个副本和每个主键均定义一个版本号，每个副本在处理时增加自己的版本号，并跟踪从其他副本看到的版本号。通过这些信息来指示要覆盖那些值，该保留那些并发值。
@@ -53,28 +53,28 @@
     
     <item>
       <title>检测并发写</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615213433-%E6%A3%80%E6%B5%8B%E5%B9%B6%E5%8F%91%E5%86%99/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615213433-%E6%A3%80%E6%B5%8B%E5%B9%B6%E5%8F%91%E5%86%99/</link>
       <pubDate>Tue, 15 Jun 2021 21:34:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615213433-%E6%A3%80%E6%B5%8B%E5%B9%B6%E5%8F%91%E5%86%99/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615213433-%E6%A3%80%E6%B5%8B%E5%B9%B6%E5%8F%91%E5%86%99/</guid>
       <description>LWW：最后写入者获胜 Happens-before 关系和并发 </description>
     </item>
     
     <item>
       <title>sloppy quorum</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615212500-sloppy_quorum/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615212500-sloppy_quorum/</link>
       <pubDate>Tue, 15 Jun 2021 21:25:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615212500-sloppy_quorum/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615212500-sloppy_quorum/</guid>
       <description>当节点不能满足 \(w + r &amp;gt; n\) 时将写请求暂时写入一些可访问的临时节点中，一旦网络问题得到交接，临时节点需要把接收的写入全部发送到原始主节点上。这就是所谓的数据回传（或者暗示移交）。</description>
     </item>
     
     <item>
       <title>Quorum 一致性</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615211745-quorum_%E4%B8%80%E8%87%B4%E6%80%A7/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615211745-quorum_%E4%B8%80%E8%87%B4%E6%80%A7/</link>
       <pubDate>Tue, 15 Jun 2021 21:17:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615211745-quorum_%E4%B8%80%E8%87%B4%E6%80%A7/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615211745-quorum_%E4%B8%80%E8%87%B4%E6%80%A7/</guid>
       <description>确定读写成功 确定读写节点在多少节点成功才可以认为写入成功：需要保证读取时至少一个包含新值。
 n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至少查询 \(r\) 个节点，则只要 \(w + r &amp;gt; n\) ，读取的节点中一定会包含最新值。
  \(w\) 仲裁写（法定票数写） \(r\) 仲裁读（法定票说读）  一般 \(n\) 设置为奇数： \(w=r=(n+1)/2\) （向上取整）。
@@ -84,10 +84,10 @@ n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至�
     
     <item>
       <title>无主节点复制</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615210219-%E6%97%A0%E4%B8%BB%E8%8A%82%E7%82%B9%E5%A4%8D%E5%88%B6/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615210219-%E6%97%A0%E4%B8%BB%E8%8A%82%E7%82%B9%E5%A4%8D%E5%88%B6/</link>
       <pubDate>Tue, 15 Jun 2021 21:02:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615210219-%E6%97%A0%E4%B8%BB%E8%8A%82%E7%82%B9%E5%A4%8D%E5%88%B6/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615210219-%E6%97%A0%E4%B8%BB%E8%8A%82%E7%82%B9%E5%A4%8D%E5%88%B6/</guid>
       <description>没有主节点，允许任何节点接受来自客户端的写请求。
 实现方式  客户端直接将其写请求发送到多节点 一个协调者代表客户端进行写入，与主节点的数据库不同，协调者并不负责写入顺序的维护。  节点失效时写入数据库 客户端将写请求并行发送给三个节点，两个可用节点接受写请求，而不可用副本则无法处理该请求。
 现在失效的节点重新上线，客户端可能会读取到旧的值。
@@ -97,46 +97,46 @@ n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至�
     
     <item>
       <title>全部-至-全部型拓扑</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615084309-%E5%85%A8%E9%83%A8_%E8%87%B3_%E5%85%A8%E9%83%A8%E5%9E%8B%E6%8B%93%E6%89%91/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615084309-%E5%85%A8%E9%83%A8_%E8%87%B3_%E5%85%A8%E9%83%A8%E5%9E%8B%E6%8B%93%E6%89%91/</link>
       <pubDate>Tue, 15 Jun 2021 08:43:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615084309-%E5%85%A8%E9%83%A8_%E8%87%B3_%E5%85%A8%E9%83%A8%E5%9E%8B%E6%8B%93%E6%89%91/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615084309-%E5%85%A8%E9%83%A8_%E8%87%B3_%E5%85%A8%E9%83%A8%E5%9E%8B%E6%8B%93%E6%89%91/</guid>
       <description>最常见的拓扑结构，提供更好的容错。每个节点从其他所有节点同步写入。</description>
     </item>
     
     <item>
       <title>星型拓扑</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615084143-%E6%98%9F%E5%9E%8B%E6%8B%93%E6%89%91/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615084143-%E6%98%9F%E5%9E%8B%E6%8B%93%E6%89%91/</link>
       <pubDate>Tue, 15 Jun 2021 08:41:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615084143-%E6%98%9F%E5%9E%8B%E6%8B%93%E6%89%91/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615084143-%E6%98%9F%E5%9E%8B%E6%8B%93%E6%89%91/</guid>
       <description>通过指定一个根节点，根结点将所有的写操作转发给其他所有节点。</description>
     </item>
     
     <item>
       <title>环形拓扑</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615084010-%E7%8E%AF%E5%BD%A2%E6%8B%93%E6%89%91/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615084010-%E7%8E%AF%E5%BD%A2%E6%8B%93%E6%89%91/</link>
       <pubDate>Tue, 15 Jun 2021 08:40:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615084010-%E7%8E%AF%E5%BD%A2%E6%8B%93%E6%89%91/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615084010-%E7%8E%AF%E5%BD%A2%E6%8B%93%E6%89%91/</guid>
       <description>每个节点接收来自前序节点的写入，并将这些写入（加上字节的写入）转发后后序节点。同时通过唯一 ID 防止无限循环。</description>
     </item>
     
     <item>
       <title>自定义冲突解决逻辑</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615083806-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E9%80%BB%E8%BE%91/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615083806-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E9%80%BB%E8%BE%91/</link>
       <pubDate>Tue, 15 Jun 2021 08:38:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615083806-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E9%80%BB%E8%BE%91/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615083806-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E9%80%BB%E8%BE%91/</guid>
       <description>写入时执行 读取时执行 </description>
     </item>
     
     <item>
       <title>最后写入者获胜</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615083500-%E6%9C%80%E5%90%8E%E5%86%99%E5%85%A5%E8%80%85%E8%8E%B7%E8%83%9C/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615083500-%E6%9C%80%E5%90%8E%E5%86%99%E5%85%A5%E8%80%85%E8%8E%B7%E8%83%9C/</link>
       <pubDate>Tue, 15 Jun 2021 08:35:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615083500-%E6%9C%80%E5%90%8E%E5%86%99%E5%85%A5%E8%80%85%E8%8E%B7%E8%83%9C/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615083500-%E6%9C%80%E5%90%8E%E5%86%99%E5%85%A5%E8%80%85%E8%8E%B7%E8%83%9C/</guid>
       <description>每个副本总是保存最新值，允许覆盖并丢弃旧值。假定每个写请求都最终同步到所有副本，只要我们有一个明确的方法来确定哪个写入时最新的，则副本可以最终收敛到相同的值。
 通过每个请求附加一个时间戳，选择最新即最大的时间戳，丢弃较早的写入。则为最后写入着获胜（last write wins，LWW）。
 缺点 会造成数据丢失。
@@ -145,10 +145,10 @@ n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至�
     
     <item>
       <title>收敛于一致的状态</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615083221-%E6%94%B6%E6%95%9B%E4%BA%8E%E4%B8%80%E8%87%B4%E7%9A%84%E7%8A%B6%E6%80%81/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615083221-%E6%94%B6%E6%95%9B%E4%BA%8E%E4%B8%80%E8%87%B4%E7%9A%84%E7%8A%B6%E6%80%81/</link>
       <pubDate>Tue, 15 Jun 2021 08:32:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615083221-%E6%94%B6%E6%95%9B%E4%BA%8E%E4%B8%80%E8%87%B4%E7%9A%84%E7%8A%B6%E6%80%81/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615083221-%E6%94%B6%E6%95%9B%E4%BA%8E%E4%B8%80%E8%87%B4%E7%9A%84%E7%8A%B6%E6%80%81/</guid>
       <description>多个主节点看到的执行顺序不一致，病了同时按照各自看到的写入顺序执行，那么数据库最终将处于不一致状态。
 数据库必须以一种趋同的方式来解决冲突。
 可能的解决方式  给每个写入分配唯一的 ID，如基于时间戳的最后写入者获胜。 为每个主节点分配一个唯一 ID，序列号高的优先于序列号低的主节点，可能导致数据丢失 以某种方式合并值，如按照字母顺序拼接在一起 利用预定义号的格式记录，然后依靠应用层逻辑，事后解决冲突（可能会提示用户）  </description>
@@ -156,10 +156,10 @@ n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至�
     
     <item>
       <title>避免冲突</title>
-      <link>http://www.linuxzen.com/notes/notes/20210615082908-%E9%81%BF%E5%85%8D%E5%86%B2%E7%AA%81/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210615082908-%E9%81%BF%E5%85%8D%E5%86%B2%E7%AA%81/</link>
       <pubDate>Tue, 15 Jun 2021 08:29:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210615082908-%E9%81%BF%E5%85%8D%E5%86%B2%E7%AA%81/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210615082908-%E9%81%BF%E5%85%8D%E5%86%B2%E7%AA%81/</guid>
       <description>应用层保证对特定记录的写请求总是通过同一个主节点，来避免发生些冲突。
 如用户更新自己的配置总是路由到特定的数据中心。
 缺点 特定数据中心发生故障不得不改变事先指定的主节点。</description>
@@ -167,10 +167,10 @@ n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至�
     
     <item>
       <title>前缀一致读</title>
-      <link>http://www.linuxzen.com/notes/notes/20210614211632-%E5%89%8D%E7%BC%80%E4%B8%80%E8%87%B4%E8%AF%BB/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210614211632-%E5%89%8D%E7%BC%80%E4%B8%80%E8%87%B4%E8%AF%BB/</link>
       <pubDate>Mon, 14 Jun 2021 21:16:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210614211632-%E5%89%8D%E7%BC%80%E4%B8%80%E8%87%B4%E8%AF%BB/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210614211632-%E5%89%8D%E7%BC%80%E4%B8%80%E8%87%B4%E8%AF%BB/</guid>
       <description>对于一系列按照某个顺序发生的写请求，同时读取这些内容时也会按照当时写入的顺序。
 场景 分区数据库中出现的一个特殊问题。
 正常对话：
@@ -184,10 +184,10 @@ P: C小姐，你能看到多远的文莱？
     
     <item>
       <title>单调读一致性</title>
-      <link>http://www.linuxzen.com/notes/notes/20210614210918-%E5%8D%95%E8%B0%83%E8%AF%BB%E4%B8%80%E8%87%B4%E6%80%A7/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210614210918-%E5%8D%95%E8%B0%83%E8%AF%BB%E4%B8%80%E8%87%B4%E6%80%A7/</link>
       <pubDate>Mon, 14 Jun 2021 21:09:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210614210918-%E5%8D%95%E8%B0%83%E8%AF%BB%E4%B8%80%E8%87%B4%E6%80%A7/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210614210918-%E5%8D%95%E8%B0%83%E8%AF%BB%E4%B8%80%E8%87%B4%E6%80%A7/</guid>
       <description>是一种比强一致性弱但是比最终一致性效应强的保证，单调读保证：
 如果某个用户依次进行多次读取，则绝不会看到回滚的现象，即在读取到较新的值之后又发生读旧值的情况。
 场景 用户刷新网络，读请求被随机路由到某个从节点，先后从两个不同的从节点读取到了不同的内容，比如看到一个新添加的评论一次出现，一次消失。
@@ -196,19 +196,19 @@ P: C小姐，你能看到多远的文莱？
     
     <item>
       <title>强一致性</title>
-      <link>http://www.linuxzen.com/notes/notes/20210614210953-%E5%BC%BA%E4%B8%80%E8%87%B4%E6%80%A7/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210614210953-%E5%BC%BA%E4%B8%80%E8%87%B4%E6%80%A7/</link>
       <pubDate>Mon, 14 Jun 2021 21:09:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210614210953-%E5%BC%BA%E4%B8%80%E8%87%B4%E6%80%A7/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210614210953-%E5%BC%BA%E4%B8%80%E8%87%B4%E6%80%A7/</guid>
       <description></description>
     </item>
     
     <item>
       <title>读写一致性</title>
-      <link>http://www.linuxzen.com/notes/notes/20210614210755-%E8%AF%BB%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210614210755-%E8%AF%BB%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/</link>
       <pubDate>Mon, 14 Jun 2021 21:07:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210614210755-%E8%AF%BB%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210614210755-%E8%AF%BB%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/</guid>
       <description>也称为「写后读一致性」，解决用户主节点写入后立马从从节点读取不到到情况。只能解决单用户的一致性，但是解决不了多用户的一致性。
 场景 用户新提交了评论，但是自己看不到，需要等一会才能看到。
 解决方案 记录更新时间戳，在指定时间内从主节点读取。</description>
@@ -216,20 +216,20 @@ P: C小姐，你能看到多远的文莱？
     
     <item>
       <title>最终一致性效应</title>
-      <link>http://www.linuxzen.com/notes/notes/20210614210005-%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%E6%95%88%E5%BA%94/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210614210005-%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%E6%95%88%E5%BA%94/</link>
       <pubDate>Mon, 14 Jun 2021 21:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210614210005-%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%E6%95%88%E5%BA%94/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210614210005-%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%E6%95%88%E5%BA%94/</guid>
       <description>主从异步复制的情况下会导致数据库中出现明显不一致，此时从不同的从节点读取就会得到不一样的结果。这种不一致只是一个暂时状态，如果停止写入数据，经过一段时间之后，从节点最终会赶上并与主节点保持一致。
 这种效应被称为最终一致性。</description>
     </item>
     
     <item>
       <title>复制滞后问题</title>
-      <link>http://www.linuxzen.com/notes/notes/20210614205621-%E5%A4%8D%E5%88%B6%E6%BB%9E%E5%90%8E%E9%97%AE%E9%A2%98/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210614205621-%E5%A4%8D%E5%88%B6%E6%BB%9E%E5%90%8E%E9%97%AE%E9%A2%98/</link>
       <pubDate>Mon, 14 Jun 2021 20:56:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210614205621-%E5%A4%8D%E5%88%B6%E6%BB%9E%E5%90%8E%E9%97%AE%E9%A2%98/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210614205621-%E5%A4%8D%E5%88%B6%E6%BB%9E%E5%90%8E%E9%97%AE%E9%A2%98/</guid>
       <description>异步同步的情况下出出现最终一致性效应复制滞后会导致：用户提交了修改到主节点，但是从从节点没有读取到最新的变更，比如看不到自己提交的评论等。
 读写一致性：读自己的写 一旦用户的数据最近发生改变则路由用户请求从主节点进行读取，规避复制滞后的问题。
 缺点：只保证单一用户写后读的的一致性，但是不保证多个用户的一致性。比如发了一条评论，自己能刷新到但是同在身边的朋友可能就刷新不到。
@@ -238,10 +238,10 @@ P: C小姐，你能看到多远的文莱？
     
     <item>
       <title>复制日志实现</title>
-      <link>http://www.linuxzen.com/notes/notes/20210614205249-%E5%A4%8D%E5%88%B6%E6%97%A5%E5%BF%97%E5%AE%9E%E7%8E%B0/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210614205249-%E5%A4%8D%E5%88%B6%E6%97%A5%E5%BF%97%E5%AE%9E%E7%8E%B0/</link>
       <pubDate>Mon, 14 Jun 2021 20:52:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210614205249-%E5%A4%8D%E5%88%B6%E6%97%A5%E5%BF%97%E5%AE%9E%E7%8E%B0/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210614205249-%E5%A4%8D%E5%88%B6%E6%97%A5%E5%BF%97%E5%AE%9E%E7%8E%B0/</guid>
       <description>基于语句复制 优点：简单 缺点：语句副作用，或者随时间改变返回值的函数的使用会导致复制的数据产生改变。
 基于预写日志（WAL）传输 优点：解决基于语句复制的问题。 缺点：日志描述过于底层：哪些磁盘块的哪些字节发生了改变，和引擎实现高度耦合，不利于模式演进。
 基于行的逻辑日志复制 用一系列记录来描述数据表行级别的写请求：
@@ -253,10 +253,10 @@ P: C小姐，你能看到多远的文莱？
     
     <item>
       <title>主从复制</title>
-      <link>http://www.linuxzen.com/notes/notes/20210614203213-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210614203213-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/</link>
       <pubDate>Mon, 14 Jun 2021 20:32:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210614203213-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210614203213-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/</guid>
       <description>主从模式下主节点进行写入，可以从从节点进行读取。
 同步复制 主节点写入，并等待从节点写入后再返回写入成功。
 半同步复制 主节点写入，选举一个从节点进行同步复制，其他从节点进行异步复制，一旦同步复制的从节点出现性能下降或故障则选用一个新的从节点进行同步复制。
@@ -265,10 +265,10 @@ P: C小姐，你能看到多远的文莱？
     
     <item>
       <title>数据复制</title>
-      <link>http://www.linuxzen.com/notes/notes/20210614203122-%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210614203122-%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6/</link>
       <pubDate>Mon, 14 Jun 2021 20:31:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210614203122-%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210614203122-%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6/</guid>
       <description>主节点与从节点 复制 单个节点可以完整存放所有数据副本，节点间进行主从复制。
 配置新从节点 可以通过快照来加速新从节点复制：
  对主节点的数据副本产生一个一致性快照，避免长时间锁定数据库。 拷贝快照到从节点 请求快照后面的更改日志 应用数据变更  节点失效 从节点失效：追赶式恢复 主节点失效：节点切换 自动切换
@@ -280,29 +280,29 @@ P: C小姐，你能看到多远的文莱？
     
     <item>
       <title>认同的话</title>
-      <link>http://www.linuxzen.com/notes/notes/20210612092853-%E8%AE%A4%E5%90%8C%E7%9A%84%E8%AF%9D/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210612092853-%E8%AE%A4%E5%90%8C%E7%9A%84%E8%AF%9D/</link>
       <pubDate>Sat, 12 Jun 2021 09:28:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210612092853-%E8%AE%A4%E5%90%8C%E7%9A%84%E8%AF%9D/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210612092853-%E8%AE%A4%E5%90%8C%E7%9A%84%E8%AF%9D/</guid>
       <description> 当一个不可能出错的事物出错了，通常也就意味着不可修复 &amp;ndash; Douglas Adams，《基本无害》（1992）  </description>
     </item>
     
     <item>
       <title>Actor</title>
-      <link>http://www.linuxzen.com/notes/notes/20210612091808-actor/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210612091808-actor/</link>
       <pubDate>Sat, 12 Jun 2021 09:18:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210612091808-actor/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210612091808-actor/</guid>
       <description>Actor 模型是用于单个进程中的并发模型。逻辑被封装在 Actor 中。每个 Actor 通常代表一个客户端或实体，可以具备本地状态（不共享），通过发送和接收异步消息与其他 Actor 通信。不保证消息传送：某些错误情况下，消息将丢失。每个 Actor 只处理一条消息，因此可以由框架独立调度。
 Actor 框架集成了任务调度和消息流的框架。</description>
     </item>
     
     <item>
       <title>Avro</title>
-      <link>http://www.linuxzen.com/notes/notes/20210610222725-avro/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210610222725-avro/</link>
       <pubDate>Thu, 10 Jun 2021 22:27:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210610222725-avro/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210610222725-avro/</guid>
       <description>两种模式语言：IDL 用于人工编辑，另一种更易于机器读取。
 Avro 编码数据中只有对应字段的长度和具体的数据，不包含字段的类型信息。
 写模式与读模式  写模式：使用所知道的模式的任何版本来编码数据（可以编译到代码中） 读模式：解码时期望数据符合某个模式，可能是构建过程中基于模式生成  Avro 的关键思想是写模式和读不必完全一样，只需要保持兼容，由读取端解决差异：通过对比查看写模式和读模式并将数据从写模式转换为读模式。
@@ -311,10 +311,10 @@ Avro 编码数据中只有对应字段的长度和具体的数据，不包含字
     
     <item>
       <title>Thrift 与 Protocol Buffers</title>
-      <link>http://www.linuxzen.com/notes/notes/20210610222754-thrift_%E4%B8%8E_protocol_buffers/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210610222754-thrift_%E4%B8%8E_protocol_buffers/</link>
       <pubDate>Thu, 10 Jun 2021 22:27:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210610222754-thrift_%E4%B8%8E_protocol_buffers/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210610222754-thrift_%E4%B8%8E_protocol_buffers/</guid>
       <description>每个字段一个标记号码，字段名可以随意调整因为编码信息中只有标记号码，没有字段名称，但是标记号码不能随意调整，基于此可以实现：
  向前兼容 旧代码忽略不能识别的标记号码，并根据类型的注释来通知解析器跳过特定的字节数。 向后兼容 标记号码不变的情况下新的代码总是能够解析旧代码序列化的数据，但是新添加的字段不能标记为 required，不然会触发运行时错误。  同时为了保证前后兼容，删除字段也不能删除设置为 required 的字段，同时再次新添字段标记号码不能被再次使用。
 改变类型同时也会导致前后兼容问题。</description>
@@ -322,10 +322,10 @@ Avro 编码数据中只有对应字段的长度和具体的数据，不包含字
     
     <item>
       <title>数据编码与演化</title>
-      <link>http://www.linuxzen.com/notes/notes/20210610215330-%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A0%81%E4%B8%8E%E6%BC%94%E5%8C%96/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210610215330-%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A0%81%E4%B8%8E%E6%BC%94%E5%8C%96/</link>
       <pubDate>Thu, 10 Jun 2021 21:53:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210610215330-%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A0%81%E4%B8%8E%E6%BC%94%E5%8C%96/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210610215330-%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A0%81%E4%B8%8E%E6%BC%94%E5%8C%96/</guid>
       <description>模式演化要保证：
  向后兼容 较新的代码可以读取旧代码编写的数据 向前兼容 较旧的代码可以读取较新代码编写的数据  数据编码格式 语言特定格式  Python pickle Java java.io.Serializable Ruby Marshal  JSON、XML与二进制变体 二进制变体
  Message Pack：二进制的 JSON  Thrift 与 Protocol Buffers Avro 数据流模式 基于数据库的数据流 不同是写写入不同的值 归档存储 基于服务的数据流：REST 和 RPC RPC 的问题 给人一种本地调用的错觉，却需要面临网络的不确定性：延迟和超时。
@@ -334,28 +334,28 @@ Avro 编码数据中只有对应字段的长度和具体的数据，不包含字
     
     <item>
       <title>OLAP</title>
-      <link>http://www.linuxzen.com/notes/notes/20210610214521-olap/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210610214521-olap/</link>
       <pubDate>Thu, 10 Jun 2021 21:45:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210610214521-olap/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210610214521-olap/</guid>
       <description>在线分析处理（Online Analytic Processing，OLAP）。</description>
     </item>
     
     <item>
       <title>OLTP</title>
-      <link>http://www.linuxzen.com/notes/notes/20210610214348-oltp/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210610214348-oltp/</link>
       <pubDate>Thu, 10 Jun 2021 21:43:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210610214348-oltp/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210610214348-oltp/</guid>
       <description>在线事务处理（Online Transaction Processing，OLTP）。</description>
     </item>
     
     <item>
       <title>B-trees</title>
-      <link>http://www.linuxzen.com/notes/notes/20210606143901-b_trees/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210606143901-b_trees/</link>
       <pubDate>Sun, 06 Jun 2021 14:39:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210606143901-b_trees/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210606143901-b_trees/</guid>
       <description>B-tree 是最广泛使用的索引结构。和排序字符串表：SSTables一样，B-tree 保留按键排序的 key-value 对， 这样可以实现高效的 key-value 查找和区间查询。
 结构 B-tree 将数据库分解成固定大小的页或块，传统上 4KB，这种设计更接近底层硬件，磁盘也是以固定大小的块排列的。
  分页因子 B-tree 中一个页所包含的子页引用数量称为分支因子。
@@ -368,10 +368,10 @@ Avro 编码数据中只有对应字段的长度和具体的数据，不包含字
     
     <item>
       <title>哈希索引</title>
-      <link>http://www.linuxzen.com/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/</link>
       <pubDate>Sun, 06 Jun 2021 10:33:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/</guid>
       <description>索引 先来看一个世界上由 Bash 实现的最简单的数据库实现：
 #!/bin/bash db_set() { echo &amp;#34;$1,$2&amp;#34; &amp;gt;&amp;gt; database } db_get() { grep &amp;#34;^$1,&amp;#34; database | sed -e &amp;#34;s/^$1,//&amp;#34; | tail -n 1 } 这种数据库通过追加文件尾部的方式高效写入，许多数据库内部都是用日志，日志是一个仅支持追加更新的数据文件。但是 db_get 的性能会随着数据量的变大而下降，为了解决这个问题就需要引入新的数据结构： 索引 。
 索引是基于原始数据而派生而来的额外数据结构：适当的索引可以加速读取查询，但是回减慢写速度。
@@ -381,10 +381,10 @@ key-value 索引通常使用 hash map 来实现，最简单的索引策略：保
     
     <item>
       <title>排序字符串表：SSTables</title>
-      <link>http://www.linuxzen.com/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/</link>
       <pubDate>Sun, 06 Jun 2021 10:31:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/</guid>
       <description>SSTables 通过按照键的顺序存储在日志段文件中来解决哈希索引面临的一些问题。它要求每个键在每个合并的段文件中只能出现一次（通过压缩确保）。
 对比哈希索引的日志段 优点   合并段更加高效，即使文件大于可用内存。类似于归并排序算法中使用的方法。并发读取多个输入段文件，比较每个文件的第一个键，把最小的键拷贝到输出文件，并重复。
 解决多个段文件重复：保留最新的值，因为每个段包含在某段时间内写入数据库的所有值，意味着肯定有一个值比其他所有值更新。
@@ -398,10 +398,10 @@ key-value 索引通常使用 hash map 来实现，最简单的索引策略：保
     
     <item>
       <title>LSM-Tree</title>
-      <link>http://www.linuxzen.com/notes/notes/20210606100317-lsm_tree/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210606100317-lsm_tree/</link>
       <pubDate>Sun, 06 Jun 2021 10:03:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210606100317-lsm_tree/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210606100317-lsm_tree/</guid>
       <description> 日志结构合并树（Log-Structured Merge-Tree）：基于合并和压缩排序文件原理的存储引擎通常都被称为 LSM 存储引擎。
  压缩排序文件基于排序字符串表：SSTables。
 LSM-Tree 基本思想：保存在后台并合并的排序字符串表：SSTables。即使数据集远远大于可用内存，仍然能够正常工作。 基于有序的特性，可以有效的执行区间查询，并且由于磁盘是顺序写入，所以 LSM-Tree 可以支持非常高的写入吞吐量。
@@ -410,10 +410,10 @@ LSM-Tree 基本思想：保存在后台并合并的排序字符串表：SSTables
     
     <item>
       <title>数据存储与检索</title>
-      <link>http://www.linuxzen.com/notes/notes/20210606095514-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E4%B8%8E%E6%A3%80%E7%B4%A2/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210606095514-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E4%B8%8E%E6%A3%80%E7%B4%A2/</link>
       <pubDate>Sun, 06 Jun 2021 09:55:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210606095514-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E4%B8%8E%E6%A3%80%E7%B4%A2/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210606095514-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E4%B8%8E%E6%A3%80%E7%B4%A2/</guid>
       <description>存储引擎 哈希索引 日志结构存储引擎：LSM-Tree 面向页的存储引擎：B-trees 对比 LSM-Tree 和 B-trees    项目 LSM-Tree B-trees 备注     性能 写入更快，吞吐更高 读取更快 具体场景上需要进行基准测试   存储 可变大小的段，通常 nMB 固定大小的页，传统 4KB    写入 追加，写入更多不利于 SSD 新的数据覆盖磁盘上旧的页    并发控制 后台合并进行原子替换 锁存器     其他索引结构   在索引中存储值
   多列索引
   全文索引和模糊索引
@@ -424,10 +424,10 @@ LSM-Tree 基本思想：保存在后台并合并的排序字符串表：SSTables
     
     <item>
       <title>数据模型与查询语言</title>
-      <link>http://www.linuxzen.com/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/</link>
       <pubDate>Sun, 06 Jun 2021 09:52:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/</guid>
       <description>关系模型 突出数据之间的关联。
 文档模型 数据来自于包含文档，文档间关联很少。
 图状数据模型 针对所有数据都可能互相关联。</description>
@@ -435,10 +435,10 @@ LSM-Tree 基本思想：保存在后台并合并的排序字符串表：SSTables
     
     <item>
       <title>可靠、可扩展与可维护的应用系统</title>
-      <link>http://www.linuxzen.com/notes/notes/20210604221658-%E5%8F%AF%E9%9D%A0_%E5%8F%AF%E6%89%A9%E5%B1%95%E4%B8%8E%E5%8F%AF%E7%BB%B4%E6%8A%A4%E7%9A%84%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210604221658-%E5%8F%AF%E9%9D%A0_%E5%8F%AF%E6%89%A9%E5%B1%95%E4%B8%8E%E5%8F%AF%E7%BB%B4%E6%8A%A4%E7%9A%84%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Fri, 04 Jun 2021 22:16:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210604221658-%E5%8F%AF%E9%9D%A0_%E5%8F%AF%E6%89%A9%E5%B1%95%E4%B8%8E%E5%8F%AF%E7%BB%B4%E6%8A%A4%E7%9A%84%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210604221658-%E5%8F%AF%E9%9D%A0_%E5%8F%AF%E6%89%A9%E5%B1%95%E4%B8%8E%E5%8F%AF%E7%BB%B4%E6%8A%A4%E7%9A%84%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F/</guid>
       <description>可靠性 故障与失效  故障（faults）或者错误：组件偏离其正常规格，可以提供容错（fault-tolerant）机制 失效（failure）意味系统作为一个整体停止  硬件故障 软件错误 人为失误 避免优化方式：
  以最小出错方式设计系统。抽象、提供管理界面，使“做正确的事很轻松”，防止限制过多。 分离最容易出错的地方，提供沙箱用以放心尝试。 充分测试。 提供快速恢复机制尽量减少故障影响：快速回滚，提供校验数据的工具。 设置详细而清晰的监控系统 培训和流程  可扩展性 描述负载  QPS 数据库写入比例 同时在线活动用户数 缓存命中率等。  描述性能  吞吐量（throughput）/每秒处理数据量 延迟（latency）/响应时间（response time）：延迟是处理时间，响应时间是客户端看到的。  最好通过百分位数来监控指标：p50/p80/p90/p95/p99/p999，p50 指标表示一半请求在这个指标之下，一半在这个指标之上。
 应对负载增加  无状态很方便扩容 但有状态的分布式面临一定的挑战  可维护性 可运维性：运维更轻松 监控、文档、自动化、良好的默认配置、可手动控制系统状态让系统自我修复（比如熔断机制）。
@@ -448,10 +448,10 @@ LSM-Tree 基本思想：保存在后台并合并的排序字符串表：SSTables
     
     <item>
       <title>《数据密集型应用系统设计》读书笔记</title>
-      <link>http://www.linuxzen.com/notes/notes/20210604221412-%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210604221412-%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Fri, 04 Jun 2021 22:14:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210604221412-%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210604221412-%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid>
       <description>数据系统基础 可靠、可扩展与可维护的应用系统 数据模型与查询语言 数据存储与检索 数据编码与演化 分布式数据系统 目的：扩展性、容错和高可用、延迟考虑（多机房）
 扩展：
  垂直扩展：提升单机性能 水平扩展：无共享结构，由软件实现核心逻辑  复制与分区：
@@ -460,78 +460,78 @@ LSM-Tree 基本思想：保存在后台并合并的排序字符串表：SSTables
     
     <item>
       <title>项目代号</title>
-      <link>http://www.linuxzen.com/notes/notes/20210525113247-%E9%A1%B9%E7%9B%AE%E4%BB%A3%E5%8F%B7/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210525113247-%E9%A1%B9%E7%9B%AE%E4%BB%A3%E5%8F%B7/</link>
       <pubDate>Tue, 25 May 2021 11:32:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210525113247-%E9%A1%B9%E7%9B%AE%E4%BB%A3%E5%8F%B7/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210525113247-%E9%A1%B9%E7%9B%AE%E4%BB%A3%E5%8F%B7/</guid>
       <description>几何结构  mobius Klein Trefoil knot Penrose triangle  植物  bonsai  科幻  tardis dalek 消灭  神话 </description>
     </item>
     
     <item>
       <title>macOS 问题解决三板斧</title>
-      <link>http://www.linuxzen.com/notes/notes/20210322145956-macos_%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E4%B8%89%E6%9D%BF%E6%96%A7/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210322145956-macos_%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E4%B8%89%E6%9D%BF%E6%96%A7/</link>
       <pubDate>Mon, 22 Mar 2021 14:59:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210322145956-macos_%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E4%B8%89%E6%9D%BF%E6%96%A7/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210322145956-macos_%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E4%B8%89%E6%9D%BF%E6%96%A7/</guid>
       <description>通常你沟通苹果的官方支持一般都会给你三板斧：
  重启：按住电源键 10 秒中，然后等几秒钟后再开机 重置 SMC：关机然后按住：Ctrl + Option + 右侧Shift + 电源键 7 秒钟关机，等待几秒钟后开机。  </description>
     </item>
     
     <item>
       <title>macOS TimeMachine 日志</title>
-      <link>http://www.linuxzen.com/notes/notes/20210322145854-macos_timemachine_%E6%97%A5%E5%BF%97/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210322145854-macos_timemachine_%E6%97%A5%E5%BF%97/</link>
       <pubDate>Mon, 22 Mar 2021 14:58:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210322145854-macos_timemachine_%E6%97%A5%E5%BF%97/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210322145854-macos_timemachine_%E6%97%A5%E5%BF%97/</guid>
       <description>查看 TimeMachine 日志：
 printf &amp;#39;\e[3J&amp;#39; &amp;amp;&amp;amp; log show --predicate &amp;#39;subsystem == &amp;#34;com.apple.TimeMachine&amp;#34;&amp;#39; --debug --last 6m </description>
     </item>
     
     <item>
       <title>English IPA</title>
-      <link>http://www.linuxzen.com/notes/notes/20210317141647-english_ipa/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210317141647-english_ipa/</link>
       <pubDate>Wed, 17 Mar 2021 14:16:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210317141647-english_ipa/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210317141647-english_ipa/</guid>
       <description>一些通用的规则：
  音标后面的 ː 提示拖长音。  元音 大而圆    音标 中文 发音技巧 常见单词 拼读规则     /​æ​/ 爱 张大嘴发中文的「爱」,发音短促有力。 bag map dad sad a   /​e​/ 爱 音同 /​æ​/ 但是嘴形要小一些。 get let pen yes e   /​ɔː​/ 哦 嘴巴轮圆了发音，并拖长音 floor door store sport oor,ore,or   /​ɔ​/ 哦 /​ɔː​/ 的短音 lot dog hot shop o    扁扁扁    音标 中文 发音技巧 常见单词 拼读规则     /iː​/ 一 相比一嘴要扁一些，稍稍更用力一些 see meet he she ee, e   /​i​/ 一 /iː​/ 短音 happy daddy honey 词尾的 y 或 ey   /​I​/ 一 用 /​e​/ 的嘴形发 /​i​/ this give it city i   /əː​/ 呃 相比中文嘴要扁一些，稍稍更用力一些 work girl dirt sir or, ir   /​ə​/ 呃 /əː​/ 的短音 again a father weather 单独的 a 及词尾的 er    需要额外注意的：</description>
     </item>
     
     <item>
       <title>Learning English</title>
-      <link>http://www.linuxzen.com/notes/notes/20210317141621-learning_english/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210317141621-learning_english/</link>
       <pubDate>Wed, 17 Mar 2021 14:16:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210317141621-learning_english/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210317141621-learning_english/</guid>
       <description> English IPA  </description>
     </item>
     
     <item>
       <title>二叉树的遍历</title>
-      <link>http://www.linuxzen.com/notes/notes/20210220203210-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210220203210-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/</link>
       <pubDate>Sat, 20 Feb 2021 20:32:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210220203210-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210220203210-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/</guid>
       <description>分为三种：前序、后序和中序，其中最容易用栈改写的是后序。
 前序(Preorder)：Root -&amp;gt; Left -&amp;gt; Right class Solution { public: void processPreorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processPreorderTraversal(root-&amp;gt;left, collector); collector.push_back(root-&amp;gt;val); processPreorderTraversal(root-&amp;gt;right, collector); } vector&amp;lt;int&amp;gt; inorderTraversal(TreeNode* root) { vector&amp;lt;int&amp;gt; ret; if (root == nullptr) { return ret; } processPreorderTraversal(root, ret); return ret; } }; 中序(Inorder): Left -&amp;gt; Root -&amp;gt; Right class Solution { public: void processInorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processInorderTraversal(root-&amp;gt;left, collector); collector.</description>
     </item>
     
     <item>
       <title>OX-HUGO 批量导出 Markdown</title>
-      <link>http://www.linuxzen.com/notes/notes/20210220175534-ox_hugo_%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA_markdown/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210220175534-ox_hugo_%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA_markdown/</link>
       <pubDate>Sat, 20 Feb 2021 17:55:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210220175534-ox_hugo_%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA_markdown/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210220175534-ox_hugo_%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA_markdown/</guid>
       <description>方案一：通过 Emacs 批处理模式 emacs file.org --batch -f org-hugo-export-wim-to-md --kill --batch 默认不启用配置文件，可以使用 -l
 emacs file.org --batch -l ~/.emacs.d/init.el -f org-hugo-export-wim-to-md --kill 方案二：通过 LISP 遍历 (mapc (lambda (x) (with-current-buffer (find-file-noselect x) (org-hugo-export-wim-to-md t))) (directory-files &amp;#34;/Users/wh/codes/notes/roam-research-notes-hugo/journal&amp;#34; nil &amp;#34;^[0-9]+$&amp;#34; t)) </description>
     </item>
     
     <item>
       <title>中间件</title>
-      <link>http://www.linuxzen.com/notes/notes/20210220165816-%E4%B8%AD%E9%97%B4%E4%BB%B6/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210220165816-%E4%B8%AD%E9%97%B4%E4%BB%B6/</link>
       <pubDate>Sat, 20 Feb 2021 16:58:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210220165816-%E4%B8%AD%E9%97%B4%E4%BB%B6/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210220165816-%E4%B8%AD%E9%97%B4%E4%BB%B6/</guid>
       <description>中间件可以对系统进行解耦，比如上层系统对下层系统进行网络请求，考虑下面结构
 - U - / | \ /--- | ---\ / | \ A B C 如果下层系统增加节点的话就需要重启 U。
 引入 HAProxy 或者 Nginx 之类的中间件可以对两层系统进行解耦：
@@ -540,65 +540,65 @@ U | +------+ | HA | +------+ / | \ /--- | ---\ / | \ A B C 这样上层和下层
     
     <item>
       <title>技术随想</title>
-      <link>http://www.linuxzen.com/notes/notes/20210220165806-%E6%8A%80%E6%9C%AF%E9%9A%8F%E6%83%B3/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210220165806-%E6%8A%80%E6%9C%AF%E9%9A%8F%E6%83%B3/</link>
       <pubDate>Sat, 20 Feb 2021 16:58:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210220165806-%E6%8A%80%E6%9C%AF%E9%9A%8F%E6%83%B3/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210220165806-%E6%8A%80%E6%9C%AF%E9%9A%8F%E6%83%B3/</guid>
       <description> 中间件 项目代号  </description>
     </item>
     
     <item>
       <title>C/C&#43;&#43; thread-local storage</title>
-      <link>http://www.linuxzen.com/notes/notes/20210219200958-c_c_thread_local_storage/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210219200958-c_c_thread_local_storage/</link>
       <pubDate>Fri, 19 Feb 2021 20:09:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210219200958-c_c_thread_local_storage/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210219200958-c_c_thread_local_storage/</guid>
       <description> All about thread-local storage  </description>
     </item>
     
     <item>
       <title>macOS max open files</title>
-      <link>http://www.linuxzen.com/notes/notes/20210125174343-macos_max_open_files/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210125174343-macos_max_open_files/</link>
       <pubDate>Mon, 25 Jan 2021 17:43:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210125174343-macos_max_open_files/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210125174343-macos_max_open_files/</guid>
       <description>fix &amp;ldquo;Too many open files in system&amp;rdquo; error</description>
     </item>
     
     <item>
       <title>GDB 打出所有线程的 Backtrace</title>
-      <link>http://www.linuxzen.com/notes/notes/20210118114707-gdb_%E6%89%93%E5%87%BA%E6%89%80%E6%9C%89%E7%BA%BF%E7%A8%8B%E7%9A%84_backtrace/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210118114707-gdb_%E6%89%93%E5%87%BA%E6%89%80%E6%9C%89%E7%BA%BF%E7%A8%8B%E7%9A%84_backtrace/</link>
       <pubDate>Mon, 18 Jan 2021 11:47:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210118114707-gdb_%E6%89%93%E5%87%BA%E6%89%80%E6%9C%89%E7%BA%BF%E7%A8%8B%E7%9A%84_backtrace/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210118114707-gdb_%E6%89%93%E5%87%BA%E6%89%80%E6%9C%89%E7%BA%BF%E7%A8%8B%E7%9A%84_backtrace/</guid>
       <description>thread apply all bt </description>
     </item>
     
     <item>
       <title>GDB</title>
-      <link>http://www.linuxzen.com/notes/notes/20210118114626-gdb/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210118114626-gdb/</link>
       <pubDate>Mon, 18 Jan 2021 11:46:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210118114626-gdb/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210118114626-gdb/</guid>
       <description> GDB 打出所有线程的 Backtrace  </description>
     </item>
     
     <item>
       <title>C&#43;&#43; LSP</title>
-      <link>http://www.linuxzen.com/notes/notes/20210114175011-lsp/</link>
+      <link>https://www.linuxzen.com/notes/notes/20210114175011-lsp/</link>
       <pubDate>Thu, 14 Jan 2021 17:50:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20210114175011-lsp/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20210114175011-lsp/</guid>
       <description>通过如下命令生成 clangd 识别的编译配置文件
 mkdir build cd build cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .. mv compile_commands.json ../ 然后重启 M-x lsp-restart-workspace RET 即可。</description>
     </item>
     
     <item>
       <title>Python behind the scenes #2: how the CPython compiler works</title>
-      <link>http://www.linuxzen.com/notes/notes/20201015182827-python_behind_the_scenes_2_how_the_cpython_compiler_works/</link>
+      <link>https://www.linuxzen.com/notes/notes/20201015182827-python_behind_the_scenes_2_how_the_cpython_compiler_works/</link>
       <pubDate>Thu, 15 Oct 2020 18:28:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20201015182827-python_behind_the_scenes_2_how_the_cpython_compiler_works/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20201015182827-python_behind_the_scenes_2_how_the_cpython_compiler_works/</guid>
       <description>Python 幕后 #2: CPython 编译器如何工作 今天的主题（Today&amp;rsquo;s subject） 在本系列的第一篇文章中我们研究了 Python 虚拟机。我们学了解到它通过执行一系列叫做字节码（bytecode）的指令。 我们也看到 Python 字节码没有完全描述代码片段的行为。这也是为什么存在一个代码对象（code object）的概念。 执行诸如函数或模块的代码块也就是执行对应的代码对象。代码对象包含了代码块的字节码，包含代码中使用的常量和变量名， 还有代码块的一些属性。
 通常，一个 Python 程序员不用编写字节码，并且也不用创建代码对象，而是编写正常的 Python 代码。所有 CPython 必须 能够将源代码转换成代码对象。CPython 编译器就负责这部分工作。我们将通过这部分内容探索它是如何工作的。
 Note: 本文参考 CPython 3.9。一些实现细节将必然会随着 CPython 的演进而改变。 我将会尝试关注一些重要的改变并添加更新备注。
@@ -611,55 +611,55 @@ CPython 尽管不需要支持多个源语言和目标机器，尔仅仅需要支
     
     <item>
       <title>straight.el 命令</title>
-      <link>http://www.linuxzen.com/notes/notes/20201006200745-straight_el_%E6%9B%B4%E6%96%B0/</link>
+      <link>https://www.linuxzen.com/notes/notes/20201006200745-straight_el_%E6%9B%B4%E6%96%B0/</link>
       <pubDate>Tue, 06 Oct 2020 20:07:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20201006200745-straight_el_%E6%9B%B4%E6%96%B0/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20201006200745-straight_el_%E6%9B%B4%E6%96%B0/</guid>
       <description>M-x straight-thaw-versions RET 恢复到锁定的版本 M-x straight-pull-all RET 更新所有包 M-x straight-freeze-versions RET 锁定当前版本  Duplicated with straight.el 更新所有已安装的包</description>
     </item>
     
     <item>
       <title>straight.el 更新所有已安装的包</title>
-      <link>http://www.linuxzen.com/notes/notes/20201006200745-straight_el_%E6%9B%B4%E6%96%B0%E6%89%80%E6%9C%89%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84%E5%8C%85/</link>
+      <link>https://www.linuxzen.com/notes/notes/20201006200745-straight_el_%E6%9B%B4%E6%96%B0%E6%89%80%E6%9C%89%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84%E5%8C%85/</link>
       <pubDate>Tue, 06 Oct 2020 20:07:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20201006200745-straight_el_%E6%9B%B4%E6%96%B0%E6%89%80%E6%9C%89%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84%E5%8C%85/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20201006200745-straight_el_%E6%9B%B4%E6%96%B0%E6%89%80%E6%9C%89%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84%E5%8C%85/</guid>
       <description> straight-thaw-versions straight-pull-all straight-freeze-versions  </description>
     </item>
     
     <item>
       <title>Emacs Buffer 名字去重</title>
-      <link>http://www.linuxzen.com/notes/notes/20200927170116-emacs_buffer_%E5%90%8D%E5%AD%97%E5%8E%BB%E9%87%8D/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200927170116-emacs_buffer_%E5%90%8D%E5%AD%97%E5%8E%BB%E9%87%8D/</link>
       <pubDate>Sun, 27 Sep 2020 17:01:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200927170116-emacs_buffer_%E5%90%8D%E5%AD%97%E5%8E%BB%E9%87%8D/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200927170116-emacs_buffer_%E5%90%8D%E5%AD%97%E5%8E%BB%E9%87%8D/</guid>
       <description> https://www.gnu.org/software/emacs/manual/html%5Fnode/emacs/Uniquify.html  </description>
     </item>
     
     <item>
       <title>范数（norm）</title>
-      <link>http://www.linuxzen.com/notes/notes/20200912102351-%E8%8C%83%E6%95%B0/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200912102351-%E8%8C%83%E6%95%B0/</link>
       <pubDate>Sat, 12 Sep 2020 10:23:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200912102351-%E8%8C%83%E6%95%B0/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200912102351-%E8%8C%83%E6%95%B0/</guid>
       <description>具有“长度”概念的函数。在线性代数、泛函分析等相关数学领域，是一个函数，其为向量空间内所有向量赋予非零的正长度或大小。</description>
     </item>
     
     <item>
       <title>MAE（平均绝对误差）</title>
-      <link>http://www.linuxzen.com/notes/notes/20200912101549-mae_%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200912101549-mae_%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE/</link>
       <pubDate>Sat, 12 Sep 2020 10:15:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200912101549-mae_%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200912101549-mae_%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE/</guid>
       <description>\[MAE(X,h) = \frac{1}{m}\sum_{i=1}^{m}\left\lvert h(x^{(i)} - y ^{i})\right\rvert\]</description>
     </item>
     
     <item>
       <title>RMSE（均方根误差）</title>
-      <link>http://www.linuxzen.com/notes/notes/20200912094544-rmse_%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200912094544-rmse_%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE/</link>
       <pubDate>Sat, 12 Sep 2020 09:45:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200912094544-rmse_%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200912094544-rmse_%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE/</guid>
       <description>测量预测过程中的预测错误的标准差。
 公式
 \[RMSE(X,h)=\sqrt{\frac{1}{m}\sum_{i=1}^{m}(h(x^{(i)}) - y^{(i)})^2}\]
@@ -669,19 +669,19 @@ CPython 尽管不需要支持多个源语言和目标机器，尔仅仅需要支
     
     <item>
       <title>机器学习涉及数学概念</title>
-      <link>http://www.linuxzen.com/notes/notes/20200912093811-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B6%89%E5%8F%8A%E6%95%B0%E5%AD%A6%E6%A6%82%E5%BF%B5/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200912093811-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B6%89%E5%8F%8A%E6%95%B0%E5%AD%A6%E6%A6%82%E5%BF%B5/</link>
       <pubDate>Sat, 12 Sep 2020 09:38:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200912093811-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B6%89%E5%8F%8A%E6%95%B0%E5%AD%A6%E6%A6%82%E5%BF%B5/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200912093811-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B6%89%E5%8F%8A%E6%95%B0%E5%AD%A6%E6%A6%82%E5%BF%B5/</guid>
       <description>公式  RMSE（均方根误差） MAE（平均绝对误差）  概念  标准差（Std Dev） 范数  方差 皮尔逊相关系数（标准相关系数） 线性相关性 </description>
     </item>
     
     <item>
       <title>Python behind the scenes #1: how the CPython VM works</title>
-      <link>http://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/</link>
       <pubDate>Tue, 08 Sep 2020 10:36:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/</guid>
       <description>原文链接：Python behind the scenes #1: how the CPython VM works。
 Python 幕后 #1: CPython 虚拟机如何工作 介绍（Introduction） 你是否曾经好奇过当你运行 Python 代码时 python 做了些什么？
 $ python script.py 这篇文章将开启一个系列来尝试解答这个问题。我们将深入 Python 最流行的实现 CPython 的内部。 通过深入 CPython 的内部我们将更深一层的去理解这门编程语言本身。这也是我们这个系列的最主要的目标。 如果你熟悉 Python 并且可以阅读 C 代码，但是对 CPython 源码本身没有太多的经验， 那么你可能非常适合本系列，并且对本系列感兴趣。
@@ -691,10 +691,10 @@ CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可
     
     <item>
       <title>机器学习测试与验证</title>
-      <link>http://www.linuxzen.com/notes/notes/20200907081217-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%AA%8C%E8%AF%81/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200907081217-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%AA%8C%E8%AF%81/</link>
       <pubDate>Mon, 07 Sep 2020 08:12:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200907081217-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%AA%8C%E8%AF%81/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200907081217-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%AA%8C%E8%AF%81/</guid>
       <description>将数据分成两部分：训练集和测试集，通常使用 80% 的数据进行训练，20% 的数据用来测试。
 验证集 单独分出来一个保留集合作为验证集，防止调整模型和超参数拟合测试集的最佳模型。
 交叉验证 为避免验证集浪费太多数据，交叉验证将训练集分成若干个互补子集，然后每个模型都通过这些子集的不同组合来 训练，之后用剩余的子集进行验证。</description>
@@ -702,10 +702,10 @@ CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可
     
     <item>
       <title>机器学习的主要挑战</title>
-      <link>http://www.linuxzen.com/notes/notes/20200907080323-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%B8%BB%E8%A6%81%E6%8C%91%E6%88%98/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200907080323-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%B8%BB%E8%A6%81%E6%8C%91%E6%88%98/</link>
       <pubDate>Mon, 07 Sep 2020 08:03:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200907080323-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%B8%BB%E8%A6%81%E6%8C%91%E6%88%98/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200907080323-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%B8%BB%E8%A6%81%E6%8C%91%E6%88%98/</guid>
       <description>训练数据的数量不足 训练数据不具代表性 质量差的数据 无关特征 特征工程 一个成功的机器学习项目，关键部分是提取一组好的用了训练的特征集，这个过程叫做特征工程。
  特征选择 特征提取 通过手机数据创造新的特征  训练数据过度拟合 在模型的训练数据上表现良好，但是泛化时却不尽人如意。
 解决方法
@@ -717,10 +717,10 @@ CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可
     
     <item>
       <title>机器学习系统的种类</title>
-      <link>http://www.linuxzen.com/notes/notes/20200907074200-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%A7%8D%E7%B1%BB/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200907074200-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%A7%8D%E7%B1%BB/</link>
       <pubDate>Mon, 07 Sep 2020 07:42:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200907074200-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%A7%8D%E7%B1%BB/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200907074200-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%A7%8D%E7%B1%BB/</guid>
       <description>监督式/无监督式学习 监督式学习 定义 训练数据经过标注包含素所需解决方案（标签或标记）
 相关算法  K-邻近算法 线性回归 逻辑回归：广泛用于分类，输出“属于某个给定类别的概率”的值 支持向量机 决策树和随机森林 神经网络  适应场景  分类任务 预测变量  无监督式学习 定义 训练数据未经标注
 相关算法  聚类算法  K-平均算法 分层聚类分析 最大期望算法   可视化和降维  主成分分析 核主成分分析 局部线性嵌入 t-分布随机临近嵌入   关联规则学习  Apriori Eclat    适应场景  通过聚类算法检测相似（层次聚类算法精度更高，可以再次细分） 可视化算法 降维：不丢失太多信息的前提下简化数据，方法之一是合并特征，过程叫做特征提取 异常检测：判断新的输入是正常还是异常，数据初筛、防作弊等 关联规则学习：发现属性之间有趣的联系  半监督式学习 大量未标记数据和少量标记数据进行学习。
@@ -735,48 +735,48 @@ CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可
     
     <item>
       <title>《机器学习实战》读书笔记</title>
-      <link>http://www.linuxzen.com/notes/notes/20200905075701-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200905075701-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Sat, 05 Sep 2020 07:57:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200905075701-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200905075701-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid>
       <description>概览  机器学习系统的种类 机器学习的主要挑战 机器学习测试与验证  模型是观察的简化。
 相关数学概念  机器学习涉及数学概念  </description>
     </item>
     
     <item>
       <title>Machine Learning</title>
-      <link>http://www.linuxzen.com/notes/notes/20200903180214-machine_learning/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200903180214-machine_learning/</link>
       <pubDate>Thu, 03 Sep 2020 18:02:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200903180214-machine_learning/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200903180214-machine_learning/</guid>
       <description> scikit-learn 提供一些常见的机器学习算法  逻辑回归(Logistic Regression aka LR) 线性分类器   XGBoost 提供随机森林解决逻辑回归特征不明显的问题  </description>
     </item>
     
     <item>
       <title>Rust Obscure Words for non-native English speakers</title>
-      <link>http://www.linuxzen.com/notes/notes/20200829081145-rust_obscure_words_for_non_native_english_speakers/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200829081145-rust_obscure_words_for_non_native_english_speakers/</link>
       <pubDate>Sat, 29 Aug 2020 08:11:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200829081145-rust_obscure_words_for_non_native_english_speakers/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200829081145-rust_obscure_words_for_non_native_english_speakers/</guid>
       <description> unwinding  </description>
     </item>
     
     <item>
       <title>Rust Asynchronous Programming</title>
-      <link>http://www.linuxzen.com/notes/notes/20200828160809-rust_asynchronous_programming/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200828160809-rust_asynchronous_programming/</link>
       <pubDate>Fri, 28 Aug 2020 16:08:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200828160809-rust_asynchronous_programming/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200828160809-rust_asynchronous_programming/</guid>
       <description>Future  async fn 将一个代码块转换为一个 Future 对象， Future 对象维护一个状态机 Future 对象必须运行在一个 Executor 上  Executor   futures::executor::block_on 阻塞当前线程直到 future 完成
 // `block_on` blocks the current thread until the provided future has run to // completion. Other executors provide more complex behavior, like scheduling // multiple futures onto the same thread. use futures::executor::block_on; async fn hello_world() { println!(&amp;#34;hello, world!&amp;#34;); } fn main() { let future = hello_world(); // Nothing is printed  block_on(future); // `future` is run and &amp;#34;hello, world!</description>
     </item>
     
     <item>
       <title>Go Swagger 实现代码即文档</title>
-      <link>http://www.linuxzen.com/notes/notes/20200828104706-go_swagger/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200828104706-go_swagger/</link>
       <pubDate>Fri, 28 Aug 2020 10:47:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200828104706-go_swagger/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200828104706-go_swagger/</guid>
       <description>目标 当跟随这篇文章完成后将产出如下内容：
  代码 http://gitlab.17zuoye.net/vgo/go-swagger-example 文档 http://swagger.17zuoye.net/?url=http%3A%2F%2F10.200.242.61%3A9090%2Fswagger.json  准备  Go1.14 及以上版本 安装 go-swagger ：参见 官方文档。 接下来使用 gin 框架作为示例，如果之前没接触过可以先了解下该框架  创建一个项目 $ mkdir go-swagger-example $ cd go-swagger-example/ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example 开始使用 首先在你的 `main.go` 定义 go generate 像下面这样：
 //go:generate swagger generate spec -o ./swagger.yml package main func main() { println(&amp;#34;Hello world!&amp;#34;); } 此时如果运行 go generate 在项目目录下就会生成一个 swagger.yml 文件：
@@ -785,19 +785,19 @@ paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关
     
     <item>
       <title>MySQL forget password</title>
-      <link>http://www.linuxzen.com/notes/notes/20200827195950-mysql_forget_password/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200827195950-mysql_forget_password/</link>
       <pubDate>Thu, 27 Aug 2020 19:59:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200827195950-mysql_forget_password/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200827195950-mysql_forget_password/</guid>
       <description>启动 mysqld 时加上 --skip-grant-tables 参数可以无密码进入 MySQL。</description>
     </item>
     
     <item>
       <title>MVCC</title>
-      <link>http://www.linuxzen.com/notes/notes/20200827195823-mvcc/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200827195823-mvcc/</link>
       <pubDate>Thu, 27 Aug 2020 19:58:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200827195823-mvcc/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200827195823-mvcc/</guid>
       <description>https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/  来自《高性能 MySQL》：
 InnoDB 在每一行都隐式的多存储两个字段：
  事务更新版本 事务删除版本  当事务开始时记录这两个版本，在读取的时候根据 Undo Log 和 Redo Log 来实现隔离级别的控制。序列化隔离级别下只能通过行锁来保证。
@@ -807,10 +807,10 @@ InnoDB 在每一行都隐式的多存储两个字段：
     
     <item>
       <title>MySQL grant subnet</title>
-      <link>http://www.linuxzen.com/notes/notes/20200827195621-mysql_grant_subnet/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200827195621-mysql_grant_subnet/</link>
       <pubDate>Thu, 27 Aug 2020 19:56:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200827195621-mysql_grant_subnet/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200827195621-mysql_grant_subnet/</guid>
       <description>https://stackoverflow.com/a/38389851/2873718
 MySQL 授权用户子网段需要使用:
 172.16.0.0/255.240.0.0 而不能使用
@@ -819,47 +819,47 @@ MySQL 授权用户子网段需要使用:
     
     <item>
       <title>Network</title>
-      <link>http://www.linuxzen.com/notes/notes/20200827180638-network/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200827180638-network/</link>
       <pubDate>Thu, 27 Aug 2020 18:06:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200827180638-network/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200827180638-network/</guid>
       <description> xinetd MySQL grant subnet  </description>
     </item>
     
     <item>
       <title>逻辑右移</title>
-      <link>http://www.linuxzen.com/notes/notes/20200802165502-%E9%80%BB%E8%BE%91%E5%8F%B3%E7%A7%BB/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200802165502-%E9%80%BB%E8%BE%91%E5%8F%B3%E7%A7%BB/</link>
       <pubDate>Sun, 02 Aug 2020 16:55:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200802165502-%E9%80%BB%E8%BE%91%E5%8F%B3%E7%A7%BB/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200802165502-%E9%80%BB%E8%BE%91%E5%8F%B3%E7%A7%BB/</guid>
       <description>位移产生的空白填上 0，会导致有符号的负数变成正数。</description>
     </item>
     
     <item>
       <title>算数右移</title>
-      <link>http://www.linuxzen.com/notes/notes/20200802165150-%E7%AE%97%E6%95%B0%E5%8F%B3%E7%A7%BB/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200802165150-%E7%AE%97%E6%95%B0%E5%8F%B3%E7%A7%BB/</link>
       <pubDate>Sun, 02 Aug 2020 16:51:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200802165150-%E7%AE%97%E6%95%B0%E5%8F%B3%E7%A7%BB/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200802165150-%E7%AE%97%E6%95%B0%E5%8F%B3%E7%A7%BB/</guid>
       <description>位移的产生的空白填上符号位。</description>
     </item>
     
     <item>
       <title>汇编</title>
-      <link>http://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/</link>
       <pubDate>Sun, 02 Aug 2020 15:50:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/</guid>
       <description>程序编码 $ gcc -Og -S mstore.c # outputs mstore.s $ gcc -Og -c mstore.c # outptus mstore.o $ objdump -d mstore.o 所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。
 数据格式    C 声明 Intel 数据类型 汇编代码后缀 大小（字节）     char 字节 b 1   short 字 w 2   int 双字 l 4   long 四字 q 8   char* 四字 q 8   float 单精度 l 4   double 双精度 q 8    访问信息 寄存器 一个 x86-64 的中央处理单元（CPU）包含一组 16 个存储 64 位值的 通用目的寄存器 。</description>
     </item>
     
     <item>
       <title>IEEE 浮点数</title>
-      <link>http://www.linuxzen.com/notes/notes/20200802151523-ieee_%E6%B5%AE%E7%82%B9%E6%95%B0/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200802151523-ieee_%E6%B5%AE%E7%82%B9%E6%95%B0/</link>
       <pubDate>Sun, 02 Aug 2020 15:15:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200802151523-ieee_%E6%B5%AE%E7%82%B9%E6%95%B0/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200802151523-ieee_%E6%B5%AE%E7%82%B9%E6%95%B0/</guid>
       <description>浮点数小数表示形式 .0111 = \(0x2^{-1}+2^{-2}+2^{-3}+2^{-4}\)
 IEEE 浮点数表示形式 \[ V=(-1)^s X M X 2^E \]
  s = 0 表示负数， s = 1 表示正数 M 是二进制表示的小数 E 是阶码  浮点数二进制组成  一个单独符号位 s 表吗符合 k 位阶码字段 exp 编码阶码 E n 位小数字段 frac 编码尾数 M  两种常见的格式  float  s = 1 k = 8 n = 23   double  s = 1 k = 11 n = 52    三种计算方式 前置的一些值</description>
@@ -867,47 +867,47 @@ IEEE 浮点数表示形式 \[ V=(-1)^s X M X 2^E \]
     
     <item>
       <title>Computer Systems</title>
-      <link>http://www.linuxzen.com/notes/notes/20200802151319-computer_systems/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200802151319-computer_systems/</link>
       <pubDate>Sun, 02 Aug 2020 15:13:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200802151319-computer_systems/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200802151319-computer_systems/</guid>
       <description>《深入理解计算机系统》读书笔记。
  IEEE 浮点数 汇编  </description>
     </item>
     
     <item>
       <title>Web</title>
-      <link>http://www.linuxzen.com/notes/notes/20200710101214-web/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200710101214-web/</link>
       <pubDate>Fri, 10 Jul 2020 10:12:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200710101214-web/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200710101214-web/</guid>
       <description> Choosing a Rust web framework, 2020 edition  </description>
     </item>
     
     <item>
       <title>SSH</title>
-      <link>http://www.linuxzen.com/notes/notes/20200707214623-ssh/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200707214623-ssh/</link>
       <pubDate>Tue, 07 Jul 2020 21:46:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200707214623-ssh/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200707214623-ssh/</guid>
       <description>SSH Port Forwarding  -L 将远端机器的端口映射到本地 -R 将本地端口映射到远端  </description>
     </item>
     
     <item>
       <title>Fearless Concurrency with Rust</title>
-      <link>http://www.linuxzen.com/notes/notes/20200703104039-fearless_concurrency_with_rust/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200703104039-fearless_concurrency_with_rust/</link>
       <pubDate>Fri, 03 Jul 2020 10:40:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200703104039-fearless_concurrency_with_rust/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200703104039-fearless_concurrency_with_rust/</guid>
       <description>原文链接：https://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html</description>
     </item>
     
     <item>
       <title>Rust Means Never Having to Close a Socket</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/</link>
       <pubDate>Mon, 29 Jun 2020 18:17:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/</guid>
       <description>原文链接：Rust Means Never Having to Close a Socket
 Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时在仍能保持安全（没有段错误）和高性能。
 这是因为 Rust 是一门与众不同地编程语言，要理解我说的可能有点困难，让我来更近一步说明：
@@ -922,10 +922,10 @@ fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&
     
     <item>
       <title>Rust 并发</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/</link>
       <pubDate>Mon, 29 Jun 2020 18:07:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/</guid>
       <description>并发 std::marker::Send 允许跨线程转移所有权 Send 标记特性用于标识实现该特性的类型的所有权可以在线程中间转移，几乎所有 Rust 类型都实现了 Send ，但是也有一些例外如：
  Rc&amp;lt;T&amp;gt; ，如果克隆后在多个线程中转移所有权可能会多个线程同时增加计数器，可以使用 Arc&amp;lt;T&amp;gt; 替代  如果一个新的类型组合的类型都实现了 Send 那么该类型也自动实现了 Send ，几乎所有原始类型都实现了 Send .
 std::marker::Sync 允许多个线程同时访问 Sync 标记特性用于标识实现该特性的类型可以在多个线程中引用，任何类型 T 是 Sync 并且 T 的引用 &amp;amp;T 是 Send 则意味着引用可以安全的发送给其他线程。
@@ -936,10 +936,10 @@ std::marker::Sync 允许多个线程同时访问 Sync 标记特性用于标识�
     
     <item>
       <title>Rust 宏</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180623-rust_%E5%AE%8F/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180623-rust_%E5%AE%8F/</link>
       <pubDate>Mon, 29 Jun 2020 18:06:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180623-rust_%E5%AE%8F/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180623-rust_%E5%AE%8F/</guid>
       <description>三种宏  自定义 #[derive] 属性行为（attribute-like）宏，Rust 属性宏解析 函数行为（function-like）宏  宏 实现元编程，代码生成代码，必须带入当前命名空间内才能使用（不能使用 mod::sub::macro! 这种方式调用）。
 #[macro_export] macro_rules! vec { ( $($x:expr), *) =&amp;gt; { // $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次  { let mut temp_vec = Vec::new(); ${ temp_vec.push($x); }* temp_vec } }; } 调用宏用于从属性生成代码 有点像编译期的装饰器：
 use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt; TokenStream { // --snip-- } </description>
@@ -947,10 +947,10 @@ use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt;
     
     <item>
       <title>智能指针</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180545-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180545-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/</link>
       <pubDate>Mon, 29 Jun 2020 18:05:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180545-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180545-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/</guid>
       <description>智能指针   表现的像一个指针，拥有数据并允许在对数据进行维护。
   通常通过 struct 实现并实现两个特性 Deref 和 Drop
  Deref 允许智能指针实例行为像一个引用，让代码可以同时处理引用和智能指针 Drop 允许自定义智能指针超出作用域的行为。    标准库常见的智能指针
@@ -961,20 +961,20 @@ use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt;
     
     <item>
       <title>迭代器</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180506-%E8%BF%AD%E4%BB%A3%E5%99%A8/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180506-%E8%BF%AD%E4%BB%A3%E5%99%A8/</link>
       <pubDate>Mon, 29 Jun 2020 18:05:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180506-%E8%BF%AD%E4%BB%A3%E5%99%A8/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180506-%E8%BF%AD%E4%BB%A3%E5%99%A8/</guid>
       <description>迭代器 所有的迭代器都实现了 Iterator 特性：
 pub trait Iterator { type Item; // 关联类型  fn next(&amp;amp;mut self) -&amp;gt; Option&amp;lt;Self::Item&amp;gt;; // 返回 None 结束循环 } </description>
     </item>
     
     <item>
       <title>生命周期</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180413-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180413-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</link>
       <pubDate>Mon, 29 Jun 2020 18:04:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180413-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180413-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</guid>
       <description>生命周期  Rust 中的每一个引用都有其生命周期：引用有效的作用域。 大部分情况下生命周期都是隐式和自举的，在无法完成的情况下就需要我们通过生命周期泛型参数帮助编译器进行注解。 生命周期的主要目标是避免悬空指针。 生命周期泛型参数定义各个引用之间（参数和参数、参数和返回值）的关系，并不改变（延长）变量原本的生命周期  &amp;amp;i32 // a reference &amp;amp;&amp;#39;a i32 // a reference with an explicit lifetime &amp;amp;&amp;#39;a mut i32 // a mutable reference with an explicit lifetime 参考以下代码
 fn longest&amp;lt;&amp;#39;a&amp;gt;(x: &amp;amp;&amp;#39;a str, y: &amp;amp;&amp;#39;a str) -&amp;gt; &amp;amp;&amp;#39;a str { if x.len() &amp;gt; y.len() { x } else { y } } 以上代码
  标注生命周期 &#39;a 函数有两个引用参数，都使用生命周期 &#39;a 表示两个参数的生命周期必须一致（存活的周期一样长） 函数返回一个引用，并且存活的时间和生命周期 &#39;a 一致 以上指定不改变任何传入的引用的生命周期，我们只是要求借用检查器（borrow checker）检查这些约束。 也就是说借用检查器要检查传入的两个引用的生命周期必须一致，返回的引用的存活周期不能超过传入的引用的存活周期  思考 当函数返回一个引用时，返回值的生命周期注解要和参数的其中之一相匹配，否则那么引用就是指向里函数内创建的值（不能返回）。 也就是说返回引用时，引用的声明周期必须和参数（其一）相关。如果想要返回函数内创建的值最好返回一个有所有权的值类型。</description>
@@ -982,10 +982,10 @@ fn longest&amp;lt;&amp;#39;a&amp;gt;(x: &amp;amp;&amp;#39;a str, y: &amp;amp;&am
     
     <item>
       <title>闭包</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/</link>
       <pubDate>Mon, 29 Jun 2020 18:04:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/</guid>
       <description>let add_one = | num | { num + 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
 let add_one = | num: i32 | { num + 1 }; fn add_one_v1 (x: u32) -&amp;gt; u32 { x + 1 } let add_one_v2 = |x: u32| -&amp;gt; u32 { x + 1 }; let add_one_v3 = |x| { x + 1 }; let add_one_v4 = |x| x + 1 ; 使用 Fn 存储闭包类型
 struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, value: Option&amp;lt;u32&amp;gt;, } impl Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { fn new(calculation: T) -&amp;gt; Cacher&amp;lt;T&amp;gt; { Cacher { calculation, value: None, } } fn value(&amp;amp;mut self, arg: u32) -&amp;gt; u32 { if let Some(value) = self.</description>
@@ -993,19 +993,19 @@ struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, 
     
     <item>
       <title>Traits</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180345-traits/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180345-traits/</link>
       <pubDate>Mon, 29 Jun 2020 18:03:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180345-traits/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180345-traits/</guid>
       <description>Traits  定义行为在多个类型中共享。 可以定义默认行为在实现者中间共享。 可以用于定义参数的行为，同样可以定义返回值行为，当用 trait 限定返回值类型时，不能同时（if/else）返回多种实现了该 trait 的类型。  pub trait Summary { fn summarize(&amp;amp;self) -&amp;gt; String; } pub struct Article{ pub title: String, } impl Summary for Article { fn summarize(&amp;amp;self) -&amp;gt; String { format!(&amp;#34;{}&amp;#34;, self.title) } } pub fn notify(item: impl Summary) { println!(&amp;#34;{}&amp;#34;, item.summarize()); } // trait bound 语法糖版本 pub fn notify&amp;lt;T: Summary&amp;gt;(item: T) { println!(&amp;#34;{}&amp;#34;, item.summarize()); } 定义参数行为  通过 impl ： fn notify(item: impl TraitName) ，用于简单明了的场景，比如一个参数 通过 trait bound ： fn notify&amp;lt;T: TraitName&amp;gt; (item: T) ，用于更复杂的场景，比如多个参数用于减少代码   可以通过 + 连接： fn notify(T: TraitName + Display) (item: T)</description>
     </item>
     
     <item>
       <title>错误处理</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/</link>
       <pubDate>Mon, 29 Jun 2020 18:03:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/</guid>
       <description>enum Result&amp;lt;T, E&amp;gt; { Ok(T), Err(E), } ? 操作符 对比
 use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let f = File::open(&amp;#34;hello.txt&amp;#34;); let mut f = match f { Ok(file) =&amp;gt; file, Err(e) =&amp;gt; return Err(e), }; let mut s = String::new(); match f.read_to_string(&amp;amp;mut s) { Ok(_) =&amp;gt; Ok(s), Err(e) =&amp;gt; Err(e), } } 和
 use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let mut f = File::open(&amp;#34;hello.</description>
@@ -1013,19 +1013,19 @@ use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() 
     
     <item>
       <title>if let</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180202-if_let/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180202-if_let/</link>
       <pubDate>Mon, 29 Jun 2020 18:02:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180202-if_let/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180202-if_let/</guid>
       <description>let some_u8_value = Some(0u8); // Without `if let` match some_u8_value { Some(3) =&amp;gt; println!(&amp;#34;three&amp;#34;); - =&amp;gt; (), } // With `if let` if let Some(3) = some_u8_value { println!(&amp;#34;three&amp;#34;); } </description>
     </item>
     
     <item>
       <title>模块化</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/</link>
       <pubDate>Mon, 29 Jun 2020 18:02:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/</guid>
       <description>包、crate 和模块   Cargo.toml 表示一个包
  包含 0 个或 1 个库 crate（ src/lib.rs ） 包含 0 个或多个可执行 crate （ src/main.rs src/bin/*.rs ） 可以同时包含以上两种    模块化系统
   模块，一种组织代码和控制路径隐私的方法
@@ -1041,19 +1041,19 @@ use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() 
     
     <item>
       <title>模式匹配</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/</link>
       <pubDate>Mon, 29 Jun 2020 18:01:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/</guid>
       <description>#[derive(Debug)] enum UsState { Alabama, Alaska, } enum Coin { Penny, Nickel, Dime, Quarter(UsState), } fn value_cents(coin: Coin) -&amp;gt; u8 { match coin { Coin::Peny =&amp;gt; { println!(&amp;#34;Lucy penny!&amp;#34;); 1 }, Coin::Nickel =&amp;gt; 5, Coin::Dime =&amp;gt; 10, Coin::Quarter(state) =&amp;gt; { println!(&amp;#34;State quarter from {:?}!&amp;#34;, state); 25 }, } } // Option fn plus_one(x: Option&amp;lt;i32&amp;gt;) -&amp;gt; Option&amp;lt;i32&amp;gt; { match x { None =&amp;gt; None, Some(i) =&amp;gt; Some(i + 1), } } let five = Some(5); let six = plus_one(five); let none = plus_one(None); 编译器会检查 match 覆盖所有情况， _ 可以用于所有未覆盖的情况。</description>
     </item>
     
     <item>
       <title>枚举</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/</link>
       <pubDate>Mon, 29 Jun 2020 18:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/</guid>
       <description>多种类型的集合体，一个类型的变量可以存储多种类型的值，枚举的每一项都是该枚举类型的变体：
 enum IpAddrKind { V4, V6, } fn main() { route(IpAddrKind::V4); route(IpAddrkind::V6); } fn route(kind: IpAddrKind) { // ... }   枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
 struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&amp;#34;::1&amp;#34;)); struct Message { Quit, Move{ x: i32, y: i32 }, // anonymous struct  Write(String), ChangeColor(i32, i32, i32), // three i32 values }   枚举也可以通过 impl 实现方法</description>
@@ -1061,10 +1061,10 @@ struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let ho
     
     <item>
       <title>结构体</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/</link>
       <pubDate>Mon, 29 Jun 2020 17:59:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/</guid>
       <description>结构体 元组结构体（tuple struct） 用于命名元组并和其他元组进行区分：
 struct Color(i32, i32, i32); struct Point(i32, i32, i32); let black = Color(0, 0, 0); let origin = Point(0, 0, 0); 由于定义了元组结构体所有 black 和 origin 是两个不同的类型。
 没有字段的结构体：类单元（Unit-Like）结构体 没有任何字段的结构体和单元类型 () 类似，用于实现一些特性（trait）但是没有任何数据。
@@ -1078,10 +1078,10 @@ struct Color(i32, i32, i32); struct Point(i32, i32, i32); let black = Color(0, 0
     
     <item>
       <title>引用和借用</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629174943-%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629174943-%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8/</link>
       <pubDate>Mon, 29 Jun 2020 17:49:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629174943-%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629174943-%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8/</guid>
       <description>类型前置 &amp;amp; 表示引用，引用允许变量指向一个值但是不发生所有权转移。 引用不占有所有权，所以变量超出作用域之后不会触发 drop 调用。 引用作为函数形参被成为借用（borrowing）  可变引用   针对特定作用域下的特定数据只能创建一个可变引用。如果要创建多个可变引用可以通过大括号创建新的作用域
 let mut s = String::from(&amp;#34;hello&amp;#34;); { let s1 = mut &amp;amp;s; } let s2 = mut &amp;amp;s;   当已经存在不可变引用时，则无法再创建可变引用，下面代码无法编译通过
 let mut s = String::from(&amp;#34;hello&amp;#34;); let s1 = &amp;amp;s; // OK let s2 = &amp;amp;s; // OK let s3 = mut &amp;amp;s; // BIG PROBLEM   悬空引用 以下代码是不允许的，无法编译通过
@@ -1090,10 +1090,10 @@ fn main() { let s = dangling_string(); } fn dangling_string() -&amp;gt; &amp;amp
     
     <item>
       <title>所有权</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629174911-%E6%89%80%E6%9C%89%E6%9D%83/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629174911-%E6%89%80%E6%9C%89%E6%9D%83/</link>
       <pubDate>Mon, 29 Jun 2020 17:49:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629174911-%E6%89%80%E6%9C%89%E6%9D%83/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629174911-%E6%89%80%E6%9C%89%E6%9D%83/</guid>
       <description>规则  每个值都有一个变量叫做所有者（owner） 同一时间只能有一个所有者 当所有者超出作用域则值被销毁  变量作用域  作用域是一个变量有效的范围 当变量超出作用域范围自动调用对象的 drop 方法进行内存归还操作  变量相互作用：所有权转移（Move） 对于所有在栈上分配的值（固定大小），在进行赋值操作时都对值进行拷贝：
 let x = 5; ley y = x; // copy 5 to y 但是对于在堆上分配的，变量保存的是指向内存的指针，所以在赋值时拷贝的也是指向该内存的指针：
 let s1 = String::from(&amp;#34;hello&amp;#34;); let s2 = s1; 为了保证内存安全，防止 s1 和 s2 超出作用域范围调用两次 drop 造成重复的内存回收，Rust 会让 s1 不再有效，来避免对 s1 进行回收。继续使用 s1 会导致编译错误。这种情况叫做所有权转移（move）。
@@ -1104,10 +1104,10 @@ let s1 = String::from(&amp;#34;hello&amp;#34;); let s2 = s1.clone(); println!(s1
     
     <item>
       <title>语句和表达式</title>
-      <link>http://www.linuxzen.com/notes/notes/20200629174820-%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200629174820-%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
       <pubDate>Mon, 29 Jun 2020 17:48:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200629174820-%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200629174820-%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
       <description>Rust 区分语句和表达式， Rust 是基于表达式的语言：
   语句：执行动作并且不返回值
  使用 let 声明变量是语句，所以 let 语句不返回值，也就不能像 Python 那样将 let 语句赋值给其他变量 函数声明也是语句    表达式：计算并返回值，不以分号（;）结尾
@@ -1122,10 +1122,10 @@ let x = { let y = 6; y + 5 }   if loop while for 是表达式
     
     <item>
       <title>Member initialize</title>
-      <link>http://www.linuxzen.com/notes/notes/20200628183417-member_initialize/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200628183417-member_initialize/</link>
       <pubDate>Sun, 28 Jun 2020 18:34:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200628183417-member_initialize/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200628183417-member_initialize/</guid>
       <description>如果类成员属性是值类型或者引用类型则需要改对象有无参数构造方法，否则类无法实例化， 这是因为这类成员属性在构造函数调用之前就需要进行初始化。
 下面代码无法通过编译
 class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class Bar { public: Bar(int n) { this-&amp;gt;foo = Foo(n); }; ~Bar(); private: Foo &amp;amp; foo; }; </description>
@@ -1133,10 +1133,10 @@ class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class
     
     <item>
       <title>Iterator class</title>
-      <link>http://www.linuxzen.com/notes/notes/20200628183227-iterator_class/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200628183227-iterator_class/</link>
       <pubDate>Sun, 28 Jun 2020 18:32:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200628183227-iterator_class/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200628183227-iterator_class/</guid>
       <description>容器类实现 begin 和 end 方法返回 Iterator class 的实例， Iterator class 通过实现友元类可以直接访问容器类的私有属性， Iterator class 通过重载 ++/==/* 等操作符实现对容器类的访问并通过自己的私有属性记录当前位置。
 Iterator class 重载的操作符：
  ++ 移动容器元素位置 == 判断两个容器位置是否相等（容器是否一个，位置是否一个） * 解引用返回当前位置指向的容器的值  </description>
@@ -1144,29 +1144,29 @@ Iterator class 重载的操作符：
     
     <item>
       <title>SSE/AVX/AVX2/AVX512</title>
-      <link>http://www.linuxzen.com/notes/notes/20200628182211-avx512/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200628182211-avx512/</link>
       <pubDate>Sun, 28 Jun 2020 18:22:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200628182211-avx512/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200628182211-avx512/</guid>
       <description>部分 intel CPU 支持向量指令集同时进行多路整数和浮点数计算，以此来进行对相关算法进行优化，这里整理相关链接：
  编译器支持相关封装避免编写汇编代码，官方指南：Intrinsics Guide 基于 sse_mathfun 的 avx_mathfun 封装相关宏和函数 mp3 库 lame 中的 SSE 加速实现 libmp3lame/vector/xmm_quantize_sub.c  AVX512 VNNI  https://en.wikichip.org/wiki/x86/avx512%5Fvnni  </description>
     </item>
     
     <item>
       <title>优化</title>
-      <link>http://www.linuxzen.com/notes/notes/20200628182150-%E4%BC%98%E5%8C%96/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200628182150-%E4%BC%98%E5%8C%96/</link>
       <pubDate>Sun, 28 Jun 2020 18:21:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200628182150-%E4%BC%98%E5%8C%96/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200628182150-%E4%BC%98%E5%8C%96/</guid>
       <description> AVX512  </description>
     </item>
     
     <item>
       <title>Surgical Reading: How to Read 12 Books at Once</title>
-      <link>http://www.linuxzen.com/notes/articles/20200628134657-surgical_reading_how_to_read_12_books_at_once/</link>
+      <link>https://www.linuxzen.com/notes/articles/20200628134657-surgical_reading_how_to_read_12_books_at_once/</link>
       <pubDate>Sun, 28 Jun 2020 13:46:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/articles/20200628134657-surgical_reading_how_to_read_12_books_at_once/</guid>
+      <guid>https://www.linuxzen.com/notes/articles/20200628134657-surgical_reading_how_to_read_12_books_at_once/</guid>
       <description>原文链接：https://superorganizers.substack.com/p/surgical-reading-how-to-read-12-books
 手术阅读法：如何同时阅读 12 本书  译者注：这篇文章让我想起了《如何阅读一本书》这本书，文章中的大部分技巧都能在这本书中找出来，阅读是一门需要学习的技能。
  当有人问我如何阅读时我总是会有点尴尬，因为我一般都是同时阅读十几本书。
@@ -1189,10 +1189,10 @@ Iterator class 重载的操作符：
     
     <item>
       <title>Surgical Reading: How to Read 12 Books at Once</title>
-      <link>http://www.linuxzen.com/notes/notes/20200628134657-surgical_reading_how_to_read_12_books_at_once/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200628134657-surgical_reading_how_to_read_12_books_at_once/</link>
       <pubDate>Sun, 28 Jun 2020 13:46:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200628134657-surgical_reading_how_to_read_12_books_at_once/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200628134657-surgical_reading_how_to_read_12_books_at_once/</guid>
       <description>原文链接：https://superorganizers.substack.com/p/surgical-reading-how-to-read-12-books
 手术阅读法：如何同时阅读 12 本书  译者注：这篇文章让我想起了《如何阅读一本书》这本书，文章中的大部分技巧都能在这本书中找出来，阅读是一门需要学习的技能。
  当有人问我如何阅读时我总是会有点尴尬，因为我一般都是同时阅读十几本书。
@@ -1215,19 +1215,19 @@ Iterator class 重载的操作符：
     
     <item>
       <title>Python</title>
-      <link>http://www.linuxzen.com/notes/notes/20200628133616-python/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200628133616-python/</link>
       <pubDate>Sun, 28 Jun 2020 13:36:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200628133616-python/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200628133616-python/</guid>
       <description>IPython EIN import numpy, math, matplotlib.pyplot as plt %matplotlib inline x = numpy.linspace(0, 2 * math.pi) plt.plot(x, numpy.sin(x)) </description>
     </item>
     
     <item>
       <title>CMake</title>
-      <link>http://www.linuxzen.com/notes/notes/20200628123035-cmake/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200628123035-cmake/</link>
       <pubDate>Sun, 28 Jun 2020 12:30:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200628123035-cmake/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200628123035-cmake/</guid>
       <description>  安装的头文件必须包含在目标的源代码中，否则构建如 iOS 的 Framework 时无法正确包含头文件
 ADD_LIBRARY(test test.h)  CMake 生成 C++ LSP 配置文件
   </description>
@@ -1235,19 +1235,19 @@ ADD_LIBRARY(test test.h)  CMake 生成 C++ LSP 配置文件
     
     <item>
       <title>Build System</title>
-      <link>http://www.linuxzen.com/notes/notes/20200628122958-build_system/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200628122958-build_system/</link>
       <pubDate>Sun, 28 Jun 2020 12:29:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200628122958-build_system/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200628122958-build_system/</guid>
       <description> CMake  </description>
     </item>
     
     <item>
       <title>Tmux 256 colors</title>
-      <link>http://www.linuxzen.com/notes/notes/20200603103943_tmux_256_colors/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200603103943_tmux_256_colors/</link>
       <pubDate>Wed, 03 Jun 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200603103943_tmux_256_colors/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200603103943_tmux_256_colors/</guid>
       <description>生成 terminfo
 $ cat &amp;lt;&amp;lt;EOF &amp;gt; terminfo-24bits.src # Use semicolon separators. xterm-24bits|xterm with 24-bit direct color mode, use=xterm-256color, Tc, setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm, setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm,]] EOF $ tic -x -o ~/.terminfo terminfo-24bits.src 通过 xterm-24bits 启动 Emacs
 $ env TERM=xterm-24bits emacs Emacs 通过 list-color-display 查看效果。</description>
@@ -1255,19 +1255,19 @@ $ env TERM=xterm-24bits emacs Emacs 通过 list-color-display 查看效果。</d
     
     <item>
       <title>Weekly Journal</title>
-      <link>http://www.linuxzen.com/notes/posts/20200511/</link>
+      <link>https://www.linuxzen.com/notes/posts/20200511/</link>
       <pubDate>Mon, 11 May 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/posts/20200511/</guid>
+      <guid>https://www.linuxzen.com/notes/posts/20200511/</guid>
       <description>星期一, 2020/05/11 14:23 排查旧版引擎问题 14:44 梳理平台项目 17:54 修复打点库崩溃导致数据平台进程崩溃 18:22 回滚一台中文引擎 星期二, 2020/05/12 16:51 编写初版团队 OKR 17:15 同雪景沟通图像相关 OKR 和话术平台 18:48 适配聊天记录分片上传修复请求包体过大导致聊天记录上传失败 星期三, 2020/05/13 CANCELLED12:02 实现 Argus 图表事件展示 CANCELLED14:46 给晓辉的数据返回 user_type 10:52 联系彬伟部署 stage 环境 Docker 容器 13:51 完成聊天分析代码修复和镜像构建 17:52 完成语音分析代码修复和镜像构建 17:53 测试语音分析 18:37 修复聊天分析任务获取和聊天频率分析运行错误 星期四, 2020/05/14 10:09 半开放镜像机从 AVX2 指令集迁移到 AVX512 10:16 更新版开放阿里云镜像机 15:15 同步数据增加 lessonId 17:04 用 Go 实现从 Hive 中同步聊天记录 18:19 制作半开放镜像并开一台机器测试 18:50 聊天记录获取在 Hive 开发机上部署测试和正式环境 19:53 OKR 沟通 星期五, 2020/05/15 10:29 沟通彬伟关于动态扩容 IP 地址不够用的问题 15:46 上线中学段落相关机器 星期六, 2020/05/16 21:26 写周报 </description>
     </item>
     
     <item>
       <title>Rust Trait Object</title>
-      <link>http://www.linuxzen.com/notes/notes/20200329204833_rust_trait_object/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200329204833_rust_trait_object/</link>
       <pubDate>Sun, 29 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200329204833_rust_trait_object/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200329204833_rust_trait_object/</guid>
       <description>动态大小类型（DST）和 Sized 特性 str （非 &amp;amp;str ）就是一个 DST，我们不能在运行时得知 str 的大小。 &amp;amp;str 是一个指针类型，大小是已知的。
 DST：拥有额外的元数据存储动态大小的信息。
 每一个特性都是一个是个 DST，使用 Trait Object 必须是像 &amp;amp;dyn Trait 和 Box&amp;lt;dyn Trait&amp;gt; （或 Rc&amp;lt;dyn Trait&amp;gt; ）的指针类型。
@@ -1280,10 +1280,10 @@ fn geneic&amp;lt;T: ?Sized&amp;gt;(t: &amp;amp;T) { // --snip-- } </description>
     
     <item>
       <title>Rust Borrow and Lifetimes</title>
-      <link>http://www.linuxzen.com/notes/articles/20200325182450_rust_borrow_and_lifetimes/</link>
+      <link>https://www.linuxzen.com/notes/articles/20200325182450_rust_borrow_and_lifetimes/</link>
       <pubDate>Wed, 25 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/articles/20200325182450_rust_borrow_and_lifetimes/</guid>
+      <guid>https://www.linuxzen.com/notes/articles/20200325182450_rust_borrow_and_lifetimes/</guid>
       <description>原文链接：Rust Borrow and Lifetimes。
 Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布，目前最新稳定版本 1.42）。 我必须再写一篇关于我为什么觉得 Rust 牛逼的新博客，但是今天我将关注在它的借用（borrow） 和生命周期（lifetimes）系统，这也是常常让包括我在内的 Rust 新手陷入困境的地方。这篇文章假设 你基本了解 Rust，如果还没推荐你先阅读指南和指针指南。
 资源所有权和借用 Rust 通过一个难缠的（sophisticated）借用系统在不用 GC 的情况下达到内存安全。对于任何资源 （栈内存、堆内存、文件句柄等），他们都对应一个唯一的所有者（owner）在需要的情况下处理资源回收。 你可以通过 &amp;amp; 或者 &amp;amp;mut 创建一个新的绑定指向该资源，这被称之为借用或可变借用。编译器确保 所有的所有者（owners）和借用者（borrowers）行为正确。
@@ -1297,19 +1297,19 @@ Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布
     
     <item>
       <title>Rust Wrapper Types</title>
-      <link>http://www.linuxzen.com/notes/notes/20200325165657_rust_wrapper_types/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200325165657_rust_wrapper_types/</link>
       <pubDate>Wed, 25 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200325165657_rust_wrapper_types/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200325165657_rust_wrapper_types/</guid>
       <description> Wrapper Types in Rust: Choosing Your Guarantees  相关基础  Rust Borrow and Lifetimes Rust Means Never Having to Close a Socket  </description>
     </item>
     
     <item>
       <title>SOLID</title>
-      <link>http://www.linuxzen.com/notes/notes/20200323101418_solid/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200323101418_solid/</link>
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200323101418_solid/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200323101418_solid/</guid>
       <description>SRP: Single Responsibility Principle   浅显的解释是软件模块只提供单一功能
   更进一步任何一个软件模块都应该有且只有一个被修改的原因
   再更进一步这个原则是关于人（Actor）的
@@ -1324,10 +1324,10 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     
     <item>
       <title>《架构整洁之道》读书笔记</title>
-      <link>http://www.linuxzen.com/notes/notes/20200323104907_%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200323104907_%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93/</link>
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200323104907_%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200323104907_%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93/</guid>
       <description>第一遍粗读   三个编程范式：结构化编程、面向对象编程、函数式编程
 每个编程范式都是增加限制：
  结构化编程限制了 goto 面向对象编程限制了函数指针 函数式编程限制可变变量（变量不可修改）    设计原则：SOLID
@@ -1336,48 +1336,48 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     
     <item>
       <title>技术</title>
-      <link>http://www.linuxzen.com/notes/notes/20200323104645_%E6%8A%80%E6%9C%AF/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200323104645_%E6%8A%80%E6%9C%AF/</link>
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200323104645_%E6%8A%80%E6%9C%AF/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200323104645_%E6%8A%80%E6%9C%AF/</guid>
       <description> Programming Language 算法 Emacs Unix AI 翻墙 大数据 分布式 系统架构 优化 Computer Systems Network 技术随想  </description>
     </item>
     
     <item>
       <title>系统架构</title>
-      <link>http://www.linuxzen.com/notes/notes/20200322143810_%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200322143810_%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/</link>
       <pubDate>Sun, 22 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200322143810_%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200322143810_%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/</guid>
       <description>设计原则 SOLID
 好的架构 我认为好的架构  能够无心智障碍的编写运行单元测试  从一起作业看好的架构  应该能够让任何开发人员方便的随时上线和回滚 面对上线对基础设施没有心理压力 完备的监控  </description>
     </item>
     
     <item>
       <title>C/C&#43;&#43;</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320171108_c/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320171108_c/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320171108_c/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320171108_c/</guid>
       <description>C++  Iterator class Member initialize C++ LSP GDB C/C++ thread-local storage  多态 只能通过抽象类的指针或引用调用动态解析子类函数，虚函数表示需要动态解析，纯虚函数必须被子类覆盖，否则无法实例化。
 相关优化  SSE/AVX/AVX2/AVX512  </description>
     </item>
     
     <item>
       <title>Flink</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320100601_flink/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320100601_flink/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320100601_flink/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320100601_flink/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Kafka</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320172022_kafka/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320172022_kafka/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320172022_kafka/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320172022_kafka/</guid>
       <description>概念组成   Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息
   Consumer Group 消费指定 Topic 的消息
  Consumer 消费指定 Topic 下某一分区的消息    Topic 区分不同消息主题
@@ -1389,28 +1389,28 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     
     <item>
       <title>LeetCode</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320172132_leetcode/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320172132_leetcode/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320172132_leetcode/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320172132_leetcode/</guid>
       <description>LeetCode: Trapping Tain Water LeetCode: 153.Find Minimum in Rotated Sorted Array LeetCode: 154.Find Minimum in Rotated Sorted Array II LeetCode: 316.Remove Duplicate Letters LeetCode: 3.Longest Substring Without Repeating Characters LeetCode: 4.Median of Two Sorted Arrays LeetCode: 5.Longest Palindromic Substring LeetCode: 6.ZigZag Conversion  数独有效性 class Solution { public: bool isValidSudoku(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp;gt;&amp;amp; board) { vector&amp;lt;int&amp;gt; wow(9,0); int mux1; int mux2; int mux3; int box_index; for(int i=0;i&amp;lt;9;i++){ for(int j=0;j&amp;lt;9;j++){ if(board[i][j] == &amp;#39;.&amp;#39;){ continue; } mux1 = 0x01 &amp;lt;&amp;lt; (board[i][j] - &amp;#39;1&amp;#39;); mux2 = 0x01 &amp;lt;&amp;lt; 9 &amp;lt;&amp;lt; (board[i][j] - &amp;#39;1&amp;#39;); mux3 = 0x01 &amp;lt;&amp;lt; 9 &amp;lt;&amp;lt; 9 &amp;lt;&amp;lt; (board[i][j] - &amp;#39;1&amp;#39;); box_index = (i/3) * 3 + j/3; if((wow[i]&amp;amp;mux1) !</description>
     </item>
     
     <item>
       <title>LeetCode: Trapping Tain Water</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320172219_leetcode_trapping_tain_water/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320172219_leetcode_trapping_tain_water/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320172219_leetcode_trapping_tain_water/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320172219_leetcode_trapping_tain_water/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Linux Virtual Memory Management</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/</guid>
       <description>Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架构的方式描述内存 — 更好的支持多平台
   本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
   VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
@@ -1422,19 +1422,19 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     
     <item>
       <title>Programming Language</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320170914_programming_language/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320170914_programming_language/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320170914_programming_language/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320170914_programming_language/</guid>
       <description> Rust Go C/C++ Python Build System  </description>
     </item>
     
     <item>
       <title>《百箭穿杨》读书笔记</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320180837_%E7%99%BE%E7%AE%AD%E7%A9%BF%E6%9D%A8/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320180837_%E7%99%BE%E7%AE%AD%E7%A9%BF%E6%9D%A8/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320180837_%E7%99%BE%E7%AE%AD%E7%A9%BF%E6%9D%A8/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320180837_%E7%99%BE%E7%AE%AD%E7%A9%BF%E6%9D%A8/</guid>
       <description>需要熟悉股市相关概念进行扫盲。
 粗读要点  树立安全边际，跟随格雷厄姆 寻找好的困难股，降低触底难度，加大触底区间，预测底部区间，分 5 档抄底，最好在 1-3 档就能完成抄底 每次只买总资产的 1% 盈利后可以将本金提出，只留底仓等待顶峰信号后抛出赚取高额利润的前提下保障本金 总是留 25%-40% 的现金 做长线 分析财报看毛利、营收增长率、负债率可以确定一个好股，然后就等一些情况下这只股遇到困难触底 看行业处于哪个周期：萌发、成长啥的 不做重仓  复读要点完善 安全边际 跟随格雷厄姆
  偏离：更保守或更激进 大赚小赔不如小赚不赔：不亏钱  困境好企   做有把握的事，不啃硬骨头，广撒网，多捞鱼，选取一批困境好企来实现从小盘大稳定增长股
@@ -1455,19 +1455,19 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     
     <item>
       <title>分布式</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320174417_%E5%88%86%E5%B8%83%E5%BC%8F/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320174417_%E5%88%86%E5%B8%83%E5%BC%8F/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320174417_%E5%88%86%E5%B8%83%E5%BC%8F/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320174417_%E5%88%86%E5%B8%83%E5%BC%8F/</guid>
       <description>流行的算法  Raft  算法可视化 raft-rs   Paios  理解这两点，也就理解了paxos协议的精髓    相关论文  Time, Clocks, and the Ordering of Events in a Distributed System Raft  </description>
     </item>
     
     <item>
       <title>动态规划</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
       <description>0x00 硬币找零 假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
 公式 \(f(n)=min\{f(n-1),f(n-3),f(n-5)\} + 1\)
 假设找零 15：
@@ -1479,37 +1479,37 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     
     <item>
       <title>大数据</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/</guid>
       <description> Flink Kafka MySQL  </description>
     </item>
     
     <item>
       <title>归并排序</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320173033_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320173033_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320173033_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320173033_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</guid>
       <description>Wikipedia: 归并排序</description>
     </item>
     
     <item>
       <title>算法</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320171501_%E7%AE%97%E6%B3%95/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320171501_%E7%AE%97%E6%B3%95/</link>
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320171501_%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320171501_%E7%AE%97%E6%B3%95/</guid>
       <description> LeetCode 动态规划 归并排序 二叉树的遍历  </description>
     </item>
     
     <item>
       <title>Let&#39;s Encrypt</title>
-      <link>http://www.linuxzen.com/notes/notes/20200319221212_let_s_encrypt/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200319221212_let_s_encrypt/</link>
       <pubDate>Thu, 19 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200319221212_let_s_encrypt/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200319221212_let_s_encrypt/</guid>
       <description>这里以新增 vd.linuxzen.com 为例。
 新增 DNS 解析  通过 DNSPOD 新增 DNS 解析 A 记录  调整 Nginx 新增 HTTP 站点 Nginx 参考配置
 server { listen 80; server_name vd.linuxzen.com; include /etc/nginx/snippets/letsencrypt-acme-challenge.conf; } 新增签发证书 $ acme.sh --force --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d vd.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/ 安装证书
@@ -1518,10 +1518,10 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
     
     <item>
       <title>V2Ray</title>
-      <link>http://www.linuxzen.com/notes/notes/20200319215535_v2ray/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200319215535_v2ray/</link>
       <pubDate>Thu, 19 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200319215535_v2ray/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200319215535_v2ray/</guid>
       <description>翻墙 架构 Client -&amp;gt; DIDIYun(HAProxy) -&amp;gt; HK
 滴滴云 HAPorxy 配置 117.51.146.119
 frontend v_linuxzen_com bind *:6697 option tcplog mode tcp default_backend v_linuxzen_com_nodes backend v_linuxzen_com_nodes mode tcp balance roundrobin option ssl-hello-chk server webserver1 45.115.36.35:443 check 客户端改动 需要调整 hosts
@@ -1530,10 +1530,10 @@ $ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts 
     
     <item>
       <title>xinetd</title>
-      <link>http://www.linuxzen.com/notes/notes/20200319223026_xinetd/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200319223026_xinetd/</link>
       <pubDate>Thu, 19 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200319223026_xinetd/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200319223026_xinetd/</guid>
       <description>xinetd 代理 SMTP 和 IMAP 通过 xinetd 代理 SMTP 和 IMAP 实现 gmail 翻墙。
   配置服务端
 service imap { type = UNLISTED port = 993 bind = 0.0.0.0 socket_type = stream wait = no user = nobody redirect = imap.gmail.com 993 per_source = UNLIMITED cps = 100 2 } service smtp-465 { type = UNLISTED port = 465 bind = 0.0.0.0 socket_type = stream wait = no user = nobody redirect = smtp.</description>
@@ -1541,19 +1541,19 @@ service imap { type = UNLISTED port = 993 bind = 0.0.0.0 socket_type = stream wa
     
     <item>
       <title>翻墙</title>
-      <link>http://www.linuxzen.com/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/</link>
       <pubDate>Thu, 19 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/</guid>
       <description> V2Ray Let&amp;rsquo;s Encrypt xinetd  </description>
     </item>
     
     <item>
       <title>股市相关概念</title>
-      <link>http://www.linuxzen.com/notes/notes/20200318160435_%E8%82%A1%E5%B8%82%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200318160435_%E8%82%A1%E5%B8%82%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/</link>
       <pubDate>Wed, 18 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200318160435_%E8%82%A1%E5%B8%82%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200318160435_%E8%82%A1%E5%B8%82%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/</guid>
       <description>股分类   个股：投资资金来自个人的股票（还有国家股、法人股）
   蓝筹股：明星股
   小盘
@@ -1573,10 +1573,10 @@ Wikipedia: https://zh.wikipedia.org/wiki/%E5%B8%82%E7%9B%88%E7%8E%87
     
     <item>
       <title>基金定投</title>
-      <link>http://www.linuxzen.com/notes/notes/20200311093314_%E5%9F%BA%E9%87%91%E5%AE%9A%E6%8A%95/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200311093314_%E5%9F%BA%E9%87%91%E5%AE%9A%E6%8A%95/</link>
       <pubDate>Wed, 11 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200311093314_%E5%9F%BA%E9%87%91%E5%AE%9A%E6%8A%95/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200311093314_%E5%9F%BA%E9%87%91%E5%AE%9A%E6%8A%95/</guid>
       <description>适合人群：穷人、笨人、忙人、好人
   为什么
  通胀太高，股票战胜通胀的重要工具 绝大多数人不具备择时能力 避免高点买入    核心逻辑：放弃择时，持续小额买入，降低成本
@@ -1595,37 +1595,37 @@ Wikipedia: https://zh.wikipedia.org/wiki/%E5%B8%82%E7%9B%88%E7%8E%87
     
     <item>
       <title>Deep Learning</title>
-      <link>http://www.linuxzen.com/notes/notes/20200310093014_deep_learning/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200310093014_deep_learning/</link>
       <pubDate>Tue, 10 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200310093014_deep_learning/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200310093014_deep_learning/</guid>
       <description> What is the Difference Between CNN and RNN? 译：深度学习算法：完整指南  </description>
     </item>
     
     <item>
       <title>AI</title>
-      <link>http://www.linuxzen.com/notes/notes/20200309112015_ai/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200309112015_ai/</link>
       <pubDate>Mon, 09 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200309112015_ai/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200309112015_ai/</guid>
       <description> Machine Learning Deep Learning 《机器学习实战》读书笔记  </description>
     </item>
     
     <item>
       <title>Translate</title>
-      <link>http://www.linuxzen.com/notes/articles/20200309112105_translate/</link>
+      <link>https://www.linuxzen.com/notes/articles/20200309112105_translate/</link>
       <pubDate>Mon, 09 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/articles/20200309112105_translate/</guid>
+      <guid>https://www.linuxzen.com/notes/articles/20200309112105_translate/</guid>
       <description> Deep Learning Algorithms Rust Borrow and Lifetimes Rust Means Never Having to Close a Socket Surgical Reading: How to Read 12 Books at Once Python behind the scenes #1: how the CPython VM works Python behind the scenes #2: how the CPython compiler works  </description>
     </item>
     
     <item>
       <title>译：深度学习算法：完整指南</title>
-      <link>http://www.linuxzen.com/notes/articles/20200309112133_deep_learning_algorithms/</link>
+      <link>https://www.linuxzen.com/notes/articles/20200309112133_deep_learning_algorithms/</link>
       <pubDate>Mon, 09 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/articles/20200309112133_deep_learning_algorithms/</guid>
+      <guid>https://www.linuxzen.com/notes/articles/20200309112133_deep_learning_algorithms/</guid>
       <description>原文链接：Deep Learning Algorithms : The Complete Guide。
 深度学习正在影响整个世界。
 深度学习的炒作始于 2012 年：一个神经网络（Neural Network）在图片识别任务上表现出超人的性能，并且只有少数人能预测将会发生什么。
@@ -1652,20 +1652,20 @@ Contents   但是什么是深度学习?
     
     <item>
       <title>CPI</title>
-      <link>http://www.linuxzen.com/notes/notes/20200224133304_cpi/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200224133304_cpi/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200224133304_cpi/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200224133304_cpi/</guid>
       <description>反映与居民生活有关的产品及劳务价格统计出来的物价变动指标，衡量通货膨胀的主要指标之一：
  超过 3% 为通货膨胀 超过 5% 就是比较严重的通货膨胀  Links  消费者物价指数  </description>
     </item>
     
     <item>
       <title>ELisp</title>
-      <link>http://www.linuxzen.com/notes/notes/20200225192204_elisp/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200225192204_elisp/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200225192204_elisp/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200225192204_elisp/</guid>
       <description>&#39;foo vs #&#39;foo https://emacs.stackexchange.com/a/10943
  #&#39; on symbols will cause the byte-compiler to emit a warning if the function is not defined.
  </description>
@@ -1673,83 +1673,83 @@ Contents   但是什么是深度学习?
     
     <item>
       <title>Emacs</title>
-      <link>http://www.linuxzen.com/notes/notes/20200218120634/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200218120634/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200218120634/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200218120634/</guid>
       <description> ELisp Org Mode Helm Tmux 256 colors Emacs Buffer 名字去重 straight.el 命令 LSP  C++ LSP    </description>
     </item>
     
     <item>
       <title>Financial Management</title>
-      <link>http://www.linuxzen.com/notes/notes/20200224132507/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200224132507/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200224132507/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200224132507/</guid>
       <description> 基金 基金定投 股市相关概念 相关书籍  《巴比伦富翁新解》读书笔记 《百箭穿杨》读书笔记    To Read  《布雷迪报告》  </description>
     </item>
     
     <item>
       <title>Go</title>
-      <link>http://www.linuxzen.com/notes/notes/20200218115725/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200218115725/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200218115725/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200218115725/</guid>
       <description> Go Channel Go Swagger  柯里化 func max(a, b int) int { if a &amp;gt; b { return a } return b } func currying(a int) func(int) int { return func(b int) int { return max(a, b) } } </description>
     </item>
     
     <item>
       <title>Go Channel</title>
-      <link>http://www.linuxzen.com/notes/notes/20200218115740_go_channel/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200218115740_go_channel/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200218115740_go_channel/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200218115740_go_channel/</guid>
       <description>Channel Directions func demo(readOnlyStream &amp;lt;-chan bool, writeOnlyStream chan&amp;lt;- bool) { } </description>
     </item>
     
     <item>
       <title>Helm</title>
-      <link>http://www.linuxzen.com/notes/notes/20200218122103_helm/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200218122103_helm/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200218122103_helm/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200218122103_helm/</guid>
       <description>如何从历史跳到其他命令列表 Key binds C-o
 See also: https://emacs.stackexchange.com/questions/18173/how-to-jump-from-emacs-command-history-to-emacs-commands-in-helm</description>
     </item>
     
     <item>
       <title>Makefile</title>
-      <link>http://www.linuxzen.com/notes/notes/20200218174830_makefile/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200218174830_makefile/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200218174830_makefile/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200218174830_makefile/</guid>
       <description>Links  A Makefile for Emacs Packages  </description>
     </item>
     
     <item>
       <title>Org Mode</title>
-      <link>http://www.linuxzen.com/notes/notes/20200218120643_org_mode/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200218120643_org_mode/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200218120643_org_mode/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200218120643_org_mode/</guid>
       <description> OX-HUGO 批量导出 Markdown  快捷键  C-c C-o 打开当前光标下的链接  Snippets [[http://www.gnu.org/software/emacs/][GNU Emacs]] </description>
     </item>
     
     <item>
       <title>Rust</title>
-      <link>http://www.linuxzen.com/notes/notes/20200307191429_rust/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200307191429_rust/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200307191429_rust/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200307191429_rust/</guid>
       <description>学习  基础 《The Rust Programming Language》 相关主题  借用和生命周期 Rust Wrapper Types .iter vs .into_iter See SO   练习  基础练习：https://github.com/rust-lang/rustlings 进阶练习：https://github.com/pingcap/talent-plan Rust Trait Object   Rust Asynchronous Programming Rust Obscure Words for non-native English speakers  生态  Web  相关博文  如何理解 Sync 和 Send? Fearless Concurrency with Rust Why Rust strings seem hard  To Read  Rust宏小册 中文版 A half-hour to learn Rust  </description>
     </item>
     
     <item>
       <title>Taking Smart Notes With Org-mode</title>
-      <link>http://www.linuxzen.com/notes/articles/notes/</link>
+      <link>https://www.linuxzen.com/notes/articles/notes/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/articles/notes/</guid>
+      <guid>https://www.linuxzen.com/notes/articles/notes/</guid>
       <description>See also:
  https://praxis.fortelabs.co/how-to-take-smart-notes/ https://www.nateliason.com/blog/roam  Topics  Financial Management 读书笔记 技术 Translate Learning English 认同的话  Links Sprint 1:2019-02-03 ~ 2019-02-19   LD_PRELOAD: The Hero We Need and Deserve
 通过 LD_PRELOAD 覆盖一些函数，比如 faketime
@@ -1764,48 +1764,48 @@ See also: https://emacs.stackexchange.com/questions/18173/how-to-jump-from-emacs
     
     <item>
       <title>Taking Smart Notes With Org-mode</title>
-      <link>http://www.linuxzen.com/notes/notes/notes/</link>
+      <link>https://www.linuxzen.com/notes/notes/notes/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/notes/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/notes/</guid>
       <description>See also:
  https://praxis.fortelabs.co/how-to-take-smart-notes/ https://www.nateliason.com/blog/roam  </description>
     </item>
     
     <item>
       <title>Unix</title>
-      <link>http://www.linuxzen.com/notes/notes/20200218174814/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200218174814/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200218174814/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200218174814/</guid>
       <description> Makefile Linux Virtual Memory Management SSH macOS max open files macOS TimeMachine 日志 macOS 问题解决三板斧  </description>
     </item>
     
     <item>
       <title>《巴比伦富翁新解》读书笔记</title>
-      <link>http://www.linuxzen.com/notes/notes/20200307114151_%E5%B7%B4%E6%AF%94%E4%BC%A6%E5%AF%8C%E7%BF%81%E6%96%B0%E8%A7%A3/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200307114151_%E5%B7%B4%E6%AF%94%E4%BC%A6%E5%AF%8C%E7%BF%81%E6%96%B0%E8%A7%A3/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200307114151_%E5%B7%B4%E6%AF%94%E4%BC%A6%E5%AF%8C%E7%BF%81%E6%96%B0%E8%A7%A3/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200307114151_%E5%B7%B4%E6%AF%94%E4%BC%A6%E5%AF%8C%E7%BF%81%E6%96%B0%E8%A7%A3/</guid>
       <description>积累财富首先要改变思维，学习复利的力量。
 粗读要点  实践 10/50 懒人储蓄投资自己，工资 10% 奖金 50% 存储单独的账户用户投资自己 开辟单独基金用于存放房租、孩子学费和自我投资 不懂不投，宁愿错过，不犯过错 画出自己的财富水池 为自己购买保险规避风险（大病和死亡），完成家庭保险配置 理清房贷还款计划，怎么将还款金额降低到收入到 1/3 （9000）以下，可以考虑先提前还房贷减轻房贷利息压力  </description>
     </item>
     
     <item>
       <title>基准差</title>
-      <link>http://www.linuxzen.com/notes/notes/20200307154558_%E5%9F%BA%E5%87%86%E5%B7%AE/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200307154558_%E5%9F%BA%E5%87%86%E5%B7%AE/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200307154558_%E5%9F%BA%E5%87%86%E5%B7%AE/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200307154558_%E5%9F%BA%E5%87%86%E5%B7%AE/</guid>
       <description></description>
     </item>
     
     <item>
       <title>基金</title>
-      <link>http://www.linuxzen.com/notes/notes/20200224132645_/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200224132645_/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200224132645_/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200224132645_/</guid>
       <description>将资金交给投资经理人进行投资盈利跑赢 CPI 或赚取更多利润。
 分类 交易方式划分：
  开放式基金（活期） 封闭式基金（死期）  投资对象划分:
@@ -1817,10 +1817,10 @@ Links  〈如何买基金？基金入门，学会这几招就够了〉  </descri
     
     <item>
       <title>基金</title>
-      <link>http://www.linuxzen.com/notes/notes/20200307182917_%E5%9F%BA%E9%87%91/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200307182917_%E5%9F%BA%E9%87%91/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200307182917_%E5%9F%BA%E9%87%91/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200307182917_%E5%9F%BA%E9%87%91/</guid>
       <description>将资金交给投资经理人进行投资盈利跑赢 CPI 或赚取更多利润。
 分类 交易方式划分：
  开放式基金（活期） 封闭式基金（死期）  投资对象划分:
@@ -1832,19 +1832,19 @@ Links  〈如何买基金？基金入门，学会这几招就够了〉  </descri
     
     <item>
       <title>复利</title>
-      <link>http://www.linuxzen.com/notes/notes/20200307114233_%E5%A4%8D%E5%88%A9/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200307114233_%E5%A4%8D%E5%88%A9/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200307114233_%E5%A4%8D%E5%88%A9/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200307114233_%E5%A4%8D%E5%88%A9/</guid>
       <description>Wikipedia: https://zh.wikipedia.org/wiki/%E5%A4%8D%E5%88%A9</description>
     </item>
     
     <item>
       <title>夏普比率</title>
-      <link>http://www.linuxzen.com/notes/notes/20200224140348_/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200224140348_/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200224140348_/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200224140348_/</guid>
       <description>它是用来衡量金融资产绩效基金表现的一个指标，核心思想就是选择收益率相近的基金承担的风险越小越好，选择风险水平相同的基金则收益率越高越好。总之，夏普比率越大，说明这只基金的绩效越好。
    0 基金报酬大于风险
   &amp;lt; 0 基金风险大过报酬  </description>
@@ -1852,10 +1852,10 @@ Links  〈如何买基金？基金入门，学会这几招就够了〉  </descri
     
     <item>
       <title>标准差（Standard Deviation）</title>
-      <link>http://www.linuxzen.com/notes/notes/20200224141925_/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200224141925_/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200224141925_/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200224141925_/</guid>
       <description>又称标准偏差、均方差，数学符号 sigma。概率统计中最常使用作为测量一组数值的离散程度。
 定义：为方差开算数平方根，反应组内个体间的离散程度。
 用在基金上反映了基金总回报率的波动幅度大小，数值越大，表明波动程度越厉害，稳定度越小，投资风险就越高。
@@ -1864,19 +1864,19 @@ Links  〈如何买基金？基金入门，学会这几招就够了〉  </descri
     
     <item>
       <title>读书笔记</title>
-      <link>http://www.linuxzen.com/notes/notes/20200307114122_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200307114122_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200307114122_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200307114122_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid>
       <description> 《The Rust Programming Language》 《巴比伦富翁新解》 《领域驱动设计》 《百箭穿杨》 《架构整洁之道》 《深入理解计算机系统》 《机器学习实战》读书笔记 《数据密集型应用系统设计》读书笔记  </description>
     </item>
     
     <item>
       <title>《领域驱动设计》读书笔记</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</link>
       <pubDate>Sat, 15 Jun 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</guid>
       <description>建模   模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。
   模型是一种简化，是对实现的解释：把与解决问题密切相关的方面抽象出来，而忽略无关的细节。
 软件问题建模的区域就是软件的领域
@@ -1894,10 +1894,10 @@ LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同
     
     <item>
       <title>LeetCode: 316.Remove Duplicate Letters</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/</link>
       <pubDate>Wed, 01 May 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/</guid>
       <description>移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。
 Example 1
  Input: &amp;ldquo;bcabc&amp;rdquo; Output: &amp;ldquo;abc&amp;rdquo;  Example 2
@@ -1907,10 +1907,10 @@ Example 1
     
     <item>
       <title>LeetCode: 153.Find Minimum in Rotated Sorted Array</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320172433_leetcode_153_find_minimum_in_rotated_sorted_array/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320172433_leetcode_153_find_minimum_in_rotated_sorted_array/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320172433_leetcode_153_find_minimum_in_rotated_sorted_array/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320172433_leetcode_153_find_minimum_in_rotated_sorted_array/</guid>
       <description>解法 1 找到中间节点依次往左右扩散：
  向左边扩散，如果左边的大于当前元素，那么当前元素即为最小值 向右边扩散，如果右边的小于当前元素，那么右边元素即为最小值  如果以上不成立则第一个元素为最小元素（未旋转），以下是代码
 func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[0] } // 从中间开始确定方向  mid := length / 2 - 1 left, right := mid, mid for left - 1 &amp;gt;= 0 || right + 1 &amp;lt; length { if left - 1 &amp;gt;= 0 { if nums[left - 1] &amp;gt; nums[left] { return nums[left]; } left-- } if right + 1 &amp;lt; length { if nums[right] &amp;gt; nums[right + 1] { return nums[right + 1] } right++ } } return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：</description>
@@ -1918,10 +1918,10 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
     
     <item>
       <title>LeetCode: 154.Find Minimum in Rotated Sorted Array II</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320172319_154_find_minimum_in_rotated_sorted_array_ii/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320172319_154_find_minimum_in_rotated_sorted_array_ii/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320172319_154_find_minimum_in_rotated_sorted_array_ii/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320172319_154_find_minimum_in_rotated_sorted_array_ii/</guid>
       <description>思路 这个是 LeetCode: 153.Find Minimum in Rotated Sorted Array 扩展，增加了以下几种边界情况：
  &amp;lsquo;[2, 2, 2, 2, 1]&amp;rsquo; &amp;lsquo;[3, 1, 3]&amp;rsquo; &amp;lsquo;[1, 1, 1]&amp;rsquo; &amp;lsquo;[10, 1, 10, 10, 10]&amp;rsquo;  但核心依然是判断最小值是在左边还是右边。假设如下数组：
   &amp;lsquo;[3, 3, 3, 1, 3]&amp;rsquo;
@@ -1933,10 +1933,10 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
     
     <item>
       <title>LeetCode: 3.Longest Substring Without Repeating Characters</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320172810_leetcode_3_longest_substring_without_repeating_characters/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320172810_leetcode_3_longest_substring_without_repeating_characters/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320172810_leetcode_3_longest_substring_without_repeating_characters/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320172810_leetcode_3_longest_substring_without_repeating_characters/</guid>
       <description>准备 动态规划
 实践 字符串 &amp;ldquo;abcabcbb&amp;rdquo;
 根据索引有如下关系
@@ -1949,20 +1949,20 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
     
     <item>
       <title>LeetCode: 4.Median of Two Sorted Arrays</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320172945_leetcode_4_median_of_two_sorted_arrays/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320172945_leetcode_4_median_of_two_sorted_arrays/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320172945_leetcode_4_median_of_two_sorted_arrays/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320172945_leetcode_4_median_of_two_sorted_arrays/</guid>
       <description>思路 归并排序
 代码 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 { nums := mergeSort(nums1, nums2) length := len(nums) if length % 2 != 0 { return float64(nums[(length - 1) / 2]) } i := length / 2 return (float64(nums[i]) + float64(nums[i - 1])) / 2 } func mergeSort(nums1 []int, nums2 []int) []int { l1 := len(nums1) l2 := len(nums2) result := make([]int, 0, l1 + l2) i, j := 0, 0 for i &amp;lt; l1 &amp;amp;&amp;amp; j &amp;lt; l2 { if nums1[i] &amp;lt; nums2[j] { result = append(result, nums1[i]) i++ } else { result = append(result, nums2[j]) j++ } } result = append(result, nums1[i:].</description>
     </item>
     
     <item>
       <title>LeetCode: 5.Longest Palindromic Substring</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/</guid>
       <description>https://leetcode.com/problems/longest-palindromic-substring/description/
  思路 直接暴力往两边搜索
 func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if length == 0 { return s } start, end := 0, 0 for ci, _ := range buf { i, j := ci, ci // 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况  for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j + 1] { i-- j++ } // 考虑 &amp;#34;bba&amp;#34; 这种情况  if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { i, j = ci-1, ci } // 考虑 &amp;#34;abb&amp;#34; 这种情况  if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci + 1] { i, j = ci, ci + 1 } if i !</description>
@@ -1970,10 +1970,10 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
     
     <item>
       <title>LeetCode: 6.ZigZag Conversion</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320173548_leetcode_6_zigzag_conversion/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320173548_leetcode_6_zigzag_conversion/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320173548_leetcode_6_zigzag_conversion/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320173548_leetcode_6_zigzag_conversion/</guid>
       <description>https://leetcode.com/problems/zigzag-conversion/description/
  先根据行数计算列数：
 \(column=length / (row + 2) + bool(length \mod (row + 2))\)
@@ -1983,19 +1983,19 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
     
     <item>
       <title>MySQL</title>
-      <link>http://www.linuxzen.com/notes/notes/20200320173956_mysql/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200320173956_mysql/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200320173956_mysql/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200320173956_mysql/</guid>
       <description> MySQL grant subnet MVCC MySQL forget password  </description>
     </item>
     
     <item>
       <title>《The Rust Programming Language》读书笔记</title>
-      <link>http://www.linuxzen.com/notes/notes/20200325165411_the_rust_programming_language/</link>
+      <link>https://www.linuxzen.com/notes/notes/20200325165411_the_rust_programming_language/</link>
       <pubDate>Tue, 09 Apr 2019 00:00:00 +0800</pubDate>
       
-      <guid>http://www.linuxzen.com/notes/notes/20200325165411_the_rust_programming_language/</guid>
+      <guid>https://www.linuxzen.com/notes/notes/20200325165411_the_rust_programming_language/</guid>
       <description> 语句和表达式 所有权 引用和借用 结构体 枚举 模式匹配 if let 模块化 错误处理 Traits 生命周期 闭包 迭代器 智能指针 Rust 宏 Rust 并发  函数指针 fn 区分闭包的 Fn 特性，函数指针都实现来三个闭包的特性。
 fn do(f: fn(i32) -&amp;gt; i32, arg: i32) -&amp;gt; i32 { f(arg) + f(arg) } </description>
     </item>
