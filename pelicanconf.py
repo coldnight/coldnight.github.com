@@ -58,7 +58,7 @@ def add_notes_dir_to_static(path):
             add_notes_dir_to_static(full_path)
 
 
-add_notes_dir_to_static('static/notes')
+add_notes_dir_to_static('content/static/notes')
 
 # STATIC_SAVE_AS = "static/upload/"
 EXTRA_PATH_METADATA = {
