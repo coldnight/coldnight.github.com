@@ -46,6 +46,20 @@ STATIC_PATHS = [
     # "extra/404.html",
 ]
 
+
+
+
+def add_notes_dir_to_static(path):
+    import os
+    for pth in os.listdir(path):
+        full_path = os.path.join(path, pth)
+        if os.path.isdir(pth):
+            STATIC_PATHS.append(full_path[len('content/'):])
+            add_notes_dir_to_static(full_path)
+
+
+add_notes_dir_to_static('static/notes')
+
 # STATIC_SAVE_AS = "static/upload/"
 EXTRA_PATH_METADATA = {
     "extra/favicon.ico": {"path": "favicon.ico"},
