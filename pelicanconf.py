@@ -38,7 +38,7 @@ COPY_YEAR = date.today().strftime("%Y")
 STATIC_PATHS = [
     "static/upload",
     "static/css",
-    "static/notes"
+    "static/notes",
     "extra/favicon.ico",
     "extra/robots.txt",
     "extra/bdsitemap.txt",
