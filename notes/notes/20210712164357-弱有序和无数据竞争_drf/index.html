@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>弱有序和无数据竞争（DRF） | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210712164357-%E5%BC%B1%E6%9C%89%E5%BA%8F%E5%92%8C%E6%97%A0%E6%95%B0%E6%8D%AE%E7%AB%9E%E4%BA%89_drf/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>弱有序和无数据竞争（DRF）</h1>
+    <time datetime="2021-07-12T16:43:00&#43;08:00">July 12, 2021</time>
+  </header>
+  <p>弱有序是 Sarita Adve 和 Mark Hill 在他们 1990 年的论文 <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.42.5567">Weak Ordering - A New Definition (1990) </a>提出。</p>
+<p>定义如下</p>
+<blockquote>
+<p>Let a synchronization model be a set of constraints on memory accesses that specify how and when synchronization needs to be done.</p>
+<p>同步模型是对内存访问的一组约束，这些约束指定了何时以及如何进行同步。</p>
+</blockquote>
+<p>硬件相对于同步模型是弱有序的，当且仅当它在顺序上与遵守同步模型的所有软件一致时。</p>
+<p>Adve和Hill提出了一种同步模型，他们称之为无数据竞争(data-race-free，DRF)。该模型假设硬件具有独立于普通内存读写的内存同步操作。普通的内存读写可以在同步操作之间重新排序，但不能在跨它们移动。(也就是说，同步操作也可用来做重新排序的内存屏障。)如果对于所有理想化的顺序一致的执行，从不同线程对同一位置的任何两个普通存储器访问要么都是读取，要么通过同步操作强制一个在另一个之前发生而分开执行，则程序被称为无数据竞争的。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

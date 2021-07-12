@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>内存一致性模型 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210712150516-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>内存一致性模型</h1>
+    <time datetime="2021-07-12T15:05:00&#43;08:00">July 12, 2021</time>
+  </header>
+  <p>当执行给定程序时，硬件和编译器之间的契约，对编译后后的代码对存储在内存中的数据更改的可见性和一致性。
+这种契约称为「内存一致性模型（Memeory Consistency Model）」或仅仅是「内存模型（Memory Model）」。</p>
+<p>最初目标是定义程序员编写汇编代码时硬件提供的保证，后来用来定义高级编程语言（如 C++ 或 Java）对该语言编写代码的程序员提供的保证。</p>
+<p>例如下面变量都初始为 0 的情况下，线程 1 和 2 都运行在自己专用的处理器上，都运行到完成，这个程序能打印 0 吗？</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">// Thread 1           // Thread 2
+</span><span style="color:#75715e"></span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;                <span style="color:#66d9ef">while</span>(done <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) { <span style="color:#75715e">/* loop */</span> }
+done <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;             print(x);
+</code></pre></div><h2 id="硬件">硬件</h2>
+<ul>
+<li><a href="/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/">顺序一致性</a></li>
+<li><a href="/notes/notes/20210712155827-x86_%E6%80%BB%E5%AD%98%E5%82%A8%E6%9C%89%E5%BA%8F_x86_tso/">x86 总存储有序（x86-TSO)</a></li>
+<li><a href="/notes/notes/20210712162917-arm_power_relaxed_memory_model/">ARM/POWER Relaxed Memory Model</a></li>
+<li><a href="/notes/notes/20210712164357-%E5%BC%B1%E6%9C%89%E5%BA%8F%E5%92%8C%E6%97%A0%E6%95%B0%E6%8D%AE%E7%AB%9E%E4%BA%89_drf/">弱有序和无数据竞争（DRF）</a></li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>

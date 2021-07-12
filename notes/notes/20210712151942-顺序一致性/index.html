@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>顺序一致性 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>顺序一致性</h1>
+    <time datetime="2021-07-12T15:19:00&#43;08:00">July 12, 2021</time>
+  </header>
+  <p>Leslie Lamport 1979 年的论文 <a href="https://www.microsoft.com/en-us/research/publication/make-multiprocessor-computer-correctly-executes-multiprocess-programs/">How to Make a Multiprocessor Computer That Correctly Executes Multiprocess Programs</a> 定义：</p>
+<blockquote>
+<p>The customary approach to designing and proving the correctness of multiprocess algorithms for such a computer assumes that the following condition is satisfied: the result of any execution is the same as if the operations of all the processors were executed in some sequential order, and the operations of each individual processor appear in this sequence in the order specified by its program. A multiprocessor satisfying this condition will be called sequentially consistent.</p>
+</blockquote>
+<!-- raw HTML omitted -->
+<blockquote>
+<p>为这种计算机设计和证明多处理算法正确性的通常方法假定满足下列条件:任何执行的结果都是相同的，就好像所有处理器的操作都是按某种顺序执行的，每个处理器的操作都是按程序指定的顺序出现的。满足这一条件的多处理器系统将被称为顺序一致的。</p>
+</blockquote>
+<p><strong><strong>顺序一致性允许程序员假设程序按照它们在源码中组织相同的顺序执行，并且单个线程的执行只是以某种顺序交替（interleaving），而不是以其他方式排列。</strong></strong></p>
+<p>看一下下面这个 <a href="/notes/notes/20210712153952-litmus_test/">litmus test</a>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Litmus Test: Message Passing
+Can this program see r1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>
+<span style="color:#75715e">// Thread 1           // Thread 2
+</span><span style="color:#75715e"></span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r1 <span style="color:#f92672">=</span> y
+y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r2 <span style="color:#f92672">=</span> x
+</code></pre></div><p>如果 <a href="/notes/notes/20210712153952-litmus_test/">litmus test</a> 的执行顺序一直，则有六种可能的交替：</p>
+<figure><img src="https://colobu.com/2021/06/30/hwmm/mem-litmus.png"/>
+</figure>
+
+<p>所以这个 <a href="/notes/notes/20210712153952-litmus_test/">litmus test</a> 的答案是 <code>no</code> 。</p>
+<p>不幸得时，实践中现在硬件都会偏离顺序一致性来放弃严格的顺序一致性可以让硬件更快的执行程序。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

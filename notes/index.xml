@@ -6,7 +6,119 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 12 Jul 2021 07:22:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Jul 2021 16:43:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>弱有序和无数据竞争（DRF）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712164357-%E5%BC%B1%E6%9C%89%E5%BA%8F%E5%92%8C%E6%97%A0%E6%95%B0%E6%8D%AE%E7%AB%9E%E4%BA%89_drf/</link>
+      <pubDate>Mon, 12 Jul 2021 16:43:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712164357-%E5%BC%B1%E6%9C%89%E5%BA%8F%E5%92%8C%E6%97%A0%E6%95%B0%E6%8D%AE%E7%AB%9E%E4%BA%89_drf/</guid>
+      <description>弱有序是 Sarita Adve 和 Mark Hill 在他们 1990 年的论文 Weak Ordering - A New Definition (1990) 提出。
+定义如下
+ Let a synchronization model be a set of constraints on memory accesses that specify how and when synchronization needs to be done.
+同步模型是对内存访问的一组约束，这些约束指定了何时以及如何进行同步。
+ 硬件相对于同步模型是弱有序的，当且仅当它在顺序上与遵守同步模型的所有软件一致时。
+Adve和Hill提出了一种同步模型，他们称之为无数据竞争(data-race-free，DRF)。该模型假设硬件具有独立于普通内存读写的内存同步操作。普通的内存读写可以在同步操作之间重新排序，但不能在跨它们移动。(也就是说，同步操作也可用来做重新排序的内存屏障。)如果对于所有理想化的顺序一致的执行，从不同线程对同一位置的任何两个普通存储器访问要么都是读取，要么通过同步操作强制一个在另一个之前发生而分开执行，则程序被称为无数据竞争的。</description>
+    </item>
+    
+    <item>
+      <title>ARM/POWER Relaxed Memory Model</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712162917-arm_power_relaxed_memory_model/</link>
+      <pubDate>Mon, 12 Jul 2021 16:29:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712162917-arm_power_relaxed_memory_model/</guid>
+      <description>ARM和POWER系统的概念模型是，每个处理器从其自己的完整内存副本中读取和向其写入，每个写入独立地传播到其他处理器，随着写入的传播，允许重新排序。
+ 在这个宽松的(relaxed)模型中，我们迄今为止所看到的每一个litmus test的答案都是“yes，这真的可能发生。”
+Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 // Thread 2 x = 1 r1 = y y = 1 r2 = x On sequentially consistent hardware: no. On x86 (or other TSO): no. On ARM/POWER: yes! Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0? // Thread 1 // Thread 2 x = 1 y = 1 r1 = y r2 = x On sequentially consistent hardware: no.</description>
+    </item>
+    
+    <item>
+      <title>内存屏障</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712162102-%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C/</link>
+      <pubDate>Mon, 12 Jul 2021 16:21:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712162102-%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C/</guid>
+      <description>内存屏障（或栅栏）是非顺序一致性的硬件提供的一种显式指令，用于控制排序提供更强的内存排序，修复同步算法。
+添加内存屏障，确保每个线程在开始读取之前都会刷新其先前对内存的写入：
+// Thread 1 // Thread 2 x = 1 y = 1 barrier barrier r1 = y r2 = x x86 总存储有序（x86-TSO) 加上内存屏障之后 r1=0, r2=0 就会变得不可能。</description>
+    </item>
+    
+    <item>
+      <title>x86 总存储有序（x86-TSO)</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712155827-x86_%E6%80%BB%E5%AD%98%E5%82%A8%E6%9C%89%E5%BA%8F_x86_tso/</link>
+      <pubDate>Mon, 12 Jul 2021 15:58:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712155827-x86_%E6%80%BB%E5%AD%98%E5%82%A8%E6%9C%89%E5%BA%8F_x86_tso/</guid>
+      <description>x86 总存储有序(x86 Total Store Order, x86-TSO)：所有处理器仍然连接到一个共享内存，但是每个处理器都将对该内存的写入(write)放入到本地写入队列中。处理器继续执行新指令，同时写操作(write)会更新到这个共享内存。一个处理器上的内存读取在查询主内存之前会查询本地写队列，但它看不到其他处理器上的写队列。其效果就是当前处理器比其他处理器会先看到自己的写操作。
+重要的是： 所有处理器都保证写入（存储 store）到共享内存的（总）顺序，所以给这个模型起了个名字：总存储有序（Total Store Order，TSO）。
+写队列是一个标准的先进先出队列：内存写操作总是以与处理器执行相同顺序的应用于共享内存。
+基于以上下面 litmus test 的答案依然是 no ，这种情况与顺序一致性模型结果一致：
+Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 // Thread 2 x = 1 r1 = y y = 1 r2 = x On sequentially consistent hardware: no. On x86 (or other TSO): no. 但其他测试则并不一致区分与顺序一致性的常用例子:
+Litmus Test: Write Queue (also called Store Buffer) Can this program see r1 = 0, r2 = 0?</description>
+    </item>
+    
+    <item>
+      <title>litmus test</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712153952-litmus_test/</link>
+      <pubDate>Mon, 12 Jul 2021 15:39:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712153952-litmus_test/</guid>
+      <description>下面这种关于样本结果的问题被称为 litmus test 。它只有两个答案：可能还是不可能？为我们提供了一种区分内存一致性模型的清晰方法：如果一个模型支持特定的执行，而另一个不支持，那么这两个模型显然不同。
+litmus test 假设所有变量都初始为 0 ， rN 表示非共享变量，而是一个线程本地寄存器。
+Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 // Thread 2 x = 1 r1 = y y = 1 r2 = x 然而不幸的是，一个特定的模型对一个特定的 litmus test 给出的答案往往令人惊讶。</description>
+    </item>
+    
+    <item>
+      <title>顺序一致性</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/</link>
+      <pubDate>Mon, 12 Jul 2021 15:19:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/</guid>
+      <description>Leslie Lamport 1979 年的论文 How to Make a Multiprocessor Computer That Correctly Executes Multiprocess Programs 定义：
+ The customary approach to designing and proving the correctness of multiprocess algorithms for such a computer assumes that the following condition is satisfied: the result of any execution is the same as if the operations of all the processors were executed in some sequential order, and the operations of each individual processor appear in this sequence in the order specified by its program.</description>
+    </item>
+    
+    <item>
+      <title>内存一致性模型</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712150516-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Mon, 12 Jul 2021 15:05:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712150516-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B/</guid>
+      <description>当执行给定程序时，硬件和编译器之间的契约，对编译后后的代码对存储在内存中的数据更改的可见性和一致性。 这种契约称为「内存一致性模型（Memeory Consistency Model）」或仅仅是「内存模型（Memory Model）」。
+最初目标是定义程序员编写汇编代码时硬件提供的保证，后来用来定义高级编程语言（如 C++ 或 Java）对该语言编写代码的程序员提供的保证。
+例如下面变量都初始为 0 的情况下，线程 1 和 2 都运行在自己专用的处理器上，都运行到完成，这个程序能打印 0 吗？
+// Thread 1 // Thread 2 x = 1; while(done == 0) { /* loop */ } done = 1; print(x); 硬件  顺序一致性 x86 总存储有序（x86-TSO) ARM/POWER Relaxed Memory Model 弱有序和无数据竞争（DRF）  </description>
+    </item>
+    
+    <item>
+      <title>编程语言内存模型</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712143544-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Mon, 12 Jul 2021 14:35:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712143544-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</guid>
+      <description> Programming Language Memory Models 编程语言内存模型  </description>
+    </item>
+    
+    <item>
+      <title>硬件内存模型</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712143220-%E7%A1%AC%E4%BB%B6%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Mon, 12 Jul 2021 14:32:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712143220-%E7%A1%AC%E4%BB%B6%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</guid>
+      <description>Hardware Memory Models 硬件内存模型  内存模型 内存一致性模型</description>
+    </item>
+    
+    <item>
+      <title>Emacs 优化启动速度</title>
+      <link>https://www.linuxzen.com/notes/notes/20210712114303-emacs_%E4%BC%98%E5%8C%96%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/</link>
+      <pubDate>Mon, 12 Jul 2021 11:43:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210712114303-emacs_%E4%BC%98%E5%8C%96%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/</guid>
+      <description>优化 GC 参考：LSP Mode Performance
+;; Optmization ;; Sources: ;; ;; - https://www.reddit.com/r/emacs/comments/ofhket/further_boost_start_up_time_with_a_simple_tweak/ ;; - https://emacs-lsp.github.io/lsp-mode/page/performance/ ;; (setq gc-cons-threshold 32000000) ;; 32mb (setq read-process-output-max (* 1024 1024)) ;; 1mb 将启动速度优化到 3 秒左右。
+Dumping Emacs  Emacs WIKI: Dumping Emacs Painless Transition to Portable Dumper  </description>
+    </item>
+    
     <item>
       <title>动态再平衡策略</title>
       <link>https://www.linuxzen.com/notes/notes/20210712072221-%E5%8A%A8%E6%80%81%E5%86%8D%E5%B9%B3%E8%A1%A1%E7%AD%96%E7%95%A5/</link>
@@ -965,8 +1077,7 @@ IEEE 浮点数表示形式 \[ V=(-1)^s X M X 2^E \]
       <pubDate>Sun, 02 Aug 2020 15:13:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200802151319-computer_systems/</guid>
-      <description>《深入理解计算机系统》读书笔记。
- IEEE 浮点数 汇编  </description>
+      <description>《深入理解计算机系统》读书笔记。  IEEE 浮点数 汇编  内存模型  硬件内存模型 编程语言内存模型  </description>
     </item>
     
     <item>
@@ -1395,7 +1506,7 @@ Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布
       <pubDate>Wed, 25 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200325165657_rust_wrapper_types/</guid>
-      <description> Wrapper Types in Rust: Choosing Your Guarantees  相关基础  Rust Borrow and Lifetimes Rust Means Never Having to Close a Socket  </description>
+      <description>Wrapper Types in Rust: Choosing Your Guarantees Rust Memory Container Cheat-sheet  相关基础  Rust Borrow and Lifetimes Rust Means Never Having to Close a Socket  </description>
     </item>
     
     <item>
@@ -1771,7 +1882,7 @@ Contents   但是什么是深度学习?
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200218120634/</guid>
-      <description> ELisp Org Mode Helm Tmux 256 colors Emacs Buffer 名字去重 straight.el 命令 LSP  C++ LSP    </description>
+      <description> ELisp Org Mode Helm Tmux 256 colors Emacs Buffer 名字去重 straight.el 命令 Emacs 优化启动速度 LSP  C++ LSP    </description>
     </item>
     
     <item>
