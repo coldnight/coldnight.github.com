@@ -6,7 +6,46 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 13 Jul 2021 19:51:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Jul 2021 20:25:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java 内存模型</title>
+      <link>https://www.linuxzen.com/notes/notes/20210713202541-java_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Tue, 13 Jul 2021 20:25:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210713202541-java_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</guid>
+      <description>原始 Java 内存模型（1996） 新的 Java 内存模型（2004） </description>
+    </item>
+    
+    <item>
+      <title>新的 Java 内存模型（2004）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210713201332-%E6%96%B0%E7%9A%84_java_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B_2004/</link>
+      <pubDate>Tue, 13 Jul 2021 20:13:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210713201332-%E6%96%B0%E7%9A%84_java_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B_2004/</guid>
+      <description>新模型遵循 DRF-SC 方法：保证弱有序和无数据竞争（DRF）的 Java 程序以顺序一致的方式执行。
+ JSR-133，在 2004 年发布的 Java 5.0 中被采用。
+ </description>
+    </item>
+    
+    <item>
+      <title>Java 编译器公共子表达式消除（common subexpression elimination）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210713201045-java_%E7%BC%96%E8%AF%91%E5%99%A8%E5%85%AC%E5%85%B1%E5%AD%90%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B6%88%E9%99%A4_common_subexpression_elimination/</link>
+      <pubDate>Tue, 13 Jul 2021 20:10:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210713201045-java_%E7%BC%96%E8%AF%91%E5%99%A8%E5%85%AC%E5%85%B1%E5%AD%90%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B6%88%E9%99%A4_common_subexpression_elimination/</guid>
+      <description>// p and q may or may not point at the same object. int i = p.x; // ... maybe another thread writes p.x at this point ... int j = q.x; int k = p.x; 在这个程序中，公共子表达式消除（common subexpression elimination）会注意到 p.x 被计算了两次，并将最后一行优化为 k = i 。</description>
+    </item>
+    
+    <item>
+      <title>原始 Java 内存模型（1996）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210713200556-%E5%8E%9F%E5%A7%8B_java_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B_1996/</link>
+      <pubDate>Tue, 13 Jul 2021 20:05:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210713200556-%E5%8E%9F%E5%A7%8B_java_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B_1996/</guid>
+      <description>Java 是第一个试图写下多线程程序保证的主流语言。它包括：
+ 互斥体（mutex），并定义了它们隐含的内存排序要求。 “volatile” 原子变量: volatile 变量的所有读和写都需要直接在主内存中按程序顺序执行，使得对 volatile 变量的操作以顺序一致的方式进行。 制定了（或者至少试图制定）具有数据竞争的程序的行为。  缺陷  Atomic 需要同步：volatile 原子变量是不同步的，所以它们无助于消除程序其余部分的竞争。不能用于构建新的同步原语。 一致性与编译器优化不兼容：Java 编译器公共子表达式消除（common subexpression elimination）会导致其他线程写入新值无法对消除后表达式生效。  </description>
+    </item>
+    
     <item>
       <title>DRF-SC 系统同步指令</title>
       <link>https://www.linuxzen.com/notes/notes/20210713195115-drf_sc_%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E6%8C%87%E4%BB%A4/</link>
@@ -126,10 +165,11 @@ Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 //
       <pubDate>Mon, 12 Jul 2021 14:35:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210712143544-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</guid>
-      <description>Programming Language Memory Models 编程语言内存模型  编程语言内存模型回答了并行程序可以依靠什么行为以便它们的线程之间可以共享内存的问题。
+      <description> Programming Language Memory Models 编程语言内存模型  编程语言内存模型回答了并行程序可以依靠什么行为以便它们的线程之间可以共享内存的问题。
 首先需要理解原子变量（atomic variable）或原子操作（tomic operation），编程语言模型作为程序员和编译器之间的约定规定了它们之间所需要的额外细节。
 硬件、Litmus Tests、Happens Before 和 DRF-SC 程序使用DRF-SC 系统同步指令在多个处理器运行的代码之间创建一种“happens before”的关系。
- Thread 1 和 Thread 2 执行 S(a) 同步指令。在这个特定执行中，两条 S(a) 指令建立了从 Thread 1 到 Thread 2 的 happens-before 关系，因此 Thread 1 中的 = W(x)= 发生在 Thread 2 中的 R(x) 之前。</description>
+ Thread 1 和 Thread 2 执行 S(a) 同步指令。在这个特定执行中，两条 S(a) 指令建立了从 Thread 1 到 Thread 2 的 happens-before 关系，因此 Thread 1 中的 = W(x)= 发生在 Thread 2 中的 R(x) 之前。
+Java 内存模型 </description>
     </item>
     
     <item>
