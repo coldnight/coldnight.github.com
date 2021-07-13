@@ -54,6 +54,14 @@
 <li><a href="https://research.swtch.com/plmm">Programming Language Memory Models</a></li>
 <li><a href="https://colobu.com/2021/07/11/Programming-Language-Memory-Models/">编程语言内存模型</a></li>
 </ul>
+<p>编程语言内存模型回答了并行程序可以依靠什么行为以便它们的线程之间可以共享内存的问题。</p>
+<p>首先需要理解<a href="/notes/notes/20210713193214-%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F_atomic_variable_%E6%88%96%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C_tomic_operation/">原子变量（atomic variable）或原子操作（tomic operation）</a>，编程语言模型作为程序员和编译器之间的约定规定了它们之间所需要的额外细节。</p>
+<h2 id="硬件-litmus-tests-happens-before-和-drf-sc">硬件、Litmus Tests、Happens Before 和 DRF-SC</h2>
+<p>程序使用<a href="/notes/notes/20210713195115-drf_sc_%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E6%8C%87%E4%BB%A4/">DRF-SC 系统同步指令</a>在多个处理器运行的代码之间创建一种“happens before”的关系。</p>
+<figure><img src="https://colobu.com/2021/07/11/Programming-Language-Memory-Models/mem-adve-4.png"/>
+</figure>
+
+<p><code>Thread 1</code> 和 <code>Thread 2</code> 执行 <code>S(a)</code> 同步指令。在这个特定执行中，两条 <code>S(a)</code> 指令建立了从 <code>Thread 1</code> 到 <code>Thread 2</code> 的 <code>happens-before</code> 关系，因此 <code>Thread 1</code> 中的 = W(x)= 发生在 <code>Thread 2</code> 中的 <code>R(x)</code> 之前。</p>
 
 </article>
 
