@@ -6,7 +6,16 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 15 Jul 2021 06:44:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Jul 2021 11:02:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>更新 Go 内存模型</title>
+      <link>https://www.linuxzen.com/notes/notes/20210715110202-%E6%9B%B4%E6%96%B0_go_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Thu, 15 Jul 2021 11:02:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210715110202-%E6%9B%B4%E6%96%B0_go_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</guid>
+      <description> 更新Go内存模型 https://research.swtch.com/gomm  </description>
+    </item>
+    
     <item>
       <title>LeetCode: 25. Reverse Nodes in k-Group</title>
       <link>https://www.linuxzen.com/notes/notes/20210715064442-leetcode_25_reverse_nodes_in_k_group/</link>
@@ -89,8 +98,11 @@
       
       <guid>https://www.linuxzen.com/notes/notes/20210713201332-%E6%96%B0%E7%9A%84_java_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B_2004/</guid>
       <description>新模型遵循 DRF-SC 方法：保证弱有序和无数据竞争（DRF）的 Java 程序以顺序一致的方式执行。
- JSR-133，在 2004 年发布的 Java 5.0 中被采用。
- </description>
+ JSR-133，在 2004 年发布的 Java 5.0 中被采用。规范：The Java Memory Model, 2005。
+ Java 中程序员需要同步操作建立 happens-before 关系，确保一个线程不会在另一个线程读取或写入时并发的写入非原子变量。主要的同步操作有：
+ 线程的创建前置于（happens bofere）线程的第一个动作。 互斥体 m 的解锁前置于（happens before）任何 后续（subsequent） 对互斥体 m 的锁定。 volatile 变量 v 的写入前置于（happens bofere）任何 后续（subsequent） 对变量 v 的读取。  “后续（subsequent）” 意味着什么？Java 定义了所有锁定、解锁和 volatile 变量访问的行为，给出了整个程序中所有这些操作的总顺序，就像它们发生在某个顺序一致的交错中一样。“后续（subsequent）”指在总顺序中较晚执行。也就是说：锁定、解锁和 volatile 变量的访问的“总顺序”定义了“后续”的含义，“后续”定义了由特定执行创建的“前置于（happens before）”关系，最终“前置于（happens before）”关系定义了该特定执行是否存在数据竞争。如果没有数据竞争，那么执行就会以顺序一致的方式进行。
+事实上， volatile 访问必须表现得像在某种总排序一样，意味这在下面 litmus test 中，不能出现 r1=0 和 r2=0 的结果:
+Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?</description>
     </item>
     
     <item>
