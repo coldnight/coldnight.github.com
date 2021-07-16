@@ -6,7 +6,138 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 16 Jul 2021 08:00:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Jul 2021 12:03:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JavaScript 内存模型 (2017)</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716120333-javascript_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B_2017/</link>
+      <pubDate>Fri, 16 Jul 2021 12:03:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716120333-javascript_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B_2017/</guid>
+      <description>litmus test
+Litmus Test: ES2017 racy reads on ARMv8 Can this program (using atomics) see r1 = 0, r2 = 1? // Thread 1 // Thread 2 x = 1 y = 1 r1 = y x = 2 (non-atomic) r2 = x C++: yes (data race, can do anything at all). Java: the program cannot be written. ARMv8 using ldar/stlr: yes. ES2017: no! (contradicting ARMv8) </description>
+    </item>
+    
+    <item>
+      <title>C、Rust 和 Swift 的内存模型</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716120258-c_rust_%E5%92%8C_swift_%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Fri, 16 Jul 2021 12:02:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716120258-c_rust_%E5%92%8C_swift_%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</guid>
+      <description>都采用C++11 内存模型。</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 弱同步原子（acquire/release atomic）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/</link>
+      <pubDate>Fri, 16 Jul 2021 11:59:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/</guid>
+      <description>C++ 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C++ 同步原子（atomic）较短的调用。
+较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。=release= 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
+atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1, memory_order_release); while(atomic_load(&amp;amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
+来看下面 litmus test：
+Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 非同步原子（Relaxed atomic）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716114242-c_%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_relaxed_atomic/</link>
+      <pubDate>Fri, 16 Jul 2021 11:42:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716114242-c_%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_relaxed_atomic/</guid>
+      <description>C++ 并没有仅仅停留在内存一致性（coherence）的C++ 弱同步原子（acquire/release atomic）。它还引入了非同步原子，称为 relaxed 原子（memory_order_relaxed）。这些原子根本没有同步效果——它们没有创建先发生的边——并且它们根本没有排序保证。事实上，宽松原子读/写和普通读/写没有区别，除了宽松原子上的竞争不被认为是竞争， 不能着火 。</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 同步原子（atomic）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/</link>
+      <pubDate>Fri, 16 Jul 2021 11:38:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/</guid>
+      <description>C++ 采用了顺序一致的原子变量，很像Java 同步原子（volatile）(与 C++ volatile 没有关系）。
+atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1); while(atomic_load(&amp;amp;done) == 0) { /* loop */ } C++ 弱同步原子（acquire/release atomic） </description>
+    </item>
+    
+    <item>
+      <title>DRF-SC 还是着火（Catch Fire）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716113642-drf_sc_%E8%BF%98%E6%98%AF%E7%9D%80%E7%81%AB_catch_fire/</link>
+      <pubDate>Fri, 16 Jul 2021 11:36:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716113642-drf_sc_%E8%BF%98%E6%98%AF%E7%9D%80%E7%81%AB_catch_fire/</guid>
+      <description>与 Java 不同，C++ 没有给有竞争的程序任何保证。任何有竞争的程序都属于“未定义的行为”。允许在程序执行的最初几微秒内进行竞争访问，从而在几小时或几天后导致任意的错误行为。这通常被称为“DRF-SC或着火”：如果程序没有数据竞争，它以顺序一致的方式运行，如果有数据竞争，它可以做任何事情，包括着火。</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11 内存模型</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716113225-c_11_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Fri, 16 Jul 2021 11:32:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716113225-c_11_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</guid>
+      <description>受新的 Java 内存模型（2004）许多同样的人开始为 C++ 定义一个类似的内存模型，最终在 C++11 中采用。 两个重要方便的差异：
+ C++ 对具有数据竞争的程序不做任何保证 C++ 提供了三种原子性：强同步（顺序一致性），弱同步（内存一致性（coherence））和无同步（“relaxed”，用于隐藏竞争）。  第一点尝试消除对 Java 模型的复杂性需求，“relaxed” 的原子性重新引入 Java 关于定义什么是竞争程序的所有复杂性。结果是C++模型比Java更复杂，但对程序员的帮助更小。
+DRF-SC 还是着火（Catch Fire） C++ 同步原子（atomic） C++ 弱同步原子（acquire/release atomic） C++ 非同步原子（Relaxed atomic） </description>
+    </item>
+    
+    <item>
+      <title>Java 同步原子（volatile）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716112805-java_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_volatile/</link>
+      <pubDate>Fri, 16 Jul 2021 11:28:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716112805-java_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_volatile/</guid>
+      <description>线程的创建前置于（happens bofere）线程的第一个动作。 互斥体 m 的解锁前置于（happens before）任何 后续（subsequent） 对互斥体 m 的锁定。 volatile 变量 v 的写入前置于（happens bofere）任何 后续（subsequent） 对变量 v 的读取。  “后续（subsequent）” 意味着什么？Java 定义了所有锁定、解锁和 volatile 变量访问的行为，给出了整个程序中所有这些操作的总顺序，就像它们发生在某个顺序一致的交错中一样。“后续（subsequent）”指在总顺序中较晚执行。也就是说：锁定、解锁和 volatile 变量的访问的“总顺序”定义了“后续”的含义，“后续”定义了由特定执行创建的“前置于（happens before）”关系，最终“前置于（happens before）”关系定义了该特定执行是否存在数据竞争。如果没有数据竞争，那么执行就会以顺序一致的方式进行。
+事实上， volatile 访问必须表现得像在某种总排序一样，意味这在下面 litmus test 中，不能出现 r1=0 和 r2=0 的结果:
+Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0? // Thread 1 // Thread 2 x = 1 y = 1 r1 = y r2 = x On sequentially consistent hardware: no.</description>
+    </item>
+    
+    <item>
+      <title>Java 决定竞争读写的具体规则</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716112456-java_%E5%86%B3%E5%AE%9A%E7%AB%9E%E4%BA%89%E8%AF%BB%E5%86%99%E7%9A%84%E5%85%B7%E4%BD%93%E8%A7%84%E5%88%99/</link>
+      <pubDate>Fri, 16 Jul 2021 11:24:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716112456-java_%E5%86%B3%E5%AE%9A%E7%AB%9E%E4%BA%89%E8%AF%BB%E5%86%99%E7%9A%84%E5%85%B7%E4%BD%93%E8%A7%84%E5%88%99/</guid>
+      <description>对于小于等于 word 大小的变量，对变量（或字段） x 的读取必须看到对 x 的某一次写入所存储的值。 如果读取 r 观察到对 x 的写入 w ，那么 r 不发生在 w 之前。
+也就是说 r 可以观察发生在 r 之前的所有写入，并且可以观察与 r 竞争的写入。</description>
+    </item>
+    
+    <item>
+      <title>内存顺序一致性（sequential consistency）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716111043-%E5%86%85%E5%AD%98%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7_sequential_consistency/</link>
+      <pubDate>Fri, 16 Jul 2021 11:10:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716111043-%E5%86%85%E5%AD%98%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7_sequential_consistency/</guid>
+      <description>See also: 顺序一致性。</description>
+    </item>
+    
+    <item>
+      <title>内存一致性（coherence）</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716110953-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7_coherence/</link>
+      <pubDate>Fri, 16 Jul 2021 11:09:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716110953-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7_coherence/</guid>
+      <description>FROM 硬件内存模型：
+ threads in the system must agree about a total order for the writes to a single memory location. That is, threads must agree which writes overwrite other writes. This property is called called coherence.
+ 内存一致性的系统都所有线程都必须接受对一个内存地址所有写入的总顺序。换句话说，所有线程必须同意哪些写入可以覆盖另外的一些写入。</description>
+    </item>
+    
+    <item>
+      <title>Memory coherence</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716110227-memory_coherence/</link>
+      <pubDate>Fri, 16 Jul 2021 11:02:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716110227-memory_coherence/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Memory coherence vs consistency</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716110147-memory_coherence_vs_consistency/</link>
+      <pubDate>Fri, 16 Jul 2021 11:01:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716110147-memory_coherence_vs_consistency/</guid>
+      <description>Coherence deals with maintaining a global order in which writes to a single location or single variable are seen by all processors. Consistency deals with the ordering of operations to multiple locations with respect to all processors.
+  Memory coherence: a memory system is coherent if any read of a data item returns the most recently written value of that data item (what values can be returned by a read).</description>
+    </item>
+    
     <item>
       <title>悲观与乐观并发控制</title>
       <link>https://www.linuxzen.com/notes/notes/20210716080024-%E6%82%B2%E8%A7%82%E4%B8%8E%E4%B9%90%E8%A7%82%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/</link>
@@ -181,9 +312,11 @@
       <description>新模型遵循 DRF-SC 方法：保证弱有序和无数据竞争（DRF）的 Java 程序以顺序一致的方式执行。
  JSR-133，在 2004 年发布的 Java 5.0 中被采用。规范：The Java Memory Model, 2005。
  Java 中程序员需要同步操作建立 happens-before 关系，确保一个线程不会在另一个线程读取或写入时并发的写入非原子变量。主要的同步操作有：
- 线程的创建前置于（happens bofere）线程的第一个动作。 互斥体 m 的解锁前置于（happens before）任何 后续（subsequent） 对互斥体 m 的锁定。 volatile 变量 v 的写入前置于（happens bofere）任何 后续（subsequent） 对变量 v 的读取。  “后续（subsequent）” 意味着什么？Java 定义了所有锁定、解锁和 volatile 变量访问的行为，给出了整个程序中所有这些操作的总顺序，就像它们发生在某个顺序一致的交错中一样。“后续（subsequent）”指在总顺序中较晚执行。也就是说：锁定、解锁和 volatile 变量的访问的“总顺序”定义了“后续”的含义，“后续”定义了由特定执行创建的“前置于（happens before）”关系，最终“前置于（happens before）”关系定义了该特定执行是否存在数据竞争。如果没有数据竞争，那么执行就会以顺序一致的方式进行。
-事实上， volatile 访问必须表现得像在某种总排序一样，意味这在下面 litmus test 中，不能出现 r1=0 和 r2=0 的结果:
-Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?</description>
+同步原子（volatile）和其它操作 参见：Java 同步原子（volatile）。
+有数据竞争的程序语义 弱有序和无数据竞争（DRF）只保证「无数据」竞争的程序的顺序一致性行为。新的 Java 模型（和原版本一致）出于以下原因定义了「有数据」竞争程序的顺序一致性行为：
+ 支持Java的一般安全（security）和安全保障（safety guarantee）。 让程序员更容易发现错误。 使攻击者更难利用问题，因为由于数据竞争的原因可能造成的损失更有限。 让程序员更清楚他们的程序是做什么的  新的模型不再依赖内存一致性（coherence），取而代之的复用 happens-before（已经用于决定程序是否存在竞争）来决定竞争读写的结果。
+具体规则参见：Java 决定竞争读写的具体规则。使用 happens-before 并结合Java 同步原子（volatile）就可以建立新的 happen before 关系，是对原始Java内存模型的重大改进。它为程序员提供了更多有用的保证，并使大量重要的编译器优化得到了明确的允。
+happens-before 不排除语无伦次（incoherence） 以前发生的事不排除无用性（acausality） </description>
     </item>
     
     <item>
@@ -315,7 +448,7 @@ Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 //
       <description>当执行给定程序时，硬件和编译器之间的契约，对编译后后的代码对存储在内存中的数据更改的可见性和一致性。 这种契约称为「内存一致性模型（Memeory Consistency Model）」或仅仅是「内存模型（Memory Model）」。
 最初目标是定义程序员编写汇编代码时硬件提供的保证，后来用来定义高级编程语言（如 C++ 或 Java）对该语言编写代码的程序员提供的保证。
 例如下面变量都初始为 0 的情况下，线程 1 和 2 都运行在自己专用的处理器上，都运行到完成，这个程序能打印 0 吗？
-// Thread 1 // Thread 2 x = 1; while(done == 0) { /* loop */ } done = 1; print(x); 硬件  顺序一致性 x86 总存储有序（x86-TSO) ARM/POWER Relaxed Memory Model 弱有序和无数据竞争（DRF）  </description>
+// Thread 1 // Thread 2 x = 1; while(done == 0) { /* loop */ } done = 1; print(x); Memory coherence vs consistency 内存一致性（coherence） 内存顺序一致性（sequential consistency） 硬件  顺序一致性 x86 总存储有序（x86-TSO) ARM/POWER Relaxed Memory Model 弱有序和无数据竞争（DRF）  编程语言内存模型 </description>
     </item>
     
     <item>
@@ -328,7 +461,7 @@ Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 //
 首先需要理解原子变量（atomic variable）或原子操作（tomic operation），编程语言模型作为程序员和编译器之间的约定规定了它们之间所需要的额外细节。
 硬件、Litmus Tests、Happens Before 和 DRF-SC 程序使用DRF-SC 系统同步指令在多个处理器运行的代码之间创建一种“happens before”的关系。
  Thread 1 和 Thread 2 执行 S(a) 同步指令。在这个特定执行中，两条 S(a) 指令建立了从 Thread 1 到 Thread 2 的 happens-before 关系，因此 Thread 1 中的 = W(x)= 发生在 Thread 2 中的 R(x) 之前。
-Java 内存模型 </description>
+Java 内存模型 C++11 内存模型 C、Rust 和 Swift 的内存模型 JavaScript 内存模型 (2017) </description>
     </item>
     
     <item>
