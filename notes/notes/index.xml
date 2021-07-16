@@ -6,7 +6,88 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 15 Jul 2021 11:02:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Jul 2021 08:00:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>悲观与乐观并发控制</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716080024-%E6%82%B2%E8%A7%82%E4%B8%8E%E4%B9%90%E8%A7%82%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/</link>
+      <pubDate>Fri, 16 Jul 2021 08:00:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716080024-%E6%82%B2%E8%A7%82%E4%B8%8E%E4%B9%90%E8%A7%82%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/</guid>
+      <description>悲观并发控制 两阶段加锁是一个典型的悲观并发控制。设计原则：如果某些操作可能出错，则直接放弃等待直到安全。
+乐观并发控制 如果可能发生潜在冲突，事务会继续执行而不是终止，寄希望与相安无事；而当事务提交时，数据库会检查是否发生了冲突，如果是的话，中止事务并接下来重试。
+对比 如果冲突很多则性能不佳，如果性能良好，且事务之间的竞争不大，乐观并发控制会比悲观方式性能高很多。</description>
+    </item>
+    
+    <item>
+      <title>可串形化的快照隔离</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716075758-%E5%8F%AF%E4%B8%B2%E5%BD%A2%E5%8C%96%E7%9A%84%E5%BF%AB%E7%85%A7%E9%9A%94%E7%A6%BB/</link>
+      <pubDate>Fri, 16 Jul 2021 07:57:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716075758-%E5%8F%AF%E4%B8%B2%E5%BD%A2%E5%8C%96%E7%9A%84%E5%BF%AB%E7%85%A7%E9%9A%94%E7%A6%BB/</guid>
+      <description>可串形化的快照隔离（Serializable Snapshot Isolation，SSI）近两年被研究，尚需在实践中证明其性能，但是它很有可能成为未来数据的标配。
+悲观与乐观并发控制 </description>
+    </item>
+    
+    <item>
+      <title>两阶段加锁</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716074845-%E4%B8%A4%E9%98%B6%E6%AE%B5%E5%8A%A0%E9%94%81/</link>
+      <pubDate>Fri, 16 Jul 2021 07:48:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716074845-%E4%B8%A4%E9%98%B6%E6%AE%B5%E5%8A%A0%E9%94%81/</guid>
+      <description>两阶段枷锁（two-phase locking，2PL）是近 30 年来数据库唯一一种被广泛使用的串形化算法。 多个事务可以同时读取同一个对象，但只要出现任何写操作（修改或删除），则必须加锁以独占访问。
+两阶段包括：
+ 事务执行之前要获得锁（第一阶段） 事务结束之后要释放锁（第二阶段）  实现 2PL 用于 MySQL（InnoDB）和 SQL Server 中的“可串形化隔离”，以及 DB2 的“可重复读”。
+每个对象通过一个「读写锁」隔离读写操作。
+ 共享锁进行读取。 独占锁进行修改。 读取先获取共享锁，如果要修改则升级为独占锁。 事务获得锁之后一直持有到事务结束。  性能 慢和死锁
+谓词锁 通过对区间条件加谓词锁。
+索引区间锁 </description>
+    </item>
+    
+    <item>
+      <title>串行化</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716074157-%E4%B8%B2%E8%A1%8C%E5%8C%96/</link>
+      <pubDate>Fri, 16 Jul 2021 07:41:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716074157-%E4%B8%B2%E8%A1%8C%E5%8C%96/</guid>
+      <description>实际串行执行 解决并发问题最直接的方法：在一个线程上按照顺序方式每次执行一个事务。
+为什么可行：
+ 内存越来越便宜，可以将事务需要的数据都放在内存中。 OLTP 事务通常执行很快，只产生少量的读写操作。通常较长时间的分析操作通常是只读。  事务为了充分利用单线程所做的调整：
+ 采用存储过程封装事务，Redis 采用 Lua 分区  约束  事务必须简短而高效。 事务所需数据都在内存。 写入吞吐量必须低，否则需要采用分区，最好没有跨分区事务。 要支持跨分区事务必须确保跨分区事务占比很小。  两阶段加锁 可串形化的快照隔离 </description>
+    </item>
+    
+    <item>
+      <title>写倾斜</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716072157-%E5%86%99%E5%80%BE%E6%96%9C/</link>
+      <pubDate>Fri, 16 Jul 2021 07:21:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716072157-%E5%86%99%E5%80%BE%E6%96%9C/</guid>
+      <description>即不是脏写也不会更新丢失，事务之间的写冲突并不直接，写倾斜可以视为更广义的数据丢失。
+考虑急诊医生请假系统，核心逻辑是必须要有一个医生值班。两个医生同时请假，事务同时同时开始，那么两个医生都能查询到有两个医生值班，最后请假成功，导致无医生值班。</description>
+    </item>
+    
+    <item>
+      <title>写倾斜与幻读</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716071953-%E5%86%99%E5%80%BE%E6%96%9C%E4%B8%8E%E5%B9%BB%E8%AF%BB/</link>
+      <pubDate>Fri, 16 Jul 2021 07:19:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716071953-%E5%86%99%E5%80%BE%E6%96%9C%E4%B8%8E%E5%B9%BB%E8%AF%BB/</guid>
+      <description>写事务并发除了需要防止更新丢失还有一些更为微妙的写冲突。
+写倾斜与幻读 定义写倾斜。</description>
+    </item>
+    
+    <item>
+      <title>防止更新丢失</title>
+      <link>https://www.linuxzen.com/notes/notes/20210716070457-%E9%98%B2%E6%AD%A2%E6%9B%B4%E6%96%B0%E4%B8%A2%E5%A4%B1/</link>
+      <pubDate>Fri, 16 Jul 2021 07:04:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210716070457-%E9%98%B2%E6%AD%A2%E6%9B%B4%E6%96%B0%E4%B8%A2%E5%A4%B1/</guid>
+      <description>读事务遇到并发写会出现脏读（读-提交和可重复读可以解决），写事务并发会带来一些冲突，最值得关注的就是更新丢失问题。 应用程序从数据库读取某些值，然后应用逻辑做出修改，然后写回新值。
+原子写操作 UPDATE counters SET value=value+1 WHERE key = &amp;#39;foo&amp;#39;; 原子操作通常采用方式：
+ 对读取对象加独占加锁，这种技术有时被称为「游标稳定性」。 强制所有原子操作都在单线程上执行。  显式枷锁 BEGIN TRANSACTION; SELECT * FROM figures WHERE name = &amp;#39;robot&amp;#39; AND game_id = 222 FOR UPDATE; -- 指示数据库对返回的所有结果行要加锁。 缺点：侵入应用逻辑、容易引发死锁（竞争冲突）。
+自动检测更新丢失 数据库（Oracle 的串形化和 SQL Server 的快照级别隔离）可以自动检测何时发生了更新丢失，然后终止违规的那个事务。
+原子比较和设置 UPDATE wiki_pages SET content = &amp;#39;new_content&amp;#39; WHERE id = 1234 AND conetnt = &amp;#39;old_content&amp;#39;; 冲突解决与复制  最后写入者获胜  </description>
+    </item>
+    
     <item>
       <title>更新 Go 内存模型</title>
       <link>https://www.linuxzen.com/notes/notes/20210715110202-%E6%9B%B4%E6%96%B0_go_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</link>
@@ -59,7 +140,7 @@
       <description>事务简化程序层错误处理，将多个读写捆绑成一个操作逻辑操作单元，成功则全部成功，失败则可以进行安全重试。
 深入理解事务 ACID 单对象与多对象事务操作 事务操作涉及多对象和但对象。
  多对象，如更新邮件未读数和未读邮件个数 单对象，如更新一个大的字段（20KB 的 JSON）  弱隔离级别 事务隔离级别中的「读-未提交」、「读-提交」和「快照级别隔离可重复读」。
-串行化 </description>
+防止更新丢失 写倾斜与幻读 串行化 </description>
     </item>
     
     <item>
