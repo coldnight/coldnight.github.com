@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>LeetCode: 25. Reverse Nodes in k-Group | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210715064442-leetcode_25_reverse_nodes_in_k_group/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>LeetCode: 25. Reverse Nodes in k-Group</h1>
+    <time datetime="2021-07-15T06:44:00&#43;08:00">July 15, 2021</time>
+  </header>
+  <p><a href="https://leetcode.com/problems/reverse-nodes-in-k-group/">https://leetcode.com/problems/reverse-nodes-in-k-group/</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * struct ListNode {
+</span><span style="color:#75715e"> *     int val;
+</span><span style="color:#75715e"> *     ListNode *next;
+</span><span style="color:#75715e"> *     ListNode() : val(0), next(nullptr) {}
+</span><span style="color:#75715e"> *     ListNode(int x) : val(x), next(nullptr) {}
+</span><span style="color:#75715e"> *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+</span><span style="color:#75715e"> * };
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    ListNode<span style="color:#f92672">*</span> reverseKGroup(ListNode<span style="color:#f92672">*</span> head, <span style="color:#66d9ef">int</span> k) {
+        deque<span style="color:#f92672">&lt;</span>ListNode<span style="color:#f92672">*&gt;</span> dq;
+        ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+        ListNode<span style="color:#f92672">*</span> top <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+        ListNode<span style="color:#f92672">*</span> tail <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+        <span style="color:#66d9ef">bool</span> first_k <span style="color:#f92672">=</span> true;
+        <span style="color:#66d9ef">while</span> (cur <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+            dq.push_front(cur);
+            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+
+            <span style="color:#66d9ef">if</span> (dq.size() <span style="color:#f92672">==</span> k) {
+                <span style="color:#75715e">// start reverse in k
+</span><span style="color:#75715e"></span>                top <span style="color:#f92672">=</span> dq.front();
+                dq.pop_front();
+
+                <span style="color:#75715e">// override head or connected from last k
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (first_k) {
+                    head <span style="color:#f92672">=</span> top;
+                    first_k <span style="color:#f92672">=</span> false;
+                } <span style="color:#66d9ef">else</span> {
+                    tail<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> top;
+                }
+
+                <span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>dq.empty()) {
+                    top<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> dq.front();
+                    dq.pop_front();
+                    top <span style="color:#f92672">=</span> top<span style="color:#f92672">-&gt;</span>next;
+                }
+                top<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> cur;
+                tail <span style="color:#f92672">=</span> top; <span style="color:#75715e">// mark the tail of linked list
+</span><span style="color:#75715e"></span>            }
+        }
+
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dq.empty() <span style="color:#f92672">&amp;&amp;</span> tail <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+            tail<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> dq.back();
+        }
+        <span style="color:#66d9ef">return</span> head;
+    }
+};
+</code></pre></div>
+</article>
+
+
+
+</body>
+
+</html>

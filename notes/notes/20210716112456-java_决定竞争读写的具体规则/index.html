@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>Java 决定竞争读写的具体规则 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210716112456-java_%E5%86%B3%E5%AE%9A%E7%AB%9E%E4%BA%89%E8%AF%BB%E5%86%99%E7%9A%84%E5%85%B7%E4%BD%93%E8%A7%84%E5%88%99/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Java 决定竞争读写的具体规则</h1>
+    <time datetime="2021-07-16T11:24:00&#43;08:00">July 16, 2021</time>
+  </header>
+  <p>对于小于等于 word 大小的变量，对变量（或字段） <code>x</code> 的读取必须看到对 <code>x</code> 的某一次写入所存储的值。
+如果读取 <code>r</code> 观察到对 <code>x</code> 的写入 <code>w</code> ，那么 <code>r</code> 不发生在 <code>w</code> 之前。</p>
+<p>也就是说 <code>r</code> 可以观察发生在 <code>r</code> 之前的所有写入，并且可以观察与 <code>r</code> 竞争的写入。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

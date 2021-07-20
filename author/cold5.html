@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>cold's world - Articles by Gray King</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/articles/notes/" role="presentation">Roam Research Notes</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="blog-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+            <div class="blog-cover cover" style="background-image: url('https://www.linuxzen.com/static/upload/cover.jpg')">
+      </div>
+    </header>
+
+    <section id="blog-author" class="has-cover" >
+        <div class="inner">
+            <aside class="post-author">
+                <figure class="post-author-avatar">
+                    <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                </figure>
+                <div class="post-author-bio">
+                    <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                        <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                        <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                        <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                    <!-- Social linkes in alphabet order. -->
+                        <span class="post-author-stats"><i class="ic ic-posts"></i> 109  posts </span>
+                </div>
+                <div class="clear"></div>
+            </aside>
+        </div>
+    </section>
+
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+<div id="index" class="container">
+  <main class="content" role="main">
+    <div class="extra-pagination">
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <a class="pagination-next" href="https://www.linuxzen.com/author/cold4.html"><i class="ic ic-arrow-left"></i> <span class="pagination-label">Newer Posts</span></a>
+    <span class="pagination-info">Page 5 / 11</span>
+    <a class="pagination-prev" href="https://www.linuxzen.com/author/cold6.html"><span class="pagination-label">Older Posts</span> <i class="ic ic-arrow-right"></i></a>
+    <div class="clear"></div>
+  </div>
+</nav>
+    </div>
+
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/clubotgeng-xin-shi-yong-sqlalchemyzhong-xie-shu-ju-ku-bu-fen-he-gai-yong-tornado-mainloop.html" rel="bookmark" title="Permalink to clubot更新: 使用SQLAlchemy重写数据库部分和改用Tornado MainLoop">clubot更新: 使用SQLAlchemy重写数据库部分和改用Tornado MainLoop</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Fri 26 April 2013">Fri 26 April 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        clubot在我的vps上跑了有一段时间了, 最近接触了SQLAlchemy 然后反观clubot的数据库代码部分, 感觉代码又遭有乱实在看不过眼, 所以就使用SQLAlchemy重写了数据库模块, 并将epoll的MainLoop改成仙子君所写的TornadoMainLoop 更新内容 数据库使用SQLAlchemy重写 MainLoop改用TornadoMainLoop 改变代码结构, 清理部分代码 将history命令改为old, 并支持时间查询 废弃一些不常用的命令...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/clubotgeng-xin-shi-yong-sqlalchemyzhong-xie-shu-ju-ku-bu-fen-he-gai-yong-tornado-mainloop.html" href="https://www.linuxzen.com/clubotgeng-xin-shi-yong-sqlalchemyzhong-xie-shu-ju-ku-bu-fen-he-gai-yong-tornado-mainloop.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html" rel="bookmark" title="Permalink to SQLAlchemy MySQL数据库乱码解决">SQLAlchemy MySQL数据库乱码解决</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Fri 26 April 2013">Fri 26 April 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        今天对clubot进行了升级, 但是导入数据后中文乱码, 一开是找资料说是在创建引擎的时候添加编码信息: engine = create_engine("mysql://root:@localhost:3306/clubot?charset=utf8") 但是这并不行, 然后查看表信息: > show create table clubot_members; clubot_members | CREATE TABLE `clubot_members` ( `id` int(11) NOT...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html" href="https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/grepwan-jiu-liao-wo-yi-ge-xia-wu-hui-fu-rm-fshan-chu-de-dai-ma.html" rel="bookmark" title="Permalink to grep挽救了我一个下午: 恢复rm -f删除的代码">grep挽救了我一个下午: 恢复rm -f删除的代码</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Thu 25 April 2013">Thu 25 April 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        今天对代码进行重构, 新添加了一个logics.py模块, 但并没有加入到git库中, 然后对代码进行清理, 有一个logs文件夹是不需要的所以我打算清掉它, 但是zsh将补全定位到logics.py, 手上的动作快过了脑子,直接按了回车, 做完心想完了, 一上午白费了, 还要花一下午的时间来重新写出这个代码, 虽然明知没有希望,但是我还是不想放弃, 于是就google一下有无解决办法,意外的是找到一篇文章:用grep恢复误删的文本 好吧虽然不知道能不能用, 但是我要试试,...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/grepwan-jiu-liao-wo-yi-ge-xia-wu-hui-fu-rm-fshan-chu-de-dai-ma.html" href="https://www.linuxzen.com/grepwan-jiu-liao-wo-yi-ge-xia-wu-hui-fu-rm-fshan-chu-de-dai-ma.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/jie-yong-tornadoshi-xian-gao-xiao-de-webqqji-qi-ren.html" rel="bookmark" title="Permalink to 借用Tornado实现高效的WebQQ机器人">借用Tornado实现高效的WebQQ机器人</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Tue 23 April 2013">Tue 23 April 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        之前有写过一篇文章介绍使用Pyxmpp2桥接QQ和xmpp的文章(这里).后来我打算将WebQQ单独出来运行, 一开始直接拷贝了pyxmpp2的mainloop, 但是跑起来问题多多, 所以我又研究了利用Tornado进行网络编程(这里), 所以我放弃了Pyxmpp2的mainloop,使用Tornado进行重写 首先放出项目代码 引子 WebQQ协议是一套基于HTTP的QQ协议, 而用Python的urllib2库进行请求太慢, 因为HTTP本身就使用socket请求,...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/jie-yong-tornadoshi-xian-gao-xiao-de-webqqji-qi-ren.html" href="https://www.linuxzen.com/jie-yong-tornadoshi-xian-gao-xiao-de-webqqji-qi-ren.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html" rel="bookmark" title="Permalink to 使用Pelican打造静态博客">使用Pelican打造静态博客</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Thu 18 April 2013">Thu 18 April 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        前面有文章介绍本站采用了Python编写的Pelican静态生成博客系统, 之所以没有使用当前很火的Jekyll, 是因为它是Ruby编写, 而我又对Ruby没有啥兴趣, 所以还是选择了使用了我熟悉的Python编写的这套系统, 我用了一段时间,打算将使用经验分享出来 介绍 Pelican是一套开源的使用Python编写的博客静态生成, 可以添加文章和和创建页面, 可以使用MarkDown reStructuredText 和 AsiiDoc 的格式来抒写, 同时使用...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/shi-yong-pelicanda-zao-jing-tai-bo-ke.html" href="https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/shi-yong-tornadojin-xing-wang-luo-yi-bu-bian-cheng.html" rel="bookmark" title="Permalink to 使用Tornado进行网络异步编程">使用Tornado进行网络异步编程</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Mon 15 April 2013">Mon 15 April 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        Tornado Tornado 是一款非阻塞可扩展的使用Python编写的web服务器和Python Web框架, 可以使用Tornado编写Web程序并不依赖任何web服务器直接提供高效的web服务.所以Tornado不仅仅是一个web框架而且还是一款可以用于生产环境的高效的web服务器 Torando 在Linux和FreeBSD上使用高效的异步I/O模型 epoll 和kqueue来实现高效的web服务器, 所以 tornado在Linux上和FreeBSD系列性能可以达到最高...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/shi-yong-tornadojin-xing-wang-luo-yi-bu-bian-cheng.html" href="https://www.linuxzen.com/shi-yong-tornadojin-xing-wang-luo-yi-bu-bian-cheng.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/shi-yong-webqqxie-yi-qiao-jie-xmpphe-qqqun.html" rel="bookmark" title="Permalink to 使用WebQQ协议桥接XMPP和QQ群">使用WebQQ协议桥接XMPP和QQ群</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Thu 14 March 2013">Thu 14 March 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        介绍 无意中看见有人利用WebQQ协议开发出Linux下Pidgin的插件, 让Pidgin来收发QQ消息, 突然想将clubot和QQ群来桥接起来一定非常有趣,这样就可以通过gtalk收发QQ来的消息, 不过前期还是想将clubot和QQ群桥接起来. 实施 想到了就开始弄呗, 于是上网找了写有关WebQQ的协议, 首先写出了一个根据urllib2的版本并使用线程同时跑WebQQ和xmpp, 源码可以查看: thread_version 优化 上面的线程版效率不是很高,...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/shi-yong-webqqxie-yi-qiao-jie-xmpphe-qqqun.html" href="https://www.linuxzen.com/shi-yong-webqqxie-yi-qiao-jie-xmpphe-qqqun.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/shi-yong-pelicanbo-ke-jing-tai-sheng-cheng-xi-tong.html" rel="bookmark" title="Permalink to 使用Pelican博客静态生成系统">使用Pelican博客静态生成系统</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Thu 14 March 2013">Thu 14 March 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        介绍 最近流行使用静态生成的博客, 看了很多感觉很棒总想尝试一下, 大名鼎鼎的Jekyll使用ruby,看了很多文档介绍,依旧不能入门使用,也许是用Ruby编写,对它比较迟钝.看到了一款Python编写的静态生成系统Pelican, 试用后除了模板较少外感觉还是不错的,使用Markdown和Rst编写. 安装 可以试用pip来安装Pelican, 通过pelican-quickstart脚本可以快速构建一个站点,详细不在描述.可以看看它的文档 模板...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/shi-yong-pelicanbo-ke-jing-tai-sheng-cheng-xi-tong.html" href="https://www.linuxzen.com/shi-yong-pelicanbo-ke-jing-tai-sheng-cheng-xi-tong.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/vlog-yi-ge-shi-yong-pythonbian-xie-de-qing-liang-ji-bo-ke-xi-tong.html" rel="bookmark" title="Permalink to vLog 一个使用Python编写的轻量级博客系统">vLog 一个使用Python编写的轻量级博客系统</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Tue 05 February 2013">Tue 05 February 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        介绍 何为vLog 大家有人可能注意到博客改变了,是的前面也有文章提到从wordpress迁移到vlog,但是何为vLog这里给大家简要的说明一下,vLog是我使用Python的tornado框架和Jinja2模板引擎,基于MySQL数据的一个轻量级的博客系统,此系统功能比较薄弱,处于开发初期,使用Markdown的格式来抒写博文. 为什么vLog vLog后台十分简单(可以说是简陋),功能也简单,就是一款简单的博客系统,提供了Python终端脚本,可以在终端来抒写博文,...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/vlog-yi-ge-shi-yong-pythonbian-xie-de-qing-liang-ji-bo-ke-xi-tong.html" href="https://www.linuxzen.com/vlog-yi-ge-shi-yong-pythonbian-xie-de-qing-liang-ji-bo-ke-xi-tong.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/shi-yong-geng-jia-gao-xiao-de-epollzuo-wei-pyxmpp2de-zhu-xun-huan.html" rel="bookmark" title="Permalink to 使用更加高效的epoll作为pyxmpp2的主循环">使用更加高效的epoll作为pyxmpp2的主循环</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Tue 05 February 2013">Tue 05 February 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        引子 之前clubot使用的pyxmpp2的默认mainloop也就是一个poll的主循环,但是clubot上线后资源占用非常厉害,使用strace跟踪发现clubot在不停的poll,查看pyxmpp2代码发现pyxmpp2的poll在使用超时阻塞时使用最小超时时间,而最小超时时间一直是0,所以会变成一个没有超时的非阻塞poll很浪费资源,不打算更改库代码,所以自己仿照poll的mainloop写了一个更加高效的epoll的mainloop 实现 #!/usr/bin/env...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/shi-yong-geng-jia-gao-xiao-de-epollzuo-wei-pyxmpp2de-zhu-xun-huan.html" href="https://www.linuxzen.com/shi-yong-geng-jia-gao-xiao-de-epollzuo-wei-pyxmpp2de-zhu-xun-huan.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <a class="pagination-next" href="https://www.linuxzen.com/author/cold4.html"><i class="ic ic-arrow-left"></i> <span class="pagination-label">Newer Posts</span></a>
+    <span class="pagination-info">Page 5 / 11</span>
+    <a class="pagination-prev" href="https://www.linuxzen.com/author/cold6.html"><span class="pagination-label">Older Posts</span> <i class="ic ic-arrow-right"></i></a>
+    <div class="clear"></div>
+  </div>
+</nav>
+  </main>
+</div>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

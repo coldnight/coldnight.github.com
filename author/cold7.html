@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>cold's world - Articles by Gray King</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/articles/notes/" role="presentation">Roam Research Notes</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="blog-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+            <div class="blog-cover cover" style="background-image: url('https://www.linuxzen.com/static/upload/cover.jpg')">
+      </div>
+    </header>
+
+    <section id="blog-author" class="has-cover" >
+        <div class="inner">
+            <aside class="post-author">
+                <figure class="post-author-avatar">
+                    <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                </figure>
+                <div class="post-author-bio">
+                    <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                        <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                        <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                        <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                    <!-- Social linkes in alphabet order. -->
+                        <span class="post-author-stats"><i class="ic ic-posts"></i> 109  posts </span>
+                </div>
+                <div class="clear"></div>
+            </aside>
+        </div>
+    </section>
+
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+<div id="index" class="container">
+  <main class="content" role="main">
+    <div class="extra-pagination">
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <a class="pagination-next" href="https://www.linuxzen.com/author/cold6.html"><i class="ic ic-arrow-left"></i> <span class="pagination-label">Newer Posts</span></a>
+    <span class="pagination-info">Page 7 / 11</span>
+    <a class="pagination-prev" href="https://www.linuxzen.com/author/cold8.html"><span class="pagination-label">Older Posts</span> <i class="ic ic-arrow-right"></i></a>
+    <div class="clear"></div>
+  </div>
+</nav>
+    </div>
+
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/linuxgao-xiao-gong-zuo-ping-pu-shi-chuang-ti-guan-li-qi-awesome.html" rel="bookmark" title="Permalink to Linux高效工作----平铺式窗体管理器Awesome">Linux高效工作----平铺式窗体管理器Awesome</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Thu 25 October 2012">Thu 25 October 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        在Linux桌面环境下开发,总想更高效的工作,我已经装备了Gnome Do和terminator,但是我还是觉得不够快我更加希望能解放右手(当然不是找个妹子戒撸,只是右手的鼠标),而且terminator在跑的东西过多的时候开多个terminator不太好管理,这时候一个词进入了我的眼睛平铺式窗体管理器,与传统窗体管理器不同的是平铺式窗体管理器的窗口不会重叠,窗口会被自动调整成正好铺满全屏的尺寸,也就是说无论开多少窗口都会把屏幕占满,如果想象力贫乏就装一个试试吧:...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/linuxgao-xiao-gong-zuo-ping-pu-shi-chuang-ti-guan-li-qi-awesome.html" href="https://www.linuxzen.com/linuxgao-xiao-gong-zuo-ping-pu-shi-chuang-ti-guan-li-qi-awesome.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/pythonjiang-yi-zi-an-pin-yin-pai-xu-yi-ge-duo-yin-zi-yin-fa-de-bei-ju.html" rel="bookmark" title="Permalink to Python将汉字按拼音排序--一个多音字引发的悲剧">Python将汉字按拼音排序--一个多音字引发的悲剧</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Wed 24 October 2012">Wed 24 October 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        今天同事告诉我一个项目需要将汉字按拼音排序,之前没做过啊,就google之,down了一份汉字与拼音的对照表,对照表格式如下: 拼 pin1 音 yin1 将文件保存为pinyindata,于是有了如下对应的python代码: #!/usr/bin/env python # -*- coding:utf-8 -*- # # Author : cold night # E-mail : wh_linux@126.com # Date : 12-10-24 下午3:13 # from os...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/pythonjiang-yi-zi-an-pin-yin-pai-xu-yi-ge-duo-yin-zi-yin-fa-de-bei-ju.html" href="https://www.linuxzen.com/pythonjiang-yi-zi-an-pin-yin-pai-xu-yi-ge-duo-yin-zi-yin-fa-de-bei-ju.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/bu-shu-tornadoshi-iptablesyin-fa-de-de-yi-ge-wen-ti.html" rel="bookmark" title="Permalink to 部署Tornado时iptables引发的的一个问题">部署Tornado时iptables引发的的一个问题</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Sat 29 September 2012">Sat 29 September 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        今天在CentOS上部署了一个Tornado,使用nginx做代理, tornado使用8888,端口,使用nginx作为反向代理,配置文件如下: server { listen 80; server_name www.linuxzen.com; location / { proxy_pass_header Server; proxy_redirect off; proxy_set_header X-Real_IP $remote_addr; proxy_set_header...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/bu-shu-tornadoshi-iptablesyin-fa-de-de-yi-ge-wen-ti.html" href="https://www.linuxzen.com/bu-shu-tornadoshi-iptablesyin-fa-de-de-yi-ge-wen-ti.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/yong-vimwei-pythonyuan-ma-zi-dong-tian-jia-xing-he-bian-ma-xing.html" rel="bookmark" title="Permalink to 用Vim为Python源码自动添加#!行和编码行">用Vim为Python源码自动添加#!行和编码行</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Sat 29 September 2012">Sat 29 September 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        每次开始写Python打开文件第一件事就是写上#!/usr/bin/env python和编码之类的东西, 太多了,写烦就,写了一个打开Python自动填充的函数,将下面内容添加到~/.vimrc下即可每次打开如果没有上述行则会自动填充: function InsertPythonHeader() let l1 = getline(1) let l2 = getline(2) if match('\#!/', l1) == 0 exec 1 normal O call...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/yong-vimwei-pythonyuan-ma-zi-dong-tian-jia-xing-he-bian-ma-xing.html" href="https://www.linuxzen.com/yong-vimwei-pythonyuan-ma-zi-dong-tian-jia-xing-he-bian-ma-xing.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html" rel="bookmark" title="Permalink to 分享Vim两种好用的功能:状态行和空白字符可见">分享Vim两种好用的功能:状态行和空白字符可见</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Sat 29 September 2012">Sat 29 September 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        马上要放假了,没事折腾了一下Vim发现了两个非常棒的功能,一个是给Vim添加一个状态栏,一个是可以在编辑的时候显示空白, 我的状态栏显示了: 正在编辑的文件名, 选项 是Git显示git分支(需要fugitive插件) 文件类型 当前目录 当前字符的ASCII和16进制码 右边是当前光标所在行/列,文件的位置的百分比,和文件的长度 fugitive 可以在git获得: git clone http://github.com/tpope/vim-fugitive.git...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html" href="https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/yong-pythonjiang-jue-dui-urlti-huan-cheng-xiang-dui-url.html" rel="bookmark" title="Permalink to 用Python将绝对URL替换成相对URL">用Python将绝对URL替换成相对URL</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Sat 29 September 2012">Sat 29 September 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        公司一个项目需要上传图片,一开始同事将图片上传后结合当前主机拼成了一个绝对的URL(http://192.168.1.1:888/m/getimg?filename=xxx.jpg由于同时给手机终端提供接口,在手机终端会引起一些bug,改完代码后要求将以前的uri替换成相对的URL(/m/getimg?filename=xxx.jpg),由于图片是用img标签嵌入到内容同时用a标签括起显示大图的,所以需要读取数据库并对内容进行替换, 脚本内容如下: #!/usr/bin/env...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/yong-pythonjiang-jue-dui-urlti-huan-cheng-xiang-dui-url.html" href="https://www.linuxzen.com/yong-pythonjiang-jue-dui-urlti-huan-cheng-xiang-dui-url.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/yong-pythondui-ge-chong-bian-cheng-yu-yan-jin-xing-dai-ma-gao-liang.html" rel="bookmark" title="Permalink to 用Python对各种编程语言进行代码高亮">用Python对各种编程语言进行代码高亮</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Sat 29 September 2012">Sat 29 September 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        做了一个在线代码高亮的项目,因为写的Gtalk群Bot需要这个功能支持,贴到第三方怕被人给封,所以干脆想自己写一个,强大的Python一如既往没让我失望,一个强大的Pygments模块可以对多种(很多)语言进行代码高亮 下面来介绍一下它: 首先安装很简单,使用easy_install来进行安装: easy_install pygments 安装完后我们来使用,Python的简单不会让大家失望: from pygments.lexers import PythonLexver from...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/yong-pythondui-ge-chong-bian-cheng-yu-yan-jin-xing-dai-ma-gao-liang.html" href="https://www.linuxzen.com/yong-pythondui-ge-chong-bian-cheng-yu-yan-jin-xing-dai-ma-gao-liang.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/python-you-ya-de-cao-zuo-zi-dian.html" rel="bookmark" title="Permalink to Python 优雅的操作字典">Python 优雅的操作字典</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Mon 17 September 2012">Mon 17 September 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        Python 中的字典是Python中一个键值映射的数据结构,下面介绍一下如何优雅的操作字典. 1.1 创建字典 Python有两种方法可以创建字典,第一种是使用花括号,另一种是使用内建 函数dict >>> info = {} >>> info = dict() 1.2 初始化字典 Python可以在创建字典的时候初始化字典 >>> info = {"name" : 'cold'} >>> info = dict(name = 'cold') # 更优雅...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/python-you-ya-de-cao-zuo-zi-dian.html" href="https://www.linuxzen.com/python-you-ya-de-cao-zuo-zi-dian.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html" rel="bookmark" title="Permalink to Python 字典和列表陷阱">Python 字典和列表陷阱</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Mon 17 September 2012">Mon 17 September 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        Python 中有三个非常好用的数据结构,列表,元组和字典, 元组是不可变的,列表可以保存任意类型的Python对象,并可以随意扩展没有大小限制, 字典是一个key-value的键值映射的类型,可以存放任何Python对象,可以嵌套字典, 值可以是字典元组或者字典 这里说是Python 字典和列表的陷阱不如说是Python的一些特性,如果不了解这些特性 就会引发一些难以寻找的bug 下面我们来介绍这些特性 Python中所有对列表和字典的使用仅仅是对原来对象的引用而不是创建一个新的对象...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/python-zi-dian-he-lie-biao-xian-jing.html" href="https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/linuxzhuo-mian-gao-xiao-gong-zuo-shi-yong-gnome-do.html" rel="bookmark" title="Permalink to Linux桌面高效工作----使用Gnome DO">Linux桌面高效工作----使用Gnome DO</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Sat 01 September 2012">Sat 01 September 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        不知大家是否和我一样在win下系统win+r输入命令来快速启动程序,这两天在Linux下碰到一个比这更爽,更快的软件,Gnome Do. Gnome Do能根据用户键入的内容进行自动匹配，从而快速打开系统中已有的程序、文件、书签等。不仅如此，GNOME Do 还包括插件，从而能够做更多事, 比如你安装了pidgin插件只需输入联系人的名字即可打开与他/她的会话,安装了file这个插件输入文件/目录的名字即可打开目录或文件, 当然还有一个不足就是不支持中文...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/linuxzhuo-mian-gao-xiao-gong-zuo-shi-yong-gnome-do.html" href="https://www.linuxzen.com/linuxzhuo-mian-gao-xiao-gong-zuo-shi-yong-gnome-do.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <a class="pagination-next" href="https://www.linuxzen.com/author/cold6.html"><i class="ic ic-arrow-left"></i> <span class="pagination-label">Newer Posts</span></a>
+    <span class="pagination-info">Page 7 / 11</span>
+    <a class="pagination-prev" href="https://www.linuxzen.com/author/cold8.html"><span class="pagination-label">Older Posts</span> <i class="ic ic-arrow-right"></i></a>
+    <div class="clear"></div>
+  </div>
+</nav>
+  </main>
+</div>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

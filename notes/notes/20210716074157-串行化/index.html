@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>串行化 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210716074157-%E4%B8%B2%E8%A1%8C%E5%8C%96/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>串行化</h1>
+    <time datetime="2021-07-16T07:41:00&#43;08:00">July 16, 2021</time>
+  </header>
+  <h2 id="实际串行执行">实际串行执行</h2>
+<p>解决并发问题最直接的方法：在一个线程上按照顺序方式每次执行一个事务。</p>
+<p>为什么可行：</p>
+<ul>
+<li>内存越来越便宜，可以将事务需要的数据都放在内存中。</li>
+<li>OLTP 事务通常执行很快，只产生少量的读写操作。通常较长时间的分析操作通常是只读。</li>
+</ul>
+<p>事务为了充分利用单线程所做的调整：</p>
+<ul>
+<li>采用存储过程封装事务，Redis 采用 Lua</li>
+<li>分区</li>
+</ul>
+<h3 id="约束">约束</h3>
+<ul>
+<li>事务必须简短而高效。</li>
+<li>事务所需数据都在内存。</li>
+<li>写入吞吐量必须低，否则需要采用分区，最好没有跨分区事务。</li>
+<li>要支持跨分区事务必须确保跨分区事务占比很小。</li>
+</ul>
+<h2 id="两阶段加锁--20210716074845-两阶段加锁-dot-md"><a href="/notes/notes/20210716074845-%E4%B8%A4%E9%98%B6%E6%AE%B5%E5%8A%A0%E9%94%81/">两阶段加锁</a></h2>
+<h2 id="可串形化的快照隔离--20210716075758-可串形化的快照隔离-dot-md"><a href="/notes/notes/20210716075758-%E5%8F%AF%E4%B8%B2%E5%BD%A2%E5%8C%96%E7%9A%84%E5%BF%AB%E7%85%A7%E9%9A%94%E7%A6%BB/">可串形化的快照隔离</a></h2>
+
+</article>
+
+
+
+</body>
+
+</html>

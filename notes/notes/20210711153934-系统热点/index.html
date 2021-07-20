@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>系统热点 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210711153934-%E7%B3%BB%E7%BB%9F%E7%83%AD%E7%82%B9/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>系统热点</h1>
+    <time datetime="2021-07-11T15:39:00&#43;08:00">July 11, 2021</time>
+  </header>
+  <p><a href="/notes/notes/20210711153606-%E8%B4%9F%E8%BD%BD%E5%80%BE%E6%96%9C/">负载倾斜</a>会导致所有负载都集中在一个分区节点上，这种负载严重不成比例的分区即称为系统热点。</p>
+<h2 id="应用层解决">应用层解决</h2>
+<p>即使通过<a href="/notes/notes/20210711171149-%E5%9F%BA%E4%BA%8E%E5%85%B3%E9%94%AE%E5%AD%97%E5%93%88%E5%B8%8C%E5%80%BC%E5%88%86%E5%8C%BA/">基于关键字哈希值分区</a>和<a href="/notes/notes/20210711154220-%E5%9F%BA%E4%BA%8E%E5%85%B3%E9%94%AE%E5%AD%97%E5%8C%BA%E9%97%B4%E5%88%86%E5%8C%BA/">基于关键字区间分区</a>等策略解决了大部分热点问题，但是极端情况下依然会出现热点，比如社交媒体的热点时间都会导致热点，只能通过应用层解决，一个简单的技术：</p>
+<ul>
+<li>关键字开头或结尾添加一个随机数，两位随机数就可以将关键字的写操作分布到 100 个不同的分区上；</li>
+<li>读取就必须从所有的 1000 个关键字中读取数据然后进行合并；</li>
+<li>通过额外的元数据标记哪些关键字进行了特殊处理。</li>
+</ul>
+<p>由于对读取造成的额外开销，所以通常只有对少量的热点关键词附加随机数才有意义。</p>
+
+</article>
+
+
+
+</body>
+
+</html>
