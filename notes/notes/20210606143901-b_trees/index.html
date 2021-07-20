@@ -54,7 +54,7 @@
 这样可以实现高效的 key-value 查找和区间查询。</p>
 <h2 id="结构">结构</h2>
 <p>B-tree 将数据库分解成固定大小的页或块，传统上 4KB，这种设计更接近底层硬件，磁盘也是以固定大小的块排列的。</p>
-<figure><img src="/ox-hugo/b-tree-dot.png"/>
+<figure><img src="/notes/ox-hugo/b-tree-dot.png"/>
 </figure>
 
 <h2 id="分页因子">分页因子</h2>
@@ -64,10 +64,10 @@
 <li>找到其范围新键的页</li>
 <li>如果页没有足够的可用空间来容纳新键，则将其分裂为两个半满的页，并更新父页以包含新的键范围。</li>
 </ol>
-<figure><img src="/ox-hugo/b-tree-dot-insert-before.png"/>
+<figure><img src="/notes/ox-hugo/b-tree-dot-insert-before.png"/>
 </figure>
 
-<figure><img src="/ox-hugo/b-tree-dot-insert-after.png"/>
+<figure><img src="/notes/ox-hugo/b-tree-dot-insert-after.png"/>
 </figure>
 
 <p>算法确保树保持平衡：具有 n 个键的 B-tree 总是具有 \(O(log n)\) 的深度。大多数据库适合 3~4 层的 B-tree。
