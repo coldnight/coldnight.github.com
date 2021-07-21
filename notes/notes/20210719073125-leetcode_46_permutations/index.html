@@ -63,7 +63,41 @@
 <li><code>[2,R:3,R:1]</code> -&gt; <code>[2,3,1]</code></li>
 <li>&hellip;</li>
 </ul>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permute(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
+        backtrack(res, track, nums);
+        <span style="color:#66d9ef">return</span> res;
+    }
 
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span> res, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> track, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+        <span style="color:#66d9ef">if</span> (track.size() <span style="color:#f92672">==</span> nums.size()) {
+            res.push_back(track);
+            <span style="color:#66d9ef">return</span>;
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (visited.find(nums[i]) <span style="color:#f92672">!=</span> visited.end() <span style="color:#f92672">&amp;&amp;</span> visited[nums[i]]) {
+                <span style="color:#66d9ef">continue</span>;
+            }
+
+            track.push_back(nums[i]);
+            visited[nums[i]] <span style="color:#f92672">=</span> true;
+
+            <span style="color:#75715e">// go into next level
+</span><span style="color:#75715e"></span>            backtrack(res, track, nums);
+
+            visited[nums[i]] <span style="color:#f92672">=</span> false;
+            track.pop_back();
+        }
+    }
+<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+    map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> visited;
+};
+</code></pre></div>
 </article>
 
 

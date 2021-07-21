@@ -6,7 +6,27 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 19 Jul 2021 07:31:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 21 Jul 2021 07:36:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode: 47. Permutations II</title>
+      <link>https://www.linuxzen.com/notes/notes/20210721073657-leetcode_47_permutations_ii/</link>
+      <pubDate>Wed, 21 Jul 2021 07:36:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210721073657-leetcode_47_permutations_ii/</guid>
+      <description>在 LeetCode: 46. Permutations 的基础上增加重复的元素。感觉不能依赖于 track + map 的去重逻辑回溯。
+class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permuteUnique(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; backtrack(nums); return res; } void backtrack(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int n = 0; int sz = nums.size(); for (int i = 0; i &amp;lt; sz; i++) { n = nums.back(); nums.pop_back(); cout &amp;lt;&amp;lt; n &amp;lt;&amp;lt; &amp;#34;, &amp;#34;; backtrack(nums); nums.push_back(n); } } }; 数据特征：
+Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, </description>
+    </item>
+    
+    <item>
+      <title>分布式系统挑战</title>
+      <link>https://www.linuxzen.com/notes/notes/20210721063222-%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%8C%91%E6%88%98/</link>
+      <pubDate>Wed, 21 Jul 2021 06:32:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210721063222-%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%8C%91%E6%88%98/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>LeetCode: 46. Permutations</title>
       <link>https://www.linuxzen.com/notes/notes/20210719073125-leetcode_46_permutations/</link>
@@ -16,7 +36,7 @@
       <description>Keywords backtrack 回溯算法
 图解 举例： [1, 2, 3] ，顺着叶子节点和删除的节点就可以还原成全排列。
  从上面图可以看出来，叶子节点加上回溯路径上被移除的节点就是结果的一项，从左到右依次是：
- [3,R:2,R:1] -&amp;gt; [3,2,1] [2,R:3,R:1] -&amp;gt; [2,3,1] &amp;hellip;  </description>
+ [3,R:2,R:1] -&amp;gt; [3,2,1] [2,R:3,R:1] -&amp;gt; [2,3,1] &amp;hellip;  class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permute(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; backtrack(res, track, nums); return res; } void backtrack(vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; &amp;amp; res, vector&amp;lt;int&amp;gt; &amp;amp; track, vector&amp;lt;int&amp;gt;&amp;amp; nums) { if (track.size() == nums.size()) { res.push_back(track); return; } for (int i = 0; i &amp;lt; nums.size(); i++) { if (visited.find(nums[i]) != visited.end() &amp;amp;&amp;amp; visited[nums[i]]) { continue; } track.</description>
     </item>
     
     <item>
@@ -1038,7 +1058,7 @@ LSM-Tree 基本思想：保存在后台并合并的排序字符串表：SSTables
       <description>数据系统基础 可靠、可扩展与可维护的应用系统 数据模型与查询语言 数据存储与检索 数据编码与演化 分布式数据系统 目的：扩展性、容错和高可用、延迟考虑（多机房）
 扩展：
  垂直扩展：提升单机性能 水平扩展：无共享结构，由软件实现核心逻辑  复制与分区：
- 复制：多节点冗余 分区：数据库拆分 分片：分区分配给不同的节点  数据复制 数据分区 事务 </description>
+ 复制：多节点冗余 分区：数据库拆分 分片：分区分配给不同的节点  数据复制 数据分区 事务 分布式系统挑战 </description>
     </item>
     
     <item>
