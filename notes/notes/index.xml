@@ -6,7 +6,40 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 21 Jul 2021 07:36:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 22 Jul 2021 08:02:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>拜占庭故障</title>
+      <link>https://www.linuxzen.com/notes/notes/20210722080226-%E6%8B%9C%E5%8D%A0%E5%BA%AD%E6%95%85%E9%9A%9C/</link>
+      <pubDate>Thu, 22 Jul 2021 08:02:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210722080226-%E6%8B%9C%E5%8D%A0%E5%BA%AD%E6%95%85%E9%9A%9C/</guid>
+      <description>节点撒谎伪造 Fencing 令牌，或者部分节点故障、不遵从协议、干扰网络或者恶意攻击，则为「拜占庭故障」。 如果系统仍可以继续运行，那么我们称之为「拜占庭式容错系统」。</description>
+    </item>
+    
+    <item>
+      <title>Fencing 令牌</title>
+      <link>https://www.linuxzen.com/notes/notes/20210722075942-fencing_%E4%BB%A4%E7%89%8C/</link>
+      <pubDate>Thu, 22 Jul 2021 07:59:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210722075942-fencing_%E4%BB%A4%E7%89%8C/</guid>
+      <description>Fencing（围栏）锁，每次锁服务授予锁时，同时返回 fencing 令牌，每次客户端发送写请求，都必须包含所持有的 fencing 令牌。
+fencing 令牌单调递增，如果低版本的写入后到达，发现已经有高版本的 fencing 令牌写入，则拒绝此次写入。</description>
+    </item>
+    
+    <item>
+      <title>单调时钟与墙上时钟</title>
+      <link>https://www.linuxzen.com/notes/notes/20210722073012-%E5%8D%95%E8%B0%83%E6%97%B6%E9%92%9F%E4%B8%8E%E5%A2%99%E4%B8%8A%E6%97%B6%E9%92%9F/</link>
+      <pubDate>Thu, 22 Jul 2021 07:30:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210722073012-%E5%8D%95%E8%B0%83%E6%97%B6%E9%92%9F%E4%B8%8E%E5%A2%99%E4%B8%8A%E6%97%B6%E9%92%9F/</guid>
+      <description>墙上时钟 根据某个日历返回当前的日期与时间。
+ Linux 上的 clock_gettime(CLOCK_REALTIME) Java 中的 System.currentTimeMills()  会返回 1970-01-01（UTC）的时间戳（秒和毫秒）。
+墙上时钟会和 NTP 服务器同步产生跳跃导致一些奇怪的问题。
+单调时钟 更适合测量持续时间段（时间间隔），如超时或服务的响应时间。保证总是向前（不会出现墙上时钟的回拨现象）。
+ Linux 上的 clock_gettime(CLOCK_MONOTONIC) Java 中的 System.nanoTime()  单调时钟多个节点的对比没有任何意义，多路 CPU 可能有单独的计时器，且不与其他 CPU 进行同步。由操作系统进行补偿它们之间的偏差。
+NTP 检测到本地石英比时间服务器更快或者更慢，NTP 会调整本地石英的震动频率（摆动），最大幅度为 0.05%。 NTP 并不会直接调整单调时钟向前或回拨 。</description>
+    </item>
+    
     <item>
       <title>LeetCode: 47. Permutations II</title>
       <link>https://www.linuxzen.com/notes/notes/20210721073657-leetcode_47_permutations_ii/</link>
@@ -24,7 +57,12 @@ Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 
       <pubDate>Wed, 21 Jul 2021 06:32:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210721063222-%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%8C%91%E6%88%98/</guid>
-      <description></description>
+      <description>故障与部分失效 单节点一般是要么工作要么失效，但是分布式系统多节点面临部分失效，大大提高了分布式系统的复杂性。
+单节点软件特性：
+ 硬件正常工作时，相同的操作通常总会产生相同的结果，即确定性。 如果发生了某种内部错误，我们宁愿使计算机全部崩溃，而不是返回一个错误的结果。  云计算和超算  超算：垂直扩展的极端，设置检查点，一点节点故障则全部失效从上一个检查点重新开始（离线批处理），类似单机上内核崩溃。 云计算：水平扩展的极端 传统企业位于两个极端的中间  分布式可靠必然面临部分失效，需要依赖软件系统来提供容错机制。我们需要在不可靠的组件上构建可靠的系统。
+不可靠网络  分布式无共享系统：成本低廉。 互联网以及大多数 IDC 内部网络都是异步网络：不保证发送一定到达（排队），等待响应时可能出现任何错误。  现实中的网络故障非常普遍 故障检测：HA、主从切换、保活机制（ICMP，SYN） 超时与无限期的延迟 网络拥塞与排队  网络负载过高会出现拥塞。 数据在发送的过程中分别会在发送端和接收端进行排队：等待发送和等待处理。 TCP 的拥塞控制机制。 虚拟化 CPU 核切换虚拟机  同步与异步网络  同步网络：固定电话网络，一路电话分配固定的电路、有带宽保证，规定延迟内保证完成数据包发送，不会丢弃数据包，成本高，利用率低 异步网络：数据中心网络，共享带宽，无法保证延迟和数据包发送，成本低廉，利用率高  不可靠时钟 单调时钟与墙上时钟 时间同步与准确性  计算机中的石英钟不够精确 NTP 服务器不稳定（网络、防火墙或服务本身） 虚拟机中时钟是虚拟化的。 终端设备不可控：休眠、故意设置  依赖同步的时钟 时钟陷阱：
+ 一天可能不总是 86400 秒 回拨 多个节点上的时间完全不相同  需要精确同步的时钟：
+ 自己监控所有节点上的时钟偏差 某个节点时钟漂移超出上限则将其宣告失效  时间戳与时间顺序  最后写入者获胜  时钟的置信区间 通过直接安装 GPS 接收器或原子（铯）时钟，它的误差范围通常可以查询制造商手册。</description>
     </item>
     
     <item>
