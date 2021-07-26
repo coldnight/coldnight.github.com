@@ -6,7 +6,35 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 26 Jul 2021 08:03:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Jul 2021 18:10:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>macOS 签名 GDB</title>
+      <link>https://www.linuxzen.com/notes/notes/20210726181021-macos_%E7%AD%BE%E5%90%8D_gdb/</link>
+      <pubDate>Mon, 26 Jul 2021 18:10:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210726181021-macos_%E7%AD%BE%E5%90%8D_gdb/</guid>
+      <description>macOS 下通过 GDB 调试程序会出现：
+Unable to find Mach task port for process-id 1375: (os/kern) failure (0x5). (please check gdb is codesigned - see taskgated(8))   需要通过 Keychain Access Application 创建证书： code-sign-cert
+  需要对 gdb 进行签名，首先创建 gdb-entitlement.xml ：
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; &amp;lt;key&amp;gt;com.apple.security.cs.debugger&amp;lt;/key&amp;gt; &amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt;   运行签名
+codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   See also: PermissionsDarwin。</description>
+    </item>
+    
+    <item>
+      <title>Understanding Rust futures by going way too deep</title>
+      <link>https://www.linuxzen.com/notes/articles/20210726105711-understanding_rust_futures_by_going_way_too_deep/</link>
+      <pubDate>Mon, 26 Jul 2021 10:57:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/articles/20210726105711-understanding_rust_futures_by_going_way_too_deep/</guid>
+      <description>原文链接：Understanding Rust futures by going way too deep。
+译者注：原文大量的引入了有趣的对话，迫于排版问题这里不进行翻译，必要的对话通过引用块来解释。
+深入理解 Rust future 用 Rust future！就是这么简单！直到我们发现并非如此。所以我们先探索简单的部分，然后继续探索困难部分而不是等它慢慢靠近我们。
+起步  Choo choo here comes the easy part 🚂💨
+ 我们创建一个新的项目：
+$ cargo new waytoodeep Created binary (application) `waytoodeep` package 我们需要安装 cargo-edit 如果之前没有安装过的话，接下来就可以直接 cargo add ：
+$ cargo install cargo-edit Updating crates.io index Downloaded cargo-edit v0.7.0 Downloaded 1 crate (57.6 KB) in 0.47s Ignored package `cargo-edit v0.7.0` is already installed, use --force to override  因为 cargo-edit 真的很方便，所以你可能已经安装过它。部分读者会感到困惑是因为像 cargo new, cargo build, cargo test, cargo run 等子命令都内置在 cargo 中， 但是 cargo add 没有。</description>
+    </item>
+    
     <item>
       <title>偏序</title>
       <link>https://www.linuxzen.com/notes/notes/20210726080332-%E5%81%8F%E5%BA%8F/</link>
@@ -1265,7 +1293,7 @@ U | +------+ | HA | +------+ / | \ /--- | ---\ / | \ A B C 这样上层和下层
       <pubDate>Mon, 18 Jan 2021 11:46:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210118114626-gdb/</guid>
-      <description> GDB 打出所有线程的 Backtrace  </description>
+      <description> GDB 打出所有线程的 Backtrace macOS 签名 GDB  </description>
     </item>
     
     <item>

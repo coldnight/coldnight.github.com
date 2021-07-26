@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>Understanding Rust futures by going way too deep | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="https://www.linuxzen.com/notes/articles/20210726105711-understanding_rust_futures_by_going_way_too_deep/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Understanding Rust futures by going way too deep</h1>
+    <time datetime="2021-07-26T10:57:00&#43;08:00">July 26, 2021</time>
+  </header>
+  <p>原文链接：<a href="https://fasterthanli.me/articles/understanding-rust-futures-by-going-way-too-deep">Understanding Rust futures by going way too deep</a>。</p>
+<p>译者注：原文大量的引入了有趣的对话，迫于排版问题这里不进行翻译，必要的对话通过引用块来解释。</p>
+<h2 id="深入理解-rust-future">深入理解 Rust future</h2>
+<p>用 Rust future！就是这么简单！直到我们发现并非如此。所以我们先探索简单的部分，然后继续探索困难部分而不是等它慢慢靠近我们。</p>
+<h2 id="起步">起步</h2>
+<blockquote>
+<p>Choo choo here comes the easy part 🚂💨</p>
+</blockquote>
+<p>我们创建一个新的项目：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo new waytoodeep
+     Created binary <span style="color:#f92672">(</span>application<span style="color:#f92672">)</span> <span style="color:#e6db74">`</span>waytoodeep<span style="color:#e6db74">`</span> package
+</code></pre></div><p>我们需要安装 <code>cargo-edit</code> 如果之前没有安装过的话，接下来就可以直接 <code>cargo add</code> ：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo install cargo-edit
+    Updating crates.io index
+  Downloaded cargo-edit v0.7.0
+  Downloaded <span style="color:#ae81ff">1</span> crate <span style="color:#f92672">(</span>57.6 KB<span style="color:#f92672">)</span> in 0.47s
+     Ignored package <span style="color:#e6db74">`</span>cargo-edit v0.7.0<span style="color:#e6db74">`</span> is already installed, use --force to override
+</code></pre></div><blockquote>
+<p>因为 <code>cargo-edit</code> 真的很方便，所以你可能已经安装过它。部分读者会感到困惑是因为像
+<code>cargo new</code>, <code>cargo build</code>, <code>cargo test</code>, <code>cargo run</code> 等子命令都内置在 cargo 中，
+但是 <code>cargo add</code> 没有。</p>
+<p>实际上，有一大堆像这样的包，如 <a href="https://lib.rs/crates/cargo-hack">cargo-hack</a>,<a href="https://lib.rs/crates/cargo-udeps">cargo-udeps</a>,<a href="https://lib.rs/crates/cargo-expand">cargo-expand</a>&hellip;<a href="https://lib.rs/keywords/cargo">等等</a>。</p>
+</blockquote>
+<p>然后我们需要选择一个「异步运行时」（async runtime），因为这些 future 对象不会轮询（poll）自己。。。
+我们毫无理由的选择 tokio，唯一的原因是：过去几个月我一直在用它。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo add tokio@1.9.0 --features full
+    Updating <span style="color:#e6db74">&#39;https://github.com/rust-lang/crates.io-index&#39;</span> index
+      Adding tokio v1.9.0 to dependencies with features: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;full&#34;</span><span style="color:#f92672">]</span>
+</code></pre></div><p>然后我们修改 <code>main</code> 函数使用 tokio 默认执行器（executor）（ <code>cargo new</code> 为我们生成了一个 <code>main</code> 函数，但是这里并不能满足我们的需求）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/main.rs`
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello from a (so far completely unnecessary) async runtime&#34;</span>);
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo run                                                                                                                                                                                          3s 209ms
+   Compiling waytoodeep v0.1.0 <span style="color:#f92672">(</span>/Users/wh/codes/rust/waytoodeep<span style="color:#f92672">)</span>
+    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 3.47s
+     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
+Hello from a <span style="color:#f92672">(</span>so far completely unnecessary<span style="color:#f92672">)</span> async runtime
+</code></pre></div><p>酷！</p>
+<p>接下来让我们添加其他一些我喜欢在我的项目中使用的好东西。</p>
+<p>首先，对于错误处理 - 我们编写程序就需要处理一堆不同库里不同的类型，如果能通过一个类型统一它们就会非常整洁。</p>
+<p><a href="https://lib.rs/crates/eyre">eyre</a> 可以赋予我们这些（就像 <code>anyhow</code> ）！</p>
+<p>并且因为我喜欢漂亮的颜色我将使用 <a href="https://lib.rs/crates/color-eyre">color-eyre</a>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo add color-eyre@0.5.11
+    Updating <span style="color:#e6db74">&#39;https://github.com/rust-lang/crates.io-index&#39;</span> index
+      Adding color-eyre v0.5.11 to dependencies
+</code></pre></div><p>现在我们需要安装 <code>color-eyre</code> 作为默认的崩溃（panic）处理器，我悄悄修改了一些环境变量来默认输出 bracktraces。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> color_eyre::Report;
+
+<span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello from a (so far completely unnecessary) async runtime&#34;</span>);
+
+    Ok(())
+}
+
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">setup</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">if</span> std::env::var(<span style="color:#e6db74">&#34;RUST_LIB_BACKTRACE&#34;</span>).is_err() {
+        std::env::set_var(<span style="color:#e6db74">&#34;RUST_LIB_BACKTRACE&#34;</span>, <span style="color:#e6db74">&#34;1&#34;</span>)
+    }
+    color_eyre::install()<span style="color:#f92672">?</span>;
+
+    Ok(())
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo run
+    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 0.02s
+     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
+Hello from a <span style="color:#f92672">(</span>so far completely unnecessary<span style="color:#f92672">)</span> async runtime
+</code></pre></div><p>很好！现在如果我们某处出现了一个错误，我们将看到完整的堆栈跟踪，就像下面这样：
+<img src="/notes/ox-hugo/color-eyre.png" alt=""></p>
+<p>最后，因为我喜欢结构化日志，让我们添加 <a href="https://lib.rs/crates/tracing">tracing</a> 然后通过漂亮的颜色打印它们，让我们添加 <a href="https://lib.rs/crates/tracing-subscriber">tracing-subscriber</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo add tracing@0.1.26 tracing-subscriber@0.2.19
+    Updating <span style="color:#e6db74">&#39;https://github.com/rust-lang/crates.io-index&#39;</span> index
+      Adding tracing v0.1.26 to dependencies
+      Adding tracing-subscriber v0.2.19 to dependencies
+</code></pre></div><p>我们已经有一个 <code>setup</code> 函数，所以直接在那里安装 <code>tracing-subscriber</code>.. 然后我们将 <code>println!</code> 改成 <code>info!</code> ！
+然后，为了演示如何设置让我们再次修改一些环境变量：对所有包（crates）默认 <code>info</code> 日志级别。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> color_eyre::Report;
+<span style="color:#66d9ef">use</span> tracing::info;
+<span style="color:#66d9ef">use</span> tracing_subscriber::EnvFilter;
+
+<span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello from a comfy nest we&#39;ve made for ourselves&#34;</span>);
+
+    Ok(())
+}
+
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">setup</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">if</span> std::env::var(<span style="color:#e6db74">&#34;RUST_LIB_BACKTRACE&#34;</span>).is_err() {
+        std::env::set_var(<span style="color:#e6db74">&#34;RUST_LIB_BACKTRACE&#34;</span>, <span style="color:#e6db74">&#34;1&#34;</span>)
+    }
+    color_eyre::install()<span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">if</span> std::env::var(<span style="color:#e6db74">&#34;RUST_LOG&#34;</span>).is_err() {
+        std::env::set_var(<span style="color:#e6db74">&#34;RUST_LOG&#34;</span>, <span style="color:#e6db74">&#34;info&#34;</span>)
+    }
+    tracing_subscriber::fmt::fmt()
+        .with_env_filter(EnvFilter::from_default_env())
+        .init();
+
+    Ok(())
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo run
+    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 0.02s
+     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
+Jul <span style="color:#ae81ff">25</span> 17:03:46.993  INFO waytoodeep: Hello from a comfy nest we<span style="color:#960050;background-color:#1e0010">&#39;</span>ve made <span style="color:#66d9ef">for</span> ourselves
+</code></pre></div><p>好了，我们准备好做一些有用的事情了。</p>
+<h3 id="做一些有用的事情">做一些有用的事情</h3>
+<p>当决定在咖啡间隙阅读哪一篇文章的时候，人们通常同时打开几个网站，然后读最先加载出来的那一篇。</p>
+<p>事实如此。你可以引用我的话，毕竟谁会去验证呢？毕竟这听起来需要很多工作。</p>
+<p>所以让我们来编写一个程序做相同的事情。</p>
+<p>让我们引入 <a href="https://lib.rs/crates/reqwest">reqwest</a> &ndash; 尽管我不喜欢它的 API，但它会很好的完成接下来的工作。</p>
+<p>同时，因为 <a href="https://www.openssl.org/news/vulnerabilities.html">screw OpenSSL</a> 我们将标记 reqwest 使用 <a href="https://lib.rs/crates/rustls">rustls</a>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo add reqwest@0.11.4 --no-default-features --features rustls-tls
+    Updating <span style="color:#e6db74">&#39;https://github.com/rust-lang/crates.io-index&#39;</span> index
+      Adding reqwest v0.11.4 to dependencies with features: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;rustls-tls&#34;</span><span style="color:#f92672">]</span>
+</code></pre></div><p>我们准备好发送一个请求！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> color_eyre::Report;
+<span style="color:#66d9ef">use</span> tracing::info;
+<span style="color:#66d9ef">use</span> tracing_subscriber::EnvFilter;
+<span style="color:#66d9ef">use</span> reqwest::Client;
+
+<span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello from a comfy nest we&#39;ve made for ourselves&#34;</span>);
+
+    <span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> Client::new();
+    <span style="color:#66d9ef">let</span> url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://fasterthanli.me&#34;</span>;
+    <span style="color:#75715e">// this will turn non-200 HTTP status codes into rust errors,
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// so the first `?` propagates &#34;we had a connection problem&#34; and
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// the second `?` propagates &#34;we had a chat with the server and they
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// were not pleased&#34;
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> client.get(url).send().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>.error_for_status()<span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">%</span>url, content_type <span style="color:#f92672">=</span> <span style="color:#f92672">?</span>res.headers().get(<span style="color:#e6db74">&#34;content-type&#34;</span>), <span style="color:#e6db74">&#34;Got a response!&#34;</span>);
+
+
+    Ok(())
+}
+
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">setup</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">if</span> std::env::var(<span style="color:#e6db74">&#34;RUST_LIB_BACKTRACE&#34;</span>).is_err() {
+        std::env::set_var(<span style="color:#e6db74">&#34;RUST_LIB_BACKTRACE&#34;</span>, <span style="color:#e6db74">&#34;1&#34;</span>)
+    }
+    color_eyre::install()<span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">if</span> std::env::var(<span style="color:#e6db74">&#34;RUST_LOG&#34;</span>).is_err() {
+        std::env::set_var(<span style="color:#e6db74">&#34;RUST_LOG&#34;</span>, <span style="color:#e6db74">&#34;info&#34;</span>)
+    }
+    tracing_subscriber::fmt::fmt()
+        .with_env_filter(EnvFilter::from_default_env())
+        .init();
+
+    Ok(())
+}
+</code></pre></div><p>出发了！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cargo run                                                                                                                                                                                          3s 662ms
+   Compiling waytoodeep v0.1.0 <span style="color:#f92672">(</span>/Users/wh/codes/rust/waytoodeep<span style="color:#f92672">)</span>
+    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 7.16s
+     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
+Jul <span style="color:#ae81ff">26</span> 16:50:57.778  INFO waytoodeep: Hello from a comfy nest we<span style="color:#960050;background-color:#1e0010">&#39;</span>ve made <span style="color:#66d9ef">for</span> ourselves
+Jul <span style="color:#ae81ff">26</span> 16:50:59.090  INFO waytoodeep: Got a response! url<span style="color:#f92672">=</span>https://fasterthanli.me content_type<span style="color:#f92672">=</span>Some<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;text/html; charset=utf-8&#34;</span><span style="color:#f92672">)</span>
+</code></pre></div><p>这就是我所说的「结构化日志」。嗯，其中的一部分。让我们看下这行代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">info<span style="color:#f92672">!</span>(<span style="color:#f92672">%</span>url, content_type <span style="color:#f92672">=</span> <span style="color:#f92672">?</span>res.headers().get(<span style="color:#e6db74">&#34;content-type&#34;</span>), <span style="color:#e6db74">&#34;Got a response!&#34;</span>);
+</code></pre></div><p>我们输出来一个消息： <code>Got a response!</code> ，一个名为 <code>url</code> 的标签：值为变量 <code>url</code> 的 <a href="https://doc.rust-lang.org/stable/std/fmt/trait.Display.html">Display</a> 格式，
+一个名为 <code>content_type</code> 的标签：值为表达式的 <a href="https://doc.rust-lang.org/stable/std/fmt/trait.Debug.html">Debug</a> 格式。</p>
+<p>就是这么简单！ <code>name = %value</code> 输出 <code>Display</code> ， <code>name = ?value</code> 输出 <code>Debug</code> 。</p>
+<p>当然，还有非常棒的跨度（spans），重点是你可以将它们发送到 APM（Appliation Performance Monitoring），比如 Datadog 或者 Honeycomb 等，但是这不是一篇关于跟踪的文章。</p>
+<p>为了举例说明，如果我们安装一个 JSON 的 tracing subscriber，我们将获得如下内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo run
+   Compiling waytoodeep v0.1.0 <span style="color:#f92672">(</span>/home/amos/ftl/waytoodeep<span style="color:#f92672">)</span>
+    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 3.09s
+     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;timestamp&#34;</span>:<span style="color:#e6db74">&#34;Jul 25 17:17:21.531&#34;</span>,<span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;INFO&#34;</span>,<span style="color:#e6db74">&#34;fields&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;Hello from a comfy nest we&#39;ve made for ourselves&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;target&#34;</span>:<span style="color:#e6db74">&#34;waytoodeep&#34;</span><span style="color:#f92672">}</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;timestamp&#34;</span>:<span style="color:#e6db74">&#34;Jul 25 17:17:21.709&#34;</span>,<span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;INFO&#34;</span>,<span style="color:#e6db74">&#34;fields&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;Got a response!&#34;</span>,<span style="color:#e6db74">&#34;url&#34;</span>:<span style="color:#e6db74">&#34;https://fasterthanli.me&#34;</span>,<span style="color:#e6db74">&#34;content_type&#34;</span>:<span style="color:#e6db74">&#34;Some(\&#34;text/html; charset=utf-8\&#34;)&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;target&#34;</span>:<span style="color:#e6db74">&#34;waytoodeep&#34;</span><span style="color:#f92672">}</span>
+</code></pre></div><p>这应该足以激起你的兴趣。</p>
+<h3 id="同时获取两个地址">同时获取两个地址</h3>
+<p>现在让我们获取两个地址：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">const</span> URL_1: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://fasterthanli.me/articles/whats-in-the-box&#34;</span>;
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">const</span> URL_2: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://fasterthanli.me/series/advent-of-code-2020/part-13&#34;</span>;
+</code></pre></div><p>&hellip;&hellip;所以这是一个公平的比较。 这两篇文章都托管在我自己的网站上，绝对不是为了推广，而是为了使获取时间具有可比性，并且任一都有可能先加载完成（并且会随着时间的推移随机变化）。</p>
+<p>我们将创建一个函数来获取内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fetch_thing</span>(client: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Client</span>, url: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> client.get(url).send().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>.error_for_status()<span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">%</span>url, content_type <span style="color:#f92672">=</span> <span style="color:#f92672">?</span>res.headers().get(<span style="color:#e6db74">&#34;content-type&#34;</span>), <span style="color:#e6db74">&#34;Got a response!&#34;</span>);
+    Ok(())
+}
+</code></pre></div><p>并使用它：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello from a comfy nest we&#39;ve made for ourselves&#34;</span>);
+
+    <span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> Client::new();
+    fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_1);
+    fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_2);
+
+    Ok(())
+}
+</code></pre></div><p>然后运行它:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">$</span> cargo run
+   Compiling waytoodeep v0.<span style="color:#ae81ff">1.0</span> (<span style="color:#f92672">/</span>home<span style="color:#f92672">/</span>amos<span style="color:#f92672">/</span>ftl<span style="color:#f92672">/</span>waytoodeep)
+warning: <span style="color:#a6e22e">unused</span> implementer of <span style="color:#960050;background-color:#1e0010">`</span>Future<span style="color:#960050;background-color:#1e0010">`</span> that must be used
+  <span style="color:#f92672">-</span>-&gt; <span style="color:#a6e22e">src</span><span style="color:#f92672">/</span>main.rs:<span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">5</span>
+   <span style="color:#f92672">|</span>
+<span style="color:#ae81ff">15</span> <span style="color:#f92672">|</span>     fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_1);
+   <span style="color:#f92672">|</span>     <span style="color:#f92672">^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+   <span style="color:#f92672">|</span>
+   <span style="color:#f92672">=</span> note: <span style="color:#960050;background-color:#1e0010">`</span><span style="color:#75715e">#[warn(unused_must_use)]</span><span style="color:#960050;background-color:#1e0010">`</span> on by default
+   <span style="color:#f92672">=</span> note: <span style="color:#a6e22e">futures</span> <span style="color:#66d9ef">do</span> nothing unless you <span style="color:#960050;background-color:#1e0010">`</span>.<span style="color:#66d9ef">await</span><span style="color:#960050;background-color:#1e0010">`</span> or poll them
+
+warning: <span style="color:#a6e22e">unused</span> implementer of <span style="color:#960050;background-color:#1e0010">`</span>Future<span style="color:#960050;background-color:#1e0010">`</span> that must be used
+  <span style="color:#f92672">-</span>-&gt; <span style="color:#a6e22e">src</span><span style="color:#f92672">/</span>main.rs:<span style="color:#ae81ff">16</span>:<span style="color:#ae81ff">5</span>
+   <span style="color:#f92672">|</span>
+<span style="color:#ae81ff">16</span> <span style="color:#f92672">|</span>     fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_2);
+   <span style="color:#f92672">|</span>     <span style="color:#f92672">^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+   <span style="color:#f92672">|</span>
+   <span style="color:#f92672">=</span> note: <span style="color:#a6e22e">futures</span> <span style="color:#66d9ef">do</span> nothing unless you <span style="color:#960050;background-color:#1e0010">`</span>.<span style="color:#66d9ef">await</span><span style="color:#960050;background-color:#1e0010">`</span> or poll them
+
+warning: <span style="color:#ae81ff">2</span> warnings emitted
+
+    Finished dev [unoptimized <span style="color:#f92672">+</span> debuginfo] target(s) <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">3.01</span>s
+     Running <span style="color:#960050;background-color:#1e0010">`</span>target<span style="color:#f92672">/</span>debug<span style="color:#f92672">/</span>waytoodeep<span style="color:#960050;background-color:#1e0010">`</span>
+Jul <span style="color:#ae81ff">25</span> <span style="color:#ae81ff">17</span>:<span style="color:#ae81ff">26</span>:<span style="color:#ae81ff">31.571</span>  INFO waytoodeep: <span style="color:#a6e22e">Hello</span> from a comfy nest we<span style="color:#a6e22e">&#39;ve</span> made <span style="color:#66d9ef">for</span> ourselves
+</code></pre></div><p>奇怪的是，没有任何事情发生。</p>
+<blockquote>
+<p>黄黄的波浪线和恼人的 Rust 警告已经给出了提示。</p>
+</blockquote>
+<p>让我们来修复它：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_1).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_2).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ cargo run
+   Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
+    Finished dev [unoptimized + debuginfo] target(s) in 3.17s
+     Running `target/debug/waytoodeep`
+Jul 25 17:27:29.768  INFO waytoodeep: Hello from a comfy nest we've made for ourselves
+Jul 25 17:27:29.891  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some(&quot;text/html; charset=utf-8&quot;)
+Jul 25 17:27:29.974  INFO waytoodeep: Got a response! url=https://fasterthanli.me/series/advent-of-code-2020/part-13 content_type=Some(&quot;text/html; charset=utf-8&quot;)
+</code></pre><p>所以，第零课：future 对象不做任何事情直到它们被轮询（polled）。</p>
+<p>这是因为 future 对象几乎就是状态。让我们来创建一个：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/main.rs`
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">mod</span> dumb;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/dumb.rs`
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">use</span> std::{
+    future::Future,
+    pin::Pin,
+    task::{Context, Poll},
+};
+
+<span style="color:#66d9ef">use</span> tracing::info;
+
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">DumbFuture</span> {}
+
+<span style="color:#66d9ef">impl</span> Future <span style="color:#66d9ef">for</span> DumbFuture {
+    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Output</span> <span style="color:#f92672">=</span> ();
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, _cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+        info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello from a dumb future!&#34;</span>);
+        Poll::Ready(())
+    }
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// back in `src/main.rs`
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> fut <span style="color:#f92672">=</span> dumb::DumbFuture {};
+
+    Ok(())
+}
+</code></pre></div><p>以上！我们几乎就完成来除了我们没有 <code>.await</code> 。</p>
+<p>运行它除了打印报警不会有任何效果：</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo run
+   Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
+warning: unused variable: `fut`
+  --&gt; src/main.rs:14:9
+   |
+14 |     let fut = dumb::DumbFuture {};
+   |         ^^^ help: if this is intentional, prefix it with an underscore: `_fut`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: 1 warning emitted
+
+    Finished dev [unoptimized + debuginfo] target(s) in 2.11s
+     Running `target/debug/waytoodeep`
+</code></pre><p>因为怎么可能？我们字面上仅仅构建了一个结构体。一个零大小的结构体。</p>
+<p>如果我们调用它的 <code>.await</code> 。。 然后当我们要求运行时运行它的事件循环直到 future 对象被轮询（polled）并且最终返回 <code>Poll::Ready</code> （我们的代码立即返回）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Building that dumb future...&#34;</span>);
+    <span style="color:#66d9ef">let</span> fut <span style="color:#f92672">=</span> dumb::DumbFuture {};
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Awaiting that dumb future...&#34;</span>);
+    fut.<span style="color:#66d9ef">await</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Done awaiting that dumb future&#34;</span>);
+
+    Ok(())
+}
+
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ cargo run
+   Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.34s
+     Running `target/debug/waytoodeep`
+Jul 25 17:37:09.261  INFO waytoodeep: Building that dumb future...
+Jul 25 17:37:09.261  INFO waytoodeep: Awaiting that dumb future...
+Jul 25 17:37:09.261  INFO waytoodeep::dumb: Hello from a dumb future!
+Jul 25 17:37:09.262  INFO waytoodeep: Done awaiting that dumb future
+</code></pre><p>这里有一些略微的区别与 ECMAScript 的 <code>promise</code> ：即使它们压根没有被 await 其中包含的工作依然会被执行。</p>
+<p>但是 Rust 的 future 对象仅仅是无聊的状态机，如果你故意制造麻烦就可以理解这个机制：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/dumb.rs`
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">impl</span> Future <span style="color:#66d9ef">for</span> DumbFuture {
+    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Output</span> <span style="color:#f92672">=</span> ();
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, _cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+        panic<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Oh heck no&#34;</span>);
+    }
+}
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ RUST_BACKTRACE=1 cargo run
+   Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.28s
+     Running `target/debug/waytoodeep`
+Jul 25 17:41:18.956  INFO waytoodeep: Building that dumb future...
+Jul 25 17:41:18.956  INFO waytoodeep: Awaiting that dumb future...
+The application panicked (crashed).
+Message:  Oh heck no
+Location: src/dumb.rs:14
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ BACKTRACE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                                ⋮ 6 frames hidden ⋮
+   7: &lt;waytoodeep::dumb::DumbFuture as core::future::future::Future&gt;::poll::h4a44780628f4c5f0
+      at /home/amos/ftl/waytoodeep/src/dumb.rs:14
+   8: waytoodeep::main::{{closure}}::h36de5a1f1f2a5c5b
+      at /home/amos/ftl/waytoodeep/src/main.rs:17
+   9: &lt;core::future::from_generator::GenFuture&lt;T&gt; as core::future::future::Future&gt;::poll::h20a96e082c7a581e
+      at /home/amos/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80
+  10: tokio::park::thread::CachedParkThread::block_on::{{closure}}::hdf98cb3c7fdf3de4
+      at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/park/thread.rs:263
+  11: tokio::coop::with_budget::{{closure}}::h6a86a24a246e220f
+      at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/coop.rs:106
+  12: std::thread::local::LocalKey&lt;T&gt;::try_with::h2ce0ac27c85965b6
+      at /home/amos/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/thread/local.rs:376
+  13: std::thread::local::LocalKey&lt;T&gt;::with::hc449f38c9f65fb53
+      at /home/amos/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/thread/local.rs:352
+  14: tokio::coop::with_budget::h5db157bd1e95e0e8
+      at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/coop.rs:99
+  15: tokio::coop::budget::h7b57383f1255ac24
+      at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/coop.rs:76
+  16: tokio::park::thread::CachedParkThread::block_on::hece399485213b91c
+      at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/park/thread.rs:263
+  17: tokio::runtime::enter::Enter::block_on::h89e9882e539e82d3
+      at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/runtime/enter.rs:151
+  18: tokio::runtime::thread_pool::ThreadPool::block_on::h1a0186470c00ba70
+      at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/runtime/thread_pool/mod.rs:71
+  19: tokio::runtime::Runtime::block_on::h7c21d6989b86d606
+      at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/runtime/mod.rs:452
+  20: waytoodeep::main::hb4dd5ffd46a5c032
+      at /home/amos/ftl/waytoodeep/src/main.rs:20
+  21: core::ops::function::FnOnce::call_once::hc1fcc87431f77d25
+      at /home/amos/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/function.rs:227
+                                ⋮ 11 frames hidden ⋮
+
+Run with COLORBT_SHOW_HIDDEN=1 environment variable to disable frame filtering.
+Run with RUST_BACKTRACE=full to include source snippets.
+</code></pre><p>上面堆栈跟踪如果加上颜色效果会更好，所以我希望你在本地做了相同的尝试，即使如此我们依然可以看到我们真正的 main 函数在 20 帧，然后往上，我们可以看到 <code>Runtime::block_on</code>  、一个线程池的东西、一些挂起（parked）的线程、thread-local（其他 TLS）、一个 <strong><strong>生成的</strong></strong> future（帧 9 和 8，也就是我们的 <code>async fn main</code> 的最终结果），最后是我们的 <code>DumbFuture</code> poll 方法（帧 7）。</p>
+<p>帧 6 到 1 就是 <a href="https://doc.rust-lang.org/stable/std/panic/index.html">panic</a> 机制，再次完全超出本文讨论的范围。</p>
+<p>但是请站起来，亲爱的观众，用你的手臂绕过这个装置，以确保没有障眼法，没有隐藏的线，没有。。。</p>
+<p>。。。我要说的是对于异步堆栈跟踪没有“特殊处理”（special handling）。当然，这里我们崩溃了，但是仅仅是 Rust，操作系统甚至不知道我几乎避免了一场灾难。</p>
+<p>但是我们可以制造更大的混乱，如果我们愿意使用 <code>unsafe</code> ：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> Future <span style="color:#66d9ef">for</span> DumbFuture {
+    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Output</span> <span style="color:#f92672">=</span> ();
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, _cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+        <span style="color:#66d9ef">unsafe</span> {
+            <span style="color:#f92672">*</span>(<span style="color:#ae81ff">0xF00D</span> <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">u64</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>;
+        }
+        unreachable<span style="color:#f92672">!</span>(); <span style="color:#75715e">// pinky promise
+</span><span style="color:#75715e"></span>    }
+}
+</code></pre></div><p>然后就不会有一些列的崩溃处理来拯救我们：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_BACKTRACE=1 cargo run
+   Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.18s
+     Running `target/debug/waytoodeep`
+Jul 25 17:46:53.926  INFO waytoodeep: Building that dumb future...
+Jul 25 17:46:53.926  INFO waytoodeep: Awaiting that dumb future...
+zsh: segmentation fault (core dumped)  RUST_BACKTRACE=1 cargo run
+</code></pre><p>但是 GDB 可以：</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo build &amp;&amp; gdb --quiet --args ./target/debug/waytoodeep
+    Finished dev [unoptimized + debuginfo] target(s) in 0.04s
+Reading symbols from ./target/debug/waytoodeep...
+warning: Missing auto-load script at offset 0 in section .debug_gdb_scripts
+of file /home/amos/ftl/waytoodeep/target/debug/waytoodeep.
+Use `info auto-load python-scripts [REGEXP]' to list them.
+(gdb) r
+Starting program: /home/amos/ftl/waytoodeep/target/debug/waytoodeep
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library &quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;.
+[New Thread 0x7ffff7c28700 (LWP 129418)]
+[New Thread 0x7ffff7a27700 (LWP 129419)]
+[New Thread 0x7ffff7826700 (LWP 129420)]
+[New Thread 0x7ffff7625700 (LWP 129421)]
+[New Thread 0x7ffff7424700 (LWP 129422)]
+[New Thread 0x7ffff7223700 (LWP 129423)]
+[New Thread 0x7ffff7022700 (LWP 129424)]
+[New Thread 0x7ffff6e1e700 (LWP 129425)]
+[New Thread 0x7ffff6c1a700 (LWP 129426)]
+[New Thread 0x7ffff6a16700 (LWP 129427)]
+[New Thread 0x7ffff6812700 (LWP 129428)]
+[New Thread 0x7ffff660e700 (LWP 129429)]
+[New Thread 0x7ffff640a700 (LWP 129430)]
+[New Thread 0x7ffff6206700 (LWP 129431)]
+[New Thread 0x7ffff6002700 (LWP 129432)]
+Jul 25 17:47:13.278  INFO waytoodeep: Building that dumb future...
+Jul 25 17:47:13.279  INFO waytoodeep: Awaiting that dumb future...
+
+Thread 1 &quot;waytoodeep&quot; received signal SIGSEGV, Segmentation fault.
+&lt;waytoodeep::dumb::DumbFuture as core::future::future::Future&gt;::poll (self=..., _cx=0x7fffffffd690) at src/dumb.rs:15
+15                  *(0xF00D as *mut u64) = 0x0;
+(gdb) bt
+#0  &lt;waytoodeep::dumb::DumbFuture as core::future::future::Future&gt;::poll (self=..., _cx=0x7fffffffd690) at src/dumb.rs:15
+#1  0x00005555555ab3a3 in waytoodeep::main::{{closure}} () at src/main.rs:17
+#2  0x00005555555adb29 in &lt;core::future::from_generator::GenFuture&lt;T&gt; as core::future::future::Future&gt;::poll (self=..., cx=0x7fffffffd690)
+    at /home/amos/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80
+#3  0x00005555555adaa0 in tokio::park::thread::CachedParkThread::block_on::{{closure}} ()
+    at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/park/thread.rs:263
+#4  0x00005555555b1742 in tokio::coop::with_budget::{{closure}} (cell=0x7ffff7c2c412)
+    at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/coop.rs:106
+#5  0x00005555555a9f58 in std::thread::local::LocalKey&lt;T&gt;::try_with (self=0x555555925fc0, f=...)
+    at /home/amos/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/thread/local.rs:376
+#6  0x00005555555a9e3d in std::thread::local::LocalKey&lt;T&gt;::with (self=0x555555925fc0, f=...)
+    at /home/amos/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/thread/local.rs:352
+#7  0x00005555555ad7c8 in tokio::coop::with_budget (budget=..., f=...)
+    at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/coop.rs:99
+#8  tokio::coop::budget (f=...) at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/coop.rs:76
+#9  tokio::park::thread::CachedParkThread::block_on (self=0x7fffffffd7a0, f=...)
+    at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/park/thread.rs:263
+#10 0x00005555555abcc9 in tokio::runtime::enter::Enter::block_on (self=0x7fffffffd7f0, f=...)
+    at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/runtime/enter.rs:151
+#11 0x00005555555acf2e in tokio::runtime::thread_pool::ThreadPool::block_on (self=0x7fffffffd908, future=...)
+    at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/runtime/thread_pool/mod.rs:71
+#12 0x00005555555b0dfd in tokio::runtime::Runtime::block_on (self=0x7fffffffd900, future=...)
+    at /home/amos/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.9.0/src/runtime/mod.rs:452
+#13 0x00005555555aa807 in waytoodeep::main () at src/main.rs:20
+(gdb)
+</code></pre><p>我们再次丢失了高亮颜色，这里可以看一下：TODO</p>
+<p>是不是很漂亮？</p>
+<p>现在让我们回到正常有用的代码，移除所有关于自己实现的 future 代码： <code>src/dumb.rs</code> 和 <code>mod dumb</code> 。并使用一个获取 future 替代：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Building that fetch future...&#34;</span>);
+    <span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> Client::new();
+    <span style="color:#66d9ef">let</span> fut <span style="color:#f92672">=</span> fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_1);
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Awaiting that fetch future...&#34;</span>);
+    fut.<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Done awaiting that fetch future&#34;</span>);
+
+    Ok(())
+}
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ RUST_BACKTRACE=1 cargo run
+   Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.99s
+     Running `target/debug/waytoodeep`
+Jul 25 17:51:49.281  INFO waytoodeep: Building that fetch future...
+Jul 25 17:51:49.282  INFO waytoodeep: Awaiting that fetch future...
+Jul 25 17:51:49.437  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some(&quot;text/html; charset=utf-8&quot;)
+Jul 25 17:51:49.438  INFO waytoodeep: Done awaiting that fetch future
+</code></pre><p>有两种方式考虑我们的函数，一个是语法糖层：也就是 <code>async fn</code> ：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fetch_thing</span>(client: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Client</span>, url: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> client.get(url).send().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>.error_for_status()<span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">%</span>url, content_type <span style="color:#f92672">=</span> <span style="color:#f92672">?</span>res.headers().get(<span style="color:#e6db74">&#34;content-type&#34;</span>), <span style="color:#e6db74">&#34;Got a response!&#34;</span>);
+    Ok(())
+}
+</code></pre></div><p>然后是核心实现层：一个普通的 <code>fn</code> 仅用来返回一个 future 对象：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::future::Future;
+
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fetch_thing</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span>(
+    client: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">&#39;a</span> Client,
+    url: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">&#39;a</span> <span style="color:#66d9ef">str</span>,
+) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">&#39;a</span> {
+    <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">move</span> {
+        <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> client.get(url).send().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>.error_for_status()<span style="color:#f92672">?</span>;
+        info<span style="color:#f92672">!</span>(<span style="color:#f92672">%</span>url, content_type <span style="color:#f92672">=</span> <span style="color:#f92672">?</span>res.headers().get(<span style="color:#e6db74">&#34;content-type&#34;</span>), <span style="color:#e6db74">&#34;Got a response!&#34;</span>);
+        Ok(())
+    }
+}
+</code></pre></div><p>由于借用 <code>client</code> 和 <code>url</code> ，所以 <code>Future</code> 对象的存活时间不能超过两者，这也是为什么我会将上面两个生命周期命名为 <code>'a</code> ，
+并且返回的值也是任意实现了 <code>Future</code> （通过 <code>Output</code> ）同时生命周期也是 <code>'a</code> 。</p>
+<p>整个 <code>async move {}</code> 快也仅仅是“构建状态” &ndash; 等于一个实现了 <code>Future</code> 的类型。</p>
+<p>我们只是无法命名它。</p>
+<p>我们只能尽量获取它的描述：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">type_name_of</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(_: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span>) -&gt; <span style="color:#66d9ef">&amp;</span>&#39;static <span style="color:#66d9ef">str</span> {
+    std::any::type_name::<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>()
+}
+
+<span style="color:#75715e">// in main
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Building that fetch future...&#34;</span>);
+    <span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> Client::new();
+    <span style="color:#66d9ef">let</span> fut <span style="color:#f92672">=</span> fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_1);
+    info<span style="color:#f92672">!</span>(
+        type_name <span style="color:#f92672">=</span> type_name_of(<span style="color:#f92672">&amp;</span>fut),
+        <span style="color:#e6db74">&#34;That fetch future has a type..&#34;</span>
+    );
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Awaiting that fetch future...&#34;</span>);
+    fut.<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Done awaiting that fetch future&#34;</span>);
+
+    Ok(())
+}
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ cargo run
+    Finished dev [unoptimized + debuginfo] target(s) in 0.05s
+     Running `target/debug/waytoodeep`
+Jul 25 18:00:39.774  INFO waytoodeep: Building that fetch future...
+Jul 25 18:00:39.775  INFO waytoodeep: That fetch future has a type.. type_name=&quot;core::future::from_generator::GenFuture&lt;waytoodeep::fetch_thing::{{closure}}&gt;&quot;
+Jul 25 18:00:39.775  INFO waytoodeep: Awaiting that fetch future...
+Jul 25 18:00:39.882  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some(&quot;text/html; charset=utf-8&quot;)
+Jul 25 18:00:39.882  INFO waytoodeep: Done awaiting that fetch future
+</code></pre><p>。。。但是等等，由于我们使用了 <code>async</code> 语法所以它是一个编译器生成的类型。某种意义上我们无法命名它也就意味这我们无法绑定这个对象，或者编写一个函数仅仅接受该类型。</p>
+<p>为了让我们自己相信 future 对象在我们真正轮询它之前它不会做任何工作，我们可以打开 <code>reqwest</code> 的调试日志：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info,reqwest=debug cargo run
+   Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
+    Finished dev [unoptimized + debuginfo] target(s) in 3.07s
+     Running `target/debug/waytoodeep`
+Jul 25 18:05:07.384  INFO waytoodeep: Building that fetch future...
+Jul 25 18:05:07.385  INFO waytoodeep: That fetch future has a type.. type_name=&quot;core::future::from_generator::GenFuture&lt;waytoodeep::fetch_thing::{{closure}}&gt;&quot;
+Jul 25 18:05:07.385  INFO waytoodeep: Awaiting that fetch future...
+Jul 25 18:05:07.385 DEBUG reqwest::connect: starting new connection: https://fasterthanli.me/
+Jul 25 18:05:07.503 DEBUG reqwest::async_impl::client: response '200 OK' for https://fasterthanli.me/articles/whats-in-the-box
+Jul 25 18:05:07.503  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some(&quot;text/html; charset=utf-8&quot;)
+Jul 25 18:05:07.503  INFO waytoodeep: Done awaiting that fetch future
+</code></pre><p>甚至对于每一个包（crate），我们都可以通过监听 <a href="https://lib.rs/crates/hyper">hyper</a> 和 <a href="https://lib.rs/crates/h2">h2</a> 来观察：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=debug cargo run
+    Finished dev [unoptimized + debuginfo] target(s) in 0.04s
+     Running `target/debug/waytoodeep`
+Jul 25 18:05:59.973  INFO waytoodeep: Building that fetch future...
+Jul 25 18:05:59.973  INFO waytoodeep: That fetch future has a type.. type_name=&quot;core::future::from_generator::GenFuture&lt;waytoodeep::fetch_thing::{{closure}}&gt;&quot;
+Jul 25 18:05:59.973  INFO waytoodeep: Awaiting that fetch future...
+Jul 25 18:05:59.974 DEBUG reqwest::connect: starting new connection: https://fasterthanli.me/
+Jul 25 18:05:59.974 DEBUG hyper::client::connect::dns: resolving host=&quot;fasterthanli.me&quot;
+Jul 25 18:05:59.989 DEBUG hyper::client::connect::http: connecting to 172.67.196.144:443
+Jul 25 18:06:00.000 DEBUG hyper::client::connect::http: connected to 172.67.196.144:443
+Jul 25 18:06:00.000 DEBUG rustls::client::hs: No cached session for DNSNameRef(&quot;fasterthanli.me&quot;)
+Jul 25 18:06:00.000 DEBUG rustls::client::hs: Not resuming any session
+Jul 25 18:06:00.016 DEBUG rustls::client::hs: Using ciphersuite TLS13_CHACHA20_POLY1305_SHA256
+Jul 25 18:06:00.016 DEBUG rustls::client::tls13: Not resuming
+Jul 25 18:06:00.017 DEBUG rustls::client::tls13: TLS1.3 encrypted extensions: [ServerNameAck, Protocols([PayloadU8([104, 50])])]
+Jul 25 18:06:00.017 DEBUG rustls::client::hs: ALPN protocol is Some(b&quot;h2&quot;)
+Jul 25 18:06:00.018 DEBUG h2::client: binding client connection
+Jul 25 18:06:00.018 DEBUG h2::client: client connection bound
+Jul 25 18:06:00.018 DEBUG h2::codec::framed_write: send frame=Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384 }
+Jul 25 18:06:00.019 DEBUG Connection{peer=Client}: h2::codec::framed_write: send frame=WindowUpdate { stream_id: StreamId(0), size_increment: 5177345 }
+Jul 25 18:06:00.019 DEBUG hyper::client::pool: pooling idle connection for (&quot;https&quot;, fasterthanli.me)
+Jul 25 18:06:00.020 DEBUG Connection{peer=Client}: h2::codec::framed_write: send frame=Headers { stream_id: StreamId(1), flags: (0x5: END_HEADERS | END_STREAM) }
+Jul 25 18:06:00.029 DEBUG Connection{peer=Client}: rustls::client::tls13: Ticket saved
+Jul 25 18:06:00.029 DEBUG Connection{peer=Client}: rustls::client::tls13: Ticket saved
+Jul 25 18:06:00.029 DEBUG Connection{peer=Client}: h2::codec::framed_read: received frame=Settings { flags: (0x0), max_concurrent_streams: 256, initial_window_size: 65536, max_frame_size: 16777215 }
+Jul 25 18:06:00.030 DEBUG Connection{peer=Client}: h2::codec::framed_write: send frame=Settings { flags: (0x1: ACK) }
+Jul 25 18:06:00.030 DEBUG Connection{peer=Client}: h2::codec::framed_read: received frame=WindowUpdate { stream_id: StreamId(0), size_increment: 2147418112 }
+Jul 25 18:06:00.041 DEBUG Connection{peer=Client}: h2::codec::framed_read: received frame=Settings { flags: (0x1: ACK) }
+Jul 25 18:06:00.041 DEBUG Connection{peer=Client}: h2::proto::settings: received settings ACK; applying Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384 }
+Jul 25 18:06:00.120 DEBUG Connection{peer=Client}: h2::codec::framed_read: received frame=Headers { stream_id: StreamId(1), flags: (0x4: END_HEADERS) }
+Jul 25 18:06:00.120 DEBUG Connection{peer=Client}: h2::codec::framed_read: received frame=Data { stream_id: StreamId(1) }
+Jul 25 18:06:00.121 DEBUG reqwest::async_impl::client: response '200 OK' for https://fasterthanli.me/articles/whats-in-the-box
+Jul 25 18:06:00.121  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some(&quot;text/html; charset=utf-8&quot;)
+Jul 25 18:06:00.121  INFO waytoodeep: Done awaiting that fetch future
+Jul 25 18:06:00.121 DEBUG Connection{peer=Client}: h2::codec::framed_read: received frame=Data { stream_id: StreamId(1) }
+Jul 25 18:06:00.122 DEBUG Connection{peer=Client}: h2::codec::framed_write: send frame=Reset { stream_id: StreamId(1), error_code: CANCEL }
+Jul 25 18:06:00.122 DEBUG Connection{peer=Client}: h2::codec::framed_write: send frame=GoAway { error_code: NO_ERROR, last_stream_id: StreamId(0) }
+Jul 25 18:06:00.122 DEBUG Connection{peer=Client}: h2::proto::connection: Connection::poll; connection error error=NO_ERROR
+Jul 25 18:06:00.122 DEBUG Connection{peer=Client}: rustls::session: Sending warning alert CloseNotify
+</code></pre><blockquote>
+<p>上面出现了 rustls，并且使用了 TLS 1.3，作者做过<a href="https://www.youtube.com/watch?v=YHIiVsFybLA">一期视频</a>介绍过 TLS 1.3。</p>
+</blockquote>
+<p>这些应该足够说服你，除非你值相信内核所说的，所以让我们看看调用堆栈只为了更加确定。</p>
+<p>我们在 <code>await</code> future 对象之前增加一秒钟的休眠：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> tokio::time::sleep;
+<span style="color:#66d9ef">use</span> std::time::Duration;
+
+<span style="color:#75715e">#[tokio::main]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Building that fetch future...&#34;</span>);
+    <span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> Client::new();
+    <span style="color:#66d9ef">let</span> fut <span style="color:#f92672">=</span> fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_1);
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Sleeping for a bit...&#34;</span>);
+    sleep(Duration::from_secs(<span style="color:#ae81ff">1</span>)).<span style="color:#66d9ef">await</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Awaiting that fetch future...&#34;</span>);
+    fut.<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Done awaiting that fetch future&#34;</span>);
+
+    Ok(())
+}
+</code></pre></div><blockquote>
+<p>$ cargo build &amp;&amp; strace -e &lsquo;connect&rsquo; ./target/debug/waytoodeep
+Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
+Finished dev [unoptimized + debuginfo] target(s) in 3.13s
+Jul 25 18:09:36.595  INFO waytoodeep: Building that fetch future&hellip;
+Jul 25 18:09:36.596  INFO waytoodeep: Sleeping for a bit&hellip;
+Jul 25 18:09:37.599  INFO waytoodeep: Awaiting that fetch future&hellip;
+connect(9, {sa_family=AF_INET, sin_port=htons(443), sin_addr=inet_addr(&ldquo;104.21.92.169&rdquo;)}, 16) = -1 EINPROGRESS (Operation now in progress)
+Jul 25 18:09:37.720  INFO waytoodeep: Got a response! url=<a href="https://fasterthanli.me/articles/whats-in-the-box">https://fasterthanli.me/articles/whats-in-the-box</a> content_type=Some(&ldquo;text/html; charset=utf-8&rdquo;)
+Jul 25 18:09:37.721  INFO waytoodeep: Done awaiting that fetch future
+<del>+</del> exited with 0 <del>+</del></p>
+</blockquote>
+
+</article>
+
+
+
+</body>
+
+</html>
