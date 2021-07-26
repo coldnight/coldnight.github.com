@@ -97,6 +97,34 @@
 <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
     map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> visited;
 };
+</code></pre></div><p>根据视频解析：<a href="https://www.youtube.com/watch?v=s7AvT7cGdSo">https://www.youtube.com/watch?v=s7AvT7cGdSo</a></p>
+<p>得出以下解法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permute(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+        <span style="color:#66d9ef">int</span> n, i;
+        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> perms;
+
+        <span style="color:#66d9ef">if</span> (nums.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+            res.push_back(nums);
+            <span style="color:#66d9ef">return</span> res;
+        }
+
+        <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+            n <span style="color:#f92672">=</span> nums.back();
+            nums.pop_back();
+            perms <span style="color:#f92672">=</span> permute(nums);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> perm : perms) {
+                perm.push_back(n);
+                res.push_back(perm);
+            }
+            nums.insert(nums.begin(), n);
+        }
+
+        <span style="color:#66d9ef">return</span> res;
+    }
+};
 </code></pre></div>
 </article>
 

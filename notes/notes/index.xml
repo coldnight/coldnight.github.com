@@ -6,7 +6,16 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 26 Jul 2021 18:10:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 27 Jul 2021 07:35:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>全序</title>
+      <link>https://www.linuxzen.com/notes/notes/20210727073548-%E5%85%A8%E5%BA%8F/</link>
+      <pubDate>Tue, 27 Jul 2021 07:35:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210727073548-%E5%85%A8%E5%BA%8F/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>macOS 签名 GDB</title>
       <link>https://www.linuxzen.com/notes/notes/20210726181021-macos_%E7%AD%BE%E5%90%8D_gdb/</link>
@@ -61,7 +70,9 @@ See also: 偏序关系</description>
 CAP 理论 可线性化与网络延迟 很少有系统真正满足线性化，现代多个 CPU 对同一个内存地址的读写都不能满足（参见硬件内存模型），如果需要强一致则需要内存屏障（栅栏）指令。
 之所以放弃线性化的原因就是性能，而不是为了容错。由于网络延迟的不确定性，无论是否发生网络故障，线性化对性能的影响都是巨大的。
 顺序保证 顺序与因果关系 顺序有助于保持因果关系。
- 因果顺序并非全序：因果关系是小范围集合的偏序，可线性化是一个全序操作。 可线性化强于因果一致性 捕获因果依赖关系：检测并发写  序列号排序 分布式事务与共识 </description>
+ 因果顺序并非全序：因果关系是小范围集合的偏序，可线性化是一个全序操作。 可线性化强于因果一致性 捕获因果依赖关系：检测并发写  序列号排序 非因果序列发生器 适用于系统不存在唯一主节点。
+ 每个节点都独立产生自己的一组序列号：一个奇数一个偶数，或者切入节点唯一标识符。 用足够高的分辨率的墙上时间戳附加到每个操作上。 预先分配区间范围，并及时扩容。  Lamport 时间戳 可以产生因果关系一致的序列号。Lamport 时间戳是一个值对 （计数器，节点 ID） ：
+ 节点 ID：每个节点都有一个唯一标志符。 计数器：每个节点都有一个计数器记录各自处理的请求总数。  优点：</description>
     </item>
     
     <item>
@@ -103,9 +114,10 @@ NTP 检测到本地石英比时间服务器更快或者更慢，NTP 会调整本
       <pubDate>Wed, 21 Jul 2021 07:36:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210721073657-leetcode_47_permutations_ii/</guid>
-      <description>在 LeetCode: 46. Permutations 的基础上增加重复的元素。感觉不能依赖于 track + map 的去重逻辑回溯。
-class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permuteUnique(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; backtrack(nums); return res; } void backtrack(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int n = 0; int sz = nums.size(); for (int i = 0; i &amp;lt; sz; i++) { n = nums.back(); nums.pop_back(); cout &amp;lt;&amp;lt; n &amp;lt;&amp;lt; &amp;#34;, &amp;#34;; backtrack(nums); nums.push_back(n); } } }; 数据特征：
-Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, </description>
+      <description>视频解析：https://www.youtube.com/watch?v=s7AvT7cGdSo
+在 LeetCode: 46. Permutations 的基础上增加重复的元素。感觉不能依赖于 track + map 的去重逻辑回溯。
+class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permuteUnique(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; } }; 数据特征：
+Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permute(vector&amp;lt;int&amp;gt;&amp;amp; nums) { set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; ret; int n, i; vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; perms; if (nums.</description>
     </item>
     
     <item>
