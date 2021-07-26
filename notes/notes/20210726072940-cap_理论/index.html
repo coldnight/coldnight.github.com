@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<title>CAP 理论 | Taking Smart Notes With Org-mode</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210726072940-cap_%E7%90%86%E8%AE%BA/">
+<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+  
+  
+    <nav>
+    
+      <a href="/notes/articles/notes/" >
+        
+           Topics
+        
+      </a>
+    
+      <a href="/notes/articles/" >
+        
+          Articles
+        
+      </a>
+    
+      <a href="/notes/notes/" >
+        
+          Notes
+        
+      </a>
+    
+    </nav>
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>CAP 理论</h1>
+    <time datetime="2021-07-26T07:29:00&#43;08:00">July 26, 2021</time>
+  </header>
+  <p>CAP 最初作为一个经验法则剔除（20 世纪 70 年代），并没有准确的定义，目的也只是帮助大家深入探讨数据库设计的权衡之道。它由 Eric Brewer 于 2000 年正式命名。</p>
+<h2 id="解释一">解释一</h2>
+<p>CAP 定理：不要求线性化的应用更能容忍网络故障。</p>
+<p>只要不可靠才诶黄哦，都会发生违背线性化的风险。我们可以做如下权衡：</p>
+<ul>
+<li>如果应用要求线性化，一旦发生网络分区，则必须等待网络修复，或者直接返回错误。结果为服务不可用（保证一致性或者线性化）。</li>
+<li>如果应用不要求线性化，且每个可副本独立处理请求。此时服务可用，但结果行为不符合线性化（保证高可用）。</li>
+</ul>
+<h2 id="解释二">解释二</h2>
+<p>一致性（Consistency）、可用性（Availability）、分区容错性（Partition tolerance）。系统只能支持两个特性。</p>
+<blockquote>
+<p>这里的分区指网络分区（即网络故障）。</p>
+</blockquote>
+<p>不过，这种理解存在误导性，网络分区是一种故障，不管喜欢还是不喜欢，它都可能发生，所以无法选择或逃避分区问题。</p>
+<p>网络正常的时候，系统可以同时保证一致性（线性化）和可用性。而一旦发生了网络故障，必须要么选择线性（一致性），要么可用性。
+也就是“网络分区的情况下”是选择一致还是可用。</p>
+
+</article>
+
+
+
+</body>
+
+</html>
