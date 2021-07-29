@@ -59,46 +59,46 @@
 <p>Choo choo here comes the easy part 🚂💨</p>
 </blockquote>
 <p>我们创建一个新的项目：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo new waytoodeep
-     Created binary <span style="color:#f92672">(</span>application<span style="color:#f92672">)</span> <span style="color:#e6db74">`</span>waytoodeep<span style="color:#e6db74">`</span> package
-</code></pre></div><p>我们需要安装 <code>cargo-edit</code> 如果之前没有安装过的话，接下来就可以直接 <code>cargo add</code> ：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo install cargo-edit
+<pre><code class="language-nil" data-lang="nil">$ cargo new waytoodeep
+     Created binary (application) `waytoodeep` package
+</code></pre><p>我们需要安装 <code>cargo-edit</code> 如果之前没有安装过的话，接下来就可以直接 <code>cargo add</code> ：</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo install cargo-edit
     Updating crates.io index
   Downloaded cargo-edit v0.7.0
-  Downloaded <span style="color:#ae81ff">1</span> crate <span style="color:#f92672">(</span>57.6 KB<span style="color:#f92672">)</span> in 0.47s
-     Ignored package <span style="color:#e6db74">`</span>cargo-edit v0.7.0<span style="color:#e6db74">`</span> is already installed, use --force to override
-</code></pre></div><blockquote>
-<p>因为 <code>cargo-edit</code> 真的很方便，所以你可能已经安装过它。部分读者会感到困惑是因为像
+  Downloaded 1 crate (57.6 KB) in 0.47s
+     Ignored package `cargo-edit v0.7.0` is already installed, use --force to override
+</code></pre><blockquote>
+<p>因为 <code>cargo-edit</code> 很方便，所以你可能已经安装过它。部分读者会感到困惑是因为像
 <code>cargo new</code>, <code>cargo build</code>, <code>cargo test</code>, <code>cargo run</code> 等子命令都内置在 cargo 中，
 但是 <code>cargo add</code> 没有。</p>
 <p>实际上，有一大堆像这样的包，如 <a href="https://lib.rs/crates/cargo-hack">cargo-hack</a>,<a href="https://lib.rs/crates/cargo-udeps">cargo-udeps</a>,<a href="https://lib.rs/crates/cargo-expand">cargo-expand</a>&hellip;<a href="https://lib.rs/keywords/cargo">等等</a>。</p>
 </blockquote>
 <p>然后我们需要选择一个「异步运行时」（async runtime），因为这些 future 对象不会轮询（poll）自己。。。
 我们毫无理由的选择 tokio，唯一的原因是：过去几个月我一直在用它。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo add tokio@1.9.0 --features full
-    Updating <span style="color:#e6db74">&#39;https://github.com/rust-lang/crates.io-index&#39;</span> index
-      Adding tokio v1.9.0 to dependencies with features: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;full&#34;</span><span style="color:#f92672">]</span>
-</code></pre></div><p>然后我们修改 <code>main</code> 函数使用 tokio 默认执行器（executor）（ <code>cargo new</code> 为我们生成了一个 <code>main</code> 函数，但是这里并不能满足我们的需求）：</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo add tokio@1.9.0 --features full
+    Updating 'https://github.com/rust-lang/crates.io-index' index
+      Adding tokio v1.9.0 to dependencies with features: [&quot;full&quot;]
+</code></pre><p>然后我们修改 <code>main</code> 函数使用 tokio 默认执行器（executor）（ <code>cargo new</code> 为我们生成了一个 <code>main</code> 函数，但是这里并不能满足我们的需求）：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/main.rs`
 </span><span style="color:#75715e"></span>
 <span style="color:#75715e">#[tokio::main]</span>
 <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
     println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello from a (so far completely unnecessary) async runtime&#34;</span>);
 }
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo run                                                                                                                                                                                          3s 209ms
-   Compiling waytoodeep v0.1.0 <span style="color:#f92672">(</span>/Users/wh/codes/rust/waytoodeep<span style="color:#f92672">)</span>
-    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 3.47s
-     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
-Hello from a <span style="color:#f92672">(</span>so far completely unnecessary<span style="color:#f92672">)</span> async runtime
-</code></pre></div><p>酷！</p>
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ cargo run                                                                                                                                                                                          3s 209ms
+   Compiling waytoodeep v0.1.0 (/Users/wh/codes/rust/waytoodeep)
+    Finished dev [unoptimized + debuginfo] target(s) in 3.47s
+     Running `target/debug/waytoodeep`
+Hello from a (so far completely unnecessary) async runtime
+</code></pre><p>酷！</p>
 <p>接下来让我们添加其他一些我喜欢在我的项目中使用的好东西。</p>
-<p>首先，对于错误处理 - 我们编写程序就需要处理一堆不同库里不同的类型，如果能通过一个类型统一它们就会非常整洁。</p>
+<p>首先，对于错误处理 - 我们编写程序就需要处理一堆不同库里不同的错误类型，如果能通过一个类型统一它们就会非常整洁。</p>
 <p><a href="https://lib.rs/crates/eyre">eyre</a> 可以赋予我们这些（就像 <code>anyhow</code> ）！</p>
 <p>并且因为我喜欢漂亮的颜色我将使用 <a href="https://lib.rs/crates/color-eyre">color-eyre</a>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo add color-eyre@0.5.11
-    Updating <span style="color:#e6db74">&#39;https://github.com/rust-lang/crates.io-index&#39;</span> index
+<pre><code class="language-nil" data-lang="nil">$ cargo add color-eyre@0.5.11
+    Updating 'https://github.com/rust-lang/crates.io-index' index
       Adding color-eyre v0.5.11 to dependencies
-</code></pre></div><p>现在我们需要安装 <code>color-eyre</code> 作为默认的崩溃（panic）处理器，我悄悄修改了一些环境变量来默认输出 bracktraces。</p>
+</code></pre><p>现在我们需要安装 <code>color-eyre</code> 作为默认的崩溃（panic）处理器，我悄悄修改了一些环境变量来默认输出调用堆栈（backtracks）。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> color_eyre::Report;
 
 <span style="color:#75715e">#[tokio::main]</span>
@@ -118,18 +118,18 @@ Hello from a <span style="color:#f92672">(</span>so far completely unnecessary<s
 
     Ok(())
 }
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo run
-    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 0.02s
-     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
-Hello from a <span style="color:#f92672">(</span>so far completely unnecessary<span style="color:#f92672">)</span> async runtime
-</code></pre></div><p>很好！现在如果我们某处出现了一个错误，我们将看到完整的堆栈跟踪，就像下面这样：
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ cargo run
+    Finished dev [unoptimized + debuginfo] target(s) in 0.02s
+     Running `target/debug/waytoodeep`
+Hello from a (so far completely unnecessary) async runtime
+</code></pre><p>很好！现在如果我们某处出现了一个错误，我们将看到完整的堆栈跟踪，就像下面这样：
 <img src="https://fasterthanli.me/content/articles/understanding-rust-futures-by-going-way-too-deep/assets/color-eyre.78931d5fc80841f6.webp" alt=""></p>
 <p>最后，因为我喜欢结构化日志，让我们添加 <a href="https://lib.rs/crates/tracing">tracing</a> 然后通过漂亮的颜色打印它们，让我们添加 <a href="https://lib.rs/crates/tracing-subscriber">tracing-subscriber</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo add tracing@0.1.26 tracing-subscriber@0.2.19
-    Updating <span style="color:#e6db74">&#39;https://github.com/rust-lang/crates.io-index&#39;</span> index
+<pre><code class="language-nil" data-lang="nil">$ cargo add tracing@0.1.26 tracing-subscriber@0.2.19
+    Updating 'https://github.com/rust-lang/crates.io-index' index
       Adding tracing v0.1.26 to dependencies
       Adding tracing-subscriber v0.2.19 to dependencies
-</code></pre></div><p>我们已经有一个 <code>setup</code> 函数，所以直接在那里安装 <code>tracing-subscriber</code>.. 然后我们将 <code>println!</code> 改成 <code>info!</code> ！
+</code></pre><p>我们已经有一个 <code>setup</code> 函数，所以直接在那里安装 <code>tracing-subscriber</code>.. 然后我们将 <code>println!</code> 改成 <code>info!</code> ！
 然后，为了演示如何设置让我们再次修改一些环境变量：对所有包（crates）默认 <code>info</code> 日志级别。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> color_eyre::Report;
 <span style="color:#66d9ef">use</span> tracing::info;
@@ -159,21 +159,21 @@ Hello from a <span style="color:#f92672">(</span>so far completely unnecessary<s
 
     Ok(())
 }
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo run
-    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 0.02s
-     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
-Jul <span style="color:#ae81ff">25</span> 17:03:46.993  INFO waytoodeep: Hello from a comfy nest we<span style="color:#960050;background-color:#1e0010">&#39;</span>ve made <span style="color:#66d9ef">for</span> ourselves
-</code></pre></div><p>好了，我们准备好做一些有用的事情了。</p>
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ cargo run
+    Finished dev [unoptimized + debuginfo] target(s) in 0.02s
+     Running `target/debug/waytoodeep`
+Jul 25 17:03:46.993  INFO waytoodeep: Hello from a comfy nest we've made for ourselves
+</code></pre><p>好了，我们准备好做一些有用的事情了。</p>
 <h3 id="做一些有用的事情">做一些有用的事情</h3>
 <p>当决定在咖啡间隙阅读哪一篇文章的时候，人们通常同时打开几个网站，然后读最先加载出来的那一篇。</p>
-<p>事实如此。你可以引用我的话，毕竟谁会去验证呢？毕竟这听起来需要很多工作。</p>
+<p>事实如此。你可以引用我的话，谁会去验证呢？毕竟这听起来需要很多工作。</p>
 <p>所以让我们来编写一个程序做相同的事情。</p>
 <p>让我们引入 <a href="https://lib.rs/crates/reqwest">reqwest</a> &ndash; 尽管我不喜欢它的 API，但它会很好的完成接下来的工作。</p>
 <p>同时，因为 <a href="https://www.openssl.org/news/vulnerabilities.html">screw OpenSSL</a> 我们将标记 reqwest 使用 <a href="https://lib.rs/crates/rustls">rustls</a>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo add reqwest@0.11.4 --no-default-features --features rustls-tls
-    Updating <span style="color:#e6db74">&#39;https://github.com/rust-lang/crates.io-index&#39;</span> index
-      Adding reqwest v0.11.4 to dependencies with features: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;rustls-tls&#34;</span><span style="color:#f92672">]</span>
-</code></pre></div><p>我们准备好发送一个请求！</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo add reqwest@0.11.4 --no-default-features --features rustls-tls
+    Updating 'https://github.com/rust-lang/crates.io-index' index
+      Adding reqwest v0.11.4 to dependencies with features: [&quot;rustls-tls&quot;]
+</code></pre><p>我们准备好发送一个请求了！</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> color_eyre::Report;
 <span style="color:#66d9ef">use</span> tracing::info;
 <span style="color:#66d9ef">use</span> tracing_subscriber::EnvFilter;
@@ -214,31 +214,31 @@ Jul <span style="color:#ae81ff">25</span> 17:03:46.993  INFO waytoodeep: Hello f
     Ok(())
 }
 </code></pre></div><p>出发了！</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cargo run                                                                                                                                                                                          3s 662ms
-   Compiling waytoodeep v0.1.0 <span style="color:#f92672">(</span>/Users/wh/codes/rust/waytoodeep<span style="color:#f92672">)</span>
-    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 7.16s
-     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
-Jul <span style="color:#ae81ff">26</span> 16:50:57.778  INFO waytoodeep: Hello from a comfy nest we<span style="color:#960050;background-color:#1e0010">&#39;</span>ve made <span style="color:#66d9ef">for</span> ourselves
-Jul <span style="color:#ae81ff">26</span> 16:50:59.090  INFO waytoodeep: Got a response! url<span style="color:#f92672">=</span>https://fasterthanli.me content_type<span style="color:#f92672">=</span>Some<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;text/html; charset=utf-8&#34;</span><span style="color:#f92672">)</span>
-</code></pre></div><p>这就是我所说的「结构化日志」。嗯，其中的一部分。让我们看下这行代码：</p>
+<pre><code class="language-nil" data-lang="nil">cargo run
+   Compiling waytoodeep v0.1.0 (/Users/wh/codes/rust/waytoodeep)
+    Finished dev [unoptimized + debuginfo] target(s) in 7.16s
+     Running `target/debug/waytoodeep`
+Jul 26 16:50:57.778  INFO waytoodeep: Hello from a comfy nest we've made for ourselves
+Jul 26 16:50:59.090  INFO waytoodeep: Got a response! url=https://fasterthanli.me content_type=Some(&quot;text/html; charset=utf-8&quot;)
+</code></pre><p>这就是我所说的「结构化日志」。嗯，其中的一部分。让我们看下这行代码：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">info<span style="color:#f92672">!</span>(<span style="color:#f92672">%</span>url, content_type <span style="color:#f92672">=</span> <span style="color:#f92672">?</span>res.headers().get(<span style="color:#e6db74">&#34;content-type&#34;</span>), <span style="color:#e6db74">&#34;Got a response!&#34;</span>);
 </code></pre></div><p>我们输出来一个消息： <code>Got a response!</code> ，一个名为 <code>url</code> 的标签：值为变量 <code>url</code> 的 <a href="https://doc.rust-lang.org/stable/std/fmt/trait.Display.html">Display</a> 格式，
 一个名为 <code>content_type</code> 的标签：值为表达式的 <a href="https://doc.rust-lang.org/stable/std/fmt/trait.Debug.html">Debug</a> 格式。</p>
 <p>就是这么简单！ <code>name = %value</code> 输出 <code>Display</code> ， <code>name = ?value</code> 输出 <code>Debug</code> 。</p>
 <p>当然，还有非常棒的跨度（spans），重点是你可以将它们发送到 APM（Appliation Performance Monitoring），比如 Datadog 或者 Honeycomb 等，但是这不是一篇关于跟踪的文章。</p>
 <p>为了举例说明，如果我们安装一个 JSON 的 tracing subscriber，我们将获得如下内容：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo run
-   Compiling waytoodeep v0.1.0 <span style="color:#f92672">(</span>/home/amos/ftl/waytoodeep<span style="color:#f92672">)</span>
-    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 3.09s
-     Running <span style="color:#e6db74">`</span>target/debug/waytoodeep<span style="color:#e6db74">`</span>
-<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;timestamp&#34;</span>:<span style="color:#e6db74">&#34;Jul 25 17:17:21.531&#34;</span>,<span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;INFO&#34;</span>,<span style="color:#e6db74">&#34;fields&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;Hello from a comfy nest we&#39;ve made for ourselves&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;target&#34;</span>:<span style="color:#e6db74">&#34;waytoodeep&#34;</span><span style="color:#f92672">}</span>
-<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;timestamp&#34;</span>:<span style="color:#e6db74">&#34;Jul 25 17:17:21.709&#34;</span>,<span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;INFO&#34;</span>,<span style="color:#e6db74">&#34;fields&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;Got a response!&#34;</span>,<span style="color:#e6db74">&#34;url&#34;</span>:<span style="color:#e6db74">&#34;https://fasterthanli.me&#34;</span>,<span style="color:#e6db74">&#34;content_type&#34;</span>:<span style="color:#e6db74">&#34;Some(\&#34;text/html; charset=utf-8\&#34;)&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;target&#34;</span>:<span style="color:#e6db74">&#34;waytoodeep&#34;</span><span style="color:#f92672">}</span>
-</code></pre></div><p>这应该足以激起你的兴趣。</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo run
+   Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
+    Finished dev [unoptimized + debuginfo] target(s) in 3.09s
+     Running `target/debug/waytoodeep`
+{&quot;timestamp&quot;:&quot;Jul 25 17:17:21.531&quot;,&quot;level&quot;:&quot;INFO&quot;,&quot;fields&quot;:{&quot;message&quot;:&quot;Hello from a comfy nest we've made for ourselves&quot;},&quot;target&quot;:&quot;waytoodeep&quot;}
+{&quot;timestamp&quot;:&quot;Jul 25 17:17:21.709&quot;,&quot;level&quot;:&quot;INFO&quot;,&quot;fields&quot;:{&quot;message&quot;:&quot;Got a response!&quot;,&quot;url&quot;:&quot;https://fasterthanli.me&quot;,&quot;content_type&quot;:&quot;Some(\&quot;text/html; charset=utf-8\&quot;)&quot;},&quot;target&quot;:&quot;waytoodeep&quot;}
+</code></pre><p>这应该足以激起你的兴趣。</p>
 <h3 id="同时获取两个地址">同时获取两个地址</h3>
 <p>现在让我们获取两个地址：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">const</span> URL_1: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://fasterthanli.me/articles/whats-in-the-box&#34;</span>;
 <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">const</span> URL_2: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://fasterthanli.me/series/advent-of-code-2020/part-13&#34;</span>;
-</code></pre></div><p>&hellip;&hellip;所以这是一个公平的比较。 这两篇文章都托管在我自己的网站上，绝对不是为了推广，而是为了使获取时间具有可比性，并且任一都有可能先加载完成（并且会随着时间的推移随机变化）。</p>
+</code></pre></div><p>。。。这是一个公平的比较。 这两篇文章都托管在我自己的网站上，绝对不是为了推广，而是为了使获取时间具有可比性，并且任一都有可能先加载完成（并且会随着时间的推移随机变化）。</p>
 <p>我们将创建一个函数来获取内容：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fetch_thing</span>(client: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Client</span>, url: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
     <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> client.get(url).send().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>.error_for_status()<span style="color:#f92672">?</span>;
@@ -285,7 +285,7 @@ warning: <span style="color:#ae81ff">2</span> warnings emitted
 Jul <span style="color:#ae81ff">25</span> <span style="color:#ae81ff">17</span>:<span style="color:#ae81ff">26</span>:<span style="color:#ae81ff">31.571</span>  INFO waytoodeep: <span style="color:#a6e22e">Hello</span> from a comfy nest we<span style="color:#a6e22e">&#39;ve</span> made <span style="color:#66d9ef">for</span> ourselves
 </code></pre></div><p>奇怪的是，没有任何事情发生。</p>
 <blockquote>
-<p>黄黄的波浪线和恼人的 Rust 警告已经给出了提示。</p>
+<p>黄色的波浪线和恼人的 Rust 警告已经给出了提示。</p>
 </blockquote>
 <p>让我们来修复它：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">fetch_thing(<span style="color:#f92672">&amp;</span>client, URL_1).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
@@ -332,8 +332,8 @@ Jul 25 17:27:29.974  INFO waytoodeep: Got a response! url=https://fasterthanli.m
 
     Ok(())
 }
-</code></pre></div><p>以上！我们几乎就完成来除了我们没有 <code>.await</code> 。</p>
-<p>运行它除了打印报警不会有任何效果：</p>
+</code></pre></div><p>以上！我们几乎就完成了，除了我们没有进行 <code>.await</code> 。</p>
+<p>运行它除了打印警告不会有任何效果：</p>
 <pre><code class="language-nil" data-lang="nil">$ cargo run
    Compiling waytoodeep v0.1.0 (/home/amos/ftl/waytoodeep)
 warning: unused variable: `fut`
@@ -371,7 +371,7 @@ Jul 25 17:37:09.261  INFO waytoodeep: Building that dumb future...
 Jul 25 17:37:09.261  INFO waytoodeep: Awaiting that dumb future...
 Jul 25 17:37:09.261  INFO waytoodeep::dumb: Hello from a dumb future!
 Jul 25 17:37:09.262  INFO waytoodeep: Done awaiting that dumb future
-</code></pre><p>这里有一些略微的区别与 ECMAScript 的 <code>promise</code> ：即使它们压根没有被 await 其中包含的工作依然会被执行。</p>
+</code></pre><p>这里与 ECMAScript 的 <code>promise</code> 有一些略微的区别：即使它们压根没有被 await 其中包含的工作依然会被执行。</p>
 <p>但是 Rust 的 future 对象仅仅是无聊的状态机，如果你故意制造麻烦就可以理解这个机制：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/dumb.rs`
 </span><span style="color:#75715e"></span>
@@ -1078,10 +1078,10 @@ Thread 13 (Thread 0x7ffff680f700 (LWP 158956)):
 <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
         <span style="color:#75715e">// (same as before)
 </span><span style="color:#75715e"></span>}
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ RUST_LOG<span style="color:#f92672">=</span>info cargo run --quiet --release
-Jul <span style="color:#ae81ff">25</span> 19:50:15.977  INFO waytoodeep: Got a response! url<span style="color:#f92672">=</span>https://fasterthanli.me/articles/whats-in-the-box content_type<span style="color:#f92672">=</span>Some<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;text/html; charset=utf-8&#34;</span><span style="color:#f92672">)</span>
-Jul <span style="color:#ae81ff">25</span> 19:50:15.994  INFO waytoodeep: Got a response! url<span style="color:#f92672">=</span>https://fasterthanli.me/series/advent-of-code-2020/part-13 content_type<span style="color:#f92672">=</span>Some<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;text/html; charset=utf-8&#34;</span><span style="color:#f92672">)</span>
-</code></pre></div><p>两个响应间隔 <code>17ms</code> ，这个时间不够构造一个完整的请求，所以请求并行（parallel）的执行了。如果你依然坚持它内部使用了线程，让我们进一步确认我们只有一个线程：
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 19:50:15.977  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some(&quot;text/html; charset=utf-8&quot;)
+Jul 25 19:50:15.994  INFO waytoodeep: Got a response! url=https://fasterthanli.me/series/advent-of-code-2020/part-13 content_type=Some(&quot;text/html; charset=utf-8&quot;)
+</code></pre><p>两个响应间隔 <code>17ms</code> ，这个时间不够构造一个完整的请求，所以请求并行（parallel）的执行了。如果你依然坚持它内部使用了线程，让我们进一步确认我们只有一个线程：
 <img src="https://fasterthanli.me/content/articles/understanding-rust-futures-by-going-way-too-deep/assets/current-thread.cd7b619ed644899b.webp" alt="">
 确实有多个线程，但是这些都是阻塞线程。仅仅是 DNS 查询。可以通过 htop 看到已经没有无数（15）的工作线程了：
 <img src="https://fasterthanli.me/content/articles/understanding-rust-futures-by-going-way-too-deep/assets/htop-current-thread.fe28174abc5d15fa.webp" alt="">
@@ -1215,6 +1215,1104 @@ error[E0597]: `url1` does not live long enough
 </code></pre><blockquote>
 <p>你面对的考验就是：修改了一些代码，然后突然间整个 <code>Future</code> 不再实现 <code>Send</code> ，但是你需要它实现 <code>Send</code> 。参考<a href="https://fasterthanli.me/articles/getting-in-and-out-of-trouble-with-rust-futures">Getting in and out of trouble with Rust futures</a>。</p>
 </blockquote>
+<p>在我们进一步深入之前，我们还想提一下，除了通过 <code>tokio::spawn</code> 可以同时运行两个 future 并且立即等待两个 future 完成，还是使用 <code>FuturesUnordered</code> 实现相同目的。</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo add futures@0.3.16
+    Updating 'https://github.com/rust-lang/crates.io-index' index
+      Adding futures v0.3.16 to dependencies
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> futures::{stream::FuturesUnordered, StreamExt};
+
+
+<span style="color:#75715e">#[tokio::main(flavor = </span><span style="color:#e6db74">&#34;current_thread&#34;</span><span style="color:#75715e">)]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> Client::new();
+
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> group <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[
+        fetch_thing(client.clone(), URL_1),
+        fetch_thing(client, URL_2),
+    ]
+    .into_iter()
+    .collect::<span style="color:#f92672">&lt;</span>FuturesUnordered<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;</span>();
+
+    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">let</span> Some(item) <span style="color:#f92672">=</span> group.next().<span style="color:#66d9ef">await</span> {
+        <span style="color:#75715e">// propagate errors
+</span><span style="color:#75715e"></span>        item<span style="color:#f92672">?</span>;
+    }
+
+    Ok(())
+}
+</code></pre></div><p>通过这个解决半啃啊，我们可以 await 任意数量的 future 对象，同时也是并发的被轮询（polled）。</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 20:12:37.208  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some(&quot;text/html; charset=utf-8&quot;)
+Jul 25 20:12:37.227  INFO waytoodeep: Got a response! url=https://fasterthanli.me/series/advent-of-code-2020/part-13 content_type=Some(&quot;text/html; charset=utf-8&quot;)
+</code></pre><p>仅仅。。。19 毫秒的间隔 &ndash; 可以确定是并发的。</p>
+<h3 id="彻底摆脱-dns">彻底摆脱 DNS</h3>
+<p>现在让我们暂时忘掉 <code>reqwest</code> 。</p>
+<p>HTTP <a href="https://fasterthanli.me/articles/aiming-for-correctness-with-types">并不难</a> ，我们可以自己构建。只要 TCP 就行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::net::SocketAddr;
+<span style="color:#66d9ef">use</span> tokio::{
+    io::{AsyncReadExt, AsyncWriteExt},
+    net::TcpStream,
+};
+
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fetch_thing</span>(name: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#75715e">// look mom, no DNS!
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> addr: <span style="color:#a6e22e">SocketAddr</span> <span style="color:#f92672">=</span> ([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">80</span>).into();
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> socket <span style="color:#f92672">=</span> TcpStream::connect(addr).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#75715e">// we&#39;re writing straight to the socket, there&#39;s no buffering
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// so no need to flush
+</span><span style="color:#75715e"></span>    socket.write_all(<span style="color:#e6db74">b&#34;GET / HTTP/1.1</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;Host: 1.1.1.1</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;User-Agent: cool-bear</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;Connection: close</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> response <span style="color:#f92672">=</span> String::with_capacity(<span style="color:#ae81ff">256</span>);
+    socket.read_to_string(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> response).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> status <span style="color:#f92672">=</span> response.lines().next().unwrap_or_default();
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">%</span>status, , <span style="color:#e6db74">&#34;Got response!&#34;</span>);
+
+    <span style="color:#75715e">// dropping the socket will close the connection
+</span><span style="color:#75715e"></span>
+    Ok(())
+}
+</code></pre></div><p>可以正常运行：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 20:24:05.158  INFO waytoodeep: Got response! status=HTTP/1.1 301 Moved Permanently name=second
+Jul 25 20:24:05.159  INFO waytoodeep: Got response! status=HTTP/1.1 301 Moved Permanently name=first
+</code></pre><p>（看，第二个赢得了胜利）。</p>
+<p>同时再也没有 DNS 查询了。</p>
+<p>当然 <code>http://1.1.1.1</code> 将我们重定向到 HTTPS 的页面，技术上实现 TLS 并不困难，但是我们的篇幅已经很长了，所以。。。</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo add tokio-rustls@0.22.0
+    Updating 'https://github.com/rust-lang/crates.io-index' index
+      Adding tokio-rustls v0.22.0 to dependencies
+$ cargo add webpki@0.21.4
+    Updating 'https://github.com/rust-lang/crates.io-index' index
+      Adding webpki v0.21.4 to dependencies
+$ cargo add webpki-roots@0.21.1
+    Updating 'https://github.com/rust-lang/crates.io-index' index
+      Adding webpki-roots v0.21.1 to dependencies
+</code></pre><p>然后。。。</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo rm reqwest
+    Removing reqwest from dependencies
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::sync::Arc;
+<span style="color:#66d9ef">use</span> webpki::DNSNameRef;
+<span style="color:#66d9ef">use</span> tokio_rustls::{rustls::ClientConfig, TlsConnector};
+
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fetch_thing</span>(name: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#75715e">// look out it&#39;s port 443 now
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> addr: <span style="color:#a6e22e">SocketAddr</span> <span style="color:#f92672">=</span> ([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">443</span>).into();
+    <span style="color:#66d9ef">let</span> socket <span style="color:#f92672">=</span> TcpStream::connect(addr).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#75715e">// establish a TLS session...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> connector: <span style="color:#a6e22e">TlsConnector</span> <span style="color:#f92672">=</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> config <span style="color:#f92672">=</span> ClientConfig::new();
+        config
+            .root_store
+            .add_server_trust_anchors(<span style="color:#f92672">&amp;</span>webpki_roots::TLS_SERVER_ROOTS);
+        Arc::new(config).into()
+    };
+    <span style="color:#75715e">// we have to use the proper DNS name now      👇
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> dnsname <span style="color:#f92672">=</span> DNSNameRef::try_from_ascii_str(<span style="color:#e6db74">&#34;one.one.one.one&#34;</span>)<span style="color:#f92672">?</span>;
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> socket <span style="color:#f92672">=</span> connector.connect(dnsname, socket).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#75715e">// we&#39;re writing straight to the socket, there&#39;s no buffering
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// so no need to flush
+</span><span style="color:#75715e"></span>    socket.write_all(<span style="color:#e6db74">b&#34;GET / HTTP/1.1</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    <span style="color:#75715e">//                        👇
+</span><span style="color:#75715e"></span>    socket.write_all(<span style="color:#e6db74">b&#34;Host: one.one.one.one</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;User-Agent: cool-bear</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;Connection: close</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> response <span style="color:#f92672">=</span> String::with_capacity(<span style="color:#ae81ff">256</span>);
+    socket.read_to_string(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> response).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> status <span style="color:#f92672">=</span> response.lines().next().unwrap_or_default();
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">%</span>status, , <span style="color:#e6db74">&#34;Got response!&#34;</span>);
+
+    <span style="color:#75715e">// dropping the socket will close the connection
+</span><span style="color:#75715e"></span>
+    Ok(())
+}
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 20:31:32.627  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 20:31:32.658  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+</code></pre><p>好了，现在返回状态码 200！</p>
+<p>我们的目标是了解 Rust 的 future，我们已经获得了不错的进展。</p>
+<p>但是让我们考虑以下场景：我们想并发的执行两个请求，一旦其中一个失败，另外一个也应该立即请求失败，或者两个一起成功。</p>
+<h3 id="tokio-的-try-join-宏">tokio 的 try_join 宏</h3>
+<p>实际上，又一个宏可以做这个！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[tokio::main(flavor = </span><span style="color:#e6db74">&#34;current_thread&#34;</span><span style="color:#75715e">)]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> tokio::try_join<span style="color:#f92672">!</span>(fetch_thing(<span style="color:#e6db74">&#34;first&#34;</span>), fetch_thing(<span style="color:#e6db74">&#34;second&#34;</span>),)<span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">?</span>res, <span style="color:#e6db74">&#34;All done!&#34;</span>);
+
+    Ok(())
+}
+</code></pre></div><p>这就是我们想要的！</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 20:44:52.150  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 20:44:52.165  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 20:44:52.165  INFO waytoodeep: All done! res=((), ())
+</code></pre><p>再次快速检查以下：响应间隔在 15ms &ndash; 也就是确定是并发的发送。</p>
+<p><code>try_join!</code> 帮我们进行了 <code>await</code> ，同时帮我们处理了结果。如果一切正常，我们得到所有 future 对象的结果：内容为 <code>Ok</code> 的空元组（有序的）。</p>
+<p>所以我们可以取到我们 future 返回的对象：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">//                                          👇
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fetch_thing</span>(name: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; Result<span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">str</span>, Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#75715e">// (omitted)
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">//  👇
+</span><span style="color:#75715e"></span>    Ok(name)
+}
+</code></pre></div><p>为了方便我们自己，它们按照顺序返回，无论哪个先被执行：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 20:47:56.967  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 20:47:56.967  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 20:47:56.967  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+$ RUST_LOG=info cargo run --quiet --release
+Jul 25 20:47:57.933  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 20:47:57.935  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 20:47:57.935  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+$ RUST_LOG=info cargo run --quiet --release
+Jul 25 20:47:58.942  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 20:47:58.946  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 20:47:58.946  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+</code></pre><p>好了，现在我们没有 DNS 查询，我们就可以消除“同时”请求是由于多线程实现的。</p>
+<p>因为，如果我们在 <code>strace</code> 下运行程序，并通过 <code>-f</code> 请求跟踪子线程（ BTW <code>f</code> 意思是跟踪（ <code>follow</code> ）子线程）：</p>
+<pre><code class="language-nil" data-lang="nil">$ cargo build --quiet --release &amp;&amp; strace -f -e 'connect' ./target/release/waytoodeep
+connect(9, {sa_family=AF_INET, sin_port=htons(443), sin_addr=inet_addr(&quot;1.1.1.1&quot;)}, 16) = -1 EINPROGRESS (Operation now in progress)
+connect(10, {sa_family=AF_INET, sin_port=htons(443), sin_addr=inet_addr(&quot;1.1.1.1&quot;)}, 16) = -1 EINPROGRESS (Operation now in progress)
+Jul 25 20:51:54.004  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 20:51:54.013  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 20:51:54.015  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
++++ exited with 0 +++
+</code></pre><p>。。。现在我们看到了预期的两次 <code>connect</code> 调用，但是没有任何子线程。而且在这个运行中，响应之间的间隔时间是 9 毫秒！少于我直接 ping 1.1.1.1:</p>
+<pre><code class="language-nil" data-lang="nil">$ ping -c 1 1.1.1.1
+PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=57 time=13.7 ms
+
+--- 1.1.1.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 13.748/13.748/13.748/0.000 ms
+</code></pre><p>这是因为执行器通过 Event Loop 构建非阻塞的系统调用，然后订阅 Event Loop 管理的资源相关的事件，
+然后就可以知道一个 socket 什么时间可以进行读写。</p>
+<p>所以，future 对象只是一些状态，接下来就可以进行 await，那么在哪订阅的事件呢？</p>
+<p>让我们尝试创建一个我们自己的 <code>try_join</code> &ndash; 一个函数，并且只接受两个 future。然后我们就能看到发生了什么。</p>
+<p>我们已经实现了自己的 future，实现一个 <code>try_join</code> 函数会有多麻烦？</p>
+<h3 id="事实证明很麻烦">事实证明很麻烦</h3>
+<p>我们先从简单的开始！我们想实现一个函数接受两个 future 对象然后返回一个 future 对象。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/main.rs`
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">mod</span> tj;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/tj.rs`
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">use</span> std::future::Future;
+
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_join</span><span style="color:#f92672">&lt;</span>A, B<span style="color:#f92672">&gt;</span>(a: <span style="color:#a6e22e">A</span>, b: <span style="color:#a6e22e">B</span>) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> ()<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span>,
+    B: <span style="color:#a6e22e">Future</span>,
+{
+    todo<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;implement me!&#34;</span>);
+}
+</code></pre></div><p>额。函数不应该只返回一个空元组，它需要返回一个包含成功结果的元组。或者遇到的第一个错误。</p>
+<p>所以我们需要添加一些更多的范型参数：一个错误类型（我们假设两个 future 对象返回同样的错误类型），另一个是 future 对象返回的 <code>Ok</code> 的类型。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_join</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>(a: <span style="color:#a6e22e">A</span>, b: <span style="color:#a6e22e">B</span>) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(AR, BR), E<span style="color:#f92672">&gt;&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    todo<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;implement me!&#34;</span>);
+}
+</code></pre></div><p>好了！这非常绕口，但是我相信我们已经实现了需求。</p>
+<p>需要注意的是我们使用了 <code>impl Trait</code> 语法，让我们不用暴露我们自己的 <code>try join future</code> 。这不重要，但是可以让我们用更少的 <code>pub</code> 关键字，同时我们的手指已经码累了。非常累。</p>
+<p>所以，让我们来创建这个类型！</p>
+<p>类型需要持续 <code>A</code> 和 <code>B</code> ，并注意 <code>AR</code> 、 <code>BR</code> 和 <code>E</code> 类型。所以，希望您对这些范型参数沙拉有个好胃口。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    a: <span style="color:#a6e22e">A</span>,
+    b: <span style="color:#a6e22e">B</span>,
+}
+</code></pre></div><p>然后可以在我们的 <code>try_join</code> 函数中返回它：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_join</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>(a: <span style="color:#a6e22e">A</span>, b: <span style="color:#a6e22e">B</span>) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(AR, BR), E<span style="color:#f92672">&gt;&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    <span style="color:#75715e">// so simple!
+</span><span style="color:#75715e"></span>    TryJoin { a, b }
+}
+</code></pre></div><p>我认为这很好的说明一个事实：创建 future 对象仅仅是构建状态。不需要任何额外的工作。</p>
+<p>当然，这个不会通过编译，因为 <code>TryJoin</code> 还没有实现 <code>Future</code> 。</p>
+<p>但是不要担心！ <code>rust-analyzer</code> 可以帮助我们生成缺失的部分：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::{
+    future::Future,
+    pin::Pin,
+    task::{Context, Poll},
+};
+
+<span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span> Future <span style="color:#66d9ef">for</span> TryJoin<span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Output</span> <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(AR, BR), E<span style="color:#f92672">&gt;</span>;
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+        todo<span style="color:#f92672">!</span>()
+    }
+}
+</code></pre></div><p>如果我们真正的实现了，我们将按照下面方式使用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[tokio::main(flavor = </span><span style="color:#e6db74">&#34;current_thread&#34;</span><span style="color:#75715e">)]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> tj::try_join(fetch_thing(<span style="color:#e6db74">&#34;first&#34;</span>), fetch_thing(<span style="color:#e6db74">&#34;second&#34;</span>)).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">?</span>res, <span style="color:#e6db74">&#34;All done!&#34;</span>);
+
+    Ok(())
+}
+</code></pre></div><p>当然，现在只是会崩溃：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+
+The application panicked (crashed).
+Message:  not yet implemented
+Location: src/tj.rs:32
+
+Backtrace omitted.
+Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+</code></pre><p>所以，我猜我们需要实现它！</p>
+<p>好吧，让我们先尝试至少轮询（polling）一个 future 对象。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> self.a.poll(cx);
+
+    todo<span style="color:#f92672">!</span>()
+}
+</code></pre></div><pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+error[E0599]: no method named `poll` found for type parameter `A` in the current scope
+   --&gt; src/tj.rs:32:24
+    |
+32  |         let a = self.a.poll(cx);
+    |                        ^^^^ method not found in `A`
+    |
+   ::: /home/amos/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/future.rs:100:8
+    |
+100 |     fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt;;
+    |        ---- the method is available for `Pin&lt;&amp;mut A&gt;` here
+    |
+help: consider wrapping the receiver expression with the appropriate type
+    |
+32  |         let a = Pin::new(&amp;mut self.a).poll(cx);
+    |                 ^^^^^^^^^^^^^       ^
+</code></pre><p>额！一个好的开始，好的开始。</p>
+<p>我已经在这里<a href="https://fasterthanli.me/articles/pin-and-suffering">详细的解释了</a> Pin，所以这里我们就简单的介绍一下。</p>
+<p>方法通常通过如下方式定义接收者（receiver）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyType</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">do_thing</span>(<span style="color:#f92672">&amp;</span>self) {
+        println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;my value is {}&#34;</span>, self.value)
+    }
+}
+</code></pre></div><p>也就是下面的简写：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyType</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">do_thing</span>(self: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Self</span>) {
+        println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;my value is {}&#34;</span>, self.value)
+    }
+}
+</code></pre></div><p>因为我们在 <code>impl MyType</code> 代码块中 <code>Self</code> 就是 <code>MyType</code> 。</p>
+<p>很清晰吧？好了，还可以定义其他很多类型作为接收者， <code>Pin&lt;&amp;mut Self&gt;</code> 就是其中之一：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyType</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">do_thing</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>) {
+        <span style="color:#75715e">// good luck!1
+</span><span style="color:#75715e"></span>    }
+}
+</code></pre></div><p>那么 <code>MyType</code> 必须是固定的（pinned）是什么意思呢？比如，它保证不进行转移（move）。除非它实现了 <code>Unpin</code> ，
+然后它就可以是非固定的（unpinned），可移动，然后被再一次固定。</p>
+<p>对于剩下的文章，我们不会假设我们的 future <code>A</code> 和 <code>B</code> 都是 <code>Unpin</code> ，也就是说我们自己不会移动（move）它们（只销毁（drop）它们）。</p>
+<p>你可以说我们不需要 <code>A</code> 和 <code>B</code> 是 <code>Unpin</code> 的，因为我们没有添加指定的 where clause 来标记需要它们是 <code>Unpin</code> 。
+因为如果我们需要，我们就要像下面这样添加额外的 <code>trait bound</code> ：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    <span style="color:#75715e">//                                    👇
+</span><span style="color:#75715e"></span>    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">+</span> Unpin,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">+</span> Unpin,
+{}
+</code></pre></div><p>但是我们没有，所以我们不能假设 <code>A</code> 或 <code>B</code> 是 <code>Unpin</code> 的。</p>
+<p>所以！我们现在真的只是面临固定（pin）保护的问题。</p>
+<p>我们现在只持有一个 <code>Pin&lt;&amp;mut TryJoin&lt;A, B, ...&gt;&gt;</code> 但是我希望持续一个 <code>Pin&lt;&amp;mut A&gt;</code> （因为这就是我们因为需要轮询 <code>A</code> ）。</p>
+<p>另外一个解决方法，我倾向于通过一些类似 <a href="https://lib.rs/crates/pin-project">pin-project</a> 包，或者类似 <a href="https://lib.rs/crates/pin-project-lite">pin-project-lite</a>，但是在我们前进的方向直接使用 <code>pin-project</code> 真的很尴尬，
+所以我们这里使用 <code>unsafe</code> 作为替代：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.map_unchecked_mut(<span style="color:#f92672">|</span>this<span style="color:#f92672">|</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a) };
+    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> a.poll(cx);
+
+    todo<span style="color:#f92672">!</span>()
+}
+</code></pre></div><p>可以通过编译。但是我们在使用 <code>unsafe</code> ，也就意味着编译器正式停止 <del>照顾</del> 检查我们的代码。
+我们自己必须强制执行一些不变量（invariants），并且非常非常小心让，同时让其他人审查（review）我们的工作，
+但是依然可能会出错，因为他们也会休息。</p>
+<p>现在，非常棒的是我们可以轮询 <code>a</code> 。它如果完成会返回 <code>Poll::Ready(Result&lt;AR, E&gt;)</code> ，
+否则就是等会会完成则返回 <code>Poll::Pending</code> 。</p>
+<p>我们可以观察到：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.map_unchecked_mut(<span style="color:#f92672">|</span>this<span style="color:#f92672">|</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a) };
+    <span style="color:#66d9ef">match</span> a.poll(cx) {
+        Poll::Pending <span style="color:#f92672">=&gt;</span> {
+            info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;A is pending...&#34;</span>);
+            <span style="color:#66d9ef">return</span> Poll::Pending;
+        }
+        Poll::Ready(res) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> res {
+            Ok(_) <span style="color:#f92672">=&gt;</span> info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;A is ready!&#34;</span>),
+            Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Ready(Err(e)),
+        },
+    }
+
+    todo<span style="color:#f92672">!</span>()
+}
+</code></pre></div><p>我们通过打印日志“A is pending”知道准备完成。这可能需要几个回合：毕竟，我们正在做一些重要的事情。
+我们建立一个 TCP 连接，接着在上面进行 TLS 会话，接着是一些分开的写，最后读到 EOF（end of file）。</p>
+<p>当然，如果我们运行它的话：</p>
+<pre><code class="language-nil" data-lang="nil">aytoodeep::tj: A is pending...
+Jul 25 22:54:14.495  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.495  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.495  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.495  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.495  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.495  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.495  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.513  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.513  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.513  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.513  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.513  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.514  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.522  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.522  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.522  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.522  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.522  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.523  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.523  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.530  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.530  INFO waytoodeep::tj: A is pending...
+Jul 25 22:54:14.530  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 22:54:14.530  INFO waytoodeep::tj: A is ready!
+The application panicked (crashed).
+Message:  not yet implemented
+Location: src/tj.rs:46
+
+Backtrace omitted.
+Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+</code></pre><p>我们可以看到它确实花费了几个回合。</p>
+<p>注意如果 <code>A</code> 返回错误我们的代码也会返回 <code>Poll:Ready</code> ，因为我们想收集 A 和 B 的结果。</p>
+<p>所以我们对 B 做相同的事情：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.map_unchecked_mut(<span style="color:#f92672">|</span>this<span style="color:#f92672">|</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a) };
+    <span style="color:#66d9ef">match</span> a.poll(cx) {
+        Poll::Pending <span style="color:#f92672">=&gt;</span> {
+            info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;A is pending...&#34;</span>);
+            <span style="color:#66d9ef">return</span> Poll::Pending;
+        }
+        Poll::Ready(res) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> res {
+            Ok(_) <span style="color:#f92672">=&gt;</span> info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;A is ready!&#34;</span>),
+            Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Ready(Err(e)),
+        },
+    }
+
+    <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.map_unchecked_mut(<span style="color:#f92672">|</span>this<span style="color:#f92672">|</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a) };
+    <span style="color:#66d9ef">match</span> b.poll(cx) {
+        Poll::Pending <span style="color:#f92672">=&gt;</span> {
+            info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;B is pending...&#34;</span>);
+            <span style="color:#66d9ef">return</span> Poll::Pending;
+        }
+        Poll::Ready(res) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> res {
+            Ok(_) <span style="color:#f92672">=&gt;</span> info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;B is ready!&#34;</span>),
+            Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Ready(Err(e)),
+        },
+    }
+
+    todo<span style="color:#f92672">!</span>()
+}
+</code></pre></div><p>然后。。whoops：</p>
+<pre><code class="language-nil" data-lang="nil">RUST_LOG=info cargo run --quiet --release
+error[E0382]: use of moved value: `self`
+   --&gt; src/tj.rs:46:26
+    |
+33  |     fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt; {
+    |             ---- move occurs because `self` has type `Pin&lt;&amp;mut TryJoin&lt;A, B, AR, BR, E&gt;&gt;`, which does not implement the `Copy` trait
+34  |         let a = unsafe { self.map_unchecked_mut(|this| &amp;mut this.a) };
+    |                               ------------------------------------- `self` moved due to this method call
+...
+46  |         let b = unsafe { self.map_unchecked_mut(|this| &amp;mut this.a) };
+    |                          ^^^^ value used here after move
+    |
+note: this function takes ownership of the receiver `self`, which moves `self`
+   --&gt; /home/amos/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/pin.rs:776:43
+    |
+776 |     pub unsafe fn map_unchecked_mut&lt;U, F&gt;(self, func: F) -&gt; Pin&lt;&amp;'a mut U&gt;
+    |                                           ^^^^
+</code></pre><p>是的。 <code>map_unchecked_mut</code> 占有了 <code>self</code> 。</p>
+<p>不用担心，我们可以使用 <code>.as_mut()</code> ：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">//       👇
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(<span style="color:#66d9ef">mut</span> self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+    <span style="color:#75715e">//                      👇
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.as_mut().map_unchecked_mut(<span style="color:#f92672">|</span>this<span style="color:#f92672">|</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a) };
+    <span style="color:#66d9ef">match</span> a.poll(cx) {
+        Poll::Pending <span style="color:#f92672">=&gt;</span> {
+            info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;A is pending...&#34;</span>);
+            <span style="color:#66d9ef">return</span> Poll::Pending;
+        }
+        Poll::Ready(res) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> res {
+            Ok(_) <span style="color:#f92672">=&gt;</span> info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;A is ready!&#34;</span>),
+            Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Ready(Err(e)),
+        },
+    }
+
+    <span style="color:#75715e">//                      👇
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.as_mut().map_unchecked_mut(<span style="color:#f92672">|</span>this<span style="color:#f92672">|</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a) };
+    <span style="color:#66d9ef">match</span> b.poll(cx) {
+        Poll::Pending <span style="color:#f92672">=&gt;</span> {
+            info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;B is pending...&#34;</span>);
+            <span style="color:#66d9ef">return</span> Poll::Pending;
+        }
+        Poll::Ready(res) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> res {
+            Ok(_) <span style="color:#f92672">=&gt;</span> info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;B is ready!&#34;</span>),
+            Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Ready(Err(e)),
+        },
+    }
+
+    todo<span style="color:#f92672">!</span>()
+}
+</code></pre></div><p>但是依然无法通过编译：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+(cut)
+Jul 25 22:57:07.913  INFO waytoodeep::tj: A is pending...
+Jul 25 22:57:07.913  INFO waytoodeep::tj: A is pending...
+Jul 25 22:57:07.913  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 22:57:07.913  INFO waytoodeep::tj: A is ready!
+The application panicked (crashed).
+Message:  `async fn` resumed after completion
+Location: src/main.rs:24
+
+Backtrace omitted.
+Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+</code></pre><p>可以看到，一旦 <code>Future</code> 返回 <code>Poll::Ready</code> 我们就不能再次轮询它了。我们为什么会这样？因为 <code>Future</code> 已经返回了结果。如果结果是非 <code>Copy</code> 的，它可能只能返回一次。</p>
+<p>所以，我们需要 1）跟踪 <code>A</code> 是否完成，然后 2）在某个地方存储它的返回结果。</p>
+<p>我们只需要在我们的结构体中添加一些字段：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    a: <span style="color:#a6e22e">A</span>,
+    b: <span style="color:#a6e22e">B</span>,
+    <span style="color:#75715e">// 👇
+</span><span style="color:#75715e"></span>    a_res: Option<span style="color:#f92672">&lt;</span>AR<span style="color:#f92672">&gt;</span>,
+    b_res: Option<span style="color:#f92672">&lt;</span>BR<span style="color:#f92672">&gt;</span>,
+}
+</code></pre></div><p>不要忘记初始化它们：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_join</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>(a: <span style="color:#a6e22e">A</span>, b: <span style="color:#a6e22e">B</span>) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(AR, BR), E<span style="color:#f92672">&gt;&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    TryJoin {
+        a,
+        b,
+        <span style="color:#75715e">// 👇
+</span><span style="color:#75715e"></span>        a_res: None,
+        b_res: None,
+    }
+}
+</code></pre></div><p>现在计划是：</p>
+<ul>
+<li>如果 <code>a_res</code> 是 <code>Some</code> ，然后我们就不需要轮询 <code>a</code> ,因为它已经完成了</li>
+<li>同样的逻辑处理 <code>b_res</code> 和 <code>b</code></li>
+</ul>
+<p>让我们实现它。同时，因为我们已经在使用了 <code>unsafe</code> ，所以我们已经负责维护不变量（invariants），
+所以我决定同时固定 <code>a</code> 和 <code>b</code> ，如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> this <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.get_unchecked_mut() };
+    <span style="color:#66d9ef">let</span> (a, b) <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> {
+        (
+            Pin::new_unchecked(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a),
+            Pin::new_unchecked(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.b),
+        )
+    };
+
+    <span style="color:#66d9ef">if</span> this.a_res.is_none() {
+        <span style="color:#66d9ef">match</span> a.poll(cx) {
+            Poll::Pending <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Pending,
+            Poll::Ready(res) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> res {
+                Ok(x) <span style="color:#f92672">=&gt;</span> this.a_res <span style="color:#f92672">=</span> Some(x),
+                Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Ready(Err(e)),
+            },
+        }
+    }
+
+    <span style="color:#66d9ef">if</span> this.b_res.is_none() {
+        <span style="color:#66d9ef">match</span> b.poll(cx) {
+            Poll::Pending <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Pending,
+            Poll::Ready(res) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> res {
+                Ok(x) <span style="color:#f92672">=&gt;</span> this.b_res <span style="color:#f92672">=</span> Some(x),
+                Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Ready(Err(e)),
+            },
+        }
+    }
+
+    todo<span style="color:#f92672">!</span>()
+}
+</code></pre></div><p>好了，这个应该能让 <code>a</code> 和 <code>b</code> 有机会在我们崩溃之前完成：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 23:11:03.851  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 23:11:04.380  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+The application panicked (crashed).
+Message:  not yet implemented
+Location: src/tj.rs:69
+
+Backtrace omitted.
+Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+</code></pre><p>很好！现在我们需要做的就是解出两个结果并返回它们：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// instead of the `todo!()`:
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> (Some(_), Some(_)) <span style="color:#f92672">=</span> (<span style="color:#f92672">&amp;</span>this.a_res, <span style="color:#f92672">&amp;</span>this.b_res) {
+    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> this.a_res.take().unwrap();
+    <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> this.b_res.take().unwrap();
+    Poll::Ready(Ok((a, b)))
+} <span style="color:#66d9ef">else</span> {
+    Poll::Pending
+}
+</code></pre></div><p>可以工作：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 23:13:32.497  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 23:13:32.829  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 23:13:32.829  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+</code></pre><p>。。。但是这不是 <code>try_join</code> 的实现。我们正在做的和这个完全一样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// (pseudo-code, buncha things are missing)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_join</span>(a: <span style="color:#a6e22e">A</span>, b: <span style="color:#a6e22e">B</span>) {
+    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> self.a.<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> self.b.<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    Ok((a, b))
+}
+</code></pre></div><p>是顺序的执行的。请记住，仅仅是因为 tokio 的执行器可能用了一堆线程并意味着同时运行是自动的。
+前面我们不得不使用 <code>tokio::spwan</code> 或 <code>UnorderedFutures</code> 或 <code>try_join!</code> 让其同时运行。</p>
+<p>所以让我们重新看一下。。。当我们轮询 <code>a</code> 的是后发生了什么？</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">if</span> this.a_res.is_none() {
+    <span style="color:#66d9ef">match</span> a.poll(cx) {
+        Poll::Pending <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Pending,
+        Poll::Ready(res) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> res {
+            Ok(x) <span style="color:#f92672">=&gt;</span> this.a_res <span style="color:#f92672">=</span> Some(x),
+            Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Poll::Ready(Err(e)),
+        },
+    }
+}
+</code></pre></div><p>额，当轮询 <code>a</code> 的时候返回 <code>Poll::Pending</code> 时我们也会返回 <code>Poll::Pending</code>  。所以这就是问题。
+如果 <code>a</code> 正在等待（pending）我们不应该返回。因为如果这时候 <code>b</code> 已经准备好或者有错误呢？</p>
+<p>或者如果，我们像这样调用 <code>try_join</code> 呢：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Joining...&#34;</span>);
+<span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> tj::try_join(
+    <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">move</span> {
+        sleep(Duration::from_millis(<span style="color:#ae81ff">2000</span>)).<span style="color:#66d9ef">await</span>;
+        Ok(())
+    },
+    <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">move</span> {
+        sleep(Duration::from_millis(<span style="color:#ae81ff">10</span>)).<span style="color:#66d9ef">await</span>;
+        Err::<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span>(color_eyre::eyre::eyre<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;uh oh&#34;</span>))
+    },
+)
+.<span style="color:#66d9ef">await</span>;
+</code></pre></div><p>。。。然后 <code>a</code> 花费了 2 秒钟才准备好，同时 <code>b</code> 会在 10毫秒之后返回一个错误，如果我们轮询它！</p>
+<p>嗐，我们并没有：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 23:19:26.972  INFO waytoodeep: Joining...
+Jul 25 23:19:28.990  INFO waytoodeep: All done! res=Err(
+   0: uh oh
+
+Location:
+   src/main.rs:28
+(cut)
+</code></pre><p>（注意时间戳）</p>
+<p>重点是 <code>try_join</code> 会提前失败：一旦 Future 返回 <code>Result::Err~</code> 。</p>
+<p>所以我们必须同时轮询 <code>a</code> 和 <code>b</code> 。好吧。。。不是严格意义的同时。我们必须每次我们的 <code>TryJoin</code> future 对象被轮询时并发（concurrently）的轮询它们，
+直到它们返回结果。</p>
+<p>有一个简单解决办法 &ndash; 在任一 future 对象返回 <code>Poll::Pending</code> 时不返回 <code>Poll::Pending</code> 。</p>
+<p>同时，我厌倦了输入 <code>Poll::Ready</code> 并且 <code>Poll&lt;T&gt;</code> 实现了 <code>From&lt;T&gt;</code> ,所以我们可以使用 <code>.into()</code> 了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> this <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.get_unchecked_mut() };
+    <span style="color:#66d9ef">let</span> (a, b) <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> {
+        (
+            Pin::new_unchecked(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a),
+            Pin::new_unchecked(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.b),
+        )
+    };
+
+    <span style="color:#66d9ef">if</span> this.a_res.is_none() {
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Poll::Ready(res) <span style="color:#f92672">=</span> a.poll(cx) {
+            <span style="color:#66d9ef">match</span> res {
+                Ok(x) <span style="color:#f92672">=&gt;</span> this.a_res <span style="color:#f92672">=</span> Some(x),
+                Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Err(e).into(),
+            }
+        }
+    }
+
+    <span style="color:#66d9ef">if</span> this.b_res.is_none() {
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Poll::Ready(res) <span style="color:#f92672">=</span> b.poll(cx) {
+            <span style="color:#66d9ef">match</span> res {
+                Ok(x) <span style="color:#f92672">=&gt;</span> this.b_res <span style="color:#f92672">=</span> Some(x),
+                Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Err(e).into(),
+            }
+        }
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> (Some(_), Some(_)) <span style="color:#f92672">=</span> (<span style="color:#f92672">&amp;</span>this.a_res, <span style="color:#f92672">&amp;</span>this.b_res) {
+        <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> this.a_res.take().unwrap();
+        <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> this.b_res.take().unwrap();
+        Ok((a, b)).into()
+    } <span style="color:#66d9ef">else</span> {
+        Poll::Pending
+    }
+}
+</code></pre></div><p>让我们再次运行</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 23:22:40.238  INFO waytoodeep: Joining...
+Jul 25 23:22:40.253  INFO waytoodeep: All done! res=Err(
+   0: uh oh
+
+Location:
+   src/main.rs:28
+
+(cut)
+</code></pre><p>。。。可以了！我是说它按照预期的失败了。预期的失败就是成功。</p>
+<p>然后我们将这个方法应用到调用 <code>try_join</code> :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[tokio::main(flavor = </span><span style="color:#e6db74">&#34;current_thread&#34;</span><span style="color:#75715e">)]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Joining...&#34;</span>);
+    <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> tj::try_join(fetch_thing(<span style="color:#e6db74">&#34;first&#34;</span>), fetch_thing(<span style="color:#e6db74">&#34;second&#34;</span>)).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">?</span>res, <span style="color:#e6db74">&#34;All done!&#34;</span>);
+
+    Ok(())
+}
+</code></pre></div><p>我们可以看到竞争又回来了：有时 <code>first</code> 先完成，有时则不是：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 23:25:25.925  INFO waytoodeep: Joining...
+Jul 25 23:25:26.224  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 23:25:26.236  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 23:25:26.236  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+$ RUST_LOG=info cargo run --quiet --release
+Jul 25 23:25:26.937  INFO waytoodeep: Joining...
+Jul 25 23:25:27.237  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 23:25:27.242  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 23:25:27.242  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+$ RUST_LOG=info cargo run --quiet --release
+Jul 25 23:25:27.865  INFO waytoodeep: Joining...
+Jul 25 23:25:28.164  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 23:25:28.818  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 23:25:28.818  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+$ RUST_LOG=info cargo run --quiet --release
+Jul 25 23:25:30.153  INFO waytoodeep: Joining...
+Jul 25 23:25:31.477  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 23:25:31.496  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 23:25:31.496  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+</code></pre><p>。。。同时结果的顺序是正确的。</p>
+<p>非常好，我们实现了它！</p>
+<p>但是！</p>
+<h3 id="我们可以做的更好">我们可以做的更好</h3>
+<p>幸运的是，坏就是好。</p>
+<p>下面这个类型困扰着我：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    a: <span style="color:#a6e22e">A</span>,
+    b: <span style="color:#a6e22e">B</span>,
+    a_res: Option<span style="color:#f92672">&lt;</span>AR<span style="color:#f92672">&gt;</span>,
+    b_res: Option<span style="color:#f92672">&lt;</span>BR<span style="color:#f92672">&gt;</span>,
+}
+</code></pre></div><p>我其实只有在 <code>a</code> 完成后才需要 <code>a_res</code> 。一旦 <code>a</code> 完成然后将结果存储到 <code>a_res</code> ，我们就不再需要 <code>a</code> 了。</p>
+<p>实际上，甚至我们不应该再碰 <code>a</code>  。</p>
+<p>这听起来更像我们要么持有 <code>A</code> 要么持有 <code>AR</code> ，但是永远不会同时持有。</p>
+<blockquote>
+<p><code>SUM TYPES</code> : Rust 的枚举就是一个汇总类型。</p>
+</blockquote>
+<p>所以！汇总类型。Rust 枚举。这就是我们想要的。让我们创建一个叫做 <code>State</code> 的类型，然后它有两个变体：
+一个用于它还是 future 对象，一个用于它是一个结果。非常简单！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>F, T, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    F: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>T, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    Future(F),
+    Ok(T),
+}
+</code></pre></div><p>这将会非常棒！</p>
+<p>让我们赋给我们的 <code>TryJoin</code> 结构体：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    a: <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>A, AR, E<span style="color:#f92672">&gt;</span>,
+    b: <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>B, BR, E<span style="color:#f92672">&gt;</span>,
+}
+</code></pre></div><p>（是不是非常漂亮）</p>
+<p>然后初始化它们：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_join</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>(a: <span style="color:#a6e22e">A</span>, b: <span style="color:#a6e22e">B</span>) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(AR, BR), E<span style="color:#f92672">&gt;&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    TryJoin {
+        a: <span style="color:#a6e22e">State</span>::Future(a),
+        b: <span style="color:#a6e22e">State</span>::Future(b),
+    }
+}
+</code></pre></div><p>非常酷。然后我们只需要稍微调整一下我们的 <code>poll</code> 方法，我们需要将 <code>Pin&lt;&amp;mut Self&gt;</code> 转换为 <code>&amp;mut Self</code> 。。。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> this <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.get_unchecked_mut() };
+</code></pre></div><p>这是可以的，因为我们承诺维护不变量，也就是说我们不会转移（move） <code>State::Future</code> 内部。</p>
+<p>然后如果 <code>a</code> 是 <code>State::Future</code> 我们就轮询它，然后我们再传播错误或者保存它的结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> State::Future(a) <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a {
+    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { Pin::new_unchecked(a) };
+    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Poll::Ready(res) <span style="color:#f92672">=</span> a.poll(cx) {
+        <span style="color:#66d9ef">match</span> res {
+            Ok(t) <span style="color:#f92672">=&gt;</span> this.a <span style="color:#f92672">=</span> State::Ok(t),
+            Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Err(e).into(),
+        }
+    }
+}
+</code></pre></div><p>然后同样的修改 <code>b</code> 。。。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// you can figure that one out, I believe in you
+</span></code></pre></div><p>然后我们就完成了如果它们都是 <code>State::Ok</code> ！否则我们就返回 <code>Poll::Pending</code> :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">match</span> (this.a, this.b) {
+    (State::Ok(a), State::Ok(b)) <span style="color:#f92672">=&gt;</span> Ok((a, b)).into(),
+    _ <span style="color:#f92672">=&gt;</span> Poll::Pending,
+}
+</code></pre></div><p>非常好。</p>
+<p>除了它无法通过编译：</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+error[E0507]: cannot move out of `this.a` which is behind a mutable reference
+  --&gt; src/tj.rs:65:16
+   |
+65 |         match (this.a, this.b) {
+   |                ^^^^^^ move occurs because `this.a` has type `State&lt;A, AR, E&gt;`, which does not implement the `Copy` trait
+
+error[E0507]: cannot move out of `this.b` which is behind a mutable reference
+  --&gt; src/tj.rs:65:24
+   |
+65 |         match (this.a, this.b) {
+   |                        ^^^^^^ move occurs because `this.b` has type `State&lt;B, BR, E&gt;`, which does not implement the `Copy` trait
+
+error: aborting due to 2 previous errors
+
+For more information about this error, try `rustc --explain E0507`.
+error: could not compile `waytoodeep`
+
+To learn more, run the command again with --verbose.
+</code></pre><p>因为。。。我们只有 <code>&amp;mut Self</code> 而不是 <code>Self</code> 。</p>
+<p>我们没有自己的所有权，仅仅是借用我们自己。</p>
+<p>所以，我们不能将将我们的成员转移（move）出去，因为我们不能阻止其他人再次轮询 <code>TryJoin</code> 。
+所以这种情况，我们需要崩溃（panic）。</p>
+<p>当然，如果我们像 <code>Option&lt;T&gt;</code> 那样有一个 <code>.take()</code> 方法事情就会大大简化。
+它返回 Option 拥有的任何内容，或者 <code>None</code> 。</p>
+<p>但是我们没有 <code>None</code> 。我们只有 <code>State::Future</code> 和 <code>State::OK</code> ，没有“中立”（neutral）状态。</p>
+<p>让我们创建一个：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>F, T, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    F: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>T, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    Future(F),
+    Ok(T),
+    Gone,
+}
+</code></pre></div><p>现在，我们可以将 <code>this.a</code> 和 <code>this.b</code> 替换为 <code>State::Gone</code> 。。。或者它的返回结果（我们拥有所有权）。
+然后我们就可以将它们转移（move）出去。</p>
+<p>但是同时。。。我们需要再次对其进行模式匹配（pattern match）。</p>
+<p>就像：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">match</span> (<span style="color:#f92672">&amp;</span>this.a, <span style="color:#f92672">&amp;</span>this.b) {
+    (State::Ok(_), State::Ok(_)) <span style="color:#f92672">=&gt;</span> {
+        <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> std::mem::replace(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.a, State::Gone) {
+            State::Ok(t) <span style="color:#f92672">=&gt;</span> t,
+            _ <span style="color:#f92672">=&gt;</span> unreachable<span style="color:#f92672">!</span>(),
+        };
+        <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> std::mem::replace(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> this.b, State::Gone) {
+            State::Ok(t) <span style="color:#f92672">=&gt;</span> t,
+            _ <span style="color:#f92672">=&gt;</span> unreachable<span style="color:#f92672">!</span>(),
+        };
+        Ok((a, b)).into()
+    }
+    _ <span style="color:#f92672">=&gt;</span> Poll::Pending,
+}
+</code></pre></div><p>实话说。。。我看过更糟的代码。它只是没那么<a href="https://en.wikipedia.org/wiki/Don%27t%5Frepeat%5Fyourself">DRY</a>。</p>
+<p>非常好的实现！</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 25 23:52:24.097  INFO waytoodeep: Joining...
+Jul 25 23:52:25.050  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 25 23:52:25.061  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 25 23:52:25.061  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+</code></pre><p>看，只有 11ms 的间隔。</p>
+<h3 id="更进一步">更进一步？</h3>
+<p>这段代码再次困扰了我：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    a: <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>A, AR, E<span style="color:#f92672">&gt;</span>,
+    b: <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>B, BR, E<span style="color:#f92672">&gt;</span>,
+}
+</code></pre></div><p>因为现在 <code>a</code> 和 <code>b</code> 是三态的（tri-state）： <code>Future</code> 、 <code>Ok</code> 或者 <code>Gone</code> 。</p>
+<p>如果 <code>a</code> 和 <code>b</code> 都是 <code>Gone</code> 呢？这个状态不合理！</p>
+<p>如果发生了这个状态，我们现在将会永远返回 <code>Poll::Pending</code> &ndash; 这不太好 &ndash; 一个死锁。</p>
+<p>我们真正想要的是。。。两个枚举。实际上我们想要整个 <code>TryJoin</code> 类型是一个 <code>enum</code> 。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    Polling {
+        a: <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>A, AR, E<span style="color:#f92672">&gt;</span>,
+        b: <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>B, BR, E<span style="color:#f92672">&gt;</span>,
+    },
+    Done,
+}
+</code></pre></div><p>像这样初始化：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_join</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>(a: <span style="color:#a6e22e">A</span>, b: <span style="color:#a6e22e">B</span>) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(AR, BR), E<span style="color:#f92672">&gt;&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    TryJoin::Polling {
+        a: <span style="color:#a6e22e">State</span>::Future(a),
+        b: <span style="color:#a6e22e">State</span>::Future(b),
+    }
+}
+</code></pre></div><p>然后，surprice！ <code>Poll&lt;T&gt;</code> 实现了 <a href="https://doc.rust-lang.org/stable/std/ops/trait.Try.html">Try</a> trait。所以我们可以使用 <code>?</code> 。
+所以最终我们的代码实际上非常短小：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span> Future <span style="color:#66d9ef">for</span> TryJoin<span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Output</span> <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(AR, BR), E<span style="color:#f92672">&gt;</span>;
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+        <span style="color:#66d9ef">let</span> this <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.get_unchecked_mut() };
+        <span style="color:#66d9ef">let</span> (a, b) <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> this {
+            Self::Polling { a, b } <span style="color:#f92672">=&gt;</span> (a, b),
+            Self::Done <span style="color:#f92672">=&gt;</span> panic<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;TryJoin future polled after completion&#34;</span>),
+        };
+
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> State::Future(fut) <span style="color:#f92672">=</span> a {
+            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Poll::Ready(res) <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { Pin::new_unchecked(fut) }.poll(cx) {
+                <span style="color:#f92672">*</span>a <span style="color:#f92672">=</span> State::Ok(res<span style="color:#f92672">?</span>);
+            }
+        }
+
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> State::Future(fut) <span style="color:#f92672">=</span> b {
+            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Poll::Ready(res) <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { Pin::new_unchecked(fut) }.poll(cx) {
+                <span style="color:#f92672">*</span>b <span style="color:#f92672">=</span> State::Ok(res<span style="color:#f92672">?</span>);
+            }
+        }
+
+        <span style="color:#66d9ef">match</span> (a, b) {
+            (State::Ok(_), State::Ok(_)) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> std::mem::replace(this, Self::Done) {
+                Self::Polling {
+                    a: <span style="color:#a6e22e">State</span>::Ok(a),
+                    b: <span style="color:#a6e22e">State</span>::Ok(b),
+                } <span style="color:#f92672">=&gt;</span> Ok((a, b)).into(),
+                _ <span style="color:#f92672">=&gt;</span> unreachable<span style="color:#f92672">!</span>(),
+            },
+            _ <span style="color:#f92672">=&gt;</span> Poll::Pending,
+        }
+    }
+}
+</code></pre></div><p>现在，我知道你在想什么。 <code>Pin&lt;&amp;mut T&gt;</code> 不是恰恰用来避免像 <code>std::mem::swap</code> 和 <code>std::mem::replace</code> 吗？
+这些所有的转移（move）都是围绕着内存！这是被禁止的！是的，我们承诺了不去转移（move）它。
+但是在这个情况下，我们只是在完成轮询两个 future 对象后转移了 <code>self</code> / <code>this</code> 。</p>
+<p>然后我们就再也没有使用过两个 future 对象，无论固定还是非固定。同时我们从来也没保证过结果自身是否将要被固定（pinned）！</p>
+<p>我们只需要决定某些东西是“永远固定”还是“永不固定”，然后我们可能会编写结果正确的代码。</p>
+<p>在我们的场景下，只有 <code>TryJoin::Polling(State::Future(_))</code> 就是“永远固定” 的，其他都不是。</p>
+<p>当然，我们快速的从 <code>Pin&lt;&amp;mut Self&gt;</code> 切换到 <code>&amp;mut Self</code> ，然后又回到 <code>Pin&lt;&amp;mut A&gt;</code> ，
+但只要我们不要在中间移动就没有问题。</p>
+<p>如果我们在持有 future 对象的情况下使用 <code>std::mem:replace</code> 或 <code>std::mem::swap</code> 就会不妙。
+所以，我们还好，我想，我不太确定。如果不是，有人应该会留言。</p>
+<h3 id="就这样">就这样</h3>
+<p>让我们回顾我们的工作：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/tj.rs`
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">use</span> std::{
+    future::Future,
+    pin::Pin,
+    task::{Context, Poll},
+};
+
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_join</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>(a: <span style="color:#a6e22e">A</span>, b: <span style="color:#a6e22e">B</span>) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(AR, BR), E<span style="color:#f92672">&gt;&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    TryJoin::Polling {
+        a: <span style="color:#a6e22e">State</span>::Future(a),
+        b: <span style="color:#a6e22e">State</span>::Future(b),
+    }
+}
+
+<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>F, T, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    F: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>T, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    Future(F),
+    Ok(T),
+}
+
+<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    Polling {
+        a: <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>A, AR, E<span style="color:#f92672">&gt;</span>,
+        b: <span style="color:#a6e22e">State</span><span style="color:#f92672">&lt;</span>B, BR, E<span style="color:#f92672">&gt;</span>,
+    },
+    Done,
+}
+
+<span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span> Future <span style="color:#66d9ef">for</span> TryJoin<span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">where</span>
+    A: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>AR, E<span style="color:#f92672">&gt;&gt;</span>,
+    B: <span style="color:#a6e22e">Future</span><span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>BR, E<span style="color:#f92672">&gt;&gt;</span>,
+{
+    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Output</span> <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>(AR, BR), E<span style="color:#f92672">&gt;</span>;
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;_</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+        <span style="color:#66d9ef">let</span> this <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { self.get_unchecked_mut() };
+        <span style="color:#66d9ef">let</span> (a, b) <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> this {
+            Self::Polling { a, b } <span style="color:#f92672">=&gt;</span> (a, b),
+            Self::Done <span style="color:#f92672">=&gt;</span> panic<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;TryJoin future polled after completion&#34;</span>),
+        };
+
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> State::Future(fut) <span style="color:#f92672">=</span> a {
+            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Poll::Ready(res) <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { Pin::new_unchecked(fut) }.poll(cx) {
+                <span style="color:#f92672">*</span>a <span style="color:#f92672">=</span> State::Ok(res<span style="color:#f92672">?</span>);
+            }
+        }
+
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> State::Future(fut) <span style="color:#f92672">=</span> b {
+            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Poll::Ready(res) <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { Pin::new_unchecked(fut) }.poll(cx) {
+                <span style="color:#f92672">*</span>b <span style="color:#f92672">=</span> State::Ok(res<span style="color:#f92672">?</span>);
+            }
+        }
+
+        <span style="color:#66d9ef">match</span> (a, b) {
+            (State::Ok(_), State::Ok(_)) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> std::mem::replace(this, Self::Done) {
+                Self::Polling {
+                    a: <span style="color:#a6e22e">State</span>::Ok(a),
+                    b: <span style="color:#a6e22e">State</span>::Ok(b),
+                } <span style="color:#f92672">=&gt;</span> Ok((a, b)).into(),
+                _ <span style="color:#f92672">=&gt;</span> unreachable<span style="color:#f92672">!</span>(),
+            },
+            _ <span style="color:#f92672">=&gt;</span> Poll::Pending,
+        }
+    }
+}
+</code></pre></div><p>还有我们小小的 HTTPS 客户端：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/main.rs`
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">use</span> color_eyre::Report;
+<span style="color:#66d9ef">use</span> std::{net::SocketAddr, sync::Arc};
+<span style="color:#66d9ef">use</span> tokio::{
+    io::{AsyncReadExt, AsyncWriteExt},
+    net::TcpStream,
+};
+<span style="color:#66d9ef">use</span> tokio_rustls::{rustls::ClientConfig, TlsConnector};
+<span style="color:#66d9ef">use</span> tracing::info;
+<span style="color:#66d9ef">use</span> tracing_subscriber::EnvFilter;
+<span style="color:#66d9ef">use</span> webpki::DNSNameRef;
+
+<span style="color:#66d9ef">mod</span> tj;
+
+<span style="color:#75715e">#[tokio::main(flavor = </span><span style="color:#e6db74">&#34;current_thread&#34;</span><span style="color:#75715e">)]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    setup()<span style="color:#f92672">?</span>;
+
+    info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Joining...&#34;</span>);
+    <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> tj::try_join(fetch_thing(<span style="color:#e6db74">&#34;first&#34;</span>), fetch_thing(<span style="color:#e6db74">&#34;second&#34;</span>)).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">?</span>res, <span style="color:#e6db74">&#34;All done!&#34;</span>);
+
+    Ok(())
+}
+
+<span style="color:#75715e">#[allow(dead_code)]</span>
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fetch_thing</span>(name: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; Result<span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">str</span>, Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#75715e">// look out it&#39;s port 443 now
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> addr: <span style="color:#a6e22e">SocketAddr</span> <span style="color:#f92672">=</span> ([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">443</span>).into();
+    <span style="color:#66d9ef">let</span> socket <span style="color:#f92672">=</span> TcpStream::connect(addr).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#75715e">// establish a TLS session...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> connector: <span style="color:#a6e22e">TlsConnector</span> <span style="color:#f92672">=</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> config <span style="color:#f92672">=</span> ClientConfig::new();
+        config
+            .root_store
+            .add_server_trust_anchors(<span style="color:#f92672">&amp;</span>webpki_roots::TLS_SERVER_ROOTS);
+        Arc::new(config).into()
+    };
+    <span style="color:#66d9ef">let</span> dnsname <span style="color:#f92672">=</span> DNSNameRef::try_from_ascii_str(<span style="color:#e6db74">&#34;one.one.one.one&#34;</span>)<span style="color:#f92672">?</span>;
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> socket <span style="color:#f92672">=</span> connector.connect(dnsname, socket).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#75715e">// we&#39;re writing straight to the socket, there&#39;s no buffering
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// so no need to flush
+</span><span style="color:#75715e"></span>    socket.write_all(<span style="color:#e6db74">b&#34;GET / HTTP/1.1</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;Host: one.one.one.one</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;User-Agent: cool-bear</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;Connection: close</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+    socket.write_all(<span style="color:#e6db74">b&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> response <span style="color:#f92672">=</span> String::with_capacity(<span style="color:#ae81ff">256</span>);
+    socket.read_to_string(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> response).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">let</span> status <span style="color:#f92672">=</span> response.lines().next().unwrap_or_default();
+    info<span style="color:#f92672">!</span>(<span style="color:#f92672">%</span>status, , <span style="color:#e6db74">&#34;Got response!&#34;</span>);
+
+    <span style="color:#75715e">// dropping the socket will close the connection
+</span><span style="color:#75715e"></span>
+    Ok(name)
+}
+
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">setup</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">if</span> std::env::var(<span style="color:#e6db74">&#34;RUST_LIB_BACKTRACE&#34;</span>).is_err() {
+        std::env::set_var(<span style="color:#e6db74">&#34;RUST_LIB_BACKTRACE&#34;</span>, <span style="color:#e6db74">&#34;1&#34;</span>)
+    }
+    color_eyre::install()<span style="color:#f92672">?</span>;
+
+    <span style="color:#66d9ef">if</span> std::env::var(<span style="color:#e6db74">&#34;RUST_LOG&#34;</span>).is_err() {
+        std::env::set_var(<span style="color:#e6db74">&#34;RUST_LOG&#34;</span>, <span style="color:#e6db74">&#34;info&#34;</span>)
+    }
+    tracing_subscriber::fmt::fmt()
+        .with_env_filter(EnvFilter::from_default_env())
+        .init();
+
+    Ok(())
+}
+</code></pre></div><p>And it works.</p>
+<pre><code class="language-nil" data-lang="nil">$ RUST_LOG=info cargo run --quiet --release
+Jul 26 00:08:13.399  INFO waytoodeep: Joining...
+Jul 26 00:08:13.707  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
+Jul 26 00:08:13.709  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=second
+Jul 26 00:08:13.710  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
+</code></pre><p>2ms 间隔！这是一个新的记录。</p>
 
 </article>
 
