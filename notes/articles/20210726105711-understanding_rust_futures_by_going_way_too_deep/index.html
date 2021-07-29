@@ -648,7 +648,7 @@ Jul 25 18:06:00.122 DEBUG Connection{peer=Client}: rustls::session: Sending warn
 </code></pre><blockquote>
 <p>上面出现了 rustls，并且使用了 TLS 1.3，作者做过<a href="https://www.youtube.com/watch?v=YHIiVsFybLA">一期视频</a>介绍过 TLS 1.3。</p>
 </blockquote>
-<p>这些应该足够说服你，除非你值相信内核所说的，所以让我们看看调用堆栈只为了更加确定。</p>
+<p>这些应该足够说服你，除非你只相信内核所说的，所以让我们看看调用堆栈只为了更加确定。</p>
 <p>我们在 <code>await</code> future 对象之前增加一秒钟的休眠：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> tokio::time::sleep;
 <span style="color:#66d9ef">use</span> std::time::Duration;
@@ -708,7 +708,7 @@ Jul 25 18:31:47.627  INFO waytoodeep: Got a response! url=https://fasterthanli.m
 <pre><code class="language-nil" data-lang="nil">$ cargo build --quiet &amp;&amp; strace -e 'connect' ./target/debug/waytoodeep &gt; /dev/null
 connect(9, {sa_family=AF_INET, sin_port=htons(443), sin_addr=inet_addr(&quot;172.67.196.144&quot;)}, 16) = -1 EINPROGRESS (Operation now in progress)
 +++ exited with 0 +++
-</code></pre><p>现在足够明确了，只有一次连接。</p>
+</code></pre><p>现在可以确认了，只有一次连接。</p>
 <p>但是，第一个请求完成后才开始了第二个请求。第一个耗费了 <code>536-396 = 140</code> 毫秒，但是第二个耗费了 <code>627-537 = 90</code> 毫秒！</p>
 <blockquote>
 <p>Emmm，现在我们运行构建的是 debug 版本不是吗？</p>
@@ -724,7 +724,7 @@ Jul 25 18:34:59.427 DEBUG reqwest::async_impl::client: response '200 OK' for htt
 Jul 25 18:34:59.427  INFO waytoodeep: Got a response! url=https://fasterthanli.me/series/advent-of-code-2020/part-13 content_type=Some(&quot;text/html; charset=utf-8&quot;)
 </code></pre><p>我们计算一下延迟 <code>343-211 = 132ms</code> ， <code>427-343 = 84ms</code> 。</p>
 <p>几毫秒的差异可能的解释是邻居打开了一个 YouTube 视频导致无线电波爆发，从而导致冲突（802.11 没有空中流量控制，全民自由（free-for-all））和重传。</p>
-<p>或者另外一百万个原因。这也是我们不继续分析下的原因。</p>
+<p>或者另外一百万个原因。这也是我们不继续分析的原因。</p>
 <p>让我们回到文章的主题。</p>
 <h3 id="等待第一个完成">等待第一个完成</h3>
 <p>是的！等待第一个完成。所以我们如何让程序同时请求两个？</p>
@@ -957,13 +957,13 @@ Jul 25 19:11:09.338  INFO waytoodeep: Got a response! url=https://fasterthanli.m
 $ RUST_LOG=info cargo run --quiet --release
 Jul 25 19:11:10.134  INFO waytoodeep: Got a response! url=https://fasterthanli.me/series/advent-of-code-2020/part-13 content_type=Some(&quot;text/html; charset=utf-8&quot;)
 Jul 25 19:11:10.144  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some(&quot;text/html; charset=utf-8&quot;)
-</code></pre><p>。。。 “whats-in-the-box” 大部分情况下都胜出了（它确实先开始），但是“advent-of-code-2020”也首先完成了几次。这也是我们希望看到的。</p>
+</code></pre><p>。。。大部分情况下“whats-in-the-box”胜出了（它确实先开始），但是“advent-of-code-2020”也首先完成了几次。这也是我们希望看到的。</p>
 <blockquote>
 <p>谬论：也就是说因为有线程请求被并行（parallel）的执行了。</p>
 </blockquote>
 <p>不是的。但是不要相信我，让我们继续深入。</p>
 <h3 id="不是因为线程">不是因为线程</h3>
-<p>让我们通过 GDB 运行我们的小程序，大部分原因是我还没有对 LLDB 形成肌肉记忆（我相信那唾手可得）。</p>
+<p>让我们通过 GDB 运行我们的小程序，大部分原因是我还没有对 LLDB 形成肌肉记忆，我相信这是水到渠成的事。</p>
 <pre><code class="language-nil" data-lang="nil">$ cargo build --quiet &amp;&amp; gdb --quiet --args ./target/debug/waytoodeep
 Reading symbols from ./target/debug/waytoodeep...
 warning: Missing auto-load script at offset 0 in section .debug_gdb_scripts
@@ -1557,7 +1557,7 @@ help: consider wrapping the receiver expression with the appropriate type
     todo<span style="color:#f92672">!</span>()
 }
 </code></pre></div><p>可以通过编译。但是我们在使用 <code>unsafe</code> ，也就意味着编译器正式停止 <del>照顾</del> 检查我们的代码。
-我们自己必须强制执行一些不变量（invariants），并且非常非常小心让，同时让其他人审查（review）我们的工作，
+我们自己必须强制执行一些不变量（invariants），并且非常非常小心，同时让其他人审查（review）我们的工作，
 但是依然可能会出错，因为他们也会休息。</p>
 <p>现在，非常棒的是我们可以轮询 <code>a</code> 。它如果完成会返回 <code>Poll::Ready(Result&lt;AR, E&gt;)</code> ，
 否则就是等会会完成则返回 <code>Poll::Pending</code> 。</p>
