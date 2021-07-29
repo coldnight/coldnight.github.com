@@ -1224,7 +1224,7 @@ Jul 25 19:11:10.134  INFO waytoodeep: Got a response! url=https://fasterthanli.m
 Jul 25 19:11:10.144  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some("text/html; charset=utf-8")
 ```
 
-。。。 “whats-in-the-box” 大部分情况下都胜出了（它确实先开始），但是“advent-of-code-2020”也首先完成了几次。这也是我们希望看到的。
+。。。大部分情况下“whats-in-the-box”胜出了（它确实先开始），但是“advent-of-code-2020”也首先完成了几次。这也是我们希望看到的。
 
 > 谬论：也就是说因为有线程请求被并行（parallel）的执行了。
 
@@ -1233,7 +1233,7 @@ Jul 25 19:11:10.144  INFO waytoodeep: Got a response! url=https://fasterthanli.m
 
 ### 不是因为线程 {#不是因为线程}
 
-让我们通过 GDB 运行我们的小程序，大部分原因是我还没有对 LLDB 形成肌肉记忆（我相信那唾手可得）。
+让我们通过 GDB 运行我们的小程序，大部分原因是我还没有对 LLDB 形成肌肉记忆，我相信这是水到渠成的事。
 
 ```nil
 $ cargo build --quiet && gdb --quiet --args ./target/debug/waytoodeep
