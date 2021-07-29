@@ -2038,7 +2038,7 @@ fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
 ```
 
 可以通过编译。但是我们在使用 `unsafe` ，也就意味着编译器正式停止 ~~照顾~~ 检查我们的代码。
-我们自己必须强制执行一些不变量（invariants），并且非常非常小心让，同时让其他人审查（review）我们的工作，
+我们自己必须强制执行一些不变量（invariants），并且非常非常小心，同时让其他人审查（review）我们的工作，
 但是依然可能会出错，因为他们也会休息。
 
 现在，非常棒的是我们可以轮询 `a` 。它如果完成会返回 `Poll::Ready(Result<AR, E>)` ，
