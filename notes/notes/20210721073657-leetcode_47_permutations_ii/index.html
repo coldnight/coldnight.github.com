@@ -64,7 +64,7 @@
 Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0,
 </code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permute(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permuteUnique(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
         set<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
         vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> ret;
 
@@ -79,7 +79,7 @@ Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0,
         <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
             n <span style="color:#f92672">=</span> nums.back();
             nums.pop_back();
-            perms <span style="color:#f92672">=</span> permute(nums);
+            perms <span style="color:#f92672">=</span> permuteUnique(nums);
             <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> perm : perms) {
                 perm.push_back(n);
                 res.insert(perm);
