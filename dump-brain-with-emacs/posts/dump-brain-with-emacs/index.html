@@ -156,7 +156,7 @@ $ brew install emacs-mac
 <p>同时 Emacs 有很多临时的 buffer 来充当日志的角色，比如默认的 <code>*Messages*</code> (<code>C-x b *Messages* RET</code>) 就是一个只读 buffer 显示一些日志信息，某些操作失败了之后也会保存一些错误消息到指定的 buffer 中，我们只要切换过去就能看到。</p>
 <h2 id="基本增强">基本增强</h2>
 <p>默认安装的 Emacs 可以说是又丑又不好用，所以为了使用更加顺畅或者更贴合现代编辑器，我们需要修改一些配置并做一些插件的扩展。</p>
-<figure><img src="/ox-hugo/00-installation.png"/>
+<figure><img src="/dump-brain-with-emacs/ox-hugo/00-installation.png"/>
 </figure>
 
 <h3 id="创建配置文件">创建配置文件</h3>
@@ -306,7 +306,7 @@ touch ~/.emacs.d/init.el
   (display-battery-mode <span style="color:#ae81ff">1</span>))
 </code></pre></div><p>此时我们可以运行当前 buffer 让配置生效： <code>M-x eval-buffer RET</code> ，然后通过 <code>C-x C-s</code> 进行保存。
 此时效果如下：</p>
-<figure><img src="/ox-hugo/01-basic.png"/>
+<figure><img src="/dump-brain-with-emacs/ox-hugo/01-basic.png"/>
 </figure>
 
 <p>对比上面可以看到中间灰色的就是 mode-line，其上面增加显示了时间、电量，并且去掉了菜单栏滚动条等，并且在左边显示了行号。同时我觉得有必要解释下 mode-line 各个部分的值：</p>
@@ -348,7 +348,7 @@ $ git clone git@github.com:raxod502/straight.el.git straight/repos/straight.el
       (eval-print-last-sexp)))
   (<span style="color:#a6e22e">load</span> bootstrap-file <span style="color:#66d9ef">nil</span> <span style="color:#e6db74">&#39;nomessage</span>))
 </code></pre></div><p>然后我们开始执行当前 buffer： <code>M-x eval-buffer RET</code> ，然后 straight.el 就会开始同步源：
-<img src="/ox-hugo/02-package.png" alt=""></p>
+<img src="/dump-brain-with-emacs/ox-hugo/02-package.png" alt=""></p>
 <h3 id="外观">外观</h3>
 <p>经过漫长的等待之后，我们终于可以进行下一步了：美化！我们将安装配置以下插件：</p>
 <ul>
@@ -436,11 +436,11 @@ $ git clone git@github.com:raxod502/straight.el.git straight/repos/straight.el
   (<span style="color:#e6db74">&#34;C-c t p&#34;</span> <span style="color:#f92672">.</span> centaur-tabs-backward)
   (<span style="color:#e6db74">&#34;C-c t n&#34;</span> <span style="color:#f92672">.</span> centaur-tabs-forward))
 </code></pre></div><p>又是一次漫长的等待！</p>
-<figure><img src="/ox-hugo/03-install-pretty.png"/>
+<figure><img src="/dump-brain-with-emacs/ox-hugo/03-install-pretty.png"/>
 </figure>
 
 <p>好了，现在我们还需要安装一下 <code>all-the-icons</code> 的字体： <code>M-x all-the-icons-install-fonts RET</code> 。现在再看我们的 Emacs：</p>
-<figure><img src="/ox-hugo/04-pretty.png"/>
+<figure><img src="/dump-brain-with-emacs/ox-hugo/04-pretty.png"/>
 </figure>
 
 <p>是不是漂亮多了（特意放大了窗体）！</p>
@@ -525,7 +525,7 @@ $ git clone git@github.com:raxod502/straight.el.git straight/repos/straight.el
   :init
   (which-key-mode))
 </code></pre></div><p>看下现在的操作：</p>
-<figure><img src="/ox-hugo/08QtGtwill.gif"/>
+<figure><img src="/dump-brain-with-emacs/ox-hugo/08QtGtwill.gif"/>
 </figure>
 
 <h2 id="改变操作习惯">改变操作习惯</h2>
@@ -675,7 +675,7 @@ $ git clone git@github.com:raxod502/straight.el.git straight/repos/straight.el
 <p>org-roam 刚刚发布了 v2（我们现在用的也是 v2），支持基于 headline 创建节点，我们可以通过 Org-mode 语法创建一个 headline（以 <code>*</code> 开头），
 然后光标移动上去执行 <code>M-x org-id-get-create</code> ，这时候（或许等一会）你再次通过 <code>C-c n f</code> 就能看到一个指向该 Headline 的节点。</p>
 <p>只有亲自试一下你才能感受到 org-roam 的强大！</p>
-<figure><img src="/ox-hugo/cYKhCjkqQN.gif"/>
+<figure><img src="/dump-brain-with-emacs/ox-hugo/cYKhCjkqQN.gif"/>
 </figure>
 
 <h2 id="进阶">进阶</h2>
@@ -867,7 +867,7 @@ $ git push origin master
 <li><code>C-x n w</code> 退出聚焦</li>
 </ol>
 <p>单纯的描述可能无法理解，我们可以看一段操作：
-<img src="/ox-hugo/F6SrSTKLHo.gif" alt=""></p>
+<img src="/dump-brain-with-emacs/ox-hugo/F6SrSTKLHo.gif" alt=""></p>
 <h3 id="连接可视化-org-roam-ui">连接可视化：org-roam-ui</h3>
 <p><a href="https://github.com/org-roam/org-roam-ui">org-roam-ui</a> 可以对连接可视化（不仅如此），效果如下：
 <img src="https://user-images.githubusercontent.com/21983833/127746882-4ba00691-3be4-49d6-8c8c-e139a14596c2.png" alt=""></p>
