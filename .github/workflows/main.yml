@@ -30,6 +30,13 @@ jobs:
         with:
           source: "notes"
           target: "output/notes"
+
+      - name: copy dump-brain-with-emacs to static
+        uses: MadaraUchiha/copy-action@master
+        with:
+          source: "dump-brain-with-emacs"
+          target: "output/dump-brain-with-emacs"
+
       - name: GitHub Pages Pelican Build Action
         uses: nelsonjchen/gh-pages-pelican-action@0.1.10
         env:
