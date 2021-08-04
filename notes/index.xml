@@ -6,7 +6,28 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 03 Aug 2021 07:46:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 04 Aug 2021 07:10:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode: 40. Combination Sum II</title>
+      <link>https://www.linuxzen.com/notes/notes/20210804071039-leetcode_40_combination_sum_ii/</link>
+      <pubDate>Wed, 04 Aug 2021 07:10:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210804071039-leetcode_40_combination_sum_ii/</guid>
+      <description>https://leetcode.com/problems/combination-sum-ii/
+LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。</description>
+    </item>
+    
+    <item>
+      <title>LeetCode: 39. Combination Sum</title>
+      <link>https://www.linuxzen.com/notes/notes/20210804064757-leetcode_39_combination_sum/</link>
+      <pubDate>Wed, 04 Aug 2021 06:47:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210804064757-leetcode_39_combination_sum/</guid>
+      <description>https://leetcode.com/problems/combination-sum/
+class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { backtracking(candidates, 0, target); return res; } private: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; void backtracking(vector&amp;lt;int&amp;gt; &amp;amp; candidates, int n, int target) { if (n == target) { res.push_back(track); return; } // this is new  if (n &amp;gt; target) { return; } for (auto c : candidates) { track.push_back(c); backtracking(candidates, n + c, target); track.pop_back(); } } }; 问题：会有不同顺序但是元素相同的数组，如何快速高效的进行过滤？
+- [[2,2,3],[2,3,2],[3,2,2],[7]] + [[2,2,3],[7]] 一个比较 tricky 的技巧，就是判断最终结果是不是升序的，不是就放弃，居然可以通过：</description>
+    </item>
+    
     <item>
       <title>LeetCode: 52. N-Queens II</title>
       <link>https://www.linuxzen.com/notes/notes/20210803074630-leetcode_52_n_queens_ii/</link>
