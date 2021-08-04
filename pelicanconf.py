@@ -45,7 +45,7 @@ STATIC_PATHS = [
     # "extra/404.html",
 ]
 
-OUTPUT_RETENTION = ["notes", "dump-brain-with-emacs"]
+OUTPUT_RETENTION = ["notes"]
 
 # STATIC_SAVE_AS = "static/upload/"
 EXTRA_PATH_METADATA = {
