@@ -59,64 +59,16 @@
 <li><a href="/notes/notes/20200320172945_leetcode_4_median_of_two_sorted_arrays/">LeetCode: 4.Median of Two Sorted Arrays</a></li>
 <li><a href="/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/">LeetCode: 5.Longest Palindromic Substring</a></li>
 <li><a href="/notes/notes/20200320173548_leetcode_6_zigzag_conversion/">LeetCode: 6.ZigZag Conversion</a></li>
+<li><a href="/notes/notes/20210714065549-leetcode_92_reverse_linked_list_ii/">LeetCode: 92. Reverse Linked List II</a></li>
+<li><a href="/notes/notes/20210715064442-leetcode_25_reverse_nodes_in_k_group/">LeetCode: 25. Reverse Nodes in k-Group</a></li>
+<li><a href="/notes/notes/20210719073125-leetcode_46_permutations/">LeetCode: 46. Permutations</a></li>
+<li><a href="/notes/notes/20210721073657-leetcode_47_permutations_ii/">LeetCode: 47. Permutations II</a></li>
+<li><a href="/notes/notes/20210802073234-leetcode_51_n_queues/">LeetCode: 51. N-Queens</a></li>
+<li><a href="/notes/notes/20210803074630-leetcode_52_n_queens_ii/">LeetCode: 52. N-Queens II</a></li>
+<li><a href="/notes/notes/20210804064757-leetcode_39_combination_sum/">LeetCode: 39. Combination Sum</a></li>
+<li><a href="/notes/notes/20210804071039-leetcode_40_combination_sum_ii/">LeetCode: 40. Combination Sum II</a></li>
+<li><a href="/notes/notes/20210805070351-leetcode_36_valid_sudoku/">LeetCode: 36. Valid Sudoku</a></li>
 </ul>
-<h2 id="数独有效性">数独有效性</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">bool</span> isValidSudoku(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board) {
-        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> wow(<span style="color:#ae81ff">9</span>,<span style="color:#ae81ff">0</span>);
-        <span style="color:#66d9ef">int</span> mux1;
-        <span style="color:#66d9ef">int</span> mux2;
-        <span style="color:#66d9ef">int</span> mux3;
-        <span style="color:#66d9ef">int</span> box_index;
-
-        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">9</span>;i<span style="color:#f92672">++</span>){
-            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;j<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">9</span>;j<span style="color:#f92672">++</span>){
-                <span style="color:#66d9ef">if</span>(board[i][j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;.&#39;</span>){
-                    <span style="color:#66d9ef">continue</span>;
-                }
-                mux1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x01</span> <span style="color:#f92672">&lt;&lt;</span> (board[i][j] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;1&#39;</span>);
-                mux2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x01</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">9</span> <span style="color:#f92672">&lt;&lt;</span> (board[i][j] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;1&#39;</span>);
-                mux3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x01</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">9</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">9</span> <span style="color:#f92672">&lt;&lt;</span> (board[i][j] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;1&#39;</span>);
-                box_index <span style="color:#f92672">=</span> (i<span style="color:#f92672">/</span><span style="color:#ae81ff">3</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> j<span style="color:#f92672">/</span><span style="color:#ae81ff">3</span>;
-                <span style="color:#66d9ef">if</span>((wow[i]<span style="color:#f92672">&amp;</span>mux1) <span style="color:#f92672">!=</span> mux1 <span style="color:#f92672">&amp;&amp;</span> (wow[j]<span style="color:#f92672">&amp;</span>mux2) <span style="color:#f92672">!=</span> mux2 <span style="color:#f92672">&amp;&amp;</span> (wow[box_index]<span style="color:#f92672">&amp;</span>mux3) <span style="color:#f92672">!=</span> mux3){
-                    wow[i] <span style="color:#f92672">=</span> wow[i]<span style="color:#f92672">|</span>mux1;
-                    wow[j] <span style="color:#f92672">=</span> wow[j]<span style="color:#f92672">|</span>mux2;
-                    wow[box_index] <span style="color:#f92672">=</span> wow[box_index]<span style="color:#f92672">|</span>mux3;
-                }
-                <span style="color:#66d9ef">else</span>{
-                    <span style="color:#66d9ef">return</span> false;
-                }
-            }
-        }
-        <span style="color:#66d9ef">return</span> true;
-    }
-};
-</code></pre></div><p>#BEGIN_SRC
-&lt;- high &mdash;&mdash;&mdash;&mdash;- low -&gt;
-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- wow(i:0,j:0) 0 -&gt; | 010 | 010 |</p>
-<table>
-<thead>
-<tr>
-<th>2</th>
-<th>1</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-</tr>
-<tr>
-<td>1</td>
-<td>3</td>
-<td>2</td>
-</tr>
-</tbody>
-</table>
-<p>#END_SRC</p>
 
 </article>
 

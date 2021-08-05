@@ -6,7 +6,35 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 04 Aug 2021 11:54:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 Aug 2021 07:43:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>批处理系统</title>
+      <link>https://www.linuxzen.com/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Thu, 05 Aug 2021 07:43:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LeetCode: 37. Sudoku Solver</title>
+      <link>https://www.linuxzen.com/notes/notes/20210805073600-leetcode_37_sudoku_solver/</link>
+      <pubDate>Thu, 05 Aug 2021 07:36:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210805073600-leetcode_37_sudoku_solver/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LeetCode: 36. Valid Sudoku</title>
+      <link>https://www.linuxzen.com/notes/notes/20210805070351-leetcode_36_valid_sudoku/</link>
+      <pubDate>Thu, 05 Aug 2021 07:03:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210805070351-leetcode_36_valid_sudoku/</guid>
+      <description>https://leetcode.com/problems/valid-sudoku/
+&amp;lt;- high -- low -&amp;gt; +------------------- wow(row(i):0,col(j):0) 0 -&amp;gt; [ 0010, 0010 ] | 1 -&amp;gt; [ 0000, 0000 ] | 2 -&amp;gt; [ 0000, 0000 ] | | +--------------- wow(row(i):0,col(j):1) 0 -&amp;gt; [ 0010 | 1 = 0011, 0010 ] | | 1 -&amp;gt; [ 0000, 0000 | 1 = 0001 ] | | 2 -&amp;gt; [ 0000, 0000 ] | | | | +----------- wow(row(i):0,col(j):2) 0 -&amp;gt; [ 0011 | 3 = 0100, 0010 ] | | | 1 -&amp;gt; [ 0000, 0001 ] | | | 2 -&amp;gt; [ 0000, 0000 | 3 = 0100 ] +---+---+---+ | 2 | 1 | 3 | +---+---+---+ ----| 3 | 2 | 1 | | +---+---+---+ | | 1 | 3 | 2 | | +---+---+---+ |- wow(row(i):1,col(j):0) 0 -&amp;gt; [0010 | 3 = 0110, 0010] +---------------------+ 1 -&amp;gt; [0000, 0001 | 3 = 0101] 2 -&amp;gt; [0000, 0100] class Solution { public: bool isValidSudoku(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp;gt;&amp;amp; board) { vector&amp;lt;int&amp;gt; wow(9,0); int mux1; int mux2; int mux3; int box_index; for(int i=0;i&amp;lt;9;i++){ for(int j=0;j&amp;lt;9;j++){ if(board[i][j] == &amp;#39;.</description>
+    </item>
+    
     <item>
       <title>分布式共识</title>
       <link>https://www.linuxzen.com/notes/notes/20210804115431-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86/</link>
@@ -32,7 +60,8 @@
       
       <guid>https://www.linuxzen.com/notes/notes/20210804071039-leetcode_40_combination_sum_ii/</guid>
       <description>https://leetcode.com/problems/combination-sum-ii/
-LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。</description>
+LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。对结果进行排序然后通过 set 对结果进行去重：
+class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum2(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { sort(candidates.begin(), candidates.end()); backtracking(candidates, 0, 0, target); vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; for (auto t : res) { r.push_back(t); } return r; } private: set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; map&amp;lt;int, bool&amp;gt; visited; void backtracking(vector&amp;lt;int&amp;gt;&amp;amp; condidates, int start, int n, int target) { if (n == target) { res.insert(track); return; } if (n &amp;gt; target) { return; } int c = 0; int sz = condidates.</description>
     </item>
     
     <item>
@@ -1366,7 +1395,7 @@ LSM-Tree 基本思想：保存在后台并合并的排序字符串表：SSTables
       <description>数据系统基础 可靠、可扩展与可维护的应用系统 数据模型与查询语言 数据存储与检索 数据编码与演化 分布式数据系统 目的：扩展性、容错和高可用、延迟考虑（多机房）
 扩展：
  垂直扩展：提升单机性能 水平扩展：无共享结构，由软件实现核心逻辑  复制与分区：
- 复制：多节点冗余 分区：数据库拆分 分片：分区分配给不同的节点  数据复制 数据分区 事务 分布式系统挑战 一致性与共识 </description>
+ 复制：多节点冗余 分区：数据库拆分 分片：分区分配给不同的节点  数据复制 数据分区 事务 分布式系统挑战 一致性与共识 派生数据  记录系统：真实数据系统，拥有数据的权威版本。 派生数据系统：从另一个数据系统获取，丢失可以根据数据源重建，如缓存等。  批处理系统 </description>
     </item>
     
     <item>
@@ -2251,7 +2280,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320172132_leetcode/</guid>
-      <description>LeetCode: Trapping Tain Water LeetCode: 153.Find Minimum in Rotated Sorted Array LeetCode: 154.Find Minimum in Rotated Sorted Array II LeetCode: 316.Remove Duplicate Letters LeetCode: 3.Longest Substring Without Repeating Characters LeetCode: 4.Median of Two Sorted Arrays LeetCode: 5.Longest Palindromic Substring LeetCode: 6.ZigZag Conversion  数独有效性 class Solution { public: bool isValidSudoku(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp;gt;&amp;amp; board) { vector&amp;lt;int&amp;gt; wow(9,0); int mux1; int mux2; int mux3; int box_index; for(int i=0;i&amp;lt;9;i++){ for(int j=0;j&amp;lt;9;j++){ if(board[i][j] == &amp;#39;.&amp;#39;){ continue; } mux1 = 0x01 &amp;lt;&amp;lt; (board[i][j] - &amp;#39;1&amp;#39;); mux2 = 0x01 &amp;lt;&amp;lt; 9 &amp;lt;&amp;lt; (board[i][j] - &amp;#39;1&amp;#39;); mux3 = 0x01 &amp;lt;&amp;lt; 9 &amp;lt;&amp;lt; 9 &amp;lt;&amp;lt; (board[i][j] - &amp;#39;1&amp;#39;); box_index = (i/3) * 3 + j/3; if((wow[i]&amp;amp;mux1) !</description>
+      <description>LeetCode: Trapping Tain Water LeetCode: 153.Find Minimum in Rotated Sorted Array LeetCode: 154.Find Minimum in Rotated Sorted Array II LeetCode: 316.Remove Duplicate Letters LeetCode: 3.Longest Substring Without Repeating Characters LeetCode: 4.Median of Two Sorted Arrays LeetCode: 5.Longest Palindromic Substring LeetCode: 6.ZigZag Conversion LeetCode: 92. Reverse Linked List II LeetCode: 25. Reverse Nodes in k-Group LeetCode: 46. Permutations LeetCode: 47. Permutations II LeetCode: 51. N-Queens LeetCode: 52. N-Queens II LeetCode: 39.</description>
     </item>
     
     <item>
