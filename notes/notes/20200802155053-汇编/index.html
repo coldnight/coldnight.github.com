@@ -1,61 +1,160 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>汇编 | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>汇编 :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="程序编码 $ gcc -Og -S mstore.c # outputs mstore.s $ gcc -Og -c mstore.c # outptus mstore.o $ objdump -d mstore.o 所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。
+数据格式    C 声明 Intel 数据类型 汇编代码后缀 大小（字节）     char 字节 b 1   short 字 w 2   int 双字 l 4   long 四字 q 8   char* 四字 q 8   float 单精度 l 4   double 双精度 q 8    访问信息 寄存器 一个 x86-64 的中央处理单元（CPU）包含一组 16 个存储 64 位值的 通用目的寄存器 。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="汇编">
+<meta property="og:description" content="程序编码 $ gcc -Og -S mstore.c # outputs mstore.s $ gcc -Og -c mstore.c # outptus mstore.o $ objdump -d mstore.o 所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。
+数据格式    C 声明 Intel 数据类型 汇编代码后缀 大小（字节）     char 字节 b 1   short 字 w 2   int 双字 l 4   long 四字 q 8   char* 四字 q 8   float 单精度 l 4   double 双精度 q 8    访问信息 寄存器 一个 x86-64 的中央处理单元（CPU）包含一组 16 个存储 64 位值的 通用目的寄存器 。" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-08-02 15:50:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>汇编</h1>
-    <time datetime="2020-08-02T15:50:00&#43;08:00">August 02, 2020</time>
-  </header>
-  <h2 id="程序编码">程序编码</h2>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/">汇编</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-08-02 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <h2 id="程序编码">程序编码<a href="#程序编码" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ gcc -Og -S mstore.c  <span style="color:#75715e"># outputs mstore.s</span>
 $ gcc -Og -c mstore.c  <span style="color:#75715e"># outptus mstore.o</span>
 $ objdump -d mstore.o
 </code></pre></div><p>所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。</p>
-<h2 id="数据格式">数据格式</h2>
+<h2 id="数据格式">数据格式<a href="#数据格式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <table>
 <thead>
 <tr>
@@ -110,8 +209,8 @@ $ objdump -d mstore.o
 </tr>
 </tbody>
 </table>
-<h2 id="访问信息">访问信息</h2>
-<h3 id="寄存器">寄存器</h3>
+<h2 id="访问信息">访问信息<a href="#访问信息" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="寄存器">寄存器<a href="#寄存器" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>一个 x86-64 的中央处理单元（CPU）包含一组 16 个存储 64 位值的 <code>通用目的寄存器</code> 。</p>
 <table>
 <thead>
@@ -245,7 +344,7 @@ $ objdump -d mstore.o
 </ul>
 <p>寄存器的使用有一组编程规范控制着如何来管理栈、传递参数、从函数返回值，以及存储局部和临时数据。
 %rsp 用来指明运行时栈的结束位置。</p>
-<h3 id="操作数指示符">操作数指示符</h3>
+<h3 id="操作数指示符">操作数指示符<a href="#操作数指示符" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>分为几类：</p>
 <ol>
 <li>立即数（字面量）</li>
@@ -343,7 +442,7 @@ $ objdump -d mstore.o
 </tr>
 </tbody>
 </table>
-<h3 id="数据传送指令">数据传送指令</h3>
+<h3 id="数据传送指令">数据传送指令<a href="#数据传送指令" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <table>
 <thead>
 <tr>
@@ -392,7 +491,7 @@ $ objdump -d mstore.o
 </tr>
 </tbody>
 </table>
-<h3 id="压入和弹出栈数据">压入和弹出栈数据</h3>
+<h3 id="压入和弹出栈数据">压入和弹出栈数据<a href="#压入和弹出栈数据" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <table>
 <thead>
 <tr>
@@ -414,7 +513,7 @@ $ objdump -d mstore.o
 </tr>
 </tbody>
 </table>
-<h2 id="算数和逻辑操作">算数和逻辑操作</h2>
+<h2 id="算数和逻辑操作">算数和逻辑操作<a href="#算数和逻辑操作" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <table>
 <thead>
 <tr>
@@ -561,9 +660,9 @@ scale:
   <span style="color:#a6e22e">leaq</span> (%rdi,%rsi,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; x + 4*y
 </span><span style="color:#75715e"></span>  <span style="color:#66d9ef">leaq</span> (%rdx,%rdx,<span style="color:#ae81ff">2</span>), %rdx   <span style="color:#75715e">; z + 2*z = 3 * z
 </span><span style="color:#75715e"></span>  <span style="color:#66d9ef">leaq</span> (%rax,%rdx,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; (x + 4*y) + 4*(3*z) = x + 4*y + 12*z
-</span></code></pre></div><h2 id="控制">控制</h2>
+</span></code></pre></div><h2 id="控制">控制<a href="#控制" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>测试数据值，然后根据测试的结果来改变控制流或者数据流。jump 指令可以指定控制应该被传递到程序的某个其他部分。</p>
-<h3 id="条件码">条件码</h3>
+<h3 id="条件码">条件码<a href="#条件码" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>条件码寄存器存储了单个位的条件码来描述最近的算术或者逻辑操作的属性。常用的条件码有：</p>
 <ul>
 <li>CF：进位标志。最近的操作使最高位产生了进位。用来检查无符号操作的溢出。</li>
@@ -573,10 +672,42 @@ scale:
 </ul>
 <p>leaq 不改变任何条件码。</p>
 
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

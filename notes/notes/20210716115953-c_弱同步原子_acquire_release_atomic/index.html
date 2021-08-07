@@ -1,56 +1,161 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>C&#43;&#43; 弱同步原子（acquire/release atomic） | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>C&#43;&#43; 弱同步原子（acquire/release atomic） :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="C&#43;&#43; 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C&#43;&#43; 同步原子（atomic）较短的调用。
+较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。=release= 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
+atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1, memory_order_release); while(atomic_load(&amp;amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
+来看下面 litmus test：
+Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="C&#43;&#43; 弱同步原子（acquire/release atomic）">
+<meta property="og:description" content="C&#43;&#43; 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C&#43;&#43; 同步原子（atomic）较短的调用。
+较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。=release= 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
+atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1, memory_order_release); while(atomic_load(&amp;amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
+来看下面 litmus test：
+Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-07-16 11:59:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>C&#43;&#43; 弱同步原子（acquire/release atomic）</h1>
-    <time datetime="2021-07-16T11:59:00&#43;08:00">July 16, 2021</time>
-  </header>
-  <p>C++ 还添加了较弱的原子，可以使用 <code>atomic_store_explicit</code> 和 <code>atomic_load_explicit</code> 以及附加的n内存排序参数来访问这些原子。使用 <code>memory_order_seq_cst</code> 使显式调用等效于<a href="/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/">C++ 同步原子（atomic）</a>较短的调用。</p>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/">C++ 弱同步原子（acquire/release atomic）</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-07-16 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>C++ 还添加了较弱的原子，可以使用 <code>atomic_store_explicit</code> 和 <code>atomic_load_explicit</code> 以及附加的n内存排序参数来访问这些原子。使用 <code>memory_order_seq_cst</code> 使显式调用等效于<a href="/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/">C++ 同步原子（atomic）</a>较短的调用。</p>
 <p>较弱的原子称为 <code>acquire/release</code> 原子，一个 <code>release</code> 如果被后来的 <code>acquire</code> 观察到，那么就创建了一个 <code>happen-before</code> 的关系(从 <code>release</code> 到 <code>acquire</code>)。这个术语意在唤起 <code>mutex:release</code> 就像 <code>unlock mutex</code> ， <code>acquire</code> 就像锁定同一个 <code>mutex</code> 。=release= 之前执行的写入必须对后续 <code>acquire</code> 之后执行的读取可见，就像解锁 <code>mutex</code> 之前执行的写入必须对后解锁 <code>mutex</code> 之后执行的读取可见一样。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">atomic<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> done;
 
@@ -70,10 +175,42 @@ On Java (using volatiles): no.
 On C++11 (sequentially consistent atomics): no.
 On C++11 (acquire/release atomics): yes!
 </code></pre>
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

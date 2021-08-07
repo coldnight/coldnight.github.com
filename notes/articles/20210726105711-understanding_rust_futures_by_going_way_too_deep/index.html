@@ -1,60 +1,169 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>Understanding Rust futures by going way too deep | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>Understanding Rust futures by going way too deep :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/articles/20210726105711-understanding_rust_futures_by_going_way_too_deep/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="原文链接：Understanding Rust futures by going way too deep。
+译者注：原文大量的引入了有趣的对话，迫于排版问题这里不进行翻译，必要的对话通过引用块来解释。
+深入理解 Rust future 用 Rust future！就是这么简单！直到我们发现并非如此。所以我们先探索简单的部分，然后继续探索困难部分而不是等它慢慢靠近我们。
+起步  Choo choo here comes the easy part 🚂💨
+ 我们创建一个新的项目：
+$ cargo new waytoodeep Created binary (application) `waytoodeep` package 我们需要安装 cargo-edit 如果之前没有安装过的话，接下来就可以直接 cargo add ：
+$ cargo install cargo-edit Updating crates.io index Downloaded cargo-edit v0.7.0 Downloaded 1 crate (57.6 KB) in 0.47s Ignored package `cargo-edit v0.7.0` is already installed, use --force to override  因为 cargo-edit 很方便，所以你可能已经安装过它。部分读者会感到困惑是因为像 cargo new, cargo build, cargo test, cargo run 等子命令都内置在 cargo 中， 但是 cargo add 没有。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/articles/20210726105711-understanding_rust_futures_by_going_way_too_deep/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Understanding Rust futures by going way too deep">
+<meta property="og:description" content="原文链接：Understanding Rust futures by going way too deep。
+译者注：原文大量的引入了有趣的对话，迫于排版问题这里不进行翻译，必要的对话通过引用块来解释。
+深入理解 Rust future 用 Rust future！就是这么简单！直到我们发现并非如此。所以我们先探索简单的部分，然后继续探索困难部分而不是等它慢慢靠近我们。
+起步  Choo choo here comes the easy part 🚂💨
+ 我们创建一个新的项目：
+$ cargo new waytoodeep Created binary (application) `waytoodeep` package 我们需要安装 cargo-edit 如果之前没有安装过的话，接下来就可以直接 cargo add ：
+$ cargo install cargo-edit Updating crates.io index Downloaded cargo-edit v0.7.0 Downloaded 1 crate (57.6 KB) in 0.47s Ignored package `cargo-edit v0.7.0` is already installed, use --force to override  因为 cargo-edit 很方便，所以你可能已经安装过它。部分读者会感到困惑是因为像 cargo new, cargo build, cargo test, cargo run 等子命令都内置在 cargo 中， 但是 cargo add 没有。" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/articles/20210726105711-understanding_rust_futures_by_going_way_too_deep/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-07-26 10:57:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>Understanding Rust futures by going way too deep</h1>
-    <time datetime="2021-07-26T10:57:00&#43;08:00">July 26, 2021</time>
-  </header>
-  <p>原文链接：<a href="https://fasterthanli.me/articles/understanding-rust-futures-by-going-way-too-deep">Understanding Rust futures by going way too deep</a>。</p>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/articles/20210726105711-understanding_rust_futures_by_going_way_too_deep/">Understanding Rust futures by going way too deep</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-07-26 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>原文链接：<a href="https://fasterthanli.me/articles/understanding-rust-futures-by-going-way-too-deep">Understanding Rust futures by going way too deep</a>。</p>
 <p>译者注：原文大量的引入了有趣的对话，迫于排版问题这里不进行翻译，必要的对话通过引用块来解释。</p>
-<h2 id="深入理解-rust-future">深入理解 Rust future</h2>
+<h2 id="深入理解-rust-future">深入理解 Rust future<a href="#深入理解-rust-future" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>用 Rust future！就是这么简单！直到我们发现并非如此。所以我们先探索简单的部分，然后继续探索困难部分而不是等它慢慢靠近我们。</p>
-<h2 id="起步">起步</h2>
+<h2 id="起步">起步<a href="#起步" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <blockquote>
 <p>Choo choo here comes the easy part 🚂💨</p>
 </blockquote>
@@ -164,7 +273,7 @@ Hello from a (so far completely unnecessary) async runtime
      Running `target/debug/waytoodeep`
 Jul 25 17:03:46.993  INFO waytoodeep: Hello from a comfy nest we've made for ourselves
 </code></pre><p>好了，我们准备好做一些有用的事情了。</p>
-<h3 id="做一些有用的事情">做一些有用的事情</h3>
+<h3 id="做一些有用的事情">做一些有用的事情<a href="#做一些有用的事情" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>当决定在咖啡间隙阅读哪一篇文章的时候，人们通常同时打开几个网站，然后读最先加载出来的那一篇。</p>
 <p>事实如此。你可以引用我的话，谁会去验证呢？毕竟这听起来需要很多工作。</p>
 <p>所以让我们来编写一个程序做相同的事情。</p>
@@ -234,7 +343,7 @@ Jul 26 16:50:59.090  INFO waytoodeep: Got a response! url=https://fasterthanli.m
 {&quot;timestamp&quot;:&quot;Jul 25 17:17:21.531&quot;,&quot;level&quot;:&quot;INFO&quot;,&quot;fields&quot;:{&quot;message&quot;:&quot;Hello from a comfy nest we've made for ourselves&quot;},&quot;target&quot;:&quot;waytoodeep&quot;}
 {&quot;timestamp&quot;:&quot;Jul 25 17:17:21.709&quot;,&quot;level&quot;:&quot;INFO&quot;,&quot;fields&quot;:{&quot;message&quot;:&quot;Got a response!&quot;,&quot;url&quot;:&quot;https://fasterthanli.me&quot;,&quot;content_type&quot;:&quot;Some(\&quot;text/html; charset=utf-8\&quot;)&quot;},&quot;target&quot;:&quot;waytoodeep&quot;}
 </code></pre><p>这应该足以激起你的兴趣。</p>
-<h3 id="同时获取两个地址">同时获取两个地址</h3>
+<h3 id="同时获取两个地址">同时获取两个地址<a href="#同时获取两个地址" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>现在让我们获取两个地址：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">const</span> URL_1: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://fasterthanli.me/articles/whats-in-the-box&#34;</span>;
 <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">const</span> URL_2: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://fasterthanli.me/series/advent-of-code-2020/part-13&#34;</span>;
@@ -726,7 +835,7 @@ Jul 25 18:34:59.427  INFO waytoodeep: Got a response! url=https://fasterthanli.m
 <p>几毫秒的差异可能的解释是邻居打开了一个 YouTube 视频导致无线电波爆发，从而导致冲突（802.11 没有空中流量控制，全民自由（free-for-all））和重传。</p>
 <p>或者另外一百万个原因。这也是我们不继续分析的原因。</p>
 <p>让我们回到文章的主题。</p>
-<h3 id="等待第一个完成">等待第一个完成</h3>
+<h3 id="等待第一个完成">等待第一个完成<a href="#等待第一个完成" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>是的！等待第一个完成。所以我们如何让程序同时请求两个？</p>
 <p>其实有一大堆方式！</p>
 <p>例如，我们可以在一个执行器上执行（ <code>spawn</code> ）这些 future 对象，然后休眠一秒钟。1 秒钟足够了吧？</p>
@@ -962,7 +1071,7 @@ Jul 25 19:11:10.144  INFO waytoodeep: Got a response! url=https://fasterthanli.m
 <p>谬论：也就是说因为有线程请求被并行（parallel）的执行了。</p>
 </blockquote>
 <p>不是的。但是不要相信我，让我们继续深入。</p>
-<h3 id="不是因为线程">不是因为线程</h3>
+<h3 id="不是因为线程">不是因为线程<a href="#不是因为线程" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>让我们通过 GDB 运行我们的小程序，大部分原因是我还没有对 LLDB 形成肌肉记忆，我相信这是水到渠成的事。</p>
 <pre><code class="language-nil" data-lang="nil">$ cargo build --quiet &amp;&amp; gdb --quiet --args ./target/debug/waytoodeep
 Reading symbols from ./target/debug/waytoodeep...
@@ -1087,7 +1196,7 @@ Jul 25 19:50:15.994  INFO waytoodeep: Got a response! url=https://fasterthanli.m
 <img src="https://fasterthanli.me/content/articles/understanding-rust-futures-by-going-way-too-deep/assets/htop-current-thread.fe28174abc5d15fa.webp" alt="">
 （顺便说一下 15 个工作线程的原因，这是因为我预留了一个 CPU 核心没有分配给虚拟机，这样即使虚拟机全速运行也不会导致宿主机停止响应）。</p>
 <p>如果我们将 DNS 查询排除在外，我们就可以看到实际上仅仅使用了一个线程，我们将继续下去，以防你依然存疑！</p>
-<h3 id="插曲-让我们避免泄漏内存">插曲：让我们避免泄漏内存</h3>
+<h3 id="插曲-让我们避免泄漏内存">插曲：让我们避免泄漏内存<a href="#插曲-让我们避免泄漏内存" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>但是在那之前：正在泄漏 reqwest 的 <code>Client</code> 让我很不爽。</p>
 <p>为了避免，我们可以创建一个原子引用计数（atomically-reference-counted），这样它就可以随着任务运行而存活。</p>
 <p>修改起来非常简单：</p>
@@ -1247,7 +1356,7 @@ error[E0597]: `url1` does not live long enough
 Jul 25 20:12:37.208  INFO waytoodeep: Got a response! url=https://fasterthanli.me/articles/whats-in-the-box content_type=Some(&quot;text/html; charset=utf-8&quot;)
 Jul 25 20:12:37.227  INFO waytoodeep: Got a response! url=https://fasterthanli.me/series/advent-of-code-2020/part-13 content_type=Some(&quot;text/html; charset=utf-8&quot;)
 </code></pre><p>仅仅。。。19 毫秒的间隔 &ndash; 可以确定是并发的。</p>
-<h3 id="彻底摆脱-dns">彻底摆脱 DNS</h3>
+<h3 id="彻底摆脱-dns">彻底摆脱 DNS<a href="#彻底摆脱-dns" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>现在让我们暂时忘掉 <code>reqwest</code> 。</p>
 <p>HTTP <a href="https://fasterthanli.me/articles/aiming-for-correctness-with-types">并不难</a> ，我们可以自己构建。只要 TCP 就行：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::net::SocketAddr;
@@ -1344,7 +1453,7 @@ Jul 25 20:31:32.658  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=
 </code></pre><p>好了，现在返回状态码 200！</p>
 <p>我们的目标是了解 Rust 的 future，我们已经获得了不错的进展。</p>
 <p>但是让我们考虑以下场景：我们想并发的执行两个请求，一旦其中一个失败，另外一个也应该立即请求失败，或者两个一起成功。</p>
-<h3 id="tokio-的-try-join-宏">tokio 的 try_join 宏</h3>
+<h3 id="tokio-的-try-join-宏">tokio 的 try_join 宏<a href="#tokio-的-try-join-宏" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>实际上，又一个宏可以做这个！</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[tokio::main(flavor = </span><span style="color:#e6db74">&#34;current_thread&#34;</span><span style="color:#75715e">)]</span>
 <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Report<span style="color:#f92672">&gt;</span> {
@@ -1405,7 +1514,7 @@ rtt min/avg/max/mdev = 13.748/13.748/13.748/0.000 ms
 <p>所以，future 对象只是一些状态，接下来就可以进行 await，那么在哪订阅的事件呢？</p>
 <p>让我们尝试创建一个我们自己的 <code>try_join</code> &ndash; 一个函数，并且只接受两个 future。然后我们就能看到发生了什么。</p>
 <p>我们已经实现了自己的 future，实现一个 <code>try_join</code> 函数会有多麻烦？</p>
-<h3 id="事实证明很麻烦">事实证明很麻烦</h3>
+<h3 id="事实证明很麻烦">事实证明很麻烦<a href="#事实证明很麻烦" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>我们先从简单的开始！我们想实现一个函数接受两个 future 对象然后返回一个 future 对象。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/main.rs`
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">mod</span> tj;
@@ -1929,7 +2038,7 @@ Jul 25 23:25:31.496  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;se
 </code></pre><p>。。。同时结果的顺序是正确的。</p>
 <p>非常好，我们实现了它！</p>
 <p>但是！</p>
-<h3 id="我们可以做的更好">我们可以做的更好</h3>
+<h3 id="我们可以做的更好">我们可以做的更好<a href="#我们可以做的更好" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>幸运的是，坏就是好。</p>
 <p>下面这个类型困扰着我：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
@@ -2063,7 +2172,7 @@ Jul 25 23:52:25.050  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=
 Jul 25 23:52:25.061  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=first
 Jul 25 23:52:25.061  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
 </code></pre><p>看，只有 11ms 的间隔。</p>
-<h3 id="更进一步">更进一步？</h3>
+<h3 id="更进一步">更进一步？<a href="#更进一步" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>这段代码再次困扰了我：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TryJoin</span><span style="color:#f92672">&lt;</span>A, B, AR, BR, E<span style="color:#f92672">&gt;</span>
 <span style="color:#66d9ef">where</span>
@@ -2149,7 +2258,7 @@ Jul 25 23:52:25.061  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;se
 但只要我们不要在中间移动就没有问题。</p>
 <p>如果我们在持有 future 对象的情况下使用 <code>std::mem:replace</code> 或 <code>std::mem::swap</code> 就会不妙。
 所以，我们还好，我想，我不太确定。如果不是，有人应该会留言。</p>
-<h3 id="就这样">就这样</h3>
+<h3 id="就这样">就这样<a href="#就这样" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>让我们回顾我们的工作：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// in `src/tj.rs`
 </span><span style="color:#75715e"></span>
@@ -2314,10 +2423,42 @@ Jul 26 00:08:13.709  INFO waytoodeep: Got response! status=HTTP/1.1 200 OK name=
 Jul 26 00:08:13.710  INFO waytoodeep: All done! res=(&quot;first&quot;, &quot;second&quot;)
 </code></pre><p>2ms 间隔！这是一个新的记录。</p>
 
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

@@ -1,56 +1,171 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>Rust Means Never Having to Close a Socket | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>Rust Means Never Having to Close a Socket :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="原文链接：Rust Means Never Having to Close a Socket
+Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时在仍能保持安全（没有段错误）和高性能。
+这是因为 Rust 是一门与众不同地编程语言，要理解我说的可能有点困难，让我来更近一步说明：
+ Rust 就像带垃圾回收的编程语言，你无需手动释放内存 Rust 不同于其他带垃圾回收的编程语言，你无需1手动关闭或者释放像文件、套接字和锁这样的资源 Rust 达到以上这些特性不附带任何运行时开销（垃圾回收或者引用计数），并且不牺牲安全性。  如果你曾经造成过一个套接字或者文件泄漏，或者使用过一些抽象方法造成了这些资源的泄漏，那么你就会知道这有多重要。
+你可能已经期望通过“使用后释放”来避免内存问题，而与此同时你并没有考虑到没有明确地关闭套接字可能出现类似的错误。我在这里告诉你，还有更好地办法。
+如果你使用的是带垃圾回收的编程语言，则应密切关注本文提到的资源管理方面的内容。如果你使用的是像 C/C&#43;&#43; 这样底层编程语言，你可能会对安全方面更加感兴趣。
+ Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。 实际上，这种编程语言层面的保证让这些特性更加实用。
+ 所有权系统（The Ownership System） 让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。
+让我们通过一个例子来进一步说明：我们定义一个函数，函数拷贝输入文件到临时文件去处理它，然后拷贝输入文件到输出文件。
+fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { // creates a new tempdir with the specified suffix  let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;)); // open the input file  let mut from_file = try!" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Rust Means Never Having to Close a Socket">
+<meta property="og:description" content="原文链接：Rust Means Never Having to Close a Socket
+Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时在仍能保持安全（没有段错误）和高性能。
+这是因为 Rust 是一门与众不同地编程语言，要理解我说的可能有点困难，让我来更近一步说明：
+ Rust 就像带垃圾回收的编程语言，你无需手动释放内存 Rust 不同于其他带垃圾回收的编程语言，你无需1手动关闭或者释放像文件、套接字和锁这样的资源 Rust 达到以上这些特性不附带任何运行时开销（垃圾回收或者引用计数），并且不牺牲安全性。  如果你曾经造成过一个套接字或者文件泄漏，或者使用过一些抽象方法造成了这些资源的泄漏，那么你就会知道这有多重要。
+你可能已经期望通过“使用后释放”来避免内存问题，而与此同时你并没有考虑到没有明确地关闭套接字可能出现类似的错误。我在这里告诉你，还有更好地办法。
+如果你使用的是带垃圾回收的编程语言，则应密切关注本文提到的资源管理方面的内容。如果你使用的是像 C/C&#43;&#43; 这样底层编程语言，你可能会对安全方面更加感兴趣。
+ Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。 实际上，这种编程语言层面的保证让这些特性更加实用。
+ 所有权系统（The Ownership System） 让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。
+让我们通过一个例子来进一步说明：我们定义一个函数，函数拷贝输入文件到临时文件去处理它，然后拷贝输入文件到输出文件。
+fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { // creates a new tempdir with the specified suffix  let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;)); // open the input file  let mut from_file = try!" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-06-29 18:17:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>Rust Means Never Having to Close a Socket</h1>
-    <time datetime="2020-06-29T18:17:00&#43;08:00">June 29, 2020</time>
-  </header>
-  <p>原文链接：<a href="https://blog.skylight.io/rust-means-never-having-to-close-a-socket/">Rust Means Never Having to Close a Socket</a></p>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/">Rust Means Never Having to Close a Socket</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-06-29 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>原文链接：<a href="https://blog.skylight.io/rust-means-never-having-to-close-a-socket/">Rust Means Never Having to Close a Socket</a></p>
 <p>Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时在仍能保持安全（没有段错误）和高性能。</p>
 <p>这是因为 Rust 是一门与众不同地编程语言，要理解我说的可能有点困难，让我来更近一步说明：</p>
 <ul>
@@ -65,7 +180,7 @@
 <p>Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。
 实际上，这种编程语言层面的保证让这些特性更加实用。</p>
 </blockquote>
-<h2 id="所有权系统-the-ownership-system">所有权系统（The Ownership System）</h2>
+<h2 id="所有权系统-the-ownership-system">所有权系统（The Ownership System）<a href="#所有权系统-the-ownership-system" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。</p>
 <p>让我们通过一个例子来进一步说明：我们定义一个函数，函数拷贝输入文件到临时文件去处理它，然后拷贝输入文件到输出文件。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">process</span>(from: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Path</span>, to: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Path</span>) -&gt; <span style="color:#a6e22e">IoResult</span><span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
@@ -143,7 +258,7 @@
 <p>但是如何解释临时文件的例子？如果你查看 <code>process</code> 函数的第三行代码，你可以看到 <code>TempDir</code> 上的方法 <code>tempdir.path()</code> 被调用。
 难道这不是意味着我创建了第二个引用，并且理论上有两个所有者？或者意味着我们将所有权转移到了 <code>path</code> 方法，也就是当该方法返回时会立即销毁这个目录？
 显然这两个答案都行不通。</p>
-<h2 id="借用和借出-borrowing-and-lending">借用和借出（Borrowing and Lending）</h2>
+<h2 id="借用和借出-borrowing-and-lending">借用和借出（Borrowing and Lending）<a href="#借用和借出-borrowing-and-lending" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>要理解这里发生了什么，我们需要看一下 <code>path</code> 方法的方法签名。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">path</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Path</span>
 </code></pre></div><p>可以通过如下方式念出这个方法签名：</p>
@@ -208,7 +323,7 @@ move.rs:15     let thirties = is_thirties(person);
 长时间保持该值（比如通过使用线程）既不常见，又是时候该考虑一下正在发生的什么。</p>
 <p>当我们开始编写一个新的函数时应该借用所需参数，而不是尝试获取其所有权。经过一段时间的 Rust 编程之后这将不会增加认知成本，只是默认这样做。
 如果编译器抱怨（随着你掌握这些规则将它们变成习惯（second nature）这样的情况将越来越少），这意味着你正在做含有潜在危险地事情，那就需要你思考一下了。</p>
-<h2 id="从一个借用对象中返回一个借用字段-returning-a-borrowed-field-from-a-borrowed-object">从一个借用对象中返回一个借用字段（Returning a Borrowed Field from a Borrowed Object）</h2>
+<h2 id="从一个借用对象中返回一个借用字段-returning-a-borrowed-field-from-a-borrowed-object">从一个借用对象中返回一个借用字段（Returning a Borrowed Field from a Borrowed Object）<a href="#从一个借用对象中返回一个借用字段-returning-a-borrowed-field-from-a-borrowed-object" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>在前面我们检查了如下方法签名：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">path</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Path</span>
 </code></pre></div><p>这个签名可能让你困惑。我之前说过当一个函数借用了一个对象，它必须只能在函数调用期间使用这个值，并且在此之后就不能使用。
@@ -244,7 +359,7 @@ Rust 正在向我们征询如果返回值不属于调用者作用域那么应该
 </blockquote>
 <p>实际情况下，这表示一个函数可以轻松地通过借用的方式返回借用参数中的内容。否则，你需要给该返回值找到一个调用者可以访问的存储位置，
 或者克隆（clone）该值让调用者拥有一份自己的拷贝。</p>
-<h2 id="易用性-ergonomics">易用性（Ergonomics）</h2>
+<h2 id="易用性-ergonomics">易用性（Ergonomics）<a href="#易用性-ergonomics" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>咋一看，所有权这些机制让人感觉很复杂，并且看起来可能会对使用 Rust 的易用性产生重大影响。可以肯定的是，一开始确实会有这种感觉。</p>
 <p>但是有几个因素会让 Rust 的所有权变得比远看上去更加易用。</p>
 <p>首先，大量的实际代码适用于借用/借出模式。随着我写了越来越多的 Rust 代码，我逐渐意识到用 Ruby 编写的程序遵循类似的模式：
@@ -261,7 +376,7 @@ Rust 正在向我们征询如果返回值不属于调用者作用域那么应该
 <p>最后，自动资源管理具有真正地易用性优势，既可以防止资源泄漏（当我懒惰时），又可以防止额外地样板代码和缩进（当我谨慎时）。</p>
 <p>除 C++ 之外，很少程序员经历过自动资源管理为标准的编程环境，打开大脑的“blub”部分并认为它没有那么大的作用是非常非常容易的。
 Rust 改变了这个领域中的传统权衡，我建议您将脑中告诉自己「我不需要它在《我选择的编程语言》，它有多重要？ ？」的小声音暂时先放回去。</p>
-<h2 id="引用计数-和垃圾回收">引用计数（和垃圾回收）</h2>
+<h2 id="引用计数-和垃圾回收">引用计数（和垃圾回收）<a href="#引用计数-和垃圾回收" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>你可能已经注意到 Rust 已经有引用计数指针（并且计划未来实现 GC）。</p>
 <p>它是如何在所有权系统中工作的呢？</p>
 <p>以我的经验，一旦习惯了所有权范式，你会很少想要使用 <code>Rc</code> 指针。例如，整个 Cargo 代码库中没有使用引用计数指针的实例，
@@ -274,7 +389,7 @@ Rust 改变了这个领域中的传统权衡，我建议您将脑中告诉自己
 <p>如果不是这种情况，我怀疑即使是经验丰富地 Rust 开发人员也会更频繁地使用 <code>Rc</code> 。</p>
 <p>综上所述，在某些情况下，引用计数甚至垃圾回收也可以正常的在所有权系统下工作。 Rust 的 “智能指针” 系统允许 <code>Rc</code> 指针在相同地所有权和借用系统内透明地运行，
 并且当引用计数减小到 0 时运行析构函数（伴随明显地本地推理和运行时性能上的成本）。</p>
-<h2 id="其他语言的机制-facilities-in-other-languages">其他语言的机制（Facilities in Other Languages）</h2>
+<h2 id="其他语言的机制-facilities-in-other-languages">其他语言的机制（Facilities in Other Languages）<a href="#其他语言的机制-facilities-in-other-languages" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>带有垃圾回收机制的语言通常会提供一些机器辅助程序员手动管理资源。在大部分现代编程语言中，你不用显式的调用 <code>close</code> ，
 但是你需要调整语言结构将资源与词法作用域联系在一起，然后在完成后进行释放。</p>
 <p>让我们观察一些例子，然后我会讨论这些方法的缺点。</p>
@@ -339,10 +454,42 @@ Rust 改变了这个领域中的传统权衡，我建议您将脑中告诉自己
 </ol>
 </section>
 
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

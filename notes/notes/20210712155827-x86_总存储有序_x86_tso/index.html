@@ -1,57 +1,168 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>x86 总存储有序（x86-TSO) | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>x86 总存储有序（x86-TSO) :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210712155827-x86_%E6%80%BB%E5%AD%98%E5%82%A8%E6%9C%89%E5%BA%8F_x86_tso/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="x86 总存储有序(x86 Total Store Order, x86-TSO)：所有处理器仍然连接到一个共享内存，但是每个处理器都将对该内存的写入(write)放入到本地写入队列中。处理器继续执行新指令，同时写操作(write)会更新到这个共享内存。一个处理器上的内存读取在查询主内存之前会查询本地写队列，但它看不到其他处理器上的写队列。其效果就是当前处理器比其他处理器会先看到自己的写操作。
+重要的是： 所有处理器都保证写入（存储 store）到共享内存的（总）顺序，所以给这个模型起了个名字：总存储有序（Total Store Order，TSO）。
+写队列是一个标准的先进先出队列：内存写操作总是以与处理器执行相同顺序的应用于共享内存。
+基于以上下面 litmus test 的答案依然是 no ，这种情况与顺序一致性模型结果一致：
+Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 // Thread 2 x = 1 r1 = y y = 1 r2 = x On sequentially consistent hardware: no. On x86 (or other TSO): no. 但其他测试则并不一致区分与顺序一致性的常用例子:
+Litmus Test: Write Queue (also called Store Buffer) Can this program see r1 = 0, r2 = 0?" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210712155827-x86_%E6%80%BB%E5%AD%98%E5%82%A8%E6%9C%89%E5%BA%8F_x86_tso/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="x86 总存储有序（x86-TSO)">
+<meta property="og:description" content="x86 总存储有序(x86 Total Store Order, x86-TSO)：所有处理器仍然连接到一个共享内存，但是每个处理器都将对该内存的写入(write)放入到本地写入队列中。处理器继续执行新指令，同时写操作(write)会更新到这个共享内存。一个处理器上的内存读取在查询主内存之前会查询本地写队列，但它看不到其他处理器上的写队列。其效果就是当前处理器比其他处理器会先看到自己的写操作。
+重要的是： 所有处理器都保证写入（存储 store）到共享内存的（总）顺序，所以给这个模型起了个名字：总存储有序（Total Store Order，TSO）。
+写队列是一个标准的先进先出队列：内存写操作总是以与处理器执行相同顺序的应用于共享内存。
+基于以上下面 litmus test 的答案依然是 no ，这种情况与顺序一致性模型结果一致：
+Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 // Thread 2 x = 1 r1 = y y = 1 r2 = x On sequentially consistent hardware: no. On x86 (or other TSO): no. 但其他测试则并不一致区分与顺序一致性的常用例子:
+Litmus Test: Write Queue (also called Store Buffer) Can this program see r1 = 0, r2 = 0?" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210712155827-x86_%E6%80%BB%E5%AD%98%E5%82%A8%E6%9C%89%E5%BA%8F_x86_tso/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-07-12 15:58:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>x86 总存储有序（x86-TSO)</h1>
-    <time datetime="2021-07-12T15:58:00&#43;08:00">July 12, 2021</time>
-  </header>
-  <figure><img src="https://colobu.com/2021/06/30/hwmm/mem-tso.png"/>
-</figure>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20210712155827-x86_%E6%80%BB%E5%AD%98%E5%82%A8%E6%9C%89%E5%BA%8F_x86_tso/">x86 总存储有序（x86-TSO)</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-07-12 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        
+  <figure class="left" >
+    <img src="https://colobu.com/2021/06/30/hwmm/mem-tso.png"   />
+    
+  </figure>
+
 
 <p>x86 总存储有序(x86 Total Store Order, x86-TSO)：所有处理器仍然连接到一个共享内存，但是每个处理器都将对该内存的写入(write)放入到本地写入队列中。处理器继续执行新指令，同时写操作(write)会更新到这个共享内存。一个处理器上的内存读取在查询主内存之前会查询本地写队列，但它看不到其他处理器上的写队列。其效果就是当前处理器比其他处理器会先看到自己的写操作。</p>
 <p>重要的是： <strong><strong>所有处理器都保证写入（存储 store）到共享内存的（总）顺序，所以给这个模型起了个名字：总存储有序（Total Store Order，TSO）。</strong></strong></p>
@@ -84,10 +195,42 @@ x = 1          y = 1          r1 = x         r3 = y
 On sequentially consistent hardware: no.
 On x86 (or other TSO): no.
 </code></pre>
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

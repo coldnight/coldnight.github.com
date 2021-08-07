@@ -1,61 +1,176 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>Taking Smart Notes With Org-mode | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>Taking Smart Notes With Org-mode :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/articles/notes/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="See also:
+ https://praxis.fortelabs.co/how-to-take-smart-notes/ https://www.nateliason.com/blog/roam  Topics  Financial Management 读书笔记 技术 Translate Learning English 认同的话 To Complete  Links Sprint 1:2019-02-03 ~ 2019-02-19   LD_PRELOAD: The Hero We Need and Deserve
+通过 LD_PRELOAD 覆盖一些函数，比如 faketime
+  Going Solo, Successfully
+  变身成为独立开发者。
+  Graceful Shutdown
+  Why limiting work-in-progress works
+  Practical Go: Real world advice for writing maintainable Go programs
+译文：https://github.com/llitfkitfk/go-best-practice
+  百万 Go TCP 连接的思考: epoll方式减少资源占用" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/articles/notes/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Taking Smart Notes With Org-mode">
+<meta property="og:description" content="See also:
+ https://praxis.fortelabs.co/how-to-take-smart-notes/ https://www.nateliason.com/blog/roam  Topics  Financial Management 读书笔记 技术 Translate Learning English 认同的话 To Complete  Links Sprint 1:2019-02-03 ~ 2019-02-19   LD_PRELOAD: The Hero We Need and Deserve
+通过 LD_PRELOAD 覆盖一些函数，比如 faketime
+  Going Solo, Successfully
+  变身成为独立开发者。
+  Graceful Shutdown
+  Why limiting work-in-progress works
+  Practical Go: Real world advice for writing maintainable Go programs
+译文：https://github.com/llitfkitfk/go-best-practice
+  百万 Go TCP 连接的思考: epoll方式减少资源占用" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/articles/notes/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-03-07 00:00:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" class="selected">
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>Taking Smart Notes With Org-mode</h1>
-    <time datetime="2020-03-07T00:00:00&#43;08:00">March 07, 2020</time>
-  </header>
-  <p>See also:</p>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/articles/notes/">Taking Smart Notes With Org-mode</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-03-07 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>See also:</p>
 <ul>
 <li><a href="https://praxis.fortelabs.co/how-to-take-smart-notes/">https://praxis.fortelabs.co/how-to-take-smart-notes/</a></li>
 <li><a href="https://www.nateliason.com/blog/roam">https://www.nateliason.com/blog/roam</a></li>
 </ul>
-<h2 id="topics">Topics</h2>
+<h2 id="topics">Topics<a href="#topics" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ul>
 <li><a href="/notes/notes/20200224132507/">Financial Management</a></li>
 <li><a href="/notes/notes/20200307114122_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
@@ -65,8 +180,8 @@
 <li><a href="/notes/notes/20210612092853-%E8%AE%A4%E5%90%8C%E7%9A%84%E8%AF%9D/">认同的话</a></li>
 <li><a href="/notes/notes/20210728071540-to_complete/">To Complete</a></li>
 </ul>
-<h2 id="links">Links</h2>
-<h3 id="sprint-1-2019-02-03-2019-02-19">Sprint 1:2019-02-03 ~ 2019-02-19</h3>
+<h2 id="links">Links<a href="#links" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="sprint-1-2019-02-03-2019-02-19">Sprint 1:2019-02-03 ~ 2019-02-19<a href="#sprint-1-2019-02-03-2019-02-19" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li>
 <p><a href="https://blog.jessfraz.com/post/ld%5Fpreload/">LD_PRELOAD: The Hero We Need and Deserve</a></p>
@@ -98,17 +213,17 @@
 <p><a href="https://zeroequalsfalse.press/posts/programming-books-you-wish-you-read-earlier/">Programming Books You Wish You Read Earlier</a></p>
 </li>
 </ul>
-<h3 id="ai-machine-learning-books">AI/Machine Learning Books</h3>
+<h3 id="ai-machine-learning-books">AI/Machine Learning Books<a href="#ai-machine-learning-books" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf">http://cs229.stanford.edu/notes/cs229-notes1.pdf</a></li>
 <li><a href="https://courses.csail.mit.edu/6.042/spring17/mcs.pdf">https://courses.csail.mit.edu/6.042/spring17/mcs.pdf</a></li>
 <li><a href="http://bestofml.com/">http://bestofml.com/</a></li>
 </ul>
-<h3 id="ascii-art">ASCII Art</h3>
+<h3 id="ascii-art">ASCII Art<a href="#ascii-art" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="https://www.jianshu.com/p/fca56d635091">https://www.jianshu.com/p/fca56d635091</a></li>
 </ul>
-<h3 id="sprint-2-2019-02-27-2019-03-12">Sprint 2: 2019-02-27 ~ 2019-03-12</h3>
+<h3 id="sprint-2-2019-02-27-2019-03-12">Sprint 2: 2019-02-27 ~ 2019-03-12<a href="#sprint-2-2019-02-27-2019-03-12" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li>
 <p><a href="https://blogtitle.github.io/some-useful-patterns/">Some useful patterns</a></p>
@@ -148,7 +263,7 @@
 <p><a href="https://nullprogram.com/blog/2019/03/10/">An Async / Await Library for Emacs Lisp</a></p>
 </li>
 </ul>
-<h3 id="sprint-3-2019-03-13-2019-03-26">Sprint 3: 2019-03-13 ~ 2019-03-26</h3>
+<h3 id="sprint-3-2019-03-13-2019-03-26">Sprint 3: 2019-03-13 ~ 2019-03-26<a href="#sprint-3-2019-03-13-2019-03-26" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="https://www.remove.bg/">Remove Image Background</a></li>
 <li><a href="https://leandromoreira.com.br/2019/01/25/how-to-build-a-distributed-throttling-system-with-nginx-lua-redis/">How to build a distributed throttling system with Nginx + Lua + Redis</a></li>
@@ -156,7 +271,7 @@
 <li><a href="https://rust-lang-nursery.github.io/rust-cookbook/">Rust Cookbook</a></li>
 <li><a href="https://dwheeler.com/essays/fixing-unix-linux-filenames.html">Fixing Unix/Linux/POSIX Filenames</a></li>
 </ul>
-<h3 id="online-diagrams">Online Diagrams</h3>
+<h3 id="online-diagrams">Online Diagrams<a href="#online-diagrams" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="http://chartmage.com/intro.html">Generate sequence diagrams and flowcharts at lightning speed.</a></li>
 <li><a href="https://bramp.github.io/js-sequence-diagrams/">js-sequence-diagrams</a></li>
@@ -168,47 +283,47 @@
 <li><a href="http://haha98k.com/">PlantUML Editor</a></li>
 <li><a href="https://www.websequencediagrams.com/">https://www.websequencediagrams.com/</a></li>
 </ul>
-<h3 id="animating-urls-with-javascript-and-emojis">Animating URLs with Javascript and Emojis</h3>
+<h3 id="animating-urls-with-javascript-and-emojis">Animating URLs with Javascript and Emojis<a href="#animating-urls-with-javascript-and-emojis" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p><a href="http://matthewrayfield.com/articles/animating-urls-with-javascript-and-emojis/">http://matthewrayfield.com/articles/animating-urls-with-javascript-and-emojis/</a></p>
-<h3 id="x86">x86</h3>
+<h3 id="x86">x86<a href="#x86" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="http://fsl.cs.illinois.edu/index.php/A%5FComplete%5FFormal%5FSemantics%5Fof%5Fx86-64%5FUser-Level%5FInstruction%5FSet%5FArchitecture">A Complete Formal Semantics of x86-64 User-Level Instruction Set Architecture</a></li>
 </ul>
-<h3 id="others">Others</h3>
+<h3 id="others">Others<a href="#others" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="https://learn.sparkfun.com/tutorials/how-to-read-a-schematic">How to Read a Schematic</a></li>
 <li><a href="https://castel.dev/post/lecture-notes-2/#">How I draw figures for my mathematical lecture notes using Inkscape</a></li>
 </ul>
-<h3 id="布隆过滤器">布隆过滤器</h3>
+<h3 id="布隆过滤器">布隆过滤器<a href="#布隆过滤器" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="https://llimllib.github.io/bloomfilter-tutorial/zh%5FCN/">https://llimllib.github.io/bloomfilter-tutorial/zh%5FCN/</a></li>
 </ul>
-<h3 id="rust">Rust</h3>
+<h3 id="rust">Rust<a href="#rust" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="http://way-cooler.org/blog/2019/04/29/rewriting-way-cooler-in-c.html">Giving up on wlroots-rs</a></li>
 </ul>
-<h3 id="memory-management">Memory Management</h3>
+<h3 id="memory-management">Memory Management<a href="#memory-management" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2017/03/kedia2017mem.pdf">Simple, Fast and Safe Manual Memory Management</a></li>
 <li><a href="https://akkadia.org/drepper/cpumemory.pdf">What Every Programmer Should Know About Memory</a></li>
 <li><a href="http://www.vldb.org/pvldb/vol8/p37-graefe.pdf">In-Memory Performance for Big Data</a></li>
 </ul>
-<h3 id="pie-pic-load-time-relocation-hardenedlinux">PIE/PIC/Load-time relocation/Hardenedlinux</h3>
+<h3 id="pie-pic-load-time-relocation-hardenedlinux">PIE/PIC/Load-time relocation/Hardenedlinux<a href="#pie-pic-load-time-relocation-hardenedlinux" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="https://hardenedlinux.github.io/system-security/2016/07/01/PIC%5FPIE%5Fand%5FASLR%5Fanalysis.html">https://hardenedlinux.github.io/system-security/2016/07/01/PIC%5FPIE%5Fand%5FASLR%5Fanalysis.html</a></li>
 <li><a href="https://www.ibm.com/developerworks/cn/linux/l-seclnx3/index.html">https://www.ibm.com/developerworks/cn/linux/l-seclnx3/index.html</a></li>
 <li><a href="https://wiki.archlinux.org/index.php/security#Rebuilding%5Fpackages">https://wiki.archlinux.org/index.php/security#Rebuilding%5Fpackages</a></li>
 </ul>
-<h3 id="math">Math</h3>
+<h3 id="math">Math<a href="#math" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="https://ourway.keybase.pub/mathematics%5Fcheat%5Fsheet.pdf">https://ourway.keybase.pub/mathematics%5Fcheat%5Fsheet.pdf</a></li>
 </ul>
-<h3 id="ai">AI</h3>
+<h3 id="ai">AI<a href="#ai" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=Jnunp-EymJQ&amp;feature=youtu.be">Flexible ML Systems</a></li>
 <li><a href="https://arxiv.org/pdf/1801.01442.pdf">https://arxiv.org/pdf/1801.01442.pdf</a></li>
 </ul>
-<h3 id="common-lisp">Common Lisp</h3>
+<h3 id="common-lisp">Common Lisp<a href="#common-lisp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li>
 <p><a href="https://www.quicklisp.org/beta/">Quicklisp</a> 包管理</p>
@@ -221,10 +336,42 @@
 </li>
 </ul>
 
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

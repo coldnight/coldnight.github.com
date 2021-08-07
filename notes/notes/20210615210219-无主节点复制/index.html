@@ -1,77 +1,214 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>无主节点复制 | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>无主节点复制 :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210615210219-%E6%97%A0%E4%B8%BB%E8%8A%82%E7%82%B9%E5%A4%8D%E5%88%B6/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="没有主节点，允许任何节点接受来自客户端的写请求。
+实现方式  客户端直接将其写请求发送到多节点 一个协调者代表客户端进行写入，与主节点的数据库不同，协调者并不负责写入顺序的维护。  节点失效时写入数据库 客户端将写请求并行发送给三个节点，两个可用节点接受写请求，而不可用副本则无法处理该请求。
+现在失效的节点重新上线，客户端可能会读取到旧的值。
+为了解决这个问题客户端并行的向多个节点发送读请求，并通过版本号来确定哪个值更新。
+读修复与反熵  读修复；客户端并行读取多个节点，检测到过期的返回值，然后用新的返回值写入到返回旧值的副本。 反熵过程：后台不断查找副本之间的差异，将任何缺少的数据从一个节点复制到另一个节点。不保证特定顺序的复制写入，并且会引入明显的复制滞后问题。  Quorum 一致性 检测并发写 " />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210615210219-%E6%97%A0%E4%B8%BB%E8%8A%82%E7%82%B9%E5%A4%8D%E5%88%B6/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="无主节点复制">
+<meta property="og:description" content="没有主节点，允许任何节点接受来自客户端的写请求。
+实现方式  客户端直接将其写请求发送到多节点 一个协调者代表客户端进行写入，与主节点的数据库不同，协调者并不负责写入顺序的维护。  节点失效时写入数据库 客户端将写请求并行发送给三个节点，两个可用节点接受写请求，而不可用副本则无法处理该请求。
+现在失效的节点重新上线，客户端可能会读取到旧的值。
+为了解决这个问题客户端并行的向多个节点发送读请求，并通过版本号来确定哪个值更新。
+读修复与反熵  读修复；客户端并行读取多个节点，检测到过期的返回值，然后用新的返回值写入到返回旧值的副本。 反熵过程：后台不断查找副本之间的差异，将任何缺少的数据从一个节点复制到另一个节点。不保证特定顺序的复制写入，并且会引入明显的复制滞后问题。  Quorum 一致性 检测并发写 " />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210615210219-%E6%97%A0%E4%B8%BB%E8%8A%82%E7%82%B9%E5%A4%8D%E5%88%B6/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-06-15 21:02:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>无主节点复制</h1>
-    <time datetime="2021-06-15T21:02:00&#43;08:00">June 15, 2021</time>
-  </header>
-  <p>没有主节点，允许任何节点接受来自客户端的写请求。</p>
-<h2 id="实现方式">实现方式</h2>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20210615210219-%E6%97%A0%E4%B8%BB%E8%8A%82%E7%82%B9%E5%A4%8D%E5%88%B6/">无主节点复制</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-06-15 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>没有主节点，允许任何节点接受来自客户端的写请求。</p>
+<h2 id="实现方式">实现方式<a href="#实现方式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ol>
 <li>客户端直接将其写请求发送到多节点</li>
 <li>一个协调者代表客户端进行写入，与主节点的数据库不同，协调者并不负责写入顺序的维护。</li>
 </ol>
-<h2 id="节点失效时写入数据库">节点失效时写入数据库</h2>
+<h2 id="节点失效时写入数据库">节点失效时写入数据库<a href="#节点失效时写入数据库" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>客户端将写请求并行发送给三个节点，两个可用节点接受写请求，而不可用副本则无法处理该请求。</p>
 <p>现在失效的节点重新上线，客户端可能会读取到旧的值。</p>
 <p>为了解决这个问题客户端并行的向多个节点发送读请求，并通过版本号来确定哪个值更新。</p>
-<h3 id="读修复与反熵">读修复与反熵</h3>
+<h3 id="读修复与反熵">读修复与反熵<a href="#读修复与反熵" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li>读修复；客户端并行读取多个节点，检测到过期的返回值，然后用新的返回值写入到返回旧值的副本。</li>
 <li>反熵过程：后台不断查找副本之间的差异，将任何缺少的数据从一个节点复制到另一个节点。不保证特定顺序的复制写入，并且会引入明显的<a href="/notes/notes/20210614205621-%E5%A4%8D%E5%88%B6%E6%BB%9E%E5%90%8E%E9%97%AE%E9%A2%98/">复制滞后问题</a>。</li>
 </ul>
-<h3 id="quorum-一致性--20210615211745-quorum-一致性-dot-md"><a href="/notes/notes/20210615211745-quorum_%E4%B8%80%E8%87%B4%E6%80%A7/">Quorum 一致性</a></h3>
-<h3 id="检测并发写--20210615213433-检测并发写-dot-md"><a href="/notes/notes/20210615213433-%E6%A3%80%E6%B5%8B%E5%B9%B6%E5%8F%91%E5%86%99/">检测并发写</a></h3>
+<h3 id="quorum-一致性--20210615211745-quorum-一致性-dot-md"><a href="/notes/notes/20210615211745-quorum_%E4%B8%80%E8%87%B4%E6%80%A7/">Quorum 一致性</a><a href="#quorum-一致性--20210615211745-quorum-一致性-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="检测并发写--20210615213433-检测并发写-dot-md"><a href="/notes/notes/20210615213433-%E6%A3%80%E6%B5%8B%E5%B9%B6%E5%8F%91%E5%86%99/">检测并发写</a><a href="#检测并发写--20210615213433-检测并发写-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

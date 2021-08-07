@@ -1,64 +1,173 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>CAP 理论 | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>CAP 理论 :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210726072940-cap_%E7%90%86%E8%AE%BA/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="CAP 最初作为一个经验法则提出（20 世纪 70 年代），并没有准确的定义，目的也只是帮助大家深入探讨数据库设计的权衡之道。它由 Eric Brewer 于 2000 年正式命名。
+解释一 CAP 定理：不要求线性化的应用更能容忍网络故障。
+只要不可靠才诶黄哦，都会发生违背线性化的风险。我们可以做如下权衡：
+ 如果应用要求线性化，一旦发生网络分区，则必须等待网络修复，或者直接返回错误。结果为服务不可用（保证一致性或者线性化）。 如果应用不要求线性化，且每个可副本独立处理请求。此时服务可用，但结果行为不符合线性化（保证高可用）。  解释二 一致性（Consistency）、可用性（Availability）、分区容错性（Partition tolerance）。系统只能支持两个特性。
+ 这里的分区指网络分区（即网络故障）。
+ 不过，这种理解存在误导性，网络分区是一种故障，不管喜欢还是不喜欢，它都可能发生，所以无法选择或逃避分区问题。
+网络正常的时候，系统可以同时保证一致性（线性化）和可用性。而一旦发生了网络故障，必须要么选择线性（一致性），要么可用性。 也就是“网络分区的情况下”是选择一致还是可用。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210726072940-cap_%E7%90%86%E8%AE%BA/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="CAP 理论">
+<meta property="og:description" content="CAP 最初作为一个经验法则提出（20 世纪 70 年代），并没有准确的定义，目的也只是帮助大家深入探讨数据库设计的权衡之道。它由 Eric Brewer 于 2000 年正式命名。
+解释一 CAP 定理：不要求线性化的应用更能容忍网络故障。
+只要不可靠才诶黄哦，都会发生违背线性化的风险。我们可以做如下权衡：
+ 如果应用要求线性化，一旦发生网络分区，则必须等待网络修复，或者直接返回错误。结果为服务不可用（保证一致性或者线性化）。 如果应用不要求线性化，且每个可副本独立处理请求。此时服务可用，但结果行为不符合线性化（保证高可用）。  解释二 一致性（Consistency）、可用性（Availability）、分区容错性（Partition tolerance）。系统只能支持两个特性。
+ 这里的分区指网络分区（即网络故障）。
+ 不过，这种理解存在误导性，网络分区是一种故障，不管喜欢还是不喜欢，它都可能发生，所以无法选择或逃避分区问题。
+网络正常的时候，系统可以同时保证一致性（线性化）和可用性。而一旦发生了网络故障，必须要么选择线性（一致性），要么可用性。 也就是“网络分区的情况下”是选择一致还是可用。" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210726072940-cap_%E7%90%86%E8%AE%BA/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-07-26 07:29:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>CAP 理论</h1>
-    <time datetime="2021-07-26T07:29:00&#43;08:00">July 26, 2021</time>
-  </header>
-  <p>CAP 最初作为一个经验法则提出（20 世纪 70 年代），并没有准确的定义，目的也只是帮助大家深入探讨数据库设计的权衡之道。它由 Eric Brewer 于 2000 年正式命名。</p>
-<h2 id="解释一">解释一</h2>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20210726072940-cap_%E7%90%86%E8%AE%BA/">CAP 理论</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-07-26 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>CAP 最初作为一个经验法则提出（20 世纪 70 年代），并没有准确的定义，目的也只是帮助大家深入探讨数据库设计的权衡之道。它由 Eric Brewer 于 2000 年正式命名。</p>
+<h2 id="解释一">解释一<a href="#解释一" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>CAP 定理：不要求线性化的应用更能容忍网络故障。</p>
 <p>只要不可靠才诶黄哦，都会发生违背线性化的风险。我们可以做如下权衡：</p>
 <ul>
 <li>如果应用要求线性化，一旦发生网络分区，则必须等待网络修复，或者直接返回错误。结果为服务不可用（保证一致性或者线性化）。</li>
 <li>如果应用不要求线性化，且每个可副本独立处理请求。此时服务可用，但结果行为不符合线性化（保证高可用）。</li>
 </ul>
-<h2 id="解释二">解释二</h2>
+<h2 id="解释二">解释二<a href="#解释二" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>一致性（Consistency）、可用性（Availability）、分区容错性（Partition tolerance）。系统只能支持两个特性。</p>
 <blockquote>
 <p>这里的分区指网络分区（即网络故障）。</p>
@@ -67,10 +176,42 @@
 <p>网络正常的时候，系统可以同时保证一致性（线性化）和可用性。而一旦发生了网络故障，必须要么选择线性（一致性），要么可用性。
 也就是“网络分区的情况下”是选择一致还是可用。</p>
 
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

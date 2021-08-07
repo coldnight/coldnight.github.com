@@ -1,58 +1,171 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>排序字符串表：SSTables | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>排序字符串表：SSTables :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="SSTables 通过按照键的顺序存储在日志段文件中来解决哈希索引面临的一些问题。它要求每个键在每个合并的段文件中只能出现一次（通过压缩确保）。
+对比哈希索引的日志段 优点   合并段更加高效，即使文件大于可用内存。类似于归并排序算法中使用的方法。并发读取多个输入段文件，比较每个文件的第一个键，把最小的键拷贝到输出文件，并重复。
+解决多个段文件重复：保留最新的值，因为每个段包含在某段时间内写入数据库的所有值，意味着肯定有一个值比其他所有值更新。
+  基于键有序的特性可以采用稀疏索引避免内存中包含所有键的索引。
+  将一定范围内的所有键存储到一个块中，便于需要请求范围内多个 key-value，降低磁盘 I/O。
+  构建和维护 保证顺序 内存中痛哦红黑树或者 AVL 树支持任意顺序插入并以排序后的顺序读取它们。
+ 写入时，将其添加到内存中的平衡树数据结构中，成为内存表。 内存表大于某个阈值（MB级别），将其作为 SSTable 文件写入磁盘。写入同时，写入可以继续添加到一个新的内存表实例中。 处理请求顺序：首先从内存表中查找键 -&amp;gt; 最新的磁盘段文件 -&amp;gt; 次新磁盘段文件，以此类推。 后台进程周期性执行段合并与压缩，合并多个段文件并丢弃被覆盖或着删除的值。  崩溃处理 为了避免数据库崩溃最近的写入（在内存表中尚未写入磁盘）将会丢失的问题：
+ 在磁盘上保留单独的日志，每个写入都会立即追加到该日志。并且无需排序。 内存表写入 SSTable 时，丢弃相应的日志。  使用此技术的数据库  LevelDB RocksDB  类似的
+ Cassandra HBase  " />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="排序字符串表：SSTables">
+<meta property="og:description" content="SSTables 通过按照键的顺序存储在日志段文件中来解决哈希索引面临的一些问题。它要求每个键在每个合并的段文件中只能出现一次（通过压缩确保）。
+对比哈希索引的日志段 优点   合并段更加高效，即使文件大于可用内存。类似于归并排序算法中使用的方法。并发读取多个输入段文件，比较每个文件的第一个键，把最小的键拷贝到输出文件，并重复。
+解决多个段文件重复：保留最新的值，因为每个段包含在某段时间内写入数据库的所有值，意味着肯定有一个值比其他所有值更新。
+  基于键有序的特性可以采用稀疏索引避免内存中包含所有键的索引。
+  将一定范围内的所有键存储到一个块中，便于需要请求范围内多个 key-value，降低磁盘 I/O。
+  构建和维护 保证顺序 内存中痛哦红黑树或者 AVL 树支持任意顺序插入并以排序后的顺序读取它们。
+ 写入时，将其添加到内存中的平衡树数据结构中，成为内存表。 内存表大于某个阈值（MB级别），将其作为 SSTable 文件写入磁盘。写入同时，写入可以继续添加到一个新的内存表实例中。 处理请求顺序：首先从内存表中查找键 -&amp;gt; 最新的磁盘段文件 -&amp;gt; 次新磁盘段文件，以此类推。 后台进程周期性执行段合并与压缩，合并多个段文件并丢弃被覆盖或着删除的值。  崩溃处理 为了避免数据库崩溃最近的写入（在内存表中尚未写入磁盘）将会丢失的问题：
+ 在磁盘上保留单独的日志，每个写入都会立即追加到该日志。并且无需排序。 内存表写入 SSTable 时，丢弃相应的日志。  使用此技术的数据库  LevelDB RocksDB  类似的
+ Cassandra HBase  " />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-06-06 10:31:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>排序字符串表：SSTables</h1>
-    <time datetime="2021-06-06T10:31:00&#43;08:00">June 06, 2021</time>
-  </header>
-  <p>SSTables 通过按照键的顺序存储在日志段文件中来解决<a href="/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/">哈希索引</a>面临的一些问题。它要求每个键在每个合并的段文件中只能出现一次（通过压缩确保）。</p>
-<h2 id="对比-哈希索引--20210606103354-哈希索引-dot-md--的日志段">对比<a href="/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/">哈希索引</a>的日志段</h2>
-<h3 id="优点">优点</h3>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/">排序字符串表：SSTables</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-06-06 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>SSTables 通过按照键的顺序存储在日志段文件中来解决<a href="/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/">哈希索引</a>面临的一些问题。它要求每个键在每个合并的段文件中只能出现一次（通过压缩确保）。</p>
+<h2 id="对比-哈希索引--20210606103354-哈希索引-dot-md--的日志段">对比<a href="/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/">哈希索引</a>的日志段<a href="#对比-哈希索引--20210606103354-哈希索引-dot-md--的日志段" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="优点">优点<a href="#优点" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ol>
 <li>
 <p>合并段更加高效，即使文件大于可用内存。类似于<a href="/notes/notes/20200320173033_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">归并排序</a>算法中使用的方法。并发读取多个输入段文件，比较每个文件的第一个键，把最小的键拷贝到输出文件，并重复。</p>
@@ -65,8 +178,8 @@
 <p>将一定范围内的所有键存储到一个块中，便于需要请求范围内多个 key-value，降低磁盘 I/O。</p>
 </li>
 </ol>
-<h2 id="构建和维护">构建和维护</h2>
-<h3 id="保证顺序">保证顺序</h3>
+<h2 id="构建和维护">构建和维护<a href="#构建和维护" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="保证顺序">保证顺序<a href="#保证顺序" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>内存中痛哦红黑树或者 AVL 树支持任意顺序插入并以排序后的顺序读取它们。</p>
 <ol>
 <li>写入时，将其添加到内存中的平衡树数据结构中，成为内存表。</li>
@@ -74,13 +187,13 @@
 <li>处理请求顺序：首先从内存表中查找键 -&gt; 最新的磁盘段文件 -&gt; 次新磁盘段文件，以此类推。</li>
 <li>后台进程周期性执行段合并与压缩，合并多个段文件并丢弃被覆盖或着删除的值。</li>
 </ol>
-<h3 id="崩溃处理">崩溃处理</h3>
+<h3 id="崩溃处理">崩溃处理<a href="#崩溃处理" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>为了避免数据库崩溃最近的写入（在内存表中尚未写入磁盘）将会丢失的问题：</p>
 <ol>
 <li>在磁盘上保留单独的日志，每个写入都会立即追加到该日志。并且无需排序。</li>
 <li>内存表写入 SSTable 时，丢弃相应的日志。</li>
 </ol>
-<h2 id="使用此技术的数据库">使用此技术的数据库</h2>
+<h2 id="使用此技术的数据库">使用此技术的数据库<a href="#使用此技术的数据库" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ul>
 <li>LevelDB</li>
 <li>RocksDB</li>
@@ -91,10 +204,42 @@
 <li>HBase</li>
 </ul>
 
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

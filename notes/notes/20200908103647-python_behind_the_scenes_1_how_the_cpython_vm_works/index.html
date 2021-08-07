@@ -1,65 +1,170 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>Python behind the scenes #1: how the CPython VM works | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>Python behind the scenes #1: how the CPython VM works :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="原文链接：Python behind the scenes #1: how the CPython VM works。
+Python 幕后 #1: CPython 虚拟机如何工作 介绍（Introduction） 你是否曾经好奇过当你运行 Python 代码时 python 做了些什么？
+$ python script.py 这篇文章将开启一个系列来尝试解答这个问题。我们将深入 Python 最流行的实现 CPython 的内部。 通过深入 CPython 的内部我们将更深一层的去理解这门编程语言本身。这也是我们这个系列的最主要的目标。 如果你熟悉 Python 并且可以阅读 C 代码，但是对 CPython 源码本身没有太多的经验， 那么你可能非常适合本系列，并且对本系列感兴趣。
+什么是 CPython 并且为什么有人想学习它（What CPython is and why anyone would want to study it） 我们首先来说明一些众所周知的事情。CPython 是用 C 编写的 Python 解析器。他是 Python 语言的众多实现 的一种，其他还有诸如 PyPy、Jython、IronPython 等。CPython 的独特之处在于它是 Python 的起源、维护时间最长也是最受欢迎的。
+CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可能是：Python 是一门编程语言。 当正确问相同的问题，那么答案将会更加明确：什么定义了 Python？Python 不像 C 语言有正式的规范， 但是与之相近的是 Python 语言参考（Python Language Reference），它以如下内容开始：" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Python behind the scenes #1: how the CPython VM works">
+<meta property="og:description" content="原文链接：Python behind the scenes #1: how the CPython VM works。
+Python 幕后 #1: CPython 虚拟机如何工作 介绍（Introduction） 你是否曾经好奇过当你运行 Python 代码时 python 做了些什么？
+$ python script.py 这篇文章将开启一个系列来尝试解答这个问题。我们将深入 Python 最流行的实现 CPython 的内部。 通过深入 CPython 的内部我们将更深一层的去理解这门编程语言本身。这也是我们这个系列的最主要的目标。 如果你熟悉 Python 并且可以阅读 C 代码，但是对 CPython 源码本身没有太多的经验， 那么你可能非常适合本系列，并且对本系列感兴趣。
+什么是 CPython 并且为什么有人想学习它（What CPython is and why anyone would want to study it） 我们首先来说明一些众所周知的事情。CPython 是用 C 编写的 Python 解析器。他是 Python 语言的众多实现 的一种，其他还有诸如 PyPy、Jython、IronPython 等。CPython 的独特之处在于它是 Python 的起源、维护时间最长也是最受欢迎的。
+CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可能是：Python 是一门编程语言。 当正确问相同的问题，那么答案将会更加明确：什么定义了 Python？Python 不像 C 语言有正式的规范， 但是与之相近的是 Python 语言参考（Python Language Reference），它以如下内容开始：" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-09-08 10:36:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>Python behind the scenes #1: how the CPython VM works</h1>
-    <time datetime="2020-09-08T10:36:00&#43;08:00">September 08, 2020</time>
-  </header>
-  <p>原文链接：<a href="https://tenthousandmeters.com/blog/python-behind-the-scenes-1-how-the-cpython-vm-works/">Python behind the scenes #1: how the CPython VM works</a>。</p>
-<h2 id="python-幕后-1-cpython-虚拟机如何工作">Python 幕后 #1: CPython 虚拟机如何工作</h2>
-<h3 id="介绍-introduction">介绍（Introduction）</h3>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/">Python behind the scenes #1: how the CPython VM works</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-09-08 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>原文链接：<a href="https://tenthousandmeters.com/blog/python-behind-the-scenes-1-how-the-cpython-vm-works/">Python behind the scenes #1: how the CPython VM works</a>。</p>
+<h2 id="python-幕后-1-cpython-虚拟机如何工作">Python 幕后 #1: CPython 虚拟机如何工作<a href="#python-幕后-1-cpython-虚拟机如何工作" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="介绍-introduction">介绍（Introduction）<a href="#介绍-introduction" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>你是否曾经好奇过当你运行 Python 代码时 <code>python</code> 做了些什么？</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python script.py
 </code></pre></div><p>这篇文章将开启一个系列来尝试解答这个问题。我们将深入 Python 最流行的实现 CPython 的内部。
 通过深入 CPython 的内部我们将更深一层的去理解这门编程语言本身。这也是我们这个系列的最主要的目标。
 如果你熟悉 Python 并且可以阅读 C 代码，但是对 CPython 源码本身没有太多的经验，
 那么你可能非常适合本系列，并且对本系列感兴趣。</p>
-<h3 id="什么是-cpython-并且为什么有人想学习它-what-cpython-is-and-why-anyone-would-want-to-study-it">什么是 CPython 并且为什么有人想学习它（What CPython is and why anyone would want to study it）</h3>
+<h3 id="什么是-cpython-并且为什么有人想学习它-what-cpython-is-and-why-anyone-would-want-to-study-it">什么是 CPython 并且为什么有人想学习它（What CPython is and why anyone would want to study it）<a href="#什么是-cpython-并且为什么有人想学习它-what-cpython-is-and-why-anyone-would-want-to-study-it" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>我们首先来说明一些众所周知的事情。CPython 是用 C 编写的 Python 解析器。他是 Python 语言的众多实现
 的一种，其他还有诸如 PyPy、Jython、IronPython 等。CPython 的独特之处在于它是 Python 的起源、维护时间最长也是最受欢迎的。</p>
 <p>CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可能是：Python 是一门编程语言。
@@ -81,17 +186,17 @@
 <li>CPython 提供了 Python/C API 来允许我们用 C 扩展 Python 或者在 C 中嵌入 Python。
 程序员需要很好的理解 CPython 如何工作才能高效的使用这些 API。</li>
 </ul>
-<h3 id="了解-cpython-如果工作需要做些什么-what-it-takes-to-understand-how-cpython-works">了解 CPython 如果工作需要做些什么（What it takes to understand how CPython works）</h3>
+<h3 id="了解-cpython-如果工作需要做些什么-what-it-takes-to-understand-how-cpython-works">了解 CPython 如果工作需要做些什么（What it takes to understand how CPython works）<a href="#了解-cpython-如果工作需要做些什么-what-it-takes-to-understand-how-cpython-works" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>CPython 被设计成易于维护。一个新人完全可以阅读源代码并理解代码做了些什么。但是，这可能需要一些时间。
 通过这个系列我希望能帮助你缩短这个时间。</p>
-<h3 id="这个系列如何推进-how-this-series-is-laid-out">这个系列如何推进（How this series is laid out）</h3>
+<h3 id="这个系列如何推进-how-this-series-is-laid-out">这个系列如何推进（How this series is laid out）<a href="#这个系列如何推进-how-this-series-is-laid-out" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>我选择采取自上而下的方法。在这个部分我们将探索 CPython 虚拟机的核心概念。接下来，我们将看到
 CPython 如何编译一个程序到 VM 可以执行的内容。再然后，我们将熟悉源代码，并通过执行一个程序
 来学习解释器的主要部分。最后，我们可以挑选语言不同的方面来一个接一个的去看看它们是如何实现的。
 这是我的一个大概的想法，并不是一个严格的计划。</p>
 <p><strong><strong>Note</strong></strong>: 本文参考 CPython 3.9。一些实现细节将必然会随着 CPython 的演进而改变。
 我将会尝试关注一些重要的改变并添加更新备注。</p>
-<h3 id="鸟瞰-the-big-picture">鸟瞰（The big picture）</h3>
+<h3 id="鸟瞰-the-big-picture">鸟瞰（The big picture）<a href="#鸟瞰-the-big-picture" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>执行一个 Python 程序大概经过三个阶段：</p>
 <ol>
 <li>初始化（Initialization）</li>
@@ -133,8 +238,8 @@ CPython 虚拟机一个基于栈的。也就意味这它执行指令并通过栈
 <li>连接两个字符串和两个数字相加是同一个指令吗？如果是，VM 如何处理这些操作之间的差异？</li>
 </ul>
 <p>要回答这些和其他一些有趣的问题我们需要先看一下 CPython VM 的一些核心概念。</p>
-<h3 id="代码对象-函数对象-帧-code-objects-function-objects-frames">代码对象、函数对象、帧（Code objects, function objects, frames）</h3>
-<h4 id="代码对象">代码对象</h4>
+<h3 id="代码对象-函数对象-帧-code-objects-function-objects-frames">代码对象、函数对象、帧（Code objects, function objects, frames）<a href="#代码对象-函数对象-帧-code-objects-function-objects-frames" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="代码对象">代码对象<a href="#代码对象" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>我们已经看过一个简单的函数的字节码是什么样子的。但是一个典型的 Python 程序要复杂的多。
 VM 如何执行一个包含程序定义和函数调用的模块（module）？</p>
 <p>考虑如下程序：</p>
@@ -164,7 +269,7 @@ VM 如何执行一个包含程序定义和函数调用的模块（module）？</
 CPython 存储关于代码块的信息的结构体就是代码对象（code object）。
 它包含字节码和一些其他的比如代码块使用的变量名列表。运行一个模块或者调用一个函数意味着开始
 执行相应的代码对象。</p>
-<h4 id="函数对象-function-object">函数对象（function object）</h4>
+<h4 id="函数对象-function-object">函数对象（function object）<a href="#函数对象-function-object" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>但是，函数不仅仅是代码对象。它必须包含一些额外的信息比如名字、文档字符串（docstring）、
 默认参数和定义在闭包作用域中的变量的值。这些信息连同代码对象存储在一个函数对象里。
 <code>MAKE_FUNCTION</code> 指令用于创建函数对象。CPython 中定义函数对象的源码前置了如下注释：</p>
@@ -228,7 +333,7 @@ add_5 <span style="color:#f92672">=</span> make_add_x(<span style="color:#ae81ff
     PyObject <span style="color:#f92672">*</span>func_qualname;    <span style="color:#75715e">/* The qualified name */</span>
     vectorcallfunc vectorcall;
 } PyFunctionObject;
-</code></pre></div><h4 id="帧对象-frame-object">帧对象（frame object）</h4>
+</code></pre></div><h4 id="帧对象-frame-object">帧对象（frame object）<a href="#帧对象-frame-object" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>当执行一个代码对象时，VM 需要一直跟踪变量的值并不断的更新值栈（value stack）。
 同时还需要记住在什么地方停止运行当前代码对象然后去运行其他的代码对象，并且在哪里返回。
 CPython 在一个帧对象里存储这些信息，或者简单的说成帧。一个帧提供了一个哪个代码对象可以被执行的状态。
@@ -263,7 +368,7 @@ CPython 在一个帧对象里存储这些信息，或者简单的说成帧。一
 顶部。当一个函数被调用，一个新的帧被压到栈上。当从当前执行帧返回时，CPython 通过记录的最后处理的指令
 来继续执行前一个帧。某种意义上 CPython 除了执行帧其他什么也没做。但是接下来我们马上看到这个总结
 善意的隐藏了某些细节。</p>
-<h3 id="线程-解释器-运行时-threads-interpreters-runtime">线程、解释器、运行时（Threads, interpreters, runtime）</h3>
+<h3 id="线程-解释器-运行时-threads-interpreters-runtime">线程、解释器、运行时（Threads, interpreters, runtime）<a href="#线程-解释器-运行时-threads-interpreters-runtime" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>我们已经讨论过三个重要的主题：</p>
 <ul>
 <li>代码对象</li>
@@ -276,7 +381,7 @@ CPython 在一个帧对象里存储这些信息，或者简单的说成帧。一
 <li>解释器状态（interpreter state），和</li>
 <li>运行时状态（runtime state）</li>
 </ul>
-<h4 id="线程状态">线程状态</h4>
+<h4 id="线程状态">线程状态<a href="#线程状态" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>线程状态是一个包含线程特定数据栈数据结构，其中包含调用栈、异常状态和调试设置。
 不应将其和系统线程（OS thread）混淆，尽管它们联系紧密。考虑当时使用标准库 <code>threading</code>
 在一个单独的线程运行一个函数发生了什么：</p>
@@ -306,7 +411,7 @@ t<span style="color:#f92672">.</span>join()
 问题：比如，当两个线程同时增加同一个对象的引用计数，引用计数最终可能只被增加了一次。</p>
 </blockquote>
 <p>要管理多线程，就需要一个比线程状态更高层级的数据结构。</p>
-<h4 id="解释器状态和运行时状态-interpreter-and-runtime-states">解释器状态和运行时状态（interpreter and runtime states）</h4>
+<h4 id="解释器状态和运行时状态-interpreter-and-runtime-states">解释器状态和运行时状态（interpreter and runtime states）<a href="#解释器状态和运行时状态-interpreter-and-runtime-states" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>实际上，这是两个状态：解释器状态和运行时状态。两者的需求区分看起来似乎不明显。但是，任何程序
 的执行都需要各个状态的最少一个实例，并且有合理的原因。</p>
 <p>解释器状态是一组线程以及该组相关的数据。线程共享诸如加载的模块（sys.modules）、内建对象（builtins.__dict__）
@@ -317,7 +422,7 @@ t<span style="color:#f92672">.</span>join()
 也就是隔离全局命名空间（global namespace）。</p>
 <p>CPython 没有提供像 <code>threading</code> 模块那样简单的方式创建新的解释器。这个特性仅仅通过 Python/C API 提供支持，
 但是<a href="https://www.python.org/dev/peps/pep-0554/">未来有可能改善</a>。</p>
-<h3 id="架构摘要-architecture-summary">架构摘要（Architecture summary）</h3>
+<h3 id="架构摘要-architecture-summary">架构摘要（Architecture summary）<a href="#架构摘要-architecture-summary" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>让我们来快速总结 CPython 的架构来看看这一切是如何组织在一块的。解释器可以被看作分层结构（layer structure）。
 这些层级概括为：</p>
 <ol>
@@ -329,7 +434,7 @@ t<span style="color:#f92672">.</span>join()
 </ol>
 <p>我们已经看到不同的层级通过相应的数据结构来表示。在某些情况下它们很难等效。比如，内存分配机制
 通过使用全局变量来实现。这不是运行时状态的一部分，但是绝对是 CPython 运行时层级的一部分。</p>
-<h3 id="总结-conclusion">总结（Conclusion）</h3>
+<h3 id="总结-conclusion">总结（Conclusion）<a href="#总结-conclusion" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>在这一部分我们已经大体描述了 <code>python</code> 在执行一个 Python 程序时做了什么。我们已经看到它工作在三个状态：</p>
 <ol>
 <li>初始化 Python 运行时</li>
@@ -354,10 +459,42 @@ t<span style="color:#f92672">.</span>join()
 </ol>
 </section>
 
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>

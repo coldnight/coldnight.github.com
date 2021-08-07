@@ -1,72 +1,175 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<title>Let&#39;s Encrypt | Taking Smart Notes With Org-mode</title>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
+<html lang="en">
+<head>
+  
+    <title>Let&#39;s Encrypt :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/index.css">
-<link rel="stylesheet" href="https://www.linuxzen.com/notes/css/classes.css">
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200319221212_let_s_encrypt/">
-<link rel="alternate" type="application/rss+xml" href="" title="Taking Smart Notes With Org-mode">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="description" content="这里以新增 vd.linuxzen.com 为例。
+新增 DNS 解析  通过 DNSPOD 新增 DNS 解析 A 记录  调整 Nginx 新增 HTTP 站点 Nginx 参考配置
+server { listen 80; server_name vd.linuxzen.com; include /etc/nginx/snippets/letsencrypt-acme-challenge.conf; } 新增签发证书 $ acme.sh --force --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d vd.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/ 安装证书
+$ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.com/cert.pem --key-file /etc/nginx/certs/linuxzen.com/privkey.pem --fullchain-file /etc/nginx/certs/linuxzen." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200319221212_let_s_encrypt/" />
 
 
-<body>
 
-<header class="icons">
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Let&#39;s Encrypt">
+<meta property="og:description" content="这里以新增 vd.linuxzen.com 为例。
+新增 DNS 解析  通过 DNSPOD 新增 DNS 解析 A 记录  调整 Nginx 新增 HTTP 站点 Nginx 参考配置
+server { listen 80; server_name vd.linuxzen.com; include /etc/nginx/snippets/letsencrypt-acme-challenge.conf; } 新增签发证书 $ acme.sh --force --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d vd.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/ 安装证书
+$ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.com/cert.pem --key-file /etc/nginx/certs/linuxzen.com/privkey.pem --fullchain-file /etc/nginx/certs/linuxzen." />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200319221212_let_s_encrypt/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
   
-    <a href="https://www.linuxzen.com/notes/">Taking Smart Notes With Org-mode</a>
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
   
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-03-19 00:00:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
   
-    <nav>
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-      <a href="/notes/articles/notes/" >
+      
         
-           Topics
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
         
-      </a>
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
     
-      <a href="/notes/articles/" >
-        
-          Articles
-        
-      </a>
+
     
-      <a href="/notes/notes/" >
-        
-          Notes
-        
-      </a>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
     
-    </nav>
-  
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
   
 </header>
 
-<article>
-  <header>
-    <h1>Let&#39;s Encrypt</h1>
-    <time datetime="2020-03-19T00:00:00&#43;08:00">March 19, 2020</time>
-  </header>
-  <p>这里以新增 <code>vd.linuxzen.com</code> 为例。</p>
-<h2 id="新增-dns-解析">新增 DNS 解析</h2>
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20200319221212_let_s_encrypt/">Let&rsquo;s Encrypt</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-03-19 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>这里以新增 <code>vd.linuxzen.com</code> 为例。</p>
+<h2 id="新增-dns-解析">新增 DNS 解析<a href="#新增-dns-解析" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ol>
 <li>通过 DNSPOD 新增 DNS 解析 A 记录</li>
 </ol>
-<h2 id="调整-nginx-新增-http-站点">调整 Nginx 新增 HTTP 站点</h2>
+<h2 id="调整-nginx-新增-http-站点">调整 Nginx 新增 HTTP 站点<a href="#调整-nginx-新增-http-站点" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Nginx 参考配置</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
         <span style="color:#f92672">listen</span>  <span style="color:#ae81ff">80</span>;
         <span style="color:#f92672">server_name</span>     <span style="color:#e6db74">vd.linuxzen.com</span>;
         <span style="color:#f92672">include</span> <span style="color:#e6db74">/etc/nginx/snippets/letsencrypt-acme-challenge.conf</span>;
 }
-</code></pre></div><h2 id="新增签发证书">新增签发证书</h2>
+</code></pre></div><h2 id="新增签发证书">新增签发证书<a href="#新增签发证书" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ acme.sh --force --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d vd.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/
 </code></pre></div><p>安装证书</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.com/cert.pem --key-file /etc/nginx/certs/linuxzen.com/privkey.pem --fullchain-file /etc/nginx/certs/linuxzen.com/fullchain.pem --reloadcmd <span style="color:#e6db74">&#34;sudo service nginx reload &amp;&amp; docker restart ipsec-vpn-ssl &amp;&amp; docker restart v2ray &amp;&amp; docker restart v2ray2&#34;</span>
-</code></pre></div><h2 id="调整-nginx-配置文件应用证书">调整 Nginx 配置文件应用证书</h2>
+</code></pre></div><h2 id="调整-nginx-配置文件应用证书">调整 Nginx 配置文件应用证书<a href="#调整-nginx-配置文件应用证书" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
         <span style="color:#f92672">listen</span>  <span style="color:#ae81ff">80</span>;
         <span style="color:#f92672">server_name</span>     <span style="color:#e6db74">vd.linuxzen.com</span>;
@@ -110,10 +213,42 @@
         <span style="color:#f92672">include</span> <span style="color:#e6db74">/etc/nginx/snippets/letsencrypt-acme-challenge.conf</span>;
 }
 </code></pre></div>
-</article>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
 
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
 
 </body>
-
 </html>
