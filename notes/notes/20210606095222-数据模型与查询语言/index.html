@@ -6,9 +6,13 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="关系模型 突出数据之间的关联。
+<meta name="description" content="数据模型 关系模型 突出数据之间的关联。
 文档模型 数据来自于包含文档，文档间关联很少。
-图状数据模型 针对所有数据都可能互相关联。" />
+图状数据模型 针对所有数据都可能互相关联。
+数据查询语言 Web 上声明式查询 CSS 选择器。
+MapReduce 查询 MapReduce 是一种编程模型，用于在许多机器上批量处理海量数据。
+MongoDB 中的 MapReduce
+db.observations.mapReduce( function map() { // 2  var year = this.observationTimestamp.getFullYear(); var month = this.obbservationTimestamp.getMonth() &#43; 1; emit(year &#43; &amp;#34;-&amp;#34; &#43; month, this.numAnimals); // 3  }, function reduce(key, values) { // 4  return Array.sum(values); // 5  }, { query: {family: &amp;#34;Sharks&amp;#34;}, // 1  out: &amp;#34;monthlySharkReport&amp;#34; // 6  } );  过滤器声明式执行鲨鱼种类（MongoDB 特有扩展）。 mapper：对于每个匹配的文档都会调用一次这个 JavaScript 函数。 mapper 发射一个「键-值」对，键是 “2013-12” 格式的字符串，值是动物的数量 mapper 发射的键值对按键分组，对于相同键的所有「键-值」对，调用 reduce 函数。 reducer 函数将特定月份的所有观察到的动物数量相加。 最终输出写入到 monthlySharkReport 集合中  " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/" />
@@ -36,9 +40,13 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="数据模型与查询语言">
-<meta property="og:description" content="关系模型 突出数据之间的关联。
+<meta property="og:description" content="数据模型 关系模型 突出数据之间的关联。
 文档模型 数据来自于包含文档，文档间关联很少。
-图状数据模型 针对所有数据都可能互相关联。" />
+图状数据模型 针对所有数据都可能互相关联。
+数据查询语言 Web 上声明式查询 CSS 选择器。
+MapReduce 查询 MapReduce 是一种编程模型，用于在许多机器上批量处理海量数据。
+MongoDB 中的 MapReduce
+db.observations.mapReduce( function map() { // 2  var year = this.observationTimestamp.getFullYear(); var month = this.obbservationTimestamp.getMonth() &#43; 1; emit(year &#43; &amp;#34;-&amp;#34; &#43; month, this.numAnimals); // 3  }, function reduce(key, values) { // 4  return Array.sum(values); // 5  }, { query: {family: &amp;#34;Sharks&amp;#34;}, // 1  out: &amp;#34;monthlySharkReport&amp;#34; // 6  } );  过滤器声明式执行鲨鱼种类（MongoDB 特有扩展）。 mapper：对于每个匹配的文档都会调用一次这个 JavaScript 函数。 mapper 发射一个「键-值」对，键是 “2013-12” 格式的字符串，值是动物的数量 mapper 发射的键值对按键分组，对于相同键的所有「键-值」对，调用 reduce 函数。 reducer 函数将特定月份的所有观察到的动物数量相加。 最终输出写入到 monthlySharkReport 集合中  " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -151,12 +159,41 @@
   
 
   <div class="post-content"><div>
-        <h2 id="关系模型">关系模型<a href="#关系模型" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <h2 id="数据模型">数据模型<a href="#数据模型" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="关系模型">关系模型<a href="#关系模型" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>突出数据之间的关联。</p>
-<h2 id="文档模型">文档模型<a href="#文档模型" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="文档模型">文档模型<a href="#文档模型" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>数据来自于包含文档，文档间关联很少。</p>
-<h2 id="图状数据模型">图状数据模型<a href="#图状数据模型" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="图状数据模型">图状数据模型<a href="#图状数据模型" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>针对所有数据都可能互相关联。</p>
+<h2 id="数据查询语言">数据查询语言<a href="#数据查询语言" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="web-上声明式查询">Web 上声明式查询<a href="#web-上声明式查询" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>CSS 选择器。</p>
+<h3 id="mapreduce-查询">MapReduce 查询<a href="#mapreduce-查询" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>MapReduce 是一种编程模型，用于在许多机器上批量处理海量数据。</p>
+<p>MongoDB 中的 MapReduce</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">observations</span>.<span style="color:#a6e22e">mapReduce</span>(
+  <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">map</span>() {                   <span style="color:#75715e">// 2
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">year</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">observationTimestamp</span>.<span style="color:#a6e22e">getFullYear</span>();
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">month</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">obbservationTimestamp</span>.<span style="color:#a6e22e">getMonth</span>() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#a6e22e">emit</span>(<span style="color:#a6e22e">year</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">month</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">numAnimals</span>);    <span style="color:#75715e">// 3
+</span><span style="color:#75715e"></span>  },
+  <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">reduce</span>(<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">values</span>) {     <span style="color:#75715e">// 4
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> Array.<span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">values</span>);        <span style="color:#75715e">// 5
+</span><span style="color:#75715e"></span>  },
+  {
+    <span style="color:#a6e22e">query</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">family</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Sharks&#34;</span>},       <span style="color:#75715e">// 1
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">out</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;monthlySharkReport&#34;</span>         <span style="color:#75715e">// 6
+</span><span style="color:#75715e"></span>  }
+);
+</code></pre></div><ol>
+<li>过滤器声明式执行鲨鱼种类（MongoDB 特有扩展）。</li>
+<li>mapper：对于每个匹配的文档都会调用一次这个 JavaScript 函数。</li>
+<li>mapper 发射一个「键-值」对，键是 “2013-12” 格式的字符串，值是动物的数量</li>
+<li>mapper 发射的键值对按键分组，对于相同键的所有「键-值」对，调用 reduce 函数。</li>
+<li>reducer 函数将特定月份的所有观察到的动物数量相加。</li>
+<li>最终输出写入到 <code>monthlySharkReport</code> 集合中</li>
+</ol>
 
       </div></div>
 

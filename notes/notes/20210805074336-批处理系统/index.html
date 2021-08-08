@@ -6,7 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="" />
+<meta name="description" content="MapReduce MapReduce 与分布式文件系统 MapReduce 就像分布在上千台机器上的 Unix 工具。
+ MapReduce 作业通常不会修改输入，除了输出外没有任何副作用。 MapReduce 作业在分布式文件系统上读写。（Unix 工具 stdin、stdout），如 HDFS（Hadoop Distributed File System)等（GlusterFS、QFS、Amazon S3、Azure Blob 和 OpenStack Swift）。  MapReduce 作业执行 MapReduce 是一个编程框架，可以使用它编写代码处理 HDFS 等分布式文件系统中的大型数据集。
+要创建 MapReduce 作业需要实现两个回调函数： mapper 和 reducer （另请参阅 MapReduce 查询）:" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/" />
@@ -34,7 +36,9 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="批处理系统">
-<meta property="og:description" content="" />
+<meta property="og:description" content="MapReduce MapReduce 与分布式文件系统 MapReduce 就像分布在上千台机器上的 Unix 工具。
+ MapReduce 作业通常不会修改输入，除了输出外没有任何副作用。 MapReduce 作业在分布式文件系统上读写。（Unix 工具 stdin、stdout），如 HDFS（Hadoop Distributed File System)等（GlusterFS、QFS、Amazon S3、Azure Blob 和 OpenStack Swift）。  MapReduce 作业执行 MapReduce 是一个编程框架，可以使用它编写代码处理 HDFS 等分布式文件系统中的大型数据集。
+要创建 MapReduce 作业需要实现两个回调函数： mapper 和 reducer （另请参阅 MapReduce 查询）:" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -146,7 +150,19 @@
 
   
 
-  <div class="post-content"></div>
+  <div class="post-content"><div>
+        <h2 id="mapreduce">MapReduce<a href="#mapreduce" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="mapreduce-与分布式文件系统">MapReduce 与分布式文件系统<a href="#mapreduce-与分布式文件系统" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>MapReduce 就像分布在上千台机器上的 Unix 工具。</p>
+<ul>
+<li>MapReduce 作业通常不会修改输入，除了输出外没有任何副作用。</li>
+<li>MapReduce 作业在分布式文件系统上读写。（Unix 工具 stdin、stdout），如 HDFS（<a href="/notes/notes/20210808075530-hadoop_distributed_file_system/">Hadoop Distributed File System</a>)等（GlusterFS、QFS、Amazon S3、Azure Blob 和 OpenStack Swift）。</li>
+</ul>
+<h3 id="mapreduce-作业执行">MapReduce 作业执行<a href="#mapreduce-作业执行" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>MapReduce 是一个编程框架，可以使用它编写代码处理 HDFS 等分布式文件系统中的大型数据集。</p>
+<p>要创建 MapReduce 作业需要实现两个回调函数： <code>mapper</code> 和 <code>reducer</code> （另请参阅 <a href="/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/#数据查询语言">MapReduce 查询</a>）:</p>
+
+      </div></div>
 
   
 
