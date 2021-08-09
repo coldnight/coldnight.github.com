@@ -6,7 +6,44 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 09 Aug 2021 10:38:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 10 Aug 2021 07:26:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>弹性分布式数据集</title>
+      <link>https://www.linuxzen.com/notes/notes/20210810072604-%E5%BC%B9%E6%80%A7%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86/</link>
+      <pubDate>Tue, 10 Aug 2021 07:26:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210810072604-%E5%BC%B9%E6%80%A7%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>HBase</title>
+      <link>https://www.linuxzen.com/notes/notes/20210810071455-hbase/</link>
+      <pubDate>Tue, 10 Aug 2021 07:14:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210810071455-hbase/</guid>
+      <description>基于 Hadoop 分布式文件系统使用 SSTables 和 LSM-Tree 实现随机访问的 OLTP 数据库。</description>
+      <content>&lt;p&gt;基于 Hadoop 分布式文件系统使用 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/&#34;&gt;SSTables&lt;/a&gt; 和 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606100317-lsm_tree/&#34;&gt;LSM-Tree&lt;/a&gt; 实现随机访问的 OLTP 数据库。&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>大规模并行处理</title>
+      <link>https://www.linuxzen.com/notes/notes/20210810070530-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/</link>
+      <pubDate>Tue, 10 Aug 2021 07:05:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210810070530-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/</guid>
+      <description>MPP 数据库  Gamma 数据库机器 Teradata Tandem NonStop SQL  </description>
+      <content>&lt;h2 id=&#34;mpp-数据库&#34;&gt;MPP 数据库&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Gamma 数据库机器&lt;/li&gt;
+&lt;li&gt;Teradata&lt;/li&gt;
+&lt;li&gt;Tandem NonStop SQL&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Clock Synchronization with Chris Perl</title>
       <link>https://www.linuxzen.com/notes/notes/20210809103849-clock_synchronization_with_chris_perl/</link>
@@ -37,9 +74,9 @@
       <guid>https://www.linuxzen.com/notes/notes/20210809073407-hadoop/</guid>
       <description>Hadoop Distributed File System MapReduce MapReduce shuffle 按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。
 MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现：
- 输入：通常是 HDFS 中的一个目录。 分区：每个文件或文件块都被视为一个单独的分区。 处理：每个分区由单独的 map 任务来处理。 每个 mapper 都会尽量实现计算靠近数据。 代码复制：JAR 文件。 Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。 键值对必须进行排序，排序是分阶段进行的：  每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。 每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 SSTables 和 LSM-Tree。   reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 MapReduce shuffle。 reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。 reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。  MapReduce 工作流调度器  Oozie Azkaban Luigi Airflow Pinball  对比分布式数据库 存储多样性 处理模型多样性 针对频繁故障设计 </description>
+ 输入：通常是 HDFS 中的一个目录。 分区：每个文件或文件块都被视为一个单独的分区。 处理：每个分区由单独的 map 任务来处理。 每个 mapper 都会尽量实现计算靠近数据。 代码复制：JAR 文件。 Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。 键值对必须进行排序，排序是分阶段进行的：  每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。 每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 SSTables 和 LSM-Tree。   reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 MapReduce shuffle。 reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。 reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。  MapReduce 工作流调度器  Oozie Azkaban Luigi Airflow Pinball  对比分布式数据库 MapReduce 中的并行处理和并行 join 算法已经在十多年前所谓的大规模并行处理（MPP）数据库中实现了。</description>
       <content>&lt;h2 id=&#34;hadoop-distributed-file-system--20210808075530-hadoop-distributed-file-system-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210808075530-hadoop_distributed_file_system/&#34;&gt;Hadoop Distributed File System&lt;/a&gt;&lt;/h2&gt;
-&lt;h2 id=&#34;mapreduce--20210805074336-批处理系统-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/#mapreduce&#34;&gt;MapReduce&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;mapreduce--20210805074336-批处理系统-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/&#34;&gt;MapReduce&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;mapreduce-shuffle&#34;&gt;MapReduce shuffle&lt;/h3&gt;
 &lt;p&gt;按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。&lt;/p&gt;
 &lt;h3 id=&#34;mapreduce-的分布式执行&#34;&gt;MapReduce 的分布式执行&lt;/h3&gt;
@@ -70,8 +107,16 @@ MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现�
 &lt;li&gt;Pinball&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;对比分布式数据库&#34;&gt;对比分布式数据库&lt;/h2&gt;
+&lt;p&gt;MapReduce 中的并行处理和并行 join 算法已经在十多年前所谓的&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210810070530-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/&#34;&gt;大规模并行处理&lt;/a&gt;（MPP）数据库中实现了。&lt;/p&gt;
 &lt;h3 id=&#34;存储多样性&#34;&gt;存储多样性&lt;/h3&gt;
+&lt;p&gt;分布式文件系统中的文件只是字节序列，可以使用任何数据模型和编码来编写。可以是数据库记录，也可以是文本、图像、视频、传感器读数、稀疏矩阵、特征向量、基因组序列或任何其他类型的数据。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210810070530-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/&#34;&gt;MPP 数据库&lt;/a&gt; 通常需要对数据和查询模式进行仔细的提前建模。&lt;/p&gt;
+&lt;p&gt;Hadoop 经常被用于实现 ETL 过程：来自事务处理系统的数据以某种原始形式转储到分布式文件系统，然后编写 MapReduce 作业进行数据清理，将其转换为关系表单，并将其导入 MPP 数据仓库以进行分析。&lt;/p&gt;
 &lt;h3 id=&#34;处理模型多样性&#34;&gt;处理模型多样性&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;MPP 数据库属于一体化、紧密集成的软件系统。&lt;/li&gt;
+&lt;li&gt;SQL、MapReduce、&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210810071455-hbase/&#34;&gt;HBase&lt;/a&gt;（随机访问的 OLTP 数据库）Impala 等不同的组件。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;针对频繁故障设计&#34;&gt;针对频繁故障设计&lt;/h3&gt;
 </content>
     </item>
@@ -198,7 +243,7 @@ MapReduce 工作流 将 MapReduce 作业链接到工作流是非常普遍的，�
 Reducer 可以生成输出记录。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;mapreduce-分布式执行&#34;&gt;MapReduce 分布式执行&lt;/h4&gt;
-&lt;p&gt;参见 Hadoop 的 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809073407-hadoop/#id-7ce0e649-d25b-4d30-9c25-22caf92cbf2b-mapreduce&#34;&gt;MapReduce 的分布式执行&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;参见 Hadoop 的 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809073407-hadoop/&#34;&gt;MapReduce 的分布式执行&lt;/a&gt;。&lt;/p&gt;
 &lt;h4 id=&#34;mapreduce-工作流&#34;&gt;MapReduce 工作流&lt;/h4&gt;
 &lt;p&gt;将 MapReduce 作业链接到工作流是非常普遍的，作业的输出作为下一个作业的输入。通过目录名隐式的完成：&lt;/p&gt;
 &lt;ul&gt;
@@ -239,6 +284,19 @@ Reducer 可以生成输出记录。&lt;/li&gt;
 &lt;h4 id=&#34;批处理输出的哲学&#34;&gt;批处理输出的哲学&lt;/h4&gt;
 &lt;h3 id=&#34;对比-hadoop-与分布式数据库&#34;&gt;对比 Hadoop 与分布式数据库&lt;/h3&gt;
 &lt;p&gt;参见 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809073407-hadoop/&#34;&gt;对比分布式数据库&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;超越-mapreduce&#34;&gt;超越 MapReduce&lt;/h2&gt;
+&lt;h3 id=&#34;中间状态实体化&#34;&gt;中间状态实体化&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;数据流引擎：Spark、Flink、Tez&lt;/li&gt;
+&lt;li&gt;容错：Spark 使用 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210810072604-%E5%BC%B9%E6%80%A7%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86/&#34;&gt;弹性分布式数据集&lt;/a&gt; 跟踪数据的祖先，Flink 对运算符状态建立检查点来从故障中恢复。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;数据流对 MapReduce 的改进是：不需要自己将所有中间状态写入文件系统。&lt;/p&gt;
+&lt;h3 id=&#34;图与迭代处理&#34;&gt;图与迭代处理&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Pregel 处理模型&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;高级-api-和语言&#34;&gt;高级 API 和语言&lt;/h3&gt;
+&lt;p&gt;Hive、Pig、Cascading 和 Crunch。Tez 可以将这些高级语言移植到新的数据流执行引擎。&lt;/p&gt;
 </content>
     </item>
     
@@ -391,7 +449,47 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combina
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以下测试用例无法通过：&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 30
-&lt;/code&gt;&lt;/pre&gt;</content>
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; combinationSum2(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; candidates, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; target) {
+        sort(candidates.begin(), candidates.end());
+        backtracking(candidates, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, target);
+        vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; r;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; t : res) {
+            r.push_back(t);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;  r;
+    }
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; res;
+    vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; track;
+    map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; visited;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backtracking&lt;/span&gt;(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; condidates, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; start, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; target) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; target) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; target) {
+                res.insert(track);
+            }
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+        }
+
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; sz &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; condidates.size();
+
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; start; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; sz; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+            &lt;span style=&#34;color:#75715e&#34;&gt;// 避免全是一样的陷入无限的循环。
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; start &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; condidates[i] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; condidates[i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;
+            }
+            c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; condidates[i];
+            track.push_back(c);
+            backtracking(condidates, i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, n &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; c, target);
+            track.pop_back();
+        }
+        cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; start &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; sz &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;, &amp;#34;&lt;/span&gt;;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
     </item>
     
     <item>

@@ -173,7 +173,7 @@ MapReduce 工作流 将 MapReduce 作业链接到工作流是非常普遍的，�
 Reducer 可以生成输出记录。</li>
 </ul>
 <h4 id="mapreduce-分布式执行">MapReduce 分布式执行<a href="#mapreduce-分布式执行" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
-<p>参见 Hadoop 的 <a href="/notes/notes/20210809073407-hadoop/#id-7ce0e649-d25b-4d30-9c25-22caf92cbf2b-mapreduce">MapReduce 的分布式执行</a>。</p>
+<p>参见 Hadoop 的 <a href="/notes/notes/20210809073407-hadoop/">MapReduce 的分布式执行</a>。</p>
 <h4 id="mapreduce-工作流">MapReduce 工作流<a href="#mapreduce-工作流" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>将 MapReduce 作业链接到工作流是非常普遍的，作业的输出作为下一个作业的输入。通过目录名隐式的完成：</p>
 <ul>
@@ -214,6 +214,19 @@ Reducer 可以生成输出记录。</li>
 <h4 id="批处理输出的哲学">批处理输出的哲学<a href="#批处理输出的哲学" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <h3 id="对比-hadoop-与分布式数据库">对比 Hadoop 与分布式数据库<a href="#对比-hadoop-与分布式数据库" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>参见 <a href="/notes/notes/20210809073407-hadoop/">对比分布式数据库</a>。</p>
+<h2 id="超越-mapreduce">超越 MapReduce<a href="#超越-mapreduce" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="中间状态实体化">中间状态实体化<a href="#中间状态实体化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>数据流引擎：Spark、Flink、Tez</li>
+<li>容错：Spark 使用 <a href="/notes/notes/20210810072604-%E5%BC%B9%E6%80%A7%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86/">弹性分布式数据集</a> 跟踪数据的祖先，Flink 对运算符状态建立检查点来从故障中恢复。</li>
+</ul>
+<p>数据流对 MapReduce 的改进是：不需要自己将所有中间状态写入文件系统。</p>
+<h3 id="图与迭代处理">图与迭代处理<a href="#图与迭代处理" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>Pregel 处理模型</li>
+</ul>
+<h3 id="高级-api-和语言">高级 API 和语言<a href="#高级-api-和语言" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Hive、Pig、Cascading 和 Crunch。Tez 可以将这些高级语言移植到新的数据流执行引擎。</p>
 
       </div></div>
 

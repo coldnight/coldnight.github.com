@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Hadoop Distributed File System MapReduce MapReduce shuffle 按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。
 MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现：
- 输入：通常是 HDFS 中的一个目录。 分区：每个文件或文件块都被视为一个单独的分区。 处理：每个分区由单独的 map 任务来处理。 每个 mapper 都会尽量实现计算靠近数据。 代码复制：JAR 文件。 Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。 键值对必须进行排序，排序是分阶段进行的：  每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。 每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 SSTables 和 LSM-Tree。   reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 MapReduce shuffle。 reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。 reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。  MapReduce 工作流调度器  Oozie Azkaban Luigi Airflow Pinball  对比分布式数据库 存储多样性 处理模型多样性 针对频繁故障设计 " />
+ 输入：通常是 HDFS 中的一个目录。 分区：每个文件或文件块都被视为一个单独的分区。 处理：每个分区由单独的 map 任务来处理。 每个 mapper 都会尽量实现计算靠近数据。 代码复制：JAR 文件。 Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。 键值对必须进行排序，排序是分阶段进行的：  每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。 每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 SSTables 和 LSM-Tree。   reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 MapReduce shuffle。 reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。 reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。  MapReduce 工作流调度器  Oozie Azkaban Luigi Airflow Pinball  对比分布式数据库 MapReduce 中的并行处理和并行 join 算法已经在十多年前所谓的大规模并行处理（MPP）数据库中实现了。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210809073407-hadoop/" />
@@ -38,7 +38,7 @@ MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现�
 <meta property="og:title" content="Hadoop">
 <meta property="og:description" content="Hadoop Distributed File System MapReduce MapReduce shuffle 按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。
 MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现：
- 输入：通常是 HDFS 中的一个目录。 分区：每个文件或文件块都被视为一个单独的分区。 处理：每个分区由单独的 map 任务来处理。 每个 mapper 都会尽量实现计算靠近数据。 代码复制：JAR 文件。 Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。 键值对必须进行排序，排序是分阶段进行的：  每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。 每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 SSTables 和 LSM-Tree。   reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 MapReduce shuffle。 reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。 reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。  MapReduce 工作流调度器  Oozie Azkaban Luigi Airflow Pinball  对比分布式数据库 存储多样性 处理模型多样性 针对频繁故障设计 " />
+ 输入：通常是 HDFS 中的一个目录。 分区：每个文件或文件块都被视为一个单独的分区。 处理：每个分区由单独的 map 任务来处理。 每个 mapper 都会尽量实现计算靠近数据。 代码复制：JAR 文件。 Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。 键值对必须进行排序，排序是分阶段进行的：  每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。 每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 SSTables 和 LSM-Tree。   reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 MapReduce shuffle。 reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。 reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。  MapReduce 工作流调度器  Oozie Azkaban Luigi Airflow Pinball  对比分布式数据库 MapReduce 中的并行处理和并行 join 算法已经在十多年前所谓的大规模并行处理（MPP）数据库中实现了。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210809073407-hadoop/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -152,7 +152,7 @@ MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现�
 
   <div class="post-content"><div>
         <h2 id="hadoop-distributed-file-system--20210808075530-hadoop-distributed-file-system-dot-md"><a href="/notes/notes/20210808075530-hadoop_distributed_file_system/">Hadoop Distributed File System</a><a href="#hadoop-distributed-file-system--20210808075530-hadoop-distributed-file-system-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h2 id="mapreduce--20210805074336-批处理系统-dot-md"><a href="/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/#mapreduce">MapReduce</a><a href="#mapreduce--20210805074336-批处理系统-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="mapreduce--20210805074336-批处理系统-dot-md"><a href="/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/">MapReduce</a><a href="#mapreduce--20210805074336-批处理系统-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="mapreduce-shuffle">MapReduce shuffle<a href="#mapreduce-shuffle" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。</p>
 <h3 id="mapreduce-的分布式执行">MapReduce 的分布式执行<a href="#mapreduce-的分布式执行" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
@@ -183,8 +183,16 @@ MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现�
 <li>Pinball</li>
 </ul>
 <h2 id="对比分布式数据库">对比分布式数据库<a href="#对比分布式数据库" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>MapReduce 中的并行处理和并行 join 算法已经在十多年前所谓的<a href="/notes/notes/20210810070530-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/">大规模并行处理</a>（MPP）数据库中实现了。</p>
 <h3 id="存储多样性">存储多样性<a href="#存储多样性" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>分布式文件系统中的文件只是字节序列，可以使用任何数据模型和编码来编写。可以是数据库记录，也可以是文本、图像、视频、传感器读数、稀疏矩阵、特征向量、基因组序列或任何其他类型的数据。</p>
+<p><a href="/notes/notes/20210810070530-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/">MPP 数据库</a> 通常需要对数据和查询模式进行仔细的提前建模。</p>
+<p>Hadoop 经常被用于实现 ETL 过程：来自事务处理系统的数据以某种原始形式转储到分布式文件系统，然后编写 MapReduce 作业进行数据清理，将其转换为关系表单，并将其导入 MPP 数据仓库以进行分析。</p>
 <h3 id="处理模型多样性">处理模型多样性<a href="#处理模型多样性" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>MPP 数据库属于一体化、紧密集成的软件系统。</li>
+<li>SQL、MapReduce、<a href="/notes/notes/20210810071455-hbase/">HBase</a>（随机访问的 OLTP 数据库）Impala 等不同的组件。</li>
+</ul>
 <h3 id="针对频繁故障设计">针对频繁故障设计<a href="#针对频繁故障设计" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 
       </div></div>
