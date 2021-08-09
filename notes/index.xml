@@ -6,7 +6,65 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 08 Aug 2021 08:31:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Aug 2021 08:07:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hive</title>
+      <link>https://www.linuxzen.com/notes/notes/20210809080723-hive/</link>
+      <pubDate>Mon, 09 Aug 2021 08:07:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210809080723-hive/</guid>
+      <description>bucketed map join </description>
+      <content>&lt;h2 id=&#34;bucketed-map-join&#34;&gt;bucketed map join&lt;/h2&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Hadoop</title>
+      <link>https://www.linuxzen.com/notes/notes/20210809073407-hadoop/</link>
+      <pubDate>Mon, 09 Aug 2021 07:34:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210809073407-hadoop/</guid>
+      <description>Hadoop Distributed File System MapReduce MapReduce shuffle 按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。
+MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现：
+ 输入：通常是 HDFS 中的一个目录。 分区：每个文件或文件块都被视为一个单独的分区。 处理：每个分区由单独的 map 任务来处理。 每个 mapper 都会尽量实现计算靠近数据。 代码复制：JAR 文件。 Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。 键值对必须进行排序，排序是分阶段进行的：  每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。 每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 SSTables 和 LSM-Tree。   reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 MapReduce shuffle。 reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。 reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。  MapReduce 工作流调度器  Oozie Azkaban Luigi Airflow Pinball  对比分布式数据库 存储多样性 处理模型多样性 针对频繁故障设计 </description>
+      <content>&lt;h2 id=&#34;hadoop-distributed-file-system--20210808075530-hadoop-distributed-file-system-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210808075530-hadoop_distributed_file_system/&#34;&gt;Hadoop Distributed File System&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;mapreduce--20210805074336-批处理系统-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/#mapreduce&#34;&gt;MapReduce&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;mapreduce-shuffle&#34;&gt;MapReduce shuffle&lt;/h3&gt;
+&lt;p&gt;按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。&lt;/p&gt;
+&lt;h3 id=&#34;mapreduce-的分布式执行&#34;&gt;MapReduce 的分布式执行&lt;/h3&gt;
+&lt;p&gt;Hadoop MapReduce 并行化基于&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210711153015-%E6%95%B0%E6%8D%AE%E5%88%86%E5%8C%BA/&#34;&gt;数据分区&lt;/a&gt;实现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;输入：通常是 HDFS 中的一个目录。&lt;/li&gt;
+&lt;li&gt;分区：每个文件或文件块都被视为一个单独的分区。&lt;/li&gt;
+&lt;li&gt;处理：每个分区由单独的 map 任务来处理。&lt;/li&gt;
+&lt;li&gt;每个 mapper 都会尽量实现&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210808075530-hadoop_distributed_file_system/&#34;&gt;计算靠近数据&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;代码复制：JAR 文件。&lt;/li&gt;
+&lt;li&gt;Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。&lt;/li&gt;
+&lt;li&gt;键值对必须进行排序，排序是分阶段进行的：
+&lt;ol&gt;
+&lt;li&gt;每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。&lt;/li&gt;
+&lt;li&gt;每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606103142-%E6%8E%92%E5%BA%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8_sstables/&#34;&gt;SSTables&lt;/a&gt; 和 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606100317-lsm_tree/&#34;&gt;LSM-Tree&lt;/a&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 &lt;a href=&#34;#mapreduce-shuffle&#34;&gt;MapReduce shuffle&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。&lt;/li&gt;
+&lt;li&gt;reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;mapreduce-工作流调度器&#34;&gt;MapReduce 工作流调度器&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Oozie&lt;/li&gt;
+&lt;li&gt;Azkaban&lt;/li&gt;
+&lt;li&gt;Luigi&lt;/li&gt;
+&lt;li&gt;Airflow&lt;/li&gt;
+&lt;li&gt;Pinball&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;对比分布式数据库&#34;&gt;对比分布式数据库&lt;/h2&gt;
+&lt;h3 id=&#34;存储多样性&#34;&gt;存储多样性&lt;/h3&gt;
+&lt;h3 id=&#34;处理模型多样性&#34;&gt;处理模型多样性&lt;/h3&gt;
+&lt;h3 id=&#34;针对频繁故障设计&#34;&gt;针对频繁故障设计&lt;/h3&gt;
+</content>
+    </item>
+    
     <item>
       <title>Tokio</title>
       <link>https://www.linuxzen.com/notes/notes/20210808083146-tokio/</link>
@@ -53,7 +111,7 @@
       <guid>https://www.linuxzen.com/notes/notes/20210808075530-hadoop_distributed_file_system/</guid>
       <description>与网络连接存储（NAS）和 存储区域网络（SAN）架构相比，HDFS 基于无共享原则，无需定制硬件和特殊网络基础设施（光纤）。
 HDFS 创建了一个庞大的文件系统，来充分利用每个守护进程机器上的磁盘资源。
- HDFS 包含一个在每台机器上运行的守护进程，并会开放一个网络服务以允许其他节点访问存储在该机器上的文件。 名为 NameNode 的中央服务器会跟踪哪个文件块存储在哪个服务器上。 考虑容错，文件快块复制到多台机器上，或者像 Reed-Solomon 代码中这样的纠删码方案（类似 RAID，但无需特殊硬件）。 提供很好的扩展性，配合商业硬件和开源软件，可以运行在上万台机器，容量达几百 PB。  </description>
+ HDFS 包含一个在每台机器上运行的守护进程，并会开放一个网络服务以允许其他节点访问存储在该机器上的文件。 名为 NameNode 的中央服务器会跟踪哪个文件块存储在哪个服务器上。 考虑容错，文件快块复制到多台机器上，或者像 Reed-Solomon 代码中这样的纠删码方案（类似 RAID，但无需特殊硬件）。 提供很好的扩展性，配合商业硬件和开源软件，可以运行在上万台机器，容量达几百 PB。  计算靠近数据 只要有足够的空闲内存和 CPU 资源，MapReduce 调度器会尝试在输入文件的副本的某台机器上运行 mapper 任务。</description>
       <content>&lt;p&gt;与&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210808075738-%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E5%AD%98%E5%82%A8/&#34;&gt;网络连接存储&lt;/a&gt;（NAS）和 存储区域网络（SAN）架构相比，HDFS 基于无共享原则，无需定制硬件和特殊网络基础设施（光纤）。&lt;/p&gt;
 &lt;p&gt;HDFS 创建了一个庞大的文件系统，来充分利用每个守护进程机器上的磁盘资源。&lt;/p&gt;
 &lt;ul&gt;
@@ -62,6 +120,8 @@ HDFS 创建了一个庞大的文件系统，来充分利用每个守护进程机
 &lt;li&gt;考虑容错，文件快块复制到多台机器上，或者像 Reed-Solomon 代码中这样的纠删码方案（类似 RAID，但无需特殊硬件）。&lt;/li&gt;
 &lt;li&gt;提供很好的扩展性，配合商业硬件和开源软件，可以运行在上万台机器，容量达几百 PB。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;计算靠近数据&#34;&gt;计算靠近数据&lt;/h2&gt;
+&lt;p&gt;只要有足够的空闲内存和 CPU 资源，MapReduce 调度器会尝试在输入文件的副本的某台机器上运行 mapper 任务。&lt;/p&gt;
 </content>
     </item>
     
@@ -107,7 +167,10 @@ HDFS 创建了一个庞大的文件系统，来充分利用每个守护进程机
       <guid>https://www.linuxzen.com/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/</guid>
       <description>MapReduce MapReduce 与分布式文件系统 MapReduce 就像分布在上千台机器上的 Unix 工具。
  MapReduce 作业通常不会修改输入，除了输出外没有任何副作用。 MapReduce 作业在分布式文件系统上读写。（Unix 工具 stdin、stdout），如 HDFS（Hadoop Distributed File System)等（GlusterFS、QFS、Amazon S3、Azure Blob 和 OpenStack Swift）。  MapReduce 作业执行 MapReduce 是一个编程框架，可以使用它编写代码处理 HDFS 等分布式文件系统中的大型数据集。
-要创建 MapReduce 作业需要实现两个回调函数： mapper 和 reducer （另请参阅 MapReduce 查询）:</description>
+要创建 MapReduce 作业需要实现两个回调函数： mapper 和 reducer （另请参阅 MapReduce 查询）:
+ Mapper: 每个输入记录都会调用一次，从输入记录提取任意数量的关键字和值（可以为空），不保留任何状态，可以独立处理。 Reducer: MapReduce 框架使用 Mapper 生成的键值对，收集同一个关键字的所有值，并使用迭代器调用 reducer 以使用该值的集合。 Reducer 可以生成输出记录。  MapReduce 分布式执行 参见 Hadoop 的 MapReduce 的分布式执行。
+MapReduce 工作流 将 MapReduce 作业链接到工作流是非常普遍的，作业的输出作为下一个作业的输入。通过目录名隐式的完成：
+ 第一个作业必须配置将其输出写入 HDFS 中指定目录； 第二个作业必须配置读取相同的目录名作为输入。  目前已经开发了处理依赖管理的 MapReduce 工作流调度器。</description>
       <content>&lt;h2 id=&#34;mapreduce&#34;&gt;MapReduce&lt;/h2&gt;
 &lt;h3 id=&#34;mapreduce-与分布式文件系统&#34;&gt;MapReduce 与分布式文件系统&lt;/h3&gt;
 &lt;p&gt;MapReduce 就像分布在上千台机器上的 Unix 工具。&lt;/p&gt;
@@ -117,7 +180,54 @@ HDFS 创建了一个庞大的文件系统，来充分利用每个守护进程机
 &lt;/ul&gt;
 &lt;h3 id=&#34;mapreduce-作业执行&#34;&gt;MapReduce 作业执行&lt;/h3&gt;
 &lt;p&gt;MapReduce 是一个编程框架，可以使用它编写代码处理 HDFS 等分布式文件系统中的大型数据集。&lt;/p&gt;
-&lt;p&gt;要创建 MapReduce 作业需要实现两个回调函数： &lt;code&gt;mapper&lt;/code&gt; 和 &lt;code&gt;reducer&lt;/code&gt; （另请参阅 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/#数据查询语言&#34;&gt;MapReduce 查询&lt;/a&gt;）:&lt;/p&gt;
+&lt;p&gt;要创建 MapReduce 作业需要实现两个回调函数： &lt;code&gt;mapper&lt;/code&gt; 和 &lt;code&gt;reducer&lt;/code&gt; （另请参阅 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/&#34;&gt;MapReduce 查询&lt;/a&gt;）:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Mapper&lt;/code&gt;: 每个输入记录都会调用一次，从输入记录提取任意数量的关键字和值（可以为空），不保留任何状态，可以独立处理。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Reducer&lt;/code&gt;: MapReduce 框架使用 &lt;code&gt;Mapper&lt;/code&gt; 生成的键值对，收集同一个关键字的所有值，并使用迭代器调用 reducer 以使用该值的集合。
+Reducer 可以生成输出记录。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;mapreduce-分布式执行&#34;&gt;MapReduce 分布式执行&lt;/h4&gt;
+&lt;p&gt;参见 Hadoop 的 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809073407-hadoop/#id-7ce0e649-d25b-4d30-9c25-22caf92cbf2b-mapreduce&#34;&gt;MapReduce 的分布式执行&lt;/a&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;mapreduce-工作流&#34;&gt;MapReduce 工作流&lt;/h4&gt;
+&lt;p&gt;将 MapReduce 作业链接到工作流是非常普遍的，作业的输出作为下一个作业的输入。通过目录名隐式的完成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一个作业必须配置将其输出写入 HDFS 中指定目录；&lt;/li&gt;
+&lt;li&gt;第二个作业必须配置读取相同的目录名作为输入。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;目前已经开发了处理依赖管理的 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809073407-hadoop/&#34;&gt;MapReduce 工作流调度器&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;reduce-端的-join-与分组&#34;&gt;Reduce 端的 join 与分组&lt;/h3&gt;
+&lt;p&gt;批处理的背景下讨论 join，主要解决数据集内存在关联的所有事件。
+假设 join 两张表：用户和活动事件。&lt;/p&gt;
+&lt;h4 id=&#34;排序-合并-join&#34;&gt;排序-合并 join&lt;/h4&gt;
+&lt;p&gt;次级排序：reducer 会首先看到用户数据库的记录，然后按照时间戳顺序查看活动事件。&lt;/p&gt;
+&lt;p&gt;基于次级排序 reducer 可以很容易的执行 join：为每个用户 ID 调用一次 reducer 函数。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一个值是来自用户数据库的出生日期记录，并存储在局部变量。&lt;/li&gt;
+&lt;li&gt;然后使用相同的用户 ID 遍历活动事件。&lt;/li&gt;
+&lt;li&gt;进行聚类。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;reducer 每次处理一个特定用户 ID 的所有记录。&lt;/p&gt;
+&lt;h4 id=&#34;将相关数据放在一起&#34;&gt;将相关数据放在一起&lt;/h4&gt;
+&lt;h4 id=&#34;分组&#34;&gt;分组&lt;/h4&gt;
+&lt;h4 id=&#34;处理数据倾斜&#34;&gt;处理数据倾斜&lt;/h4&gt;
+&lt;p&gt;数据抽样探测热键，使用算法进行补偿。缺点是需要进行数据复制。&lt;/p&gt;
+&lt;p&gt;Hive 需要在表格元数据中明确指定热键，并将与这些键相关记录与其余文件分开存放。&lt;/p&gt;
+&lt;h3 id=&#34;map-端-join-操作&#34;&gt;Map 端 join 操作&lt;/h3&gt;
+&lt;h4 id=&#34;广播哈希-join&#34;&gt;广播哈希 join&lt;/h4&gt;
+&lt;p&gt;把小数据集加载到内存哈希表中，mapper 的时候直接读取哈希表进行数据补全。&lt;/p&gt;
+&lt;p&gt;“广播”：每个分区的 mapper 读取整个小数据集到内存哈希表。&lt;/p&gt;
+&lt;h4 id=&#34;分区哈希-join&#34;&gt;分区哈希 join&lt;/h4&gt;
+&lt;p&gt;将加载到内存哈希表的数据缩小独立作用于每个分区。&lt;/p&gt;
+&lt;p&gt;Hive 中称为 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809080723-hive/&#34;&gt;bucketed map join&lt;/a&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;map-端合并-join&#34;&gt;map 端合并 join&lt;/h4&gt;
+&lt;p&gt;按关键字升序增量读取两个输入文件，并且匹配具有相同关键字的记录。&lt;/p&gt;
+&lt;h4 id=&#34;具有-map-端-join-的-mapreduce-工作流&#34;&gt;具有 map 端 join 的 MapReduce 工作流&lt;/h4&gt;
+&lt;h3 id=&#34;批处理工作流的输出&#34;&gt;批处理工作流的输出&lt;/h3&gt;
+&lt;h4 id=&#34;生成搜索索引&#34;&gt;生成搜索索引&lt;/h4&gt;
+&lt;h4 id=&#34;批处理输出键值&#34;&gt;批处理输出键值&lt;/h4&gt;
+&lt;h4 id=&#34;批处理输出的哲学&#34;&gt;批处理输出的哲学&lt;/h4&gt;
+&lt;h3 id=&#34;对比-hadoop-与分布式数据库&#34;&gt;对比 Hadoop 与分布式数据库&lt;/h3&gt;
+&lt;p&gt;参见 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809073407-hadoop/&#34;&gt;对比分布式数据库&lt;/a&gt;。&lt;/p&gt;
 </content>
     </item>
     
@@ -12075,11 +12185,13 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/</guid>
-      <description> Flink Kafka MySQL  </description>
+      <description> Flink Kafka MySQL Hadoop Hive  </description>
       <content>&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100601_flink/&#34;&gt;Flink&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172022_kafka/&#34;&gt;Kafka&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320173956_mysql/&#34;&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809073407-hadoop/&#34;&gt;Hadoop&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809080723-hive/&#34;&gt;Hive&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>

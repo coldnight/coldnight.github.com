@@ -131,6 +131,68 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20210809080723-hive/">Hive</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-08-09
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20210809080723-hive/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20210809073407-hadoop/">Hadoop</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-08-09
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20210809073407-hadoop/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20210808083146-tokio/">Tokio</a>
         </h1>
         <div class="post-meta">
@@ -334,6 +396,13 @@
 
         <div class="post-content">
           
+          
+          MapReduce MapReduce 与分布式文件系统 MapReduce 就像分布在上千台机器上的 Unix 工具。
+ MapReduce 作业通常不会修改输入，除了输出外没有任何副作用。 MapReduce 作业在分布式文件系统上读写。（Unix 工具 stdin、stdout），如 HDFS（Hadoop Distributed File System)等（GlusterFS、QFS、Amazon S3、Azure Blob 和 OpenStack Swift）。  MapReduce 作业执行 MapReduce 是一个编程框架，可以使用它编写代码处理 HDFS 等分布式文件系统中的大型数据集。
+要创建 MapReduce 作业需要实现两个回调函数： mapper 和 reducer （另请参阅 MapReduce 查询）:
+ Mapper: 每个输入记录都会调用一次，从输入记录提取任意数量的关键字和值（可以为空），不保留任何状态，可以独立处理。 Reducer: MapReduce 框架使用 Mapper 生成的键值对，收集同一个关键字的所有值，并使用迭代器调用 reducer 以使用该值的集合。 Reducer 可以生成输出记录。  MapReduce 分布式执行 参见 Hadoop 的 MapReduce 的分布式执行。
+MapReduce 工作流 将 MapReduce 作业链接到工作流是非常普遍的，作业的输出作为下一个作业的输入。通过目录名隐式的完成：
+ 第一个作业必须配置将其输出写入 HDFS 中指定目录； 第二个作业必须配置读取相同的目录名作为输入。  目前已经开发了处理依赖管理的 MapReduce 工作流调度器。
           
           
         </div>

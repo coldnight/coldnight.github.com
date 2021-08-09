@@ -8,7 +8,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="MapReduce MapReduce 与分布式文件系统 MapReduce 就像分布在上千台机器上的 Unix 工具。
  MapReduce 作业通常不会修改输入，除了输出外没有任何副作用。 MapReduce 作业在分布式文件系统上读写。（Unix 工具 stdin、stdout），如 HDFS（Hadoop Distributed File System)等（GlusterFS、QFS、Amazon S3、Azure Blob 和 OpenStack Swift）。  MapReduce 作业执行 MapReduce 是一个编程框架，可以使用它编写代码处理 HDFS 等分布式文件系统中的大型数据集。
-要创建 MapReduce 作业需要实现两个回调函数： mapper 和 reducer （另请参阅 MapReduce 查询）:" />
+要创建 MapReduce 作业需要实现两个回调函数： mapper 和 reducer （另请参阅 MapReduce 查询）:
+ Mapper: 每个输入记录都会调用一次，从输入记录提取任意数量的关键字和值（可以为空），不保留任何状态，可以独立处理。 Reducer: MapReduce 框架使用 Mapper 生成的键值对，收集同一个关键字的所有值，并使用迭代器调用 reducer 以使用该值的集合。 Reducer 可以生成输出记录。  MapReduce 分布式执行 参见 Hadoop 的 MapReduce 的分布式执行。
+MapReduce 工作流 将 MapReduce 作业链接到工作流是非常普遍的，作业的输出作为下一个作业的输入。通过目录名隐式的完成：
+ 第一个作业必须配置将其输出写入 HDFS 中指定目录； 第二个作业必须配置读取相同的目录名作为输入。  目前已经开发了处理依赖管理的 MapReduce 工作流调度器。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/" />
@@ -38,7 +41,10 @@
 <meta property="og:title" content="批处理系统">
 <meta property="og:description" content="MapReduce MapReduce 与分布式文件系统 MapReduce 就像分布在上千台机器上的 Unix 工具。
  MapReduce 作业通常不会修改输入，除了输出外没有任何副作用。 MapReduce 作业在分布式文件系统上读写。（Unix 工具 stdin、stdout），如 HDFS（Hadoop Distributed File System)等（GlusterFS、QFS、Amazon S3、Azure Blob 和 OpenStack Swift）。  MapReduce 作业执行 MapReduce 是一个编程框架，可以使用它编写代码处理 HDFS 等分布式文件系统中的大型数据集。
-要创建 MapReduce 作业需要实现两个回调函数： mapper 和 reducer （另请参阅 MapReduce 查询）:" />
+要创建 MapReduce 作业需要实现两个回调函数： mapper 和 reducer （另请参阅 MapReduce 查询）:
+ Mapper: 每个输入记录都会调用一次，从输入记录提取任意数量的关键字和值（可以为空），不保留任何状态，可以独立处理。 Reducer: MapReduce 框架使用 Mapper 生成的键值对，收集同一个关键字的所有值，并使用迭代器调用 reducer 以使用该值的集合。 Reducer 可以生成输出记录。  MapReduce 分布式执行 参见 Hadoop 的 MapReduce 的分布式执行。
+MapReduce 工作流 将 MapReduce 作业链接到工作流是非常普遍的，作业的输出作为下一个作业的输入。通过目录名隐式的完成：
+ 第一个作业必须配置将其输出写入 HDFS 中指定目录； 第二个作业必须配置读取相同的目录名作为输入。  目前已经开发了处理依赖管理的 MapReduce 工作流调度器。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -160,7 +166,54 @@
 </ul>
 <h3 id="mapreduce-作业执行">MapReduce 作业执行<a href="#mapreduce-作业执行" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>MapReduce 是一个编程框架，可以使用它编写代码处理 HDFS 等分布式文件系统中的大型数据集。</p>
-<p>要创建 MapReduce 作业需要实现两个回调函数： <code>mapper</code> 和 <code>reducer</code> （另请参阅 <a href="/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/#数据查询语言">MapReduce 查询</a>）:</p>
+<p>要创建 MapReduce 作业需要实现两个回调函数： <code>mapper</code> 和 <code>reducer</code> （另请参阅 <a href="/notes/notes/20210606095222-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80/">MapReduce 查询</a>）:</p>
+<ul>
+<li><code>Mapper</code>: 每个输入记录都会调用一次，从输入记录提取任意数量的关键字和值（可以为空），不保留任何状态，可以独立处理。</li>
+<li><code>Reducer</code>: MapReduce 框架使用 <code>Mapper</code> 生成的键值对，收集同一个关键字的所有值，并使用迭代器调用 reducer 以使用该值的集合。
+Reducer 可以生成输出记录。</li>
+</ul>
+<h4 id="mapreduce-分布式执行">MapReduce 分布式执行<a href="#mapreduce-分布式执行" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>参见 Hadoop 的 <a href="/notes/notes/20210809073407-hadoop/#id-7ce0e649-d25b-4d30-9c25-22caf92cbf2b-mapreduce">MapReduce 的分布式执行</a>。</p>
+<h4 id="mapreduce-工作流">MapReduce 工作流<a href="#mapreduce-工作流" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>将 MapReduce 作业链接到工作流是非常普遍的，作业的输出作为下一个作业的输入。通过目录名隐式的完成：</p>
+<ul>
+<li>第一个作业必须配置将其输出写入 HDFS 中指定目录；</li>
+<li>第二个作业必须配置读取相同的目录名作为输入。</li>
+</ul>
+<p>目前已经开发了处理依赖管理的 <a href="/notes/notes/20210809073407-hadoop/">MapReduce 工作流调度器</a>。</p>
+<h3 id="reduce-端的-join-与分组">Reduce 端的 join 与分组<a href="#reduce-端的-join-与分组" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>批处理的背景下讨论 join，主要解决数据集内存在关联的所有事件。
+假设 join 两张表：用户和活动事件。</p>
+<h4 id="排序-合并-join">排序-合并 join<a href="#排序-合并-join" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>次级排序：reducer 会首先看到用户数据库的记录，然后按照时间戳顺序查看活动事件。</p>
+<p>基于次级排序 reducer 可以很容易的执行 join：为每个用户 ID 调用一次 reducer 函数。</p>
+<ul>
+<li>第一个值是来自用户数据库的出生日期记录，并存储在局部变量。</li>
+<li>然后使用相同的用户 ID 遍历活动事件。</li>
+<li>进行聚类。</li>
+</ul>
+<p>reducer 每次处理一个特定用户 ID 的所有记录。</p>
+<h4 id="将相关数据放在一起">将相关数据放在一起<a href="#将相关数据放在一起" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="分组">分组<a href="#分组" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="处理数据倾斜">处理数据倾斜<a href="#处理数据倾斜" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>数据抽样探测热键，使用算法进行补偿。缺点是需要进行数据复制。</p>
+<p>Hive 需要在表格元数据中明确指定热键，并将与这些键相关记录与其余文件分开存放。</p>
+<h3 id="map-端-join-操作">Map 端 join 操作<a href="#map-端-join-操作" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="广播哈希-join">广播哈希 join<a href="#广播哈希-join" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>把小数据集加载到内存哈希表中，mapper 的时候直接读取哈希表进行数据补全。</p>
+<p>“广播”：每个分区的 mapper 读取整个小数据集到内存哈希表。</p>
+<h4 id="分区哈希-join">分区哈希 join<a href="#分区哈希-join" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>将加载到内存哈希表的数据缩小独立作用于每个分区。</p>
+<p>Hive 中称为 <a href="/notes/notes/20210809080723-hive/">bucketed map join</a>。</p>
+<h4 id="map-端合并-join">map 端合并 join<a href="#map-端合并-join" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>按关键字升序增量读取两个输入文件，并且匹配具有相同关键字的记录。</p>
+<h4 id="具有-map-端-join-的-mapreduce-工作流">具有 map 端 join 的 MapReduce 工作流<a href="#具有-map-端-join-的-mapreduce-工作流" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h3 id="批处理工作流的输出">批处理工作流的输出<a href="#批处理工作流的输出" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="生成搜索索引">生成搜索索引<a href="#生成搜索索引" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="批处理输出键值">批处理输出键值<a href="#批处理输出键值" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="批处理输出的哲学">批处理输出的哲学<a href="#批处理输出的哲学" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h3 id="对比-hadoop-与分布式数据库">对比 Hadoop 与分布式数据库<a href="#对比-hadoop-与分布式数据库" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>参见 <a href="/notes/notes/20210809073407-hadoop/">对比分布式数据库</a>。</p>
 
       </div></div>
 
