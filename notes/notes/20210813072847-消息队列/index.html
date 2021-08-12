@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>消息队列 :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AMQP/JMS 风格的消息代理 将单个消息分配给消费者，消费者在成功处理后确认每条消息。消息被确认后从代理中删除。 适合作为一种异步 RPC。
+ RabbitMQ ActiveMQ HornetQ Qpid TIBCO Enterprise MEssage Service IBM MQ Azure Service Bus Google Cloud Pub/Sub  多个消费者 负载均衡式 每一条消息都只被传递给其中一个消费者。
+扇出式 每条消息都被传递给所有消费者。
+确认和重新传递 为了确保消息不会丢失，消息代理使用确认：客户端必须在处理完消息后显式的告诉代理，以便代理可以将其从队列中移除。
+如果客户端的连接关闭或超时，而代理没有收到确认，则认为消息未处理，因此它将消息重新传递给另一个消费者。
+消息顺序性 即使消息代理试图保留消息顺序（标准要求），负载均衡与重新传递的组合也不可避免地导致消息被重新排序。
+基于日志的消息代理  代理将分区中的所有消息分配给相同的消费者节点，并始终以相同的顺序发送消息。 通过分区机制来实现并行（写在多个磁盘上突破磁盘带宽），消费者通过检查他们处理的最后一条消息的偏移量来跟踪进度。 代理将消息保存在磁盘上，因此如果有必要，可以回退并重新读取旧消息。  代表性的有：
+ Apache Kafka Amazon Kinesis Streams Twitter DistributedLog  分区日志 基于日志的消息存储 参照 LSM-Tree 和 B-tree 的 WAL，可以使用相同的结构来实现消息代理： 生产者通过将消息追加到日志的末尾来发送消息，消费者通过依次读取日志来接收消息。 如果消费者读到日志的末尾，它就开始等待新消息被追加的通知。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="消息队列">
+<meta property="og:description" content="AMQP/JMS 风格的消息代理 将单个消息分配给消费者，消费者在成功处理后确认每条消息。消息被确认后从代理中删除。 适合作为一种异步 RPC。
+ RabbitMQ ActiveMQ HornetQ Qpid TIBCO Enterprise MEssage Service IBM MQ Azure Service Bus Google Cloud Pub/Sub  多个消费者 负载均衡式 每一条消息都只被传递给其中一个消费者。
+扇出式 每条消息都被传递给所有消费者。
+确认和重新传递 为了确保消息不会丢失，消息代理使用确认：客户端必须在处理完消息后显式的告诉代理，以便代理可以将其从队列中移除。
+如果客户端的连接关闭或超时，而代理没有收到确认，则认为消息未处理，因此它将消息重新传递给另一个消费者。
+消息顺序性 即使消息代理试图保留消息顺序（标准要求），负载均衡与重新传递的组合也不可避免地导致消息被重新排序。
+基于日志的消息代理  代理将分区中的所有消息分配给相同的消费者节点，并始终以相同的顺序发送消息。 通过分区机制来实现并行（写在多个磁盘上突破磁盘带宽），消费者通过检查他们处理的最后一条消息的偏移量来跟踪进度。 代理将消息保存在磁盘上，因此如果有必要，可以回退并重新读取旧消息。  代表性的有：
+ Apache Kafka Amazon Kinesis Streams Twitter DistributedLog  分区日志 基于日志的消息存储 参照 LSM-Tree 和 B-tree 的 WAL，可以使用相同的结构来实现消息代理： 生产者通过将消息追加到日志的末尾来发送消息，消费者通过依次读取日志来接收消息。 如果消费者读到日志的末尾，它就开始等待新消息被追加的通知。" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-08-13 07:28:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-08-13 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <h2 id="amqp-jms-风格的消息代理">AMQP/JMS 风格的消息代理<a href="#amqp-jms-风格的消息代理" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>将单个消息分配给消费者，消费者在成功处理后确认每条消息。消息被确认后从代理中删除。
+适合作为一种异步 RPC。</p>
+<ul>
+<li><a href="/notes/notes/20210813073438-rabbitmq/">RabbitMQ</a></li>
+<li>ActiveMQ</li>
+<li>HornetQ</li>
+<li>Qpid</li>
+<li>TIBCO Enterprise MEssage Service</li>
+<li>IBM MQ</li>
+<li>Azure Service Bus</li>
+<li>Google Cloud Pub/Sub</li>
+</ul>
+<h3 id="多个消费者">多个消费者<a href="#多个消费者" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="负载均衡式">负载均衡式<a href="#负载均衡式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>每一条消息都只被传递给其中一个消费者。</p>
+<h4 id="扇出式">扇出式<a href="#扇出式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>每条消息都被传递给所有消费者。</p>
+<h3 id="确认和重新传递">确认和重新传递<a href="#确认和重新传递" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>为了确保消息不会丢失，消息代理使用确认：客户端必须在处理完消息后显式的告诉代理，以便代理可以将其从队列中移除。</p>
+<p>如果客户端的连接关闭或超时，而代理没有收到确认，则认为消息未处理，因此它将消息重新传递给另一个消费者。</p>
+<h3 id="消息顺序性">消息顺序性<a href="#消息顺序性" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>即使消息代理试图保留消息顺序（标准要求），负载均衡与重新传递的组合也不可避免地导致消息被重新排序。</p>
+<h2 id="基于日志的消息代理">基于日志的消息代理<a href="#基于日志的消息代理" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li>代理将分区中的所有消息分配给相同的消费者节点，并始终以相同的顺序发送消息。</li>
+<li>通过分区机制来实现并行（写在多个磁盘上突破磁盘带宽），消费者通过检查他们处理的最后一条消息的偏移量来跟踪进度。</li>
+<li>代理将消息保存在磁盘上，因此如果有必要，可以回退并重新读取旧消息。</li>
+</ul>
+<p>代表性的有：</p>
+<ul>
+<li><a href="/notes/notes/20210813073343-apache_kafka/">Apache Kafka</a></li>
+<li><a href="/notes/notes/20210813073357-amazon_kinesis_streams/">Amazon Kinesis Streams</a></li>
+<li><a href="/notes/notes/20210813073412-twitter_distributedlog/">Twitter DistributedLog</a></li>
+</ul>
+<h3 id="分区日志">分区日志<a href="#分区日志" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="基于日志的消息存储">基于日志的消息存储<a href="#基于日志的消息存储" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>参照 <a href="/notes/notes/20210606100317-lsm_tree/">LSM-Tree </a>和 B-tree 的 <a href="/notes/notes/20210813074328-%E9%A2%84%E5%86%99%E6%97%A5%E5%BF%97/">WAL</a>，可以使用相同的结构来实现消息代理：
+生产者通过将消息追加到日志的末尾来发送消息，消费者通过依次读取日志来接收消息。
+如果消费者读到日志的末尾，它就开始等待新消息被追加的通知。</p>
+
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>
