@@ -6,8 +6,15 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="发送事件流 消息系统  生产者速度比消费者快：丢弃消息、将消息缓存在队列、激活背压。 节点崩溃或者暂时历险，是否会有消息丢失？  生产者与消息系统之间的直接消息传递  UDP 组播：广泛应用于金融股票 无代理消息库：ZerroMQ 和 nanomsg StatsD 和 Brubeck 使用 UDP 传递消息 HTTP、RPC 接口  消息代理 参见：消息队列 也称消息队列。
- 消息对比与数据库对比   多个消费者   确认和重传机制  分区日志 数据库与流 流处理 " />
+<meta name="description" content="发送事件流 消息系统  生产者速度比消费者快：丢弃消息、将消息缓存在队列、激活背压。 节点崩溃或者暂时历险，是否会有消息丢失？  生产者与消息系统之间的直接消息传递  UDP 组播：广泛应用于金融股票 无代理消息库：ZerroMQ 和 nanomsg StatsD 和 Brubeck 使用 UDP 传递消息 HTTP、RPC 接口  消息代理 参见：AMQP/JMS 风格的消息代理。 也称消息队列。
+ 消息对比与数据库对比   多个消费者   确认和重传机制  分区日志 参见： 基于日志的消息代理。
+数据库与流 保持系统同步 变更数据捕获 变更数据捕获（Change Data Capture，CDC）记录了写入数据库的所有更改，并以可复制到其他系统的形式来提取数据。 如果在写入时立即将更改作为一种流来发布，那么 CDC 就更有趣来。
+实现变更数据捕获 解析复制日志，并将解析的内容发送到事件流中进行 replay。
+初始快照 replay 日志占用空间过大，需要进行截断，截断之前的进行初始快照保存。
+日志压缩 参考哈希索引。
+对变更流的 API 支持 数据库开始支持将变更流作为标准接口。
+事件溯源 一种在领域驱动设计社区中开发的技术，与 CDC 最大的区别在于事件溯源在不同抽象层次上应用了将所有对应用程序状态的更改保存为更改事件日志：
+ CDC 中：应用程序以数据可变方式来操纵数据库，从数据库中提取较低级的变更日志，从而确保从数据库提取写入顺序与实际写入顺序相匹配。写入数据库的程序不需要知道 CDC 正在发生。 事件溯源中：应用程序的写入逻辑是基于写入事件日志的不可变事件构建的。事件存储仅支持追加，不鼓励甚至禁止更新或删除操作。事件旨在反映在应用程序级别所发生的事情，而不是低级别的状态改变。  专门的数据库 Event Store 来支持使用事件溯源的应用程序。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210813065446-%E6%B5%81%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/" />
@@ -35,8 +42,15 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="流处理系统">
-<meta property="og:description" content="发送事件流 消息系统  生产者速度比消费者快：丢弃消息、将消息缓存在队列、激活背压。 节点崩溃或者暂时历险，是否会有消息丢失？  生产者与消息系统之间的直接消息传递  UDP 组播：广泛应用于金融股票 无代理消息库：ZerroMQ 和 nanomsg StatsD 和 Brubeck 使用 UDP 传递消息 HTTP、RPC 接口  消息代理 参见：消息队列 也称消息队列。
- 消息对比与数据库对比   多个消费者   确认和重传机制  分区日志 数据库与流 流处理 " />
+<meta property="og:description" content="发送事件流 消息系统  生产者速度比消费者快：丢弃消息、将消息缓存在队列、激活背压。 节点崩溃或者暂时历险，是否会有消息丢失？  生产者与消息系统之间的直接消息传递  UDP 组播：广泛应用于金融股票 无代理消息库：ZerroMQ 和 nanomsg StatsD 和 Brubeck 使用 UDP 传递消息 HTTP、RPC 接口  消息代理 参见：AMQP/JMS 风格的消息代理。 也称消息队列。
+ 消息对比与数据库对比   多个消费者   确认和重传机制  分区日志 参见： 基于日志的消息代理。
+数据库与流 保持系统同步 变更数据捕获 变更数据捕获（Change Data Capture，CDC）记录了写入数据库的所有更改，并以可复制到其他系统的形式来提取数据。 如果在写入时立即将更改作为一种流来发布，那么 CDC 就更有趣来。
+实现变更数据捕获 解析复制日志，并将解析的内容发送到事件流中进行 replay。
+初始快照 replay 日志占用空间过大，需要进行截断，截断之前的进行初始快照保存。
+日志压缩 参考哈希索引。
+对变更流的 API 支持 数据库开始支持将变更流作为标准接口。
+事件溯源 一种在领域驱动设计社区中开发的技术，与 CDC 最大的区别在于事件溯源在不同抽象层次上应用了将所有对应用程序状态的更改保存为更改事件日志：
+ CDC 中：应用程序以数据可变方式来操纵数据库，从数据库中提取较低级的变更日志，从而确保从数据库提取写入顺序与实际写入顺序相匹配。写入数据库的程序不需要知道 CDC 正在发生。 事件溯源中：应用程序的写入逻辑是基于写入事件日志的不可变事件构建的。事件存储仅支持追加，不鼓励甚至禁止更新或删除操作。事件旨在反映在应用程序级别所发生的事情，而不是低级别的状态改变。  专门的数据库 Event Store 来支持使用事件溯源的应用程序。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210813065446-%E6%B5%81%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -163,7 +177,7 @@
 <li>HTTP、RPC 接口</li>
 </ul>
 <h4 id="消息代理">消息代理<a href="#消息代理" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
-<p>参见：<a href="/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>
+<p>参见：<a href="/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">AMQP/JMS 风格的消息代理</a>。
 也称消息队列。</p>
 <!-- raw HTML omitted -->
 <ul>
@@ -178,8 +192,70 @@
 <li>确认和重传机制</li>
 </ul>
 <h4 id="分区日志">分区日志<a href="#分区日志" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>参见： <a href="/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">基于日志的消息代理</a>。</p>
 <h2 id="数据库与流">数据库与流<a href="#数据库与流" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="保持系统同步">保持系统同步<a href="#保持系统同步" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="变更数据捕获">变更数据捕获<a href="#变更数据捕获" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>变更数据捕获（Change Data Capture，CDC）记录了写入数据库的所有更改，并以可复制到其他系统的形式来提取数据。
+如果在写入时立即将更改作为一种流来发布，那么 CDC 就更有趣来。</p>
+<h4 id="实现变更数据捕获">实现变更数据捕获<a href="#实现变更数据捕获" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>解析复制日志，并将解析的内容发送到事件流中进行 replay。</p>
+<h4 id="初始快照">初始快照<a href="#初始快照" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>replay 日志占用空间过大，需要进行截断，截断之前的进行初始快照保存。</p>
+<h4 id="日志压缩">日志压缩<a href="#日志压缩" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>参考<a href="/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/">哈希索引</a>。</p>
+<h4 id="对变更流的-api-支持">对变更流的 API 支持<a href="#对变更流的-api-支持" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>数据库开始支持将变更流作为标准接口。</p>
+<h3 id="事件溯源">事件溯源<a href="#事件溯源" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>一种在<a href="/notes/notes/20210814071825-%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">领域驱动设计</a>社区中开发的技术，与 <a href="#%E5%8F%98%E6%9B%B4%E6%95%B0%E6%8D%AE%E6%8D%95%E8%8E%B7">CDC</a> 最大的区别在于事件溯源在不同抽象层次上应用了将所有对应用程序状态的更改保存为更改事件日志：</p>
+<ul>
+<li><a href="#%E5%8F%98%E6%9B%B4%E6%95%B0%E6%8D%AE%E6%8D%95%E8%8E%B7">CDC</a> 中：应用程序以数据可变方式来操纵数据库，从数据库中提取较低级的变更日志，从而确保从数据库提取写入顺序与实际写入顺序相匹配。写入数据库的程序不需要知道 CDC 正在发生。</li>
+<li>事件溯源中：应用程序的写入逻辑是基于写入事件日志的不可变事件构建的。事件存储仅支持追加，不鼓励甚至禁止更新或删除操作。事件旨在反映在应用程序级别所发生的事情，而不是低级别的状态改变。</li>
+</ul>
+<p>专门的数据库 <a href="/notes/notes/20210814072447-event_store/">Event Store</a> 来支持使用事件溯源的应用程序。</p>
+<h4 id="从事件中导出当前状态-真正对用户有意义">从事件中导出当前状态：真正对用户有意义<a href="#从事件中导出当前状态-真正对用户有意义" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="命令和事件">命令和事件<a href="#命令和事件" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>命令经过校验后转化为事件。</p>
+<h3 id="状态-流与不可变性">状态，流与不可变性<a href="#状态-流与不可变性" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <h2 id="流处理">流处理<a href="#流处理" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ol>
+<li>事件中的数据写入数据库、缓存、搜索索引或类似的存储系统，提供给客户端查询。</li>
+<li>通过某种方式将事件推送给用户，如电子邮件、短信等。</li>
+<li>处理一个或多个输入流产生过一个或多个输出流。</li>
+</ol>
+<h3 id="流处理适用场景">流处理适用场景<a href="#流处理适用场景" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="复杂事件处理">复杂事件处理<a href="#复杂事件处理" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>复杂事件处理（Complex Event Processing，CEP）尤其适用需要搜索特定的事件模式。
+实现：Esper、IBM Info Sphere Streams、Apama、TIBCO StreamBase 和 SQLstream。</p>
+<h4 id="流分析">流分析<a href="#流分析" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>Apache Storm、Spark Streaming、Flink、Concord、Samza 和 Kafka Streams。</p>
+<h4 id="维护物化视图">维护物化视图<a href="#维护物化视图" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="在流上搜索">在流上搜索<a href="#在流上搜索" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="消息传递和-rpc">消息传递和 RPC<a href="#消息传递和-rpc" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h3 id="流的时间问题">流的时间问题<a href="#流的时间问题" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>需记录三个时间：</p>
+<ul>
+<li>事件发生时间，设备的时钟</li>
+<li>事件发送时间，设备的时钟</li>
+<li>事件接收时间，福奇的时钟</li>
+</ul>
+<h4 id="窗口类型">窗口类型<a href="#窗口类型" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<ul>
+<li>轮转窗口：长度固定，相互之间不重叠。</li>
+<li>跳跃窗口：长度固定，可以允许相互之间重叠。</li>
+<li>滑动窗口：通过保留事件排序的事件缓冲区并且从窗口过期时移除旧事件来实现。</li>
+<li>会话窗口：没有固定持续事件，通过将同一用户在时间上紧密相关的所有事件分组在一起。</li>
+</ul>
+<h3 id="流式-join">流式 join<a href="#流式-join" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="流和流-join-窗口-join">流和流 join（窗口 join）<a href="#流和流-join-窗口-join" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="流和表-join">流和表 join<a href="#流和表-join" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="表和表-join">表和表 join<a href="#表和表-join" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="join-和事件依赖性">join 和事件依赖性<a href="#join-和事件依赖性" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h3 id="流处理容错">流处理容错<a href="#流处理容错" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="微处理和校验点">微处理和校验点<a href="#微处理和校验点" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="重新审视原子提交">重新审视原子提交<a href="#重新审视原子提交" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="幂等性">幂等性<a href="#幂等性" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="故障后重建状态">故障后重建状态<a href="#故障后重建状态" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 
       </div></div>
 

@@ -131,6 +131,68 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20210814072447-event_store/">Event Store</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-08-14
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20210814072447-event_store/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20210814071825-%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">领域驱动设计</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-08-14
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20210814071825-%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20210813080226-high_performance_browser_networking/">High Performance Browser Networking</a>
         </h1>
         <div class="post-meta">
@@ -458,6 +520,16 @@
 
         <div class="post-content">
           
+          
+          发送事件流 消息系统  生产者速度比消费者快：丢弃消息、将消息缓存在队列、激活背压。 节点崩溃或者暂时历险，是否会有消息丢失？  生产者与消息系统之间的直接消息传递  UDP 组播：广泛应用于金融股票 无代理消息库：ZerroMQ 和 nanomsg StatsD 和 Brubeck 使用 UDP 传递消息 HTTP、RPC 接口  消息代理 参见：AMQP/JMS 风格的消息代理。 也称消息队列。
+ 消息对比与数据库对比   多个消费者   确认和重传机制  分区日志 参见： 基于日志的消息代理。
+数据库与流 保持系统同步 变更数据捕获 变更数据捕获（Change Data Capture，CDC）记录了写入数据库的所有更改，并以可复制到其他系统的形式来提取数据。 如果在写入时立即将更改作为一种流来发布，那么 CDC 就更有趣来。
+实现变更数据捕获 解析复制日志，并将解析的内容发送到事件流中进行 replay。
+初始快照 replay 日志占用空间过大，需要进行截断，截断之前的进行初始快照保存。
+日志压缩 参考哈希索引。
+对变更流的 API 支持 数据库开始支持将变更流作为标准接口。
+事件溯源 一种在领域驱动设计社区中开发的技术，与 CDC 最大的区别在于事件溯源在不同抽象层次上应用了将所有对应用程序状态的更改保存为更改事件日志：
+ CDC 中：应用程序以数据可变方式来操纵数据库，从数据库中提取较低级的变更日志，从而确保从数据库提取写入顺序与实际写入顺序相匹配。写入数据库的程序不需要知道 CDC 正在发生。 事件溯源中：应用程序的写入逻辑是基于写入事件日志的不可变事件构建的。事件存储仅支持追加，不鼓励甚至禁止更新或删除操作。事件旨在反映在应用程序级别所发生的事情，而不是低级别的状态改变。  专门的数据库 Event Store 来支持使用事件溯源的应用程序。
           
           
         </div>

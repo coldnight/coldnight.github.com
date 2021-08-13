@@ -6,7 +6,30 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 13 Aug 2021 08:02:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Aug 2021 07:24:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Event Store</title>
+      <link>https://www.linuxzen.com/notes/notes/20210814072447-event_store/</link>
+      <pubDate>Sat, 14 Aug 2021 07:24:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210814072447-event_store/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>领域驱动设计</title>
+      <link>https://www.linuxzen.com/notes/notes/20210814071825-%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</link>
+      <pubDate>Sat, 14 Aug 2021 07:18:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210814071825-%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</guid>
+      <description> 《领域驱动设计》读书笔记  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/&#34;&gt;《领域驱动设计》读书笔记&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>High Performance Browser Networking</title>
       <link>https://www.linuxzen.com/notes/notes/20210813080226-high_performance_browser_networking/</link>
@@ -89,9 +112,10 @@
 如果客户端的连接关闭或超时，而代理没有收到确认，则认为消息未处理，因此它将消息重新传递给另一个消费者。
 消息顺序性 即使消息代理试图保留消息顺序（标准要求），负载均衡与重新传递的组合也不可避免地导致消息被重新排序。
 基于日志的消息代理  代理将分区中的所有消息分配给相同的消费者节点，并始终以相同的顺序发送消息。 通过分区机制来实现并行（写在多个磁盘上突破磁盘带宽），消费者通过检查他们处理的最后一条消息的偏移量来跟踪进度。 代理将消息保存在磁盘上，因此如果有必要，可以回退并重新读取旧消息。  代表性的有：
- Apache Kafka Amazon Kinesis Streams Twitter DistributedLog  分区日志 基于日志的消息存储 参照 LSM-Tree 和 B-tree 的 WAL，可以使用相同的结构来实现消息代理： 生产者通过将消息追加到日志的末尾来发送消息，消费者通过依次读取日志来接收消息。 如果消费者读到日志的末尾，它就开始等待新消息被追加的通知。
+ Apache Kafka Amazon Kinesis Streams Twitter DistributedLog  基于日志的消息存储 参照 LSM-Tree 和 B-tree 的 WAL，可以使用相同的结构来实现消息代理： 生产者通过将消息追加到日志的末尾来发送消息，消费者通过依次读取日志来接收消息。 如果消费者读到日志的末尾，它就开始等待新消息被追加的通知。
 通过对日志进行分区突破单个磁盘所能体能的带宽吞吐上线。
-代理为每个消息分区分配了一个单调递增的序列号或偏移量，保证了分区内的消息完全有序。</description>
+代理为每个消息分区分配了一个单调递增的序列号或偏移量，保证了分区内的消息完全有序。
+消费者偏移量：记录哪些消息已经被处理，减少 ACK 开销 磁盘空间：分段，定期删除 消费者跟不上生产者：增加 LAG 报警 重新处理消息：重置偏移量 </description>
       <content>&lt;h2 id=&#34;amqp-jms-风格的消息代理&#34;&gt;AMQP/JMS 风格的消息代理&lt;/h2&gt;
 &lt;p&gt;将单个消息分配给消费者，消费者在成功处理后确认每条消息。消息被确认后从代理中删除。
 适合作为一种异步 RPC。&lt;/p&gt;
@@ -127,13 +151,16 @@
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813073357-amazon_kinesis_streams/&#34;&gt;Amazon Kinesis Streams&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813073412-twitter_distributedlog/&#34;&gt;Twitter DistributedLog&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;分区日志&#34;&gt;分区日志&lt;/h3&gt;
-&lt;h4 id=&#34;基于日志的消息存储&#34;&gt;基于日志的消息存储&lt;/h4&gt;
+&lt;h3 id=&#34;基于日志的消息存储&#34;&gt;基于日志的消息存储&lt;/h3&gt;
 &lt;p&gt;参照 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606100317-lsm_tree/&#34;&gt;LSM-Tree &lt;/a&gt;和 B-tree 的 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813074328-%E9%A2%84%E5%86%99%E6%97%A5%E5%BF%97/&#34;&gt;WAL&lt;/a&gt;，可以使用相同的结构来实现消息代理：
 生产者通过将消息追加到日志的末尾来发送消息，消费者通过依次读取日志来接收消息。
 如果消费者读到日志的末尾，它就开始等待新消息被追加的通知。&lt;/p&gt;
 &lt;p&gt;通过对日志进行分区突破单个磁盘所能体能的带宽吞吐上线。&lt;/p&gt;
 &lt;p&gt;代理为每个消息分区分配了一个单调递增的序列号或偏移量，保证了分区内的消息完全有序。&lt;/p&gt;
+&lt;h3 id=&#34;消费者偏移量-记录哪些消息已经被处理-减少-ack-开销&#34;&gt;消费者偏移量：记录哪些消息已经被处理，减少 ACK 开销&lt;/h3&gt;
+&lt;h3 id=&#34;磁盘空间-分段-定期删除&#34;&gt;磁盘空间：分段，定期删除&lt;/h3&gt;
+&lt;h3 id=&#34;消费者跟不上生产者-增加-lag-报警&#34;&gt;消费者跟不上生产者：增加 LAG 报警&lt;/h3&gt;
+&lt;h3 id=&#34;重新处理消息-重置偏移量&#34;&gt;重新处理消息：重置偏移量&lt;/h3&gt;
 </content>
     </item>
     
@@ -183,8 +210,15 @@
       <pubDate>Fri, 13 Aug 2021 06:54:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210813065446-%E6%B5%81%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/</guid>
-      <description>发送事件流 消息系统  生产者速度比消费者快：丢弃消息、将消息缓存在队列、激活背压。 节点崩溃或者暂时历险，是否会有消息丢失？  生产者与消息系统之间的直接消息传递  UDP 组播：广泛应用于金融股票 无代理消息库：ZerroMQ 和 nanomsg StatsD 和 Brubeck 使用 UDP 传递消息 HTTP、RPC 接口  消息代理 参见：消息队列 也称消息队列。
- 消息对比与数据库对比   多个消费者   确认和重传机制  分区日志 数据库与流 流处理 </description>
+      <description>发送事件流 消息系统  生产者速度比消费者快：丢弃消息、将消息缓存在队列、激活背压。 节点崩溃或者暂时历险，是否会有消息丢失？  生产者与消息系统之间的直接消息传递  UDP 组播：广泛应用于金融股票 无代理消息库：ZerroMQ 和 nanomsg StatsD 和 Brubeck 使用 UDP 传递消息 HTTP、RPC 接口  消息代理 参见：AMQP/JMS 风格的消息代理。 也称消息队列。
+ 消息对比与数据库对比   多个消费者   确认和重传机制  分区日志 参见： 基于日志的消息代理。
+数据库与流 保持系统同步 变更数据捕获 变更数据捕获（Change Data Capture，CDC）记录了写入数据库的所有更改，并以可复制到其他系统的形式来提取数据。 如果在写入时立即将更改作为一种流来发布，那么 CDC 就更有趣来。
+实现变更数据捕获 解析复制日志，并将解析的内容发送到事件流中进行 replay。
+初始快照 replay 日志占用空间过大，需要进行截断，截断之前的进行初始快照保存。
+日志压缩 参考哈希索引。
+对变更流的 API 支持 数据库开始支持将变更流作为标准接口。
+事件溯源 一种在领域驱动设计社区中开发的技术，与 CDC 最大的区别在于事件溯源在不同抽象层次上应用了将所有对应用程序状态的更改保存为更改事件日志：
+ CDC 中：应用程序以数据可变方式来操纵数据库，从数据库中提取较低级的变更日志，从而确保从数据库提取写入顺序与实际写入顺序相匹配。写入数据库的程序不需要知道 CDC 正在发生。 事件溯源中：应用程序的写入逻辑是基于写入事件日志的不可变事件构建的。事件存储仅支持追加，不鼓励甚至禁止更新或删除操作。事件旨在反映在应用程序级别所发生的事情，而不是低级别的状态改变。  专门的数据库 Event Store 来支持使用事件溯源的应用程序。</description>
       <content>&lt;h2 id=&#34;发送事件流&#34;&gt;发送事件流&lt;/h2&gt;
 &lt;h3 id=&#34;消息系统&#34;&gt;消息系统&lt;/h3&gt;
 &lt;ol&gt;
@@ -199,7 +233,7 @@
 &lt;li&gt;HTTP、RPC 接口&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;消息代理&#34;&gt;消息代理&lt;/h4&gt;
-&lt;p&gt;参见：&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/&#34;&gt;消息队列&lt;/a&gt;
+&lt;p&gt;参见：&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/&#34;&gt;AMQP/JMS 风格的消息代理&lt;/a&gt;。
 也称消息队列。&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;ul&gt;
@@ -214,8 +248,70 @@
 &lt;li&gt;确认和重传机制&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;分区日志&#34;&gt;分区日志&lt;/h4&gt;
+&lt;p&gt;参见： &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/&#34;&gt;基于日志的消息代理&lt;/a&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;数据库与流&#34;&gt;数据库与流&lt;/h2&gt;
+&lt;h3 id=&#34;保持系统同步&#34;&gt;保持系统同步&lt;/h3&gt;
+&lt;h3 id=&#34;变更数据捕获&#34;&gt;变更数据捕获&lt;/h3&gt;
+&lt;p&gt;变更数据捕获（Change Data Capture，CDC）记录了写入数据库的所有更改，并以可复制到其他系统的形式来提取数据。
+如果在写入时立即将更改作为一种流来发布，那么 CDC 就更有趣来。&lt;/p&gt;
+&lt;h4 id=&#34;实现变更数据捕获&#34;&gt;实现变更数据捕获&lt;/h4&gt;
+&lt;p&gt;解析复制日志，并将解析的内容发送到事件流中进行 replay。&lt;/p&gt;
+&lt;h4 id=&#34;初始快照&#34;&gt;初始快照&lt;/h4&gt;
+&lt;p&gt;replay 日志占用空间过大，需要进行截断，截断之前的进行初始快照保存。&lt;/p&gt;
+&lt;h4 id=&#34;日志压缩&#34;&gt;日志压缩&lt;/h4&gt;
+&lt;p&gt;参考&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606103354-%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95/&#34;&gt;哈希索引&lt;/a&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;对变更流的-api-支持&#34;&gt;对变更流的 API 支持&lt;/h4&gt;
+&lt;p&gt;数据库开始支持将变更流作为标准接口。&lt;/p&gt;
+&lt;h3 id=&#34;事件溯源&#34;&gt;事件溯源&lt;/h3&gt;
+&lt;p&gt;一种在&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210814071825-%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/&#34;&gt;领域驱动设计&lt;/a&gt;社区中开发的技术，与 &lt;a href=&#34;#%E5%8F%98%E6%9B%B4%E6%95%B0%E6%8D%AE%E6%8D%95%E8%8E%B7&#34;&gt;CDC&lt;/a&gt; 最大的区别在于事件溯源在不同抽象层次上应用了将所有对应用程序状态的更改保存为更改事件日志：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%8F%98%E6%9B%B4%E6%95%B0%E6%8D%AE%E6%8D%95%E8%8E%B7&#34;&gt;CDC&lt;/a&gt; 中：应用程序以数据可变方式来操纵数据库，从数据库中提取较低级的变更日志，从而确保从数据库提取写入顺序与实际写入顺序相匹配。写入数据库的程序不需要知道 CDC 正在发生。&lt;/li&gt;
+&lt;li&gt;事件溯源中：应用程序的写入逻辑是基于写入事件日志的不可变事件构建的。事件存储仅支持追加，不鼓励甚至禁止更新或删除操作。事件旨在反映在应用程序级别所发生的事情，而不是低级别的状态改变。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;专门的数据库 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210814072447-event_store/&#34;&gt;Event Store&lt;/a&gt; 来支持使用事件溯源的应用程序。&lt;/p&gt;
+&lt;h4 id=&#34;从事件中导出当前状态-真正对用户有意义&#34;&gt;从事件中导出当前状态：真正对用户有意义&lt;/h4&gt;
+&lt;h4 id=&#34;命令和事件&#34;&gt;命令和事件&lt;/h4&gt;
+&lt;p&gt;命令经过校验后转化为事件。&lt;/p&gt;
+&lt;h3 id=&#34;状态-流与不可变性&#34;&gt;状态，流与不可变性&lt;/h3&gt;
 &lt;h2 id=&#34;流处理&#34;&gt;流处理&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;事件中的数据写入数据库、缓存、搜索索引或类似的存储系统，提供给客户端查询。&lt;/li&gt;
+&lt;li&gt;通过某种方式将事件推送给用户，如电子邮件、短信等。&lt;/li&gt;
+&lt;li&gt;处理一个或多个输入流产生过一个或多个输出流。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;流处理适用场景&#34;&gt;流处理适用场景&lt;/h3&gt;
+&lt;h4 id=&#34;复杂事件处理&#34;&gt;复杂事件处理&lt;/h4&gt;
+&lt;p&gt;复杂事件处理（Complex Event Processing，CEP）尤其适用需要搜索特定的事件模式。
+实现：Esper、IBM Info Sphere Streams、Apama、TIBCO StreamBase 和 SQLstream。&lt;/p&gt;
+&lt;h4 id=&#34;流分析&#34;&gt;流分析&lt;/h4&gt;
+&lt;p&gt;Apache Storm、Spark Streaming、Flink、Concord、Samza 和 Kafka Streams。&lt;/p&gt;
+&lt;h4 id=&#34;维护物化视图&#34;&gt;维护物化视图&lt;/h4&gt;
+&lt;h4 id=&#34;在流上搜索&#34;&gt;在流上搜索&lt;/h4&gt;
+&lt;h4 id=&#34;消息传递和-rpc&#34;&gt;消息传递和 RPC&lt;/h4&gt;
+&lt;h3 id=&#34;流的时间问题&#34;&gt;流的时间问题&lt;/h3&gt;
+&lt;p&gt;需记录三个时间：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;事件发生时间，设备的时钟&lt;/li&gt;
+&lt;li&gt;事件发送时间，设备的时钟&lt;/li&gt;
+&lt;li&gt;事件接收时间，福奇的时钟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;窗口类型&#34;&gt;窗口类型&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;轮转窗口：长度固定，相互之间不重叠。&lt;/li&gt;
+&lt;li&gt;跳跃窗口：长度固定，可以允许相互之间重叠。&lt;/li&gt;
+&lt;li&gt;滑动窗口：通过保留事件排序的事件缓冲区并且从窗口过期时移除旧事件来实现。&lt;/li&gt;
+&lt;li&gt;会话窗口：没有固定持续事件，通过将同一用户在时间上紧密相关的所有事件分组在一起。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;流式-join&#34;&gt;流式 join&lt;/h3&gt;
+&lt;h4 id=&#34;流和流-join-窗口-join&#34;&gt;流和流 join（窗口 join）&lt;/h4&gt;
+&lt;h4 id=&#34;流和表-join&#34;&gt;流和表 join&lt;/h4&gt;
+&lt;h4 id=&#34;表和表-join&#34;&gt;表和表 join&lt;/h4&gt;
+&lt;h4 id=&#34;join-和事件依赖性&#34;&gt;join 和事件依赖性&lt;/h4&gt;
+&lt;h3 id=&#34;流处理容错&#34;&gt;流处理容错&lt;/h3&gt;
+&lt;h4 id=&#34;微处理和校验点&#34;&gt;微处理和校验点&lt;/h4&gt;
+&lt;h4 id=&#34;重新审视原子提交&#34;&gt;重新审视原子提交&lt;/h4&gt;
+&lt;h4 id=&#34;幂等性&#34;&gt;幂等性&lt;/h4&gt;
+&lt;h4 id=&#34;故障后重建状态&#34;&gt;故障后重建状态&lt;/h4&gt;
 </content>
     </item>
     
