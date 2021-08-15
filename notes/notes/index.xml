@@ -6,7 +6,515 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 14 Aug 2021 07:24:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Aug 2021 08:15:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode: 79. Word Search</title>
+      <link>https://www.linuxzen.com/notes/notes/20210815081516-leetcode_79_word_search/</link>
+      <pubDate>Sun, 15 Aug 2021 08:15:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210815081516-leetcode_79_word_search/</guid>
+      <description>79. Word Search
+class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp;gt;&amp;amp; board, string word) { backtracking(board, word, 0, 0); return res; } private: string track; bool res = false; enum Direction { right, down, up, left, }; /** * @param dir: 0: right, 1: down, 2: up, 3: left */ void backtracking(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp;gt;&amp;amp; board, string word, int row, int col) { if (track == word || res) { res = true; return; } for (int i = row; i &amp;lt; board.</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/word-search/&#34;&gt;79. Word Search&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; exist(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word) {
+        backtracking(board, word, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+    }
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    string track;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Direction&lt;/span&gt; {
+        right,
+        down,
+        up,
+        left,
+    };
+    &lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     * @param dir: 0: right, 1: down, 2: up, 3: left
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     */&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backtracking&lt;/span&gt;(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (track &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; word &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; res) {
+            res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; row; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; col; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[i].size(); j&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; directions &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; get_next_directions(board, i, j);
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (directions.size() &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+                }
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; d: directions) {
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; r, c;
+                    track.push_back(board[i][j]);
+                    std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;tie(r, c) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; next_char_pos(board, row, col, d);
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (word.find(track) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+                        backtracking(board, word, r, c);
+                    }
+                    track.pop_back();
+                }
+
+            }
+        }
+    }
+
+    vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; get_next_directions(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; r;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[row].size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(right);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(down);
+        }
+
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(up);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(left);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+
+    tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; next_char_pos(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col, Direction dir) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;switch&lt;/span&gt;(dir) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; right:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; left:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; up:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; down:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+        }
+        tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;r(row, col);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;失败的用例：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[[&amp;quot;A&amp;quot;,&amp;quot;B&amp;quot;,&amp;quot;C&amp;quot;,&amp;quot;E&amp;quot;],[&amp;quot;S&amp;quot;,&amp;quot;F&amp;quot;,&amp;quot;C&amp;quot;,&amp;quot;S&amp;quot;],[&amp;quot;A&amp;quot;,&amp;quot;D&amp;quot;,&amp;quot;E&amp;quot;,&amp;quot;E&amp;quot;]]
+&amp;quot;ABCB&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;因为方向往回走导致，应该规避方向往回走。通过一个 set 来跟踪位置，防止进入前面的位置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; exist(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word) {
+        backtracking(board, word, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+    }
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    string track;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false;
+    set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; pos;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Direction&lt;/span&gt; {
+        right,
+        down,
+        up,
+        left,
+    };
+    &lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     * @param dir: 0: right, 1: down, 2: up, 3: left
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     */&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backtracking&lt;/span&gt;(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (track &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; word &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; res) {
+            res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; row; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; col; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[i].size(); j&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; directions &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; get_next_directions(board, i, j);
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (directions.size() &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+                }
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; d: directions) {
+                    tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; p (i, j);
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (pos.find(p) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; pos.end()) {
+                        &lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;
+                    }
+                    pos.insert(p);
+                    track.push_back(board[i][j]);
+
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; r, c;
+                    std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;tie(r, c) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; next_char_pos(board, row, col, d);
+
+
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (word.find(track) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+                        backtracking(board, word, r, c);
+                    }
+                    track.pop_back();
+                    pos.erase(p);
+                }
+
+            }
+        }
+    }
+
+    vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; get_next_directions(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; r;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[row].size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(right);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(down);
+        }
+
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(up);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(left);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+
+    tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; next_char_pos(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col, Direction dir) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;switch&lt;/span&gt;(dir) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; right:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; left:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; up:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; down:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+        }
+        tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;r(row, col);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;失败的用例：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[[&amp;quot;a&amp;quot;]]
+&amp;quot;a&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;代码逻辑有问题，修正后：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; exist(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word) {
+        backtracking(board, word, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+    }
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    string track;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false;
+    set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; pos;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Direction&lt;/span&gt; {
+        right,
+        down,
+        up,
+        left,
+    };
+    &lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     * @param dir: 0: right, 1: down, 2: up, 3: left
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     */&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backtracking&lt;/span&gt;(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (track &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; word &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; res) {
+            res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; row; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; col; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[i].size(); j&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+                tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; p (i, j);
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (pos.find(p) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; pos.end()) {
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;
+                }
+                pos.insert(p);
+                track.push_back(board[i][j]);
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (track &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; word &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; res) {
+                    res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+                }
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (word.find(track) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; directions &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; get_next_directions(board, i, j);
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; d: directions) {
+                        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; r, c;
+                        std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;tie(r, c) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; next_char_pos(board, row, col, d);
+                        backtracking(board, word, r, c);
+                    }
+                }
+
+                track.pop_back();
+                pos.erase(p);
+
+            }
+        }
+    }
+
+    vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; get_next_directions(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; r;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[row].size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(right);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(down);
+        }
+
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(up);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(left);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+
+    tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; next_char_pos(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col, Direction dir) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;switch&lt;/span&gt;(dir) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; right:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; left:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; up:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; down:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+        }
+        tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;r(row, col);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以下测试用例无法通过：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[[&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]]
+&amp;quot;ba&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;调整代码后（进入下一个节点的 row/col 没用 i/j）:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; exist(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word) {
+        backtracking(board, word, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+    }
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    string track;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false;
+    set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; pos;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Direction&lt;/span&gt; {
+        right,
+        down,
+        up,
+        left,
+    };
+    &lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     * @param dir: 0: right, 1: down, 2: up, 3: left
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     */&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backtracking&lt;/span&gt;(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; track &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (track &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; word &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; res) {
+            res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; row; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; col; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[i].size(); j&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+                tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; p (i, j);
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (pos.find(p) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; pos.end()) {
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;
+                }
+                pos.insert(p);
+                track.push_back(board[i][j]);
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (track &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; word) {
+                    res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+                }
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (word.find(track) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; directions &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; get_next_directions(board, i, j);
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; d: directions) {
+                        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; r, c;
+                        std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;tie(r, c) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; next_char_pos(board, i, j, d);
+                        backtracking(board, word, r, c);
+                    }
+                }
+
+                track.pop_back();
+                pos.erase(p);
+            }
+        }
+    }
+
+    vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; get_next_directions(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; r;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[row].size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(right);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(down);
+        }
+
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(up);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(left);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+
+    tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; next_char_pos(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col, Direction dir) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;switch&lt;/span&gt;(dir) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; right:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; left:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; up:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; down:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+        }
+        tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;r(row, col);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此时的失败用例：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[[&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;],[&amp;quot;c&amp;quot;,&amp;quot;d&amp;quot;]]
+&amp;quot;abcd&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;改成如果位置已经存在则返回可以通过:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; exist(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word) {
+        backtracking(board, word, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+    }
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    string track;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false;
+    set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; pos;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Direction&lt;/span&gt; {
+        right,
+        down,
+        up,
+        left,
+    };
+    &lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     * @param dir: 0: right, 1: down, 2: up, 3: left
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;     */&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backtracking&lt;/span&gt;(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, string word, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (track &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; word &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; res) {
+            res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; row; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; col; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[i].size(); j&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+                tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; p (i, j);
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (pos.find(p) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; pos.end()) {
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;  &lt;span style=&#34;color:#75715e&#34;&gt;// &amp;lt;--------- here
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                }
+                pos.insert(p);
+                track.push_back(board[i][j]);
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (word.find(track) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; directions &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; get_next_directions(board, i, j);
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (track &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; word) {
+                        res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+                        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+                    }
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; d: directions) {
+                        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; r, c;
+                        std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;tie(r, c) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; next_char_pos(board, i, j, d);
+                        backtracking(board, word, r, c);
+                    }
+                }
+
+                track.pop_back();
+                pos.erase(p);
+            }
+        }
+    }
+
+    vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; get_next_directions(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col) {
+        vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Direction&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; r;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board[row].size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(right);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+            r.push_back(down);
+        }
+
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (row &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(up);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (col &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+            r.push_back(left);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+
+    tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; next_char_pos(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; board, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; row, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; col, Direction dir) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;switch&lt;/span&gt;(dir) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; right:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; left:
+                col&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; up:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; down:
+                row&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+        }
+        tuple&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;r(row, col);
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;但是在下面测试用例失败了：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[[&amp;quot;b&amp;quot;],[&amp;quot;a&amp;quot;],[&amp;quot;b&amp;quot;],[&amp;quot;b&amp;quot;],[&amp;quot;a&amp;quot;]]
+&amp;quot;baa&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;简单的过滤掉：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (board.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; board[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;].size() &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+    string s;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; board.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+        s.push_back(board[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]);
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; s.find(word) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; string&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;npos;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;现在下面失败了：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[[&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;],[&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;],[&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]]
+&amp;quot;bbbaabbbbbab&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;测试用例快照:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[[&amp;quot;A&amp;quot;,&amp;quot;B&amp;quot;,&amp;quot;C&amp;quot;,&amp;quot;E&amp;quot;],[&amp;quot;S&amp;quot;,&amp;quot;F&amp;quot;,&amp;quot;C&amp;quot;,&amp;quot;S&amp;quot;],[&amp;quot;A&amp;quot;,&amp;quot;D&amp;quot;,&amp;quot;E&amp;quot;,&amp;quot;E&amp;quot;]]
+&amp;quot;ABCCED&amp;quot;
+[[&amp;quot;A&amp;quot;,&amp;quot;B&amp;quot;,&amp;quot;C&amp;quot;,&amp;quot;E&amp;quot;],[&amp;quot;S&amp;quot;,&amp;quot;F&amp;quot;,&amp;quot;C&amp;quot;,&amp;quot;S&amp;quot;],[&amp;quot;A&amp;quot;,&amp;quot;D&amp;quot;,&amp;quot;E&amp;quot;,&amp;quot;E&amp;quot;]]
+&amp;quot;SEE&amp;quot;
+[[&amp;quot;A&amp;quot;,&amp;quot;B&amp;quot;,&amp;quot;C&amp;quot;,&amp;quot;E&amp;quot;],[&amp;quot;S&amp;quot;,&amp;quot;F&amp;quot;,&amp;quot;C&amp;quot;,&amp;quot;S&amp;quot;],[&amp;quot;A&amp;quot;,&amp;quot;D&amp;quot;,&amp;quot;E&amp;quot;,&amp;quot;E&amp;quot;]]
+&amp;quot;ABCB&amp;quot;
+[[&amp;quot;a&amp;quot;]]
+&amp;quot;a&amp;quot;
+[[&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]]
+&amp;quot;ba&amp;quot;
+[[&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;],[&amp;quot;c&amp;quot;,&amp;quot;d&amp;quot;]]
+&amp;quot;dbac&amp;quot;
+[[&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;],[&amp;quot;c&amp;quot;,&amp;quot;d&amp;quot;]]
+&amp;quot;abcd&amp;quot;
+[[&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;]]
+&amp;quot;aaaaaaaaaaaaa&amp;quot;
+[[&amp;quot;b&amp;quot;],[&amp;quot;a&amp;quot;],[&amp;quot;b&amp;quot;],[&amp;quot;b&amp;quot;],[&amp;quot;a&amp;quot;]]
+&amp;quot;baa&amp;quot;
+[[&amp;quot;a&amp;quot;]]
+&amp;quot;ab&amp;quot;
+Details
+Input
+[[&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;],[&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;],[&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]]
+&amp;quot;bbbaabbbbbab&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;</content>
+    </item>
+    
     <item>
       <title>Event Store</title>
       <link>https://www.linuxzen.com/notes/notes/20210814072447-event_store/</link>
