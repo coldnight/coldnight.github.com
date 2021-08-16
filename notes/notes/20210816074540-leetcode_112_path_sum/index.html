@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>LeetCode: 112. Path Sum :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="https://leetcode.com/problems/path-sum/
+递归版
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: bool hasPathSum(TreeNode* root, int targetSum) { if (root == nullptr) { return false; } return pathSum(root, 0, targetSum); } bool pathSum(TreeNode* node, int sum, int targetSum) { sum &#43;= node-&amp;gt;val; if (node-&amp;gt;left == nullptr &amp;amp;&amp;amp; node-&amp;gt;right == nullptr) { if (sum == targetSum) { return true; } } if (node-&amp;gt;left !" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210816074540-leetcode_112_path_sum/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="LeetCode: 112. Path Sum">
+<meta property="og:description" content="https://leetcode.com/problems/path-sum/
+递归版
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: bool hasPathSum(TreeNode* root, int targetSum) { if (root == nullptr) { return false; } return pathSum(root, 0, targetSum); } bool pathSum(TreeNode* node, int sum, int targetSum) { sum &#43;= node-&amp;gt;val; if (node-&amp;gt;left == nullptr &amp;amp;&amp;amp; node-&amp;gt;right == nullptr) { if (sum == targetSum) { return true; } } if (node-&amp;gt;left !" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210816074540-leetcode_112_path_sum/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-08-16 07:45:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20210816074540-leetcode_112_path_sum/">LeetCode: 112. Path Sum</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-08-16 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p><a href="https://leetcode.com/problems/path-sum/">https://leetcode.com/problems/path-sum/</a></p>
+<p>递归版</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for a binary tree node.
+</span><span style="color:#75715e"> * struct TreeNode {
+</span><span style="color:#75715e"> *     int val;
+</span><span style="color:#75715e"> *     TreeNode *left;
+</span><span style="color:#75715e"> *     TreeNode *right;
+</span><span style="color:#75715e"> *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+</span><span style="color:#75715e"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+</span><span style="color:#75715e"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+</span><span style="color:#75715e"> * };
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">bool</span> hasPathSum(TreeNode<span style="color:#f92672">*</span> root, <span style="color:#66d9ef">int</span> targetSum) {
+        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+            <span style="color:#66d9ef">return</span> false;
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">pathSum</span>(root, <span style="color:#ae81ff">0</span>, targetSum);
+    }
+
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">pathSum</span>(TreeNode<span style="color:#f92672">*</span> node, <span style="color:#66d9ef">int</span> sum, <span style="color:#66d9ef">int</span> targetSum) {
+        sum <span style="color:#f92672">+=</span> node<span style="color:#f92672">-&gt;</span>val;
+        <span style="color:#66d9ef">if</span> (node<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">&amp;&amp;</span> node<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+            <span style="color:#66d9ef">if</span> (sum <span style="color:#f92672">==</span> targetSum) {
+                <span style="color:#66d9ef">return</span> true;
+            }
+        }
+        <span style="color:#66d9ef">if</span> (node<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+            <span style="color:#66d9ef">if</span> (pathSum(node<span style="color:#f92672">-&gt;</span>left, sum, targetSum)) {
+                <span style="color:#66d9ef">return</span> true;
+            }
+        }
+        <span style="color:#66d9ef">if</span> (node<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+            <span style="color:#66d9ef">if</span> (pathSum(node<span style="color:#f92672">-&gt;</span>right, sum, targetSum)) {
+                <span style="color:#66d9ef">return</span> true;
+            }
+        }
+        <span style="color:#66d9ef">return</span> false;
+    }
+};
+</code></pre></div><p>测试用例</p>
+<pre><code class="language-nil" data-lang="nil">[5,4,8,11,null,13,4,7,2,null,null,null,1]
+22
+[1,2]
+1
+[1,2]
+0
+[1,2,3]
+5
+</code></pre><p>简化版</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for a binary tree node.
+</span><span style="color:#75715e"> * struct TreeNode {
+</span><span style="color:#75715e"> *     int val;
+</span><span style="color:#75715e"> *     TreeNode *left;
+</span><span style="color:#75715e"> *     TreeNode *right;
+</span><span style="color:#75715e"> *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+</span><span style="color:#75715e"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+</span><span style="color:#75715e"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+</span><span style="color:#75715e"> * };
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">bool</span> hasPathSum(TreeNode<span style="color:#f92672">*</span> root, <span style="color:#66d9ef">int</span> targetSum) {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">pathSum</span>(root, <span style="color:#ae81ff">0</span>, targetSum);
+    }
+
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">pathSum</span>(TreeNode<span style="color:#f92672">*</span> node, <span style="color:#66d9ef">int</span> sum, <span style="color:#66d9ef">int</span> targetSum) {
+        <span style="color:#66d9ef">if</span> (node <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+            <span style="color:#66d9ef">return</span> sum <span style="color:#f92672">==</span> targetSum;
+        }
+        sum <span style="color:#f92672">+=</span> node<span style="color:#f92672">-&gt;</span>val;
+        <span style="color:#66d9ef">return</span> pathSum(node<span style="color:#f92672">-&gt;</span>left, sum, targetSum) <span style="color:#f92672">||</span> pathSum(node<span style="color:#f92672">-&gt;</span>right, sum, targetSum);
+    }
+};
+</code></pre></div>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>

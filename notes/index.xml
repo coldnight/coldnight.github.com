@@ -6,7 +6,96 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 15 Aug 2021 08:15:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 16 Aug 2021 07:45:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode: 112. Path Sum</title>
+      <link>https://www.linuxzen.com/notes/notes/20210816074540-leetcode_112_path_sum/</link>
+      <pubDate>Mon, 16 Aug 2021 07:45:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210816074540-leetcode_112_path_sum/</guid>
+      <description>https://leetcode.com/problems/path-sum/
+递归版
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: bool hasPathSum(TreeNode* root, int targetSum) { if (root == nullptr) { return false; } return pathSum(root, 0, targetSum); } bool pathSum(TreeNode* node, int sum, int targetSum) { sum += node-&amp;gt;val; if (node-&amp;gt;left == nullptr &amp;amp;&amp;amp; node-&amp;gt;right == nullptr) { if (sum == targetSum) { return true; } } if (node-&amp;gt;left !</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/path-sum/&#34;&gt;https://leetcode.com/problems/path-sum/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;递归版&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * Definition for a binary tree node.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * struct TreeNode {
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     int val;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *left;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *right;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * };
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; */&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; hasPathSum(TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; root, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; targetSum) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;pathSum&lt;/span&gt;(root, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, targetSum);
+    }
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;pathSum&lt;/span&gt;(TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; node, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; sum, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; targetSum) {
+        sum &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (sum &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; targetSum) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+            }
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (pathSum(node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left, sum, targetSum)) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+            }
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (pathSum(node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right, sum, targetSum)) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+            }
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;测试用例&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[5,4,8,11,null,13,4,7,2,null,null,null,1]
+22
+[1,2]
+1
+[1,2]
+0
+[1,2,3]
+5
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;简化版&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * Definition for a binary tree node.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * struct TreeNode {
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     int val;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *left;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *right;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * };
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; */&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; hasPathSum(TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; root, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; targetSum) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;pathSum&lt;/span&gt;(root, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, targetSum);
+    }
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;pathSum&lt;/span&gt;(TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; node, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; sum, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; targetSum) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (node &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; sum &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; targetSum;
+        }
+        sum &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; pathSum(node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left, sum, targetSum) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; pathSum(node&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right, sum, targetSum);
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode: 79. Word Search</title>
       <link>https://www.linuxzen.com/notes/notes/20210815081516-leetcode_79_word_search/</link>

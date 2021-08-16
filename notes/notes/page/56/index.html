@@ -131,6 +131,41 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20210816074540-leetcode_112_path_sum/">LeetCode: 112. Path Sum</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-08-16
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          https://leetcode.com/problems/path-sum/
+递归版
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: bool hasPathSum(TreeNode* root, int targetSum) { if (root == nullptr) { return false; } return pathSum(root, 0, targetSum); } bool pathSum(TreeNode* node, int sum, int targetSum) { sum += node-&gt;val; if (node-&gt;left == nullptr &amp;&amp; node-&gt;right == nullptr) { if (sum == targetSum) { return true; } } if (node-&gt;left !
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20210816074540-leetcode_112_path_sum/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20210815081516-leetcode_79_word_search/">LeetCode: 79. Word Search</a>
         </h1>
         <div class="post-meta">
