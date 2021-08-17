@@ -6,7 +6,138 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 16 Aug 2021 08:30:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 18 Aug 2021 07:09:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode: 98. Validate Binary Search Tree</title>
+      <link>https://www.linuxzen.com/notes/notes/20210818070934-leetcode_98_validate_binary_search_tree/</link>
+      <pubDate>Wed, 18 Aug 2021 07:09:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210818070934-leetcode_98_validate_binary_search_tree/</guid>
+      <description>https://leetcode.com/problems/validate-binary-search-tree/
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: bool isValidBST(TreeNode* root) { if (root == nullptr || (root-&amp;gt;left == nullptr &amp;amp;&amp;amp; root-&amp;gt;right == nullptr)) { return true; } if (root-&amp;gt;left !</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/validate-binary-search-tree/&#34;&gt;https://leetcode.com/problems/validate-binary-search-tree/&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * Definition for a binary tree node.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * struct TreeNode {
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     int val;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *left;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *right;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * };
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; */&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; isValidBST(TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; root) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; (root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;)) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+            }
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;isValidBST&lt;/span&gt;(root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; isValidBST(root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+            }
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;isValidBST&lt;/span&gt;(root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+            }
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;isValidBST&lt;/span&gt;(root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right)            ;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;无法处理子树元素大于上一层的问题。中序遍历排序：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * Definition for a binary tree node.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * struct TreeNode {
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     int val;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *left;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *right;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * };
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; */&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; isValidBST(TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; root) {
+        vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; ret;
+        stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&amp;gt;&lt;/span&gt; st;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; cur;
+        cur &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; root;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; cur &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (cur &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+                st.push(cur);
+                cur &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cur&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left;
+            }
+            cur &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; st.top();
+            st.pop();
+            ret.push_back(cur&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val);
+            cur &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cur&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right;
+        }
+
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; prev &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ret[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;];
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; ret.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ret[i];
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; prev) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+            }
+            prev &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; r;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以去掉中间结果存数组：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * Definition for a binary tree node.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * struct TreeNode {
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     int val;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *left;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode *right;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * };
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; */&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; isValidBST(TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; root) {
+        stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&amp;gt;&lt;/span&gt; st;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; cur &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; prev &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;;
+        cur &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; root;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; cur &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (cur &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+                st.push(cur);
+                cur &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cur&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left;
+            }
+            cur &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; st.top();
+            st.pop();
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (prev &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cur&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; prev&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val) {
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+            }
+            prev &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cur;
+
+            cur &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cur&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[2,1,3]
+[5,1,4,null,null,3,6]
+[2,2,2]
+[5,4,6,null,null,3,7]
+&lt;/code&gt;&lt;/pre&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode: 113. Path Sum II</title>
       <link>https://www.linuxzen.com/notes/notes/20210816083017-leetcode_113_path_sum_ii/</link>
@@ -5678,7 +5809,7 @@ printf &amp;#39;\e[3J&amp;#39; &amp;amp;&amp;amp; log show --predicate &amp;#39;
         collector.push_back(root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val);
     }
 
-    vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; inorderTraversal(TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; root) {
+    vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; postorderTraversal(TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; root) {
         vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; ret;
         &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
             &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; ret;
