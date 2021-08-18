@@ -131,6 +131,42 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20210818115146-%E7%82%B9%E9%98%B5%E7%AC%94%E6%8A%A5%E5%91%8A/">点阵笔报告</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-08-18
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          难点  高扩展性系统设计：高度可复用的表结构、系统组件间的依赖关系梳理和数据驱动前端展示的设计思想。 数据流转环节多：数据目前会涉及到从业务到 Kafka 再到 Hive 表中，然后再次拿出计算聚合形成 DWS 落到 Hive 中，再次通过 DWS 聚合形成 ADS，最后落到业务 MongoDB 供前端渲染。 宽表涉及业务方比较多（可能需要支持）。  现存技术栈  Spark &ndash; 资源是否就绪？ crontab + Python script(pyhive) &ndash; 存在扩容问题 热数据 MongoDB ？冷数据 Hive？ AirFlow 进行数据间的依赖管理 AirFlow + Spark  一些零散的想法  原始打点数据从 Kafka 中获取放入 MongoDB 或 Redis 中，然后 DWS 计算落盘 Hive，通过数据仓储技术形成 DWS 宽表。 ADS 直接通过 pyhive 读取 DWS 产生，覆盖 MongoDB 针对业务。  数据驱动报告 如何能做到数据驱动报告，而不是每次修改都需要全链路的调整？
+面向水平扩展设计 数据能够进行切片，派发到不同的实例去分析处理产生新的输出，支持水平进行扩展。
+面向垂直扩展设计 数据可以增加任意的环节进行加工处理。
+参考  需求背景 需求 PRD 打点数据  名词解释  DWS：Data Warehouse Service ADS：Analyze Data Service  参考：数仓名词。
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20210818115146-%E7%82%B9%E9%98%B5%E7%AC%94%E6%8A%A5%E5%91%8A/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20210818070934-leetcode_98_validate_binary_search_tree/">LeetCode: 98. Validate Binary Search Tree</a>
         </h1>
         <div class="post-meta">
