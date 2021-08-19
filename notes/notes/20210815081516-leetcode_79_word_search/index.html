@@ -621,6 +621,100 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 </code></pre></div><p>现在下面失败了：</p>
 <pre><code class="language-nil" data-lang="nil">[[&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;],[&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;a&quot;],[&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;],[&quot;b&quot;,&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;a&quot;,&quot;b&quot;],[&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;],[&quot;b&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;]]
 &quot;bbbaabbbbbab&quot;
+</code></pre><p>经过仔细推敲后：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
+                backtracking(board, word, i, j);
+            }
+        }
+        <span style="color:#66d9ef">return</span> res;
+    }
+<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+    string track;
+    <span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
+    set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
+
+    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
+        right,
+        down,
+        up,
+        left,
+    };
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * @param dir: 0: right, 1: down, 2: up, 3: left
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+        tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (row, col);
+        <span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
+            <span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// &lt;--------- here
+</span><span style="color:#75715e"></span>        }
+        pos.insert(p);
+        track.push_back(board[row][col]);
+        <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word) {
+            cout <span style="color:#f92672">&lt;&lt;</span> track <span style="color:#f92672">&lt;&lt;</span> endl;
+            res <span style="color:#f92672">=</span> true;
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">if</span> (res) {
+            <span style="color:#66d9ef">return</span>;
+        }
+        <span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            cout <span style="color:#f92672">&lt;&lt;</span> row <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span> <span style="color:#f92672">&lt;&lt;</span> col <span style="color:#f92672">&lt;&lt;</span> endl;
+            <span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, row, col);
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
+                <span style="color:#66d9ef">int</span> r, c;
+                std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, row, col, d);
+                cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;  &#34;</span> <span style="color:#f92672">&lt;&lt;</span> r <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;,&#34;</span> <span style="color:#f92672">&lt;&lt;</span> c <span style="color:#f92672">&lt;&lt;</span> endl;
+                backtracking(board, word, r, c);
+            }
+        }
+        track.pop_back();
+        pos.erase(p);
+    }
+
+    vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+        vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
+        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+            r.push_back(right);
+        }
+        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+            r.push_back(down);
+        }
+
+        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            r.push_back(up);
+        }
+        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            r.push_back(left);
+        }
+        <span style="color:#66d9ef">return</span> r;
+    }
+
+    tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
+        <span style="color:#66d9ef">switch</span>(dir) {
+            <span style="color:#66d9ef">case</span> right:
+                col<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">break</span>;
+            <span style="color:#66d9ef">case</span> left:
+                col<span style="color:#f92672">--</span>;
+                <span style="color:#66d9ef">break</span>;
+            <span style="color:#66d9ef">case</span> up:
+                row<span style="color:#f92672">--</span>;
+                <span style="color:#66d9ef">break</span>;
+            <span style="color:#66d9ef">case</span> down:
+                row<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">break</span>;
+        }
+        tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
+        <span style="color:#66d9ef">return</span> r;
+    }
+};
+</code></pre></div><p>下面用例会导致处理事件过长：</p>
+<pre><code class="language-nil" data-lang="nil">[[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;]]
+&quot;AAAAAAAAAAAAAAB&quot;
 </code></pre><p>测试用例快照:</p>
 <pre><code class="language-nil" data-lang="nil">[[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]]
 &quot;ABCCED&quot;
@@ -642,10 +736,10 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 &quot;baa&quot;
 [[&quot;a&quot;]]
 &quot;ab&quot;
-Details
-Input
 [[&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;],[&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;a&quot;],[&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;],[&quot;b&quot;,&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;a&quot;,&quot;b&quot;],[&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;],[&quot;b&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;]]
 &quot;bbbaabbbbbab&quot;
+[[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;]]
+&quot;AAAAAAAAAAAAAAB&quot;
 </code></pre>
       </div></div>
 
