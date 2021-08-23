@@ -6,7 +6,38 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 21 Aug 2021 09:51:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 24 Aug 2021 06:53:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Graphviz</title>
+      <link>https://www.linuxzen.com/notes/notes/20210824065326-graphviz/</link>
+      <pubDate>Tue, 24 Aug 2021 06:53:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210824065326-graphviz/</guid>
+      <description>Graphviz 教程  https://www2.eecs.berkeley.edu/Pubs/TechRpts/2013/EECS-2013-176.pdf  Graphviz Examples  https://graphviz.org/gallery/  Graphviz 绘制思维导图  Graphviz Online Tools  一个手绘风格的在线绘图工具：https://sketchviz.com/new Gaphviz Playground：http://magjac.com/graphviz-visual-editor/  </description>
+      <content>&lt;h2 id=&#34;graphviz-教程&#34;&gt;Graphviz 教程&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www2.eecs.berkeley.edu/Pubs/TechRpts/2013/EECS-2013-176.pdf&#34;&gt;https://www2.eecs.berkeley.edu/Pubs/TechRpts/2013/EECS-2013-176.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;graphviz-examples&#34;&gt;Graphviz Examples&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://graphviz.org/gallery/&#34;&gt;https://graphviz.org/gallery/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;graphviz-绘制思维导图&#34;&gt;Graphviz 绘制思维导图&lt;/h3&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/graphviz-example-mind.png&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;h2 id=&#34;graphviz-online-tools&#34;&gt;Graphviz Online Tools&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;一个手绘风格的在线绘图工具：&lt;a href=&#34;https://sketchviz.com/new&#34;&gt;https://sketchviz.com/new&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Gaphviz Playground：&lt;a href=&#34;http://magjac.com/graphviz-visual-editor/&#34;&gt;http://magjac.com/graphviz-visual-editor/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>《禅与摩托车维修艺术》</title>
       <link>https://www.linuxzen.com/notes/notes/20210821095110-%E7%A6%85%E4%B8%8E%E6%91%A9%E6%89%98%E8%BD%A6%E7%BB%B4%E4%BF%AE%E8%89%BA%E6%9C%AF/</link>
@@ -10789,16 +10820,52 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
-      <description>0x00 硬币找零 假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
-公式 \(f(n)=min\{f(n-1),f(n-3),f(n-5)\} + 1\)
-假设找零 15：
-  若优先使用 5 元硬币 \(cost = f(10) + 1 = 2 + 1 = 3\)
-  使用 5 元： \(f(10)=f(5) + 1\)
- \(f(5)=1\)    使用 3 元： \(f(10)=f(7) + 1\)
- \(f(7)=f(4) + 1 = 2 + 1 = 3\)  \(f(4)= 1 + 1\)        若优先使用 3 元硬币 \(cost = f(12) + 1 = 4 + 1 = 5\)</description>
-      <content>&lt;h2 id=&#34;0x00-硬币找零&#34;&gt;0x00 硬币找零&lt;/h2&gt;
+      <description>状态转移方程 无后效性  如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。
+ 一旦 \(f(n)\) 确定，“我们如何凑出 \(f(n)\) ”就再也用不着了：
+ 要求出 \(f(15)\)，只需要知道 \(f(14)\),\(f(10)\),\(f(4)\) 的值， 而 \(f(14)\),\(f(10)\),\(f(4)\) 是如何算出来的，对之后的问题没有影响。  “未来与过去无关”，这就是无后效性。
+最优子结构  大问题的最优解可以由小问题的最优解推出，这个性质叫做“最优子结构性质”：
+ \(f(n)\) 的定义需要蕴含“最优”，利用 \(f(14)\),\(f(10)\),\(f(4)\) 的最优解，我们即可算出 \(f(15)\) 的最优解。
+能将大问题拆成几个小问题，且满足无后效性、最优子结构性质。 练习 0x00 硬币找零 描述 假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
+状态转移公式 公式 \(f(n)=min\{f(n-1),f(n-3),f(n-5)\} + 1\)
+检查是否满足上面提到的两个特性：
+ 无后效性：对于 \(n\)，一旦 \(f(n)\) 确定，以后只关心 \(f(n)\) 的值，不关心怎么计算的； 最优子结构：对于 \(n\)，只要 \(n - 1\) \(n - 3\) \(n - 5\) 能是最优解，那么就能计算出 n;  推导过程  假设找零 15：
+  若优先使用 5 元硬币 \(cost = f(10) + 1 = 2 + 1 = 3\)</description>
+      <content>&lt;h2 id=&#34;状态转移方程&#34;&gt;状态转移方程&lt;/h2&gt;
+&lt;h3 id=&#34;无后效性&#34;&gt;无后效性&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;一旦 \(f(n)\) 确定，“我们如何凑出 \(f(n)\) ”就再也用不着了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;要求出 \(f(15)\)，只需要知道 \(f(14)\),\(f(10)\),\(f(4)\) 的值，&lt;/li&gt;
+&lt;li&gt;而 \(f(14)\),\(f(10)\),\(f(4)\) 是如何算出来的，对之后的问题没有影响。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;“未来与过去无关”，这就是无后效性。&lt;/p&gt;
+&lt;h3 id=&#34;最优子结构&#34;&gt;最优子结构&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;大问题的最优解可以由小问题的最优解推出，这个性质叫做“最优子结构性质”：&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;\(f(n)\) 的定义需要蕴含“最优”，利用 \(f(14)\),\(f(10)\),\(f(4)\) 的最优解，我们即可算出 \(f(15)\) 的最优解。&lt;/p&gt;
+&lt;h3 id=&#34;能将大问题拆成几个小问题-且满足无后效性-最优子结构性质&#34;&gt;能将大问题拆成几个小问题，且满足无后效性、最优子结构性质。&lt;/h3&gt;
+&lt;h2 id=&#34;练习&#34;&gt;练习&lt;/h2&gt;
+&lt;h3 id=&#34;0x00-硬币找零&#34;&gt;0x00 硬币找零&lt;/h3&gt;
+&lt;h4 id=&#34;描述&#34;&gt;描述&lt;/h4&gt;
 &lt;p&gt;假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。&lt;/p&gt;
+&lt;h4 id=&#34;状态转移公式&#34;&gt;状态转移公式&lt;/h4&gt;
 &lt;p&gt;公式 \(f(n)=min\{f(n-1),f(n-3),f(n-5)\} + 1\)&lt;/p&gt;
+&lt;p&gt;检查是否满足上面提到的两个特性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;无后效性：对于 \(n\)，一旦 \(f(n)\) 确定，以后只关心 \(f(n)\) 的值，不关心怎么计算的；&lt;/li&gt;
+&lt;li&gt;最优子结构：对于 \(n\)，只要 \(n - 1\) \(n - 3\)  \(n - 5\) 能是最优解，那么就能计算出 n;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;推导过程&#34;&gt;推导过程&lt;/h4&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/dp-coin.png&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
 &lt;p&gt;假设找零 15：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -10840,6 +10907,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;将上述过程反过来就可以一步步推出结果。&lt;/p&gt;
+&lt;h4 id=&#34;实现&#34;&gt;实现&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;dp&lt;/span&gt;
 
 &lt;span style=&#34;color:#75715e&#34;&gt;//　假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
@@ -10892,11 +10960,16 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
         }
         &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;f&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;total&lt;/span&gt;]
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;0x00-dot-1单路取苹果&#34;&gt;0x00.1单路取苹果&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;0x01单路取苹果&#34;&gt;0x01单路取苹果&lt;/h3&gt;
 &lt;h4 id=&#34;描述&#34;&gt;描述&lt;/h4&gt;
-&lt;p&gt;一个矩形区域被划分为N*M个小矩形格子，在格子(i,j)中有A[i][j]个苹果。现在从左上角的格子(1,1)出发，要求每次只能向右走一步或向下走一步，最后到达(N,M)，每经过一个格子就把其中的苹果全部拿走。请找出能拿到最多苹果数的路线。&lt;/p&gt;
+&lt;p&gt;一个矩形区域被划分为 \(N*M\) 个小矩形格子，在格子(i,j)中有A[i][j]个苹果。现在从左上角的格子(1,1)出发，要求每次只能向右走一步或向下走一步，最后到达(N,M)，每经过一个格子就把其中的苹果全部拿走。请找出能拿到最多苹果数的路线。&lt;/p&gt;
 &lt;h4 id=&#34;思路&#34;&gt;思路&lt;/h4&gt;
 &lt;p&gt;这题是 0x00 的扩展，格子 A[N][M] 的苹果数量为 \(max\{A[N-1][M],A[N][M-1]\}+A[N][M]\)&lt;/p&gt;
+&lt;h2 id=&#34;leetcode-真题&#34;&gt;LeetCode 真题&lt;/h2&gt;
+&lt;h2 id=&#34;see-also&#34;&gt;See also&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.zhihu.com/question/23995189&#34;&gt;https://www.zhihu.com/question/23995189&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </content>
     </item>
     
