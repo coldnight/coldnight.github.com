@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Airflow powers AI :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="最近接手了一个项目，使用 Airflow 调度数据生产，过程涉及：
+ 从大数据 Hive 数据库整合数据宽表； 在 Spark 上运行 IRT 算法模型汇总 ADS 表。  从中学习了很多关于大数据的知识，同时也积累了如何通过 Airflow 提交 Spark 任务的经验，应当抽时间总结一下。
+冰山之下 如「冰山理论」所描述，我们所做的只是冰山露在水面的一角，隐藏在冰山之下更大的一部份是：
+ Airflow &#43; Celery Docker 搭建好的 Hadoop 集群 搭建好的 Hive 数据库 搭建好的 Spark 集群  接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Airflow powers AI">
+<meta property="og:description" content="最近接手了一个项目，使用 Airflow 调度数据生产，过程涉及：
+ 从大数据 Hive 数据库整合数据宽表； 在 Spark 上运行 IRT 算法模型汇总 ADS 表。  从中学习了很多关于大数据的知识，同时也积累了如何通过 Airflow 提交 Spark 任务的经验，应当抽时间总结一下。
+冰山之下 如「冰山理论」所描述，我们所做的只是冰山露在水面的一角，隐藏在冰山之下更大的一部份是：
+ Airflow &#43; Celery Docker 搭建好的 Hadoop 集群 搭建好的 Hive 数据库 搭建好的 Spark 集群  接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-08-26 07:40:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/">Airflow powers AI</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-08-26 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>最近接手了一个项目，使用 Airflow 调度数据生产，过程涉及：</p>
+<ol>
+<li>从大数据 Hive 数据库整合数据宽表；</li>
+<li>在 Spark 上运行 IRT 算法模型汇总 ADS 表。</li>
+</ol>
+<p>从中学习了很多关于大数据的知识，同时也积累了如何通过 Airflow 提交 Spark 任务的经验，应当抽时间总结一下。</p>
+<h2 id="冰山之下">冰山之下<a href="#冰山之下" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>如「冰山理论」所描述，我们所做的只是冰山露在水面的一角，隐藏在冰山之下更大的一部份是：</p>
+<ul>
+<li>Airflow + Celery</li>
+<li>Docker</li>
+<li>搭建好的 Hadoop 集群</li>
+<li>搭建好的 Hive 数据库</li>
+<li>搭建好的 Spark 集群</li>
+</ul>
+<p>接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。</p>
+
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>
