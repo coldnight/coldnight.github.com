@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（Spark 管理 Python 依赖）。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
-Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
+Spark Driver &amp;amp; Executor  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
  Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。
 以下代码是在 Executor 上执行的：
  Transformations 和 Actions 是执行在 Spark 集群的。 传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。  其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 collect：" />
@@ -39,7 +39,7 @@ Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 S
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Spark">
 <meta property="og:description" content="Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（Spark 管理 Python 依赖）。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
-Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
+Spark Driver &amp;amp; Executor  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
  Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。
 以下代码是在 Executor 上执行的：
  Transformations 和 Actions 是执行在 Spark 集群的。 传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。  其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 collect：" />
@@ -159,7 +159,7 @@ Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 S
 <p>毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（<a href="#spark-%E7%AE%A1%E7%90%86-python-%E4%BE%9D%E8%B5%96">Spark 管理 Python 依赖</a>）。
 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。
 其中 <a href="/notes/notes/20210827073626-scala/">Scala</a> 兼具简单和 JVM 的优势，但是它「不流行」。</p>
-<h2 id="spark-driver-and-executer">Spark Driver &amp; Executer<a href="#spark-driver-and-executer" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="spark-driver-and-executor">Spark Driver &amp; Executor<a href="#spark-driver-and-executor" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ul>
 <li>Driver 执行 spark-commit 客户端，创建 <code>SparkContext</code> 执行 <code>main</code> 函数。</li>
 <li>Executor Spark Worker 上的线程</li>
@@ -189,9 +189,32 @@ JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排�
 </code></pre></div><p><code>collect</code> 可能会导致 Driver 内存爆掉，可以使用 <code>take</code>：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">rd<span style="color:#f92672">.</span>take<span style="color:#f92672">(</span><span style="color:#ae81ff">100</span><span style="color:#f92672">).</span>foreach<span style="color:#f92672">(</span>println<span style="color:#f92672">)</span>
 </code></pre></div><p>所以在这就带来在闭包中共享变量的问题，参见 <a href="#spark-%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F">Spark 共享变量</a>。</p>
-<h3 id="spark-rdd">Spark RDD<a href="#spark-rdd" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h2 id="spark-编程抽象">Spark 编程抽象<a href="#spark-编程抽象" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p><a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD Programming Guide</a></p>
-<h3 id="spark-transformations-vs-actions">Spark Transformations vs Actions<a href="#spark-transformations-vs-actions" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="spark-rdd">Spark RDD<a href="#spark-rdd" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="集合并行化">集合并行化<a href="#集合并行化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> data <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Array</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">val</span> distData <span style="color:#66d9ef">=</span> sc<span style="color:#f92672">.</span>parallelize<span style="color:#f92672">(</span>data<span style="color:#f92672">)</span>
+</code></pre></div><h4 id="外部数据集">外部数据集<a href="#外部数据集" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<ul>
+<li>输入源支持支持 Hadoop 支持的任何存储源，包括：本地文件系统、<a href="/notes/notes/20210808075530-hadoop_distributed_file_system/">HDFS</a>、Cassandra、<a href="/notes/notes/20210810071455-hbase/">HBase</a>、<a href="http://wiki.apache.org/hadoop/AmazonS3">Amazaon S3</a> 等</li>
+<li>输入格式支持：文本文件、<a href="https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapred/SequenceFileInputFormat.html">SequenceFiles</a> 和任何其他 Hadoop <a href="http://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapred/InputFormat.html">InputFormat</a></li>
+</ul>
+<blockquote>
+<p>如果是本地文件系统，则文件需要存在与所有 Worker 节点上。</p>
+</blockquote>
+<h4 id="spark-transformations-vs-actions">Spark Transformations vs Actions<a href="#spark-transformations-vs-actions" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>Spark 支持两种操作类型：</p>
+<ul>
+<li><em>transformations</em>：从现有数据集创建新的数据集，比如 <code>map</code>。</li>
+<li><em>actions</em>：在数据集上进行运算然后返回值给 <em>driver</em>，比如 <code>reduce</code>。</li>
+</ul>
+<h4 id="spark-transformations-懒执行">Spark Transformations 懒执行<a href="#spark-transformations-懒执行" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>所有的 Spark <em>transformations</em> 会记住应用的基础数据集，只要在需要将结果返回给 <em>driver</em> 的时候才进行计算。
+比如，我们可以感知到一个数据集（<em>dataset</em>）通过 <code>map</code> 创建，将会被 <code>reduce</code> 使用并返回 <code>reduce</code> 的结果给 <em>driver</em> 而不是一个映射过（<em>mapped</em>）的大数据集。</p>
+<h4 id="spark-transformations-重复计算">Spark transformations 重复计算<a href="#spark-transformations-重复计算" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>默认情况下，每一次在一个 RDD 上运行 action Spark 都可能会进行重新计算，这时候可以使用 <em>persist</em> 缓存一个 RDD 到内存中。
+下一次查询将会被加速，同时 Spark 支持存储到磁盘或者跨多节点复制（<em>replicated</em>）。</p>
 <h3 id="spark-共享变量">Spark 共享变量<a href="#spark-共享变量" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>Spark 支持两种共享变量的方式：</p>
 <ul>

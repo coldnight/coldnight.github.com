@@ -14,7 +14,7 @@
       
       <guid>https://www.linuxzen.com/notes/notes/20210827080540-spark/</guid>
       <description>Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（Spark 管理 Python 依赖）。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
-Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
+Spark Driver &amp;amp; Executor  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
  Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。
 以下代码是在 Executor 上执行的：
  Transformations 和 Actions 是执行在 Spark 集群的。 传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。  其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 collect：</description>
@@ -22,7 +22,7 @@ Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 S
 &lt;p&gt;毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（&lt;a href=&#34;#spark-%E7%AE%A1%E7%90%86-python-%E4%BE%9D%E8%B5%96&#34;&gt;Spark 管理 Python 依赖&lt;/a&gt;）。
 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。
 其中 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210827073626-scala/&#34;&gt;Scala&lt;/a&gt; 兼具简单和 JVM 的优势，但是它「不流行」。&lt;/p&gt;
-&lt;h2 id=&#34;spark-driver-and-executer&#34;&gt;Spark Driver &amp;amp; Executer&lt;/h2&gt;
+&lt;h2 id=&#34;spark-driver-and-executor&#34;&gt;Spark Driver &amp;amp; Executor&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Driver 执行 spark-commit 客户端，创建 &lt;code&gt;SparkContext&lt;/code&gt; 执行 &lt;code&gt;main&lt;/code&gt; 函数。&lt;/li&gt;
 &lt;li&gt;Executor Spark Worker 上的线程&lt;/li&gt;
@@ -52,9 +52,32 @@ JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排�
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;collect&lt;/code&gt; 可能会导致 Driver 内存爆掉，可以使用 &lt;code&gt;take&lt;/code&gt;：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;rd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;take&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;foreach&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;println&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;所以在这就带来在闭包中共享变量的问题，参见 &lt;a href=&#34;#spark-%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F&#34;&gt;Spark 共享变量&lt;/a&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;spark-rdd&#34;&gt;Spark RDD&lt;/h3&gt;
+&lt;h2 id=&#34;spark-编程抽象&#34;&gt;Spark 编程抽象&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://spark.apache.org/docs/latest/rdd-programming-guide.html&#34;&gt;RDD Programming Guide&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;spark-transformations-vs-actions&#34;&gt;Spark Transformations vs Actions&lt;/h3&gt;
+&lt;h3 id=&#34;spark-rdd&#34;&gt;Spark RDD&lt;/h3&gt;
+&lt;h4 id=&#34;集合并行化&#34;&gt;集合并行化&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; data &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Array&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; distData &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; sc&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parallelize&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;外部数据集&#34;&gt;外部数据集&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;输入源支持支持 Hadoop 支持的任何存储源，包括：本地文件系统、&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210808075530-hadoop_distributed_file_system/&#34;&gt;HDFS&lt;/a&gt;、Cassandra、&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210810071455-hbase/&#34;&gt;HBase&lt;/a&gt;、&lt;a href=&#34;http://wiki.apache.org/hadoop/AmazonS3&#34;&gt;Amazaon S3&lt;/a&gt; 等&lt;/li&gt;
+&lt;li&gt;输入格式支持：文本文件、&lt;a href=&#34;https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapred/SequenceFileInputFormat.html&#34;&gt;SequenceFiles&lt;/a&gt; 和任何其他 Hadoop &lt;a href=&#34;http://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapred/InputFormat.html&#34;&gt;InputFormat&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果是本地文件系统，则文件需要存在与所有 Worker 节点上。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;spark-transformations-vs-actions&#34;&gt;Spark Transformations vs Actions&lt;/h4&gt;
+&lt;p&gt;Spark 支持两种操作类型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;transformations&lt;/em&gt;：从现有数据集创建新的数据集，比如 &lt;code&gt;map&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;actions&lt;/em&gt;：在数据集上进行运算然后返回值给 &lt;em&gt;driver&lt;/em&gt;，比如 &lt;code&gt;reduce&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;spark-transformations-懒执行&#34;&gt;Spark Transformations 懒执行&lt;/h4&gt;
+&lt;p&gt;所有的 Spark &lt;em&gt;transformations&lt;/em&gt; 会记住应用的基础数据集，只要在需要将结果返回给 &lt;em&gt;driver&lt;/em&gt; 的时候才进行计算。
+比如，我们可以感知到一个数据集（&lt;em&gt;dataset&lt;/em&gt;）通过 &lt;code&gt;map&lt;/code&gt; 创建，将会被 &lt;code&gt;reduce&lt;/code&gt; 使用并返回 &lt;code&gt;reduce&lt;/code&gt; 的结果给 &lt;em&gt;driver&lt;/em&gt; 而不是一个映射过（&lt;em&gt;mapped&lt;/em&gt;）的大数据集。&lt;/p&gt;
+&lt;h4 id=&#34;spark-transformations-重复计算&#34;&gt;Spark transformations 重复计算&lt;/h4&gt;
+&lt;p&gt;默认情况下，每一次在一个 RDD 上运行 action Spark 都可能会进行重新计算，这时候可以使用 &lt;em&gt;persist&lt;/em&gt; 缓存一个 RDD 到内存中。
+下一次查询将会被加速，同时 Spark 支持存储到磁盘或者跨多节点复制（&lt;em&gt;replicated&lt;/em&gt;）。&lt;/p&gt;
 &lt;h3 id=&#34;spark-共享变量&#34;&gt;Spark 共享变量&lt;/h3&gt;
 &lt;p&gt;Spark 支持两种共享变量的方式：&lt;/p&gt;
 &lt;ul&gt;
