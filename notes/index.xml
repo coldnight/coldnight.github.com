@@ -15,7 +15,9 @@
       <guid>https://www.linuxzen.com/notes/notes/20210827080540-spark/</guid>
       <description>Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
 Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
- Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识，Transformations 和 Actions 是执行在 Spark 集群的，同时传递给 Transformations 的闭包函数也是执行在 Spark 集群上的， 其他额外的代码都是执行在 Driver 上的。</description>
+ Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。
+以下代码是在 Executor 上执行的：
+ Transformations 和 Actions 是执行在 Spark 集群的。 传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。  其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 collect：</description>
       <content>&lt;h2 id=&#34;spark-编程语言选择&#34;&gt;Spark 编程语言选择&lt;/h2&gt;
 &lt;p&gt;毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。
 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。
@@ -39,9 +41,17 @@ JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排�
 &lt;/ul&gt;
 &lt;h2 id=&#34;spark-代码执行&#34;&gt;Spark 代码执行&lt;/h2&gt;
 &lt;p&gt;我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。
-但是我通过学习 &lt;a href=&#34;#spark-rdd&#34;&gt;Spark RDD&lt;/a&gt; 学习到了一些知识，Transformations 和 Actions 是执行在 Spark 集群的，同时传递给 Transformations 的闭包函数也是执行在 Spark 集群上的，
-其他额外的代码都是执行在 Driver 上的。&lt;/p&gt;
-&lt;p&gt;所以在这就带来在闭包中共享变量的问题，参见 &lt;a href=&#34;#spark-%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F&#34;&gt;Spark 共享变量&lt;/a&gt;。&lt;/p&gt;
+但是我通过学习 &lt;a href=&#34;#spark-rdd&#34;&gt;Spark RDD&lt;/a&gt; 学习到了一些知识。&lt;/p&gt;
+&lt;p&gt;以下代码是在 Executor 上执行的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Transformations 和 Actions 是执行在 Spark 集群的。&lt;/li&gt;
+&lt;li&gt;传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 &lt;code&gt;collect&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;rdd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;collect&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;foreach&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;println&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;collect&lt;/code&gt; 可能会导致 Driver 内存爆掉，可以使用 &lt;code&gt;take&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;rd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;take&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;foreach&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;println&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;所以在这就带来在闭包中共享变量的问题，参见 &lt;a href=&#34;#spark-%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F&#34;&gt;Spark 共享变量&lt;/a&gt;。&lt;/p&gt;
 &lt;h3 id=&#34;spark-rdd&#34;&gt;Spark RDD&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://spark.apache.org/docs/latest/rdd-programming-guide.html&#34;&gt;RDD Programming Guide&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;spark-transformations-vs-actions&#34;&gt;Spark Transformations vs Actions&lt;/h3&gt;

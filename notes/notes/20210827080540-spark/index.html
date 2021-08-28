@@ -8,7 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
 Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
- Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识，Transformations 和 Actions 是执行在 Spark 集群的，同时传递给 Transformations 的闭包函数也是执行在 Spark 集群上的， 其他额外的代码都是执行在 Driver 上的。" />
+ Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。
+以下代码是在 Executor 上执行的：
+ Transformations 和 Actions 是执行在 Spark 集群的。 传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。  其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 collect：" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210827080540-spark/" />
@@ -38,7 +40,9 @@ Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 S
 <meta property="og:title" content="Spark">
 <meta property="og:description" content="Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
 Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
- Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识，Transformations 和 Actions 是执行在 Spark 集群的，同时传递给 Transformations 的闭包函数也是执行在 Spark 集群上的， 其他额外的代码都是执行在 Driver 上的。" />
+ Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。
+以下代码是在 Executor 上执行的：
+ Transformations 和 Actions 是执行在 Spark 集群的。 传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。  其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 collect：" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210827080540-spark/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -174,9 +178,17 @@ JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排�
 </ul>
 <h2 id="spark-代码执行">Spark 代码执行<a href="#spark-代码执行" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。
-但是我通过学习 <a href="#spark-rdd">Spark RDD</a> 学习到了一些知识，Transformations 和 Actions 是执行在 Spark 集群的，同时传递给 Transformations 的闭包函数也是执行在 Spark 集群上的，
-其他额外的代码都是执行在 Driver 上的。</p>
-<p>所以在这就带来在闭包中共享变量的问题，参见 <a href="#spark-%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F">Spark 共享变量</a>。</p>
+但是我通过学习 <a href="#spark-rdd">Spark RDD</a> 学习到了一些知识。</p>
+<p>以下代码是在 Executor 上执行的：</p>
+<ul>
+<li>Transformations 和 Actions 是执行在 Spark 集群的。</li>
+<li>传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。</li>
+</ul>
+<p>其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 <code>collect</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">rdd<span style="color:#f92672">.</span>collect<span style="color:#f92672">().</span>foreach<span style="color:#f92672">(</span>println<span style="color:#f92672">)</span>
+</code></pre></div><p><code>collect</code> 可能会导致 Driver 内存爆掉，可以使用 <code>take</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">rd<span style="color:#f92672">.</span>take<span style="color:#f92672">(</span><span style="color:#ae81ff">100</span><span style="color:#f92672">).</span>foreach<span style="color:#f92672">(</span>println<span style="color:#f92672">)</span>
+</code></pre></div><p>所以在这就带来在闭包中共享变量的问题，参见 <a href="#spark-%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F">Spark 共享变量</a>。</p>
 <h3 id="spark-rdd">Spark RDD<a href="#spark-rdd" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p><a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD Programming Guide</a></p>
 <h3 id="spark-transformations-vs-actions">Spark Transformations vs Actions<a href="#spark-transformations-vs-actions" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
