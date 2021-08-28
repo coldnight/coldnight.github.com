@@ -13,13 +13,13 @@
       <pubDate>Fri, 27 Aug 2021 08:05:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210827080540-spark/</guid>
-      <description>Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
+      <description>Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（Spark 管理 Python 依赖）。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
 Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
  Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。
 以下代码是在 Executor 上执行的：
  Transformations 和 Actions 是执行在 Spark 集群的。 传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。  其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 collect：</description>
       <content>&lt;h2 id=&#34;spark-编程语言选择&#34;&gt;Spark 编程语言选择&lt;/h2&gt;
-&lt;p&gt;毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。
+&lt;p&gt;毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（&lt;a href=&#34;#spark-%E7%AE%A1%E7%90%86-python-%E4%BE%9D%E8%B5%96&#34;&gt;Spark 管理 Python 依赖&lt;/a&gt;）。
 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。
 其中 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210827073626-scala/&#34;&gt;Scala&lt;/a&gt; 兼具简单和 JVM 的优势，但是它「不流行」。&lt;/p&gt;
 &lt;h2 id=&#34;spark-driver-and-executer&#34;&gt;Spark Driver &amp;amp; Executer&lt;/h2&gt;
@@ -58,8 +58,8 @@ JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排�
 &lt;h3 id=&#34;spark-共享变量&#34;&gt;Spark 共享变量&lt;/h3&gt;
 &lt;p&gt;Spark 支持两种共享变量的方式：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Broadcast&lt;/li&gt;
-&lt;li&gt;Acc&lt;/li&gt;
+&lt;li&gt;Broadcast Variables&lt;/li&gt;
+&lt;li&gt;Accumulators&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;设置-spark-python-版本&#34;&gt;设置 Spark Python 版本&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export PYSPARK_DRIVER_PYTHON&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;python &lt;span style=&#34;color:#75715e&#34;&gt;# Do not set in cluster modes.&lt;/span&gt;
