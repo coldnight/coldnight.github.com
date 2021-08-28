@@ -6,7 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。" />
+<meta name="description" content="Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
+Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
+ Understanding the working of Spark Driver and Executor Cluster Mode Overview  设置 Spark Python 版本 export PYSPARK_DRIVER_PYTHON=python # Do not set in cluster modes. export PYSPARK_PYTHON=./environment/bin/python # Executor  Note that PYSPARK_DRIVER_PYTHON above should not be set for cluster modes in YARN or Kubernetes." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210827080540-spark/" />
@@ -34,7 +36,9 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Spark">
-<meta property="og:description" content="Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。" />
+<meta property="og:description" content="Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
+Spark Driver &amp;amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
+ Understanding the working of Spark Driver and Executor Cluster Mode Overview  设置 Spark Python 版本 export PYSPARK_DRIVER_PYTHON=python # Do not set in cluster modes. export PYSPARK_PYTHON=./environment/bin/python # Executor  Note that PYSPARK_DRIVER_PYTHON above should not be set for cluster modes in YARN or Kubernetes." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210827080540-spark/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -151,6 +155,36 @@
 <p>毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。
 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。
 其中 <a href="/notes/notes/20210827073626-scala/">Scala</a> 兼具简单和 JVM 的优势，但是它「不流行」。</p>
+<h2 id="spark-driver-and-executer">Spark Driver &amp; Executer<a href="#spark-driver-and-executer" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li>Driver 执行 spark-commit 客户端，创建 <code>SparkContext</code> 执行 <code>main</code> 函数。</li>
+<li>Executor Spark Worker 上的线程</li>
+</ul>
+
+  <figure class="left" >
+    <img src="https://spark.apache.org/docs/latest/img/cluster-overview.png"   />
+    
+  </figure>
+
+
+<p>See also:</p>
+<ul>
+<li><a href="https://blog.knoldus.com/understanding-the-working-of-spark-driver-and-executor/">Understanding the working of Spark Driver and Executor</a></li>
+<li><a href="https://spark.apache.org/docs/latest/cluster-overview.html">Cluster Mode Overview</a></li>
+</ul>
+<h2 id="设置-spark-python-版本">设置 Spark Python 版本<a href="#设置-spark-python-版本" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export PYSPARK_DRIVER_PYTHON<span style="color:#f92672">=</span>python <span style="color:#75715e"># Do not set in cluster modes.</span>
+export PYSPARK_PYTHON<span style="color:#f92672">=</span>./environment/bin/python <span style="color:#75715e"># Executor</span>
+</code></pre></div><blockquote>
+<p>Note that <code>PYSPARK_DRIVER_PYTHON</code> above should not be set for cluster modes in YARN or Kubernetes.</p>
+</blockquote>
+<h2 id="spark-管理-python-依赖">Spark 管理 Python 依赖<a href="#spark-管理-python-依赖" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>主要三种方式：</p>
+<ul>
+<li>PySpark 原生特性， <code>--py-files</code> 支持 zip 和 egg 格式，但是不支持 whl</li>
+<li><a href="/notes/notes/20200628133616-python/">Python vendor package</a></li>
+</ul>
+<p>See alos: <a href="https://spark.apache.org/docs/latest/api/python/user%5Fguide/python%5Fpackaging.html">Python Package Management</a></p>
 
       </div></div>
 

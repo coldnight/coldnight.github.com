@@ -149,6 +149,10 @@
         <div class="post-content">
           
           
+          Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
+Spark Driver &amp; Executer  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
+ Understanding the working of Spark Driver and Executor Cluster Mode Overview  设置 Spark Python 版本 export PYSPARK_DRIVER_PYTHON=python # Do not set in cluster modes. export PYSPARK_PYTHON=./environment/bin/python # Executor  Note that PYSPARK_DRIVER_PYTHON above should not be set for cluster modes in YARN or Kubernetes.
+          
           
         </div>
 
@@ -179,6 +183,10 @@
 
         <div class="post-content">
           
+          
+          Scala 学习资源  Scala Book  Scala 这么好的语言为什么不流行  HN：Scala 为什么不流行 Reddit：Scala 为什么不流行  结论：Java 人才更多且成本更低。
+Unique Scala Rust from Scala Rust 和 Scala 有很多想通的地方，Rust 应该从 Scala 借鉴了很多：
+ 可变量和不可变量 模式匹配 Trait  内置类型 val b: Byte = 1 val x: Int = 1 val l: Long = 1 val s: Short = 1 val d: Double = 2.0 val f: Float = 3.0 字符串拼接 Python 也支持类似的 f-string 语法，在 Scala 中是 s-string 语法。
           
           
         </div>
@@ -7428,6 +7436,10 @@ let s1 = String::from(&#34;hello&#34;); let s2 = s1.clone(); println!(s1); 变�
 
         <div class="post-content">
           
+          
+          Python vendor package 之前一直在找 Python 类似 go mod vendor 部署的解决方案，今天在看 PySpark 的时候找到了，主要现存两种解决方案：
+ Conda 生态可以使用 conda-pack 原生 CPython 生态可以依托 venv-pack pex  对比
+   时间 项目 活跃开发 贡献人数 提交数量     2021-08-28 venv-pack 否 2 30    conda-pack 是 15 246    pex 是 87 940    IPython EIN import numpy, math, matplotlib.pyplot as plt %matplotlib inline x = numpy.linspace(0, 2 * math.
           
           
         </div>

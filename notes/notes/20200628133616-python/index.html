@@ -6,7 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="IPython EIN import numpy, math, matplotlib.pyplot as plt %matplotlib inline x = numpy.linspace(0, 2 * math.pi) plt.plot(x, numpy.sin(x)) " />
+<meta name="description" content="Python vendor package 之前一直在找 Python 类似 go mod vendor 部署的解决方案，今天在看 PySpark 的时候找到了，主要现存两种解决方案：
+ Conda 生态可以使用 conda-pack 原生 CPython 生态可以依托 venv-pack pex  对比
+   时间 项目 活跃开发 贡献人数 提交数量     2021-08-28 venv-pack 否 2 30    conda-pack 是 15 246    pex 是 87 940    IPython EIN import numpy, math, matplotlib.pyplot as plt %matplotlib inline x = numpy.linspace(0, 2 * math." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200628133616-python/" />
@@ -34,7 +36,9 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Python">
-<meta property="og:description" content="IPython EIN import numpy, math, matplotlib.pyplot as plt %matplotlib inline x = numpy.linspace(0, 2 * math.pi) plt.plot(x, numpy.sin(x)) " />
+<meta property="og:description" content="Python vendor package 之前一直在找 Python 类似 go mod vendor 部署的解决方案，今天在看 PySpark 的时候找到了，主要现存两种解决方案：
+ Conda 生态可以使用 conda-pack 原生 CPython 生态可以依托 venv-pack pex  对比
+   时间 项目 活跃开发 贡献人数 提交数量     2021-08-28 venv-pack 否 2 30    conda-pack 是 15 246    pex 是 87 940    IPython EIN import numpy, math, matplotlib.pyplot as plt %matplotlib inline x = numpy.linspace(0, 2 * math." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200628133616-python/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -147,7 +151,49 @@
   
 
   <div class="post-content"><div>
-        <h2 id="ipython">IPython<a href="#ipython" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <h2 id="python-vendor-package">Python vendor package<a href="#python-vendor-package" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>之前一直在找 Python 类似 <code>go mod vendor</code> 部署的解决方案，今天在看 PySpark 的时候找到了，主要现存两种解决方案：</p>
+<ul>
+<li>Conda 生态可以使用 <a href="https://conda.github.io/conda-pack/spark.html">conda-pack</a></li>
+<li>原生 CPython 生态可以依托 <a href="https://jcristharif.com/venv-pack/index.html">venv-pack</a></li>
+<li><a href="https://github.com/pantsbuild/pex">pex</a></li>
+</ul>
+<p>对比</p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>项目</th>
+<th>活跃开发</th>
+<th>贡献人数</th>
+<th>提交数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021-08-28</td>
+<td>venv-pack</td>
+<td>否</td>
+<td>2</td>
+<td>30</td>
+</tr>
+<tr>
+<td></td>
+<td>conda-pack</td>
+<td>是</td>
+<td>15</td>
+<td>246</td>
+</tr>
+<tr>
+<td></td>
+<td>pex</td>
+<td>是</td>
+<td>87</td>
+<td>940</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ipython">IPython<a href="#ipython" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="ein">EIN<a href="#ein" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <pre><code class="language-ein-python" data-lang="ein-python">import numpy, math, matplotlib.pyplot as plt
