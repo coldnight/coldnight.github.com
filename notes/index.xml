@@ -308,12 +308,14 @@ ratings&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;foreach &lt;span 
       <pubDate>Thu, 26 Aug 2021 07:40:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/</guid>
-      <description>最近接手了一个项目，使用 Airflow 调度数据生产，过程涉及：
+      <description>最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：
  从大数据 Hive 数据库整合数据宽表； 在 Spark 上运行 IRT 算法模型汇总 ADS 表。  从中学习了很多关于大数据的知识，同时也积累了如何通过 Airflow 提交 Spark 任务的经验，应当抽时间总结一下。
 冰山之下 如「冰山理论」所描述，我们所做的只是冰山露在水面的一角，隐藏在冰山之下更大的一部份是：
  Airflow + Celery Docker 搭建好的 Hadoop 集群 搭建好的 Hive 数据库 搭建好的 Spark 集群  接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。
-Python 依赖解决 Spark Python 依赖解决 </description>
-      <content>&lt;p&gt;最近接手了一个项目，使用 Airflow 调度数据生产，过程涉及：&lt;/p&gt;
+Make DAG great again 之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG， 所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。
+Make DAG Great Again!
+Airflow 架构和领域概念  DAG Tasks Worker Scheduler  Spark 架构和领域概念 总体架构 前菜 all in one yarn 对此没有深入了解，但是从我的认知角度来讲应该是一种资源的调度和隔离，整体和我们的 standalone 集群应该不会有太大差异。</description>
+      <content>&lt;p&gt;最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;从大数据 Hive 数据库整合数据宽表；&lt;/li&gt;
 &lt;li&gt;在 Spark 上运行 IRT 算法模型汇总 ADS 表。&lt;/li&gt;
@@ -329,8 +331,33 @@ Python 依赖解决 Spark Python 依赖解决 </description>
 &lt;li&gt;搭建好的 Spark 集群&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。&lt;/p&gt;
+&lt;h2 id=&#34;make-dag-great-again&#34;&gt;Make DAG great again&lt;/h2&gt;
+&lt;p&gt;之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG，
+所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Make DAG Great Again&lt;/strong&gt;!&lt;/p&gt;
+&lt;h2 id=&#34;airflow-架构和领域概念&#34;&gt;Airflow 架构和领域概念&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;DAG&lt;/li&gt;
+&lt;li&gt;Tasks&lt;/li&gt;
+&lt;li&gt;Worker&lt;/li&gt;
+&lt;li&gt;Scheduler&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;spark-架构和领域概念&#34;&gt;Spark 架构和领域概念&lt;/h2&gt;
+&lt;h3 id=&#34;总体架构&#34;&gt;总体架构&lt;/h3&gt;
+&lt;h3 id=&#34;前菜&#34;&gt;前菜&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;all-in-one&#34;&gt;all in one&lt;/h3&gt;
+&lt;h3 id=&#34;yarn&#34;&gt;yarn&lt;/h3&gt;
+&lt;p&gt;对此没有深入了解，但是从我的认知角度来讲应该是一种资源的调度和隔离，整体和我们的 standalone 集群应该不会有太大差异。&lt;/p&gt;
+&lt;h2 id=&#34;airflow-plus-spark-平台化&#34;&gt;Airflow + Spark 平台化&lt;/h2&gt;
+&lt;h2 id=&#34;提交-dag&#34;&gt;提交 DAG&lt;/h2&gt;
+&lt;h2 id=&#34;spark-编程&#34;&gt;Spark 编程&lt;/h2&gt;
 &lt;h2 id=&#34;python-依赖解决&#34;&gt;Python 依赖解决&lt;/h2&gt;
-&lt;h2 id=&#34;spark-python-依赖解决&#34;&gt;Spark Python 依赖解决&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Spark&lt;/li&gt;
+&lt;li&gt;Airflow&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;外部依赖&#34;&gt;外部依赖&lt;/h2&gt;
 </content>
     </item>
     

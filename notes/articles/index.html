@@ -149,6 +149,14 @@
         <div class="post-content">
           
           
+          最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：
+ 从大数据 Hive 数据库整合数据宽表； 在 Spark 上运行 IRT 算法模型汇总 ADS 表。  从中学习了很多关于大数据的知识，同时也积累了如何通过 Airflow 提交 Spark 任务的经验，应当抽时间总结一下。
+冰山之下 如「冰山理论」所描述，我们所做的只是冰山露在水面的一角，隐藏在冰山之下更大的一部份是：
+ Airflow + Celery Docker 搭建好的 Hadoop 集群 搭建好的 Hive 数据库 搭建好的 Spark 集群  接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。
+Make DAG great again 之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG， 所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。
+Make DAG Great Again!
+Airflow 架构和领域概念  DAG Tasks Worker Scheduler  Spark 架构和领域概念 总体架构 前菜 all in one yarn 对此没有深入了解，但是从我的认知角度来讲应该是一种资源的调度和隔离，整体和我们的 standalone 集群应该不会有太大差异。
+          
           
         </div>
 

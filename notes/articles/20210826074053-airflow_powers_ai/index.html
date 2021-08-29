@@ -6,11 +6,13 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="最近接手了一个项目，使用 Airflow 调度数据生产，过程涉及：
+<meta name="description" content="最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：
  从大数据 Hive 数据库整合数据宽表； 在 Spark 上运行 IRT 算法模型汇总 ADS 表。  从中学习了很多关于大数据的知识，同时也积累了如何通过 Airflow 提交 Spark 任务的经验，应当抽时间总结一下。
 冰山之下 如「冰山理论」所描述，我们所做的只是冰山露在水面的一角，隐藏在冰山之下更大的一部份是：
  Airflow &#43; Celery Docker 搭建好的 Hadoop 集群 搭建好的 Hive 数据库 搭建好的 Spark 集群  接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。
-Python 依赖解决 Spark Python 依赖解决 " />
+Make DAG great again 之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG， 所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。
+Make DAG Great Again!
+Airflow 架构和领域概念  DAG Tasks Worker Scheduler  Spark 架构和领域概念 总体架构 前菜 all in one yarn 对此没有深入了解，但是从我的认知角度来讲应该是一种资源的调度和隔离，整体和我们的 standalone 集群应该不会有太大差异。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/" />
@@ -38,11 +40,13 @@ Python 依赖解决 Spark Python 依赖解决 " />
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Airflow powers AI">
-<meta property="og:description" content="最近接手了一个项目，使用 Airflow 调度数据生产，过程涉及：
+<meta property="og:description" content="最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：
  从大数据 Hive 数据库整合数据宽表； 在 Spark 上运行 IRT 算法模型汇总 ADS 表。  从中学习了很多关于大数据的知识，同时也积累了如何通过 Airflow 提交 Spark 任务的经验，应当抽时间总结一下。
 冰山之下 如「冰山理论」所描述，我们所做的只是冰山露在水面的一角，隐藏在冰山之下更大的一部份是：
  Airflow &#43; Celery Docker 搭建好的 Hadoop 集群 搭建好的 Hive 数据库 搭建好的 Spark 集群  接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。
-Python 依赖解决 Spark Python 依赖解决 " />
+Make DAG great again 之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG， 所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。
+Make DAG Great Again!
+Airflow 架构和领域概念  DAG Tasks Worker Scheduler  Spark 架构和领域概念 总体架构 前菜 all in one yarn 对此没有深入了解，但是从我的认知角度来讲应该是一种资源的调度和隔离，整体和我们的 standalone 集群应该不会有太大差异。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -155,7 +159,7 @@ Python 依赖解决 Spark Python 依赖解决 " />
   
 
   <div class="post-content"><div>
-        <p>最近接手了一个项目，使用 Airflow 调度数据生产，过程涉及：</p>
+        <p>最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：</p>
 <ol>
 <li>从大数据 Hive 数据库整合数据宽表；</li>
 <li>在 Spark 上运行 IRT 算法模型汇总 ADS 表。</li>
@@ -171,8 +175,33 @@ Python 依赖解决 Spark Python 依赖解决 " />
 <li>搭建好的 Spark 集群</li>
 </ul>
 <p>接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。</p>
+<h2 id="make-dag-great-again">Make DAG great again<a href="#make-dag-great-again" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG，
+所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。</p>
+<p><strong>Make DAG Great Again</strong>!</p>
+<h2 id="airflow-架构和领域概念">Airflow 架构和领域概念<a href="#airflow-架构和领域概念" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li>DAG</li>
+<li>Tasks</li>
+<li>Worker</li>
+<li>Scheduler</li>
+</ul>
+<h2 id="spark-架构和领域概念">Spark 架构和领域概念<a href="#spark-架构和领域概念" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="总体架构">总体架构<a href="#总体架构" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="前菜">前菜<a href="#前菜" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+</code></pre></div><h3 id="all-in-one">all in one<a href="#all-in-one" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="yarn">yarn<a href="#yarn" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>对此没有深入了解，但是从我的认知角度来讲应该是一种资源的调度和隔离，整体和我们的 standalone 集群应该不会有太大差异。</p>
+<h2 id="airflow-plus-spark-平台化">Airflow + Spark 平台化<a href="#airflow-plus-spark-平台化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="提交-dag">提交 DAG<a href="#提交-dag" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="spark-编程">Spark 编程<a href="#spark-编程" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h2 id="python-依赖解决">Python 依赖解决<a href="#python-依赖解决" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h2 id="spark-python-依赖解决">Spark Python 依赖解决<a href="#spark-python-依赖解决" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li>Spark</li>
+<li>Airflow</li>
+</ul>
+<h2 id="外部依赖">外部依赖<a href="#外部依赖" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 
       </div></div>
 
