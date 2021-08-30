@@ -12,7 +12,7 @@
  Airflow &#43; Celery Docker 搭建好的 Hadoop 集群 搭建好的 Hive 数据库 搭建好的 Spark 集群  接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。
 Make DAG great again 之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG， 所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。
 Make DAG Great Again!
-Airflow 介绍 架构 编程概念  DAG Operator Connection  Spark 介绍 架构  Spark 编程  Spark SQL Hive Table 示例 Airflow &#43; Spark 平台化 Celery Worker as a Spark Driver Celery Worker running on specific platform Windows Bigdata Hive client DAGs 分发 提交 DAG Python 依赖解决  Spark Airflow  外部依赖 未来  承接更多的报告需求 对内承接分析任务 可编程、平台化的分析  " />
+Airflow 介绍 架构  概念  DAG Operator Connection  Providers packages See also: Provider packages." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/" />
@@ -46,7 +46,7 @@ Airflow 介绍 架构 编程概念  DAG Operator Connection  Spark 介绍 架构
  Airflow &#43; Celery Docker 搭建好的 Hadoop 集群 搭建好的 Hive 数据库 搭建好的 Spark 集群  接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。
 Make DAG great again 之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG， 所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。
 Make DAG Great Again!
-Airflow 介绍 架构 编程概念  DAG Operator Connection  Spark 介绍 架构  Spark 编程  Spark SQL Hive Table 示例 Airflow &#43; Spark 平台化 Celery Worker as a Spark Driver Celery Worker running on specific platform Windows Bigdata Hive client DAGs 分发 提交 DAG Python 依赖解决  Spark Airflow  外部依赖 未来  承接更多的报告需求 对内承接分析任务 可编程、平台化的分析  " />
+Airflow 介绍 架构  概念  DAG Operator Connection  Providers packages See also: Provider packages." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -181,12 +181,22 @@ Airflow 介绍 架构 编程概念  DAG Operator Connection  Spark 介绍 架构
 <p><strong>Make DAG Great Again</strong>!</p>
 <h2 id="airflow-介绍">Airflow 介绍<a href="#airflow-介绍" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="架构">架构<a href="#架构" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<h3 id="编程概念">编程概念<a href="#编程概念" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+
+  <figure class="left" >
+    <img src="/notes/ox-hugo/2021-08-30_11-37-00_arch-diag-basic.png"   />
+    
+  </figure>
+
+
+<h3 id="概念">概念<a href="#概念" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li>DAG</li>
 <li>Operator</li>
 <li>Connection</li>
 </ul>
+<h3 id="providers-packages">Providers packages<a href="#providers-packages" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p><img src="/notes/ox-hugo/2021-08-30_11-34-20_screenshot.png" alt="">
+See also: <a href="https://airflow.apache.org/docs/apache-airflow-providers/index.html">Provider packages</a>.</p>
 <h2 id="spark-介绍">Spark 介绍<a href="#spark-介绍" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="架构">架构<a href="#架构" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 
