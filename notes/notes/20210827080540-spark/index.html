@@ -238,8 +238,14 @@ export PYSPARK_PYTHON<span style="color:#f92672">=</span>./environment/bin/pytho
 </ul>
 <p>See alos: <a href="https://spark.apache.org/docs/latest/api/python/user%5Fguide/python%5Fpackaging.html">Python Package Management</a></p>
 <h3 id="standalone-cluster">Standalone cluster<a href="#standalone-cluster" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<p>可以借助上面的 Python 包管理机制，将打包好的环境在各个节点进行同步。</p>
+<p>可以借助上面的 Python 包管理机制，将打包好的环境在各个节点进行同步。假设将 conda-pack 解压到 <code>/opt/conda-envs/test</code>，可以通过在 Spark 任务脚本最上方通过 <code>PYSPARK_PYTHON</code> 指定解释器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
 
+os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;PYSPARK_PYTHON&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/opt/conda-envs/test&#39;</span>
+
+conf <span style="color:#f92672">=</span> {}
+sc <span style="color:#f92672">=</span> SparkContext(conf<span style="color:#f92672">=</span>conf)
+</code></pre></div>
       </div></div>
 
   

@@ -101,8 +101,14 @@ export PYSPARK_PYTHON&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;./e
 &lt;/ul&gt;
 &lt;p&gt;See alos: &lt;a href=&#34;https://spark.apache.org/docs/latest/api/python/user%5Fguide/python%5Fpackaging.html&#34;&gt;Python Package Management&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;standalone-cluster&#34;&gt;Standalone cluster&lt;/h3&gt;
-&lt;p&gt;可以借助上面的 Python 包管理机制，将打包好的环境在各个节点进行同步。&lt;/p&gt;
-</content>
+&lt;p&gt;可以借助上面的 Python 包管理机制，将打包好的环境在各个节点进行同步。假设将 conda-pack 解压到 &lt;code&gt;/opt/conda-envs/test&lt;/code&gt;，可以通过在 Spark 任务脚本最上方通过 &lt;code&gt;PYSPARK_PYTHON&lt;/code&gt; 指定解释器：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; os
+
+os&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;environ[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PYSPARK_PYTHON&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/opt/conda-envs/test&amp;#39;&lt;/span&gt;
+
+conf &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {}
+sc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SparkContext(conf&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;conf)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
     </item>
     
     <item>
