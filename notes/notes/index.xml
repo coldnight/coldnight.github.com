@@ -87,16 +87,21 @@ JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排�
 &lt;h2 id=&#34;设置-spark-python-版本&#34;&gt;设置 Spark Python 版本&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export PYSPARK_DRIVER_PYTHON&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;python &lt;span style=&#34;color:#75715e&#34;&gt;# Do not set in cluster modes.&lt;/span&gt;
 export PYSPARK_PYTHON&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;./environment/bin/python &lt;span style=&#34;color:#75715e&#34;&gt;# Executor&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面 environment 是提交的时候需要在 &lt;code&gt;--archives&lt;/code&gt; 缀上的:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;spark-submit --archives pyspark_conda_env.tar.gz#environment app.py
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;Note that &lt;code&gt;PYSPARK_DRIVER_PYTHON&lt;/code&gt; above should not be set for cluster modes in YARN or Kubernetes.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;spark-管理-python-依赖&#34;&gt;Spark 管理 Python 依赖&lt;/h2&gt;
-&lt;p&gt;主要三种方式：&lt;/p&gt;
+&lt;h3 id=&#34;yarn&#34;&gt;YARN&lt;/h3&gt;
+&lt;p&gt;支持 &lt;code&gt;--archives&lt;/code&gt; 参数上传打包好的环境信息，主要三种方式：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;PySpark 原生特性， &lt;code&gt;--py-files&lt;/code&gt; 支持 zip 和 egg 格式，但是不支持 whl&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200628133616-python/&#34;&gt;Python vendor package&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;See alos: &lt;a href=&#34;https://spark.apache.org/docs/latest/api/python/user%5Fguide/python%5Fpackaging.html&#34;&gt;Python Package Management&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;standalone-cluster&#34;&gt;Standalone cluster&lt;/h3&gt;
+&lt;p&gt;可以借助上面的 Python 包管理机制，将打包好的环境在各个节点进行同步。&lt;/p&gt;
 </content>
     </item>
     

@@ -13,20 +13,21 @@
       <pubDate>Thu, 26 Aug 2021 07:40:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/</guid>
-      <description>最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：
+      <description>背景介绍 最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：
  从大数据 Hive 数据库整合数据宽表； 在 Spark 上运行 IRT 算法模型汇总 ADS 表。  从中学习了很多关于大数据的知识，同时也积累了如何通过 Airflow 提交 Spark 任务的经验，应当抽时间总结一下。
 冰山之下 如「冰山理论」所描述，我们所做的只是冰山露在水面的一角，隐藏在冰山之下更大的一部份是：
  Airflow + Celery Docker 搭建好的 Hadoop 集群 搭建好的 Hive 数据库 搭建好的 Spark 集群  接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。
 Make DAG great again 之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG， 所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。
 Make DAG Great Again!
 Airflow 介绍 架构  概念  DAG Operator Connection  Providers packages See also: Provider packages.</description>
-      <content>&lt;p&gt;最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：&lt;/p&gt;
+      <content>&lt;h2 id=&#34;背景介绍&#34;&gt;背景介绍&lt;/h2&gt;
+&lt;p&gt;最近接手了一个项目，经过需求调研决定尝试使用 Airflow 调度数据生产，过程涉及：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;从大数据 Hive 数据库整合数据宽表；&lt;/li&gt;
 &lt;li&gt;在 Spark 上运行 IRT 算法模型汇总 ADS 表。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;从中学习了很多关于大数据的知识，同时也积累了如何通过 Airflow 提交 Spark 任务的经验，应当抽时间总结一下。&lt;/p&gt;
-&lt;h2 id=&#34;冰山之下&#34;&gt;冰山之下&lt;/h2&gt;
+&lt;h3 id=&#34;冰山之下&#34;&gt;冰山之下&lt;/h3&gt;
 &lt;p&gt;如「冰山理论」所描述，我们所做的只是冰山露在水面的一角，隐藏在冰山之下更大的一部份是：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Airflow + Celery&lt;/li&gt;
@@ -36,7 +37,7 @@ Airflow 介绍 架构  概念  DAG Operator Connection  Providers packages See a
 &lt;li&gt;搭建好的 Spark 集群&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;接下来我们将关注在「冰山水面上的一角」来阐述我们如何利用这些已有的技术连结了整个系统。&lt;/p&gt;
-&lt;h2 id=&#34;make-dag-great-again&#34;&gt;Make DAG great again&lt;/h2&gt;
+&lt;h3 id=&#34;make-dag-great-again&#34;&gt;Make DAG great again&lt;/h3&gt;
 &lt;p&gt;之前部门里有位算法大佬用 DAG（大佬念做「戴格」）实现了一套非常牛逼的文本和识别处理算法，然后每次讨论方案必谈 DAG，
 所以 DAG 成了部门里都知道的一个梗，虽然大佬走了之后很少再有人提起 DAG，但是接下来我们会进行文艺复兴，让 DAG 再次出现在我们的日常技术讨论中。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Make DAG Great Again&lt;/strong&gt;!&lt;/p&gt;
@@ -82,13 +83,13 @@ See also: &lt;a href=&#34;https://airflow.apache.org/docs/apache-airflow-provide
 &lt;h4 id=&#34;windows&#34;&gt;Windows&lt;/h4&gt;
 &lt;h4 id=&#34;bigdata-hive-client&#34;&gt;Bigdata Hive client&lt;/h4&gt;
 &lt;h3 id=&#34;dags-分发&#34;&gt;DAGs 分发&lt;/h3&gt;
-&lt;h2 id=&#34;提交-dag&#34;&gt;提交 DAG&lt;/h2&gt;
-&lt;h2 id=&#34;python-依赖解决&#34;&gt;Python 依赖解决&lt;/h2&gt;
+&lt;h3 id=&#34;提交-dag&#34;&gt;提交 DAG&lt;/h3&gt;
+&lt;h3 id=&#34;python-依赖解决&#34;&gt;Python 依赖解决&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Spark&lt;/li&gt;
 &lt;li&gt;Airflow&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;外部依赖&#34;&gt;外部依赖&lt;/h2&gt;
+&lt;h2 id=&#34;外部依赖&#34;&gt;外部依赖？&lt;/h2&gt;
 &lt;h2 id=&#34;未来&#34;&gt;未来&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;承接更多的报告需求&lt;/li&gt;

@@ -224,16 +224,21 @@ JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排�
 <h2 id="设置-spark-python-版本">设置 Spark Python 版本<a href="#设置-spark-python-版本" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export PYSPARK_DRIVER_PYTHON<span style="color:#f92672">=</span>python <span style="color:#75715e"># Do not set in cluster modes.</span>
 export PYSPARK_PYTHON<span style="color:#f92672">=</span>./environment/bin/python <span style="color:#75715e"># Executor</span>
+</code></pre></div><p>上面 environment 是提交的时候需要在 <code>--archives</code> 缀上的:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">spark-submit --archives pyspark_conda_env.tar.gz#environment app.py
 </code></pre></div><blockquote>
 <p>Note that <code>PYSPARK_DRIVER_PYTHON</code> above should not be set for cluster modes in YARN or Kubernetes.</p>
 </blockquote>
 <h2 id="spark-管理-python-依赖">Spark 管理 Python 依赖<a href="#spark-管理-python-依赖" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<p>主要三种方式：</p>
+<h3 id="yarn">YARN<a href="#yarn" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>支持 <code>--archives</code> 参数上传打包好的环境信息，主要三种方式：</p>
 <ul>
 <li>PySpark 原生特性， <code>--py-files</code> 支持 zip 和 egg 格式，但是不支持 whl</li>
 <li><a href="/notes/notes/20200628133616-python/">Python vendor package</a></li>
 </ul>
 <p>See alos: <a href="https://spark.apache.org/docs/latest/api/python/user%5Fguide/python%5Fpackaging.html">Python Package Management</a></p>
+<h3 id="standalone-cluster">Standalone cluster<a href="#standalone-cluster" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>可以借助上面的 Python 包管理机制，将打包好的环境在各个节点进行同步。</p>
 
       </div></div>
 
