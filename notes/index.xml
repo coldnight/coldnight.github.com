@@ -6,7 +6,99 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 01 Sep 2021 08:19:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Sep 2021 15:32:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Airflow</title>
+      <link>https://www.linuxzen.com/notes/notes/20210902153221-airflow/</link>
+      <pubDate>Thu, 02 Sep 2021 15:32:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210902153221-airflow/</guid>
+      <description>案例 Airflow powers AI。
+Airflow SSO 接入 公司 SSO 系统不是基于开源标准，而是一套自定义的方式，目前网上没有成熟的解决方案，通过查看 Flask-AppBuilder 和 Airflow 的代码发现可以扩展 flask_appbuilder.security.views.AuthRemoteUserView 并通过自定义的 SecurityManager 指定 authremoteuserview 来实现，去掉具体 SSO 逻辑后的代码如下：
+from urllib.parse import urlencode from urllib.parse import urljoin import requests from flask import flash from flask import redirect from flask import request from flask_appbuilder.baseviews import expose from flask_appbuilder.security.views import AuthRemoteUserView try: from airflow.www.security import AirflowSecurityManager except ImportError: AirflowSecurityManager = None __version__ = &amp;#34;0.1.0&amp;#34; AUTHORIZE_URL = &amp;#34;https://example.com/sso/login&amp;#34; ACCESS_TOKEN_URL = &amp;#34;https://example.</description>
+      <content>&lt;h2 id=&#34;案例&#34;&gt;案例&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/articles/20210826074053-airflow_powers_ai/&#34;&gt;Airflow powers AI&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;airflow-sso-接入&#34;&gt;Airflow SSO 接入&lt;/h2&gt;
+&lt;p&gt;公司 SSO 系统不是基于开源标准，而是一套自定义的方式，目前网上没有成熟的解决方案，通过查看 &lt;a href=&#34;https://github.com/dpgaspar/Flask-AppBuilder&#34;&gt;Flask-AppBuilder&lt;/a&gt; 和 Airflow 的代码发现可以扩展 &lt;code&gt;flask_appbuilder.security.views.AuthRemoteUserView&lt;/code&gt; 并通过自定义的 &lt;code&gt;SecurityManager&lt;/code&gt; 指定 &lt;code&gt;authremoteuserview&lt;/code&gt; 来实现，去掉具体 SSO 逻辑后的代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; urllib.parse &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; urlencode
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; urllib.parse &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; urljoin
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; requests
+
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; flask &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; flash
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; flask &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; redirect
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; flask &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; request
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; flask_appbuilder.baseviews &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; expose
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; flask_appbuilder.security.views &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; AuthRemoteUserView
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+    &lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; airflow.www.security &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; AirflowSecurityManager
+&lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ImportError&lt;/span&gt;:
+    AirflowSecurityManager &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; None
+
+__version__ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0.1.0&amp;#34;&lt;/span&gt;
+
+AUTHORIZE_URL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://example.com/sso/login&amp;#34;&lt;/span&gt;
+ACCESS_TOKEN_URL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://example.com/sso/check&amp;#34;&lt;/span&gt;
+
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;AuthComCasView&lt;/span&gt;(AuthRemoteUserView):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_get_redirect_uri&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; urljoin(request&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;host_url, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;appbuilder&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_url_for_login)
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;get_authorize_params&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {
+            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;callback&amp;#34;&lt;/span&gt;: self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_get_redirect_uri(),
+        }
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@expose&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/login/&amp;#34;&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;login&lt;/span&gt;(self):
+        token &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; request&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;args&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;token&amp;#34;&lt;/span&gt;)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; token:
+            params &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_authorize_params()
+            redirect_uri &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;u&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{}?{}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;format(
+                AUTHORIZE_URL,
+                urlencode(params),
+            )
+
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; redirect(redirect_uri)
+
+        data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exchange_token(token)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; data[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;status&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;:
+            flash(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Invalid Token&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;info&amp;#34;&lt;/span&gt;)
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Invalid token&amp;#34;&lt;/span&gt;
+
+        &lt;span style=&#34;color:#75715e&#34;&gt;# Set REMOTE_USER to let user login&lt;/span&gt;
+        request&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;environ[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;REMOTE_USER&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; data[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;username&amp;#34;&lt;/span&gt;]
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; super()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login()
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@staticmethod&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;get_token_params&lt;/span&gt;(token, redirect_uri):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {
+            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;token&amp;#34;&lt;/span&gt;: token,
+            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;service&amp;#34;&lt;/span&gt;: redirect_uri,
+        }
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;exchange_token&lt;/span&gt;(self, token):
+        data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_token_params(
+            token&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;token,
+            redirect_uri&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_get_redirect_uri(),
+        )
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(ACCESS_TOKEN_URL, params&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;data)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;json()
+
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; AirflowSecurityManager &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; None:
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ComCasAirflowSecurityManager&lt;/span&gt;(AirflowSecurityManager):
+        authremoteuserview &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AuthComCasView
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后在 Airflow 的 &lt;code&gt;webserver_config.py&lt;/code&gt; 中应用就行:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; flask_appbuilder.security.manager &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; AUTH_REMOTE_USER
+
+AUTH_TYPE &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AUTH_REMOTE_USER
+FAB_SECURITY_MANAGER_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;fab_auth_com.ComCasAirflowSecurityManager&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>Java</title>
       <link>https://www.linuxzen.com/notes/notes/20210901081938-java/</link>
