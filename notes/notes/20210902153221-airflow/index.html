@@ -208,17 +208,13 @@ ACCESS_TOKEN_URL <span style="color:#f92672">=</span> <span style="color:#e6db74
         <span style="color:#66d9ef">return</span> super()<span style="color:#f92672">.</span>login()
 
     <span style="color:#a6e22e">@staticmethod</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_token_params</span>(token, redirect_uri):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_token_params</span>(token):
         <span style="color:#66d9ef">return</span> {
             <span style="color:#e6db74">&#34;token&#34;</span>: token,
-            <span style="color:#e6db74">&#34;service&#34;</span>: redirect_uri,
         }
 
     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">exchange_token</span>(self, token):
-        data <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_token_params(
-            token<span style="color:#f92672">=</span>token,
-            redirect_uri<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>_get_redirect_uri(),
-        )
+        data <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_token_params(token)
         <span style="color:#66d9ef">return</span> requests<span style="color:#f92672">.</span>get(ACCESS_TOKEN_URL, params<span style="color:#f92672">=</span>data)<span style="color:#f92672">.</span>json()
 
 

@@ -73,17 +73,13 @@ ACCESS_TOKEN_URL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;sp
         &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; super()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login()
 
     &lt;span style=&#34;color:#a6e22e&#34;&gt;@staticmethod&lt;/span&gt;
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;get_token_params&lt;/span&gt;(token, redirect_uri):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;get_token_params&lt;/span&gt;(token):
         &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {
             &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;token&amp;#34;&lt;/span&gt;: token,
-            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;service&amp;#34;&lt;/span&gt;: redirect_uri,
         }
 
     &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;exchange_token&lt;/span&gt;(self, token):
-        data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_token_params(
-            token&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;token,
-            redirect_uri&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_get_redirect_uri(),
-        )
+        data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_token_params(token)
         &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(ACCESS_TOKEN_URL, params&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;data)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;json()
 
 
