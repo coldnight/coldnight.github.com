@@ -15,7 +15,7 @@
       <guid>https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/</guid>
       <description>领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
 应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
-MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块 LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
+MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
  用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
 领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
 优点：
@@ -39,6 +39,13 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
 &lt;li&gt;每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 &lt;a href=&#34;#ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/a&gt; 与接触代码的人及时交换关于模型的想法。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;领域模式构造块&#34;&gt;领域模式构造块&lt;/h2&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/ddd-blocks.png&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
 &lt;h3 id=&#34;layered-architecture&#34;&gt;LAYERED ARCHITECTURE&lt;/h3&gt;
 &lt;p&gt;分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：&lt;/p&gt;
 &lt;ul&gt;
@@ -163,9 +170,14 @@ FAB_SECURITY_MANAGER_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&
       <pubDate>Wed, 01 Sep 2021 08:19:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210901081938-java/</guid>
-      <description>SDKMAN Java 环境和 SDK 管理 SDKMAN 可以实现 Java 环境和一些常见 SDK 的管理，包括：JDK、Scala、sbt 和 Spark 等。
+      <description>Java 生态工具 Maven/Ivy 依赖获取和解决工具  coursier  SDKMAN Java 环境和 SDK 管理 SDKMAN 可以实现 Java 环境和一些常见 SDK 的管理，包括：JDK、Scala、sbt 和 Spark 等。
 Java 项目构建工具 Maven Graddle Ant JVM Java 内存模型  Java 内存模型  </description>
-      <content>&lt;h2 id=&#34;sdkman-java-环境和-sdk-管理&#34;&gt;SDKMAN Java 环境和 SDK 管理&lt;/h2&gt;
+      <content>&lt;h2 id=&#34;java-生态工具&#34;&gt;Java 生态工具&lt;/h2&gt;
+&lt;h3 id=&#34;maven-ivy-依赖获取和解决工具&#34;&gt;Maven/Ivy 依赖获取和解决工具&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://get-coursier.io/docs/overview&#34;&gt;coursier&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;sdkman-java-环境和-sdk-管理&#34;&gt;SDKMAN Java 环境和 SDK 管理&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://sdkman.io/&#34;&gt;SDKMAN&lt;/a&gt; 可以实现 Java 环境和一些常见 SDK 的管理，包括：JDK、Scala、sbt 和 Spark 等。&lt;/p&gt;
 &lt;h2 id=&#34;java-项目构建工具&#34;&gt;Java 项目构建工具&lt;/h2&gt;
 &lt;h3 id=&#34;maven&#34;&gt;Maven&lt;/h3&gt;

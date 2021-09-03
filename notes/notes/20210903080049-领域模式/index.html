@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
 应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
-MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块 LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
+MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
  用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
 领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
 优点：
@@ -43,7 +43,7 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
 <meta property="og:title" content="领域模式">
 <meta property="og:description" content="领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
 应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
-MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块 LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
+MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
  用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
 领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
 优点：
@@ -179,6 +179,13 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
 <li>每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 <a href="#ubiquitous-language">UBIQUITOUS LANGUAGE</a> 与接触代码的人及时交换关于模型的想法。</li>
 </ul>
 <h2 id="领域模式构造块">领域模式构造块<a href="#领域模式构造块" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+
+  <figure class="left" >
+    <img src="/notes/ox-hugo/ddd-blocks.png"   />
+    
+  </figure>
+
+
 <h3 id="layered-architecture">LAYERED ARCHITECTURE<a href="#layered-architecture" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：</p>
 <ul>
