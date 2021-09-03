@@ -131,6 +131,37 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/">领域模式</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-09-03
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20210902153221-airflow/">Airflow</a>
         </h1>
         <div class="post-meta">
@@ -9207,19 +9238,22 @@ service imap { type = UNLISTED port = 993 bind = 0.0.0.0 socket_type = stream wa
         <div class="post-content">
           
           
-          建模   模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。
+          前言和目录 好的软件需要控制复杂性，好的领域模型可以帮助控制复杂性。
+什么样的项目需要 DDD？尝试型的小型项目应该不需要 DDD，但是一旦上了规模考虑后续迭代则需要 DDD。
+本书组织方式：
+领域建模 领域建模的过程就是消化知识的过程，这个过程应该贯穿整个开发过程，需要持续学习。
+  模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。
   模型是一种简化，是对实现的解释：把与解决问题密切相关的方面抽象出来，而忽略无关的细节。
 软件问题建模的区域就是软件的领域
  物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。  领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
   领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
-  UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
-LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
- 用户界面层 应用层 领域层 基础设施层  核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
-模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&gt; 人 或 人 -&gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式   ENTITY
+  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&gt; 人 或 人 -&gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式   ENTITY
 用于跟踪对象的状态，有唯一标识符，在系统中是可变的，两个对象是否一个通过唯一标识来判断，不是靠它们的属性定义。
   VALUE OBJECT
 区别与 ENTITY ，没有唯一标识，仅记录状态，一般设计为不可变用于共享 VALUE OBJECT，两个对象是否一个通过对象属性的值来判断。
   SERVICE
+没有状态，但又需要建模的对象，只包含动作。用于一些不适合建模为对象的领域概念。
+ 与领域概念相关的操作不是 ENTITY 或 VALUE OBJECT 的一个自然组成部署 接口是根据领域模型的其他元素定义的。 操作是无状态的    MODULE（或 PACKAGE）：划分领域模型，低耦合高内聚
           
           
         </div>

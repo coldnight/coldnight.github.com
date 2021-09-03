@@ -6,7 +6,69 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 02 Sep 2021 15:32:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Sep 2021 08:00:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>领域模式</title>
+      <link>https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Fri, 03 Sep 2021 08:00:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/</guid>
+      <description>领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
+应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
+MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块 LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
+ 用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
+领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
+优点：
+ 效率高 人力成本低 快速响应需求更改 彼此独立，扩展容易 关系数据库提供数据整合  缺点：
+ 依赖数据库 没有行为重用 有扩展和迭代极限 无法适应复杂功能  </description>
+      <content>&lt;h2 id=&#34;领域基础模式&#34;&gt;领域基础模式&lt;/h2&gt;
+&lt;h3 id=&#34;ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/h3&gt;
+&lt;p&gt;在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。&lt;/p&gt;
+&lt;p&gt;应用 UBIQUITOUS LANGUAGE 需要&lt;strong&gt;大声的建模&lt;/strong&gt;。
+**&lt;/p&gt;
+&lt;h3 id=&#34;model-driven-design&#34;&gt;MODEL-DRIVEN DESIGN&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;严格按照模型来编写代码，让模型与实际系统相结合。&lt;/li&gt;
+&lt;li&gt;不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。&lt;/li&gt;
+&lt;li&gt;工具：面向对象编程语言、UML等。&lt;/li&gt;
+&lt;li&gt;更好的支持 &lt;a href=&#34;#ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;hands-on-modeler&#34;&gt;HANDS-ON MODELER&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。&lt;/li&gt;
+&lt;li&gt;每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 &lt;a href=&#34;#ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/a&gt; 与接触代码的人及时交换关于模型的想法。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;领域模式构造块&#34;&gt;领域模式构造块&lt;/h2&gt;
+&lt;h3 id=&#34;layered-architecture&#34;&gt;LAYERED ARCHITECTURE&lt;/h3&gt;
+&lt;p&gt;分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用户界面层&lt;/li&gt;
+&lt;li&gt;应用层&lt;/li&gt;
+&lt;li&gt;领域层（模型的精髓）&lt;/li&gt;
+&lt;li&gt;基础设施层&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。&lt;/p&gt;
+&lt;h2 id=&#34;领域反模式&#34;&gt;领域反模式&lt;/h2&gt;
+&lt;h3 id=&#34;the-smart-ui-反模式&#34;&gt;THE SMART UI 反模式&lt;/h3&gt;
+&lt;p&gt;不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。&lt;/p&gt;
+&lt;p&gt;优点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;效率高&lt;/li&gt;
+&lt;li&gt;人力成本低&lt;/li&gt;
+&lt;li&gt;快速响应需求更改&lt;/li&gt;
+&lt;li&gt;彼此独立，扩展容易&lt;/li&gt;
+&lt;li&gt;关系数据库提供数据整合&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;依赖数据库&lt;/li&gt;
+&lt;li&gt;没有行为重用&lt;/li&gt;
+&lt;li&gt;有扩展和迭代极限&lt;/li&gt;
+&lt;li&gt;无法适应复杂功能&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Airflow</title>
       <link>https://www.linuxzen.com/notes/notes/20210902153221-airflow/</link>
@@ -15718,20 +15780,28 @@ Links  〈如何买基金？基金入门，学会这几招就够了〉  </descri
       <pubDate>Sat, 15 Jun 2019 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</guid>
-      <description>建模   模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。
+      <description>前言和目录 好的软件需要控制复杂性，好的领域模型可以帮助控制复杂性。
+什么样的项目需要 DDD？尝试型的小型项目应该不需要 DDD，但是一旦上了规模考虑后续迭代则需要 DDD。
+本书组织方式：
+领域建模 领域建模的过程就是消化知识的过程，这个过程应该贯穿整个开发过程，需要持续学习。
+  模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。
   模型是一种简化，是对实现的解释：把与解决问题密切相关的方面抽象出来，而忽略无关的细节。
 软件问题建模的区域就是软件的领域
  物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。  领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
   领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
-  UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
-LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
- 用户界面层 应用层 领域层 基础设施层  核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
-模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式   ENTITY
+  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式   ENTITY
 用于跟踪对象的状态，有唯一标识符，在系统中是可变的，两个对象是否一个通过唯一标识来判断，不是靠它们的属性定义。
   VALUE OBJECT
 区别与 ENTITY ，没有唯一标识，仅记录状态，一般设计为不可变用于共享 VALUE OBJECT，两个对象是否一个通过对象属性的值来判断。
-  SERVICE</description>
-      <content>&lt;h2 id=&#34;建模&#34;&gt;建模&lt;/h2&gt;
+  SERVICE
+没有状态，但又需要建模的对象，只包含动作。用于一些不适合建模为对象的领域概念。
+ 与领域概念相关的操作不是 ENTITY 或 VALUE OBJECT 的一个自然组成部署 接口是根据领域模型的其他元素定义的。 操作是无状态的    MODULE（或 PACKAGE）：划分领域模型，低耦合高内聚</description>
+      <content>&lt;h2 id=&#34;前言和目录&#34;&gt;前言和目录&lt;/h2&gt;
+&lt;p&gt;好的软件需要控制复杂性，好的领域模型可以帮助控制复杂性。&lt;/p&gt;
+&lt;p&gt;什么样的项目需要 DDD？尝试型的小型项目应该不需要 DDD，但是一旦上了规模考虑后续迭代则需要 DDD。&lt;/p&gt;
+&lt;p&gt;本书组织方式：&lt;/p&gt;
+&lt;h2 id=&#34;领域建模&#34;&gt;领域建模&lt;/h2&gt;
+&lt;p&gt;领域建模的过程就是消化知识的过程，这个过程应该贯穿整个开发过程，需要持续学习。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。&lt;/p&gt;
@@ -15749,25 +15819,14 @@ LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同
 &lt;p&gt;领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/h2&gt;
-&lt;p&gt;在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。&lt;/p&gt;
-&lt;h2 id=&#34;layered-architecture&#34;&gt;LAYERED ARCHITECTURE&lt;/h2&gt;
-&lt;p&gt;分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;用户界面层&lt;/li&gt;
-&lt;li&gt;应用层&lt;/li&gt;
-&lt;li&gt;领域层&lt;/li&gt;
-&lt;li&gt;基础设施层&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。&lt;/p&gt;
-&lt;h2 id=&#34;模型表示&#34;&gt;模型表示&lt;/h2&gt;
-&lt;h3 id=&#34;关联&#34;&gt;关联&lt;/h3&gt;
+&lt;h3 id=&#34;模型表示&#34;&gt;模型表示&lt;/h3&gt;
+&lt;h4 id=&#34;关联&#34;&gt;关联&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联&lt;/li&gt;
 &lt;li&gt;添加一个限定符，以便有效减少多重关联&lt;/li&gt;
 &lt;li&gt;消除不必要的关联&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;表示方式&#34;&gt;表示方式&lt;/h3&gt;
+&lt;h4 id=&#34;表示方式&#34;&gt;表示方式&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;ENTITY&lt;/p&gt;
@@ -15790,6 +15849,7 @@ LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同
 &lt;p&gt;MODULE（或 PACKAGE）：划分领域模型，低耦合高内聚&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;领域模式--20210903080049-领域模式-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/&#34;&gt;领域模式&lt;/a&gt;&lt;/h2&gt;
 </content>
     </item>
     

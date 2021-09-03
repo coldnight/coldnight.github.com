@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>领域模式 :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
+应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
+MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块 LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
+ 用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
+领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
+优点：
+ 效率高 人力成本低 快速响应需求更改 彼此独立，扩展容易 关系数据库提供数据整合  缺点：
+ 依赖数据库 没有行为重用 有扩展和迭代极限 无法适应复杂功能  " />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="领域模式">
+<meta property="og:description" content="领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
+应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
+MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块 LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
+ 用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
+领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
+优点：
+ 效率高 人力成本低 快速响应需求更改 彼此独立，扩展容易 关系数据库提供数据整合  缺点：
+ 依赖数据库 没有行为重用 有扩展和迭代极限 无法适应复杂功能  " />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-09-03 08:00:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/articles/notes/"> Topics</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/articles/notes/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/">领域模式</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-09-03 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <h2 id="领域基础模式">领域基础模式<a href="#领域基础模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="ubiquitous-language">UBIQUITOUS LANGUAGE<a href="#ubiquitous-language" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。</p>
+<p>应用 UBIQUITOUS LANGUAGE 需要<strong>大声的建模</strong>。
+**</p>
+<h3 id="model-driven-design">MODEL-DRIVEN DESIGN<a href="#model-driven-design" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>严格按照模型来编写代码，让模型与实际系统相结合。</li>
+<li>不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。</li>
+<li>工具：面向对象编程语言、UML等。</li>
+<li>更好的支持 <a href="#ubiquitous-language">UBIQUITOUS LANGUAGE</a>.</li>
+</ul>
+<h3 id="hands-on-modeler">HANDS-ON MODELER<a href="#hands-on-modeler" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。</li>
+<li>每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 <a href="#ubiquitous-language">UBIQUITOUS LANGUAGE</a> 与接触代码的人及时交换关于模型的想法。</li>
+</ul>
+<h2 id="领域模式构造块">领域模式构造块<a href="#领域模式构造块" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="layered-architecture">LAYERED ARCHITECTURE<a href="#layered-architecture" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：</p>
+<ul>
+<li>用户界面层</li>
+<li>应用层</li>
+<li>领域层（模型的精髓）</li>
+<li>基础设施层</li>
+</ul>
+<p>核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。</p>
+<h2 id="领域反模式">领域反模式<a href="#领域反模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="the-smart-ui-反模式">THE SMART UI 反模式<a href="#the-smart-ui-反模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。</p>
+<p>优点：</p>
+<ul>
+<li>效率高</li>
+<li>人力成本低</li>
+<li>快速响应需求更改</li>
+<li>彼此独立，扩展容易</li>
+<li>关系数据库提供数据整合</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>依赖数据库</li>
+<li>没有行为重用</li>
+<li>有扩展和迭代极限</li>
+<li>无法适应复杂功能</li>
+</ul>
+
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>
