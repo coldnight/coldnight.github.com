@@ -16,7 +16,8 @@
       <description>领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
 应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
 MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
- 用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
+ 用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来实现 MODEL-DRIVEN DESIGN，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
+领域层（或模型层）分离出来之后使得模型足够丰富，结构足够清晰，可以捕捉到基本的业务知识，并有效的使用这些知识。
 领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
 优点：
  效率高 人力成本低 快速响应需求更改 彼此独立，扩展容易 关系数据库提供数据整合  缺点：
@@ -54,7 +55,8 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
 &lt;li&gt;领域层（模型的精髓）&lt;/li&gt;
 &lt;li&gt;基础设施层&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;核心在于要将领域层单独出来，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。&lt;/p&gt;
+&lt;p&gt;核心在于要将领域层单独出来实现 &lt;a href=&#34;#model-driven-design&#34;&gt;MODEL-DRIVEN DESIGN&lt;/a&gt;，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。&lt;/p&gt;
+&lt;p&gt;领域层（或模型层）分离出来之后使得模型足够丰富，结构足够清晰，可以捕捉到基本的业务知识，并有效的使用这些知识。&lt;/p&gt;
 &lt;h2 id=&#34;领域反模式&#34;&gt;领域反模式&lt;/h2&gt;
 &lt;h3 id=&#34;the-smart-ui-反模式&#34;&gt;THE SMART UI 反模式&lt;/h3&gt;
 &lt;p&gt;不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。&lt;/p&gt;
@@ -15307,8 +15309,7 @@ See also: https://emacs.stackexchange.com/questions/18173/how-to-jump-from-emacs
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/articles/notes/</guid>
-      <description>See also:
- https://praxis.fortelabs.co/how-to-take-smart-notes/ https://www.nateliason.com/blog/roam  Topics  Financial Management 读书笔记 技术 Translate Learning English 认同的话 To Complete  Links Sprint 1:2019-02-03 ~ 2019-02-19   LD_PRELOAD: The Hero We Need and Deserve
+      <description>Prelude  https://praxis.fortelabs.co/how-to-take-smart-notes/ https://www.nateliason.com/blog/roam  Topics  读书笔记 技术 Translate Learning English 认同的话 To Complete  Links Sprint 1:2019-02-03 ~ 2019-02-19   LD_PRELOAD: The Hero We Need and Deserve
 通过 LD_PRELOAD 覆盖一些函数，比如 faketime
   Going Solo, Successfully
   变身成为独立开发者。
@@ -15317,14 +15318,13 @@ See also: https://emacs.stackexchange.com/questions/18173/how-to-jump-from-emacs
   Practical Go: Real world advice for writing maintainable Go programs
 译文：https://github.com/llitfkitfk/go-best-practice
   百万 Go TCP 连接的思考: epoll方式减少资源占用</description>
-      <content>&lt;p&gt;See also:&lt;/p&gt;
+      <content>&lt;h2 id=&#34;prelude&#34;&gt;Prelude&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://praxis.fortelabs.co/how-to-take-smart-notes/&#34;&gt;https://praxis.fortelabs.co/how-to-take-smart-notes/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.nateliason.com/blog/roam&#34;&gt;https://www.nateliason.com/blog/roam&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;topics&#34;&gt;Topics&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200224132507/&#34;&gt;Financial Management&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200307114122_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/&#34;&gt;读书笔记&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200323104645_%E6%8A%80%E6%9C%AF/&#34;&gt;技术&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/articles/20200309112105_translate/&#34;&gt;Translate&lt;/a&gt;&lt;/li&gt;
