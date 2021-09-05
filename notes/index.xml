@@ -302,8 +302,9 @@ sc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SparkContext(conf&lt
       
       <guid>https://www.linuxzen.com/notes/notes/20210827073626-scala/</guid>
       <description>Scala 学习资源  Scala Book  Scala 这么好的语言为什么不流行  HN：Scala 为什么不流行 Reddit：Scala 为什么不流行  结论：Java 人才更多且成本更低。
-Unique Scala Rust from Scala Rust 和 Scala 有很多想通的地方，Rust 应该从 Scala 借鉴了很多：
- 可变量和不可变量 模式匹配 Trait  内置类型 val b: Byte = 1 val x: Int = 1 val l: Long = 1 val s: Short = 1 val d: Double = 2.0 val f: Float = 3.0 字符串拼接 Python 也支持类似的 f-string 语法，在 Scala 中是 s-string 语法。</description>
+Scala 工具 sbt sbt new 无法处理替换过的 SSH 会导致 Auth fail，一个 workaround 就是手动 clone 项目然后：
+sbt new file:///path/to/template.g8 Unique Scala Rust from Scala Rust 和 Scala 有很多想通的地方，Rust 应该从 Scala 借鉴了很多：
+ 可变量和不可变量 模式匹配 Trait  内置类型 val b: Byte = 1 val x: Int = 1 val l: Long = 1 val s: Short = 1 val d: Double = 2.</description>
       <content>&lt;h2 id=&#34;scala-学习资源&#34;&gt;Scala 学习资源&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://docs.scala-lang.org/overviews/scala-book/introduction.html&#34;&gt;Scala Book&lt;/a&gt;&lt;/li&gt;
@@ -314,7 +315,11 @@ Unique Scala Rust from Scala Rust 和 Scala 有很多想通的地方，Rust 应�
 &lt;li&gt;&lt;a href=&#34;https://www.reddit.com/r/scala/comments/l4pggx/why%5Fdo%5Fyou%5Fthink%5Fscala%5Fisnt%5Fmore%5Fpopular/&#34;&gt;Reddit：Scala 为什么不流行&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;结论：Java 人才更多且成本更低。&lt;/p&gt;
-&lt;h2 id=&#34;unique-scala&#34;&gt;Unique Scala&lt;/h2&gt;
+&lt;h2 id=&#34;scala-工具&#34;&gt;Scala 工具&lt;/h2&gt;
+&lt;h3 id=&#34;sbt&#34;&gt;sbt&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;sbt new&lt;/code&gt; 无法处理替换过的 SSH 会导致 Auth fail，一个 workaround 就是手动 clone 项目然后：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;sbt new file:///path/to/template.g8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;unique-scala&#34;&gt;Unique Scala&lt;/h2&gt;
 &lt;h3 id=&#34;rust-from-scala&#34;&gt;Rust from Scala&lt;/h3&gt;
 &lt;p&gt;Rust 和 Scala 有很多想通的地方，Rust 应该从 Scala 借鉴了很多：&lt;/p&gt;
 &lt;ul&gt;
