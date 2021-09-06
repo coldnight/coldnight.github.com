@@ -6,7 +6,18 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 03 Sep 2021 08:00:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 06 Sep 2021 15:19:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scala lsp-metals</title>
+      <link>https://www.linuxzen.com/notes/notes/20210906151915-scala_lsp_metals/</link>
+      <pubDate>Mon, 06 Sep 2021 15:19:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20210906151915-scala_lsp_metals/</guid>
+      <description>如果无法正常补全三方库，应该是 bloop 服务没有正常启动，创建 ~/Library/Caches/org.scalameta.metals/bsp.trace.json 开启跟踪</description>
+      <content>&lt;p&gt;如果无法正常补全三方库，应该是 bloop 服务没有正常启动，创建 &lt;code&gt;~/Library/Caches/org.scalameta.metals/bsp.trace.json&lt;/code&gt; 开启跟踪&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>领域模式</title>
       <link>https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/</link>
@@ -305,7 +316,8 @@ sc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SparkContext(conf&lt
       <guid>https://www.linuxzen.com/notes/notes/20210827073626-scala/</guid>
       <description>Scala 学习资源  Scala Book  Scala 这么好的语言为什么不流行  HN：Scala 为什么不流行 Reddit：Scala 为什么不流行  结论：Java 人才更多且成本更低。
 Scala 工具 sbt sbt new 无法处理替换过的 SSH 会导致 Auth fail，一个 workaround 就是手动 clone 项目然后：
-sbt new file:///path/to/template.g8 Unique Scala Rust from Scala Rust 和 Scala 有很多想通的地方，Rust 应该从 Scala 借鉴了很多：
+sbt new file:///path/to/template.g8 sbt 国内加速 ~/.sbt/repositories:
+[repositories] local nexus-aliyun:https://maven.aliyun.com/nexus/content/groups/public nexus-aliyun-ivy:https://maven.aliyun.com/nexus/content/groups/public/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext] typesafe: https://repo.typesafe.com/typesafe/ivy-releases/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext], bootOnly Unique Scala Rust from Scala Rust 和 Scala 有很多想通的地方，Rust 应该从 Scala 借鉴了很多：
  可变量和不可变量 模式匹配 Trait  内置类型 val b: Byte = 1 val x: Int = 1 val l: Long = 1 val s: Short = 1 val d: Double = 2.</description>
       <content>&lt;h2 id=&#34;scala-学习资源&#34;&gt;Scala 学习资源&lt;/h2&gt;
 &lt;ul&gt;
@@ -321,7 +333,14 @@ sbt new file:///path/to/template.g8 Unique Scala Rust from Scala Rust 和 Scala 
 &lt;h3 id=&#34;sbt&#34;&gt;sbt&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;sbt new&lt;/code&gt; 无法处理替换过的 SSH 会导致 Auth fail，一个 workaround 就是手动 clone 项目然后：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;sbt new file:///path/to/template.g8
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;unique-scala&#34;&gt;Unique Scala&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;sbt-国内加速&#34;&gt;sbt 国内加速&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;~/.sbt/repositories&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;[repositories]
+local
+nexus-aliyun:https://maven.aliyun.com/nexus/content/groups/public
+nexus-aliyun-ivy:https://maven.aliyun.com/nexus/content/groups/public/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
+typesafe: https://repo.typesafe.com/typesafe/ivy-releases/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext], bootOnly
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;unique-scala&#34;&gt;Unique Scala&lt;/h2&gt;
 &lt;h3 id=&#34;rust-from-scala&#34;&gt;Rust from Scala&lt;/h3&gt;
 &lt;p&gt;Rust 和 Scala 有很多想通的地方，Rust 应该从 Scala 借鉴了很多：&lt;/p&gt;
 &lt;ul&gt;
@@ -15117,7 +15136,7 @@ Contents   但是什么是深度学习?
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200218120634/</guid>
-      <description>ELisp Org Mode Helm Tmux 256 colors Emacs Buffer 名字去重 straight.el 命令 Emacs 优化启动速度 LSP  C++ LSP   Emacs Projectile 优化 Emacs Easter egg  Emacs 插入断页符^L C-q C-l 或 M-x quoted-insert RET C-l。
+      <description>ELisp Org Mode Helm Tmux 256 colors Emacs Buffer 名字去重 straight.el 命令 Emacs 优化启动速度 LSP  C++ LSP Scala lsp-metals   Emacs Projectile 优化 Emacs Easter egg  Emacs 插入断页符^L C-q C-l 或 M-x quoted-insert RET C-l。
 可以通过 page-break-lines 这个扩展包来显示一个分隔符。</description>
       <content>&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200225192204_elisp/&#34;&gt;ELisp&lt;/a&gt;&lt;/li&gt;
@@ -15130,6 +15149,7 @@ Contents   但是什么是深度学习?
 &lt;li&gt;LSP
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210114175011-lsp/&#34;&gt;C++ LSP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210906151915-scala_lsp_metals/&#34;&gt;Scala lsp-metals&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210714065205-emacs_projectile_%E4%BC%98%E5%8C%96/&#34;&gt;Emacs Projectile 优化&lt;/a&gt;&lt;/li&gt;
