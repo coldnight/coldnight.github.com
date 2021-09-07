@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
   
-    <title>Unix :: Taking Smart Notes With Org-mode</title>
+    <title>Linux kernel :: Taking Smart Notes With Org-mode</title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" Makefile SSH macOS max open files macOS TimeMachine 日志 macOS 问题解决三板斧  " />
+<meta name="description" content="Linux I/O Linux I/O 演进  阻塞式：read()/write() 非阻塞式：select()/poll()/epoll()，不支持文件 I/O Thread Pool Direct I/O（数据软件）：绕过 page cache 异步 IO（Linux AIO）：早起进支持文件 I/O，近期支持了 epoll 支持非文件 I/O  Linux io_uring  [译] Linux 异步 I/O 框架 io_uring：基本原理、程序示例与性能压测  对比 Linux AIO：
+ 重新设计实现真正的是不。 支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。 灵活、可扩展：基于 io_uring 能够重写 Linux 的每个系统调用。  Linux Virtual Memory Management " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
-<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200218174814/" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210907142848-linux_kernel/" />
 
 
 
@@ -33,9 +34,10 @@
 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Unix">
-<meta property="og:description" content=" Makefile SSH macOS max open files macOS TimeMachine 日志 macOS 问题解决三板斧  " />
-<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200218174814/" />
+<meta property="og:title" content="Linux kernel">
+<meta property="og:description" content="Linux I/O Linux I/O 演进  阻塞式：read()/write() 非阻塞式：select()/poll()/epoll()，不支持文件 I/O Thread Pool Direct I/O（数据软件）：绕过 page cache 异步 IO（Linux AIO）：早起进支持文件 I/O，近期支持了 epoll 支持非文件 I/O  Linux io_uring  [译] Linux 异步 I/O 框架 io_uring：基本原理、程序示例与性能压测  对比 Linux AIO：
+ 重新设计实现真正的是不。 支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。 灵活、可扩展：基于 io_uring 能够重写 Linux 的每个系统调用。  Linux Virtual Memory Management " />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210907142848-linux_kernel/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
   
@@ -46,7 +48,7 @@
 <meta property="og:image:height" content="1024">
 
 
-  <meta property="article:published_time" content="2020-03-07 00:00:00 &#43;0800 &#43;0800" />
+  <meta property="article:published_time" content="2021-09-07 14:28:00 &#43;0800 &#43;0800" />
 
 
 
@@ -128,11 +130,11 @@
     
 <div class="post">
   <h1 class="post-title">
-    <a href="https://www.linuxzen.com/notes/notes/20200218174814/">Unix</a></h1>
+    <a href="https://www.linuxzen.com/notes/notes/20210907142848-linux_kernel/">Linux kernel</a></h1>
   <div class="post-meta">
     
       <span class="post-date">
-        2020-03-07 
+        2021-09-07 
       </span>
     
     
@@ -147,13 +149,26 @@
   
 
   <div class="post-content"><div>
-        <ul>
-<li><a href="/notes/notes/20200218174830_makefile/">Makefile</a></li>
-<li><a href="/notes/notes/20200707214623-ssh/">SSH</a></li>
-<li><a href="/notes/notes/20210125174343-macos_max_open_files/">macOS max open files</a></li>
-<li><a href="/notes/notes/20210322145854-macos_timemachine_%E6%97%A5%E5%BF%97/">macOS TimeMachine 日志</a></li>
-<li><a href="/notes/notes/20210322145956-macos_%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E4%B8%89%E6%9D%BF%E6%96%A7/">macOS 问题解决三板斧</a></li>
+        <h2 id="linux-i-o">Linux I/O<a href="#linux-i-o" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="linux-i-o-演进">Linux I/O 演进<a href="#linux-i-o-演进" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>阻塞式：read()/write()</li>
+<li>非阻塞式：select()/poll()/epoll()，不支持文件 I/O</li>
+<li>Thread Pool</li>
+<li>Direct I/O（数据软件）：绕过 page cache</li>
+<li>异步 IO（Linux AIO）：早起进支持文件 I/O，近期支持了 epoll 支持非文件 I/O</li>
 </ul>
+<h3 id="linux-io-uring">Linux io_uring<a href="#linux-io-uring" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li><a href="http://arthurchiao.art/blog/intro-to-io-uring-zh/">[译] Linux 异步 I/O 框架 io_uring：基本原理、程序示例与性能压测</a></li>
+</ul>
+<p>对比 Linux AIO：</p>
+<ul>
+<li>重新设计实现真正的是不。</li>
+<li>支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。</li>
+<li>灵活、可扩展：基于 <code>io_uring</code> 能够重写 Linux 的每个系统调用。</li>
+</ul>
+<h2 id="linux-virtual-memory-management--20200320174700-linux-virtual-memory-management-dot-md"><a href="/notes/notes/20200320174700_linux_virtual_memory_management/">Linux Virtual Memory Management</a><a href="#linux-virtual-memory-management--20200320174700-linux-virtual-memory-management-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 
       </div></div>
 
