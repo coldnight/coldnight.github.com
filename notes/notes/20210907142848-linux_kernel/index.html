@@ -7,7 +7,9 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Linux I/O Linux I/O 演进  阻塞式：read()/write() 非阻塞式：select()/poll()/epoll()，不支持文件 I/O Thread Pool Direct I/O（数据软件）：绕过 page cache 异步 IO（Linux AIO）：早起进支持文件 I/O，近期支持了 epoll 支持非文件 I/O  Linux io_uring  [译] Linux 异步 I/O 框架 io_uring：基本原理、程序示例与性能压测  对比 Linux AIO：
- 重新设计实现真正的是不。 支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。 灵活、可扩展：基于 io_uring 能够重写 Linux 的每个系统调用。  Linux Virtual Memory Management " />
+ 重新设计实现真正的是不。 支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。 灵活、可扩展：基于 io_uring 能够重写 Linux 的每个系统调用。  原理及核心数据结构：SQ/CQ/SQE/CQE 每个 io_uring 实例都有两个环形队列，在内核和应用程序之间共享：
+ 提交队列：submission queue（SQ） 完成队列：completion queue（CQ）  这两个队列：
+ 都是单生产者、单消费者，size 是 2 的幂次； 提供无锁接口（lock-less access interface），内部使用内存屏障做同步（coordinated with memory barrers）。  使用方式：" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210907142848-linux_kernel/" />
@@ -36,7 +38,9 @@
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Linux kernel">
 <meta property="og:description" content="Linux I/O Linux I/O 演进  阻塞式：read()/write() 非阻塞式：select()/poll()/epoll()，不支持文件 I/O Thread Pool Direct I/O（数据软件）：绕过 page cache 异步 IO（Linux AIO）：早起进支持文件 I/O，近期支持了 epoll 支持非文件 I/O  Linux io_uring  [译] Linux 异步 I/O 框架 io_uring：基本原理、程序示例与性能压测  对比 Linux AIO：
- 重新设计实现真正的是不。 支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。 灵活、可扩展：基于 io_uring 能够重写 Linux 的每个系统调用。  Linux Virtual Memory Management " />
+ 重新设计实现真正的是不。 支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。 灵活、可扩展：基于 io_uring 能够重写 Linux 的每个系统调用。  原理及核心数据结构：SQ/CQ/SQE/CQE 每个 io_uring 实例都有两个环形队列，在内核和应用程序之间共享：
+ 提交队列：submission queue（SQ） 完成队列：completion queue（CQ）  这两个队列：
+ 都是单生产者、单消费者，size 是 2 的幂次； 提供无锁接口（lock-less access interface），内部使用内存屏障做同步（coordinated with memory barrers）。  使用方式：" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210907142848-linux_kernel/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -168,6 +172,68 @@
 <li>支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。</li>
 <li>灵活、可扩展：基于 <code>io_uring</code> 能够重写 Linux 的每个系统调用。</li>
 </ul>
+<h4 id="原理及核心数据结构-sq-cq-sqe-cqe">原理及核心数据结构：SQ/CQ/SQE/CQE<a href="#原理及核心数据结构-sq-cq-sqe-cqe" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>每个 io_uring 实例都有两个环形队列，在内核和应用程序之间共享：</p>
+<ul>
+<li>提交队列：submission queue（SQ）</li>
+<li>完成队列：completion queue（CQ）</li>
+</ul>
+<p><img src="/notes/ox-hugo/2021-09-08_07-15-03_io_uring.png" alt="">
+这两个队列：</p>
+<ul>
+<li>都是单生产者、单消费者，size 是 2 的幂次；</li>
+<li>提供无锁接口（lock-less access interface），内部使用内存屏障做同步（coordinated with memory barrers）。</li>
+</ul>
+<p>使用方式：</p>
+<ul>
+<li>请求
+<ul>
+<li>应用创建 SQ entries（SQE），更新 SQ tail；</li>
+<li>内核消费 SQE，更新 SQ head</li>
+</ul>
+</li>
+<li>完成
+<ul>
+<li>内核为完成一个或多个请求创建 CQ enries（CQE），更新 CQ tail；</li>
+<li>应用消费 CQE，更新 CQ head</li>
+<li>完成事件（completion events）可能以任意顺序到达，到总是与特定的 SQE 相关联的。</li>
+<li>消费 CQE 过程无需切换到内核态</li>
+</ul>
+</li>
+</ul>
+<h4 id="带来的好处">带来的好处<a href="#带来的好处" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<ul>
+<li>支持批处理</li>
+<li>支持文件 I/O 系统调用：read、write、send、recv、accept、opentat、stat、专用的一些系统调用，如 fallocate</li>
+<li>不再局限于数据库应用</li>
+<li>应对现在硬件架构：将硬件架构本身作为一个网络（多核多 CPU 是一个基础网络、CPU 之间是一个网络、CPU 和磁盘 I/O 之间又是一个网络）</li>
+</ul>
+<h4 id="三种工作模式">三种工作模式<a href="#三种工作模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<ul>
+<li>
+<p>中断驱动模式（interrupt driven）：默认模式。可通过 io_uring_enter() 提交 I/O 请求，然后直接检查 CQ 状态判断是否完成。</p>
+</li>
+<li>
+<p>轮询模式（polled）</p>
+<p>需要文件系统和块设备支持轮询功能。对比中断驱动方式，这种方式延迟更低，但可能会小号更多的 CPU 资源。</p>
+<p>只有指定了 O_DIRECT 标识位的的文件描述符才能使用这种模式。但一个读或写请求提交给轮询上下文（polled context）之后，
+应用必须调用 <code>io_uring_enter()</code> 来轮询 CQ 队列，判断请求是否已经完成。</p>
+<p>同一个 <code>io_uring</code> 不支持混合使用轮询和非轮询模式。</p>
+</li>
+<li>
+<p>内核轮询模式（kernel polled）</p>
+<p>创建一个内核线程（kernel thread）来执行 SQ 的轮询工作。应用无需切换到内核态牛结果出发 I/O 操作。通过 SQ 来提交 SQE，以及监控 CQ 的完成状态，应用无需任何系统调用，就能提交和收割 I/O（submit and reap I/Os）。</p>
+<p>如果内核线程的空闲时间超过了用户的配置值，它会通知应用，然后进入 idle 状态。 这种情况下，应用必须调用 io_uring_enter() 来唤醒内核线程。如果 I/O 一直很繁忙，内核线性是不会 sleep 的。</p>
+</li>
+</ul>
+<h4 id="高级特性">高级特性<a href="#高级特性" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<ol>
+<li>File registration</li>
+<li>Buffer registration</li>
+<li>Poll ring</li>
+<li>Linked operations</li>
+</ol>
+<h4 id="用户空间库-liburing">用户空间库 liburing<a href="#用户空间库-liburing" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <h2 id="linux-virtual-memory-management--20200320174700-linux-virtual-memory-management-dot-md"><a href="/notes/notes/20200320174700_linux_virtual_memory_management/">Linux Virtual Memory Management</a><a href="#linux-virtual-memory-management--20200320174700-linux-virtual-memory-management-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 
       </div></div>
