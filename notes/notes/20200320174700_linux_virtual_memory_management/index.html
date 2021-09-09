@@ -6,7 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架构的方式描述内存 — 更好的支持多平台
+<meta name="description" content="原文连接：Linux Virtual Memory Management
+Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架构的方式描述内存 — 更好的支持多平台
   本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
   VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
   大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 DMA 设备卡。
@@ -40,7 +41,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Linux Virtual Memory Management">
-<meta property="og:description" content="Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架构的方式描述内存 — 更好的支持多平台
+<meta property="og:description" content="原文连接：Linux Virtual Memory Management
+Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架构的方式描述内存 — 更好的支持多平台
   本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
   VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
   大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 DMA 设备卡。
@@ -159,7 +161,8 @@
   
 
   <div class="post-content"><div>
-        <h2 id="chapter-2-describing-physical-memory-描述物理内存">Chapter 2 Describing Physical Memory：描述物理内存<a href="#chapter-2-describing-physical-memory-描述物理内存" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <p>原文连接：<a href="https://tldp.org/LDP/tlk/tlk-toc.html">Linux Virtual Memory Management</a></p>
+<h2 id="chapter-2-describing-physical-memory-描述物理内存">Chapter 2 Describing Physical Memory：描述物理内存<a href="#chapter-2-describing-physical-memory-描述物理内存" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ul>
 <li>
 <p>独立于平台架构的方式描述内存 — 更好的支持多平台</p>
@@ -198,7 +201,7 @@
 
 </li>
 </ul>
-<h3 id="内存节点">内存节点<a href="#内存节点" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="内存节点">内存节点<a href="#内存节点" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>Linux 在分配内存页的时候采用 <strong>本地节点分配策略（node-local allocation policy）</strong> 通过最靠近当前运行 CPU 的节点去分配内存。同时进程也会趋向于采用同一 CPU 运行。</p>
 <p>节点的结构体定义在 <code>&lt;linux/memzone.h&gt;</code> 下</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> pglist_data {
@@ -236,7 +239,7 @@
 } pg_data_t;
 
 </code></pre></div><p>系统中的所有节点都维护在 <strong><strong>pgdat_list</strong></strong> 中。</p>
-<h3 id="分区">分区<a href="#分区" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="分区">分区<a href="#分区" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>用于跟踪信息，如</p>
 <ul>
 <li>页请用情况</li>
@@ -288,7 +291,7 @@
     <span style="color:#75715e">// 当前分区包含的页数
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> size;
 } zone_t;
-</code></pre></div><h3 id="分区水印">分区水印<a href="#分区水印" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</code></pre></div><h4 id="分区水印">分区水印<a href="#分区水印" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>当系统可用内存非常少时会唤醒换页守护 kswapd 释放内存页。如果压力过大 kswapd 会进行同步释放内存，有时被称为直接回收（direct-reclaim）路径。</p>
 <p>每个分区有三个水印</p>
 <ul>
@@ -296,7 +299,7 @@
 <li>pages_min，通过 <strong><strong>free_area_init_core</strong></strong> 根据分区大小页数比（ZoneSizeInPages / 128）初始化，最小 20 页（x86 80K），最大 255 页（x86 1MB ），阈值达到这个值触发 kswapd 同步方式（fashion）工作</li>
 <li>pages_high，不会触发 kswapd 平衡内存页，并使 kswapd 陷入休眠</li>
 </ul>
-<h3 id="计算分区大小">计算分区大小<a href="#计算分区大小" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="计算分区大小">计算分区大小<a href="#计算分区大小" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p><strong>PFN(Page Frame Number)</strong> 是一个包含物理内存映射的偏移量用于内存页计数，第一个 PFN被系统使用</p>
 <ul>
 <li><strong><strong>min\_low\_pfn</strong></strong> 用于定位第一页加载内核镜像的后的开始</li>
@@ -305,7 +308,7 @@
 <li>内存少的机器 <strong><strong>max_pfn</strong></strong> 和 <strong><strong>max_low_pfn</strong></strong> 一致</li>
 </ul>
 <p>通过上面三个值可以直接计算出高区内存的开始和结束。</p>
-<h3 id="分区等待队列表">分区等待队列表<a href="#分区等待队列表" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="分区等待队列表">分区等待队列表<a href="#分区等待队列表" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>当 IO 在一页内存上开始执行时（page-in or page-out）会进行锁定防止获取到不一致的数据。</p>
 <ol>
 <li>进程使用页时调用 <strong><strong>wait_on_page</strong></strong> 加入到一个等待队列</li>
@@ -314,7 +317,7 @@
 </ol>
 <p>每次换页都会有一个等待队列，且代价非常昂贵，通过分离许多队列进行优化，等待队列存在 <strong><strong>zone_t</strong></strong> 中。</p>
 <p>如果一个分区仅有一个等待队列就会产生<a href="https://zh.m.wikipedia.org/zh-cn/%E6%83%8A%E7%BE%A4%E9%97%AE%E9%A2%98">惊群效应（thundering herd）</a>。为了解决这个问题会有多个等待队列存储在哈希表 <strong><strong>zone_t-&gt;wait_table</strong></strong> 中（极少的哈希碰撞依然会导致不必要的进程被唤醒）。</p>
-<h3 id="分区初始化">分区初始化<a href="#分区初始化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="分区初始化">分区初始化<a href="#分区初始化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>内核页完全初始化后（paging_init）后开始初始化分区，可以预见的是（perdictably）各个平台实现不一致，但是确定（determine）发送给 <code>free_area_init</code> 的参数的逻辑是一致的，支持以下参数</p>
 <ul>
 <li><strong><strong>nid</strong></strong> 分区所属节点的逻辑 ID</li>
@@ -325,7 +328,7 @@
 <li><strong>*zone_holes</strong> 包含分区内内存段（memory holes）总大小的数组</li>
 </ul>
 <p><code>free_area_init_core</code> 负责使用相应的信息填充 <code>zone_t</code> 并为节点分配 <code>mem_map</code> 数组。</p>
-<h3 id="初始化-mem-map">初始化 mem_map<a href="#初始化-mem-map" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="初始化-mem-map">初始化 mem_map<a href="#初始化-mem-map" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p><strong><strong>me_map</strong></strong> 会在系统启动中以两种方式（fashions）之一进行创建</p>
 <ol>
 <li>NUMA：当作一个起始于 <strong><strong>PAGE_OFFSET</strong></strong> ，调用 <code>free_area_init_node</code> 初始化这个数组中分配的系统中每一个活跃的节点</li>
@@ -339,7 +342,7 @@
   </figure>
 
 
-<h3 id="页">页<a href="#页" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="页">页<a href="#页" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>每页物理页帧在系统中都通过 <code>struct page</code> 关联，用于跟踪状态。</p>
 <p>声明在 <code>&lt;linux/mm.h&gt;</code> 中</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> page {
@@ -375,7 +378,7 @@
     <span style="color:#75715e">#endif </span><span style="color:#75715e">/* CONFIG_HIGMEM || WANT_PAGE_VIRTUAL */</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span>} mem_map_t;
 
-</code></pre></div><h3 id="映射页到分区">映射页到分区<a href="#映射页到分区" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</code></pre></div><h4 id="映射页到分区">映射页到分区<a href="#映射页到分区" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <ul>
 <li><code>page-&gt;zone</code> 内核版本 2.4.18 之前 <code>struct page</code> 通过 <code>page-&gt;zone</code> 引用所属的分区</li>
 <li><code>page-&gt;flags</code> 内核版本 2.4.18 之后通过顶部 <code>ZONE_SHIFT</code> (8 in x86) 个位替代 <code>page-&gt;zone</code> 来计算页所属的分区。</li>
@@ -415,7 +418,7 @@
 </ol>
 </li>
 </ol>
-<h3 id="high-memory">High Memory<a href="#high-memory" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="high-memory">High Memory<a href="#high-memory" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>内核支持 High Memory 用于解决内核可使用的地址空间不足的情况（目前 64 位平台下基本上所有内存都可以映射到内核，所以基本不会存在这种情况）。</p>
 <p>32 位 x86 系统关于 High Memory 存在两个阈值</p>
 <ul>
@@ -425,15 +428,15 @@
 <p>缺陷</p>
 <ul>
 <li>理论上 PAE 允许处理器最大可寻址 64GiB，但是由于 Linux 的虚拟地址空间最大仅支持 4GiB，所以进程依然不能使用这么多内存。</li>
-<li>PAE 同时也不允许内核本身使用这么多内存：描述 1GiB 内存需要消耗 11MiB 内核内存（每个 <code>struct page</code> 需要在内核虚拟地址空间中（=ZONE_NORMAL=）消耗 44 字节），16GiB 需要 176MiB，这样会给 <code>ZONE_NORMAL</code> 造成很大的压力</li>
+<li>PAE 同时也不允许内核本身使用这么多内存：描述 1GiB 内存需要消耗 11MiB 内核内存（每个 <code>struct page</code> 需要在内核虚拟地址空间中（<code>ZONE_NORMAL</code>）消耗 44 字节），16GiB 需要 176MiB，这样会给 <code>ZONE_NORMAL</code> 造成很大的压力</li>
 </ul>
-<h3 id="2-dot-6-中的变更">2.6 中的变更<a href="#2-dot-6-中的变更" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="2-dot-6-中的变更">2.6 中的变更<a href="#2-dot-6-中的变更" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <ol>
 <li>
 <p>描述内存节点的 <code>pg_data_t</code></p>
 <ul>
-<li><strong><strong>node_start_fpn</strong></strong> 替换了 =node_start_paddr=，用于适配 PAE 架构可以突破 32 位寻址解决通过旧字段无法访问 4GiB 之后的内存节点</li>
-<li><strong><strong>kswapd_wait</strong></strong> 用于 <strong><strong>kswapd</strong></strong> 的新的等待队列替换之前的全局等待队列。2.6 中每一个内存节点都有一个对应的 <strong><strong>kswapdN**（N 对应内存节点的 ID），同时每一个 **kswapd</strong></strong> 也通过此字段用于自己的等待队列</li>
+<li><strong><strong>node_start_fpn</strong></strong> 替换了 <code>node_start_paddr</code>，用于适配 PAE 架构可以突破 32 位寻址解决通过旧字段无法访问 4GiB 之后的内存节点</li>
+<li><strong><strong>kswapd_wait</strong></strong> 用于 <strong><strong>kswapd</strong></strong> 的新的等待队列替换之前的全局等待队列。2.6 中每一个内存节点都有一个对应的 <strong><strong>kswapdN</strong></strong>（N 对应内存节点的 ID），同时每一个 <strong><strong>kswapd</strong></strong> 也通过此字段用于自己的等待队列</li>
 </ul>
 </li>
 <li>
@@ -447,7 +450,7 @@
 <p><code>zone_t</code> 改为 <code>struct zone</code> ，同时 LRU 列表由全局改为存储再 <code>struct zone</code> 中（LRU 用于确定内存页释放或切出的顺序）</p>
 </li>
 </ol>
-<h3 id="相关链接">相关链接<a href="#相关链接" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="相关链接">相关链接<a href="#相关链接" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 
       </div></div>
 

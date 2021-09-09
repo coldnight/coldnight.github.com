@@ -10958,14 +10958,16 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/</guid>
-      <description>Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架构的方式描述内存 — 更好的支持多平台
+      <description>原文连接：Linux Virtual Memory Management
+Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架构的方式描述内存 — 更好的支持多平台
   本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
   VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
   大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 DMA 设备卡。
   这里的每组（bank）内存被称为节点（node）并且这个概念在 Linux 中通过 struct pglist_data（typedef pg_data_t) 表示，即使在 UMA 架构下也是如此。每一个节点是一个由 NULL 结尾的链表，通过 pg_data_t-&amp;gt;next_node 指向下一个节点。
   每一个节点都被分割成多个块（block）称为分区（zone）用于表示内存中的范围。分区使用 struct zone_struct(typedef zone_t) 结构体描述，每一个分区都是以下三种类型的一种
  ZONE_DMA 开始 16MB 内存，供 ISA 设备使用 ZONE_NORMAL 16MB - 896MB，由内核直接映射到线性地址空间的上部区域（将在第四章讨论） ZONE_HIGHMEM 896MB - END，剩余不由内核直接映射的系统可用内存， 大部分内核操作都只能使用这种类型的分区，所以这里也是这里也是最关键的性能区域（most performance critical zone）    每一个物理页帧（physical page frame）都使用结构体 struct page 表示，所有的结构体都保存在全局数组 mem_map 中，mem_map 通常存储在 ZONE_NORMAL 的开始处；</description>
-      <content>&lt;h2 id=&#34;chapter-2-describing-physical-memory-描述物理内存&#34;&gt;Chapter 2 Describing Physical Memory：描述物理内存&lt;/h2&gt;
+      <content>&lt;p&gt;原文连接：&lt;a href=&#34;https://tldp.org/LDP/tlk/tlk-toc.html&#34;&gt;Linux Virtual Memory Management&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;chapter-2-describing-physical-memory-描述物理内存&#34;&gt;Chapter 2 Describing Physical Memory：描述物理内存&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;独立于平台架构的方式描述内存 — 更好的支持多平台&lt;/p&gt;
@@ -11004,7 +11006,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;内存节点&#34;&gt;内存节点&lt;/h3&gt;
+&lt;h4 id=&#34;内存节点&#34;&gt;内存节点&lt;/h4&gt;
 &lt;p&gt;Linux 在分配内存页的时候采用 &lt;strong&gt;本地节点分配策略（node-local allocation policy）&lt;/strong&gt; 通过最靠近当前运行 CPU 的节点去分配内存。同时进程也会趋向于采用同一 CPU 运行。&lt;/p&gt;
 &lt;p&gt;节点的结构体定义在 &lt;code&gt;&amp;lt;linux/memzone.h&amp;gt;&lt;/code&gt; 下&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; pglist_data {
@@ -11042,7 +11044,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 } pg_data_t;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;系统中的所有节点都维护在 &lt;strong&gt;&lt;strong&gt;pgdat_list&lt;/strong&gt;&lt;/strong&gt; 中。&lt;/p&gt;
-&lt;h3 id=&#34;分区&#34;&gt;分区&lt;/h3&gt;
+&lt;h4 id=&#34;分区&#34;&gt;分区&lt;/h4&gt;
 &lt;p&gt;用于跟踪信息，如&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;页请用情况&lt;/li&gt;
@@ -11094,7 +11096,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     &lt;span style=&#34;color:#75715e&#34;&gt;// 当前分区包含的页数
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; size;
 } zone_t;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;分区水印&#34;&gt;分区水印&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;分区水印&#34;&gt;分区水印&lt;/h4&gt;
 &lt;p&gt;当系统可用内存非常少时会唤醒换页守护 kswapd 释放内存页。如果压力过大 kswapd 会进行同步释放内存，有时被称为直接回收（direct-reclaim）路径。&lt;/p&gt;
 &lt;p&gt;每个分区有三个水印&lt;/p&gt;
 &lt;ul&gt;
@@ -11102,7 +11104,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 &lt;li&gt;pages_min，通过 &lt;strong&gt;&lt;strong&gt;free_area_init_core&lt;/strong&gt;&lt;/strong&gt; 根据分区大小页数比（ZoneSizeInPages / 128）初始化，最小 20 页（x86 80K），最大 255 页（x86 1MB ），阈值达到这个值触发 kswapd 同步方式（fashion）工作&lt;/li&gt;
 &lt;li&gt;pages_high，不会触发 kswapd 平衡内存页，并使 kswapd 陷入休眠&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;计算分区大小&#34;&gt;计算分区大小&lt;/h3&gt;
+&lt;h4 id=&#34;计算分区大小&#34;&gt;计算分区大小&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;PFN(Page Frame Number)&lt;/strong&gt; 是一个包含物理内存映射的偏移量用于内存页计数，第一个 PFN被系统使用&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;&lt;strong&gt;min\_low\_pfn&lt;/strong&gt;&lt;/strong&gt; 用于定位第一页加载内核镜像的后的开始&lt;/li&gt;
@@ -11111,7 +11113,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 &lt;li&gt;内存少的机器 &lt;strong&gt;&lt;strong&gt;max_pfn&lt;/strong&gt;&lt;/strong&gt; 和 &lt;strong&gt;&lt;strong&gt;max_low_pfn&lt;/strong&gt;&lt;/strong&gt; 一致&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;通过上面三个值可以直接计算出高区内存的开始和结束。&lt;/p&gt;
-&lt;h3 id=&#34;分区等待队列表&#34;&gt;分区等待队列表&lt;/h3&gt;
+&lt;h4 id=&#34;分区等待队列表&#34;&gt;分区等待队列表&lt;/h4&gt;
 &lt;p&gt;当 IO 在一页内存上开始执行时（page-in or page-out）会进行锁定防止获取到不一致的数据。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;进程使用页时调用 &lt;strong&gt;&lt;strong&gt;wait_on_page&lt;/strong&gt;&lt;/strong&gt; 加入到一个等待队列&lt;/li&gt;
@@ -11120,7 +11122,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 &lt;/ol&gt;
 &lt;p&gt;每次换页都会有一个等待队列，且代价非常昂贵，通过分离许多队列进行优化，等待队列存在 &lt;strong&gt;&lt;strong&gt;zone_t&lt;/strong&gt;&lt;/strong&gt; 中。&lt;/p&gt;
 &lt;p&gt;如果一个分区仅有一个等待队列就会产生&lt;a href=&#34;https://zh.m.wikipedia.org/zh-cn/%E6%83%8A%E7%BE%A4%E9%97%AE%E9%A2%98&#34;&gt;惊群效应（thundering herd）&lt;/a&gt;。为了解决这个问题会有多个等待队列存储在哈希表 &lt;strong&gt;&lt;strong&gt;zone_t-&amp;gt;wait_table&lt;/strong&gt;&lt;/strong&gt; 中（极少的哈希碰撞依然会导致不必要的进程被唤醒）。&lt;/p&gt;
-&lt;h3 id=&#34;分区初始化&#34;&gt;分区初始化&lt;/h3&gt;
+&lt;h4 id=&#34;分区初始化&#34;&gt;分区初始化&lt;/h4&gt;
 &lt;p&gt;内核页完全初始化后（paging_init）后开始初始化分区，可以预见的是（perdictably）各个平台实现不一致，但是确定（determine）发送给 &lt;code&gt;free_area_init&lt;/code&gt; 的参数的逻辑是一致的，支持以下参数&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;&lt;strong&gt;nid&lt;/strong&gt;&lt;/strong&gt; 分区所属节点的逻辑 ID&lt;/li&gt;
@@ -11131,7 +11133,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 &lt;li&gt;&lt;strong&gt;*zone_holes&lt;/strong&gt; 包含分区内内存段（memory holes）总大小的数组&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;code&gt;free_area_init_core&lt;/code&gt; 负责使用相应的信息填充 &lt;code&gt;zone_t&lt;/code&gt; 并为节点分配 &lt;code&gt;mem_map&lt;/code&gt; 数组。&lt;/p&gt;
-&lt;h3 id=&#34;初始化-mem-map&#34;&gt;初始化 mem_map&lt;/h3&gt;
+&lt;h4 id=&#34;初始化-mem-map&#34;&gt;初始化 mem_map&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;&lt;strong&gt;me_map&lt;/strong&gt;&lt;/strong&gt; 会在系统启动中以两种方式（fashions）之一进行创建&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;NUMA：当作一个起始于 &lt;strong&gt;&lt;strong&gt;PAGE_OFFSET&lt;/strong&gt;&lt;/strong&gt; ，调用 &lt;code&gt;free_area_init_node&lt;/code&gt; 初始化这个数组中分配的系统中每一个活跃的节点&lt;/li&gt;
@@ -11145,7 +11147,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
   &lt;/figure&gt;
 
 
-&lt;h3 id=&#34;页&#34;&gt;页&lt;/h3&gt;
+&lt;h4 id=&#34;页&#34;&gt;页&lt;/h4&gt;
 &lt;p&gt;每页物理页帧在系统中都通过 &lt;code&gt;struct page&lt;/code&gt; 关联，用于跟踪状态。&lt;/p&gt;
 &lt;p&gt;声明在 &lt;code&gt;&amp;lt;linux/mm.h&amp;gt;&lt;/code&gt; 中&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; page {
@@ -11181,7 +11183,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     &lt;span style=&#34;color:#75715e&#34;&gt;#endif &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/* CONFIG_HIGMEM || WANT_PAGE_VIRTUAL */&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;} mem_map_t;
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;映射页到分区&#34;&gt;映射页到分区&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;映射页到分区&#34;&gt;映射页到分区&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;page-&amp;gt;zone&lt;/code&gt; 内核版本 2.4.18 之前 &lt;code&gt;struct page&lt;/code&gt; 通过 &lt;code&gt;page-&amp;gt;zone&lt;/code&gt; 引用所属的分区&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;page-&amp;gt;flags&lt;/code&gt; 内核版本 2.4.18 之后通过顶部 &lt;code&gt;ZONE_SHIFT&lt;/code&gt; (8 in x86) 个位替代 &lt;code&gt;page-&amp;gt;zone&lt;/code&gt; 来计算页所属的分区。&lt;/li&gt;
@@ -11221,7 +11223,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;high-memory&#34;&gt;High Memory&lt;/h3&gt;
+&lt;h4 id=&#34;high-memory&#34;&gt;High Memory&lt;/h4&gt;
 &lt;p&gt;内核支持 High Memory 用于解决内核可使用的地址空间不足的情况（目前 64 位平台下基本上所有内存都可以映射到内核，所以基本不会存在这种情况）。&lt;/p&gt;
 &lt;p&gt;32 位 x86 系统关于 High Memory 存在两个阈值&lt;/p&gt;
 &lt;ul&gt;
@@ -11231,15 +11233,15 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 &lt;p&gt;缺陷&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;理论上 PAE 允许处理器最大可寻址 64GiB，但是由于 Linux 的虚拟地址空间最大仅支持 4GiB，所以进程依然不能使用这么多内存。&lt;/li&gt;
-&lt;li&gt;PAE 同时也不允许内核本身使用这么多内存：描述 1GiB 内存需要消耗 11MiB 内核内存（每个 &lt;code&gt;struct page&lt;/code&gt; 需要在内核虚拟地址空间中（=ZONE_NORMAL=）消耗 44 字节），16GiB 需要 176MiB，这样会给 &lt;code&gt;ZONE_NORMAL&lt;/code&gt; 造成很大的压力&lt;/li&gt;
+&lt;li&gt;PAE 同时也不允许内核本身使用这么多内存：描述 1GiB 内存需要消耗 11MiB 内核内存（每个 &lt;code&gt;struct page&lt;/code&gt; 需要在内核虚拟地址空间中（&lt;code&gt;ZONE_NORMAL&lt;/code&gt;）消耗 44 字节），16GiB 需要 176MiB，这样会给 &lt;code&gt;ZONE_NORMAL&lt;/code&gt; 造成很大的压力&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;2-dot-6-中的变更&#34;&gt;2.6 中的变更&lt;/h3&gt;
+&lt;h4 id=&#34;2-dot-6-中的变更&#34;&gt;2.6 中的变更&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;描述内存节点的 &lt;code&gt;pg_data_t&lt;/code&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;&lt;strong&gt;node_start_fpn&lt;/strong&gt;&lt;/strong&gt; 替换了 =node_start_paddr=，用于适配 PAE 架构可以突破 32 位寻址解决通过旧字段无法访问 4GiB 之后的内存节点&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;strong&gt;kswapd_wait&lt;/strong&gt;&lt;/strong&gt; 用于 &lt;strong&gt;&lt;strong&gt;kswapd&lt;/strong&gt;&lt;/strong&gt; 的新的等待队列替换之前的全局等待队列。2.6 中每一个内存节点都有一个对应的 &lt;strong&gt;&lt;strong&gt;kswapdN**（N 对应内存节点的 ID），同时每一个 **kswapd&lt;/strong&gt;&lt;/strong&gt; 也通过此字段用于自己的等待队列&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;strong&gt;node_start_fpn&lt;/strong&gt;&lt;/strong&gt; 替换了 &lt;code&gt;node_start_paddr&lt;/code&gt;，用于适配 PAE 架构可以突破 32 位寻址解决通过旧字段无法访问 4GiB 之后的内存节点&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;strong&gt;kswapd_wait&lt;/strong&gt;&lt;/strong&gt; 用于 &lt;strong&gt;&lt;strong&gt;kswapd&lt;/strong&gt;&lt;/strong&gt; 的新的等待队列替换之前的全局等待队列。2.6 中每一个内存节点都有一个对应的 &lt;strong&gt;&lt;strong&gt;kswapdN&lt;/strong&gt;&lt;/strong&gt;（N 对应内存节点的 ID），同时每一个 &lt;strong&gt;&lt;strong&gt;kswapd&lt;/strong&gt;&lt;/strong&gt; 也通过此字段用于自己的等待队列&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -11253,7 +11255,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 &lt;p&gt;&lt;code&gt;zone_t&lt;/code&gt; 改为 &lt;code&gt;struct zone&lt;/code&gt; ，同时 LRU 列表由全局改为存储再 &lt;code&gt;struct zone&lt;/code&gt; 中（LRU 用于确定内存页释放或切出的顺序）&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;相关链接&#34;&gt;相关链接&lt;/h3&gt;
+&lt;h4 id=&#34;相关链接&#34;&gt;相关链接&lt;/h4&gt;
 </content>
     </item>
     
