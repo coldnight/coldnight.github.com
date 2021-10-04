@@ -1590,31 +1590,30 @@ Sorry, I will have to leave soon.&lt;/li&gt;
       <pubDate>Fri, 03 Sep 2021 08:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/</guid>
-      <description>领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
-应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
-MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
+      <description>领域基础模式 模式：UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
+应用 UBIQUITOUS LANGUAGE 需要大声的建模。
+模式：MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  模式：HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  模式：LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
  用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来实现 MODEL-DRIVEN DESIGN，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
 领域层（或模型层）分离出来之后使得模型足够丰富，结构足够清晰，可以捕捉到基本的业务知识，并有效的使用这些知识。
-领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
-优点：
- 效率高 人力成本低 快速响应需求更改 彼此独立，扩展容易 关系数据库提供数据整合  缺点：
- 依赖数据库 没有行为重用 有扩展和迭代极限 无法适应复杂功能  </description>
+模式：ENTITY 用于跟踪对象的状态，有唯一标识符，在系统中是可变的，两个对象是否一个通过唯一标识来判断，不是靠它们的属性定义。
+模式：VALUE OBJECT 区别与 ENTITY ，没有唯一标识，仅记录状态，一般设计为不可变用于共享 VALUE OBJECT，两个对象是否一个通过对象属性的值来判断。
+模式：SERVICE 没有状态，但又需要建模的对象，只包含动作。用于一些不适合建模为对象的领域概念。
+ 与领域概念相关的操作不是 ENTITY 或 VALUE OBJECT 的一个自然组成部署 接口是根据领域模型的其他元素定义的。 操作是无状态的  模式：MODULE（或 PACKAGE） 根据对象的意义划分领域模型，低耦合高内聚。按照模式或者对象生命周期或者其他方式划分都是错误的。</description>
       <content>&lt;h2 id=&#34;领域基础模式&#34;&gt;领域基础模式&lt;/h2&gt;
-&lt;h3 id=&#34;ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/h3&gt;
+&lt;h3 id=&#34;模式-ubiquitous-language&#34;&gt;模式：UBIQUITOUS LANGUAGE&lt;/h3&gt;
 &lt;p&gt;在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。&lt;/p&gt;
-&lt;p&gt;应用 UBIQUITOUS LANGUAGE 需要&lt;strong&gt;大声的建模&lt;/strong&gt;。
-**&lt;/p&gt;
-&lt;h3 id=&#34;model-driven-design&#34;&gt;MODEL-DRIVEN DESIGN&lt;/h3&gt;
+&lt;p&gt;应用 UBIQUITOUS LANGUAGE 需要&lt;strong&gt;大声的建模&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;模式-model-driven-design&#34;&gt;模式：MODEL-DRIVEN DESIGN&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;严格按照模型来编写代码，让模型与实际系统相结合。&lt;/li&gt;
 &lt;li&gt;不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。&lt;/li&gt;
 &lt;li&gt;工具：面向对象编程语言、UML等。&lt;/li&gt;
-&lt;li&gt;更好的支持 &lt;a href=&#34;#ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;更好的支持 &lt;a href=&#34;#%E6%A8%A1%E5%BC%8F-ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;hands-on-modeler&#34;&gt;HANDS-ON MODELER&lt;/h3&gt;
+&lt;h3 id=&#34;模式-hands-on-modeler&#34;&gt;模式：HANDS-ON MODELER&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。&lt;/li&gt;
-&lt;li&gt;每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 &lt;a href=&#34;#ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/a&gt; 与接触代码的人及时交换关于模型的想法。&lt;/li&gt;
+&lt;li&gt;每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 &lt;a href=&#34;#%E6%A8%A1%E5%BC%8F-ubiquitous-language&#34;&gt;UBIQUITOUS LANGUAGE&lt;/a&gt; 与接触代码的人及时交换关于模型的想法。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;领域模式构造块&#34;&gt;领域模式构造块&lt;/h2&gt;
 
@@ -1624,7 +1623,7 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
   &lt;/figure&gt;
 
 
-&lt;h3 id=&#34;layered-architecture&#34;&gt;LAYERED ARCHITECTURE&lt;/h3&gt;
+&lt;h3 id=&#34;模式-layered-architecture&#34;&gt;模式：LAYERED ARCHITECTURE&lt;/h3&gt;
 &lt;p&gt;分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;用户界面层&lt;/li&gt;
@@ -1632,10 +1631,59 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
 &lt;li&gt;领域层（模型的精髓）&lt;/li&gt;
 &lt;li&gt;基础设施层&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;核心在于要将领域层单独出来实现 &lt;a href=&#34;#model-driven-design&#34;&gt;MODEL-DRIVEN DESIGN&lt;/a&gt;，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。&lt;/p&gt;
+&lt;p&gt;核心在于要将领域层单独出来实现 &lt;a href=&#34;#%E6%A8%A1%E5%BC%8F-model-driven-design&#34;&gt;MODEL-DRIVEN DESIGN&lt;/a&gt;，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。&lt;/p&gt;
 &lt;p&gt;领域层（或模型层）分离出来之后使得模型足够丰富，结构足够清晰，可以捕捉到基本的业务知识，并有效的使用这些知识。&lt;/p&gt;
+&lt;h3 id=&#34;模式-entity&#34;&gt;模式：ENTITY&lt;/h3&gt;
+&lt;p&gt;用于跟踪对象的状态，有唯一标识符，在系统中是可变的，两个对象是否一个通过唯一标识来判断，不是靠它们的属性定义。&lt;/p&gt;
+&lt;h3 id=&#34;模式-value-object&#34;&gt;模式：VALUE OBJECT&lt;/h3&gt;
+&lt;p&gt;区别与 ENTITY ，没有唯一标识，仅记录状态，一般设计为不可变用于共享 VALUE OBJECT，两个对象是否一个通过对象属性的值来判断。&lt;/p&gt;
+&lt;h3 id=&#34;模式-service&#34;&gt;模式：SERVICE&lt;/h3&gt;
+&lt;p&gt;没有状态，但又需要建模的对象，只包含动作。用于一些不适合建模为对象的领域概念。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;与领域概念相关的操作不是 ENTITY 或 VALUE OBJECT 的一个自然组成部署&lt;/li&gt;
+&lt;li&gt;接口是根据领域模型的其他元素定义的。&lt;/li&gt;
+&lt;li&gt;操作是无状态的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;模式-module-或-package&#34;&gt;模式：MODULE（或 PACKAGE）&lt;/h3&gt;
+&lt;p&gt;根据对象的意义划分领域模型，低耦合高内聚。按照模式或者对象生命周期或者其他方式划分都是错误的。&lt;/p&gt;
+&lt;h3 id=&#34;模式-aggregate&#34;&gt;模式：AGGREGATE&lt;/h3&gt;
+&lt;p&gt;划分模型边界，统一对关联模型的创建、修改、复制和销毁。一般选定一个 ENTITY 对象作为 AGGREGATE 的「根」，同时对事务应用一组规则：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;根 ENTITY 具有全局标识，它最终负责检查固定规则。&lt;/li&gt;
+&lt;li&gt;边界内的 ENTITY 具有本地标识，这些标识只在 AGGREGATE 内部才是唯一的。&lt;/li&gt;
+&lt;li&gt;AGGREGATE 外部不的对象不能引入除根 ENTITY 之外的任何内部对象。根 ENTITY 可以把内部 ENTITY 引用传递出去做临时使用，但不能保持引用。&lt;/li&gt;
+&lt;li&gt;只有 AGGREGATE 的根能直接通过数据库查询获取。其他所有对象必须通过遍历关联来发现。&lt;/li&gt;
+&lt;li&gt;AGGREGATE 内部的对象可以保持对其他 AGGREGATE 根的引用。&lt;/li&gt;
+&lt;li&gt;删除操作必须一次删除 AGGREGATE 边界之内的所有对象。&lt;/li&gt;
+&lt;li&gt;当提交对 AGGREGATE 的更改时，整个 AGGREGATE 的所有固定规则都必须被满足。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;模式-factory&#34;&gt;模式：Factory&lt;/h3&gt;
+&lt;p&gt;封装创建一个对象或者整个 AGGREGATE 的复杂创建工作，隐藏内部结构。实现的方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;简单的对象可以通过 FACTORY METHOD 实现在 AGGREGATE 的根 ENTITY 对象上。&lt;/li&gt;
+&lt;li&gt;复杂的对象应当转移给独立的 FACTORY。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;entity-factory-和-value-object-factory-两方面不同&#34;&gt;ENTITY FACTORY 和 VALUE OBJECT FACTORY 两方面不同&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;VALUE OBJECT 不可变，所以其 FACTORY 生成的对象就是最终形式，因此 FACTORY 操作必须得到创建对象的完整形式。&lt;/li&gt;
+&lt;li&gt;ENTITY 需要在 FACTORY 生成对象时分配唯一标识。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;模式-repository&#34;&gt;模式：REPOSITORY&lt;/h3&gt;
+&lt;p&gt;一个遍历 ENTITY 和 VALUE OBJECT 的起点对象（想象图书馆里的图书管理员）。&lt;/p&gt;
+&lt;p&gt;只为那些确实需要直接访问的 AGGREGATE 根提供 REPOSITORY，让客户始终聚焦于模型，而将所有对象的存储和访问操作都交给 REPOSITORY 来完成。&lt;/p&gt;
+&lt;h4 id=&#34;repository-与-factory-的关系&#34;&gt;REPOSITORY 与 Factory 的关系&lt;/h4&gt;
+&lt;p&gt;从创建对象角度&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;REPOSITORY 负责基于查询的数据恢复已有对象，让客户感觉对象始终驻留内存。&lt;/li&gt;
+&lt;li&gt;FACTORY 负责创建新的对象。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同时 REPOSITORY 负责持久化相关工作，包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;存储对象&lt;/li&gt;
+&lt;li&gt;删除对象&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;领域反模式&#34;&gt;领域反模式&lt;/h2&gt;
-&lt;h3 id=&#34;the-smart-ui-反模式&#34;&gt;THE SMART UI 反模式&lt;/h3&gt;
+&lt;h3 id=&#34;模式-the-smart-ui-反模式&#34;&gt;模式：THE SMART UI 反模式&lt;/h3&gt;
 &lt;p&gt;不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。&lt;/p&gt;
 &lt;p&gt;优点：&lt;/p&gt;
 &lt;ul&gt;
@@ -14286,13 +14334,7 @@ Links  〈如何买基金？基金入门，学会这几招就够了〉  </descri
 软件问题建模的区域就是软件的领域
  物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。  领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
   领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
-  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式   ENTITY
-用于跟踪对象的状态，有唯一标识符，在系统中是可变的，两个对象是否一个通过唯一标识来判断，不是靠它们的属性定义。
-  VALUE OBJECT
-区别与 ENTITY ，没有唯一标识，仅记录状态，一般设计为不可变用于共享 VALUE OBJECT，两个对象是否一个通过对象属性的值来判断。
-  SERVICE
-没有状态，但又需要建模的对象，只包含动作。用于一些不适合建模为对象的领域概念。
- 与领域概念相关的操作不是 ENTITY 或 VALUE OBJECT 的一个自然组成部署 接口是根据领域模型的其他元素定义的。 操作是无状态的    MODULE（或 PACKAGE）：划分领域模型，低耦合高内聚</description>
+  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式 领域模式 </description>
       <content>&lt;h2 id=&#34;前言和目录&#34;&gt;前言和目录&lt;/h2&gt;
 &lt;p&gt;好的软件需要控制复杂性，好的领域模型可以帮助控制复杂性。&lt;/p&gt;
 &lt;p&gt;什么样的项目需要 DDD？尝试型的小型项目应该不需要 DDD，但是一旦上了规模考虑后续迭代则需要 DDD。&lt;/p&gt;
@@ -14324,28 +14366,6 @@ Links  〈如何买基金？基金入门，学会这几招就够了〉  </descri
 &lt;li&gt;消除不必要的关联&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h4 id=&#34;表示方式&#34;&gt;表示方式&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;ENTITY&lt;/p&gt;
-&lt;p&gt;用于跟踪对象的状态，有唯一标识符，在系统中是可变的，两个对象是否一个通过唯一标识来判断，不是靠它们的属性定义。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;VALUE OBJECT&lt;/p&gt;
-&lt;p&gt;区别与 ENTITY ，没有唯一标识，仅记录状态，一般设计为不可变用于共享 VALUE OBJECT，两个对象是否一个通过对象属性的值来判断。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;SERVICE&lt;/p&gt;
-&lt;p&gt;没有状态，但又需要建模的对象，只包含动作。用于一些不适合建模为对象的领域概念。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;与领域概念相关的操作不是 ENTITY 或 VALUE OBJECT 的一个自然组成部署&lt;/li&gt;
-&lt;li&gt;接口是根据领域模型的其他元素定义的。&lt;/li&gt;
-&lt;li&gt;操作是无状态的&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;MODULE（或 PACKAGE）：划分领域模型，低耦合高内聚&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
 &lt;h2 id=&#34;领域模式--20210903080049-领域模式-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/&#34;&gt;领域模式&lt;/a&gt;&lt;/h2&gt;
 </content>
     </item>

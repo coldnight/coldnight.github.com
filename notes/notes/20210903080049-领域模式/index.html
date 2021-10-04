@@ -6,15 +6,15 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
-应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
-MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
+<meta name="description" content="领域基础模式 模式：UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
+应用 UBIQUITOUS LANGUAGE 需要大声的建模。
+模式：MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  模式：HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  模式：LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
  用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来实现 MODEL-DRIVEN DESIGN，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
 领域层（或模型层）分离出来之后使得模型足够丰富，结构足够清晰，可以捕捉到基本的业务知识，并有效的使用这些知识。
-领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
-优点：
- 效率高 人力成本低 快速响应需求更改 彼此独立，扩展容易 关系数据库提供数据整合  缺点：
- 依赖数据库 没有行为重用 有扩展和迭代极限 无法适应复杂功能  " />
+模式：ENTITY 用于跟踪对象的状态，有唯一标识符，在系统中是可变的，两个对象是否一个通过唯一标识来判断，不是靠它们的属性定义。
+模式：VALUE OBJECT 区别与 ENTITY ，没有唯一标识，仅记录状态，一般设计为不可变用于共享 VALUE OBJECT，两个对象是否一个通过对象属性的值来判断。
+模式：SERVICE 没有状态，但又需要建模的对象，只包含动作。用于一些不适合建模为对象的领域概念。
+ 与领域概念相关的操作不是 ENTITY 或 VALUE OBJECT 的一个自然组成部署 接口是根据领域模型的其他元素定义的。 操作是无状态的  模式：MODULE（或 PACKAGE） 根据对象的意义划分领域模型，低耦合高内聚。按照模式或者对象生命周期或者其他方式划分都是错误的。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/" />
@@ -42,15 +42,15 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="领域模式">
-<meta property="og:description" content="领域基础模式 UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
-应用 UBIQUITOUS LANGUAGE 需要大声的建模。 **
-MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
+<meta property="og:description" content="领域基础模式 模式：UBIQUITOUS LANGUAGE 在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。
+应用 UBIQUITOUS LANGUAGE 需要大声的建模。
+模式：MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系统相结合。 不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。 工具：面向对象编程语言、UML等。 更好的支持 UBIQUITOUS LANGUAGE.  模式：HANDS-ON MODELER  开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。 每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 UBIQUITOUS LANGUAGE 与接触代码的人及时交换关于模型的想法。  领域模式构造块  模式：LAYERED ARCHITECTURE 分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：
  用户界面层 应用层 领域层（模型的精髓） 基础设施层  核心在于要将领域层单独出来实现 MODEL-DRIVEN DESIGN，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。
 领域层（或模型层）分离出来之后使得模型足够丰富，结构足够清晰，可以捕捉到基本的业务知识，并有效的使用这些知识。
-领域反模式 THE SMART UI 反模式 不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。
-优点：
- 效率高 人力成本低 快速响应需求更改 彼此独立，扩展容易 关系数据库提供数据整合  缺点：
- 依赖数据库 没有行为重用 有扩展和迭代极限 无法适应复杂功能  " />
+模式：ENTITY 用于跟踪对象的状态，有唯一标识符，在系统中是可变的，两个对象是否一个通过唯一标识来判断，不是靠它们的属性定义。
+模式：VALUE OBJECT 区别与 ENTITY ，没有唯一标识，仅记录状态，一般设计为不可变用于共享 VALUE OBJECT，两个对象是否一个通过对象属性的值来判断。
+模式：SERVICE 没有状态，但又需要建模的对象，只包含动作。用于一些不适合建模为对象的领域概念。
+ 与领域概念相关的操作不是 ENTITY 或 VALUE OBJECT 的一个自然组成部署 接口是根据领域模型的其他元素定义的。 操作是无状态的  模式：MODULE（或 PACKAGE） 根据对象的意义划分领域模型，低耦合高内聚。按照模式或者对象生命周期或者其他方式划分都是错误的。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -164,21 +164,20 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
 
   <div class="post-content"><div>
         <h2 id="领域基础模式">领域基础模式<a href="#领域基础模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h3 id="ubiquitous-language">UBIQUITOUS LANGUAGE<a href="#ubiquitous-language" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="模式-ubiquitous-language">模式：UBIQUITOUS LANGUAGE<a href="#模式-ubiquitous-language" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>在同领域专家、开发人员和项目管理沟通的过程中建立并使用 UBIQUITOUS LANGUAGE，，并在模型实现时依然使用 UBIQUITOUS LANGUAGE 来让设计与沟通相一致（中文语境下稍显困难），UBIQUITOUS LANGUAGE 让知识消化后直接驱动变更模型。</p>
-<p>应用 UBIQUITOUS LANGUAGE 需要<strong>大声的建模</strong>。
-**</p>
-<h3 id="model-driven-design">MODEL-DRIVEN DESIGN<a href="#model-driven-design" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>应用 UBIQUITOUS LANGUAGE 需要<strong>大声的建模</strong>。</p>
+<h3 id="模式-model-driven-design">模式：MODEL-DRIVEN DESIGN<a href="#模式-model-driven-design" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li>严格按照模型来编写代码，让模型与实际系统相结合。</li>
 <li>不再分离「分析模型」和程序设计，而是寻求一种能够满足这两方面需求的单一模型。</li>
 <li>工具：面向对象编程语言、UML等。</li>
-<li>更好的支持 <a href="#ubiquitous-language">UBIQUITOUS LANGUAGE</a>.</li>
+<li>更好的支持 <a href="#%E6%A8%A1%E5%BC%8F-ubiquitous-language">UBIQUITOUS LANGUAGE</a>.</li>
 </ul>
-<h3 id="hands-on-modeler">HANDS-ON MODELER<a href="#hands-on-modeler" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="模式-hands-on-modeler">模式：HANDS-ON MODELER<a href="#模式-hands-on-modeler" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li>开发设计和模型设计紧密合作，避免模型设计者不参与编写和程序设计者不参与模型设计。</li>
-<li>每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 <a href="#ubiquitous-language">UBIQUITOUS LANGUAGE</a> 与接触代码的人及时交换关于模型的想法。</li>
+<li>每一个开发人员都必须不同程度的参与模型讨论并且与领域专家保持联系，模型设计者及时通过 <a href="#%E6%A8%A1%E5%BC%8F-ubiquitous-language">UBIQUITOUS LANGUAGE</a> 与接触代码的人及时交换关于模型的想法。</li>
 </ul>
 <h2 id="领域模式构造块">领域模式构造块<a href="#领域模式构造块" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 
@@ -188,7 +187,7 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
   </figure>
 
 
-<h3 id="layered-architecture">LAYERED ARCHITECTURE<a href="#layered-architecture" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="模式-layered-architecture">模式：LAYERED ARCHITECTURE<a href="#模式-layered-architecture" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>分层架构是实现 DDD 的基础，分层架构将不同的层次的实现分开，自上倒下应分为：</p>
 <ul>
 <li>用户界面层</li>
@@ -196,10 +195,59 @@ MODEL-DRIVEN DESIGN  严格按照模型来编写代码，让模型与实际系�
 <li>领域层（模型的精髓）</li>
 <li>基础设施层</li>
 </ul>
-<p>核心在于要将领域层单独出来实现 <a href="#model-driven-design">MODEL-DRIVEN DESIGN</a>，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。</p>
+<p>核心在于要将领域层单独出来实现 <a href="#%E6%A8%A1%E5%BC%8F-model-driven-design">MODEL-DRIVEN DESIGN</a>，对业务进行建模封装业务规则。调用规则也只能自上而下的调用，不能反向调用。</p>
 <p>领域层（或模型层）分离出来之后使得模型足够丰富，结构足够清晰，可以捕捉到基本的业务知识，并有效的使用这些知识。</p>
+<h3 id="模式-entity">模式：ENTITY<a href="#模式-entity" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>用于跟踪对象的状态，有唯一标识符，在系统中是可变的，两个对象是否一个通过唯一标识来判断，不是靠它们的属性定义。</p>
+<h3 id="模式-value-object">模式：VALUE OBJECT<a href="#模式-value-object" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>区别与 ENTITY ，没有唯一标识，仅记录状态，一般设计为不可变用于共享 VALUE OBJECT，两个对象是否一个通过对象属性的值来判断。</p>
+<h3 id="模式-service">模式：SERVICE<a href="#模式-service" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>没有状态，但又需要建模的对象，只包含动作。用于一些不适合建模为对象的领域概念。</p>
+<ul>
+<li>与领域概念相关的操作不是 ENTITY 或 VALUE OBJECT 的一个自然组成部署</li>
+<li>接口是根据领域模型的其他元素定义的。</li>
+<li>操作是无状态的</li>
+</ul>
+<h3 id="模式-module-或-package">模式：MODULE（或 PACKAGE）<a href="#模式-module-或-package" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>根据对象的意义划分领域模型，低耦合高内聚。按照模式或者对象生命周期或者其他方式划分都是错误的。</p>
+<h3 id="模式-aggregate">模式：AGGREGATE<a href="#模式-aggregate" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>划分模型边界，统一对关联模型的创建、修改、复制和销毁。一般选定一个 ENTITY 对象作为 AGGREGATE 的「根」，同时对事务应用一组规则：</p>
+<ul>
+<li>根 ENTITY 具有全局标识，它最终负责检查固定规则。</li>
+<li>边界内的 ENTITY 具有本地标识，这些标识只在 AGGREGATE 内部才是唯一的。</li>
+<li>AGGREGATE 外部不的对象不能引入除根 ENTITY 之外的任何内部对象。根 ENTITY 可以把内部 ENTITY 引用传递出去做临时使用，但不能保持引用。</li>
+<li>只有 AGGREGATE 的根能直接通过数据库查询获取。其他所有对象必须通过遍历关联来发现。</li>
+<li>AGGREGATE 内部的对象可以保持对其他 AGGREGATE 根的引用。</li>
+<li>删除操作必须一次删除 AGGREGATE 边界之内的所有对象。</li>
+<li>当提交对 AGGREGATE 的更改时，整个 AGGREGATE 的所有固定规则都必须被满足。</li>
+</ul>
+<h3 id="模式-factory">模式：Factory<a href="#模式-factory" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>封装创建一个对象或者整个 AGGREGATE 的复杂创建工作，隐藏内部结构。实现的方式：</p>
+<ul>
+<li>简单的对象可以通过 FACTORY METHOD 实现在 AGGREGATE 的根 ENTITY 对象上。</li>
+<li>复杂的对象应当转移给独立的 FACTORY。</li>
+</ul>
+<h4 id="entity-factory-和-value-object-factory-两方面不同">ENTITY FACTORY 和 VALUE OBJECT FACTORY 两方面不同<a href="#entity-factory-和-value-object-factory-两方面不同" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<ul>
+<li>VALUE OBJECT 不可变，所以其 FACTORY 生成的对象就是最终形式，因此 FACTORY 操作必须得到创建对象的完整形式。</li>
+<li>ENTITY 需要在 FACTORY 生成对象时分配唯一标识。</li>
+</ul>
+<h3 id="模式-repository">模式：REPOSITORY<a href="#模式-repository" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>一个遍历 ENTITY 和 VALUE OBJECT 的起点对象（想象图书馆里的图书管理员）。</p>
+<p>只为那些确实需要直接访问的 AGGREGATE 根提供 REPOSITORY，让客户始终聚焦于模型，而将所有对象的存储和访问操作都交给 REPOSITORY 来完成。</p>
+<h4 id="repository-与-factory-的关系">REPOSITORY 与 Factory 的关系<a href="#repository-与-factory-的关系" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>从创建对象角度</p>
+<ul>
+<li>REPOSITORY 负责基于查询的数据恢复已有对象，让客户感觉对象始终驻留内存。</li>
+<li>FACTORY 负责创建新的对象。</li>
+</ul>
+<p>同时 REPOSITORY 负责持久化相关工作，包括：</p>
+<ul>
+<li>存储对象</li>
+<li>删除对象</li>
+</ul>
 <h2 id="领域反模式">领域反模式<a href="#领域反模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h3 id="the-smart-ui-反模式">THE SMART UI 反模式<a href="#the-smart-ui-反模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="模式-the-smart-ui-反模式">模式：THE SMART UI 反模式<a href="#模式-the-smart-ui-反模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。</p>
 <p>优点：</p>
 <ul>
