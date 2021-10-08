@@ -14334,7 +14334,10 @@ Links  〈如何买基金？基金入门，学会这几招就够了〉  </descri
 软件问题建模的区域就是软件的领域
  物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。  领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
   领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
-  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式 领域模式 </description>
+  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式 领域模式 实践 MODEL-DRIVEN DESIGN 隔离领域：引入应用层 应用 LAYERED ARCHITECTURE 把领域层划分出来，通过应用层类来处理应用程序功能。应用层类是协调者，负责提问，领域层负责回答。
+将 ENTITY 和 VALUE OBJECT 区分开 依次考虑对象是必须跟踪的 ENTITY 还是表示一个 VALUE OBJECT。
+AGGREGATE 边界 识别模型中的 AGGREGATE 根和对应的边界。
+选择 REPOSITORY 为 AGGREGATE 根对象建立 REPOSITORY。</description>
       <content>&lt;h2 id=&#34;前言和目录&#34;&gt;前言和目录&lt;/h2&gt;
 &lt;p&gt;好的软件需要控制复杂性，好的领域模型可以帮助控制复杂性。&lt;/p&gt;
 &lt;p&gt;什么样的项目需要 DDD？尝试型的小型项目应该不需要 DDD，但是一旦上了规模考虑后续迭代则需要 DDD。&lt;/p&gt;
@@ -14367,6 +14370,27 @@ Links  〈如何买基金？基金入门，学会这几招就够了〉  </descri
 &lt;/ol&gt;
 &lt;h4 id=&#34;表示方式&#34;&gt;表示方式&lt;/h4&gt;
 &lt;h2 id=&#34;领域模式--20210903080049-领域模式-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/&#34;&gt;领域模式&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;实践-model-driven-design--20210903080049-领域模式-dot-md&#34;&gt;实践 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/&#34;&gt;MODEL-DRIVEN DESIGN&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;隔离领域-引入应用层&#34;&gt;隔离领域：引入应用层&lt;/h3&gt;
+&lt;p&gt;应用 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/&#34;&gt;LAYERED ARCHITECTURE&lt;/a&gt; 把领域层划分出来，通过应用层类来处理应用程序功能。应用层类是协调者，负责提问，领域层负责回答。&lt;/p&gt;
+&lt;h3 id=&#34;将-entity-和-value-object-区分开&#34;&gt;将 ENTITY 和 VALUE OBJECT 区分开&lt;/h3&gt;
+&lt;p&gt;依次考虑对象是必须跟踪的 ENTITY 还是表示一个 VALUE OBJECT。&lt;/p&gt;
+&lt;h3 id=&#34;aggregate-边界&#34;&gt;AGGREGATE 边界&lt;/h3&gt;
+&lt;p&gt;识别模型中的 AGGREGATE 根和对应的边界。&lt;/p&gt;
+&lt;h3 id=&#34;选择-repository&#34;&gt;选择 REPOSITORY&lt;/h3&gt;
+&lt;p&gt;为 AGGREGATE 根对象建立 REPOSITORY。&lt;/p&gt;
+&lt;h3 id=&#34;场景走查&#34;&gt;场景走查&lt;/h3&gt;
+&lt;p&gt;根据应用程序特性复核建模，进行场景走查，确保能够有效地解决应用问题。可以走查一些正常和异常业务场景进行复核。&lt;/p&gt;
+&lt;h3 id=&#34;对象创建&#34;&gt;对象创建&lt;/h3&gt;
+&lt;p&gt;如果对象复杂则创建单独的 FACTORY 类进行对象创建，简单对象可以直接在 AGGREGATE 根上通过 FACTORY METHOD 进行创建。&lt;/p&gt;
+&lt;h3 id=&#34;停一下-重构&#34;&gt;停一下，重构&lt;/h3&gt;
+&lt;p&gt;建模和设计需要经常进行重构：利用新知识来改进模型和设计。&lt;/p&gt;
+&lt;h3 id=&#34;module-划分&#34;&gt;MODULE 划分&lt;/h3&gt;
+&lt;p&gt;应该按照对象的意义来划分，其他任何划分方式都是错误的，包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;按模式划分&lt;/li&gt;
+&lt;li&gt;按照对象生命周期划分&lt;/li&gt;
+&lt;/ul&gt;
 </content>
     </item>
     

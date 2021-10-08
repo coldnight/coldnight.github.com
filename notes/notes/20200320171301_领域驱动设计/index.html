@@ -15,7 +15,10 @@
 软件问题建模的区域就是软件的领域
  物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。  领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
   领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
-  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式 领域模式 " />
+  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式 领域模式 实践 MODEL-DRIVEN DESIGN 隔离领域：引入应用层 应用 LAYERED ARCHITECTURE 把领域层划分出来，通过应用层类来处理应用程序功能。应用层类是协调者，负责提问，领域层负责回答。
+将 ENTITY 和 VALUE OBJECT 区分开 依次考虑对象是必须跟踪的 ENTITY 还是表示一个 VALUE OBJECT。
+AGGREGATE 边界 识别模型中的 AGGREGATE 根和对应的边界。
+选择 REPOSITORY 为 AGGREGATE 根对象建立 REPOSITORY。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" />
@@ -52,7 +55,10 @@
 软件问题建模的区域就是软件的领域
  物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。  领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
   领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
-  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式 领域模式 " />
+  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式 领域模式 实践 MODEL-DRIVEN DESIGN 隔离领域：引入应用层 应用 LAYERED ARCHITECTURE 把领域层划分出来，通过应用层类来处理应用程序功能。应用层类是协调者，负责提问，领域层负责回答。
+将 ENTITY 和 VALUE OBJECT 区分开 依次考虑对象是必须跟踪的 ENTITY 还是表示一个 VALUE OBJECT。
+AGGREGATE 边界 识别模型中的 AGGREGATE 根和对应的边界。
+选择 REPOSITORY 为 AGGREGATE 根对象建立 REPOSITORY。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -197,6 +203,27 @@
 </ol>
 <h4 id="表示方式">表示方式<a href="#表示方式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <h2 id="领域模式--20210903080049-领域模式-dot-md"><a href="/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/">领域模式</a><a href="#领域模式--20210903080049-领域模式-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="实践-model-driven-design--20210903080049-领域模式-dot-md">实践 <a href="/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/">MODEL-DRIVEN DESIGN</a><a href="#实践-model-driven-design--20210903080049-领域模式-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="隔离领域-引入应用层">隔离领域：引入应用层<a href="#隔离领域-引入应用层" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>应用 <a href="/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/">LAYERED ARCHITECTURE</a> 把领域层划分出来，通过应用层类来处理应用程序功能。应用层类是协调者，负责提问，领域层负责回答。</p>
+<h3 id="将-entity-和-value-object-区分开">将 ENTITY 和 VALUE OBJECT 区分开<a href="#将-entity-和-value-object-区分开" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>依次考虑对象是必须跟踪的 ENTITY 还是表示一个 VALUE OBJECT。</p>
+<h3 id="aggregate-边界">AGGREGATE 边界<a href="#aggregate-边界" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>识别模型中的 AGGREGATE 根和对应的边界。</p>
+<h3 id="选择-repository">选择 REPOSITORY<a href="#选择-repository" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>为 AGGREGATE 根对象建立 REPOSITORY。</p>
+<h3 id="场景走查">场景走查<a href="#场景走查" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>根据应用程序特性复核建模，进行场景走查，确保能够有效地解决应用问题。可以走查一些正常和异常业务场景进行复核。</p>
+<h3 id="对象创建">对象创建<a href="#对象创建" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>如果对象复杂则创建单独的 FACTORY 类进行对象创建，简单对象可以直接在 AGGREGATE 根上通过 FACTORY METHOD 进行创建。</p>
+<h3 id="停一下-重构">停一下，重构<a href="#停一下-重构" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>建模和设计需要经常进行重构：利用新知识来改进模型和设计。</p>
+<h3 id="module-划分">MODULE 划分<a href="#module-划分" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>应该按照对象的意义来划分，其他任何划分方式都是错误的，包括：</p>
+<ul>
+<li>按模式划分</li>
+<li>按照对象生命周期划分</li>
+</ul>
 
       </div></div>
 
