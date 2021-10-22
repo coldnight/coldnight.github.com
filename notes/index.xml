@@ -1694,6 +1694,11 @@ Sorry, I will have to leave soon.&lt;/li&gt;
 &lt;li&gt;存储对象&lt;/li&gt;
 &lt;li&gt;删除对象&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;领域高阶-模式&#34;&gt;领域高阶（？）模式&lt;/h2&gt;
+&lt;h3 id=&#34;模式-specification&#34;&gt;模式：SPECIFICATION&lt;/h3&gt;
+&lt;p&gt;抽象谓词（返回真假的函数）。
+为特殊目的创建谓词形式的显式的 VALUE OBJECT。 SPECIFICATION 就是一个谓词，可以用来测试任何对象以校验它们是否满足制定的标准。
+规格（SPECIFICATION）中声明的是限制另一个对象状态的约束，被约束对象可以存在也可以不存在。&lt;/p&gt;
 &lt;h2 id=&#34;领域反模式&#34;&gt;领域反模式&lt;/h2&gt;
 &lt;h3 id=&#34;模式-the-smart-ui-反模式&#34;&gt;模式：THE SMART UI 反模式&lt;/h3&gt;
 &lt;p&gt;不分离用户界面和领域，在界面中实现所有业务逻辑。使用关系数据库作为共享的数据存储库。&lt;/p&gt;
@@ -17599,6 +17604,25 @@ AGGREGATE 边界 识别模型中的 AGGREGATE 根和对应的边界。
 &lt;h3 id=&#34;突破&#34;&gt;突破&lt;/h3&gt;
 &lt;h4 id=&#34;重构创造机遇&#34;&gt;重构创造机遇&lt;/h4&gt;
 &lt;h4 id=&#34;关注根本-不要强行突破&#34;&gt;关注根本：不要强行突破&lt;/h4&gt;
+&lt;h3 id=&#34;概念挖掘&#34;&gt;概念挖掘&lt;/h3&gt;
+&lt;h4 id=&#34;倾听语言&#34;&gt;倾听语言&lt;/h4&gt;
+&lt;p&gt;倾听领域专家的语言，思考并表达，观察领域专家的表情，判断自己是否找到了正确的概念（对象）。&lt;/p&gt;
+&lt;h4 id=&#34;检查不足之处&#34;&gt;检查不足之处&lt;/h4&gt;
+&lt;p&gt;积极与领域专家沟通，寻找丢失的概念。（注意领域专家的表情）&lt;/p&gt;
+&lt;h4 id=&#34;思考矛盾之处&#34;&gt;思考矛盾之处&lt;/h4&gt;
+&lt;p&gt;矛盾可以合理存在，但是一定要仔细思考两种对立的看法是如何同时应用于同一个外部实现的，这会给我们带来启示。&lt;/p&gt;
+&lt;h4 id=&#34;查阅书记&#34;&gt;查阅书记&lt;/h4&gt;
+&lt;p&gt;通过解释基本概念和传统思想的书籍来寻找概念。&lt;/p&gt;
+&lt;h4 id=&#34;尝试-再尝试&#34;&gt;尝试，再尝试&lt;/h4&gt;
+&lt;h3 id=&#34;为隐式概念建模&#34;&gt;为隐式概念建模&lt;/h3&gt;
+&lt;h4 id=&#34;显式的约束&#34;&gt;显式的约束&lt;/h4&gt;
+&lt;p&gt;约束通常式隐含的，将它们显式的表现出来可以极大地提高设计质量。约束有时自然的存在于对象或方法中。&lt;/p&gt;
+&lt;h4 id=&#34;将过程建模为领域对象&#34;&gt;将过程建模为领域对象&lt;/h4&gt;
+&lt;p&gt;建模方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210903080049-%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%BC%8F/&#34;&gt;模式：SERVICE&lt;/a&gt; 显式表达。&lt;/li&gt;
+&lt;li&gt;通过 STRATEGY 表达选择过程：选择变成选择不同的对象，不同对象表示不同的 STRATEGY。&lt;/li&gt;
+&lt;/ul&gt;
 </content>
     </item>
     
