@@ -1205,37 +1205,6 @@ class Solution { public: bool exist(vector&lt;vector&lt;char&gt;&gt;&amp; board,
     
       <div class="post on-list">
         <h1 class="post-title">
-          <a href="https://www.linuxzen.com/notes/notes/20210813073343-apache_kafka/">Apache Kafka</a>
-        </h1>
-        <div class="post-meta">
-          <span class="post-date">
-            2021-08-13
-          </span>
-          
-            <span class="post-author">:: [Gray King]</span>
-          
-        </div>
-
-        
-
-        
-
-        <div class="post-content">
-          
-          
-          
-        </div>
-
-        
-        <div>
-          <a class="read-more button"
-            href="/notes/notes/20210813073343-apache_kafka/"> →</a>
-        </div>
-        
-      </div>
-    
-      <div class="post on-list">
-        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>
         </h1>
         <div class="post-meta">
@@ -8350,13 +8319,14 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
         <div class="post-content">
           
           
-          概念组成   Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息
+          相关知识点 概念组成   Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息
   Consumer Group 消费指定 Topic 的消息
  Consumer 消费指定 Topic 下某一分区的消息    Topic 区分不同消息主题
  Partition 保证同一分区的有序性    Connector
   消息可被不同的 Consumer Group 重复消费（广播或订阅）。同一 Consumer Group 下的不同 Consumer 分别消费不同的 Partition，Consumer 数量不能超过 Partition 数量。
 数据被持久化并分片成功后发送 ACK 保证里数据不被丢失。
-设计 持久化 基于文件系统  基于队列是顺序的和磁盘的顺序访问要比内存的随机访问要快（参见 The Pathologies of Big Data）， Kafka 采用在磁盘文件系统上尾部写头部读的方式。 Kafka 没有采用 BTree 存储数据因为 BTree 的操作是 O(log N) ，而且对磁盘的 seek 操作要慢，且同时只能进行一次限制了并行，所以实际操作比 O(log N) 要慢 基于磁盘的顺序访问进行在尾部写和头部读，可以实现读写都是 O(1) 的时间复杂度，并且读写互不干扰 基于以上实现，Kafka 可以不必在消息一经消费就删除，而是可以保留消息一段相对较长的时间（比如一周）  高效 并且采用统一的日志格式，可以方便的使用 sendfile 避免字节拷贝以在各个组件之间高效的交换日志文件
+设计 持久化   基于文件系统
+ 基于队列是顺序的和磁盘的顺序访问要比内存的随机访问要快（参见 The Pathologies of Big Data）， Kafka 采用在磁盘文件系统上尾部写头部读的方式。 Kafka 没有采用 BTree 存储数据因为 BTree 的操作是 O(log N) ，而且对磁盘的 seek 操作要慢，且同时只能进行一次限制了并行，所以实际操作比 O(log N) 要慢 基于磁盘的顺序访问进行在尾部写和头部读，可以实现读写都是 O(1) 的时间复杂度，并且读写互不干扰 基于以上实现，Kafka 可以不必在消息一经消费就删除，而是可以保留消息一段相对较长的时间（比如一周）      高效
           
           
         </div>

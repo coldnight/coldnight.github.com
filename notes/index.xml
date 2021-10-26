@@ -3443,16 +3443,6 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
     </item>
     
     <item>
-      <title>Apache Kafka</title>
-      <link>https://www.linuxzen.com/notes/notes/20210813073343-apache_kafka/</link>
-      <pubDate>Fri, 13 Aug 2021 07:33:00 +0800</pubDate>
-      
-      <guid>https://www.linuxzen.com/notes/notes/20210813073343-apache_kafka/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
       <title>消息队列</title>
       <link>https://www.linuxzen.com/notes/notes/20210813072847-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</link>
       <pubDate>Fri, 13 Aug 2021 07:28:00 +0800</pubDate>
@@ -3465,7 +3455,7 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 如果客户端的连接关闭或超时，而代理没有收到确认，则认为消息未处理，因此它将消息重新传递给另一个消费者。
 消息顺序性 即使消息代理试图保留消息顺序（标准要求），负载均衡与重新传递的组合也不可避免地导致消息被重新排序。
 基于日志的消息代理  代理将分区中的所有消息分配给相同的消费者节点，并始终以相同的顺序发送消息。 通过分区机制来实现并行（写在多个磁盘上突破磁盘带宽），消费者通过检查他们处理的最后一条消息的偏移量来跟踪进度。 代理将消息保存在磁盘上，因此如果有必要，可以回退并重新读取旧消息。  代表性的有：
- Apache Kafka Amazon Kinesis Streams Twitter DistributedLog  基于日志的消息存储 参照 LSM-Tree 和 B-tree 的 WAL，可以使用相同的结构来实现消息代理： 生产者通过将消息追加到日志的末尾来发送消息，消费者通过依次读取日志来接收消息。 如果消费者读到日志的末尾，它就开始等待新消息被追加的通知。
+ Kafka Amazon Kinesis Streams Twitter DistributedLog  基于日志的消息存储 参照 LSM-Tree 和 B-tree 的 WAL，可以使用相同的结构来实现消息代理： 生产者通过将消息追加到日志的末尾来发送消息，消费者通过依次读取日志来接收消息。 如果消费者读到日志的末尾，它就开始等待新消息被追加的通知。
 通过对日志进行分区突破单个磁盘所能体能的带宽吞吐上线。
 代理为每个消息分区分配了一个单调递增的序列号或偏移量，保证了分区内的消息完全有序。
 消费者偏移量：记录哪些消息已经被处理，减少 ACK 开销 磁盘空间：分段，定期删除 消费者跟不上生产者：增加 LAG 报警 重新处理消息：重置偏移量 </description>
@@ -3500,7 +3490,7 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 &lt;/ul&gt;
 &lt;p&gt;代表性的有：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813073343-apache_kafka/&#34;&gt;Apache Kafka&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172022_kafka/&#34;&gt;Kafka&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813073357-amazon_kinesis_streams/&#34;&gt;Amazon Kinesis Streams&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813073412-twitter_distributedlog/&#34;&gt;Twitter DistributedLog&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -15263,14 +15253,16 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320172022_kafka/</guid>
-      <description>概念组成   Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息
+      <description>相关知识点 概念组成   Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息
   Consumer Group 消费指定 Topic 的消息
  Consumer 消费指定 Topic 下某一分区的消息    Topic 区分不同消息主题
  Partition 保证同一分区的有序性    Connector
   消息可被不同的 Consumer Group 重复消费（广播或订阅）。同一 Consumer Group 下的不同 Consumer 分别消费不同的 Partition，Consumer 数量不能超过 Partition 数量。
 数据被持久化并分片成功后发送 ACK 保证里数据不被丢失。
-设计 持久化 基于文件系统  基于队列是顺序的和磁盘的顺序访问要比内存的随机访问要快（参见 The Pathologies of Big Data）， Kafka 采用在磁盘文件系统上尾部写头部读的方式。 Kafka 没有采用 BTree 存储数据因为 BTree 的操作是 O(log N) ，而且对磁盘的 seek 操作要慢，且同时只能进行一次限制了并行，所以实际操作比 O(log N) 要慢 基于磁盘的顺序访问进行在尾部写和头部读，可以实现读写都是 O(1) 的时间复杂度，并且读写互不干扰 基于以上实现，Kafka 可以不必在消息一经消费就删除，而是可以保留消息一段相对较长的时间（比如一周）  高效 并且采用统一的日志格式，可以方便的使用 sendfile 避免字节拷贝以在各个组件之间高效的交换日志文件</description>
-      <content>&lt;h2 id=&#34;概念组成&#34;&gt;概念组成&lt;/h2&gt;
+设计 持久化   基于文件系统
+ 基于队列是顺序的和磁盘的顺序访问要比内存的随机访问要快（参见 The Pathologies of Big Data）， Kafka 采用在磁盘文件系统上尾部写头部读的方式。 Kafka 没有采用 BTree 存储数据因为 BTree 的操作是 O(log N) ，而且对磁盘的 seek 操作要慢，且同时只能进行一次限制了并行，所以实际操作比 O(log N) 要慢 基于磁盘的顺序访问进行在尾部写和头部读，可以实现读写都是 O(1) 的时间复杂度，并且读写互不干扰 基于以上实现，Kafka 可以不必在消息一经消费就删除，而是可以保留消息一段相对较长的时间（比如一周）      高效</description>
+      <content>&lt;h2 id=&#34;相关知识点&#34;&gt;相关知识点&lt;/h2&gt;
+&lt;h3 id=&#34;概念组成&#34;&gt;概念组成&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息&lt;/p&gt;
@@ -15293,23 +15285,49 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 &lt;/ul&gt;
 &lt;p&gt;消息可被不同的 Consumer Group 重复消费（广播或订阅）。同一 Consumer Group 下的不同 Consumer 分别消费不同的 Partition，Consumer 数量不能超过 Partition 数量。&lt;/p&gt;
 &lt;p&gt;数据被持久化并分片成功后发送 ACK 保证里数据不被丢失。&lt;/p&gt;
-&lt;h2 id=&#34;设计&#34;&gt;设计&lt;/h2&gt;
-&lt;h3 id=&#34;持久化&#34;&gt;持久化&lt;/h3&gt;
-&lt;h4 id=&#34;基于文件系统&#34;&gt;基于文件系统&lt;/h4&gt;
+&lt;h3 id=&#34;设计&#34;&gt;设计&lt;/h3&gt;
+&lt;h4 id=&#34;持久化&#34;&gt;持久化&lt;/h4&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;基于文件系统&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;基于队列是顺序的和磁盘的顺序访问要比内存的随机访问要快（参见 &lt;a href=&#34;https://queue.acm.org/detail.cfm?id=1563874&#34;&gt;The Pathologies of Big Data&lt;/a&gt;）， Kafka 采用在磁盘文件系统上尾部写头部读的方式。&lt;/li&gt;
 &lt;li&gt;Kafka 没有采用 BTree 存储数据因为 BTree 的操作是  &lt;code&gt;O(log N)&lt;/code&gt; ，而且对磁盘的 seek 操作要慢，且同时只能进行一次限制了并行，所以实际操作比 &lt;code&gt;O(log N)&lt;/code&gt; 要慢&lt;/li&gt;
 &lt;li&gt;基于磁盘的顺序访问进行在尾部写和头部读，可以实现读写都是 &lt;code&gt;O(1)&lt;/code&gt; 的时间复杂度，并且读写互不干扰&lt;/li&gt;
 &lt;li&gt;基于以上实现，Kafka 可以不必在消息一经消费就删除，而是可以保留消息一段相对较长的时间（比如一周）&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;高效&#34;&gt;高效&lt;/h4&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;高效&lt;/p&gt;
 &lt;p&gt;并且采用统一的日志格式，可以方便的使用 &lt;a href=&#34;http://man7.org/linux/man-pages/man2/sendfile.2.html&#34;&gt;sendfile&lt;/a&gt; 避免字节拷贝以在各个组件之间高效的交换日志文件&lt;/p&gt;
-&lt;h3 id=&#34;links&#34;&gt;Links&lt;/h3&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;links&#34;&gt;Links&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://varnish-cache.org/docs/trunk/phk/notes.html&#34;&gt;page-cache-centric design&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://queue.acm.org/detail.cfm?id=1563874&#34;&gt;The Pathologies of Big Data&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
+&lt;h2 id=&#34;集群管理&#34;&gt;集群管理&lt;/h2&gt;
+&lt;h3 id=&#34;查看消费状况&#34;&gt;查看消费状况&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --describe
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;重置消费&#34;&gt;重置消费&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 查看重置到最晚&lt;/span&gt;
+kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-latest --dry-run
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# 执行重置到最晚&lt;/span&gt;
+kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-latest --execute
+
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# 当前（最早）&lt;/span&gt;
+kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-current --dry-run
+
+kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-current --execute
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
     </item>
     
     <item>
