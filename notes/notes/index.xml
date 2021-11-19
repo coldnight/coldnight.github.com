@@ -1924,7 +1924,7 @@ export PYSPARK_PYTHON&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;./e
 &lt;p&gt;支持 &lt;code&gt;--archives&lt;/code&gt; 参数上传打包好的环境信息，主要三种方式：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;PySpark 原生特性， &lt;code&gt;--py-files&lt;/code&gt; 支持 zip 和 egg 格式，但是不支持 whl&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200628133616-python/&#34;&gt;Python vendor package&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200628133616-python/#python-vendor-package&#34;&gt;Python vendor package&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;See alos: &lt;a href=&#34;https://spark.apache.org/docs/latest/api/python/user%5Fguide/python%5Fpackaging.html&#34;&gt;Python Package Management&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;standalone-cluster&#34;&gt;Standalone cluster&lt;/h3&gt;
@@ -1935,7 +1935,12 @@ os&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;environ[&lt;span style
 
 conf &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {}
 sc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SparkContext(conf&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;conf)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;spark-hive-表问题汇总&#34;&gt;Spark Hive 表问题汇总&lt;/h2&gt;
+&lt;h3 id=&#34;spark-2-dot-3-之后读取-hive-orc-大小写敏感的-schema-字段全是-null&#34;&gt;Spark 2.3 之后读取 Hive Orc 大小写敏感的 Schema 字段全是 null&lt;/h3&gt;
+&lt;p&gt;主要是因为 Orc 文件在 Hive 中存储的时候是大小写敏感的 Schema。
+通过如下配置关闭 2.3 之后启用的选项：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-prog&#34; data-lang=&#34;prog&#34;&gt;spark.sql.hive.convertMetastoreOrc=false
+&lt;/code&gt;&lt;/pre&gt;</content>
     </item>
     
     <item>

@@ -234,7 +234,7 @@ export PYSPARK_PYTHON<span style="color:#f92672">=</span>./environment/bin/pytho
 <p>支持 <code>--archives</code> 参数上传打包好的环境信息，主要三种方式：</p>
 <ul>
 <li>PySpark 原生特性， <code>--py-files</code> 支持 zip 和 egg 格式，但是不支持 whl</li>
-<li><a href="/notes/notes/20200628133616-python/">Python vendor package</a></li>
+<li><a href="/notes/notes/20200628133616-python/#python-vendor-package">Python vendor package</a></li>
 </ul>
 <p>See alos: <a href="https://spark.apache.org/docs/latest/api/python/user%5Fguide/python%5Fpackaging.html">Python Package Management</a></p>
 <h3 id="standalone-cluster">Standalone cluster<a href="#standalone-cluster" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
@@ -245,7 +245,12 @@ os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;P
 
 conf <span style="color:#f92672">=</span> {}
 sc <span style="color:#f92672">=</span> SparkContext(conf<span style="color:#f92672">=</span>conf)
-</code></pre></div>
+</code></pre></div><h2 id="spark-hive-表问题汇总">Spark Hive 表问题汇总<a href="#spark-hive-表问题汇总" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="spark-2-dot-3-之后读取-hive-orc-大小写敏感的-schema-字段全是-null">Spark 2.3 之后读取 Hive Orc 大小写敏感的 Schema 字段全是 null<a href="#spark-2-dot-3-之后读取-hive-orc-大小写敏感的-schema-字段全是-null" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>主要是因为 Orc 文件在 Hive 中存储的时候是大小写敏感的 Schema。
+通过如下配置关闭 2.3 之后启用的选项：</p>
+<pre><code class="language-prog" data-lang="prog">spark.sql.hive.convertMetastoreOrc=false
+</code></pre>
       </div></div>
 
   
