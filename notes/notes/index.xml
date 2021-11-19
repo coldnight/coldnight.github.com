@@ -1936,7 +1936,7 @@ os&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;environ[&lt;span style
 conf &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {}
 sc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SparkContext(conf&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;conf)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;spark-hive-表问题汇总&#34;&gt;Spark Hive 表问题汇总&lt;/h2&gt;
-&lt;h3 id=&#34;spark-2-dot-3-之后读取-hive-orc-大小写敏感的-schema-字段全是-null&#34;&gt;Spark 2.3 之后读取 Hive Orc 大小写敏感的 Schema 字段全是 null&lt;/h3&gt;
+&lt;h3 id=&#34;spark-2-dot-3-之后读取-hive-orc-字段全是-null-或者无法过滤&#34;&gt;Spark 2.3 之后读取 Hive Orc 字段全是 null 或者无法过滤&lt;/h3&gt;
 &lt;p&gt;主要是因为 Orc 文件在 Hive 中存储的时候是大小写敏感的 Schema。
 通过如下配置关闭 2.3 之后启用的选项：&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-prog&#34; data-lang=&#34;prog&#34;&gt;spark.sql.hive.convertMetastoreOrc=false
