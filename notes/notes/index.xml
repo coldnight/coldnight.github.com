@@ -1940,6 +1940,15 @@ sc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SparkContext(conf&lt
 &lt;p&gt;主要是因为 Orc 文件在 Hive 中存储的时候是大小写敏感的 Schema。
 通过如下配置关闭 2.3 之后启用的选项：&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-prog&#34; data-lang=&#34;prog&#34;&gt;spark.sql.hive.convertMetastoreOrc=false
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;但是启用这个会导致写 Hive Orc 表的时候报错：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-prog&#34; data-lang=&#34;prog&#34;&gt;[2021-11-20 08:22:26,500] {spark_submit.py:523} INFO - : java.lang.NoSuchMethodException: org.apache.hadoop.hive.ql.metadata.Hive.loadPartition(org.apache.hadoop.fs.Path, java.lang.String, java.util.Map, boolean, boolean, boolean, boolean, boolean, boolean)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;只能在读指定表的时候动态设置:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;spark&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;conf&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;spark.sql.hive.convertMetastoreOrc&amp;#34;&lt;/span&gt;, False)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;更多坑可以看-upgrading-guide&#34;&gt;更多坑可以看 Upgrading Guide&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://spark.apache.org/docs/2.4.2/sql-migration-guide-upgrade.html&#34;&gt;Upgrading Guide&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;spark-写入的-hive-orc-表但是旧版-hive-无法读取&#34;&gt;Spark 写入的 Hive Orc 表但是旧版 Hive 无法读取&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-prog&#34; data-lang=&#34;prog&#34;&gt;# 解决写入 Orc 表但是 Hive 无法读取的问题
+spark.sql.orc.impl=hive
 &lt;/code&gt;&lt;/pre&gt;</content>
     </item>
     
