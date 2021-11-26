@@ -160,17 +160,17 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
 </ol>
 <h2 id="调整-nginx-新增-http-站点">调整 Nginx 新增 HTTP 站点<a href="#调整-nginx-新增-http-站点" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Nginx 参考配置</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
         <span style="color:#f92672">listen</span>  <span style="color:#ae81ff">80</span>;
         <span style="color:#f92672">server_name</span>     <span style="color:#e6db74">vd.linuxzen.com</span>;
         <span style="color:#f92672">include</span> <span style="color:#e6db74">/etc/nginx/snippets/letsencrypt-acme-challenge.conf</span>;
 }
 </code></pre></div><h2 id="新增签发证书">新增签发证书<a href="#新增签发证书" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ acme.sh --force --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d vd.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ acme.sh --force --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d vd.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/
 </code></pre></div><p>安装证书</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.com/cert.pem --key-file /etc/nginx/certs/linuxzen.com/privkey.pem --fullchain-file /etc/nginx/certs/linuxzen.com/fullchain.pem --reloadcmd <span style="color:#e6db74">&#34;sudo service nginx reload &amp;&amp; docker restart ipsec-vpn-ssl &amp;&amp; docker restart v2ray &amp;&amp; docker restart v2ray2&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.com/cert.pem --key-file /etc/nginx/certs/linuxzen.com/privkey.pem --fullchain-file /etc/nginx/certs/linuxzen.com/fullchain.pem --reloadcmd <span style="color:#e6db74">&#34;sudo service nginx reload &amp;&amp; docker restart ipsec-vpn-ssl &amp;&amp; docker restart v2ray &amp;&amp; docker restart v2ray2&#34;</span>
 </code></pre></div><h2 id="调整-nginx-配置文件应用证书">调整 Nginx 配置文件应用证书<a href="#调整-nginx-配置文件应用证书" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
         <span style="color:#f92672">listen</span>  <span style="color:#ae81ff">80</span>;
         <span style="color:#f92672">server_name</span>     <span style="color:#e6db74">vd.linuxzen.com</span>;
         <span style="color:#f92672">return</span>         <span style="color:#ae81ff">301</span> <span style="color:#e6db74">https://</span>$server_name$request_uri;

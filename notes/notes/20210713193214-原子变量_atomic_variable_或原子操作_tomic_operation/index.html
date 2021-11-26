@@ -155,7 +155,7 @@
   <div class="post-content"><div>
         <p>现代语言以原子变量（atomic variable）或原子操作（atomic operation）的形式提供特殊能力，允许程序同步其线程(参见硬件<a href="/notes/notes/20210712150516-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B/">内存一致性模型</a>)。</p>
 <p>代码示例</p>
-<pre><code class="language-nil" data-lang="nil">// Thread 1           // Thread 2
+<pre tabindex="0"><code class="language-nil" data-lang="nil">// Thread 1           // Thread 2
 x = 1;                while(done == 0) { /* loop */ }
 done = 1;             print(x);
 </code></pre><p>如果使用原子变量实现 <code>done</code> 会产生很多效果：</p>

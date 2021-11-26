@@ -150,7 +150,7 @@
 
   <div class="post-content"><div>
         <h2 id="程序编码">程序编码<a href="#程序编码" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ gcc -Og -S mstore.c  <span style="color:#75715e"># outputs mstore.s</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ gcc -Og -S mstore.c  <span style="color:#75715e"># outputs mstore.s</span>
 $ gcc -Og -c mstore.c  <span style="color:#75715e"># outptus mstore.o</span>
 $ objdump -d mstore.o
 </code></pre></div><p>所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。</p>
@@ -654,7 +654,7 @@ $ objdump -d mstore.o
 </table>
 <p>leaq 将计算出的有效地址写入到目标寄存器，可以根据比例变址寻址进行复杂的数值计算。</p>
 <p><code>long t = x + 4 * y + 12 * z</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ASM" data-lang="ASM"><span style="color:#75715e">; x in %rdi, y in %rsi, z in %rdx
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ASM" data-lang="ASM"><span style="color:#75715e">; x in %rdi, y in %rsi, z in %rdx
 </span><span style="color:#75715e"></span>
 scale:
   <span style="color:#a6e22e">leaq</span> (%rdi,%rsi,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; x + 4*y

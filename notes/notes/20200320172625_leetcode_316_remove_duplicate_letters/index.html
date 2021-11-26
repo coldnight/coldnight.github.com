@@ -174,7 +174,7 @@ Example 1
 <li>查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母</li>
 </ol>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">removeDuplicateLetters</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">removeDuplicateLetters</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
         <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">countOfEachLetter</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">int</span>
         <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">visited</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">bool</span>
         <span style="color:#a6e22e">stack</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">0</span>)
@@ -220,7 +220,7 @@ Example 1
 <li>expected_answer: &ldquo;bac&rdquo;</li>
 </ul>
 <p>经过一番排查不应该从栈底查找，应该从栈顶开始，通过的代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">removeDuplicateLetters</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">removeDuplicateLetters</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
         <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">countOfEachLetter</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">int</span>
         <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">visited</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">bool</span>
         <span style="color:#a6e22e">st</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">stack</span>{}

@@ -170,17 +170,17 @@ let s1 = String::from(&amp;#34;hello&amp;#34;); let s2 = s1.clone(); println!(s1
 </ul>
 <h2 id="变量相互作用-所有权转移-move">变量相互作用：所有权转移（Move）<a href="#变量相互作用-所有权转移-move" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>对于所有在栈上分配的值（固定大小），在进行赋值操作时都对值进行拷贝：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
 ley y <span style="color:#f92672">=</span> x;  <span style="color:#75715e">// copy 5 to y
 </span></code></pre></div><p>但是对于在堆上分配的，变量保存的是指向内存的指针，所以在赋值时拷贝的也是指向该内存的指针：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> s1 <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;hello&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> s1 <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;hello&#34;</span>);
 <span style="color:#66d9ef">let</span> s2 <span style="color:#f92672">=</span> s1;
 </code></pre></div><p>为了保证内存安全，防止 <code>s1</code> 和 <code>s2</code> 超出作用域范围调用两次 <code>drop</code> 造成重复的内存回收，Rust 会让 <code>s1</code> 不再有效，来避免对 <code>s1</code> 进行回收。继续使用 <code>s1</code> 会导致编译错误。这种情况叫做所有权转移（move）。</p>
 <h2 id="变量相互作用-克隆-clone">变量相互作用：克隆（Clone）<a href="#变量相互作用-克隆-clone" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>克隆用于深度拷贝变量：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> s1 <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;hello&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> s1 <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;hello&#34;</span>);
 <span style="color:#66d9ef">let</span> s2 <span style="color:#f92672">=</span> s1.clone();
-println<span style="color:#f92672">!</span>(s1);
+println!(s1);
 </code></pre></div><h2 id="变量项目作用-拷贝-copy">变量项目作用：拷贝（Copy）<a href="#变量项目作用-拷贝-copy" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>如果数据类型的大小在编译期能够确定都将存储在栈上，这种情况下能够进行快速的拷贝。</p>
 <ul>

@@ -158,13 +158,13 @@
 <ul>
 <li>
 <p><code>futures::executor::block_on</code> 阻塞当前线程直到 future 完成</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// `block_on` blocks the current thread until the provided future has run to
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// `block_on` blocks the current thread until the provided future has run to
 </span><span style="color:#75715e">// completion. Other executors provide more complex behavior, like scheduling
 </span><span style="color:#75715e">// multiple futures onto the same thread.
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> futures::executor::block_on;
 
 <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hello_world</span>() {
-    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;hello, world!&#34;</span>);
+    println!(<span style="color:#e6db74">&#34;hello, world!&#34;</span>);
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
@@ -181,7 +181,7 @@
 <li><code>futures::select!</code> 任意一个 future 完成则立即返回</li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">learn_and_sing</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">learn_and_sing</span>() {
     <span style="color:#75715e">// Wait until the song has been learned before singing it.
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">// We use `.await` here rather than `block_on` to prevent blocking the
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">// thread, which makes it possible to `dance` at the same time.

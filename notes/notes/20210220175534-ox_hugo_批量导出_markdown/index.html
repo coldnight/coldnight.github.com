@@ -150,11 +150,11 @@ emacs file.org --batch -l ~/.emacs.d/init.el -f org-hugo-export-wim-to-md --kill
 
   <div class="post-content"><div>
         <h2 id="方案一-通过-emacs-批处理模式">方案一：通过 Emacs 批处理模式<a href="#方案一-通过-emacs-批处理模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">emacs file.org --batch -f org-hugo-export-wim-to-md --kill
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">emacs file.org --batch -f org-hugo-export-wim-to-md --kill
 </code></pre></div><p><code>--batch</code> 默认不启用配置文件，可以使用 <code>-l</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">emacs file.org --batch -l ~/.emacs.d/init.el -f org-hugo-export-wim-to-md --kill
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">emacs file.org --batch -l ~/.emacs.d/init.el -f org-hugo-export-wim-to-md --kill
 </code></pre></div><h2 id="方案二-通过-lisp-遍历">方案二：通过 LISP 遍历<a href="#方案二-通过-lisp-遍历" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp">(<span style="color:#a6e22e">mapc</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp">(<span style="color:#a6e22e">mapc</span>
  (lambda (x)
    (with-current-buffer
        (find-file-noselect x)

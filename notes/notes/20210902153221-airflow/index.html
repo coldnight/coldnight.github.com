@@ -155,7 +155,7 @@ from urllib.parse import urlencode from urllib.parse import urljoin import reque
 <p><a href="/notes/articles/20210826074053-airflow_powers_ai/">Airflow powers AI</a>。</p>
 <h2 id="airflow-sso-接入">Airflow SSO 接入<a href="#airflow-sso-接入" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>公司 SSO 系统不是基于开源标准，而是一套自定义的方式，目前网上没有成熟的解决方案，通过查看 <a href="https://github.com/dpgaspar/Flask-AppBuilder">Flask-AppBuilder</a> 和 Airflow 的代码发现可以扩展 <code>flask_appbuilder.security.views.AuthRemoteUserView</code> 并通过自定义的 <code>SecurityManager</code> 指定 <code>authremoteuserview</code> 来实现，去掉具体 SSO 逻辑后的代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> urllib.parse <span style="color:#f92672">import</span> urlencode
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> urllib.parse <span style="color:#f92672">import</span> urlencode
 <span style="color:#f92672">from</span> urllib.parse <span style="color:#f92672">import</span> urljoin
 
 <span style="color:#f92672">import</span> requests
@@ -169,7 +169,7 @@ from urllib.parse import urlencode from urllib.parse import urljoin import reque
 <span style="color:#66d9ef">try</span>:
     <span style="color:#f92672">from</span> airflow.www.security <span style="color:#f92672">import</span> AirflowSecurityManager
 <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ImportError</span>:
-    AirflowSecurityManager <span style="color:#f92672">=</span> None
+    AirflowSecurityManager <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
 
 __version__ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0.1.0&#34;</span>
 
@@ -191,7 +191,7 @@ ACCESS_TOKEN_URL <span style="color:#f92672">=</span> <span style="color:#e6db74
         token <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>args<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;token&#34;</span>)
         <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> token:
             params <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_authorize_params()
-            redirect_uri <span style="color:#f92672">=</span> <span style="color:#e6db74">u</span><span style="color:#e6db74">&#34;{}?{}&#34;</span><span style="color:#f92672">.</span>format(
+            redirect_uri <span style="color:#f92672">=</span> <span style="color:#e6db74">u</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">?</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(
                 AUTHORIZE_URL,
                 urlencode(params),
             )
@@ -218,12 +218,12 @@ ACCESS_TOKEN_URL <span style="color:#f92672">=</span> <span style="color:#e6db74
         <span style="color:#66d9ef">return</span> requests<span style="color:#f92672">.</span>get(ACCESS_TOKEN_URL, params<span style="color:#f92672">=</span>data)<span style="color:#f92672">.</span>json()
 
 
-<span style="color:#66d9ef">if</span> AirflowSecurityManager <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+<span style="color:#66d9ef">if</span> AirflowSecurityManager <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
 
     <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComCasAirflowSecurityManager</span>(AirflowSecurityManager):
         authremoteuserview <span style="color:#f92672">=</span> AuthComCasView
 </code></pre></div><p>然后在 Airflow 的 <code>webserver_config.py</code> 中应用就行:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> flask_appbuilder.security.manager <span style="color:#f92672">import</span> AUTH_REMOTE_USER
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> flask_appbuilder.security.manager <span style="color:#f92672">import</span> AUTH_REMOTE_USER
 
 AUTH_TYPE <span style="color:#f92672">=</span> AUTH_REMOTE_USER
 FAB_SECURITY_MANAGER_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;fab_auth_com.ComCasAirflowSecurityManager&#39;</span>

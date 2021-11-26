@@ -158,14 +158,14 @@
         <p>读事务遇到并发写会出现脏读（读-提交和可重复读可以解决），写事务并发会带来一些冲突，最值得关注的就是更新丢失问题。
 应用程序从数据库读取某些值，然后应用逻辑做出修改，然后写回新值。</p>
 <h2 id="原子写操作">原子写操作<a href="#原子写操作" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-SQL" data-lang="SQL"><span style="color:#66d9ef">UPDATE</span> counters <span style="color:#66d9ef">SET</span> value<span style="color:#f92672">=</span>value<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">WHERE</span> <span style="color:#66d9ef">key</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;foo&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-SQL" data-lang="SQL"><span style="color:#66d9ef">UPDATE</span> counters <span style="color:#66d9ef">SET</span> value<span style="color:#f92672">=</span>value<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">WHERE</span> <span style="color:#66d9ef">key</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;foo&#39;</span>;
 </code></pre></div><p>原子操作通常采用方式：</p>
 <ol>
 <li>对读取对象加独占加锁，这种技术有时被称为「游标稳定性」。</li>
 <li>强制所有原子操作都在单线程上执行。</li>
 </ol>
 <h2 id="显式枷锁">显式枷锁<a href="#显式枷锁" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-SQL" data-lang="SQL"><span style="color:#66d9ef">BEGIN</span> <span style="color:#66d9ef">TRANSACTION</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-SQL" data-lang="SQL"><span style="color:#66d9ef">BEGIN</span> <span style="color:#66d9ef">TRANSACTION</span>;
 <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> figures
   <span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;robot&#39;</span> <span style="color:#66d9ef">AND</span> game_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">222</span>
   <span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">UPDATE</span>;  <span style="color:#75715e">-- 指示数据库对返回的所有结果行要加锁。
@@ -173,7 +173,7 @@
 <h2 id="自动检测更新丢失">自动检测更新丢失<a href="#自动检测更新丢失" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>数据库（Oracle 的串形化和 SQL Server 的快照级别隔离）可以自动检测何时发生了更新丢失，然后终止违规的那个事务。</p>
 <h2 id="原子比较和设置">原子比较和设置<a href="#原子比较和设置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-SQL" data-lang="SQL"><span style="color:#66d9ef">UPDATE</span> wiki_pages <span style="color:#66d9ef">SET</span> content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;new_content&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-SQL" data-lang="SQL"><span style="color:#66d9ef">UPDATE</span> wiki_pages <span style="color:#66d9ef">SET</span> content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;new_content&#39;</span>
   <span style="color:#66d9ef">WHERE</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1234</span> <span style="color:#66d9ef">AND</span> conetnt <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;old_content&#39;</span>;
 </code></pre></div><h2 id="冲突解决与复制">冲突解决与复制<a href="#冲突解决与复制" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ul>

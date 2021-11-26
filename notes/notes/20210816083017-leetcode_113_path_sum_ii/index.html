@@ -150,7 +150,7 @@
 
   <div class="post-content"><div>
         <p><a href="https://leetcode.com/problems/path-sum-ii/">https://leetcode.com/problems/path-sum-ii/</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * Definition for a binary tree node.
 </span><span style="color:#75715e"> * struct TreeNode {
 </span><span style="color:#75715e"> *     int val;
@@ -212,10 +212,10 @@
     }
 };
 </code></pre></div><p>失败的错误用例:</p>
-<pre><code class="language-nil" data-lang="nil">[1]
+<pre tabindex="0"><code class="language-nil" data-lang="nil">[1]
 1
 </code></pre><p>增加只有一个节点的判断：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">&amp;&amp;</span> root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">&amp;&amp;</span> root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
     <span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">==</span> targetSum) {
         vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> t;
         t.push_back(root<span style="color:#f92672">-&gt;</span>val);
@@ -223,7 +223,7 @@
     }
 }
 </code></pre></div><p>目前只考虑了两种情况，实际应该有很多种情况，参见用例</p>
-<pre><code class="language-nil" data-lang="nil">[1,0,1,1,2,0,-1,0,1,-1,0,-1,0,1,0]
+<pre tabindex="0"><code class="language-nil" data-lang="nil">[1,0,1,1,2,0,-1,0,1,-1,0,-1,0,1,0]
 2
 </code></pre>
   <figure class="left" >
@@ -233,7 +233,7 @@
 
 
 <p>通过 <a href="/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">backtracking</a> + DFS 解决</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * Definition for a binary tree node.
 </span><span style="color:#75715e"> * struct TreeNode {
 </span><span style="color:#75715e"> *     int val;
@@ -281,7 +281,7 @@
     }
 };
 </code></pre></div><p>测试用例:</p>
-<pre><code class="language-nil" data-lang="nil">[5,4,8,11,null,13,4,7,2,null,null,5,1]
+<pre tabindex="0"><code class="language-nil" data-lang="nil">[5,4,8,11,null,13,4,7,2,null,null,5,1]
 22
 []
 0

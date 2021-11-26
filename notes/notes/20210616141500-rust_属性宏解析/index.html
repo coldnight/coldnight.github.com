@@ -169,7 +169,7 @@
 <ol>
 <li>
 <p>函数调用</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
   <span style="color:#75715e">#[attr(arg)]</span>
   a: <span style="color:#66d9ef">i8</span>,
@@ -177,7 +177,7 @@
 </code></pre></div></li>
 <li>
 <p>关键字参数调用</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
   <span style="color:#75715e">#[args(name = </span><span style="color:#e6db74">&#34;val&#34;</span><span style="color:#75715e">)]</span>
   b: <span style="color:#66d9ef">i8</span>,
@@ -185,7 +185,7 @@
 </code></pre></div></li>
 <li>
 <p>直接赋值</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
   <span style="color:#75715e">#[meta = </span><span style="color:#e6db74">&#34;val&#34;</span><span style="color:#75715e">]</span>
   c: <span style="color:#66d9ef">i8</span>,
@@ -195,13 +195,13 @@
 <h3 id="函数调用">函数调用<a href="#函数调用" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <h3 id="关键字参数调用">关键字参数调用<a href="#关键字参数调用" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>可以从 Struct 解析出各个字段，通过解析各个字段的 attrs 属性，并对 attrs 进行遍历，使用 <code>attr.parse_args()?</code> 即可解析出对应的关键字参数，咱们以前面的代码为例:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
   <span style="color:#75715e">#[args(name = </span><span style="color:#e6db74">&#34;val&#34;</span><span style="color:#75715e">)]</span>
   b: <span style="color:#66d9ef">i8</span>,
 }
 </code></pre></div><p>对应的解析代码为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> proc_macro::TokenStream;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> proc_macro::TokenStream;
 <span style="color:#66d9ef">use</span> quote::quote;
 <span style="color:#66d9ef">use</span> syn::{self, parse, DeriveInput};
 
@@ -210,7 +210,7 @@
     <span style="color:#66d9ef">let</span> ast: <span style="color:#a6e22e">DeriveInput</span> <span style="color:#f92672">=</span> parse(input).unwrap();
     <span style="color:#66d9ef">let</span> name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ast.ident;
 
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[];
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec![];
 
     <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Data::Struct(ds) <span style="color:#f92672">=</span> ast.data {
         <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Fields::Named(fields) <span style="color:#f92672">=</span> ds.fields {
@@ -252,13 +252,13 @@
 }
 </code></pre></div><h3 id="直接赋值">直接赋值<a href="#直接赋值" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>直接赋值类似于上面的关键字解析调用，但是对应的 <code>attr.parse_args</code> 需要替换为 <code>attr.parse_meta</code> ，比如解析：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Custom)]</span>
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Demo</span> {
   <span style="color:#75715e">#[meta = </span><span style="color:#e6db74">&#34;val&#34;</span><span style="color:#75715e">]</span>
   c: <span style="color:#66d9ef">i8</span>,
 }
 </code></pre></div><p>对应的代码如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> proc_macro::TokenStream;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> proc_macro::TokenStream;
 <span style="color:#66d9ef">use</span> quote::quote;
 <span style="color:#66d9ef">use</span> syn::{self, parse, DeriveInput};
 
@@ -267,7 +267,7 @@
     <span style="color:#66d9ef">let</span> ast: <span style="color:#a6e22e">DeriveInput</span> <span style="color:#f92672">=</span> parse(input).unwrap();
     <span style="color:#66d9ef">let</span> name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ast.ident;
 
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[];
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec![];
 
     <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Data::Struct(ds) <span style="color:#f92672">=</span> ast.data {
         <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Fields::Named(fields) <span style="color:#f92672">=</span> ds.fields {

@@ -168,7 +168,7 @@ Litmus Test: Write Queue (also called Store Buffer) Can this program see r1 = 0,
 <p>重要的是： <strong><strong>所有处理器都保证写入（存储 store）到共享内存的（总）顺序，所以给这个模型起了个名字：总存储有序（Total Store Order，TSO）。</strong></strong></p>
 <p>写队列是一个标准的先进先出队列：内存写操作总是以与处理器执行相同顺序的应用于共享内存。</p>
 <p>基于以上下面 <a href="/notes/notes/20210712153952-litmus_test/">litmus test</a> 的答案依然是 <code>no</code> ，这种情况与<a href="/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/">顺序一致性</a>模型结果一致：</p>
-<pre><code class="language-nil" data-lang="nil">Litmus Test: Message Passing
+<pre tabindex="0"><code class="language-nil" data-lang="nil">Litmus Test: Message Passing
 Can this program see r1 = 1, r2 = 0?
 // Thread 1           // Thread 2
 x = 1                 r1 = y
@@ -176,7 +176,7 @@ y = 1                 r2 = x
 On sequentially consistent hardware: no.
 On x86 (or other TSO): no.
 </code></pre><p>但其他测试则并不一致区分与<a href="/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/">顺序一致性</a>的常用例子:</p>
-<pre><code class="language-nil" data-lang="nil">Litmus Test: Write Queue (also called Store Buffer)
+<pre tabindex="0"><code class="language-nil" data-lang="nil">Litmus Test: Write Queue (also called Store Buffer)
 Can this program see r1 = 0, r2 = 0?
 // Thread 1           // Thread 2
 x = 1                 y = 1
@@ -186,7 +186,7 @@ On x86 (or other TSO): yes!
 </code></pre><p>TSO 系统中，线程 1和 2 可能会将它们的写操作排队，然后任何一个写操作进入内存之前从内存中读取，这两个读操作都会看到零。但是任何顺序一致的执行中， <code>x=1</code> 或 <code>y=1</code> 必会有一个首先生效。</p>
 <p>如果基于 TSO 系统需要更强的内存排序，可以使用<a href="/notes/notes/20210712162102-%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C/">内存屏障</a>。</p>
 <p>一旦一个写操作到达主存储器，所有处理器不仅同认同该值存在，而且还认同它相对于来自其他处理器的写操作的先后顺序。考虑一下这个litmus test:</p>
-<pre><code class="language-nil" data-lang="nil">Litmus Test: Independent Reads of Independent Writes (IRIW)
+<pre tabindex="0"><code class="language-nil" data-lang="nil">Litmus Test: Independent Reads of Independent Writes (IRIW)
 Can this program see r1 = 1, r2 = 0, r3 = 1, r4 = 0?
 (Can Threads 3 and 4 see x and y change in different orders?)
 // Thread 1    // Thread 2    // Thread 3    // Thread 4

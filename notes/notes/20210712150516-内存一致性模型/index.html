@@ -157,7 +157,7 @@
 这种契约称为「内存一致性模型（Memeory Consistency Model）」或仅仅是「内存模型（Memory Model）」。</p>
 <p>最初目标是定义程序员编写汇编代码时硬件提供的保证，后来用来定义高级编程语言（如 C++ 或 Java）对该语言编写代码的程序员提供的保证。</p>
 <p>例如下面变量都初始为 0 的情况下，线程 1 和 2 都运行在自己专用的处理器上，都运行到完成，这个程序能打印 0 吗？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">// Thread 1           // Thread 2
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">// Thread 1           // Thread 2
 </span><span style="color:#75715e"></span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;                <span style="color:#66d9ef">while</span>(done <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) { <span style="color:#75715e">/* loop */</span> }
 done <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;             print(x);
 </code></pre></div><h2 id="memory-coherence-vs-consistency--20210716110147-memory-coherence-vs-consistency-dot-md"><a href="/notes/notes/20210716110147-memory_coherence_vs_consistency/">Memory coherence vs consistency</a><a href="#memory-coherence-vs-consistency--20210716110147-memory-coherence-vs-consistency-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>

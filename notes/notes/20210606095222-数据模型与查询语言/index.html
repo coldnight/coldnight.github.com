@@ -172,7 +172,7 @@ db.observations.mapReduce( function map() { // 2  var year = this.observationTim
 <h3 id="mapreduce-查询">MapReduce 查询<a href="#mapreduce-查询" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>MapReduce 是一种编程模型，用于在许多机器上批量处理海量数据。</p>
 <p>MongoDB 中的 MapReduce</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">observations</span>.<span style="color:#a6e22e">mapReduce</span>(
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">observations</span>.<span style="color:#a6e22e">mapReduce</span>(
   <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">map</span>() {                   <span style="color:#75715e">// 2
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">year</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">observationTimestamp</span>.<span style="color:#a6e22e">getFullYear</span>();
     <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">month</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">obbservationTimestamp</span>.<span style="color:#a6e22e">getMonth</span>() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;

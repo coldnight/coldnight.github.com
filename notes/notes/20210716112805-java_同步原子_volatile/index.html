@@ -158,7 +158,7 @@ Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0? // Thread 1 //
 </ul>
 <p><strong><strong>“后续（subsequent）”</strong></strong> 意味着什么？Java 定义了所有锁定、解锁和 <code>volatile</code> 变量访问的行为，给出了整个程序中所有这些操作的总顺序，就像它们发生在某个顺序一致的交错中一样。“后续（subsequent）”指在总顺序中较晚执行。也就是说：锁定、解锁和 <code>volatile</code> 变量的访问的“总顺序”定义了“后续”的含义，“后续”定义了由特定执行创建的“前置于（happens before）”关系，最终“前置于（happens before）”关系定义了该特定执行是否存在数据竞争。如果没有数据竞争，那么执行就会以顺序一致的方式进行。</p>
 <p>事实上， <code>volatile</code> 访问必须表现得像在某种总排序一样，意味这在下面 <a href="/notes/notes/20210712153952-litmus_test/">litmus test</a> 中，不能出现 <code>r1=0</code> 和 <code>r2=0</code> 的结果:</p>
-<pre><code class="language-nil" data-lang="nil">Litmus Test: Store Buffering
+<pre tabindex="0"><code class="language-nil" data-lang="nil">Litmus Test: Store Buffering
 Can this program see r1 = 0, r2 = 0?
 // Thread 1           // Thread 2
 x = 1                 y = 1

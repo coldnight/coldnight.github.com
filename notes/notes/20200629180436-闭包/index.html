@@ -151,11 +151,11 @@ struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, 
   
 
   <div class="post-content"><div>
-        <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> add_one <span style="color:#f92672">=</span> <span style="color:#f92672">|</span> num <span style="color:#f92672">|</span> {
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> add_one <span style="color:#f92672">=</span> <span style="color:#f92672">|</span> num <span style="color:#f92672">|</span> {
   num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 };
 </code></pre></div><p>由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> add_one <span style="color:#f92672">=</span> <span style="color:#f92672">|</span> num: <span style="color:#66d9ef">i32</span> <span style="color:#f92672">|</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> add_one <span style="color:#f92672">=</span> <span style="color:#f92672">|</span> num: <span style="color:#66d9ef">i32</span> <span style="color:#f92672">|</span> {
   num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 };
 
@@ -164,7 +164,7 @@ struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, 
 <span style="color:#66d9ef">let</span> add_one_v3 <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x<span style="color:#f92672">|</span>             { x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> };
 <span style="color:#66d9ef">let</span> add_one_v4 <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x<span style="color:#f92672">|</span>               x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  ;
 </code></pre></div><p>使用 <code>Fn</code> 存储闭包类型</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Cacher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Cacher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>
   <span style="color:#66d9ef">where</span> T: Fn(<span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span>
 {
   calculation: <span style="color:#a6e22e">T</span>,
@@ -199,8 +199,8 @@ struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, 
 <li><code>FnMut</code> 可以改变引用环境的引用值</li>
 </ul>
 <p>如果想要强制取得使用的所在环境变量的所有权，可以使用 <code>move</code> 关键字</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-  <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>];
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+  <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> vec![<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>];
   <span style="color:#66d9ef">let</span> euqal_to_x <span style="color:#f92672">=</span> <span style="color:#66d9ef">move</span> <span style="color:#f92672">|</span>z<span style="color:#f92672">|</span> z <span style="color:#f92672">==</span> x;
 
   <span style="color:#75715e">// x has move to closure, so can&#39;t use it anymore.

@@ -159,8 +159,8 @@ use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt;
 </ul>
 <h2 id="宏">宏<a href="#宏" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>实现元编程，代码生成代码，必须带入当前命名空间内才能使用（不能使用 <code>mod::sub::macro!</code> 这种方式调用）。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[macro_export]</span>
-macro_rules<span style="color:#f92672">!</span> vec {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[macro_export]</span>
+macro_rules! vec {
   ( <span style="color:#75715e">$($x</span>:<span style="color:#a6e22e">expr</span>), <span style="color:#f92672">*</span>) <span style="color:#f92672">=&gt;</span> {           <span style="color:#75715e">// $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次
 </span><span style="color:#75715e"></span>    {
       <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> temp_vec <span style="color:#f92672">=</span> Vec::new();
@@ -173,7 +173,7 @@ macro_rules<span style="color:#f92672">!</span> vec {
 }
 </code></pre></div><h2 id="调用宏用于从属性生成代码">调用宏用于从属性生成代码<a href="#调用宏用于从属性生成代码" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>有点像编译期的装饰器：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> proc_macro;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> proc_macro;
 
 <span style="color:#75715e">#[some_attribute]</span>
 <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">some_name</span>(input: <span style="color:#a6e22e">TokenStream</span>) -&gt; <span style="color:#a6e22e">TokenStream</span> {

@@ -156,7 +156,7 @@ codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   Se
 
   <div class="post-content"><div>
         <p>macOS 下通过 GDB 调试程序会出现：</p>
-<pre><code class="language-nil" data-lang="nil">Unable to find Mach task port for process-id 1375: (os/kern) failure (0x5).
+<pre tabindex="0"><code class="language-nil" data-lang="nil">Unable to find Mach task port for process-id 1375: (os/kern) failure (0x5).
  (please check gdb is codesigned - see taskgated(8))
 </code></pre><ol>
 <li>
@@ -164,7 +164,7 @@ codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   Se
 </li>
 <li>
 <p>需要对 gdb 进行签名，首先创建 <code>gdb-entitlement.xml</code> ：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
 <span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
 <span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
 <span style="color:#f92672">&lt;dict&gt;</span>
@@ -174,7 +174,7 @@ codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   Se
 </code></pre></div></li>
 <li>
 <p>运行签名</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">codesign --entitlements gdb-entitlement.xml -fs code-sign-cert <span style="color:#66d9ef">$(</span>which gdb<span style="color:#66d9ef">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">codesign --entitlements gdb-entitlement.xml -fs code-sign-cert <span style="color:#66d9ef">$(</span>which gdb<span style="color:#66d9ef">)</span>
 </code></pre></div></li>
 </ol>
 <p>See also: <a href="https://sourceware.org/gdb/wiki/PermissionsDarwin">PermissionsDarwin</a>。</p>

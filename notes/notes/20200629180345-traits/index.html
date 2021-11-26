@@ -154,7 +154,7 @@
 <li>可以用于定义参数的行为，同样可以定义返回值行为，当用 <code>trait</code> 限定返回值类型时，不能同时（if/else）返回多种实现了该 <code>trait</code> 的类型。</li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> Summary {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> Summary {
   <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">summarize</span>(<span style="color:#f92672">&amp;</span>self) -&gt; String;
 }
 
@@ -164,17 +164,17 @@
 
 <span style="color:#66d9ef">impl</span> Summary <span style="color:#66d9ef">for</span> Article {
   <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">summarize</span>(<span style="color:#f92672">&amp;</span>self) -&gt; String {
-    format<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;{}&#34;</span>, self.title)
+    format!(<span style="color:#e6db74">&#34;{}&#34;</span>, self.title)
   }
 }
 
 <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">notify</span>(item: <span style="color:#a6e22e">impl</span> Summary) {
-  println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;{}&#34;</span>, item.summarize());
+  println!(<span style="color:#e6db74">&#34;{}&#34;</span>, item.summarize());
 }
 
 <span style="color:#75715e">// trait bound 语法糖版本
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">notify</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">Summary</span><span style="color:#f92672">&gt;</span>(item: <span style="color:#a6e22e">T</span>) {
-  println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;{}&#34;</span>, item.summarize());
+  println!(<span style="color:#e6db74">&#34;{}&#34;</span>, item.summarize());
 }
 </code></pre></div><h3 id="定义参数行为">定义参数行为<a href="#定义参数行为" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
@@ -186,7 +186,7 @@
 </li>
 <li>
 <p>可以通过 <code>where</code> 子句</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">some_function</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">Display</span> <span style="color:#f92672">+</span> Clone, U: Clone <span style="color:#f92672">+</span> Debug<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>, u: <span style="color:#a6e22e">U</span>) -&gt; <span style="color:#66d9ef">i32</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">some_function</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">Display</span> <span style="color:#f92672">+</span> Clone, U: Clone <span style="color:#f92672">+</span> Debug<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>, u: <span style="color:#a6e22e">U</span>) -&gt; <span style="color:#66d9ef">i32</span> {
 
 <span style="color:#75715e">// vs
 </span><span style="color:#75715e"></span>
@@ -217,7 +217,7 @@
 <li><code>Rc&lt;dyn Trait&gt;</code></li>
 </ul>
 <p><code>Sized</code> 特性用于标志类型大小是否编译期可知，并且在编译期自动为所有内容都实现。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>) {
  <span style="color:#75715e">// --snip--
 </span><span style="color:#75715e"></span>}
 
@@ -226,7 +226,7 @@
   <span style="color:#75715e">// --snip--
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>可以通过 <code>?Sized</code> 来避免这种默认行为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T: <span style="color:#f92672">?</span>Sized<span style="color:#f92672">&gt;</span>(t: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T: <span style="color:#f92672">?</span>Sized<span style="color:#f92672">&gt;</span>(t: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span>) {
   <span style="color:#75715e">// --snip--
 </span><span style="color:#75715e"></span>}
 </code></pre></div>

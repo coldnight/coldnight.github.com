@@ -222,7 +222,7 @@ LLVM 提供给编译器更加复杂的部分。LLVM 的创建者 Chris Latter �
 术语解析器（parser）和编译器分别代表编译器前端和后端。这里的编译器（compiler）代表另外一个意思。
 它应该被称为其他的名字比如代码对象生成器，但是我们依然坚持使用编译器，因为它似乎不会造成太多麻烦。</p>
 <p>解析器（parser）的职责是检查输入的 Python 代码语法是否正确。如果不正确，解析器会报告一个像下面这样的错误：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x <span style="color:#f92672">=</span> y <span style="color:#f92672">=</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x <span style="color:#f92672">=</span> y <span style="color:#f92672">=</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>
         <span style="color:#f92672">^</span>
 <span style="color:#a6e22e">SyntaxError</span>: invalid syntax
 </code></pre></div><p>如果输入正确，解析器会根据文法（grammar）规则对它进行组织。文法（grammar）定义了一个语言的语法（syntax）<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。
@@ -242,9 +242,9 @@ LLVM 提供给编译器更加复杂的部分。LLVM 的创建者 Chris Latter �
 <p>我们将会在解析器部分继续更深入的讨论文法。</p>
 <h3 id="抽象语法树-abstract-syntax-tree">抽象语法树（Abstract syntax tree）<a href="#抽象语法树-abstract-syntax-tree" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>解析器的最终目的是产生 AST。AST 是一个提供源代码高层抽象的树结构。下面是一段代码通过使用 <a href="https://docs.python.org/3/library/ast.html">ast</a> 标准库 dump 出来的对应的 AST：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x <span style="color:#f92672">=</span> <span style="color:#ae81ff">123</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x <span style="color:#f92672">=</span> <span style="color:#ae81ff">123</span>
 f(x)
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m ast example.py
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m ast example.py
 Module<span style="color:#f92672">(</span>
    body<span style="color:#f92672">=[</span>
       Assign<span style="color:#f92672">(</span>
@@ -260,11 +260,11 @@ Module<span style="color:#f92672">(</span>
    type_ignores<span style="color:#f92672">=[])</span>
 </code></pre></div><p>AST 节点的类型使用<a href="https://www.cs.princeton.edu/research/techreps/TR-554-97">抽象语法描述语言</a>（ASDL）进行定义。ASDL 是一个简单的声明式语言用来描述中间语言（IRs），也就是 AST。
 这里是 <a href="https://github.com/python/cpython/blob/master/Parser/Python.asdl">Parser/Python.asdl</a> 中 <code>Assign</code> 和 <code>Expr</code> 节点的定义：</p>
-<pre><code class="language-adsl" data-lang="adsl">stmt = ... | Assign(expr* targets, expr value, string? type_comment) | ...
+<pre tabindex="0"><code class="language-adsl" data-lang="adsl">stmt = ... | Assign(expr* targets, expr value, string? type_comment) | ...
 expr = ... | Call(expr func, expr* args, keyword* keywords) | ...
 </code></pre><p>ASDL 规范能够让我们快速的直观了解 Python AST。但是解析器需要使用 C 代码来表示 AST。幸好，通过 ASDL 的描述可以非常简单的生成 C 结构体。
 下面是 CPython 的实现，结果如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> _stmt {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> _stmt {
     <span style="color:#66d9ef">enum</span> _stmt_kind kind;
     <span style="color:#66d9ef">union</span> {
         <span style="color:#75715e">// ... other kinds of statements
@@ -309,7 +309,7 @@ expr = ... | Call(expr func, expr* args, keyword* keywords) | ...
 生成属于该语言的序列。生成文法的问题是它不能直接对应与能够解析那些序列的解析算法。幸好，聪明的人能够区分生成文法的类型并建
 立相应的解析器。这些包括 <a href="https://en.wikipedia.org/wiki/Context-free%5Fgrammar">上下文无关(context free)</a>、<a href="https://en.wikipedia.org/wiki/LL%5Fgrammar">LL(k)</a>、<a href="https://en.wikipedia.org/wiki/LR%5Fparser">LR(k)</a>、<a href="https://en.wikipedia.org/wiki/LALR%5Fparser">LALR</a> 和其他许多类型的文法。Python 的文法是 LL(1)。它指定
 使用 <a href="https://zh.wikipedia.org/wiki/%E6%89%A9%E5%B1%95%E5%B7%B4%E7%A7%91%E6%96%AF%E8%8C%83%E5%BC%8F">扩展巴科斯范式（EBNF, Extended Backus–Naur Form）</a>。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>要想知道它如何描述 Python 语法的，让我们来看一下 <code>while</code> 语句的规则。</p>
-<pre><code class="language-nil" data-lang="nil">file_input: (NEWLINE | stmt)* ENDMARKER
+<pre tabindex="0"><code class="language-nil" data-lang="nil">file_input: (NEWLINE | stmt)* ENDMARKER
 stmt: simple_stmt | compound_stmt
 compound_stmt: ... | while_stmt | ...
 while_stmt: 'while' namedexpr_test ':' suite ['else' ':' suite]
@@ -331,7 +331,7 @@ suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 <p>CPython 因为编写了产生式规则所以无法直接使用这个方法，所以需要开发新的方法。要支持扩展符号，旧的解析器通过<a href="https://zh.wikipedia.org/wiki/%E7%A1%AE%E5%AE%9A%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E8%87%AA%E5%8A%A8%E6%9C%BA">确定有限状态自动机（DFA, Deterministic Finite Automaton）</a>
 表示文法中的每一个规则，其以和正则表达式等效而闻名。解析器自身是一个像 PDA 一样的基于栈的自动机，但是不将符号压入栈，而是替代的压入 DFA 的状态。
 这里是旧解析器使用的关键的数据结构：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
     <span style="color:#66d9ef">int</span>              s_state;       <span style="color:#75715e">/* State in current DFA */</span>
     <span style="color:#66d9ef">const</span> dfa       <span style="color:#f92672">*</span>s_dfa;         <span style="color:#75715e">/* Current DFA */</span>
     <span style="color:#66d9ef">struct</span> _node    <span style="color:#f92672">*</span>s_parent;      <span style="color:#75715e">/* Where to add next node */</span>
@@ -359,7 +359,7 @@ suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 <p>DFA 代表解析规则。DFA 中节点代表解析器中的状态，arc 表示过渡。过渡用端点或非端点标记。当解析器决定跟随一个 arc 标记的非端点，它是以该解析规则的 DFA 作为它的初始状态递归调用；当 DFA 接受时，调用它的解析器将继续。通过递归的调用构建的解析树作为子树插入当前的解析树中。</p>
 </blockquote>
 <p>在解析输入的过程中，解析器构建了解析树，也被称作具体语法树（Concrete Syntax Tree，CST）。对比 AST，解析树直接对应输入时对应的规则。解析树的所有节点通过 <code>node</code> 结构体表示：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _node {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _node {
     <span style="color:#66d9ef">short</span>               n_type;
     <span style="color:#66d9ef">char</span>                <span style="color:#f92672">*</span>n_str;
     <span style="color:#66d9ef">int</span>                 n_lineno;
@@ -378,11 +378,11 @@ suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 <p>从语法的角度来说 Python 并不是一门简单的语言。尽管 Python 的文法看起来很简单并且包含在注释在内也就 200 行。这是因为文法的符号都是标记而非单独的字符。
 一个标记通过类型表示，比如 <code>NUMBER</code> 、 <code>NAME</code> 、 <code>NEWLINE</code> ， 对应的值和位置在源码中。 CPython 在 <a href="https://github.com/python/cpython/blob/3.9/Grammar/Tokens">Grammar/Tokens</a> 中列出了 63 种不同类型的标记。
 我们可以使用标注库 <a href="https://docs.python.org/3/library/tokenize.html">tokenize</a> 来看一个标记过的程序：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">x_plus</span>(x):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">x_plus</span>(x):
     <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
         <span style="color:#66d9ef">return</span> x
     <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m tokenize example2.py
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m tokenize example2.py
 0,0-0,0:            ENCODING       <span style="color:#e6db74">&#39;utf-8&#39;</span>
 1,0-1,3:            NAME           <span style="color:#e6db74">&#39;def&#39;</span>
 1,4-1,10:           NAME           <span style="color:#e6db74">&#39;x_plus&#39;</span>

@@ -148,12 +148,12 @@
 
   <div class="post-content"><div>
         <h2 id="循环展开">循环展开<a href="#循环展开" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> fields <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> fields <span style="color:#f92672">=</span> vec![
   syn::Ident::new(<span style="color:#e6db74">&#34;foo&#34;</span>, syn::Span::call_site()),
   syn::Ident::new(<span style="color:#e6db74">&#34;bar&#34;</span>, syn::Span::call_site()),
 ];
 <span style="color:#66d9ef">let</span> token <span style="color:#f92672">=</span> quote<span style="color:#f92672">!</span>{
-  <span style="color:#960050;background-color:#1e0010">#</span>(<span style="color:#960050;background-color:#1e0010">#</span>fields),<span style="color:#f92672">*</span>
+  #(#fields),<span style="color:#f92672">*</span>
 }; <span style="color:#75715e">// -&gt; foo,bar
 </span></code></pre></div>
       </div></div>

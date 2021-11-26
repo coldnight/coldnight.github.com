@@ -159,7 +159,7 @@ CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可
 <h2 id="python-幕后-1-cpython-虚拟机如何工作">Python 幕后 #1: CPython 虚拟机如何工作<a href="#python-幕后-1-cpython-虚拟机如何工作" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="介绍-introduction">介绍（Introduction）<a href="#介绍-introduction" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>你是否曾经好奇过当你运行 Python 代码时 <code>python</code> 做了些什么？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python script.py
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python script.py
 </code></pre></div><p>这篇文章将开启一个系列来尝试解答这个问题。我们将深入 Python 最流行的实现 CPython 的内部。
 通过深入 CPython 的内部我们将更深一层的去理解这门编程语言本身。这也是我们这个系列的最主要的目标。
 如果你熟悉 Python 并且可以阅读 C 代码，但是对 CPython 源码本身没有太多的经验，
@@ -212,11 +212,11 @@ CPython 也是如此。这个翻译阶段和一个典型的编译器做同样的
 通过 AST 生成字节码、甚至执行一些字节码优化的操作。</p>
 <p>在进入下一阶段之前，我们需要理解什么是字节码（bytecode）。字节码是一系列的指令。
 每一个指令由两个字节组成：一个为 opcode，一个为参数（argument）。看如下例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">g</span>(x):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">g</span>(x):
     <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>
 </code></pre></div><p>CPython 将函数定义 <code>g</code> 翻译成一个字节序列：[124, 0, 100, 1, 23, 0, 83, 0]。
 如果我们运行标准库 <code>dis</code> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>去反汇编它，我们将会得到如下内容：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ae81ff">2</span>           <span style="color:#ae81ff">0</span> LOAD_FAST            <span style="color:#ae81ff">0</span> (x)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ae81ff">2</span>           <span style="color:#ae81ff">0</span> LOAD_FAST            <span style="color:#ae81ff">0</span> (x)
             <span style="color:#ae81ff">2</span> LOAD_CONST           <span style="color:#ae81ff">1</span> (<span style="color:#ae81ff">3</span>)
             <span style="color:#ae81ff">4</span> BINARY_ADD
             <span style="color:#ae81ff">6</span> RETURN_VALUE
@@ -243,14 +243,14 @@ CPython 虚拟机一个基于栈的。也就意味这它执行指令并通过栈
 <p>我们已经看过一个简单的函数的字节码是什么样子的。但是一个典型的 Python 程序要复杂的多。
 VM 如何执行一个包含程序定义和函数调用的模块（module）？</p>
 <p>考虑如下程序：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>(x):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>(x):
     <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 
-<span style="color:#66d9ef">print</span>(f(<span style="color:#ae81ff">1</span>))
+print(f(<span style="color:#ae81ff">1</span>))
 </code></pre></div><p>它的字节码什么样子？让我们分析这个程序做了什么来解答这个问题。它定义了一个函数 <code>f</code> ，
 通过一个参数 <code>1</code> 调用函数 <code>f</code> 然后打印结果。无论函数 <code>f</code> 做了什么都不会包含在模块字节码中。
 我们可以通过运行一个反汇编来证明我们自己：</p>
-<pre><code class="language-nil" data-lang="nil">1           0 LOAD_CONST               0 (&lt;code object f at 0x10bffd1e0, file &quot;example.py&quot;, line 1&gt;)
+<pre tabindex="0"><code class="language-nil" data-lang="nil">1           0 LOAD_CONST               0 (&lt;code object f at 0x10bffd1e0, file &quot;example.py&quot;, line 1&gt;)
             2 LOAD_CONST               1 ('f')
             4 MAKE_FUNCTION            0
             6 STORE_NAME               0 (f)
@@ -285,7 +285,7 @@ CPython 存储关于代码块的信息的结构体就是代码对象（code obje
 但是每一个代码对象都可以被零个或多个函数对象引用，取决于源码中的 &lsquo;def&rsquo; 语句目前为止被执行了多少次。</p>
 </blockquote>
 <p>多个函数对象如何饮用一个代码对象？这里有个例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">make_add_x</span>(x):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">make_add_x</span>(x):
     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_x</span>(y):
         <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y
     <span style="color:#66d9ef">return</span> add_x
@@ -296,7 +296,7 @@ add_5 <span style="color:#f92672">=</span> make_add_x(<span style="color:#ae81ff
 代码对象作为参数调用这个指令产生的结果，但是其参数 <code>x</code> 的值不相同。
 每一个函数拥有自己的变量单元的机制允许我们创建如 <code>add_4</code> 和 <code>add_5</code> 的闭包函数。</p>
 <p>我们继续下一个主题之前推荐你看一下定义函数对象的代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> PyCodeObject {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> PyCodeObject {
     PyObject_HEAD
     <span style="color:#66d9ef">int</span> co_argcount;            <span style="color:#75715e">/* #arguments, except *args */</span>
     <span style="color:#66d9ef">int</span> co_posonlyargcount;     <span style="color:#75715e">/* #positional only arguments */</span>
@@ -317,7 +317,7 @@ add_5 <span style="color:#f92672">=</span> make_add_x(<span style="color:#ae81ff
     PyObject <span style="color:#f92672">*</span>co_name;          <span style="color:#75715e">/* unicode (name, for reference) */</span>
         <span style="color:#75715e">/* ... more members ... */</span>
 };
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
     PyObject_HEAD
     PyObject <span style="color:#f92672">*</span>func_code;        <span style="color:#75715e">/* A code object, the __code__ attribute */</span>
     PyObject <span style="color:#f92672">*</span>func_globals;     <span style="color:#75715e">/* A dictionary (other mappings won&#39;t do) */</span>
@@ -338,7 +338,7 @@ add_5 <span style="color:#f92672">=</span> make_add_x(<span style="color:#ae81ff
 同时还需要记住在什么地方停止运行当前代码对象然后去运行其他的代码对象，并且在哪里返回。
 CPython 在一个帧对象里存储这些信息，或者简单的说成帧。一个帧提供了一个哪个代码对象可以被执行的状态。
 由于我们已经开始习惯源代码，所以这里我贴出帧对象的定义：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> _frame {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> _frame {
     PyObject_VAR_HEAD
     <span style="color:#66d9ef">struct</span> _frame <span style="color:#f92672">*</span>f_back;      <span style="color:#75715e">/* previous frame, or NULL */</span>
     PyCodeObject <span style="color:#f92672">*</span>f_code;       <span style="color:#75715e">/* code segment */</span>
@@ -385,7 +385,7 @@ CPython 在一个帧对象里存储这些信息，或者简单的说成帧。一
 <p>线程状态是一个包含线程特定数据栈数据结构，其中包含调用栈、异常状态和调试设置。
 不应将其和系统线程（OS thread）混淆，尽管它们联系紧密。考虑当时使用标准库 <code>threading</code>
 在一个单独的线程运行一个函数发生了什么：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
 
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>():
     <span style="color:#e6db74">&#34;&#34;&#34;Perform an I/O-bound task&#34;&#34;&#34;</span>

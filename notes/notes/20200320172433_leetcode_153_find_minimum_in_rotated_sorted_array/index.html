@@ -158,7 +158,7 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
 <li>向右边扩散，如果右边的小于当前元素，那么右边元素即为最小值</li>
 </ol>
 <p>如果以上不成立则第一个元素为最小元素（未旋转），以下是代码</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findMin</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findMin</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
         <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
         <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
                 <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>]
@@ -199,7 +199,7 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
 <li>否则最小元素在左边</li>
 </ul>
 <!-- raw HTML omitted -->
-<pre><code class="language-nil" data-lang="nil">func findMin(nums []int) int {
+<pre tabindex="0"><code class="language-nil" data-lang="nil">func findMin(nums []int) int {
         length := len(nums)
         if nums[0] &lt;= nums[length - 1]{
                 return nums[0]

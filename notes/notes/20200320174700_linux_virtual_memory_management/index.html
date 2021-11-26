@@ -204,7 +204,7 @@ Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架�
 <h4 id="内存节点">内存节点<a href="#内存节点" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>Linux 在分配内存页的时候采用 <strong>本地节点分配策略（node-local allocation policy）</strong> 通过最靠近当前运行 CPU 的节点去分配内存。同时进程也会趋向于采用同一 CPU 运行。</p>
 <p>节点的结构体定义在 <code>&lt;linux/memzone.h&gt;</code> 下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> pglist_data {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> pglist_data {
     <span style="color:#75715e">// 当前节点包含的分区：ZONE_HIGHMEM,ZONE_NORMAL,ZONE_DMA
 </span><span style="color:#75715e"></span>    zone_t node_zones[MAX_NR_ZONES];
     <span style="color:#75715e">// 定义的顺序决定分配优先采用的分区
@@ -247,7 +247,7 @@ Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架�
 <li>锁，等</li>
 </ul>
 <p>定义在 <code>&lt;linux/memzone.h&gt;</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> zone_struct {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> zone_struct {
     <span style="color:#75715e">// 自旋锁用于保护并发访问
 </span><span style="color:#75715e"></span>    spinlock_t lock;
 
@@ -345,7 +345,7 @@ Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架�
 <h4 id="页">页<a href="#页" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>每页物理页帧在系统中都通过 <code>struct page</code> 关联，用于跟踪状态。</p>
 <p>声明在 <code>&lt;linux/mm.h&gt;</code> 中</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> page {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> page {
 
     <span style="color:#75715e">// 页可能归属于多个列表，此字段用于存放所属链表的表头（多个），也用于将多个（blocks）空闲的表连接在一起
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> list_head list;
@@ -387,7 +387,7 @@ Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架�
 <ol>
 <li>
 <p>在 <code>mm/page_alloc.c</code> 中初始化 <code>zone_table</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">
 <span style="color:#ae81ff">33</span> zone_t <span style="color:#f92672">*</span>zone_table[MAX_NR_ZONES<span style="color:#f92672">*</span>MAX_NR_NODES];
 <span style="color:#ae81ff">34</span> <span style="color:#a6e22e">EXPORT_SYMBOL</span>(zone_table);
 </code></pre></div><ul>
@@ -402,7 +402,7 @@ Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架�
 <ol>
 <li>
 <p>设置分区表(zone table)的值</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">733</span>           zone_table[nid <span style="color:#f92672">*</span> MAX_NR_ZONES <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> zone;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">733</span>           zone_table[nid <span style="color:#f92672">*</span> MAX_NR_ZONES <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> zone;
 </code></pre></div><ul>
 <li><code>nid</code> &ndash; 当前内存节点 ID</li>
 <li><code>j</code> &ndash; 分区（ <code>struct zone_t</code> ）索引</li>
@@ -410,7 +410,7 @@ Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架�
 </li>
 <li>
 <p>调用 <code>set_page_zone</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">788</span>           <span style="color:#a6e22e">set_page_zone</span>(page, nid <span style="color:#f92672">*</span> MAX_NR_ZONES <span style="color:#f92672">+</span> j);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">788</span>           <span style="color:#a6e22e">set_page_zone</span>(page, nid <span style="color:#f92672">*</span> MAX_NR_ZONES <span style="color:#f92672">+</span> j);
 </code></pre></div><ul>
 <li><code>page</code> 分区内被初始的页，所以 <code>zone_table</code> 的索引存储在页中</li>
 </ul>

@@ -156,7 +156,7 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
 </blockquote>
 <h2 id="思路">思路<a href="#思路" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>直接暴力往两边搜索</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
         <span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
         <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">buf</span>)
         <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
@@ -191,7 +191,7 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
         <span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>])
 }
 </code></pre></div><p>上面代码无法处理 &ldquo;aaaa&rdquo; 和 &ldquo;noon&rdquo; 这种情况，只要把下面处理 &ldquo;bba&rdquo; 和 &ldquo;abb&rdquo; 情况的代码放到上面即可</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
         <span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
         <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">buf</span>)
         <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
@@ -228,7 +228,7 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
 <li>以当前字符和下一个字符为中心向两边扩散</li>
 </ol>
 <p>对比以上两个结果取大的那个，调整后如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
         <span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
         <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">buf</span>)
         <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {

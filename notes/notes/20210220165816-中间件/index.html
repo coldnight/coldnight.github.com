@@ -154,14 +154,14 @@ U | &#43;------&#43; | HA | &#43;------&#43; / | \ /--- | ---\ / | \ A B C 这�
 
   <div class="post-content"><div>
         <p>中间件可以对系统进行解耦，比如上层系统对下层系统进行网络请求，考虑下面结构</p>
-<pre><code class="language-nil" data-lang="nil">       - U -
+<pre tabindex="0"><code class="language-nil" data-lang="nil">       - U -
       /  |  \
   /---   |   ---\
  /       |       \
 A        B        C
 </code></pre><p>如果下层系统增加节点的话就需要重启 U。</p>
 <p>引入 HAProxy 或者 Nginx 之类的中间件可以对两层系统进行解耦：</p>
-<pre><code class="language-nil" data-lang="nil">         U
+<pre tabindex="0"><code class="language-nil" data-lang="nil">         U
          |
      +------+
      |  HA  |

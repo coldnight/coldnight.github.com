@@ -153,7 +153,7 @@
   <div class="post-content"><div>
         <p>内存屏障（或栅栏）是非<a href="/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/">顺序一致性</a>的硬件提供的一种显式指令，用于控制排序提供更强的内存排序，修复同步算法。</p>
 <p>添加内存屏障，确保每个线程在开始读取之前都会刷新其先前对内存的写入：</p>
-<pre><code class="language-nil" data-lang="nil">// Thread 1           // Thread 2
+<pre tabindex="0"><code class="language-nil" data-lang="nil">// Thread 1           // Thread 2
 x = 1                 y = 1
 barrier               barrier
 r1 = y                r2 = x

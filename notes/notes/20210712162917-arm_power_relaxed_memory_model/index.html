@@ -160,7 +160,7 @@ Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 //
 
 
 <p>在这个宽松的(relaxed)模型中，我们迄今为止所看到的每一个litmus test的答案都是“yes，这真的可能发生。”</p>
-<pre><code class="language-nil" data-lang="nil">Litmus Test: Message Passing
+<pre tabindex="0"><code class="language-nil" data-lang="nil">Litmus Test: Message Passing
 Can this program see r1 = 1, r2 = 0?
 // Thread 1           // Thread 2
 x = 1                 r1 = y
@@ -168,7 +168,7 @@ y = 1                 r2 = x
 On sequentially consistent hardware: no.
 On x86 (or other TSO): no.
 On ARM/POWER: yes!
-</code></pre><pre><code class="language-nil" data-lang="nil">Litmus Test: Store Buffering
+</code></pre><pre tabindex="0"><code class="language-nil" data-lang="nil">Litmus Test: Store Buffering
 Can this program see r1 = 0, r2 = 0?
 // Thread 1           // Thread 2
 x = 1                 y = 1
@@ -176,7 +176,7 @@ r1 = y                r2 = x
 On sequentially consistent hardware: no.
 On x86 (or other TSO): yes!
 On ARM/POWER: yes!
-</code></pre><pre><code class="language-nil" data-lang="nil">Litmus Test: Independent Reads of Independent Writes (IRIW)
+</code></pre><pre tabindex="0"><code class="language-nil" data-lang="nil">Litmus Test: Independent Reads of Independent Writes (IRIW)
 Can this program see r1 = 1, r2 = 0, r3 = 1, r4 = 0?
 (Can Threads 3 and 4 see x and y change in different orders?)
 // Thread 1    // Thread 2    // Thread 3    // Thread 4
@@ -185,7 +185,7 @@ x = 1          y = 1          r1 = x         r3 = y
 On sequentially consistent hardware: no.
 On x86 (or other TSO): no.
 On ARM/POWER: yes!
-</code></pre><pre><code class="language-nil" data-lang="nil">Litmus Test: Load Buffering
+</code></pre><pre tabindex="0"><code class="language-nil" data-lang="nil">Litmus Test: Load Buffering
 Can this program see r1 = 1, r2 = 1?
 (Can each thread's read happen after the other thread's write?)
 // Thread 1    // Thread 2

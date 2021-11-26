@@ -187,7 +187,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 <h2 id="lsp-liskov-substitution-principle">LSP：Liskov Substitution Principle<a href="#lsp-liskov-substitution-principle" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>里氏替换原则：多态。</p>
 <p>每个类型是 S 的对象 o1 都存在一个类型为 T 的对象 o2，能使操作 T 类型的程序 P 在用 o2 替换 o1 时行为保持不变，我们就可以将 S 称为 T 的子类型。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LiskovSub</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LiskovSub</span> <span style="color:#f92672">{</span>
   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
     T o1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> S<span style="color:#f92672">();</span>
     T o2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> T<span style="color:#f92672">();</span>
@@ -201,7 +201,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
   <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><p>正长方形问题</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NonLiskovSub</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NonLiskovSub</span> <span style="color:#f92672">{</span>
   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
     Rectangle r <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Sqaure<span style="color:#f92672">();</span>
     r<span style="color:#f92672">.</span><span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span>5<span style="color:#f92672">);</span>

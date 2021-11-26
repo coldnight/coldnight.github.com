@@ -183,7 +183,7 @@
 <ul>
 <li>
 <p>编译期未知大小的类型（递归类型（自己包含自己类型的类型，如链表）编译期无法确定大小）</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// 递归类型
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// 递归类型
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">List</span> {
   Cons(<span style="color:#66d9ef">i32</span>, Box<span style="color:#f92672">&lt;</span>List<span style="color:#f92672">&gt;</span>),
   Nil,
@@ -191,7 +191,7 @@
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
   <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> Box::new(<span style="color:#ae81ff">5</span>);
-  println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;b = {}&#34;</span>, b);
+  println!(<span style="color:#e6db74">&#34;b = {}&#34;</span>, b);
 
   <span style="color:#66d9ef">let</span> list <span style="color:#f92672">=</span> Cons(<span style="color:#ae81ff">1</span>,
     Box::new(Cons(<span style="color:#ae81ff">2</span>,
@@ -209,23 +209,23 @@
 <h3 id="deref">Deref<a href="#deref" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>用于自定义解引用操作符（ <code>*</code> ） 的行为，智能指针通过实现该特性来模拟普通引用的行为。</p>
 <p>对比</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
   <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
   <span style="color:#66d9ef">let</span> y <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>x;
 
-  assert_eq<span style="color:#f92672">!</span>(<span style="color:#ae81ff">5</span>, x);
-  assert_eq<span style="color:#f92672">!</span>(<span style="color:#ae81ff">5</span>, <span style="color:#f92672">*</span>y);   <span style="color:#75715e">// must dereference
+  assert_eq!(<span style="color:#ae81ff">5</span>, x);
+  assert_eq!(<span style="color:#ae81ff">5</span>, <span style="color:#f92672">*</span>y);   <span style="color:#75715e">// must dereference
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>和</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
   <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
   <span style="color:#66d9ef">let</span> y <span style="color:#f92672">=</span> Box::new(x);
 
-  assert_eq<span style="color:#f92672">!</span>(<span style="color:#ae81ff">5</span>, x);
-  assert_eq<span style="color:#f92672">!</span>(<span style="color:#ae81ff">5</span>, <span style="color:#f92672">*</span>y);
+  assert_eq!(<span style="color:#ae81ff">5</span>, x);
+  assert_eq!(<span style="color:#ae81ff">5</span>, <span style="color:#f92672">*</span>y);
 }
 </code></pre></div><p><code>Box&lt;T&gt;</code> 的实现大体如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::ops::Deref;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::ops::Deref;
 
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyBox</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(T);
 
@@ -241,7 +241,7 @@
   }
 }
 </code></pre></div><p><code>deref</code> 让编译器知道如何通过 <code>&amp;</code> 获取一个引用，然后就可以正确的解引用，实际展开的代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#f92672">*</span>(y.deref())
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#f92672">*</span>(y.deref())
 </code></pre></div><p>这样做的原因是如果 <code>deref</code> 不返回引用而是返回值，那么就会发生所有权转移，这是智能指针所不允许的。</p>
 <p>如果一个类型实现了 <code>Deref</code> ，当传递给函数或方法的类型不满足时，编译器会自动进行隐式转换（可能时多次）以满足需求。
 还有 <code>DerefMut</code> 处理可变解引用。</p>

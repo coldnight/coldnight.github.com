@@ -151,7 +151,7 @@ pub trait Iterator { type Item; // 关联类型  fn next(&amp;amp;mut self) -&am
   <div class="post-content"><div>
         <h2 id="迭代器">迭代器<a href="#迭代器" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>所有的迭代器都实现了 <code>Iterator</code> 特性：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> Iterator {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> Iterator {
   <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Item</span>;  <span style="color:#75715e">// 关联类型
 </span><span style="color:#75715e"></span>  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">next</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; Option<span style="color:#f92672">&lt;</span>Self::Item<span style="color:#f92672">&gt;</span>;  <span style="color:#75715e">// 返回 None 结束循环
 </span><span style="color:#75715e"></span>}
