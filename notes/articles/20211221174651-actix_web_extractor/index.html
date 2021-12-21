@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
 先来看一个在项目 README.md 中的例子：
-use actix_web::{get, web, App, HttpServer, Responder}; #[get(&amp;#34;/{id}/{name}/index.html&amp;#34;)] async fn index(web::Path((id, name)): web::Path&amp;lt;(u32, String)&amp;gt;) -&amp;gt; impl Responder { format!(&amp;#34;Hello {}! id:{}&amp;#34;, name, id) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| App::new().service(index)) .bind(&amp;#34;127.0.0.1:8080&amp;#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有基于非宏运行时的调用：
+use actix_web::{get, web, App, HttpServer, Responder}; #[get(&amp;#34;/{id}/{name}/index.html&amp;#34;)] async fn index(web::Path((id, name)): web::Path&amp;lt;(u32, String)&amp;gt;) -&amp;gt; impl Responder { format!(&amp;#34;Hello {}! id:{}&amp;#34;, name, id) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| App::new().service(index)) .bind(&amp;#34;127.0.0.1:8080&amp;#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：
 use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&amp;gt; impl Responder { let name = req.match_info().get(&amp;#34;name&amp;#34;).unwrap_or(&amp;#34;World&amp;#34;); format!(&amp;#34;Hello {}!&amp;#34;, &amp;amp;name) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| { App::new() ." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -39,7 +39,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
 <meta property="og:title" content="actix-web extractors 支持提取任意长度的参数">
 <meta property="og:description" content="背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
 先来看一个在项目 README.md 中的例子：
-use actix_web::{get, web, App, HttpServer, Responder}; #[get(&amp;#34;/{id}/{name}/index.html&amp;#34;)] async fn index(web::Path((id, name)): web::Path&amp;lt;(u32, String)&amp;gt;) -&amp;gt; impl Responder { format!(&amp;#34;Hello {}! id:{}&amp;#34;, name, id) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| App::new().service(index)) .bind(&amp;#34;127.0.0.1:8080&amp;#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有基于非宏运行时的调用：
+use actix_web::{get, web, App, HttpServer, Responder}; #[get(&amp;#34;/{id}/{name}/index.html&amp;#34;)] async fn index(web::Path((id, name)): web::Path&amp;lt;(u32, String)&amp;gt;) -&amp;gt; impl Responder { format!(&amp;#34;Hello {}! id:{}&amp;#34;, name, id) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| App::new().service(index)) .bind(&amp;#34;127.0.0.1:8080&amp;#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：
 use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&amp;gt; impl Responder { let name = req.match_info().get(&amp;#34;name&amp;#34;).unwrap_or(&amp;#34;World&amp;#34;); format!(&amp;#34;Hello {}!&amp;#34;, &amp;amp;name) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| { App::new() ." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/articles/20211221174651-actix_web_extractor/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
@@ -170,7 +170,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
         .run()
         .<span style="color:#66d9ef">await</span>
 }
-</code></pre></div><p>初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有基于非宏运行时的调用：</p>
+</code></pre></div><p>初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> actix_web::{web, App, HttpRequest, HttpServer, Responder};
 
 <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">greet</span>(req: <span style="color:#a6e22e">HttpRequest</span>) -&gt; <span style="color:#a6e22e">impl</span> Responder {
@@ -189,7 +189,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     .run()
     .<span style="color:#66d9ef">await</span>
 }
-</code></pre></div><p>看下来 to 的函数签名，实现一个参数的 Extractor 也不困难：</p>
+</code></pre></div><p>看下来方法 <code>to</code> 的签名，实现一个参数的提取也不困难：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">&lt;</span>F, T, R<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">mut</span> self, handler: <span style="color:#a6e22e">F</span>) -&gt; <span style="color:#a6e22e">Self</span>
    <span style="color:#66d9ef">where</span>
        F: <span style="color:#a6e22e">Handler</span><span style="color:#f92672">&lt;</span>T, R<span style="color:#f92672">&gt;</span>,
@@ -213,7 +213,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; <span style="color:#a6e22e">Self</span>;
 }
 
-<span style="color:#75715e">// 空参数
+<span style="color:#75715e">// 支持空参数的函数当作 Handler 传递
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>F, R<span style="color:#f92672">&gt;</span> Handler<span style="color:#f92672">&lt;</span>(), R<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> F
 <span style="color:#66d9ef">where</span>
     F: Fn() -&gt; <span style="color:#a6e22e">R</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
@@ -223,7 +223,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-<span style="color:#75715e">// 一个参数
+<span style="color:#75715e">// 支持一个参数的函数当作 Handler 传递
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>F, A, R<span style="color:#f92672">&gt;</span> Handler<span style="color:#f92672">&lt;</span>(A,), R<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> F
 <span style="color:#66d9ef">where</span>
     F: Fn(A) -&gt; <span style="color:#a6e22e">R</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
@@ -233,7 +233,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-<span style="color:#75715e">// 两个参数
+<span style="color:#75715e">// 支持两个参数的函数作为 Handler 传递
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>F, A, B, R<span style="color:#f92672">&gt;</span> Handler<span style="color:#f92672">&lt;</span>(A, B), R<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> F
 <span style="color:#66d9ef">where</span>
     F: Fn(A, B) -&gt; <span style="color:#a6e22e">R</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
@@ -243,29 +243,21 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">handle</span><span style="color:#f92672">&lt;</span>T, R, F<span style="color:#f92672">&gt;</span>(handler: <span style="color:#a6e22e">F</span>) -&gt; <span style="color:#a6e22e">R</span>
-<span style="color:#66d9ef">where</span>
-    F: <span style="color:#a6e22e">Handler</span><span style="color:#f92672">&lt;</span>T, R<span style="color:#f92672">&gt;</span>,
-    T: <span style="color:#a6e22e">FromRequest</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
-    R: <span style="color:#f92672">&#39;</span>static,
-{
-    handler.call(T::from_request())
-}
-
 <span style="color:#66d9ef">impl</span> FromRequest <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">i32</span> {
     <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; <span style="color:#66d9ef">i32</span> {
         <span style="color:#ae81ff">3</span>
     }
 }
 
-<span style="color:#75715e">// 0 参数
+<span style="color:#75715e">// 支持 0 参数变成 Tuple 后的 from_request 调用
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span> FromRequest <span style="color:#66d9ef">for</span> () {
     <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; () {
         ()
     }
 }
 
-<span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>A<span style="color:#f92672">&gt;</span> FromRequest <span style="color:#66d9ef">for</span> (A, )
+<span style="color:#75715e">// 支持一个参数变成 Tuple 后的 from_request 调用
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>A<span style="color:#f92672">&gt;</span> FromRequest <span style="color:#66d9ef">for</span> (A, )
 <span style="color:#66d9ef">where</span> A: <span style="color:#a6e22e">FromRequest</span>
 {
     <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; (A,) {
@@ -273,7 +265,8 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-<span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>A, B<span style="color:#f92672">&gt;</span> FromRequest <span style="color:#66d9ef">for</span> (A, B)
+<span style="color:#75715e">// 支持两个参数变成 Tuple 后的 from_request 调用
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>A, B<span style="color:#f92672">&gt;</span> FromRequest <span style="color:#66d9ef">for</span> (A, B)
 <span style="color:#66d9ef">where</span>
     A: <span style="color:#a6e22e">FromRequest</span>,
     B: <span style="color:#a6e22e">FromRequest</span>,
@@ -281,6 +274,16 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; (A, B) {
         (A::from_request(), B::from_request())
     }
+}
+
+<span style="color:#75715e">// 委托调用函数，对被委托的函数参数进行解析后调用
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">handle</span><span style="color:#f92672">&lt;</span>T, R, F<span style="color:#f92672">&gt;</span>(handler: <span style="color:#a6e22e">F</span>) -&gt; <span style="color:#a6e22e">R</span>
+<span style="color:#66d9ef">where</span>
+    F: <span style="color:#a6e22e">Handler</span><span style="color:#f92672">&lt;</span>T, R<span style="color:#f92672">&gt;</span>,
+    T: <span style="color:#a6e22e">FromRequest</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
+    R: <span style="color:#f92672">&#39;</span>static,
+{
+    handler.call(T::from_request())
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">test0</span>() -&gt; <span style="color:#66d9ef">i32</span> {

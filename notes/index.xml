@@ -15,7 +15,7 @@
       <guid>https://www.linuxzen.com/notes/articles/20211221174651-actix_web_extractor/</guid>
       <description>背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
 先来看一个在项目 README.md 中的例子：
-use actix_web::{get, web, App, HttpServer, Responder}; #[get(&amp;#34;/{id}/{name}/index.html&amp;#34;)] async fn index(web::Path((id, name)): web::Path&amp;lt;(u32, String)&amp;gt;) -&amp;gt; impl Responder { format!(&amp;#34;Hello {}! id:{}&amp;#34;, name, id) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| App::new().service(index)) .bind(&amp;#34;127.0.0.1:8080&amp;#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有基于非宏运行时的调用：
+use actix_web::{get, web, App, HttpServer, Responder}; #[get(&amp;#34;/{id}/{name}/index.html&amp;#34;)] async fn index(web::Path((id, name)): web::Path&amp;lt;(u32, String)&amp;gt;) -&amp;gt; impl Responder { format!(&amp;#34;Hello {}! id:{}&amp;#34;, name, id) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| App::new().service(index)) .bind(&amp;#34;127.0.0.1:8080&amp;#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：
 use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&amp;gt; impl Responder { let name = req.match_info().get(&amp;#34;name&amp;#34;).unwrap_or(&amp;#34;World&amp;#34;); format!(&amp;#34;Hello {}!&amp;#34;, &amp;amp;name) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| { App::new() .</description>
       <content>&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
 &lt;p&gt;今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。&lt;/p&gt;
@@ -34,7 +34,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
         .run()
         .&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有基于非宏运行时的调用：&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;use&lt;/span&gt; actix_web::{web, App, HttpRequest, HttpServer, Responder};
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;greet&lt;/span&gt;(req: &lt;span style=&#34;color:#a6e22e&#34;&gt;HttpRequest&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt; Responder {
@@ -53,7 +53,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     .run()
     .&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;看下来 to 的函数签名，实现一个参数的 Extractor 也不困难：&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;看下来方法 &lt;code&gt;to&lt;/code&gt; 的签名，实现一个参数的提取也不困难：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;to&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;F, T, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;mut&lt;/span&gt; self, handler: &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Self&lt;/span&gt;
    &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
        F: &lt;span style=&#34;color:#a6e22e&#34;&gt;Handler&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;T, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;,
@@ -77,7 +77,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Self&lt;/span&gt;;
 }
 
-&lt;span style=&#34;color:#75715e&#34;&gt;// 空参数
+&lt;span style=&#34;color:#75715e&#34;&gt;// 支持空参数的函数当作 Handler 传递
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;F, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; Handler&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;(), R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; F
 &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
     F: Fn() -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
@@ -87,7 +87,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-&lt;span style=&#34;color:#75715e&#34;&gt;// 一个参数
+&lt;span style=&#34;color:#75715e&#34;&gt;// 支持一个参数的函数当作 Handler 传递
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;F, A, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; Handler&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;(A,), R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; F
 &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
     F: Fn(A) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
@@ -97,7 +97,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-&lt;span style=&#34;color:#75715e&#34;&gt;// 两个参数
+&lt;span style=&#34;color:#75715e&#34;&gt;// 支持两个参数的函数作为 Handler 传递
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;F, A, B, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; Handler&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;(A, B), R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; F
 &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
     F: Fn(A, B) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
@@ -107,29 +107,21 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handle&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;T, R, F&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(handler: &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
-    F: &lt;span style=&#34;color:#a6e22e&#34;&gt;Handler&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;T, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;,
-    T: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
-    R: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
-{
-    handler.call(T::from_request())
-}
-
 &lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
     &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
         &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
     }
 }
 
-&lt;span style=&#34;color:#75715e&#34;&gt;// 0 参数
+&lt;span style=&#34;color:#75715e&#34;&gt;// 支持 0 参数变成 Tuple 后的 from_request 调用
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; () {
     &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; () {
         ()
     }
 }
 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;A&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (A, )
+&lt;span style=&#34;color:#75715e&#34;&gt;// 支持一个参数变成 Tuple 后的 from_request 调用
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;A&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (A, )
 &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt; A: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt;
 {
     &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; (A,) {
@@ -137,7 +129,8 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;A, B&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (A, B)
+&lt;span style=&#34;color:#75715e&#34;&gt;// 支持两个参数变成 Tuple 后的 from_request 调用
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;A, B&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (A, B)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
     A: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt;,
     B: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt;,
@@ -145,6 +138,16 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; (A, B) {
         (A::from_request(), B::from_request())
     }
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// 委托调用函数，对被委托的函数参数进行解析后调用
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handle&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;T, R, F&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(handler: &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
+    F: &lt;span style=&#34;color:#a6e22e&#34;&gt;Handler&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;T, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;,
+    T: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+    R: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+{
+    handler.call(T::from_request())
 }
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test0&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
