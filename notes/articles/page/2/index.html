@@ -131,6 +131,42 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/articles/20211221174651-actix_web_extractor/">actix-web extractors</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-12-21
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
+先来看一个在项目 README.md 中的例子：
+use actix_web::{get, web, App, HttpServer, Responder}; #[get(&#34;/{id}/{name}/index.html&#34;)] async fn index(web::Path((id, name)): web::Path&lt;(u32, String)&gt;) -&gt; impl Responder { format!(&#34;Hello {}! id:{}&#34;, name, id) } #[actix_web::main] async fn main() -&gt; std::io::Result&lt;()&gt; { HttpServer::new(|| App::new().service(index)) .bind(&#34;127.0.0.1:8080&#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有基于非宏运行时的调用：
+use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&gt; impl Responder { let name = req.match_info().get(&#34;name&#34;).unwrap_or(&#34;World&#34;); format!(&#34;Hello {}!&#34;, &amp;name) } #[actix_web::main] async fn main() -&gt; std::io::Result&lt;()&gt; { HttpServer::new(|| { App::new() .
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/articles/20211221174651-actix_web_extractor/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/">Airflow powers AI</a>
         </h1>
         <div class="post-meta">

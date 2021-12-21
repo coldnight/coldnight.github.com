@@ -6,7 +6,179 @@
     <description>Recent content in Articles on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 26 Aug 2021 07:40:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/articles/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Dec 2021 17:46:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/articles/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>actix-web extractors</title>
+      <link>https://www.linuxzen.com/notes/articles/20211221174651-actix_web_extractor/</link>
+      <pubDate>Tue, 21 Dec 2021 17:46:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/articles/20211221174651-actix_web_extractor/</guid>
+      <description>背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
+先来看一个在项目 README.md 中的例子：
+use actix_web::{get, web, App, HttpServer, Responder}; #[get(&amp;#34;/{id}/{name}/index.html&amp;#34;)] async fn index(web::Path((id, name)): web::Path&amp;lt;(u32, String)&amp;gt;) -&amp;gt; impl Responder { format!(&amp;#34;Hello {}! id:{}&amp;#34;, name, id) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| App::new().service(index)) .bind(&amp;#34;127.0.0.1:8080&amp;#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有基于非宏运行时的调用：
+use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&amp;gt; impl Responder { let name = req.match_info().get(&amp;#34;name&amp;#34;).unwrap_or(&amp;#34;World&amp;#34;); format!(&amp;#34;Hello {}!&amp;#34;, &amp;amp;name) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| { App::new() .</description>
+      <content>&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。&lt;/p&gt;
+&lt;p&gt;先来看一个在项目 &lt;code&gt;README.md&lt;/code&gt; 中的例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;use&lt;/span&gt; actix_web::{get, web, App, HttpServer, Responder};
+
+&lt;span style=&#34;color:#75715e&#34;&gt;#[get(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/{id}/{name}/index.html&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;)]&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(web::Path((id, name)): &lt;span style=&#34;color:#a6e22e&#34;&gt;web&lt;/span&gt;::Path&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;u32&lt;/span&gt;, String)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt; Responder {
+    format!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Hello {}! id:{}&amp;#34;&lt;/span&gt;, name, id)
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;#[actix_web::main]&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;std&lt;/span&gt;::io::Result&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;()&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; {
+    HttpServer::new(&lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; App::new().service(index))
+        .bind(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;127.0.0.1:8080&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;
+        .run()
+        .&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有基于非宏运行时的调用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;use&lt;/span&gt; actix_web::{web, App, HttpRequest, HttpServer, Responder};
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;greet&lt;/span&gt;(req: &lt;span style=&#34;color:#a6e22e&#34;&gt;HttpRequest&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt; Responder {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; req.match_info().get(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;).unwrap_or(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;World&amp;#34;&lt;/span&gt;);
+    format!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Hello {}!&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;name)
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;#[actix_web::main]&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;std&lt;/span&gt;::io::Result&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;()&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; {
+    HttpServer::new(&lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; {
+        App::new()
+            .route(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/&amp;#34;&lt;/span&gt;, web::get().to(greet))
+            .route(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/{name}&amp;#34;&lt;/span&gt;, web::get().to(greet))
+    })
+    .bind((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;127.0.0.1&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;8080&lt;/span&gt;))&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;
+    .run()
+    .&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;看下来 to 的函数签名，实现一个参数的 Extractor 也不困难：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;to&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;F, T, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;mut&lt;/span&gt; self, handler: &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Self&lt;/span&gt;
+   &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
+       F: &lt;span style=&#34;color:#a6e22e&#34;&gt;Handler&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;T, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;,
+       T: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+       R: &lt;span style=&#34;color:#a6e22e&#34;&gt;Future&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+       R::Output: &lt;span style=&#34;color:#a6e22e&#34;&gt;Responder&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+       &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;R::Output &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; Responder&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;::Body: &lt;span style=&#34;color:#a6e22e&#34;&gt;MessageBody&lt;/span&gt;,
+       &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;R::Output &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; Responder&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;::Body &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; MessageBody&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;::Error: Into&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;BoxError&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;,
+   {
+       self.service &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; handler_service(handler);
+       self
+   }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;但是尝试之后发现 &lt;code&gt;to&lt;/code&gt; 同样可以支持多个参数，基于宏实现对于多个参数的支持相对比较简单，但是对于不通过宏实现对多个参数的解析就很神奇了。&lt;/p&gt;
+&lt;h2 id=&#34;原理探究&#34;&gt;原理探究&lt;/h2&gt;
+&lt;p&gt;经过深入了解之后发现底层原理大体如下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;trait&lt;/span&gt; Handler&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;T, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;call&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;self, t: &lt;span style=&#34;color:#a6e22e&#34;&gt;T&lt;/span&gt;)  -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt;;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;trait&lt;/span&gt; FromRequest {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Self&lt;/span&gt;;
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// 空参数
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;F, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; Handler&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;(), R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; F
+&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
+    F: Fn() -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+{
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;call&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;self, (): ()) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt; {
+        (self)()
+    }
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// 一个参数
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;F, A, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; Handler&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;(A,), R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; F
+&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
+    F: Fn(A) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+{
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;call&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;self, (A,): (A,)) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt; {
+        (self)(A)
+    }
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// 两个参数
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;F, A, B, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; Handler&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;(A, B), R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; F
+&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
+    F: Fn(A, B) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+{
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;call&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;self, (A, B): (A, B)) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt; {
+        (self)(A, B)
+    }
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handle&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;T, R, F&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(handler: &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;R&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
+    F: &lt;span style=&#34;color:#a6e22e&#34;&gt;Handler&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;T, R&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;,
+    T: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+    R: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
+{
+    handler.call(T::from_request())
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
+        &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
+    }
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// 0 参数
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; () {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; () {
+        ()
+    }
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;A&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (A, )
+&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt; A: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt;
+{
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; (A,) {
+        (A::from_request(), )
+    }
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;A, B&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (A, B)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt;
+    A: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt;,
+    B: &lt;span style=&#34;color:#a6e22e&#34;&gt;FromRequest&lt;/span&gt;,
+{
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; (A, B) {
+        (A::from_request(), B::from_request())
+    }
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test0&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
+    &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test1&lt;/span&gt;(v: &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
+    println!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{}&amp;#34;&lt;/span&gt;, v);
+    v
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test2&lt;/span&gt;(v: &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt;, v2: &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
+    v &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; v
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+    handle(test0);
+    handle(test1);
+    handle(test2);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;基本思路就是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;通过一个委托调用的函数，接收一个 &lt;code&gt;trait Object Handler&lt;/code&gt; 来抹掉变长参数；&lt;/li&gt;
+&lt;li&gt;为不同长度的参数的函数类型全部实现 &lt;code&gt;Handler&lt;/code&gt;，并将参数变成 Tuple单一参数（通过宏生成）；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FromRequest&lt;/code&gt; 实现不同长度 Tuple（通过宏生成），这样可以保证不同长度的参数变成 Tuple 后 &lt;code&gt;from_request&lt;/code&gt; 可正常调用。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;源码参见&#34;&gt;源码参见&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/actix/actix-web/blob/17f636a1839850b0141ac0b697e8a74129f8a512/src/extract.rs#L391-L400&#34;&gt;使用宏实现 FromRequest 支持多参数&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/actix/actix-web/blob/17f636a1839850b0141ac0b697e8a74129f8a512/src/extract.rs&#34;&gt;使用宏实现 Handler 支持多参数&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Airflow powers AI</title>
       <link>https://www.linuxzen.com/notes/articles/20210826074053-airflow_powers_ai/</link>
