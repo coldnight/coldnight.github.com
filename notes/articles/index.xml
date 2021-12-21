@@ -107,12 +107,6 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
-        &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
-    }
-}
-
 &lt;span style=&#34;color:#75715e&#34;&gt;// 支持 0 参数变成 Tuple 后的 from_request 调用
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; () {
     &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; () {
@@ -148,6 +142,14 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     R: &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;static,
 {
     handler.call(T::from_request())
+}
+
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// 对 i32 实现 FromRequest 支持参数提取
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;impl&lt;/span&gt; FromRequest &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from_request&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {
+        &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
+    }
 }
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test0&lt;/span&gt;() -&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; {

@@ -243,12 +243,6 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     }
 }
 
-<span style="color:#66d9ef">impl</span> FromRequest <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">i32</span> {
-    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; <span style="color:#66d9ef">i32</span> {
-        <span style="color:#ae81ff">3</span>
-    }
-}
-
 <span style="color:#75715e">// 支持 0 参数变成 Tuple 后的 from_request 调用
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span> FromRequest <span style="color:#66d9ef">for</span> () {
     <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; () {
@@ -284,6 +278,14 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
     R: <span style="color:#f92672">&#39;</span>static,
 {
     handler.call(T::from_request())
+}
+
+
+<span style="color:#75715e">// 对 i32 实现 FromRequest 支持参数提取
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span> FromRequest <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">i32</span> {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; <span style="color:#66d9ef">i32</span> {
+        <span style="color:#ae81ff">3</span>
+    }
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">test0</span>() -&gt; <span style="color:#66d9ef">i32</span> {
