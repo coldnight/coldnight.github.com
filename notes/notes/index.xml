@@ -6,7 +6,191 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Dec 2021 18:12:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 31 Dec 2021 14:26:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>org-roam</title>
+      <link>https://www.linuxzen.com/notes/notes/20211231142654-org_roam/</link>
+      <pubDate>Fri, 31 Dec 2021 14:26:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20211231142654-org_roam/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Org-roam export backlinks on Hugo</title>
+      <link>https://www.linuxzen.com/notes/notes/20211231142642-org_roam_export_backlinks_on_hugo/</link>
+      <pubDate>Fri, 31 Dec 2021 14:26:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20211231142642-org_roam_export_backlinks_on_hugo/</guid>
+      <description>tags: Orgmode,org-roam source:  https://seds.nl/notes/org%5Froam%5Fexport%5Fbacklinks%5Fon%5Fhugo/ https://seds.nl/notes/export%5Forg%5Froam%5Fbacklinks%5Fwith%5Fgohugo/    利用 hugo 的 partial template layouts/partials/backlinks.html
+{{ $re := $.File.BaseFileName }} {{ $backlinks := slice }} {{ range .Site.AllPages }} {{ if and (findRE $re .RawContent) (not (eq $re .File.BaseFileName)) }} {{ $backlinks = $backlinks | append . }} {{ end }} {{ end }} &amp;lt;hr&amp;gt; {{ if gt (len $backlinks) 0 }} &amp;lt;div class=&amp;#34;bl-section&amp;#34;&amp;gt; &amp;lt;h4&amp;gt;Links to this note&amp;lt;/h4&amp;gt; &amp;lt;div class=&amp;#34;backlinks&amp;#34;&amp;gt; &amp;lt;ul&amp;gt; {{ range $backlinks }} &amp;lt;li&amp;gt;&amp;lt;a href=&amp;#34;{{ .</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231142554-orgmode/&#34;&gt;Orgmode&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231142654-org_roam/&#34;&gt;org-roam&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source:
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://seds.nl/notes/org%5Froam%5Fexport%5Fbacklinks%5Fon%5Fhugo/&#34;&gt;https://seds.nl/notes/org%5Froam%5Fexport%5Fbacklinks%5Fon%5Fhugo/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://seds.nl/notes/export%5Forg%5Froam%5Fbacklinks%5Fwith%5Fgohugo/&#34;&gt;https://seds.nl/notes/export%5Forg%5Froam%5Fbacklinks%5Fwith%5Fgohugo/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;利用-hugo-的-partial-template&#34;&gt;利用 hugo 的 partial template&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;layouts/partials/backlinks.html&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;{{ $re := $.File.BaseFileName }}
+{{ $backlinks := slice }}
+{{ range .Site.AllPages }}
+   {{ if and (findRE $re .RawContent) (not (eq $re .File.BaseFileName)) }}
+	  {{ $backlinks = $backlinks | append . }}
+   {{ end }}
+{{ end }}
+
+&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;hr&lt;/span&gt;&amp;gt;
+{{ if gt (len $backlinks) 0 }}
+  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bl-section&amp;#34;&lt;/span&gt;&amp;gt;
+	&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;h4&lt;/span&gt;&amp;gt;Links to this note&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;h4&lt;/span&gt;&amp;gt;
+	&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;backlinks&amp;#34;&lt;/span&gt;&amp;gt;
+	  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;ul&lt;/span&gt;&amp;gt;
+	   {{ range $backlinks }}
+		  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;li&lt;/span&gt;&amp;gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;href&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{{ .RelPermalink }}&amp;#34;&lt;/span&gt;&amp;gt;{{ .Title }}&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;a&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;li&lt;/span&gt;&amp;gt;
+	   {{ end }}
+	 &amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;ul&lt;/span&gt;&amp;gt;
+	&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+  &amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+{{ else  }}
+  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bl-section&amp;#34;&lt;/span&gt;&amp;gt;
+	&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;h4&lt;/span&gt;&amp;gt;No notes link to this note&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;h4&lt;/span&gt;&amp;gt;
+  &amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+{{ end }}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后插入到的 &lt;code&gt;single.html&lt;/code&gt; 就行&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;{{ partial &amp;#34;backlinks.html&amp;#34; . }}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;hugo-theme-terminal&#34;&gt;hugo-theme-terminal&lt;/h2&gt;
+&lt;p&gt;放在项目的 &lt;code&gt;layouts/partials/comments.html&lt;/code&gt; 中避免污染模版。&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Orgmode</title>
+      <link>https://www.linuxzen.com/notes/notes/20211231142554-orgmode/</link>
+      <pubDate>Fri, 31 Dec 2021 14:25:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20211231142554-orgmode/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Online Tools</title>
+      <link>https://www.linuxzen.com/notes/notes/20211231123329-online_tools/</link>
+      <pubDate>Fri, 31 Dec 2021 12:33:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20211231123329-online_tools/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>RoamResearch</title>
+      <link>https://www.linuxzen.com/notes/notes/20211231123253-roamresearch/</link>
+      <pubDate>Fri, 31 Dec 2021 12:32:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20211231123253-roamresearch/</guid>
+      <description> tags: Taking Notes,Online Tools  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122047-taking_notes/&#34;&gt;Taking Notes&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231123329-online_tools/&#34;&gt;Online Tools&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>How To Take Smart Notes: 10 Principles to Revolutionize Your Note-Taking and Writing</title>
+      <link>https://www.linuxzen.com/notes/notes/20211231122658-how_to_take_smart_notes_10_principles_to_revolutionize_your_note_taking_and_writing/</link>
+      <pubDate>Fri, 31 Dec 2021 12:26:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20211231122658-how_to_take_smart_notes_10_principles_to_revolutionize_your_note_taking_and_writing/</guid>
+      <description> tags: Learning,Taking Notes,RoamResearch source: https://fortelabs.co/blog/how-to-take-smart-notes/  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122121-learning/&#34;&gt;Learning&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122047-taking_notes/&#34;&gt;Taking Notes&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231123253-roamresearch/&#34;&gt;RoamResearch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://fortelabs.co/blog/how-to-take-smart-notes/&#34;&gt;https://fortelabs.co/blog/how-to-take-smart-notes/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>How To Take Smart Notes With Org-mode</title>
+      <link>https://www.linuxzen.com/notes/notes/20211231122318-how_to_take_smart_notes_with_org_mode/</link>
+      <pubDate>Fri, 31 Dec 2021 12:23:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20211231122318-how_to_take_smart_notes_with_org_mode/</guid>
+      <description>tags: Learning,Taking Notes,Orgmode,org-roam source: https://blog.jethro.dev/posts/how%5Fto%5Ftake%5Fsmart%5Fnotes%5Forg/   Notes aren’t a record of my thinking process. They are my thinking process. – Richard Feynman
+  The primary purpose of note-taking should not be for storing ideas, but for developing them. When we take notes, we should ask: “In what context do I want to see this note again?”
+ Note-taking for writing:
+  Find topic/research question Research/find literature Read and take notes Draw conclusions / outline text Write   Two types of notes:</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122121-learning/&#34;&gt;Learning&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122047-taking_notes/&#34;&gt;Taking Notes&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231142554-orgmode/&#34;&gt;Orgmode&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231142654-org_roam/&#34;&gt;org-roam&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://blog.jethro.dev/posts/how%5Fto%5Ftake%5Fsmart%5Fnotes%5Forg/&#34;&gt;https://blog.jethro.dev/posts/how%5Fto%5Ftake%5Fsmart%5Fnotes%5Forg/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Notes aren’t a record of my thinking process. They are my thinking process. – Richard Feynman&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The primary purpose of note-taking should not be for storing ideas, but for developing them. When we take notes, we should ask: “In what context do I want to see this note again?”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Note-taking for writing:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;Find topic/research question&lt;/li&gt;
+&lt;li&gt;Research/find literature&lt;/li&gt;
+&lt;li&gt;Read and take notes&lt;/li&gt;
+&lt;li&gt;Draw conclusions / outline text&lt;/li&gt;
+&lt;li&gt;Write&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Two types of notes:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Fleeting notes by org-journal.&lt;/li&gt;
+&lt;li&gt;Project notes are basically everything else:
+&lt;ul&gt;
+&lt;li&gt;a talk&lt;/li&gt;
+&lt;li&gt;a book&lt;/li&gt;
+&lt;li&gt;a paper&lt;/li&gt;
+&lt;li&gt;any topic or thought I&amp;rsquo;ve refined from fleeting notes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Workflow with Org-roam:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;M-x org-roam-node-find RET&lt;/code&gt; create new node from anywhere.&lt;/li&gt;
+&lt;li&gt;Link to or create the context nodes as the tag, the context node can be empty.&lt;/li&gt;
+&lt;li&gt;Taking notes in one buffer.&lt;/li&gt;
+&lt;li&gt;Thereafter if we want to see the accociated notes in a context, we can see the &lt;code&gt;Backlinks&lt;/code&gt; in the context node: &lt;code&gt;M-x org-roam-buffer-toggle RET&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Learning</title>
+      <link>https://www.linuxzen.com/notes/notes/20211231122121-learning/</link>
+      <pubDate>Fri, 31 Dec 2021 12:21:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20211231122121-learning/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Taking Notes</title>
+      <link>https://www.linuxzen.com/notes/notes/20211231122047-taking_notes/</link>
+      <pubDate>Fri, 31 Dec 2021 12:20:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20211231122047-taking_notes/</guid>
+      <description> tags: Learning  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122121-learning/&#34;&gt;Learning&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>读书笔记</title>
       <link>https://www.linuxzen.com/notes/notes/20211210181234-%E8%AF%BB%E8%BF%87%E7%9A%84%E4%B9%A6/</link>
@@ -8287,9 +8471,12 @@ printf &amp;#39;\e[3J&amp;#39; &amp;amp;&amp;amp; log show --predicate &amp;#39;
       <pubDate>Sat, 20 Feb 2021 17:55:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210220175534-ox_hugo_%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA_markdown/</guid>
-      <description>方案一：通过 Emacs 批处理模式 emacs file.org --batch -f org-hugo-export-wim-to-md --kill --batch 默认不启用配置文件，可以使用 -l
+      <description> tags: Orgmode,Taking Notes  方案一：通过 Emacs 批处理模式 emacs file.org --batch -f org-hugo-export-wim-to-md --kill --batch 默认不启用配置文件，可以使用 -l
 emacs file.org --batch -l ~/.emacs.d/init.el -f org-hugo-export-wim-to-md --kill 方案二：通过 LISP 遍历 (mapc (lambda (x) (with-current-buffer (find-file-noselect x) (org-hugo-export-wim-to-md t))) (directory-files &amp;#34;/Users/wh/codes/notes/roam-research-notes-hugo/journal&amp;#34; nil &amp;#34;^[0-9]+$&amp;#34; t)) </description>
-      <content>&lt;h2 id=&#34;方案一-通过-emacs-批处理模式&#34;&gt;方案一：通过 Emacs 批处理模式&lt;/h2&gt;
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231142554-orgmode/&#34;&gt;Orgmode&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122047-taking_notes/&#34;&gt;Taking Notes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;方案一-通过-emacs-批处理模式&#34;&gt;方案一：通过 Emacs 批处理模式&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;emacs file.org --batch -f org-hugo-export-wim-to-md --kill
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;--batch&lt;/code&gt; 默认不启用配置文件，可以使用 &lt;code&gt;-l&lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;emacs file.org --batch -l ~/.emacs.d/init.el -f org-hugo-export-wim-to-md --kill
@@ -8297,8 +8484,8 @@ emacs file.org --batch -l ~/.emacs.d/init.el -f org-hugo-export-wim-to-md --kill
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;mapc&lt;/span&gt;
  (lambda (x)
    (with-current-buffer
-       (find-file-noselect x)
-     (org-hugo-export-wim-to-md &lt;span style=&#34;color:#66d9ef&#34;&gt;t&lt;/span&gt;)))
+	   (find-file-noselect x)
+	 (org-hugo-export-wim-to-md &lt;span style=&#34;color:#66d9ef&#34;&gt;t&lt;/span&gt;)))
  (directory-files &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/Users/wh/codes/notes/roam-research-notes-hugo/journal&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;^[0-9]+$&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;t&lt;/span&gt;))
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
     </item>
