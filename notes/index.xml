@@ -8604,12 +8604,13 @@ Java 项目构建工具 Maven Graddle Ant JVM  Java 内存模型  JVM 设置代�
       <pubDate>Fri, 27 Aug 2021 08:05:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210827080540-spark/</guid>
-      <description>Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（Spark 管理 Python 依赖）。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
+      <description>tags: Bigdata  Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（Spark 管理 Python 依赖）。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
 Spark Driver &amp;amp; Executor  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
- Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。
-以下代码是在 Executor 上执行的：
- Transformations 和 Actions 是执行在 Spark 集群的。 传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。  其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 collect：</description>
-      <content>&lt;h2 id=&#34;spark-编程语言选择&#34;&gt;Spark 编程语言选择&lt;/h2&gt;
+ Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/&#34;&gt;Bigdata&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;spark-编程语言选择&#34;&gt;Spark 编程语言选择&lt;/h2&gt;
 &lt;p&gt;毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（&lt;a href=&#34;#spark-%E7%AE%A1%E7%90%86-python-%E4%BE%9D%E8%B5%96&#34;&gt;Spark 管理 Python 依赖&lt;/a&gt;）。
 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。
 其中 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210827073626-scala/&#34;&gt;Scala&lt;/a&gt; 兼具简单和 JVM 的优势，但是它「不流行」。&lt;/p&gt;
@@ -10534,8 +10535,11 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
       <pubDate>Mon, 09 Aug 2021 08:07:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210809080723-hive/</guid>
-      <description>bucketed map join </description>
-      <content>&lt;h2 id=&#34;bucketed-map-join&#34;&gt;bucketed map join&lt;/h2&gt;
+      <description> tags: Bigdata  bucketed map join </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/&#34;&gt;Bigdata&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;bucketed-map-join&#34;&gt;bucketed map join&lt;/h2&gt;
 </content>
     </item>
     
@@ -10545,11 +10549,14 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
       <pubDate>Mon, 09 Aug 2021 07:34:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210809073407-hadoop/</guid>
-      <description>Hadoop Distributed File System MapReduce MapReduce shuffle 按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。
+      <description>tags: Bigdata  Hadoop Distributed File System MapReduce MapReduce shuffle 按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。
 MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现：
  输入：通常是 HDFS 中的一个目录。 分区：每个文件或文件块都被视为一个单独的分区。 处理：每个分区由单独的 map 任务来处理。 每个 mapper 都会尽量实现计算靠近数据。 代码复制：JAR 文件。 Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。 键值对必须进行排序，排序是分阶段进行的：  每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。 每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 SSTables 和 LSM-Tree。   reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 MapReduce shuffle。 reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。 reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。  MapReduce 工作流调度器  Oozie Azkaban Luigi Airflow Pinball  对比分布式数据库 MapReduce 中的并行处理和并行 join 算法已经在十多年前所谓的大规模并行处理（MPP）数据库中实现了。</description>
-      <content>&lt;h2 id=&#34;hadoop-distributed-file-system--20210808075530-hadoop-distributed-file-system-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210808075530-hadoop_distributed_file_system/&#34;&gt;Hadoop Distributed File System&lt;/a&gt;&lt;/h2&gt;
-&lt;h2 id=&#34;mapreduce--20210805074336-批处理系统-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/&#34;&gt;MapReduce&lt;/a&gt;&lt;/h2&gt;
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/&#34;&gt;Bigdata&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;hadoop-distributed-file-system--20210808075530-hadoop-distributed-file-system-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210808075530-hadoop_distributed_file_system/&#34;&gt;Hadoop Distributed File System&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;mapreduce--20210805074336-批处理系统-dot-md&#34;&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210805074336-%E6%89%B9%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F/#mapreduce&#34;&gt;MapReduce&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;mapreduce-shuffle&#34;&gt;MapReduce shuffle&lt;/h3&gt;
 &lt;p&gt;按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。&lt;/p&gt;
 &lt;h3 id=&#34;mapreduce-的分布式执行&#34;&gt;MapReduce 的分布式执行&lt;/h3&gt;
@@ -10558,7 +10565,7 @@ MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现�
 &lt;li&gt;输入：通常是 HDFS 中的一个目录。&lt;/li&gt;
 &lt;li&gt;分区：每个文件或文件块都被视为一个单独的分区。&lt;/li&gt;
 &lt;li&gt;处理：每个分区由单独的 map 任务来处理。&lt;/li&gt;
-&lt;li&gt;每个 mapper 都会尽量实现&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210808075530-hadoop_distributed_file_system/&#34;&gt;计算靠近数据&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;每个 mapper 都会尽量实现&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210808075530-hadoop_distributed_file_system/#计算靠近数据&#34;&gt;计算靠近数据&lt;/a&gt;。&lt;/li&gt;
 &lt;li&gt;代码复制：JAR 文件。&lt;/li&gt;
 &lt;li&gt;Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。&lt;/li&gt;
 &lt;li&gt;键值对必须进行排序，排序是分阶段进行的：
@@ -10583,7 +10590,7 @@ MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现�
 &lt;p&gt;MapReduce 中的并行处理和并行 join 算法已经在十多年前所谓的&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210810070530-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/&#34;&gt;大规模并行处理&lt;/a&gt;（MPP）数据库中实现了。&lt;/p&gt;
 &lt;h3 id=&#34;存储多样性&#34;&gt;存储多样性&lt;/h3&gt;
 &lt;p&gt;分布式文件系统中的文件只是字节序列，可以使用任何数据模型和编码来编写。可以是数据库记录，也可以是文本、图像、视频、传感器读数、稀疏矩阵、特征向量、基因组序列或任何其他类型的数据。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210810070530-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/&#34;&gt;MPP 数据库&lt;/a&gt; 通常需要对数据和查询模式进行仔细的提前建模。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210810070530-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86/#mpp-数据库&#34;&gt;MPP 数据库&lt;/a&gt; 通常需要对数据和查询模式进行仔细的提前建模。&lt;/p&gt;
 &lt;p&gt;Hadoop 经常被用于实现 ETL 过程：来自事务处理系统的数据以某种原始形式转储到分布式文件系统，然后编写 MapReduce 作业进行数据清理，将其转换为关系表单，并将其导入 MPP 数据仓库以进行分析。&lt;/p&gt;
 &lt;h3 id=&#34;处理模型多样性&#34;&gt;处理模型多样性&lt;/h3&gt;
 &lt;ul&gt;
@@ -21982,10 +21989,9 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200323104645_%E6%8A%80%E6%9C%AF/</guid>
-      <description> 翻墙 大数据 分布式 系统架构 技术随想 技术概念 虚拟化  </description>
+      <description> 翻墙 分布式 系统架构 技术随想 技术概念 虚拟化  </description>
       <content>&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/&#34;&gt;翻墙&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/&#34;&gt;大数据&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320174417_%E5%88%86%E5%B8%83%E5%BC%8F/&#34;&gt;分布式&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200322143810_%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/&#34;&gt;系统架构&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210220165806-%E6%8A%80%E6%9C%AF%E9%9A%8F%E6%83%B3/&#34;&gt;技术随想&lt;/a&gt;&lt;/li&gt;
@@ -22050,8 +22056,11 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320100601_flink/</guid>
-      <description></description>
-      <content></content>
+      <description> tags: Bigdata  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/&#34;&gt;Bigdata&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
     </item>
     
     <item>
@@ -22060,7 +22069,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320172022_kafka/</guid>
-      <description>相关知识点 概念组成   Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息
+      <description>tags: Bigdata  相关知识点 概念组成   Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息
   Consumer Group 消费指定 Topic 的消息
  Consumer 消费指定 Topic 下某一分区的消息    Topic 区分不同消息主题
  Partition 保证同一分区的有序性    Connector
@@ -22068,7 +22077,10 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 数据被持久化并分片成功后发送 ACK 保证里数据不被丢失。
 设计 持久化   基于文件系统
  基于队列是顺序的和磁盘的顺序访问要比内存的随机访问要快（参见 The Pathologies of Big Data）， Kafka 采用在磁盘文件系统上尾部写头部读的方式。 Kafka 没有采用 BTree 存储数据因为 BTree 的操作是 O(log N) ，而且对磁盘的 seek 操作要慢，且同时只能进行一次限制了并行，所以实际操作比 O(log N) 要慢 基于磁盘的顺序访问进行在尾部写和头部读，可以实现读写都是 O(1) 的时间复杂度，并且读写互不干扰 基于以上实现，Kafka 可以不必在消息一经消费就删除，而是可以保留消息一段相对较长的时间（比如一周）      高效</description>
-      <content>&lt;h2 id=&#34;相关知识点&#34;&gt;相关知识点&lt;/h2&gt;
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/&#34;&gt;Bigdata&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;相关知识点&#34;&gt;相关知识点&lt;/h2&gt;
 &lt;h3 id=&#34;概念组成&#34;&gt;概念组成&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -22909,14 +22921,9 @@ Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架�
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/</guid>
-      <description> Flink Kafka MySQL Hadoop Hive Spark  </description>
+      <description> tags: 技术  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100601_flink/&#34;&gt;Flink&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172022_kafka/&#34;&gt;Kafka&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320173956_mysql/&#34;&gt;MySQL&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809073407-hadoop/&#34;&gt;Hadoop&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210809080723-hive/&#34;&gt;Hive&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210827080540-spark/&#34;&gt;Spark&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200323104645_%E6%8A%80%E6%9C%AF/&#34;&gt;技术&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>

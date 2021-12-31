@@ -1028,11 +1028,9 @@ from urllib.parse import urlencode from urllib.parse import urljoin import reque
         <div class="post-content">
           
           
-          Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（Spark 管理 Python 依赖）。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
+          tags: Bigdata  Spark 编程语言选择 毋庸置疑，Python 应该是最简单也是大部分的选择，但是如果有依赖那么将要付出额外的心智负担（Spark 管理 Python 依赖）。 JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排除 Spark 生态之后）都 bundle 进 Jar 包里。 其中 Scala 兼具简单和 JVM 的优势，但是它「不流行」。
 Spark Driver &amp; Executor  Driver 执行 spark-commit 客户端，创建 SparkContext 执行 main 函数。 Executor Spark Worker 上的线程   See also:
  Understanding the working of Spark Driver and Executor Cluster Mode Overview  Spark 代码执行 我在配置 Spark 的时候就在好奇，从观察上看部分代码应该是执行在 Driver 上部分代码会执行在 Executer，这让我很好奇。 但是我通过学习 Spark RDD 学习到了一些知识。
-以下代码是在 Executor 上执行的：
- Transformations 和 Actions 是执行在 Spark 集群的。 传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。  其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 collect：
           
           
         </div>
@@ -1982,7 +1980,7 @@ class Solution { public: bool exist(vector&lt;vector&lt;char&gt;&gt;&amp; board,
         <div class="post-content">
           
           
-          Hadoop Distributed File System MapReduce MapReduce shuffle 按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。
+          tags: Bigdata  Hadoop Distributed File System MapReduce MapReduce shuffle 按照 reducer 分区，排序和将数据分区从 mapper 复制到 reducer。（令人困惑的术语，并不完全与洗牌一样，在 MapReduce 中其实没有随机性）。
 MapReduce 的分布式执行 Hadoop MapReduce 并行化基于数据分区实现：
  输入：通常是 HDFS 中的一个目录。 分区：每个文件或文件块都被视为一个单独的分区。 处理：每个分区由单独的 map 任务来处理。 每个 mapper 都会尽量实现计算靠近数据。 代码复制：JAR 文件。 Reduce 任务的计算也被分隔成块，可以不必与 mapper 任务数量相同，MapReduce 框架使用关键字的哈希值来确保具有相同关键字的键值对都在相同的 reduce 任务中处理。 键值对必须进行排序，排序是分阶段进行的：  每个 map 任务都基于关键字哈希值，按照 reducer 对输出进行分块。 每个分区都被写入 mapper 程序所在的本地磁盘上的已排序文件，参见 SSTables 和 LSM-Tree。   reducer 与每个 mapper 相连接：MapReduce 调度器会在 mapper 写入经过排序的输出文件后，通知 reducer 开始从 mapper 中获取输出文件，框架进行 MapReduce shuffle。 reducer 任务从 mapper 中获取文件并将它们合并在一起，同时保持数据的排序。不同 mapper 使用相同的关键字生成记录，会在合并后的 reducer 输入中位于相邻的位置。 reducer 可以使用任意逻辑来处理这些记录，并且生成任意数量的输出记录。记录被写入分布式文件系统中的文件。  MapReduce 工作流调度器  Oozie Azkaban Luigi Airflow Pinball  对比分布式数据库 MapReduce 中的并行处理和并行 join 算法已经在十多年前所谓的大规模并行处理（MPP）数据库中实现了。
           
@@ -8696,7 +8694,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
         <div class="post-content">
           
           
-          相关知识点 概念组成   Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息
+          tags: Bigdata  相关知识点 概念组成   Producer 消息产生者，往指定 Topic 的指定 Partition 发送消息
   Consumer Group 消费指定 Topic 的消息
  Consumer 消费指定 Topic 下某一分区的消息    Topic 区分不同消息主题
  Partition 保证同一分区的有序性    Connector
