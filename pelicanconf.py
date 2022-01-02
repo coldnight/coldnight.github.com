@@ -15,7 +15,7 @@ FEED_ALL_ATOM = "feeds/all.atom.xml"
 DISPLAY_PAGES_ON_MENU = False
 
 MENUITEMS = [
-    ('Roam Research Notes', '/notes/articles/notes/')
+    ('Roam Research Notes', '/notes/')
 ]
 
 DISPLAY_PAGES_ON_RIGHT = True
