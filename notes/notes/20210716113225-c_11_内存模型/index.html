@@ -6,9 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="受新的 Java 内存模型（2004）许多同样的人开始为 C&#43;&#43; 定义一个类似的内存模型，最终在 C&#43;&#43;11 中采用。 两个重要方便的差异：
- C&#43;&#43; 对具有数据竞争的程序不做任何保证 C&#43;&#43; 提供了三种原子性：强同步（顺序一致性），弱同步（内存一致性（coherence））和无同步（“relaxed”，用于隐藏竞争）。  第一点尝试消除对 Java 模型的复杂性需求，“relaxed” 的原子性重新引入 Java 关于定义什么是竞争程序的所有复杂性。结果是C&#43;&#43;模型比Java更复杂，但对程序员的帮助更小。
-DRF-SC 还是着火（Catch Fire） C&#43;&#43; 同步原子（atomic） C&#43;&#43; 弱同步原子（acquire/release atomic） C&#43;&#43; 非同步原子（Relaxed atomic） " />
+<meta name="description" content="tags: C/C&#43;&#43;,Memory Model,编程语言内存模型  受新的 Java 内存模型（2004）许多同样的人开始为 C&#43;&#43; 定义一个类似的内存模型，最终在 C&#43;&#43;11 中采用。 两个重要方便的差异：
+ C&#43;&#43; 对具有数据竞争的程序不做任何保证 C&#43;&#43; 提供了三种原子性：强同步（顺序一致性），弱同步（内存一致性（coherence））和无同步（“relaxed”，用于隐藏竞争）。  第一点尝试消除对 Java 模型的复杂性需求，“relaxed” 的原子性重新引入 Java 关于定义什么是竞争程序的所有复杂性。结果是C&#43;&#43;模型比Java更复杂，但对程序员的帮助更小。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210716113225-c_11_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" />
@@ -36,9 +35,8 @@ DRF-SC 还是着火（Catch Fire） C&#43;&#43; 同步原子（atomic） C&#43;&
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="C&#43;&#43;11 内存模型">
-<meta property="og:description" content="受新的 Java 内存模型（2004）许多同样的人开始为 C&#43;&#43; 定义一个类似的内存模型，最终在 C&#43;&#43;11 中采用。 两个重要方便的差异：
- C&#43;&#43; 对具有数据竞争的程序不做任何保证 C&#43;&#43; 提供了三种原子性：强同步（顺序一致性），弱同步（内存一致性（coherence））和无同步（“relaxed”，用于隐藏竞争）。  第一点尝试消除对 Java 模型的复杂性需求，“relaxed” 的原子性重新引入 Java 关于定义什么是竞争程序的所有复杂性。结果是C&#43;&#43;模型比Java更复杂，但对程序员的帮助更小。
-DRF-SC 还是着火（Catch Fire） C&#43;&#43; 同步原子（atomic） C&#43;&#43; 弱同步原子（acquire/release atomic） C&#43;&#43; 非同步原子（Relaxed atomic） " />
+<meta property="og:description" content="tags: C/C&#43;&#43;,Memory Model,编程语言内存模型  受新的 Java 内存模型（2004）许多同样的人开始为 C&#43;&#43; 定义一个类似的内存模型，最终在 C&#43;&#43;11 中采用。 两个重要方便的差异：
+ C&#43;&#43; 对具有数据竞争的程序不做任何保证 C&#43;&#43; 提供了三种原子性：强同步（顺序一致性），弱同步（内存一致性（coherence））和无同步（“relaxed”，用于隐藏竞争）。  第一点尝试消除对 Java 模型的复杂性需求，“relaxed” 的原子性重新引入 Java 关于定义什么是竞争程序的所有复杂性。结果是C&#43;&#43;模型比Java更复杂，但对程序员的帮助更小。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210716113225-c_11_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -159,17 +157,16 @@ DRF-SC 还是着火（Catch Fire） C&#43;&#43; 同步原子（atomic） C&#43;&
   
 
   <div class="post-content"><div>
-        <p>受<a href="/notes/notes/20210713201332-%E6%96%B0%E7%9A%84_java_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B_2004/">新的 Java 内存模型（2004）</a>许多同样的人开始为 C++ 定义一个类似的内存模型，最终在 C++11 中采用。
+        <ul>
+<li>tags: <a href="/notes/topics/20200320171108_c/">C/C++</a>,<a href="/notes/topics/20220102072550-memory_model/">Memory Model</a>,<a href="/notes/topics/20210712143544-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">编程语言内存模型</a></li>
+</ul>
+<p>受<a href="/notes/notes/20210713201332-%E6%96%B0%E7%9A%84_java_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B_2004/">新的 Java 内存模型（2004）</a>许多同样的人开始为 C++ 定义一个类似的内存模型，最终在 C++11 中采用。
 两个重要方便的差异：</p>
 <ol>
 <li>C++ 对具有数据竞争的程序不做任何保证</li>
 <li>C++ 提供了三种原子性：强同步（<a href="/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/">顺序一致性</a>），弱同步（<a href="/notes/notes/20210716110953-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7_coherence/">内存一致性（coherence）</a>）和无同步（“relaxed”，用于隐藏竞争）。</li>
 </ol>
 <p>第一点尝试消除对 Java 模型的复杂性需求，“relaxed” 的原子性重新引入 Java 关于定义什么是竞争程序的所有复杂性。结果是C++模型比Java更复杂，但对程序员的帮助更小。</p>
-<h2 id="drf-sc-还是着火-catch-fire--20210716113642-drf-sc-还是着火-catch-fire-dot-md"><a href="/notes/notes/20210716113642-drf_sc_%E8%BF%98%E6%98%AF%E7%9D%80%E7%81%AB_catch_fire/">DRF-SC 还是着火（Catch Fire）</a><a href="#drf-sc-还是着火-catch-fire--20210716113642-drf-sc-还是着火-catch-fire-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h2 id="c-plus-plus-同步原子-atomic--20210716113858-c-同步原子-atomic-dot-md"><a href="/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/">C++ 同步原子（atomic）</a><a href="#c-plus-plus-同步原子-atomic--20210716113858-c-同步原子-atomic-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h2 id="c-plus-plus-弱同步原子-acquire-release-atomic--20210716115953-c-弱同步原子-acquire-release-atomic-dot-md"><a href="/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/">C++ 弱同步原子（acquire/release atomic）</a><a href="#c-plus-plus-弱同步原子-acquire-release-atomic--20210716115953-c-弱同步原子-acquire-release-atomic-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h2 id="c-plus-plus-非同步原子-relaxed-atomic--20210716114242-c-非同步原子-relaxed-atomic-dot-md"><a href="/notes/notes/20210716114242-c_%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_relaxed_atomic/">C++ 非同步原子（Relaxed atomic）</a><a href="#c-plus-plus-非同步原子-relaxed-atomic--20210716114242-c-非同步原子-relaxed-atomic-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 
       </div></div>
 
@@ -391,6 +388,64 @@ DRF-SC 还是着火（Catch Fire） C&#43;&#43; 同步原子（atomic） C&#43;&
    
 
    
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+      
+   
+
+   
+      
+   
+
+   
+      
+   
+
+   
+      
+   
+
+   
       
    
 
@@ -448,30 +503,6 @@ DRF-SC 还是着火（Catch Fire） C&#43;&#43; 同步原子（atomic） C&#43;&
 
    
 
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-      
    
 
    
@@ -852,7 +883,13 @@ DRF-SC 还是着火（Catch Fire） C&#43;&#43; 同步原子（atomic） C&#43;&
        
           <li><a href="/notes/notes/20210716120258-c_rust_%E5%92%8C_swift_%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">C、Rust 和 Swift 的内存模型</a></li>
        
-          <li><a href="/notes/notes/20210712143544-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">编程语言内存模型</a></li>
+          <li><a href="/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/">C&#43;&#43; 弱同步原子（acquire/release atomic）</a></li>
+       
+          <li><a href="/notes/notes/20210716114242-c_%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_relaxed_atomic/">C&#43;&#43; 非同步原子（Relaxed atomic）</a></li>
+       
+          <li><a href="/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/">C&#43;&#43; 同步原子（atomic）</a></li>
+       
+          <li><a href="/notes/notes/20210716113642-drf_sc_%E8%BF%98%E6%98%AF%E7%9D%80%E7%81%AB_catch_fire/">DRF-SC 还是着火（Catch Fire）</a></li>
        
      </ul>
     </div>
@@ -868,7 +905,7 @@ DRF-SC 还是着火（Catch Fire） C&#43;&#43; 同步原子（atomic） C&#43;&
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="三种宏  自定义 #[derive] 属性行为（attribute-like）宏，Rust 属性宏解析 函数行为（function-like）宏  宏 实现元编程，代码生成代码，必须带入当前命名空间内才能使用（不能使用 mod::sub::macro! 这种方式调用）。
-#[macro_export] macro_rules! vec { ( $($x:expr), *) =&amp;gt; { // $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次  { let mut temp_vec = Vec::new(); ${ temp_vec.push($x); }* temp_vec } }; } 调用宏用于从属性生成代码 有点像编译期的装饰器：
+#[macro_export] macro_rules! vec { ( $($x:expr), *) =&amp;gt; { // $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次 	{ let mut temp_vec = Vec::new(); ${ temp_vec.push($x); }* temp_vec } }; } 调用宏用于从属性生成代码 有点像编译期的装饰器：
 use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt; TokenStream { // --snip-- } " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -37,7 +37,7 @@ use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt;
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust 宏">
 <meta property="og:description" content="三种宏  自定义 #[derive] 属性行为（attribute-like）宏，Rust 属性宏解析 函数行为（function-like）宏  宏 实现元编程，代码生成代码，必须带入当前命名空间内才能使用（不能使用 mod::sub::macro! 这种方式调用）。
-#[macro_export] macro_rules! vec { ( $($x:expr), *) =&amp;gt; { // $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次  { let mut temp_vec = Vec::new(); ${ temp_vec.push($x); }* temp_vec } }; } 调用宏用于从属性生成代码 有点像编译期的装饰器：
+#[macro_export] macro_rules! vec { ( $($x:expr), *) =&amp;gt; { // $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次 	{ let mut temp_vec = Vec::new(); ${ temp_vec.push($x); }* temp_vec } }; } 调用宏用于从属性生成代码 有点像编译期的装饰器：
 use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt; TokenStream { // --snip-- } " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180623-rust_%E5%AE%8F/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
@@ -170,13 +170,13 @@ use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt;
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[macro_export]</span>
 macro_rules! vec {
   ( <span style="color:#75715e">$($x</span>:<span style="color:#a6e22e">expr</span>), <span style="color:#f92672">*</span>) <span style="color:#f92672">=&gt;</span> {           <span style="color:#75715e">// $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次
-</span><span style="color:#75715e"></span>    {
-      <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> temp_vec <span style="color:#f92672">=</span> Vec::new();
-      <span style="color:#75715e">$</span>{
-        temp_vec.push(<span style="color:#75715e">$x</span>);
-      }<span style="color:#f92672">*</span>
-      temp_vec
-    }
+</span><span style="color:#75715e"></span>	{
+	  <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> temp_vec <span style="color:#f92672">=</span> Vec::new();
+	  <span style="color:#75715e">$</span>{
+		temp_vec.push(<span style="color:#75715e">$x</span>);
+	  }<span style="color:#f92672">*</span>
+	  temp_vec
+	}
   };
 }
 </code></pre></div><h2 id="调用宏用于从属性生成代码">调用宏用于从属性生成代码<a href="#调用宏用于从属性生成代码" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
@@ -194,6 +194,34 @@ macro_rules! vec {
 
   
 
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
 
    
 
@@ -881,7 +909,7 @@ macro_rules! vec {
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

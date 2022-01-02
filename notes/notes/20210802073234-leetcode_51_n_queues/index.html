@@ -6,12 +6,11 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="https://leetcode.com/problems/n-queens/
-一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：
+<meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：
  纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag  纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
 r - c 在正对角线是一致的：
  斜对角线 r &#43; c 是一致的:
- class Solution { public: vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; solveNQueens(int n) { for (int r = 0; r &amp;lt; n; r&#43;&#43;) { string col = string(n, &amp;#39;.&amp;#39;); track.push_back(col); } backtracking(0, n); return res; } private: set&amp;lt;int&amp;gt; cols; // c  set&amp;lt;int&amp;gt; posDiag; // r - c  set&amp;lt;int&amp;gt; negDiag; // r &#43; c  vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; vector&amp;lt;string&amp;gt; track; void backtracking(int r, int n) { if (r == n) { res." />
+ class Solution { public: vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; solveNQueens(int n) { for (int r = 0; r &amp;lt; n; r&#43;&#43;) { string col = string(n, &amp;#39;.&amp;#39;); track.push_back(col); } backtracking(0, n); return res; } private: set&amp;lt;int&amp;gt; cols; // c 	set&amp;lt;int&amp;gt; posDiag; // r - c 	set&amp;lt;int&amp;gt; negDiag; // r &#43; c 	vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; vector&amp;lt;string&amp;gt; track; void backtracking(int r, int n) { if (r == n) { res." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210802073234-leetcode_51_n_queues/" />
@@ -39,12 +38,11 @@ r - c 在正对角线是一致的：
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 51. N-Queens">
-<meta property="og:description" content="https://leetcode.com/problems/n-queens/
-一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：
+<meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：
  纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag  纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
 r - c 在正对角线是一致的：
  斜对角线 r &#43; c 是一致的:
- class Solution { public: vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; solveNQueens(int n) { for (int r = 0; r &amp;lt; n; r&#43;&#43;) { string col = string(n, &amp;#39;.&amp;#39;); track.push_back(col); } backtracking(0, n); return res; } private: set&amp;lt;int&amp;gt; cols; // c  set&amp;lt;int&amp;gt; posDiag; // r - c  set&amp;lt;int&amp;gt; negDiag; // r &#43; c  vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; vector&amp;lt;string&amp;gt; track; void backtracking(int r, int n) { if (r == n) { res." />
+ class Solution { public: vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; solveNQueens(int n) { for (int r = 0; r &amp;lt; n; r&#43;&#43;) { string col = string(n, &amp;#39;.&amp;#39;); track.push_back(col); } backtracking(0, n); return res; } private: set&amp;lt;int&amp;gt; cols; // c 	set&amp;lt;int&amp;gt; posDiag; // r - c 	set&amp;lt;int&amp;gt; negDiag; // r &#43; c 	vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; vector&amp;lt;string&amp;gt; track; void backtracking(int r, int n) { if (r == n) { res." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210802073234-leetcode_51_n_queues/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -165,7 +163,10 @@ r - c 在正对角线是一致的：
   
 
   <div class="post-content"><div>
-        <p><a href="https://leetcode.com/problems/n-queens/">https://leetcode.com/problems/n-queens/</a></p>
+        <ul>
+<li>tags: <a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
+<li>source: <a href="https://leetcode.com/problems/n-queens/">https://leetcode.com/problems/n-queens/</a></li>
+</ul>
 <p>一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：</p>
 <ul>
 <li>纵轴（Column）：cols</li>
@@ -191,41 +192,41 @@ r - c 在正对角线是一致的：
 
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> solveNQueens(<span style="color:#66d9ef">int</span> n) {
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; r <span style="color:#f92672">&lt;</span> n; r<span style="color:#f92672">++</span>) {
-            string col <span style="color:#f92672">=</span> string(n, <span style="color:#e6db74">&#39;.&#39;</span>);
-            track.push_back(col);
-        }
-        backtracking(<span style="color:#ae81ff">0</span>, n);
-        <span style="color:#66d9ef">return</span> res;
-    }
+	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> solveNQueens(<span style="color:#66d9ef">int</span> n) {
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; r <span style="color:#f92672">&lt;</span> n; r<span style="color:#f92672">++</span>) {
+			string col <span style="color:#f92672">=</span> string(n, <span style="color:#e6db74">&#39;.&#39;</span>);
+			track.push_back(col);
+		}
+		backtracking(<span style="color:#ae81ff">0</span>, n);
+		<span style="color:#66d9ef">return</span> res;
+	}
 <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cols;     <span style="color:#75715e">// c
-</span><span style="color:#75715e"></span>    set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> posDiag;  <span style="color:#75715e">// r - c
-</span><span style="color:#75715e"></span>    set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> negDiag;  <span style="color:#75715e">// r + c
-</span><span style="color:#75715e"></span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> res;
-    vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> track;
+	set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cols;     <span style="color:#75715e">// c
+</span><span style="color:#75715e"></span>	set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> posDiag;  <span style="color:#75715e">// r - c
+</span><span style="color:#75715e"></span>	set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> negDiag;  <span style="color:#75715e">// r + c
+</span><span style="color:#75715e"></span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> res;
+	vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> track;
 
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(<span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> n) {
-        <span style="color:#66d9ef">if</span> (r <span style="color:#f92672">==</span> n) {
-            res.push_back(track);
-            <span style="color:#66d9ef">return</span>;
-        }
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; c <span style="color:#f92672">&lt;</span> n; c<span style="color:#f92672">++</span>) {
-            <span style="color:#66d9ef">if</span> (cols.find(c) <span style="color:#f92672">!=</span> cols.end() <span style="color:#f92672">||</span> posDiag.find(r <span style="color:#f92672">-</span> c) <span style="color:#f92672">!=</span> posDiag.end() <span style="color:#f92672">||</span> negDiag.find(r <span style="color:#f92672">+</span> c) <span style="color:#f92672">!=</span> negDiag.end()) {
-                <span style="color:#66d9ef">continue</span>;
-            }
-            cols.insert(c);
-            posDiag.insert(r <span style="color:#f92672">-</span> c);
-            negDiag.insert(r <span style="color:#f92672">+</span> c);
-            track[r][c] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Q&#39;</span>;
-            backtracking(r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n);
-            track[r][c] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.&#39;</span>;
-            cols.erase(c);
-            posDiag.erase(r <span style="color:#f92672">-</span> c);
-            negDiag.erase(r <span style="color:#f92672">+</span> c);
-        }
-    }
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(<span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> n) {
+		<span style="color:#66d9ef">if</span> (r <span style="color:#f92672">==</span> n) {
+			res.push_back(track);
+			<span style="color:#66d9ef">return</span>;
+		}
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; c <span style="color:#f92672">&lt;</span> n; c<span style="color:#f92672">++</span>) {
+			<span style="color:#66d9ef">if</span> (cols.find(c) <span style="color:#f92672">!=</span> cols.end() <span style="color:#f92672">||</span> posDiag.find(r <span style="color:#f92672">-</span> c) <span style="color:#f92672">!=</span> posDiag.end() <span style="color:#f92672">||</span> negDiag.find(r <span style="color:#f92672">+</span> c) <span style="color:#f92672">!=</span> negDiag.end()) {
+				<span style="color:#66d9ef">continue</span>;
+			}
+			cols.insert(c);
+			posDiag.insert(r <span style="color:#f92672">-</span> c);
+			negDiag.insert(r <span style="color:#f92672">+</span> c);
+			track[r][c] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Q&#39;</span>;
+			backtracking(r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n);
+			track[r][c] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.&#39;</span>;
+			cols.erase(c);
+			posDiag.erase(r <span style="color:#f92672">-</span> c);
+			negDiag.erase(r <span style="color:#f92672">+</span> c);
+		}
+	}
 };
 </code></pre></div><p>结果</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">[[&quot;.Q..&quot;,&quot;...Q&quot;,&quot;Q...&quot;,&quot;..Q.&quot;],[&quot;..Q.&quot;,&quot;Q...&quot;,&quot;...Q&quot;,&quot;.Q..&quot;]]
@@ -401,6 +402,52 @@ r - c 在正对角线是一致的：
    
 
    
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
       
    
 
@@ -786,26 +833,6 @@ r - c 在正对角线是一致的：
 
    
 
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-      
    
 
    
@@ -926,8 +953,6 @@ r - c 在正对角线是一致的：
        
           <li><a href="/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">回溯算法</a></li>
        
-          <li><a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
-       
      </ul>
     </div>
   </div>
@@ -942,7 +967,7 @@ r - c 在正对角线是一致的：
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

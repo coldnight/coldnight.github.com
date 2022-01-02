@@ -6,9 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="解法 1 找到中间节点依次往左右扩散：
+<meta name="description" content="tags: LeetCode  解法 1 找到中间节点依次往左右扩散：
  向左边扩散，如果左边的大于当前元素，那么当前元素即为最小值 向右边扩散，如果右边的小于当前元素，那么右边元素即为最小值  如果以上不成立则第一个元素为最小元素（未旋转），以下是代码
-func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[0] } // 从中间开始确定方向  mid := length / 2 - 1 left, right := mid, mid for left - 1 &amp;gt;= 0 || right &#43; 1 &amp;lt; length { if left - 1 &amp;gt;= 0 { if nums[left - 1] &amp;gt; nums[left] { return nums[left]; } left-- } if right &#43; 1 &amp;lt; length { if nums[right] &amp;gt; nums[right &#43; 1] { return nums[right &#43; 1] } right&#43;&#43; } } return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：" />
+func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[0] } // 从中间开始确定方向 	mid := length / 2 - 1 left, right := mid, mid for left - 1 &amp;gt;= 0 || right &#43; 1 &amp;lt; length { if left - 1 &amp;gt;= 0 { if nums[left - 1] &amp;gt; nums[left] { return nums[left]; } left-- } if right &#43; 1 &amp;lt; length { if nums[right] &amp;gt; nums[right &#43; 1] { return nums[right &#43; 1] } right&#43;&#43; } } return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320172433_leetcode_153_find_minimum_in_rotated_sorted_array/" />
@@ -36,9 +36,9 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 153.Find Minimum in Rotated Sorted Array">
-<meta property="og:description" content="解法 1 找到中间节点依次往左右扩散：
+<meta property="og:description" content="tags: LeetCode  解法 1 找到中间节点依次往左右扩散：
  向左边扩散，如果左边的大于当前元素，那么当前元素即为最小值 向右边扩散，如果右边的小于当前元素，那么右边元素即为最小值  如果以上不成立则第一个元素为最小元素（未旋转），以下是代码
-func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[0] } // 从中间开始确定方向  mid := length / 2 - 1 left, right := mid, mid for left - 1 &amp;gt;= 0 || right &#43; 1 &amp;lt; length { if left - 1 &amp;gt;= 0 { if nums[left - 1] &amp;gt; nums[left] { return nums[left]; } left-- } if right &#43; 1 &amp;lt; length { if nums[right] &amp;gt; nums[right &#43; 1] { return nums[right &#43; 1] } right&#43;&#43; } } return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：" />
+func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[0] } // 从中间开始确定方向 	mid := length / 2 - 1 left, right := mid, mid for left - 1 &amp;gt;= 0 || right &#43; 1 &amp;lt; length { if left - 1 &amp;gt;= 0 { if nums[left - 1] &amp;gt; nums[left] { return nums[left]; } left-- } if right &#43; 1 &amp;lt; length { if nums[right] &amp;gt; nums[right &#43; 1] { return nums[right &#43; 1] } right&#43;&#43; } } return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320172433_leetcode_153_find_minimum_in_rotated_sorted_array/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -159,7 +159,10 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
   
 
   <div class="post-content"><div>
-        <h2 id="解法-1">解法 1<a href="#解法-1" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <ul>
+<li>tags: <a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
+</ul>
+<h2 id="解法-1">解法 1<a href="#解法-1" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>找到中间节点依次往左右扩散：</p>
 <ol>
 <li>向左边扩散，如果左边的大于当前元素，那么当前元素即为最小值</li>
@@ -167,33 +170,33 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
 </ol>
 <p>如果以上不成立则第一个元素为最小元素（未旋转），以下是代码</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findMin</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
-                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>]
-        }
+	<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>]
+	}
 
-        <span style="color:#75715e">// 从中间开始确定方向
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+	<span style="color:#75715e">// 从中间开始确定方向
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
 
-        <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mid</span>, <span style="color:#a6e22e">mid</span>
+	<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mid</span>, <span style="color:#a6e22e">mid</span>
 
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">right</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> &lt; <span style="color:#a6e22e">length</span> {
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
-                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] &gt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>] {
-                                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>];
-                        }
-                        <span style="color:#a6e22e">left</span><span style="color:#f92672">--</span>
-                }
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">right</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> &lt; <span style="color:#a6e22e">length</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] &gt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>] {
+				<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>];
+			}
+			<span style="color:#a6e22e">left</span><span style="color:#f92672">--</span>
+		}
 
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">right</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> &lt; <span style="color:#a6e22e">length</span> {
-                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>] &gt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
-                                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]
-                        }
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">right</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> &lt; <span style="color:#a6e22e">length</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>] &gt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
+				<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]
+			}
 
-                        <span style="color:#a6e22e">right</span><span style="color:#f92672">++</span>
-                }
-        }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>]
+			<span style="color:#a6e22e">right</span><span style="color:#f92672">++</span>
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#ae81ff">0</span>]
 }
 </code></pre></div><h2 id="优化">优化<a href="#优化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>参考答案后可通过二分查找做如下优化，首先判断是否被旋转：</p>
@@ -208,32 +211,32 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
 </ul>
 <!-- raw HTML omitted -->
 <pre tabindex="0"><code class="language-nil" data-lang="nil">func findMin(nums []int) int {
-        length := len(nums)
-        if nums[0] &lt;= nums[length - 1]{
-                return nums[0]
-        }
-        if length == 2 {
-                return nums[1]
-        }
+	length := len(nums)
+	if nums[0] &lt;= nums[length - 1]{
+		return nums[0]
+	}
+	if length == 2 {
+		return nums[1]
+	}
 
-        left, right := 0, length - 1
-        for left &lt; right {
-                mid := left + ((right - left) / 2)
-                if nums[mid] &gt; nums[mid + 1] {
-                        return nums[mid + 1]
-                }
+	left, right := 0, length - 1
+	for left &lt; right {
+		mid := left + ((right - left) / 2)
+		if nums[mid] &gt; nums[mid + 1] {
+			return nums[mid + 1]
+		}
 
-                if nums[mid - 1] &gt; nums[mid] {
-                        return nums[mid]
-                }
+		if nums[mid - 1] &gt; nums[mid] {
+			return nums[mid]
+		}
 
-                if nums[mid] &gt; nums[0] {
-                        left = mid + 1
-                } else {
-                        right = mid - 1
-                }
-        }
-        return -1
+		if nums[mid] &gt; nums[0] {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return -1
 }
 </code></pre>
       </div></div>
@@ -796,7 +799,33 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -915,8 +944,6 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
     <div class="backlinks">
       <ul>
        
-          <li><a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
-       
           <li><a href="/notes/notes/20200320172319_154_find_minimum_in_rotated_sorted_array_ii/">LeetCode: 154.Find Minimum in Rotated Sorted Array II</a></li>
        
      </ul>
@@ -933,7 +960,7 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

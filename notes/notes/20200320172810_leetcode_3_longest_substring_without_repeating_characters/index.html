@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="准备 动态规划
+<meta name="description" content="tags: LeetCode  准备 动态规划
 实践 字符串 &amp;ldquo;abcabcbb&amp;rdquo;
 根据索引有如下关系
    a b c a b c b b     0 1 2 3 4 5 6 7     \(f(0,1)=f(0,0) &#43; 1\) \(f(0,2)=f(0,1) &#43; 2\)  在所有字符都不重复的情况下有如下公式
@@ -41,7 +41,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 3.Longest Substring Without Repeating Characters">
-<meta property="og:description" content="准备 动态规划
+<meta property="og:description" content="tags: LeetCode  准备 动态规划
 实践 字符串 &amp;ldquo;abcabcbb&amp;rdquo;
 根据索引有如下关系
    a b c a b c b b     0 1 2 3 4 5 6 7     \(f(0,1)=f(0,0) &#43; 1\) \(f(0,2)=f(0,1) &#43; 2\)  在所有字符都不重复的情况下有如下公式
@@ -169,7 +169,10 @@
   
 
   <div class="post-content"><div>
-        <h2 id="准备">准备<a href="#准备" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <ul>
+<li>tags: <a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
+</ul>
+<h2 id="准备">准备<a href="#准备" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p><a href="/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a></p>
 <h2 id="实践">实践<a href="#实践" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>字符串 &ldquo;abcabcbb&rdquo;</p>
@@ -222,41 +225,41 @@ s=r
 \]</p>
 <h2 id="解法">解法<a href="#解法" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">lengthOfLongestSubstring</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">s</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
-                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
-        }
-        <span style="color:#a6e22e">appearedIndexes</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">256</span>]<span style="color:#66d9ef">int</span>{}
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">256</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
-                <span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
-        }
-        <span style="color:#a6e22e">longest</span>, <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">s</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+	}
+	<span style="color:#a6e22e">appearedIndexes</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">256</span>]<span style="color:#66d9ef">int</span>{}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">256</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
+		<span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+	}
+	<span style="color:#a6e22e">longest</span>, <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
 
-        <span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
 
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cIndex</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">b</span> {
-                <span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> int(<span style="color:#a6e22e">c</span>)
-                <span style="color:#a6e22e">appearedIndex</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">index</span>]
-                <span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">cIndex</span>
-                <span style="color:#75715e">// 出现过需要截断
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">appearedIndex</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> {
-                        <span style="color:#75715e">// 重置已出现的字符
-</span><span style="color:#75715e"></span>                        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">start</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">appearedIndex</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
-                                <span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">b</span>[<span style="color:#a6e22e">i</span>]] = <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
-                        }
-                        <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span>
-                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> &gt; <span style="color:#a6e22e">longest</span> {
-                                <span style="color:#a6e22e">longest</span> = <span style="color:#a6e22e">length</span>
-                        }
-                        <span style="color:#a6e22e">start</span> = <span style="color:#a6e22e">appearedIndex</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
-                }
-                <span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">index</span>] = <span style="color:#a6e22e">cIndex</span>
-        }
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cIndex</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">b</span> {
+		<span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> int(<span style="color:#a6e22e">c</span>)
+		<span style="color:#a6e22e">appearedIndex</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">index</span>]
+		<span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">cIndex</span>
+		<span style="color:#75715e">// 出现过需要截断
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">appearedIndex</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> {
+			<span style="color:#75715e">// 重置已出现的字符
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">start</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">appearedIndex</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
+				<span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">b</span>[<span style="color:#a6e22e">i</span>]] = <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+			}
+			<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span>
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> &gt; <span style="color:#a6e22e">longest</span> {
+				<span style="color:#a6e22e">longest</span> = <span style="color:#a6e22e">length</span>
+			}
+			<span style="color:#a6e22e">start</span> = <span style="color:#a6e22e">appearedIndex</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+		}
+		<span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">index</span>] = <span style="color:#a6e22e">cIndex</span>
+	}
 
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> &gt; <span style="color:#a6e22e">longest</span> {
-                <span style="color:#a6e22e">longest</span> = <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-        }
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> &gt; <span style="color:#a6e22e">longest</span> {
+		<span style="color:#a6e22e">longest</span> = <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+	}
 
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">longest</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">longest</span>
 }
 </code></pre></div>
       </div></div>
@@ -819,7 +822,33 @@ s=r
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -932,14 +961,7 @@ s=r
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -952,7 +974,7 @@ s=r
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

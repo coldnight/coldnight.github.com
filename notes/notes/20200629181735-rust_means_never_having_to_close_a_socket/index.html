@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="原文链接：Rust Means Never Having to Close a Socket
+<meta name="description" content="tags: Translate,Rust,Rust Wrapper Types  原文链接：Rust Means Never Having to Close a Socket
 Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时在仍能保持安全（没有段错误）和高性能。
 这是因为 Rust 是一门与众不同地编程语言，要理解我说的可能有点困难，让我来更近一步说明：
  Rust 就像带垃圾回收的编程语言，你无需手动释放内存 Rust 不同于其他带垃圾回收的编程语言，你无需1手动关闭或者释放像文件、套接字和锁这样的资源 Rust 达到以上这些特性不附带任何运行时开销（垃圾回收或者引用计数），并且不牺牲安全性。  如果你曾经造成过一个套接字或者文件泄漏，或者使用过一些抽象方法造成了这些资源的泄漏，那么你就会知道这有多重要。
@@ -15,7 +15,7 @@ Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时
  Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。 实际上，这种编程语言层面的保证让这些特性更加实用。
  所有权系统（The Ownership System） 让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。
 让我们通过一个例子来进一步说明：我们定义一个函数，函数拷贝输入文件到临时文件去处理它，然后拷贝输入文件到输出文件。
-fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { // creates a new tempdir with the specified suffix  let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;)); // open the input file  let mut from_file = try!" />
+fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { // creates a new tempdir with the specified suffix 	let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;)); // open the input file 	let mut from_file = try!" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/" />
@@ -43,7 +43,7 @@ fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust Means Never Having to Close a Socket">
-<meta property="og:description" content="原文链接：Rust Means Never Having to Close a Socket
+<meta property="og:description" content="tags: Translate,Rust,Rust Wrapper Types  原文链接：Rust Means Never Having to Close a Socket
 Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时在仍能保持安全（没有段错误）和高性能。
 这是因为 Rust 是一门与众不同地编程语言，要理解我说的可能有点困难，让我来更近一步说明：
  Rust 就像带垃圾回收的编程语言，你无需手动释放内存 Rust 不同于其他带垃圾回收的编程语言，你无需1手动关闭或者释放像文件、套接字和锁这样的资源 Rust 达到以上这些特性不附带任何运行时开销（垃圾回收或者引用计数），并且不牺牲安全性。  如果你曾经造成过一个套接字或者文件泄漏，或者使用过一些抽象方法造成了这些资源的泄漏，那么你就会知道这有多重要。
@@ -52,7 +52,7 @@ Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时
  Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。 实际上，这种编程语言层面的保证让这些特性更加实用。
  所有权系统（The Ownership System） 让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。
 让我们通过一个例子来进一步说明：我们定义一个函数，函数拷贝输入文件到临时文件去处理它，然后拷贝输入文件到输出文件。
-fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { // creates a new tempdir with the specified suffix  let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;)); // open the input file  let mut from_file = try!" />
+fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { // creates a new tempdir with the specified suffix 	let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;)); // open the input file 	let mut from_file = try!" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -173,7 +173,10 @@ fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&
   
 
   <div class="post-content"><div>
-        <p>原文链接：<a href="https://blog.skylight.io/rust-means-never-having-to-close-a-socket/">Rust Means Never Having to Close a Socket</a></p>
+        <ul>
+<li>tags: <a href="/notes/topics/20200309112105_translate/">Translate</a>,<a href="/notes/topics/20200307191429_rust/">Rust</a>,<a href="/notes/notes/20200325165657_rust_wrapper_types/">Rust Wrapper Types</a></li>
+</ul>
+<p>原文链接：<a href="https://blog.skylight.io/rust-means-never-having-to-close-a-socket/">Rust Means Never Having to Close a Socket</a></p>
 <p>Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时在仍能保持安全（没有段错误）和高性能。</p>
 <p>这是因为 Rust 是一门与众不同地编程语言，要理解我说的可能有点困难，让我来更近一步说明：</p>
 <ul>
@@ -192,25 +195,25 @@ fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&
 <p>让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。</p>
 <p>让我们通过一个例子来进一步说明：我们定义一个函数，函数拷贝输入文件到临时文件去处理它，然后拷贝输入文件到输出文件。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">process</span>(from: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Path</span>, to: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Path</span>) -&gt; <span style="color:#a6e22e">IoResult</span><span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
-    <span style="color:#75715e">// creates a new tempdir with the specified suffix
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> tempdir <span style="color:#f92672">=</span> <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(TempDir::new(<span style="color:#e6db74">&#34;skylight&#34;</span>));
+	<span style="color:#75715e">// creates a new tempdir with the specified suffix
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> tempdir <span style="color:#f92672">=</span> <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(TempDir::new(<span style="color:#e6db74">&#34;skylight&#34;</span>));
 
-    <span style="color:#75715e">// open the input file
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> from_file <span style="color:#f92672">=</span> <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(File::open(from));
+	<span style="color:#75715e">// open the input file
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> from_file <span style="color:#f92672">=</span> <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(File::open(from));
 
-    <span style="color:#75715e">// create a temporary file inside the tempdir
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> tempfile <span style="color:#f92672">=</span>
-        <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(File::create(<span style="color:#f92672">&amp;</span>tempdir.path().join(<span style="color:#e6db74">&#34;tmp1&#34;</span>)));
+	<span style="color:#75715e">// create a temporary file inside the tempdir
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> tempfile <span style="color:#f92672">=</span>
+		<span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(File::create(<span style="color:#f92672">&amp;</span>tempdir.path().join(<span style="color:#e6db74">&#34;tmp1&#34;</span>)));
 
-    <span style="color:#75715e">// copy the input file into the tempfile
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(io::util::copy(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> from_file, <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> tempfile));
+	<span style="color:#75715e">// copy the input file into the tempfile
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(io::util::copy(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> from_file, <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> tempfile));
 
-    <span style="color:#75715e">// use an external program to process the tmpfile in place
+	<span style="color:#75715e">// use an external program to process the tmpfile in place
 </span><span style="color:#75715e"></span>
-    <span style="color:#75715e">// after processing, copy the tempfile into the output file
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> out <span style="color:#f92672">=</span> <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(File::create(to));
+	<span style="color:#75715e">// after processing, copy the tempfile into the output file
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> out <span style="color:#f92672">=</span> <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span>(File::create(to));
 
-    io::util::copy(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> tempfile, <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> out)
+	io::util::copy(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> tempfile, <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> out)
 }
 </code></pre></div><p>在这个例子中，函数 <code>process</code> 的作用域再第一行创建了 <code>TempDir</code> 是其初始拥有者。在这个例子中， <code>process</code> 函数从未放弃所有权，所以当函数完成调用，
 它就会自动被丢弃（dropped），也就是会删除 <code>Tempfile</code> 。</p>
@@ -229,36 +232,36 @@ fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&
 当一个作用域完成时，Rust 将销毁它所拥有地所有对象。</p>
 <p>因为一个对象同时只能归一个作用域所有，你可以通过查看就知道执行结束时有哪些对象将被销毁。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span> {
-    first: String,
-    last: String
+	first: String,
+	last: String
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hello</span>() {
-    <span style="color:#66d9ef">let</span> yehuda <span style="color:#f92672">=</span> Person {
-        first: <span style="color:#e6db74">&#34;Yehuda&#34;</span>.to_string(),
-        last: <span style="color:#e6db74">&#34;Katz&#34;</span>.to_string()
-    };
+	<span style="color:#66d9ef">let</span> yehuda <span style="color:#f92672">=</span> Person {
+		first: <span style="color:#e6db74">&#34;Yehuda&#34;</span>.to_string(),
+		last: <span style="color:#e6db74">&#34;Katz&#34;</span>.to_string()
+	};
 
-    <span style="color:#75715e">// `yehuda` is transferred to `name_size`, so it cannot be
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// used anymore in this function, and it will not be destroyed
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// when this function returns. It is up to `name_size`,
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// or possibly a future owner, to destroy it.
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> size <span style="color:#f92672">=</span> name_size(yehuda);
+	<span style="color:#75715e">// `yehuda` is transferred to `name_size`, so it cannot be
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// used anymore in this function, and it will not be destroyed
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// when this function returns. It is up to `name_size`,
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// or possibly a future owner, to destroy it.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> size <span style="color:#f92672">=</span> name_size(yehuda);
 
-    <span style="color:#66d9ef">let</span> tom <span style="color:#f92672">=</span> Person {
-        first: <span style="color:#e6db74">&#34;Tom&#34;</span>.to_string(),
-        last: <span style="color:#e6db74">&#34;Dale&#34;</span>.to_string()
-    };
+	<span style="color:#66d9ef">let</span> tom <span style="color:#f92672">=</span> Person {
+		first: <span style="color:#e6db74">&#34;Tom&#34;</span>.to_string(),
+		last: <span style="color:#e6db74">&#34;Dale&#34;</span>.to_string()
+	};
 
-    <span style="color:#75715e">// `tom` wasn&#39;t transferred, so it will be
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// destroyed when this function returns.
+	<span style="color:#75715e">// `tom` wasn&#39;t transferred, so it will be
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// destroyed when this function returns.
 </span><span style="color:#75715e"></span>}
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">name_size</span>(person: <span style="color:#a6e22e">Person</span>) -&gt; <span style="color:#a6e22e">uint</span> {
-    <span style="color:#66d9ef">let</span> Person { first, last } <span style="color:#f92672">=</span> person;
-    first.len() <span style="color:#f92672">+</span> last.len()
+	<span style="color:#66d9ef">let</span> Person { first, last } <span style="color:#f92672">=</span> person;
+	first.len() <span style="color:#f92672">+</span> last.len()
 
-    <span style="color:#75715e">// this function owns Person, so the Person is destroyed when `name_size` returns
+	<span style="color:#75715e">// this function owns Person, so the Person is destroyed when `name_size` returns
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>仅仅通过逐一查看这两个函数，你可以看到 <code>yehuda</code> 被转移到了 <code>name_size</code> 函数，但是 <code>tom</code> 则没有。
 通过查看 <code>name_size</code> 函数，你可以看到它一直拥有它的 <code>person</code> 参数直到它返回。仅仅通过查看这两个函数，
@@ -277,54 +280,54 @@ fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&
 换句话说，借用的对象必须不能在超出借出它的函数的作用域外存活。</p>
 <p>这意味着 Rust 编译器会检查所有函数调用并且在编译期得知代码是否尝试获取所有权。一旦一个对象的所有权被转移，那么原所有者会被拒绝访问该对象。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span> {
-    first: String,
-    last: String,
-    age: <span style="color:#a6e22e">uint</span>
+	first: String,
+	last: String,
+	age: <span style="color:#a6e22e">uint</span>
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hello</span>() {
-    <span style="color:#66d9ef">let</span> person <span style="color:#f92672">=</span> Person {
-        first: <span style="color:#e6db74">&#34;Yehuda&#34;</span>.to_string(),
-        last: <span style="color:#e6db74">&#34;Katz&#34;</span>.to_string(),
-        age: <span style="color:#ae81ff">32</span>
-    };
+	<span style="color:#66d9ef">let</span> person <span style="color:#f92672">=</span> Person {
+		first: <span style="color:#e6db74">&#34;Yehuda&#34;</span>.to_string(),
+		last: <span style="color:#e6db74">&#34;Katz&#34;</span>.to_string(),
+		age: <span style="color:#ae81ff">32</span>
+	};
 
-    <span style="color:#66d9ef">let</span> thirties <span style="color:#f92672">=</span> is_thirties(person);
-    println!(<span style="color:#e6db74">&#34;{}, thirties: {}&#34;</span>, person, thirties);
+	<span style="color:#66d9ef">let</span> thirties <span style="color:#f92672">=</span> is_thirties(person);
+	println!(<span style="color:#e6db74">&#34;{}, thirties: {}&#34;</span>, person, thirties);
 }
 
 <span style="color:#75715e">// This function tries to take ownership of `Person`; it does not
 </span><span style="color:#75715e">// ask to borrow it by taking &amp;Person
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">is_thirties</span>(person: <span style="color:#a6e22e">Person</span>) {
-    person.age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">30</span> <span style="color:#f92672">&amp;&amp;</span> person.age <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">40</span>
+	person.age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">30</span> <span style="color:#f92672">&amp;&amp;</span> person.age <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">40</span>
 }
 </code></pre></div><p>如果我尝试编译这段代码，我会得到下面的编译错误（略有删节）：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">move.rs:16:34: 16:40 error: use of moved value: `person`
 move.rs:16     println!(&quot;{}, thirties: {}&quot;, person, thirties);
-                                            ^~\~~~~
+											^~\~~~~
 
 move.rs:15:32: 15:38 note: `person` moved here
 move.rs:15     let thirties = is_thirties(person);
-                                          ^~\~~~~
+										  ^~\~~~~
 </code></pre><p>错误的意思是 <code>hello</code> 函数的作用域是 <code>Person</code> 的初始所有者，但是当调用 <code>is_thirties</code> 时，它把所有权转移到了 <code>is_thirties</code> 函数的作用域。
 作为新的所有者，当 <code>is_thirties</code> 返回，它就会释放 <code>Person</code> 占据的内存。</p>
 <p>作为替代你会想使用「借用和借出」写这个程序：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hello</span>() {
-    <span style="color:#66d9ef">let</span> person <span style="color:#f92672">=</span> Person {
-        first: <span style="color:#e6db74">&#34;Yehuda&#34;</span>.to_string(),
-        last: <span style="color:#e6db74">&#34;Katz&#34;</span>.to_string(),
-        age: <span style="color:#ae81ff">32</span>
-    };
+	<span style="color:#66d9ef">let</span> person <span style="color:#f92672">=</span> Person {
+		first: <span style="color:#e6db74">&#34;Yehuda&#34;</span>.to_string(),
+		last: <span style="color:#e6db74">&#34;Katz&#34;</span>.to_string(),
+		age: <span style="color:#ae81ff">32</span>
+	};
 
-    <span style="color:#75715e">// lend the person -- don&#39;t transfer ownership
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> thirties <span style="color:#f92672">=</span> is_thirties(<span style="color:#f92672">&amp;</span>person);
+	<span style="color:#75715e">// lend the person -- don&#39;t transfer ownership
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> thirties <span style="color:#f92672">=</span> is_thirties(<span style="color:#f92672">&amp;</span>person);
 
-    <span style="color:#75715e">// now this scope still owns the person
-</span><span style="color:#75715e"></span>    println!(<span style="color:#e6db74">&#34;{}, thirties: {}&#34;</span>, person, thirties);
+	<span style="color:#75715e">// now this scope still owns the person
+</span><span style="color:#75715e"></span>	println!(<span style="color:#e6db74">&#34;{}, thirties: {}&#34;</span>, person, thirties);
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">is_thirties</span>(person: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Person</span>) {
-    person.age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">30</span> <span style="color:#f92672">&amp;&amp;</span> person.age <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">40</span>
+	person.age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">30</span> <span style="color:#f92672">&amp;&amp;</span> person.age <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">40</span>
 }
 </code></pre></div><p><strong><strong>从根本上讲，这意味着经过验证地所有权是你函数接口的一部分。</strong></strong> Rust 开发者有时将其称为“借用检查器（borrow checker）”，但是却恰当好处。</p>
 <p>实际上，这些大部分时间可以正常工作的原因是，函数获得它们值的方式是通过“借用（borrowing）”。它们获得值、通过这些值处理一些逻辑然后返回。
@@ -341,25 +344,25 @@ move.rs:15     let thirties = is_thirties(person);
 <p>实际上，这意味着你可以返回从上游借来的内容，然后 Rust 将处理好跟踪该内容的原容器。</p>
 <p>让我们通过一个例子来举例说明：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hello</span>() -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> {
-    <span style="color:#66d9ef">let</span> person <span style="color:#f92672">=</span> Person {
-        first: <span style="color:#e6db74">&#34;Yehuda&#34;</span>.to_string(),
-        last: <span style="color:#e6db74">&#34;Katz&#34;</span>.to_string(),
-        age: <span style="color:#ae81ff">32</span>
-    };
+	<span style="color:#66d9ef">let</span> person <span style="color:#f92672">=</span> Person {
+		first: <span style="color:#e6db74">&#34;Yehuda&#34;</span>.to_string(),
+		last: <span style="color:#e6db74">&#34;Katz&#34;</span>.to_string(),
+		age: <span style="color:#ae81ff">32</span>
+	};
 
-    first_name(<span style="color:#f92672">&amp;</span>person)
+	first_name(<span style="color:#f92672">&amp;</span>person)
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">first_name</span>(person: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Person</span>) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> {
-    <span style="color:#75715e">// as_slice borrows a slice &#34;view&#34; out of a string
-</span><span style="color:#75715e"></span>    person.first.as_slice()
+	<span style="color:#75715e">// as_slice borrows a slice &#34;view&#34; out of a string
+</span><span style="color:#75715e"></span>	person.first.as_slice()
 }
 </code></pre></div><p>如果你仔细观察，你可以立即看到问题所在。函数 <code>hello</code> 试图返回一个借用的 <code>&amp;str</code> ，但是拥有包含被返回的字节的原 <code>Person</code> 的所有权在 <code>hello</code> 中。
 一旦 <code>hello</code> 返回，那么 <code>Person</code> 将不复存在，导致借用的内容（字符串切片）指向了无效地地址。</p>
 <p>如果试图编译这段代码，你将得到如下报错：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">move.rs:8:15: 8:19 error: missing lifetime specifier [E0106]
 move.rs:8 fn hello() -&gt; &amp;str {
-                        ^~\~~
+						^~\~~
 </code></pre><p>这个有点混乱地错误信息表示我们正尝试返回借用的字节，但是函数的调用者没有借给我们借用字节的来源 <code>Person</code> 。
 Rust 正在向我们征询如果返回值不属于调用者作用域那么应该归属于那个「生命周期（lifetime）」。</p>
 <blockquote>
@@ -413,7 +416,7 @@ Rust 改变了这个领域中的传统权衡，我建议您将脑中告诉自己
 <p>在 Go 中， <code>defer</code> 关键字允许程序员在原始创建逻辑之后提供清理逻辑来管理资源：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">file</span>, <span style="color:#66d9ef">error</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#e6db74">&#34;/etc/passwd&#34;</span>)
 <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-    <span style="color:#66d9ef">return</span>;
+	<span style="color:#66d9ef">return</span>;
 }
 <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">Close</span>()
 
@@ -972,54 +975,6 @@ Rust 改变了这个领域中的传统权衡，我建议您将脑中告诉自己
    
 
    
-      
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-      
-   
-
-   
-
-   
-
-   
-
-   
-
-   
 
    
 
@@ -1063,6 +1018,78 @@ Rust 改变了这个领域中的传统权衡，我建议您将脑中告诉自己
 
    
       
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -1145,10 +1172,6 @@ Rust 改变了这个领域中的传统权衡，我建议您将脑中告诉自己
        
           <li><a href="/notes/notes/20200629174943-%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8/">引用和借用</a></li>
        
-          <li><a href="/notes/notes/20200325165657_rust_wrapper_types/">Rust Wrapper Types</a></li>
-       
-          <li><a href="/notes/articles/20200309112105_translate/">Translate</a></li>
-       
      </ul>
     </div>
   </div>
@@ -1163,7 +1186,7 @@ Rust 改变了这个领域中的传统权衡，我建议您将脑中告诉自己
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

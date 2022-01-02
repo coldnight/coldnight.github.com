@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="C&#43;&#43; 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C&#43;&#43; 同步原子（atomic）较短的调用。
-较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。=release= 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
+<meta name="description" content="tags: C&#43;&#43;11 内存模型,C/C&#43;&#43;  C&#43;&#43; 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C&#43;&#43; 同步原子（atomic）较短的调用。
+较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。release 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
 atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1, memory_order_release); while(atomic_load(&amp;amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
 来看下面 litmus test：
 Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
@@ -38,8 +38,8 @@ Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="C&#43;&#43; 弱同步原子（acquire/release atomic）">
-<meta property="og:description" content="C&#43;&#43; 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C&#43;&#43; 同步原子（atomic）较短的调用。
-较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。=release= 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
+<meta property="og:description" content="tags: C&#43;&#43;11 内存模型,C/C&#43;&#43;  C&#43;&#43; 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C&#43;&#43; 同步原子（atomic）较短的调用。
+较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。release 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
 atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1, memory_order_release); while(atomic_load(&amp;amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
 来看下面 litmus test：
 Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
@@ -163,8 +163,11 @@ Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
   
 
   <div class="post-content"><div>
-        <p>C++ 还添加了较弱的原子，可以使用 <code>atomic_store_explicit</code> 和 <code>atomic_load_explicit</code> 以及附加的n内存排序参数来访问这些原子。使用 <code>memory_order_seq_cst</code> 使显式调用等效于<a href="/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/">C++ 同步原子（atomic）</a>较短的调用。</p>
-<p>较弱的原子称为 <code>acquire/release</code> 原子，一个 <code>release</code> 如果被后来的 <code>acquire</code> 观察到，那么就创建了一个 <code>happen-before</code> 的关系(从 <code>release</code> 到 <code>acquire</code>)。这个术语意在唤起 <code>mutex:release</code> 就像 <code>unlock mutex</code> ， <code>acquire</code> 就像锁定同一个 <code>mutex</code> 。=release= 之前执行的写入必须对后续 <code>acquire</code> 之后执行的读取可见，就像解锁 <code>mutex</code> 之前执行的写入必须对后解锁 <code>mutex</code> 之后执行的读取可见一样。</p>
+        <ul>
+<li>tags: <a href="/notes/notes/20210716113225-c_11_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">C++11 内存模型</a>,<a href="/notes/topics/20200320171108_c/">C/C++</a></li>
+</ul>
+<p>C++ 还添加了较弱的原子，可以使用 <code>atomic_store_explicit</code> 和 <code>atomic_load_explicit</code> 以及附加的n内存排序参数来访问这些原子。使用 <code>memory_order_seq_cst</code> 使显式调用等效于<a href="/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/">C++ 同步原子（atomic）</a>较短的调用。</p>
+<p>较弱的原子称为 <code>acquire/release</code> 原子，一个 <code>release</code> 如果被后来的 <code>acquire</code> 观察到，那么就创建了一个 <code>happen-before</code> 的关系(从 <code>release</code> 到 <code>acquire</code>)。这个术语意在唤起 <code>mutex:release</code> 就像 <code>unlock mutex</code> ， <code>acquire</code> 就像锁定同一个 <code>mutex</code> 。<code>release</code> 之前执行的写入必须对后续 <code>acquire</code> 之后执行的读取可见，就像解锁 <code>mutex</code> 之前执行的写入必须对后解锁 <code>mutex</code> 之后执行的读取可见一样。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">atomic<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> done;
 
 <span style="color:#75715e">// Thread 1                                         // Thread 2
@@ -407,7 +410,45 @@ On C++11 (acquire/release atomics): yes!
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -415,19 +456,7 @@ On C++11 (acquire/release atomics): yes!
    
 
    
-
-   
       
-   
-
-   
-
-   
-
-   
-
-   
-
    
 
    
@@ -868,8 +897,6 @@ On C++11 (acquire/release atomics): yes!
        
           <li><a href="/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/">C&#43;&#43; 同步原子（atomic）</a></li>
        
-          <li><a href="/notes/notes/20210716113225-c_11_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">C&#43;&#43;11 内存模型</a></li>
-       
      </ul>
     </div>
   </div>
@@ -884,7 +911,7 @@ On C++11 (acquire/release atomics): yes!
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

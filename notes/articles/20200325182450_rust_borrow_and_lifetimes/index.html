@@ -6,15 +6,13 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="原文链接：Rust Borrow and Lifetimes。
+<meta name="description" content="tags: Rust,Translate,Rust Wrapper Types  原文链接：Rust Borrow and Lifetimes。
 Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布，目前最新稳定版本 1.42）。 我必须再写一篇关于我为什么觉得 Rust 牛逼的新博客，但是今天我将关注在它的借用（borrow） 和生命周期（lifetimes）系统，这也是常常让包括我在内的 Rust 新手陷入困境的地方。这篇文章假设 你基本了解 Rust，如果还没推荐你先阅读指南和指针指南。
 资源所有权和借用 Rust 通过一个难缠的（sophisticated）借用系统在不用 GC 的情况下达到内存安全。对于任何资源 （栈内存、堆内存、文件句柄等），他们都对应一个唯一的所有者（owner）在需要的情况下处理资源回收。 你可以通过 &amp;amp; 或者 &amp;amp;mut 创建一个新的绑定指向该资源，这被称之为借用或可变借用。编译器确保 所有的所有者（owners）和借用者（borrowers）行为正确。
 拷贝和转移（Copy and move） 在我们开始进入借用系统之前，我们需要知道 Rust 如何处理拷贝和转移。这个 StackOverflow 答案非常值得一读。 基本上，在赋值和函数调用上：
  如果值是可拷贝的（copyable）（仅涉及原始（primitive）类型，不涉及如内存或文件句柄的资源），编译器默认进行拷贝。 其他情况，编译器转移（moves）所有权（ownership）并使原来的绑定无效。  简而言之，POD（Plan Old Data） =&amp;gt; 拷贝，Non-POD（线性类型（linear types））=&amp;gt; 转移。
 以下是一些额外的注释供你参考：
- Rust 拷贝像 C。每一个按值（by-value）使用一个值都是字节拷贝（通过 memcpy 浅拷贝），而不是语义上的拷贝或克隆。 如果想要让一个 POD 结构体变成不可拷贝的，你可以使用一个 NoCopy 标记，或者实现 Drop 特性（trait）。  转移之后，所有权就转移到了下一个所有者那。
-资源回收 Rust 会在任何资源的所有权消失后立刻释放该资源，就这些，当：
- 所有者超出作用域，或 正在持有的所有者改变绑定（原始绑定变成 void）。  所有者和借用者的权限（privileges）和限制 这一节基于 Rust Guide 在权限（privileges）一部分提到拷贝和转移。" />
+ Rust 拷贝像 C。每一个按值（by-value）使用一个值都是字节拷贝（通过 memcpy 浅拷贝），而不是语义上的拷贝或克隆。 如果想要让一个 POD 结构体变成不可拷贝的，你可以使用一个 NoCopy 标记，或者实现 Drop 特性（trait）。  转移之后，所有权就转移到了下一个所有者那。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/articles/20200325182450_rust_borrow_and_lifetimes/" />
@@ -42,15 +40,13 @@ Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust Borrow and Lifetimes">
-<meta property="og:description" content="原文链接：Rust Borrow and Lifetimes。
+<meta property="og:description" content="tags: Rust,Translate,Rust Wrapper Types  原文链接：Rust Borrow and Lifetimes。
 Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布，目前最新稳定版本 1.42）。 我必须再写一篇关于我为什么觉得 Rust 牛逼的新博客，但是今天我将关注在它的借用（borrow） 和生命周期（lifetimes）系统，这也是常常让包括我在内的 Rust 新手陷入困境的地方。这篇文章假设 你基本了解 Rust，如果还没推荐你先阅读指南和指针指南。
 资源所有权和借用 Rust 通过一个难缠的（sophisticated）借用系统在不用 GC 的情况下达到内存安全。对于任何资源 （栈内存、堆内存、文件句柄等），他们都对应一个唯一的所有者（owner）在需要的情况下处理资源回收。 你可以通过 &amp;amp; 或者 &amp;amp;mut 创建一个新的绑定指向该资源，这被称之为借用或可变借用。编译器确保 所有的所有者（owners）和借用者（borrowers）行为正确。
 拷贝和转移（Copy and move） 在我们开始进入借用系统之前，我们需要知道 Rust 如何处理拷贝和转移。这个 StackOverflow 答案非常值得一读。 基本上，在赋值和函数调用上：
  如果值是可拷贝的（copyable）（仅涉及原始（primitive）类型，不涉及如内存或文件句柄的资源），编译器默认进行拷贝。 其他情况，编译器转移（moves）所有权（ownership）并使原来的绑定无效。  简而言之，POD（Plan Old Data） =&amp;gt; 拷贝，Non-POD（线性类型（linear types））=&amp;gt; 转移。
 以下是一些额外的注释供你参考：
- Rust 拷贝像 C。每一个按值（by-value）使用一个值都是字节拷贝（通过 memcpy 浅拷贝），而不是语义上的拷贝或克隆。 如果想要让一个 POD 结构体变成不可拷贝的，你可以使用一个 NoCopy 标记，或者实现 Drop 特性（trait）。  转移之后，所有权就转移到了下一个所有者那。
-资源回收 Rust 会在任何资源的所有权消失后立刻释放该资源，就这些，当：
- 所有者超出作用域，或 正在持有的所有者改变绑定（原始绑定变成 void）。  所有者和借用者的权限（privileges）和限制 这一节基于 Rust Guide 在权限（privileges）一部分提到拷贝和转移。" />
+ Rust 拷贝像 C。每一个按值（by-value）使用一个值都是字节拷贝（通过 memcpy 浅拷贝），而不是语义上的拷贝或克隆。 如果想要让一个 POD 结构体变成不可拷贝的，你可以使用一个 NoCopy 标记，或者实现 Drop 特性（trait）。  转移之后，所有权就转移到了下一个所有者那。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/articles/20200325182450_rust_borrow_and_lifetimes/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -171,7 +167,10 @@ Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布
   
 
   <div class="post-content"><div>
-        <p>原文链接：<a href="http://arthurtw.github.io/2014/11/30/rust-borrow-lifetimes.html">Rust Borrow and Lifetimes</a>。</p>
+        <ul>
+<li>tags: <a href="/notes/topics/20200307191429_rust/">Rust</a>,<a href="/notes/topics/20200309112105_translate/">Translate</a>,<a href="/notes/notes/20200325165657_rust_wrapper_types/">Rust Wrapper Types</a></li>
+</ul>
+<p>原文链接：<a href="http://arthurtw.github.io/2014/11/30/rust-borrow-lifetimes.html">Rust Borrow and Lifetimes</a>。</p>
 <p>Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布，目前最新稳定版本 <a href="https://github.com/rust-lang/rust/releases/tag/1.42.0">1.42</a>）。
 我必须再写一篇关于我为什么觉得 Rust 牛逼的新博客，但是今天我将关注在它的借用（borrow）
 和生命周期（lifetimes）系统，这也是常常让包括我在内的 Rust 新手陷入困境的地方。这篇文章假设
@@ -236,54 +235,54 @@ Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布
 <h3 id="所有者在可变借用期间不能访问资源">所有者在可变借用期间不能访问资源<a href="#所有者在可变借用期间不能访问资源" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>如果我们将代码中的 <code>println!</code> 解除注释，代码将不能编译：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Foo</span> {
-    f: Box<span style="color:#f92672">&lt;</span>int<span style="color:#f92672">&gt;</span>,
+	f: Box<span style="color:#f92672">&lt;</span>int<span style="color:#f92672">&gt;</span>,
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
-    <span style="color:#75715e">// mutable borrow
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> a;
-    <span style="color:#75715e">// error: cannot borrow `a.f` as immutable because `a` is also borrowed as mutable
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// println!(&#34;{}&#34;, a.f);
+	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
+	<span style="color:#75715e">// mutable borrow
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> a;
+	<span style="color:#75715e">// error: cannot borrow `a.f` as immutable because `a` is also borrowed as mutable
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// println!(&#34;{}&#34;, a.f);
 </span><span style="color:#75715e"></span>}
-</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">           { a x * }
+</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">		   { a x * }
    owner a   |_____|
 borrower x     |___| x = &amp;mut a
 access a.f       |   error
 </code></pre><p>这违反了所有者限制 #2(a)。如果我们将 <code>let x = &amp;mut a;</code> 在一个嵌套的代码块里：借用
 在 <code>println!</code> 之前结束，这段代码将能正常工作：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
-    {
-        <span style="color:#75715e">// mutable borrow
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> a;
-        <span style="color:#75715e">// mutable borrow ends here
-</span><span style="color:#75715e"></span>    }
-    println!(<span style="color:#e6db74">&#34;{}&#34;</span>, a.f);
+	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
+	{
+		<span style="color:#75715e">// mutable borrow
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> a;
+		<span style="color:#75715e">// mutable borrow ends here
+</span><span style="color:#75715e"></span>	}
+	println!(<span style="color:#e6db74">&#34;{}&#34;</span>, a.f);
 }
-</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">           { a { x } * }
+</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">		   { a { x } * }
    owner a   |_________|
 borrower x       |_|     x = &amp;mut a
 access a.f           |   OK
 </code></pre><h3 id="借用者可以转移可变借用到一个新的借用者">借用者可以转移可变借用到一个新的借用者<a href="#借用者可以转移可变借用到一个新的借用者" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>这段代码展示借用者的权限 #2: 可变借用 <code>x</code> 可以将所有权转移可变借用到一个新的借用者 <code>y</code> 。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
-    <span style="color:#75715e">// mutable borrow
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> a;
-    <span style="color:#75715e">// move the mutable borrow to new borrower y
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> y <span style="color:#f92672">=</span> x;
-    <span style="color:#75715e">// error: use of moved value: `x.f`
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// println!(&#34;{}&#34;, x.f);
+	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
+	<span style="color:#75715e">// mutable borrow
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> a;
+	<span style="color:#75715e">// move the mutable borrow to new borrower y
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> y <span style="color:#f92672">=</span> x;
+	<span style="color:#75715e">// error: use of moved value: `x.f`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// println!(&#34;{}&#34;, x.f);
 </span><span style="color:#75715e"></span>}
-</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">           { a x y * }
+</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">		   { a x y * }
    owner a   |_______|
 borrower x     |_|     x = &amp;mut a
 borrower y       |___| y = x
 access x.f         |   error
 </code></pre><p>转移之后，原始的借用者 <code>x</code> 不再能访问借用的资源。</p>
 <h2 id="借用作用域-borrow-scope">借用作用域（Borrow scope）<a href="#借用作用域-borrow-scope" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<p>如果我们开始传递引用（ <code>&amp;</code> 和 =&amp;mut=）事情就开始变得有趣，同时也是 Rust 新手们开始困惑的地方。</p>
+<p>如果我们开始传递引用（ <code>&amp;</code> 和 <code>&amp;mut</code>）事情就开始变得有趣，同时也是 Rust 新手们开始困惑的地方。</p>
 <h3 id="生命周期-lifetime">生命周期（Lifetime）<a href="#生命周期-lifetime" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>在整个借用过程中，知道借用者的借用什么时候开始和结束非常重要。在<a href="http://doc.rust-lang.org/guide-lifetimes.html">生命周期指南</a>中是这样定义生命周期的：</p>
 <blockquote>
@@ -299,7 +298,7 @@ access x.f         |   error
 <h3 id="and-borrow">&amp; = borrow<a href="#and-borrow" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>一些关于借用的事情：</p>
 <p>首先，只需要记住 <code>&amp;</code> = 借用， <code>&amp;mut</code> = 可变借用。任何地方你看到一个 <code>&amp;</code> ，那就是一个借用。</p>
-<p>其次，当一个 <code>&amp;</code> 出现在任何结构体中（在它的字段中）或者函数/闭包（返回值或者捕获的引用），结构体/函数/闭包就是一个借用者，
+<p>其次，当一个 <code>&amp;</code> 出现在任何结构体中（在它的字段中）或者函数_闭包（返回值或者捕获的引用），结构体_函数/闭包就是一个借用者，
 并且应用所有的借用规则。</p>
 <p>再次，对于每一个借用，都存在一个所有者和一个或多个借用者。</p>
 <h3 id="扩展借用作用域">扩展借用作用域<a href="#扩展借用作用域" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
@@ -320,18 +319,18 @@ access x.f         |   error
 <h3 id="代码示例">代码示例<a href="#代码示例" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>让我们看一些扩展作用域的代码示例。结构体 <code>struct Foo</code> 和前面的一样：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
-    <span style="color:#66d9ef">let</span> y: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Foo</span>;
-    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">false</span> {
-        <span style="color:#75715e">// borrow
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a;
-        <span style="color:#75715e">// share the borrow with new borrower y, hence extend the borrow scope
-</span><span style="color:#75715e"></span>        y <span style="color:#f92672">=</span> x;
-    }
-    <span style="color:#75715e">// error: cannot assign to `a.f` because it is borrowed
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// a.f = box 1;
+	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
+	<span style="color:#66d9ef">let</span> y: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Foo</span>;
+	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">false</span> {
+		<span style="color:#75715e">// borrow
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a;
+		<span style="color:#75715e">// share the borrow with new borrower y, hence extend the borrow scope
+</span><span style="color:#75715e"></span>		y <span style="color:#f92672">=</span> x;
+	}
+	<span style="color:#75715e">// error: cannot assign to `a.f` because it is borrowed
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// a.f = box 1;
 </span><span style="color:#75715e"></span>}
-</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">             { a { x y } * }
+</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">			 { a { x y } * }
   resource a   |___________|
   borrower x       |___|     x = &amp;a
   borrower y         |_____| y = x
@@ -354,31 +353,31 @@ borrow scope       |=======|
 <p>上面的代码没有使用 <strong>命名生命周期</strong> 指定它们之间的关系是不会通过编译器的，i.e. 哪些借用者 <strong>分组（grouped）</strong>
 到哪个借用作用域。下面的实现是合法的：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">max</span><span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span><span style="color:#f92672">&gt;</span>(x: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">Foo</span>, y: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">Foo</span>) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">Foo</span> {
-    <span style="color:#66d9ef">if</span> x.f <span style="color:#f92672">&gt;</span> y.f { x } <span style="color:#66d9ef">else</span> { y }
+	<span style="color:#66d9ef">if</span> x.f <span style="color:#f92672">&gt;</span> y.f { x } <span style="color:#66d9ef">else</span> { y }
 }
 </code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">(All resources and borrowers are grouped in borrow scope 'a.)
-                  max( {   } )
-    resource *x &lt;--------------&gt;
-    resource *y &lt;--------------&gt;
+				  max( {   } )
+	resource *x &lt;--------------&gt;
+	resource *y &lt;--------------&gt;
 borrow scope 'a &lt;==============&gt;
-     borrower x        |___|
-     borrower y        |___|
+	 borrower x        |___|
+	 borrower y        |___|
    return value          |___|   pass to the caller
 </code></pre><p>在这个函数中，我们有一个借用作用域 <code>'a</code> 和三个借用者：两个输入参数和函数返回结果。
 前面提到的借用公式依然生效，但是现在每个被借用的资源必须满足公式。参见下面的例子：</p>
 <h3 id="代码示例">代码示例<a href="#代码示例" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>在接下来的代码中，我们来使用上面的 <code>max</code> 函数在 <code>a</code> 和 <code>b</code> 之间选择一个更大 <code>Foo</code> ：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">1</span> };
-    <span style="color:#66d9ef">let</span> y: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Foo</span>;
-    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">false</span> {
-        <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
-        <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> max(<span style="color:#f92672">&amp;</span>a, <span style="color:#f92672">&amp;</span>b);
-        <span style="color:#75715e">// error: `b` does not live long enough
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// y = x;
-</span><span style="color:#75715e"></span>    }
+	<span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">1</span> };
+	<span style="color:#66d9ef">let</span> y: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Foo</span>;
+	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">false</span> {
+		<span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
+		<span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> max(<span style="color:#f92672">&amp;</span>a, <span style="color:#f92672">&amp;</span>b);
+		<span style="color:#75715e">// error: `b` does not live long enough
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">// y = x;
+</span><span style="color:#75715e"></span>	}
 }
-</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">              { a { b x (  ) y } }
+</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">			  { a { b x (  ) y } }
    resource a   |________________| pass
    resource b       |__________|   fail
  borrow scope         |==========|
@@ -401,15 +400,15 @@ temp borrower            |_|       &amp;b
 </code></pre></div><h3 id="结构体借用多个资源">结构体借用多个资源<a href="#结构体借用多个资源" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>即使只有一个字段，结构体 <code>Link</code> 也可以借用多个资源：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> x <span style="color:#f92672">=</span> Link { link: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">a</span> };
-    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">false</span> {
-        <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">1</span> };
-        <span style="color:#75715e">// error: `b` does not live long enough
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// x.link = &amp;b;
-</span><span style="color:#75715e"></span>    }
+	<span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
+	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> x <span style="color:#f92672">=</span> Link { link: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">a</span> };
+	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">false</span> {
+		<span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">1</span> };
+		<span style="color:#75715e">// error: `b` does not live long enough
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">// x.link = &amp;b;
+</span><span style="color:#75715e"></span>	}
 }
-</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">             { a x { b * } }
+</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">			 { a x { b * } }
   resource a   |___________| pass
   resource b         |___|   fail
 borrow scope     |=========|
@@ -427,14 +426,14 @@ borrow scope     |=========|
 </code></pre></div><p>在接下来的代码中，被 <code>a</code> 所有的资源是被借用资源； <code>Link</code> 结构体被借用者 <code>x</code> 可变的引用着（i.e. <code>*x</code> 是借用者）；
 借用作用域直到 <code>main</code> 块的结尾。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
-    <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> Link { link: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">a</span> };
-    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">false</span> {
-        <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">1</span> };
-        <span style="color:#75715e">// store_foo(x, &amp;b);
-</span><span style="color:#75715e"></span>    }
+	<span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">0</span> };
+	<span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> Link { link: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">a</span> };
+	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">false</span> {
+		<span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> Foo { f: <span style="color:#a6e22e">box</span> <span style="color:#ae81ff">1</span> };
+		<span style="color:#75715e">// store_foo(x, &amp;b);
+</span><span style="color:#75715e"></span>	}
 }
-</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">             { a x { b * } }
+</code></pre></div><pre tabindex="0"><code class="language-nil" data-lang="nil">			 { a x { b * } }
   resource a   |___________| pass
   resource b         |___|   fail
 borrow scope     |=========|
@@ -445,9 +444,9 @@ borrow scope     |=========|
 <h3 id="多个借用作用域">多个借用作用域<a href="#多个借用作用域" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>一个函数中可以存在多个借用作用域。例如：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">superstore_foo</span><span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span>, <span style="color:#f92672">&#39;</span><span style="color:#a6e22e">b</span><span style="color:#f92672">&gt;</span>(x: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Link<span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span><span style="color:#f92672">&gt;</span>, y: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">Foo</span>,
-                          x2: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Link<span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">b</span><span style="color:#f92672">&gt;</span>, y2: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">b</span> <span style="color:#a6e22e">Foo</span>) {
-    x.link <span style="color:#f92672">=</span> y;
-    x2.link <span style="color:#f92672">=</span> y2;
+						  x2: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Link<span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">b</span><span style="color:#f92672">&gt;</span>, y2: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">b</span> <span style="color:#a6e22e">Foo</span>) {
+	x.link <span style="color:#f92672">=</span> y;
+	x2.link <span style="color:#f92672">=</span> y2;
 }
 </code></pre></div><p>这个的函数（可能不是特别有用）中，涉及两个不同的借用作用域。每个借用作用域都有它们自己的作用域公式要满足。</p>
 <h2 id="为什么生命周期会造成困惑">为什么生命周期会造成困惑<a href="#为什么生命周期会造成困惑" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
@@ -460,7 +459,7 @@ C. 每一个独立的借用者或被借用的指针的生命周期</p>
 比如，在函数或者结构体生命中一个“命名的生命周期”指哪个？是 A、B 或者 C？</p>
 <p>在我们的前一个 <code>max</code> 函数中：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">max</span><span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span><span style="color:#f92672">&gt;</span>(x: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">Foo</span>, y: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">Foo</span>) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">Foo</span> {
-    <span style="color:#66d9ef">if</span> x.f <span style="color:#f92672">&gt;</span> y.f { x } <span style="color:#66d9ef">else</span> { y }
+	<span style="color:#66d9ef">if</span> x.f <span style="color:#f92672">&gt;</span> y.f { x } <span style="color:#66d9ef">else</span> { y }
 }
 </code></pre></div><p>生命周期 <code>'a</code> 的意义是什么？它不应该是 A，因为涉及两个资源并且他们有不同的生命周期。也不可能是 C，
 因为有三个借用者： <code>x</code> 、 <code>y</code> 和函数的返回值，并且他们也都有不同的生命周期。它是 B 吗？可能。
@@ -970,72 +969,6 @@ C. 每一个独立的借用者或被借用的指针的生命周期</p>
    
 
    
-      
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-      
-   
-
-   
-
-   
-
-   
-
-   
-
-   
 
    
 
@@ -1079,6 +1012,96 @@ C. 每一个独立的借用者或被借用的指针的生命周期</p>
 
    
       
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -1161,10 +1184,6 @@ C. 每一个独立的借用者或被借用的指针的生命周期</p>
        
           <li><a href="/notes/notes/20200629180413-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a></li>
        
-          <li><a href="/notes/notes/20200325165657_rust_wrapper_types/">Rust Wrapper Types</a></li>
-       
-          <li><a href="/notes/articles/20200309112105_translate/">Translate</a></li>
-       
      </ul>
     </div>
   </div>
@@ -1179,7 +1198,7 @@ C. 每一个独立的借用者或被借用的指针的生命周期</p>
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

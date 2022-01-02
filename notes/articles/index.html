@@ -157,10 +157,10 @@
         <div class="post-content">
           
           
-          背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
+          tags: Rust  背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
 先来看一个在项目 README.md 中的例子：
 use actix_web::{get, web, App, HttpServer, Responder}; #[get(&#34;/{id}/{name}/index.html&#34;)] async fn index(web::Path((id, name)): web::Path&lt;(u32, String)&gt;) -&gt; impl Responder { format!(&#34;Hello {}! id:{}&#34;, name, id) } #[actix_web::main] async fn main() -&gt; std::io::Result&lt;()&gt; { HttpServer::new(|| App::new().service(index)) .bind(&#34;127.0.0.1:8080&#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：
-use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&gt; impl Responder { let name = req.match_info().get(&#34;name&#34;).unwrap_or(&#34;World&#34;); format!(&#34;Hello {}!&#34;, &amp;name) } #[actix_web::main] async fn main() -&gt; std::io::Result&lt;()&gt; { HttpServer::new(|| { App::new() .
+use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&gt; impl Responder { let name = req.match_info().get(&#34;name&#34;).unwrap_or(&#34;World&#34;); format!
           
           
         </div>
@@ -224,7 +224,7 @@ use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(re
         <div class="post-content">
           
           
-          原文链接：Understanding Rust futures by going way too deep。
+          tags: Translate,Rust,Tokio  原文链接：Understanding Rust futures by going way too deep。
 译者注：原文大量的引入了有趣的对话，迫于排版问题这里不进行翻译，必要的对话通过引用块来解释。
 深入理解 Rust future 用 Rust future！就是这么简单！直到我们发现并非如此。所以我们先探索简单的部分，然后继续探索困难部分而不是等它慢慢靠近我们。
 起步  Choo choo here comes the easy part 🚂💨
@@ -263,7 +263,7 @@ $ cargo install cargo-edit Updating crates.io index Downloaded cargo-edit v0.7.0
         <div class="post-content">
           
           
-          原文链接：https://superorganizers.substack.com/p/surgical-reading-how-to-read-12-books
+          tags: Translate,Incomplete  原文链接：https://superorganizers.substack.com/p/surgical-reading-how-to-read-12-books
 手术阅读法：如何同时阅读 12 本书  译者注：这篇文章让我想起了《如何阅读一本书》这本书，文章中的大部分技巧都能在这本书中找出来，阅读是一门需要学习的技能。
  当有人问我如何阅读时我总是会有点尴尬，因为我一般都是同时阅读十几本书。
 但是我这样阅读并不是为了炫耀 &ndash; 我这么做是因为我觉得这种阅读方式更好，最起码对我来说。
@@ -313,15 +313,13 @@ $ cargo install cargo-edit Updating crates.io index Downloaded cargo-edit v0.7.0
         <div class="post-content">
           
           
-          原文链接：Rust Borrow and Lifetimes。
+          tags: Rust,Translate,Rust Wrapper Types  原文链接：Rust Borrow and Lifetimes。
 Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布，目前最新稳定版本 1.42）。 我必须再写一篇关于我为什么觉得 Rust 牛逼的新博客，但是今天我将关注在它的借用（borrow） 和生命周期（lifetimes）系统，这也是常常让包括我在内的 Rust 新手陷入困境的地方。这篇文章假设 你基本了解 Rust，如果还没推荐你先阅读指南和指针指南。
 资源所有权和借用 Rust 通过一个难缠的（sophisticated）借用系统在不用 GC 的情况下达到内存安全。对于任何资源 （栈内存、堆内存、文件句柄等），他们都对应一个唯一的所有者（owner）在需要的情况下处理资源回收。 你可以通过 &amp; 或者 &amp;mut 创建一个新的绑定指向该资源，这被称之为借用或可变借用。编译器确保 所有的所有者（owners）和借用者（borrowers）行为正确。
 拷贝和转移（Copy and move） 在我们开始进入借用系统之前，我们需要知道 Rust 如何处理拷贝和转移。这个 StackOverflow 答案非常值得一读。 基本上，在赋值和函数调用上：
  如果值是可拷贝的（copyable）（仅涉及原始（primitive）类型，不涉及如内存或文件句柄的资源），编译器默认进行拷贝。 其他情况，编译器转移（moves）所有权（ownership）并使原来的绑定无效。  简而言之，POD（Plan Old Data） =&gt; 拷贝，Non-POD（线性类型（linear types））=&gt; 转移。
 以下是一些额外的注释供你参考：
  Rust 拷贝像 C。每一个按值（by-value）使用一个值都是字节拷贝（通过 memcpy 浅拷贝），而不是语义上的拷贝或克隆。 如果想要让一个 POD 结构体变成不可拷贝的，你可以使用一个 NoCopy 标记，或者实现 Drop 特性（trait）。  转移之后，所有权就转移到了下一个所有者那。
-资源回收 Rust 会在任何资源的所有权消失后立刻释放该资源，就这些，当：
- 所有者超出作用域，或 正在持有的所有者改变绑定（原始绑定变成 void）。  所有者和借用者的权限（privileges）和限制 这一节基于 Rust Guide 在权限（privileges）一部分提到拷贝和转移。
           
           
         </div>
@@ -330,37 +328,6 @@ Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布
         <div>
           <a class="read-more button"
             href="/notes/articles/20200325182450_rust_borrow_and_lifetimes/"> →</a>
-        </div>
-        
-      </div>
-    
-      <div class="post on-list">
-        <h1 class="post-title">
-          <a href="https://www.linuxzen.com/notes/articles/20200309112105_translate/">Translate</a>
-        </h1>
-        <div class="post-meta">
-          <span class="post-date">
-            2020-03-09
-          </span>
-          
-            <span class="post-author">:: [Gray King]</span>
-          
-        </div>
-
-        
-
-        
-
-        <div class="post-content">
-          
-          
-          
-        </div>
-
-        
-        <div>
-          <a class="read-more button"
-            href="/notes/articles/20200309112105_translate/"> →</a>
         </div>
         
       </div>
@@ -385,7 +352,7 @@ Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布
         <div class="post-content">
           
           
-          原文链接：Deep Learning Algorithms : The Complete Guide。
+          tags: Translate,Deep Learning,AI,Incomplete  原文链接：Deep Learning Algorithms : The Complete Guide。
 深度学习正在影响整个世界。
 深度学习的炒作始于 2012 年：一个神经网络（Neural Network）在图片识别任务上表现出超人的性能，并且只有少数人能预测将会发生什么。
 在过去 10 年，越来越多的算法落地到我们生活中。越来越多的公司开始将其加入到日常业务中。
@@ -405,8 +372,6 @@ Contents   但是什么是深度学习?
   生成对抗网络（GAN）
   Transformers
   图神经网络（GNN）
-  自然语言处理中的深度学习
- 词嵌入 (Word embedding) 序列建模（Sequence Modeling）    计算机视觉中的机器学习
           
           
         </div>
@@ -415,48 +380,6 @@ Contents   但是什么是深度学习?
         <div>
           <a class="read-more button"
             href="/notes/articles/20200309112133_deep_learning_algorithms/"> →</a>
-        </div>
-        
-      </div>
-    
-      <div class="post on-list">
-        <h1 class="post-title">
-          <a href="https://www.linuxzen.com/notes/articles/notes/">Taking Smart Notes With Org-mode</a>
-        </h1>
-        <div class="post-meta">
-          <span class="post-date">
-            2020-03-07
-          </span>
-          
-            <span class="post-author">:: [Gray King]</span>
-          
-        </div>
-
-        
-
-        
-
-        <div class="post-content">
-          
-          
-          Prelude Taking Notes
-Topics  正在读的书 读书笔记 技术 Translate 认同的话 Learning English To Complete  Links Sprint 1:2019-02-03 ~ 2019-02-19   LD_PRELOAD: The Hero We Need and Deserve
-通过 LD_PRELOAD 覆盖一些函数，比如 faketime
-  Going Solo, Successfully
-  变身成为独立开发者。
-  Graceful Shutdown
-  Why limiting work-in-progress works
-  Practical Go: Real world advice for writing maintainable Go programs
-译文：https://github.com/llitfkitfk/go-best-practice
-  百万 Go TCP 连接的思考: epoll方式减少资源占用
-          
-          
-        </div>
-
-        
-        <div>
-          <a class="read-more button"
-            href="/notes/articles/notes/"> →</a>
         </div>
         
       </div>
@@ -484,7 +407,7 @@ Topics  正在读的书 读书笔记 技术 Translate 认同的话 Learning Engl
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

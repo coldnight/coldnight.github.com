@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="中间件可以对系统进行解耦，比如上层系统对下层系统进行网络请求，考虑下面结构
+<meta name="description" content="tags: 技术，技术概念  中间件可以对系统进行解耦，比如上层系统对下层系统进行网络请求，考虑下面结构
 - U - / | \ /--- | ---\ / | \ A B C 如果下层系统增加节点的话就需要重启 U。
 引入 HAProxy 或者 Nginx 之类的中间件可以对两层系统进行解耦：
 U | &#43;------&#43; | HA | &#43;------&#43; / | \ /--- | ---\ / | \ A B C 这样上层和下层系统都依赖中间件，但是系统之间不再强耦合，下层系统可以依赖中间件随意的进行所扩容而不用被上层系统感知。 这时候中间件只要保证中间件稳定即可，可以在中间件上进行热重启。" />
@@ -37,7 +37,7 @@ U | &#43;------&#43; | HA | &#43;------&#43; / | \ /--- | ---\ / | \ A B C 这�
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="中间件">
-<meta property="og:description" content="中间件可以对系统进行解耦，比如上层系统对下层系统进行网络请求，考虑下面结构
+<meta property="og:description" content="tags: 技术，技术概念  中间件可以对系统进行解耦，比如上层系统对下层系统进行网络请求，考虑下面结构
 - U - / | \ /--- | ---\ / | \ A B C 如果下层系统增加节点的话就需要重启 U。
 引入 HAProxy 或者 Nginx 之类的中间件可以对两层系统进行解耦：
 U | &#43;------&#43; | HA | &#43;------&#43; / | \ /--- | ---\ / | \ A B C 这样上层和下层系统都依赖中间件，但是系统之间不再强耦合，下层系统可以依赖中间件随意的进行所扩容而不用被上层系统感知。 这时候中间件只要保证中间件稳定即可，可以在中间件上进行热重启。" />
@@ -161,20 +161,23 @@ U | &#43;------&#43; | HA | &#43;------&#43; / | \ /--- | ---\ / | \ A B C 这�
   
 
   <div class="post-content"><div>
-        <p>中间件可以对系统进行解耦，比如上层系统对下层系统进行网络请求，考虑下面结构</p>
-<pre tabindex="0"><code class="language-nil" data-lang="nil">       - U -
-      /  |  \
+        <ul>
+<li>tags: <a href="/notes/topics/20200323104645_%E6%8A%80%E6%9C%AF/">技术</a>，<a href="/notes/notes/20210802193020-%E6%8A%80%E6%9C%AF%E6%A6%82%E5%BF%B5/">技术概念</a></li>
+</ul>
+<p>中间件可以对系统进行解耦，比如上层系统对下层系统进行网络请求，考虑下面结构</p>
+<pre tabindex="0"><code class="language-nil" data-lang="nil">	   - U -
+	  /  |  \
   /---   |   ---\
  /       |       \
 A        B        C
 </code></pre><p>如果下层系统增加节点的话就需要重启 U。</p>
 <p>引入 HAProxy 或者 Nginx 之类的中间件可以对两层系统进行解耦：</p>
-<pre tabindex="0"><code class="language-nil" data-lang="nil">         U
-         |
-     +------+
-     |  HA  |
-     +------+
-      /  |  \
+<pre tabindex="0"><code class="language-nil" data-lang="nil">		 U
+		 |
+	 +------+
+	 |  HA  |
+	 +------+
+	  /  |  \
   /---   |   ---\
  /       |       \
 A        B        C
@@ -593,7 +596,33 @@ A        B        C
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -854,14 +883,7 @@ A        B        C
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20210220165806-%E6%8A%80%E6%9C%AF%E9%9A%8F%E6%83%B3/">技术随想</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -874,7 +896,7 @@ A        B        C
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

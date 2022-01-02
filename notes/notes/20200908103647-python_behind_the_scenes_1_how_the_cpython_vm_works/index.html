@@ -6,11 +6,10 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="原文链接：Python behind the scenes #1: how the CPython VM works。
+<meta name="description" content="tags: Translate,Python  原文链接：Python behind the scenes #1: how the CPython VM works。
 Python 幕后 #1: CPython 虚拟机如何工作 介绍（Introduction） 你是否曾经好奇过当你运行 Python 代码时 python 做了些什么？
 $ python script.py 这篇文章将开启一个系列来尝试解答这个问题。我们将深入 Python 最流行的实现 CPython 的内部。 通过深入 CPython 的内部我们将更深一层的去理解这门编程语言本身。这也是我们这个系列的最主要的目标。 如果你熟悉 Python 并且可以阅读 C 代码，但是对 CPython 源码本身没有太多的经验， 那么你可能非常适合本系列，并且对本系列感兴趣。
-什么是 CPython 并且为什么有人想学习它（What CPython is and why anyone would want to study it） 我们首先来说明一些众所周知的事情。CPython 是用 C 编写的 Python 解析器。他是 Python 语言的众多实现 的一种，其他还有诸如 PyPy、Jython、IronPython 等。CPython 的独特之处在于它是 Python 的起源、维护时间最长也是最受欢迎的。
-CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可能是：Python 是一门编程语言。 当正确问相同的问题，那么答案将会更加明确：什么定义了 Python？Python 不像 C 语言有正式的规范， 但是与之相近的是 Python 语言参考（Python Language Reference），它以如下内容开始：" />
+什么是 CPython 并且为什么有人想学习它（What CPython is and why anyone would want to study it） 我们首先来说明一些众所周知的事情。CPython 是用 C 编写的 Python 解析器。他是 Python 语言的众多实现 的一种，其他还有诸如 PyPy、Jython、IronPython 等。CPython 的独特之处在于它是 Python 的起源、维护时间最长也是最受欢迎的。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/" />
@@ -38,11 +37,10 @@ CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Python behind the scenes #1: how the CPython VM works">
-<meta property="og:description" content="原文链接：Python behind the scenes #1: how the CPython VM works。
+<meta property="og:description" content="tags: Translate,Python  原文链接：Python behind the scenes #1: how the CPython VM works。
 Python 幕后 #1: CPython 虚拟机如何工作 介绍（Introduction） 你是否曾经好奇过当你运行 Python 代码时 python 做了些什么？
 $ python script.py 这篇文章将开启一个系列来尝试解答这个问题。我们将深入 Python 最流行的实现 CPython 的内部。 通过深入 CPython 的内部我们将更深一层的去理解这门编程语言本身。这也是我们这个系列的最主要的目标。 如果你熟悉 Python 并且可以阅读 C 代码，但是对 CPython 源码本身没有太多的经验， 那么你可能非常适合本系列，并且对本系列感兴趣。
-什么是 CPython 并且为什么有人想学习它（What CPython is and why anyone would want to study it） 我们首先来说明一些众所周知的事情。CPython 是用 C 编写的 Python 解析器。他是 Python 语言的众多实现 的一种，其他还有诸如 PyPy、Jython、IronPython 等。CPython 的独特之处在于它是 Python 的起源、维护时间最长也是最受欢迎的。
-CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可能是：Python 是一门编程语言。 当正确问相同的问题，那么答案将会更加明确：什么定义了 Python？Python 不像 C 语言有正式的规范， 但是与之相近的是 Python 语言参考（Python Language Reference），它以如下内容开始：" />
+什么是 CPython 并且为什么有人想学习它（What CPython is and why anyone would want to study it） 我们首先来说明一些众所周知的事情。CPython 是用 C 编写的 Python 解析器。他是 Python 语言的众多实现 的一种，其他还有诸如 PyPy、Jython、IronPython 等。CPython 的独特之处在于它是 Python 的起源、维护时间最长也是最受欢迎的。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200908103647-python_behind_the_scenes_1_how_the_cpython_vm_works/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -163,7 +161,10 @@ CPython 实现了 Python，但是 Python 是什么？最简单的一个答案可
   
 
   <div class="post-content"><div>
-        <p>原文链接：<a href="https://tenthousandmeters.com/blog/python-behind-the-scenes-1-how-the-cpython-vm-works/">Python behind the scenes #1: how the CPython VM works</a>。</p>
+        <ul>
+<li>tags: <a href="/notes/topics/20200309112105_translate/">Translate</a>,<a href="/notes/topics/20200628133616-python/">Python</a></li>
+</ul>
+<p>原文链接：<a href="https://tenthousandmeters.com/blog/python-behind-the-scenes-1-how-the-cpython-vm-works/">Python behind the scenes #1: how the CPython VM works</a>。</p>
 <h2 id="python-幕后-1-cpython-虚拟机如何工作">Python 幕后 #1: CPython 虚拟机如何工作<a href="#python-幕后-1-cpython-虚拟机如何工作" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="介绍-introduction">介绍（Introduction）<a href="#介绍-introduction" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>你是否曾经好奇过当你运行 Python 代码时 <code>python</code> 做了些什么？</p>
@@ -221,13 +222,13 @@ CPython 也是如此。这个翻译阶段和一个典型的编译器做同样的
 <p>在进入下一阶段之前，我们需要理解什么是字节码（bytecode）。字节码是一系列的指令。
 每一个指令由两个字节组成：一个为 opcode，一个为参数（argument）。看如下例子：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">g</span>(x):
-    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>
+	<span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>
 </code></pre></div><p>CPython 将函数定义 <code>g</code> 翻译成一个字节序列：[124, 0, 100, 1, 23, 0, 83, 0]。
 如果我们运行标准库 <code>dis</code> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>去反汇编它，我们将会得到如下内容：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ae81ff">2</span>           <span style="color:#ae81ff">0</span> LOAD_FAST            <span style="color:#ae81ff">0</span> (x)
-            <span style="color:#ae81ff">2</span> LOAD_CONST           <span style="color:#ae81ff">1</span> (<span style="color:#ae81ff">3</span>)
-            <span style="color:#ae81ff">4</span> BINARY_ADD
-            <span style="color:#ae81ff">6</span> RETURN_VALUE
+			<span style="color:#ae81ff">2</span> LOAD_CONST           <span style="color:#ae81ff">1</span> (<span style="color:#ae81ff">3</span>)
+			<span style="color:#ae81ff">4</span> BINARY_ADD
+			<span style="color:#ae81ff">6</span> RETURN_VALUE
 </code></pre></div><p>字节 <code>124</code> 表示 opcode <code>LOAD_FAST</code> 并且有一个参数 <code>0</code> 。字节 <code>100</code> 表示 opcode <code>LOAD_CONST</code> 并且有一个参数 <code>1</code> 。
 <code>BINARY_ADD</code> 和 <code>RETURN_VALUE</code> 指令不需要参数所以总是被编码成 <code>(23, 0)</code> 和 <code>(83, 0)</code> 。</p>
 <p>CPython 的核心就是一个运行字节码的虚拟机。通过查看上面例子你可能已经猜到它是如何工作的拉。
@@ -252,25 +253,25 @@ CPython 虚拟机一个基于栈的。也就意味这它执行指令并通过栈
 VM 如何执行一个包含程序定义和函数调用的模块（module）？</p>
 <p>考虑如下程序：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>(x):
-    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+	<span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 
 print(f(<span style="color:#ae81ff">1</span>))
 </code></pre></div><p>它的字节码什么样子？让我们分析这个程序做了什么来解答这个问题。它定义了一个函数 <code>f</code> ，
 通过一个参数 <code>1</code> 调用函数 <code>f</code> 然后打印结果。无论函数 <code>f</code> 做了什么都不会包含在模块字节码中。
 我们可以通过运行一个反汇编来证明我们自己：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">1           0 LOAD_CONST               0 (&lt;code object f at 0x10bffd1e0, file &quot;example.py&quot;, line 1&gt;)
-            2 LOAD_CONST               1 ('f')
-            4 MAKE_FUNCTION            0
-            6 STORE_NAME               0 (f)
+			2 LOAD_CONST               1 ('f')
+			4 MAKE_FUNCTION            0
+			6 STORE_NAME               0 (f)
 
 4           8 LOAD_NAME                1 (print)
-           10 LOAD_NAME                0 (f)
-           12 LOAD_CONST               2 (1)
-           14 CALL_FUNCTION            1
-           16 CALL_FUNCTION            1
-           18 POP_TOP
-           20 LOAD_CONST               3 (None)
-           22 RETURN_VALUE
+		   10 LOAD_NAME                0 (f)
+		   12 LOAD_CONST               2 (1)
+		   14 CALL_FUNCTION            1
+		   16 CALL_FUNCTION            1
+		   18 POP_TOP
+		   20 LOAD_CONST               3 (None)
+		   22 RETURN_VALUE
 </code></pre><p>第一行通过从一些叫做代码对象（code object）的东西创建一个函数并绑定名字为 <code>f</code> 来定义函数 <code>f</code> 。
 我们没有看到函数 <code>f</code> 用来返回一个自增的参数的字节码。</p>
 <p>被作为单一执行单元的代码片段如一个模块或者一个函数体被称为代码块。
@@ -294,9 +295,9 @@ CPython 存储关于代码块的信息的结构体就是代码对象（code obje
 </blockquote>
 <p>多个函数对象如何饮用一个代码对象？这里有个例子：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">make_add_x</span>(x):
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_x</span>(y):
-        <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y
-    <span style="color:#66d9ef">return</span> add_x
+	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_x</span>(y):
+		<span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y
+	<span style="color:#66d9ef">return</span> add_x
 
 add_4 <span style="color:#f92672">=</span> make_add_x(<span style="color:#ae81ff">4</span>)
 add_5 <span style="color:#f92672">=</span> make_add_x(<span style="color:#ae81ff">5</span>)
@@ -305,41 +306,41 @@ add_5 <span style="color:#f92672">=</span> make_add_x(<span style="color:#ae81ff
 每一个函数拥有自己的变量单元的机制允许我们创建如 <code>add_4</code> 和 <code>add_5</code> 的闭包函数。</p>
 <p>我们继续下一个主题之前推荐你看一下定义函数对象的代码：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> PyCodeObject {
-    PyObject_HEAD
-    <span style="color:#66d9ef">int</span> co_argcount;            <span style="color:#75715e">/* #arguments, except *args */</span>
-    <span style="color:#66d9ef">int</span> co_posonlyargcount;     <span style="color:#75715e">/* #positional only arguments */</span>
-    <span style="color:#66d9ef">int</span> co_kwonlyargcount;      <span style="color:#75715e">/* #keyword only arguments */</span>
-    <span style="color:#66d9ef">int</span> co_nlocals;             <span style="color:#75715e">/* #local variables */</span>
-    <span style="color:#66d9ef">int</span> co_stacksize;           <span style="color:#75715e">/* #entries needed for evaluation stack */</span>
-    <span style="color:#66d9ef">int</span> co_flags;               <span style="color:#75715e">/* CO_..., see below */</span>
-    <span style="color:#66d9ef">int</span> co_firstlineno;         <span style="color:#75715e">/* first source line number */</span>
-    PyObject <span style="color:#f92672">*</span>co_code;          <span style="color:#75715e">/* instruction opcodes */</span>
-    PyObject <span style="color:#f92672">*</span>co_consts;        <span style="color:#75715e">/* list (constants used) */</span>
-    PyObject <span style="color:#f92672">*</span>co_names;         <span style="color:#75715e">/* list of strings (names used) */</span>
-    PyObject <span style="color:#f92672">*</span>co_varnames;      <span style="color:#75715e">/* tuple of strings (local variable names) */</span>
-    PyObject <span style="color:#f92672">*</span>co_freevars;      <span style="color:#75715e">/* tuple of strings (free variable names) */</span>
-    PyObject <span style="color:#f92672">*</span>co_cellvars;      <span style="color:#75715e">/* tuple of strings (cell variable names) */</span>
+	PyObject_HEAD
+	<span style="color:#66d9ef">int</span> co_argcount;            <span style="color:#75715e">/* #arguments, except *args */</span>
+	<span style="color:#66d9ef">int</span> co_posonlyargcount;     <span style="color:#75715e">/* #positional only arguments */</span>
+	<span style="color:#66d9ef">int</span> co_kwonlyargcount;      <span style="color:#75715e">/* #keyword only arguments */</span>
+	<span style="color:#66d9ef">int</span> co_nlocals;             <span style="color:#75715e">/* #local variables */</span>
+	<span style="color:#66d9ef">int</span> co_stacksize;           <span style="color:#75715e">/* #entries needed for evaluation stack */</span>
+	<span style="color:#66d9ef">int</span> co_flags;               <span style="color:#75715e">/* CO_..., see below */</span>
+	<span style="color:#66d9ef">int</span> co_firstlineno;         <span style="color:#75715e">/* first source line number */</span>
+	PyObject <span style="color:#f92672">*</span>co_code;          <span style="color:#75715e">/* instruction opcodes */</span>
+	PyObject <span style="color:#f92672">*</span>co_consts;        <span style="color:#75715e">/* list (constants used) */</span>
+	PyObject <span style="color:#f92672">*</span>co_names;         <span style="color:#75715e">/* list of strings (names used) */</span>
+	PyObject <span style="color:#f92672">*</span>co_varnames;      <span style="color:#75715e">/* tuple of strings (local variable names) */</span>
+	PyObject <span style="color:#f92672">*</span>co_freevars;      <span style="color:#75715e">/* tuple of strings (free variable names) */</span>
+	PyObject <span style="color:#f92672">*</span>co_cellvars;      <span style="color:#75715e">/* tuple of strings (cell variable names) */</span>
 
-    Py_ssize_t <span style="color:#f92672">*</span>co_cell2arg;    <span style="color:#75715e">/* Maps cell vars which are arguments. */</span>
-    PyObject <span style="color:#f92672">*</span>co_filename;      <span style="color:#75715e">/* unicode (where it was loaded from) */</span>
-    PyObject <span style="color:#f92672">*</span>co_name;          <span style="color:#75715e">/* unicode (name, for reference) */</span>
-        <span style="color:#75715e">/* ... more members ... */</span>
+	Py_ssize_t <span style="color:#f92672">*</span>co_cell2arg;    <span style="color:#75715e">/* Maps cell vars which are arguments. */</span>
+	PyObject <span style="color:#f92672">*</span>co_filename;      <span style="color:#75715e">/* unicode (where it was loaded from) */</span>
+	PyObject <span style="color:#f92672">*</span>co_name;          <span style="color:#75715e">/* unicode (name, for reference) */</span>
+		<span style="color:#75715e">/* ... more members ... */</span>
 };
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
-    PyObject_HEAD
-    PyObject <span style="color:#f92672">*</span>func_code;        <span style="color:#75715e">/* A code object, the __code__ attribute */</span>
-    PyObject <span style="color:#f92672">*</span>func_globals;     <span style="color:#75715e">/* A dictionary (other mappings won&#39;t do) */</span>
-    PyObject <span style="color:#f92672">*</span>func_defaults;    <span style="color:#75715e">/* NULL or a tuple */</span>
-    PyObject <span style="color:#f92672">*</span>func_kwdefaults;  <span style="color:#75715e">/* NULL or a dict */</span>
-    PyObject <span style="color:#f92672">*</span>func_closure;     <span style="color:#75715e">/* NULL or a tuple of cell objects */</span>
-    PyObject <span style="color:#f92672">*</span>func_doc;         <span style="color:#75715e">/* The __doc__ attribute, can be anything */</span>
-    PyObject <span style="color:#f92672">*</span>func_name;        <span style="color:#75715e">/* The __name__ attribute, a string object */</span>
-    PyObject <span style="color:#f92672">*</span>func_dict;        <span style="color:#75715e">/* The __dict__ attribute, a dict or NULL */</span>
-    PyObject <span style="color:#f92672">*</span>func_weakreflist; <span style="color:#75715e">/* List of weak references */</span>
-    PyObject <span style="color:#f92672">*</span>func_module;      <span style="color:#75715e">/* The __module__ attribute, can be anything */</span>
-    PyObject <span style="color:#f92672">*</span>func_annotations; <span style="color:#75715e">/* Annotations, a dict or NULL */</span>
-    PyObject <span style="color:#f92672">*</span>func_qualname;    <span style="color:#75715e">/* The qualified name */</span>
-    vectorcallfunc vectorcall;
+	PyObject_HEAD
+	PyObject <span style="color:#f92672">*</span>func_code;        <span style="color:#75715e">/* A code object, the __code__ attribute */</span>
+	PyObject <span style="color:#f92672">*</span>func_globals;     <span style="color:#75715e">/* A dictionary (other mappings won&#39;t do) */</span>
+	PyObject <span style="color:#f92672">*</span>func_defaults;    <span style="color:#75715e">/* NULL or a tuple */</span>
+	PyObject <span style="color:#f92672">*</span>func_kwdefaults;  <span style="color:#75715e">/* NULL or a dict */</span>
+	PyObject <span style="color:#f92672">*</span>func_closure;     <span style="color:#75715e">/* NULL or a tuple of cell objects */</span>
+	PyObject <span style="color:#f92672">*</span>func_doc;         <span style="color:#75715e">/* The __doc__ attribute, can be anything */</span>
+	PyObject <span style="color:#f92672">*</span>func_name;        <span style="color:#75715e">/* The __name__ attribute, a string object */</span>
+	PyObject <span style="color:#f92672">*</span>func_dict;        <span style="color:#75715e">/* The __dict__ attribute, a dict or NULL */</span>
+	PyObject <span style="color:#f92672">*</span>func_weakreflist; <span style="color:#75715e">/* List of weak references */</span>
+	PyObject <span style="color:#f92672">*</span>func_module;      <span style="color:#75715e">/* The __module__ attribute, can be anything */</span>
+	PyObject <span style="color:#f92672">*</span>func_annotations; <span style="color:#75715e">/* Annotations, a dict or NULL */</span>
+	PyObject <span style="color:#f92672">*</span>func_qualname;    <span style="color:#75715e">/* The qualified name */</span>
+	vectorcallfunc vectorcall;
 } PyFunctionObject;
 </code></pre></div><h4 id="帧对象-frame-object">帧对象（frame object）<a href="#帧对象-frame-object" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>当执行一个代码对象时，VM 需要一直跟踪变量的值并不断的更新值栈（value stack）。
@@ -347,29 +348,29 @@ add_5 <span style="color:#f92672">=</span> make_add_x(<span style="color:#ae81ff
 CPython 在一个帧对象里存储这些信息，或者简单的说成帧。一个帧提供了一个哪个代码对象可以被执行的状态。
 由于我们已经开始习惯源代码，所以这里我贴出帧对象的定义：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> _frame {
-    PyObject_VAR_HEAD
-    <span style="color:#66d9ef">struct</span> _frame <span style="color:#f92672">*</span>f_back;      <span style="color:#75715e">/* previous frame, or NULL */</span>
-    PyCodeObject <span style="color:#f92672">*</span>f_code;       <span style="color:#75715e">/* code segment */</span>
-    PyObject <span style="color:#f92672">*</span>f_builtins;       <span style="color:#75715e">/* builtin symbol table (PyDictObject) */</span>
-    PyObject <span style="color:#f92672">*</span>f_globals;        <span style="color:#75715e">/* global symbol table (PyDictObject) */</span>
-    PyObject <span style="color:#f92672">*</span>f_locals;         <span style="color:#75715e">/* local symbol table (any mapping) */</span>
-    PyObject <span style="color:#f92672">**</span>f_valuestack;    <span style="color:#75715e">/* points after the last local */</span>
+	PyObject_VAR_HEAD
+	<span style="color:#66d9ef">struct</span> _frame <span style="color:#f92672">*</span>f_back;      <span style="color:#75715e">/* previous frame, or NULL */</span>
+	PyCodeObject <span style="color:#f92672">*</span>f_code;       <span style="color:#75715e">/* code segment */</span>
+	PyObject <span style="color:#f92672">*</span>f_builtins;       <span style="color:#75715e">/* builtin symbol table (PyDictObject) */</span>
+	PyObject <span style="color:#f92672">*</span>f_globals;        <span style="color:#75715e">/* global symbol table (PyDictObject) */</span>
+	PyObject <span style="color:#f92672">*</span>f_locals;         <span style="color:#75715e">/* local symbol table (any mapping) */</span>
+	PyObject <span style="color:#f92672">**</span>f_valuestack;    <span style="color:#75715e">/* points after the last local */</span>
 
-    PyObject <span style="color:#f92672">**</span>f_stacktop;          <span style="color:#75715e">/* Next free slot in f_valuestack.  ... */</span>
-    PyObject <span style="color:#f92672">*</span>f_trace;          <span style="color:#75715e">/* Trace function */</span>
-    <span style="color:#66d9ef">char</span> f_trace_lines;         <span style="color:#75715e">/* Emit per-line trace events? */</span>
-    <span style="color:#66d9ef">char</span> f_trace_opcodes;       <span style="color:#75715e">/* Emit per-opcode trace events? */</span>
+	PyObject <span style="color:#f92672">**</span>f_stacktop;          <span style="color:#75715e">/* Next free slot in f_valuestack.  ... */</span>
+	PyObject <span style="color:#f92672">*</span>f_trace;          <span style="color:#75715e">/* Trace function */</span>
+	<span style="color:#66d9ef">char</span> f_trace_lines;         <span style="color:#75715e">/* Emit per-line trace events? */</span>
+	<span style="color:#66d9ef">char</span> f_trace_opcodes;       <span style="color:#75715e">/* Emit per-opcode trace events? */</span>
 
-    <span style="color:#75715e">/* Borrowed reference to a generator, or NULL */</span>
-    PyObject <span style="color:#f92672">*</span>f_gen;
+	<span style="color:#75715e">/* Borrowed reference to a generator, or NULL */</span>
+	PyObject <span style="color:#f92672">*</span>f_gen;
 
-    <span style="color:#66d9ef">int</span> f_lasti;                <span style="color:#75715e">/* Last instruction if called */</span>
-    <span style="color:#75715e">/* ... */</span>
-    <span style="color:#66d9ef">int</span> f_lineno;               <span style="color:#75715e">/* Current line number */</span>
-    <span style="color:#66d9ef">int</span> f_iblock;               <span style="color:#75715e">/* index in f_blockstack */</span>
-    <span style="color:#66d9ef">char</span> f_executing;           <span style="color:#75715e">/* whether the frame is still executing */</span>
-    PyTryBlock f_blockstack[CO_MAXBLOCKS]; <span style="color:#75715e">/* for try and loop blocks */</span>
-    PyObject <span style="color:#f92672">*</span>f_localsplus[<span style="color:#ae81ff">1</span>];  <span style="color:#75715e">/* locals+stack, dynamically sized */</span>
+	<span style="color:#66d9ef">int</span> f_lasti;                <span style="color:#75715e">/* Last instruction if called */</span>
+	<span style="color:#75715e">/* ... */</span>
+	<span style="color:#66d9ef">int</span> f_lineno;               <span style="color:#75715e">/* Current line number */</span>
+	<span style="color:#66d9ef">int</span> f_iblock;               <span style="color:#75715e">/* index in f_blockstack */</span>
+	<span style="color:#66d9ef">char</span> f_executing;           <span style="color:#75715e">/* whether the frame is still executing */</span>
+	PyTryBlock f_blockstack[CO_MAXBLOCKS]; <span style="color:#75715e">/* for try and loop blocks */</span>
+	PyObject <span style="color:#f92672">*</span>f_localsplus[<span style="color:#ae81ff">1</span>];  <span style="color:#75715e">/* locals+stack, dynamically sized */</span>
 };
 </code></pre></div><p>第一个帧被创建用来执行模块的代码对象。任何时候需要执行另外一个代码对象 CPython 都会创建创建新的
 帧去执行该代码对象。每一个帧都有一个引用指向前一个帧。从而，帧形成了一个栈被称为调用栈，当前帧位于
@@ -396,8 +397,8 @@ CPython 在一个帧对象里存储这些信息，或者简单的说成帧。一
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
 
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>():
-    <span style="color:#e6db74">&#34;&#34;&#34;Perform an I/O-bound task&#34;&#34;&#34;</span>
-    <span style="color:#66d9ef">pass</span>
+	<span style="color:#e6db74">&#34;&#34;&#34;Perform an I/O-bound task&#34;&#34;&#34;</span>
+	<span style="color:#66d9ef">pass</span>
 
 t <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>f)
 t<span style="color:#f92672">.</span>start()
@@ -1063,7 +1064,33 @@ t<span style="color:#f92672">.</span>join()
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -1140,14 +1167,7 @@ t<span style="color:#f92672">.</span>join()
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/articles/20200309112105_translate/">Translate</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -1160,7 +1180,7 @@ t<span style="color:#f92672">.</span>join()
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

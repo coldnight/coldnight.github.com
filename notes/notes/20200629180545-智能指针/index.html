@@ -202,9 +202,9 @@
   println!(<span style="color:#e6db74">&#34;b = {}&#34;</span>, b);
 
   <span style="color:#66d9ef">let</span> list <span style="color:#f92672">=</span> Cons(<span style="color:#ae81ff">1</span>,
-    Box::new(Cons(<span style="color:#ae81ff">2</span>,
-      Box::new(Cons(<span style="color:#ae81ff">3</span>,
-        Box::new(Nil))))));
+	Box::new(Cons(<span style="color:#ae81ff">2</span>,
+	  Box::new(Cons(<span style="color:#ae81ff">3</span>,
+		Box::new(Nil))))));
 }
 </code></pre></div></li>
 <li>
@@ -241,11 +241,11 @@
   <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Target</span> <span style="color:#f92672">=</span> T;
 
   <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(x: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">MyBox</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
-    MyBox(x)
+	MyBox(x)
   }
 
   <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">deref</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span> {
-    <span style="color:#f92672">&amp;</span>self.<span style="color:#ae81ff">0</span>
+	<span style="color:#f92672">&amp;</span>self.<span style="color:#ae81ff">0</span>
   }
 }
 </code></pre></div><p><code>deref</code> 让编译器知道如何通过 <code>&amp;</code> 获取一个引用，然后就可以正确的解引用，实际展开的代码如下：</p>
@@ -265,6 +265,34 @@
 
   
 
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
 
    
 
@@ -952,7 +980,7 @@
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

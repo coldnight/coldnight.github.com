@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="当执行给定程序时，硬件和编译器之间的契约，对编译后后的代码对存储在内存中的数据更改的可见性和一致性。 这种契约称为「内存一致性模型（Memeory Consistency Model）」或仅仅是「内存模型（Memory Model）」。
+<meta name="description" content=" tags: 一致性，Memory Model  当执行给定程序时，硬件和编译器之间的契约，对编译后后的代码对存储在内存中的数据更改的可见性和一致性。 这种契约称为「内存一致性模型（Memeory Consistency Model）」或仅仅是「内存模型（Memory Model）」。
 最初目标是定义程序员编写汇编代码时硬件提供的保证，后来用来定义高级编程语言（如 C&#43;&#43; 或 Java）对该语言编写代码的程序员提供的保证。
 例如下面变量都初始为 0 的情况下，线程 1 和 2 都运行在自己专用的处理器上，都运行到完成，这个程序能打印 0 吗？
 // Thread 1 // Thread 2 x = 1; while(done == 0) { /* loop */ } done = 1; print(x); Memory coherence vs consistency 内存一致性（coherence） 内存顺序一致性（sequential consistency） 硬件  顺序一致性 x86 总存储有序（x86-TSO) ARM/POWER Relaxed Memory Model 弱有序和无数据竞争（DRF）  编程语言内存模型 " />
@@ -37,7 +37,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="内存一致性模型">
-<meta property="og:description" content="当执行给定程序时，硬件和编译器之间的契约，对编译后后的代码对存储在内存中的数据更改的可见性和一致性。 这种契约称为「内存一致性模型（Memeory Consistency Model）」或仅仅是「内存模型（Memory Model）」。
+<meta property="og:description" content=" tags: 一致性，Memory Model  当执行给定程序时，硬件和编译器之间的契约，对编译后后的代码对存储在内存中的数据更改的可见性和一致性。 这种契约称为「内存一致性模型（Memeory Consistency Model）」或仅仅是「内存模型（Memory Model）」。
 最初目标是定义程序员编写汇编代码时硬件提供的保证，后来用来定义高级编程语言（如 C&#43;&#43; 或 Java）对该语言编写代码的程序员提供的保证。
 例如下面变量都初始为 0 的情况下，线程 1 和 2 都运行在自己专用的处理器上，都运行到完成，这个程序能打印 0 吗？
 // Thread 1 // Thread 2 x = 1; while(done == 0) { /* loop */ } done = 1; print(x); Memory coherence vs consistency 内存一致性（coherence） 内存顺序一致性（sequential consistency） 硬件  顺序一致性 x86 总存储有序（x86-TSO) ARM/POWER Relaxed Memory Model 弱有序和无数据竞争（DRF）  编程语言内存模型 " />
@@ -161,7 +161,10 @@
   
 
   <div class="post-content"><div>
-        <p>当执行给定程序时，硬件和编译器之间的契约，对编译后后的代码对存储在内存中的数据更改的可见性和一致性。
+        <ul>
+<li>tags: <a href="/notes/topics/20220101074955-%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a>，<a href="/notes/topics/20220102072550-memory_model/">Memory Model</a></li>
+</ul>
+<p>当执行给定程序时，硬件和编译器之间的契约，对编译后后的代码对存储在内存中的数据更改的可见性和一致性。
 这种契约称为「内存一致性模型（Memeory Consistency Model）」或仅仅是「内存模型（Memory Model）」。</p>
 <p>最初目标是定义程序员编写汇编代码时硬件提供的保证，后来用来定义高级编程语言（如 C++ 或 Java）对该语言编写代码的程序员提供的保证。</p>
 <p>例如下面变量都初始为 0 的情况下，线程 1 和 2 都运行在自己专用的处理器上，都运行到完成，这个程序能打印 0 吗？</p>
@@ -178,7 +181,7 @@ done <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; 
 <li><a href="/notes/notes/20210712162917-arm_power_relaxed_memory_model/">ARM/POWER Relaxed Memory Model</a></li>
 <li><a href="/notes/notes/20210712164357-%E5%BC%B1%E6%9C%89%E5%BA%8F%E5%92%8C%E6%97%A0%E6%95%B0%E6%8D%AE%E7%AB%9E%E4%BA%89_drf/">弱有序和无数据竞争（DRF）</a></li>
 </ul>
-<h2 id="编程语言内存模型--20210712143544-编程语言内存模型-dot-md"><a href="/notes/notes/20210712143544-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">编程语言内存模型</a><a href="#编程语言内存模型--20210712143544-编程语言内存模型-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="编程语言内存模型--20210712143544-编程语言内存模型-dot-md"><a href="/notes/topics/20210712143544-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">编程语言内存模型</a><a href="#编程语言内存模型--20210712143544-编程语言内存模型-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 
       </div></div>
 
@@ -462,6 +465,48 @@ done <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; 
    
 
    
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
       
    
 
@@ -485,20 +530,6 @@ done <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; 
 
    
       
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
    
 
    
@@ -881,7 +912,7 @@ done <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; 
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

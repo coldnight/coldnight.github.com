@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="如果类成员属性是值类型或者引用类型则需要改对象有无参数构造方法，否则类无法实例化， 这是因为这类成员属性在构造函数调用之前就需要进行初始化。
+<meta name="description" content=" tags: C/C&#43;&#43;  如果类成员属性是值类型或者引用类型则需要改对象有无参数构造方法，否则类无法实例化， 这是因为这类成员属性在构造函数调用之前就需要进行初始化。
 下面代码无法通过编译
 class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class Bar { public: Bar(int n) { this-&amp;gt;foo = Foo(n); }; ~Bar(); private: Foo &amp;amp; foo; }; " />
 <meta name="keywords" content="" />
@@ -36,7 +36,7 @@ class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Member initialize">
-<meta property="og:description" content="如果类成员属性是值类型或者引用类型则需要改对象有无参数构造方法，否则类无法实例化， 这是因为这类成员属性在构造函数调用之前就需要进行初始化。
+<meta property="og:description" content=" tags: C/C&#43;&#43;  如果类成员属性是值类型或者引用类型则需要改对象有无参数构造方法，否则类无法实例化， 这是因为这类成员属性在构造函数调用之前就需要进行初始化。
 下面代码无法通过编译
 class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class Bar { public: Bar(int n) { this-&amp;gt;foo = Foo(n); }; ~Bar(); private: Foo &amp;amp; foo; }; " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200628183417-member_initialize/" />
@@ -159,7 +159,10 @@ class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class
   
 
   <div class="post-content"><div>
-        <p>如果类成员属性是值类型或者引用类型则需要改对象有无参数构造方法，否则类无法实例化，
+        <ul>
+<li>tags: <a href="/notes/topics/20200320171108_c/">C/C++</a></li>
+</ul>
+<p>如果类成员属性是值类型或者引用类型则需要改对象有无参数构造方法，否则类无法实例化，
 这是因为这类成员属性在构造函数调用之前就需要进行初始化。</p>
 <p>下面代码无法通过编译</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span>
@@ -179,7 +182,7 @@ class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
   Bar(<span style="color:#66d9ef">int</span> n)
   {
-    <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>foo <span style="color:#f92672">=</span> Foo(n);
+	<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>foo <span style="color:#f92672">=</span> Foo(n);
   };
   <span style="color:#f92672">~</span>Bar();
 <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
@@ -740,7 +743,33 @@ class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -859,14 +888,7 @@ class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20200320171108_c/">C/C&#43;&#43;</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -879,7 +901,7 @@ class Foo { public: Foo(int n) : n {n} { }; ~Foo() { }; private: int n; }; class
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

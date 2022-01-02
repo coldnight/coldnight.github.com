@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="一致性保证 分布式一致性主要针对延迟和故障等问题来协调副本之间的状态。
+<meta name="description" content="tags: 分布式共识,一致性  一致性保证 分布式一致性主要针对延迟和故障等问题来协调副本之间的状态。
  线性化：最强一致性模型 顺序保证：保证时间顺序，特别是因果关系和全局顺序 最终一致性：一种非常弱的保证，参见最终一致性效应  可线性化 分布式语义下对寄存器（单个对象）顺序的读写。应区别与可串行化。
  可串行化针对不同事务的隔离，用来确保事务执行的结果与串形执行的结果相同 可线性化是读写寄存器（单个对象）的最新值的保证。  线性化依赖的条件 加锁与主节点选举 每个启动节点都试图获得锁，其中只有一个可以成功成为主节点。通过加锁来保证主节点选举「线性化」。
 约束与唯一性保证 同一个用户名、电子邮件或系统中文件名需要唯一性的保证，也应该进行「线性化」。
@@ -46,7 +46,7 @@ CAP 理论 可线性化与网络延迟 很少有系统真正满足线性化，�
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="一致性与共识">
-<meta property="og:description" content="一致性保证 分布式一致性主要针对延迟和故障等问题来协调副本之间的状态。
+<meta property="og:description" content="tags: 分布式共识,一致性  一致性保证 分布式一致性主要针对延迟和故障等问题来协调副本之间的状态。
  线性化：最强一致性模型 顺序保证：保证时间顺序，特别是因果关系和全局顺序 最终一致性：一种非常弱的保证，参见最终一致性效应  可线性化 分布式语义下对寄存器（单个对象）顺序的读写。应区别与可串行化。
  可串行化针对不同事务的隔离，用来确保事务执行的结果与串形执行的结果相同 可线性化是读写寄存器（单个对象）的最新值的保证。  线性化依赖的条件 加锁与主节点选举 每个启动节点都试图获得锁，其中只有一个可以成功成为主节点。通过加锁来保证主节点选举「线性化」。
 约束与唯一性保证 同一个用户名、电子邮件或系统中文件名需要唯一性的保证，也应该进行「线性化」。
@@ -179,7 +179,10 @@ CAP 理论 可线性化与网络延迟 很少有系统真正满足线性化，�
   
 
   <div class="post-content"><div>
-        <h2 id="一致性保证">一致性保证<a href="#一致性保证" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <ul>
+<li>tags: <a href="/notes/topics/20210804115431-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86/">分布式共识</a>,<a href="/notes/topics/20220101074955-%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li>
+</ul>
+<h2 id="一致性保证">一致性保证<a href="#一致性保证" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>分布式一致性主要针对延迟和故障等问题来协调副本之间的状态。</p>
 <ul>
 <li>线性化：最强一致性模型</li>
@@ -241,7 +244,7 @@ CAP 理论 可线性化与网络延迟 很少有系统真正满足线性化，�
 <li>两个节点可能存在相同的计数器，但是时间戳中的节点 ID 可以确保每个时间戳都是唯一的。</li>
 <li>保证<a href="/notes/notes/20210727073548-%E5%85%A8%E5%BA%8F/">全序</a>：比较两个 Lamport 时间戳，计数器较大的时间戳越大，计数器相同则节点 ID 大的那个时间戳越大。</li>
 </ul>
-<p>通过节点排序保证了全局因果关系。Lamport 不同于<a href="/notes/notes/20210615215426-happens_before_%E5%85%B3%E7%B3%BB%E5%92%8C%E5%B9%B6%E5%8F%91/">版本矢量</a>：</p>
+<p>通过节点排序保证了全局因果关系。Lamport 不同于<a href="/notes/notes/20210615215426-happens_before_%E5%85%B3%E7%B3%BB%E5%92%8C%E5%B9%B6%E5%8F%91/#版本矢量">版本矢量</a>：</p>
 <ul>
 <li>版本矢量用以区分两个操作是并发还是因果依赖。</li>
 <li>Lamport 时间戳主要用于确保全序关系。</li>
@@ -540,6 +543,86 @@ XA 假定应用程序通过网络或者客户端库函数与参与者节点进�
    
 
    
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+      
+   
+
+   
       
    
 
@@ -748,57 +831,7 @@ XA 假定应用程序通过网络或者客户端库函数与参与者节点进�
    
 
    
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
       
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
    
 
    
@@ -1067,7 +1100,9 @@ XA 假定应用程序通过网络或者客户端库函数与参与者节点进�
     <div class="backlinks">
       <ul>
        
-          <li><a href="/notes/notes/20210804115431-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B1%E8%AF%86/">分布式共识</a></li>
+          <li><a href="/notes/notes/20210731075154-raft/">Raft</a></li>
+       
+          <li><a href="/notes/notes/20210731075128-vsr/">VSR</a></li>
        
           <li><a href="/notes/notes/20210604221412-%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1_%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">《数据密集型应用系统设计》读书笔记</a></li>
        
@@ -1085,7 +1120,7 @@ XA 假定应用程序通过网络或者客户端库函数与参与者节点进�
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

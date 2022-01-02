@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Future  async fn 将一个代码块转换为一个 Future 对象， Future 对象维护一个状态机 Future 对象必须运行在一个 Executor 上  Executor   futures::executor::block_on 阻塞当前线程直到 future 完成
-// `block_on` blocks the current thread until the provided future has run to // completion. Other executors provide more complex behavior, like scheduling // multiple futures onto the same thread. use futures::executor::block_on; async fn hello_world() { println!(&amp;#34;hello, world!&amp;#34;); } fn main() { let future = hello_world(); // Nothing is printed  block_on(future); // `future` is run and &amp;#34;hello, world!" />
+<meta name="description" content="tags: Rust  Future  async fn 将一个代码块转换为一个 Future 对象， Future 对象维护一个状态机 Future 对象必须运行在一个 Executor 上  Executor   futures::executor::block_on 阻塞当前线程直到 future 完成
+// `block_on` blocks the current thread until the provided future has run to // completion. Other executors provide more complex behavior, like scheduling // multiple futures onto the same thread. use futures::executor::block_on; async fn hello_world() { println!(&amp;#34;hello, world!&amp;#34;); } fn main() { let future = hello_world(); // Nothing is printed 	block_on(future); // `future` is run and &amp;#34;hello, world!" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200828160809-rust_asynchronous_programming/" />
@@ -35,8 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust Asynchronous Programming">
-<meta property="og:description" content="Future  async fn 将一个代码块转换为一个 Future 对象， Future 对象维护一个状态机 Future 对象必须运行在一个 Executor 上  Executor   futures::executor::block_on 阻塞当前线程直到 future 完成
-// `block_on` blocks the current thread until the provided future has run to // completion. Other executors provide more complex behavior, like scheduling // multiple futures onto the same thread. use futures::executor::block_on; async fn hello_world() { println!(&amp;#34;hello, world!&amp;#34;); } fn main() { let future = hello_world(); // Nothing is printed  block_on(future); // `future` is run and &amp;#34;hello, world!" />
+<meta property="og:description" content="tags: Rust  Future  async fn 将一个代码块转换为一个 Future 对象， Future 对象维护一个状态机 Future 对象必须运行在一个 Executor 上  Executor   futures::executor::block_on 阻塞当前线程直到 future 完成
+// `block_on` blocks the current thread until the provided future has run to // completion. Other executors provide more complex behavior, like scheduling // multiple futures onto the same thread. use futures::executor::block_on; async fn hello_world() { println!(&amp;#34;hello, world!&amp;#34;); } fn main() { let future = hello_world(); // Nothing is printed 	block_on(future); // `future` is run and &amp;#34;hello, world!" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200828160809-rust_asynchronous_programming/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -157,7 +157,10 @@
   
 
   <div class="post-content"><div>
-        <h2 id="future">Future<a href="#future" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <ul>
+<li>tags: <a href="/notes/topics/20200307191429_rust/">Rust</a></li>
+</ul>
+<h2 id="future">Future<a href="#future" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ul>
 <li><code>async fn</code> 将一个代码块转换为一个 <code>Future</code> 对象， <code>Future</code> 对象维护一个状态机</li>
 <li><code>Future</code> 对象必须运行在一个 <code>Executor</code> 上</li>
@@ -172,12 +175,12 @@
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> futures::executor::block_on;
 
 <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hello_world</span>() {
-    println!(<span style="color:#e6db74">&#34;hello, world!&#34;</span>);
+	println!(<span style="color:#e6db74">&#34;hello, world!&#34;</span>);
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#66d9ef">let</span> future <span style="color:#f92672">=</span> hello_world(); <span style="color:#75715e">// Nothing is printed
-</span><span style="color:#75715e"></span>    block_on(future); <span style="color:#75715e">// `future` is run and &#34;hello, world!&#34; is printed
+	<span style="color:#66d9ef">let</span> future <span style="color:#f92672">=</span> hello_world(); <span style="color:#75715e">// Nothing is printed
+</span><span style="color:#75715e"></span>	block_on(future); <span style="color:#75715e">// `future` is run and &#34;hello, world!&#34; is printed
 </span><span style="color:#75715e"></span>}
 </code></pre></div></li>
 </ul>
@@ -190,27 +193,27 @@
 </ul>
 <!-- raw HTML omitted -->
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">learn_and_sing</span>() {
-    <span style="color:#75715e">// Wait until the song has been learned before singing it.
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// We use `.await` here rather than `block_on` to prevent blocking the
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// thread, which makes it possible to `dance` at the same time.
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> song <span style="color:#f92672">=</span> learn_song().<span style="color:#66d9ef">await</span>;
-    sing_song(song).<span style="color:#66d9ef">await</span>;
+	<span style="color:#75715e">// Wait until the song has been learned before singing it.
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// We use `.await` here rather than `block_on` to prevent blocking the
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// thread, which makes it possible to `dance` at the same time.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> song <span style="color:#f92672">=</span> learn_song().<span style="color:#66d9ef">await</span>;
+	sing_song(song).<span style="color:#66d9ef">await</span>;
 }
 
 <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">async_main</span>() {
-    <span style="color:#66d9ef">let</span> f1 <span style="color:#f92672">=</span> learn_and_sing();
-    <span style="color:#66d9ef">let</span> f2 <span style="color:#f92672">=</span> dance();
+	<span style="color:#66d9ef">let</span> f1 <span style="color:#f92672">=</span> learn_and_sing();
+	<span style="color:#66d9ef">let</span> f2 <span style="color:#f92672">=</span> dance();
 
-    <span style="color:#75715e">// `join!` is like `.await` but can wait for multiple futures concurrently.
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// If we&#39;re temporarily blocked in the `learn_and_sing` future, the `dance`
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// future will take over the current thread. If `dance` becomes blocked,
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// `learn_and_sing` can take back over. If both futures are blocked, then
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// `async_main` is blocked and will yield to the executor.
-</span><span style="color:#75715e"></span>    futures::join<span style="color:#f92672">!</span>(f1, f2);
+	<span style="color:#75715e">// `join!` is like `.await` but can wait for multiple futures concurrently.
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// If we&#39;re temporarily blocked in the `learn_and_sing` future, the `dance`
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// future will take over the current thread. If `dance` becomes blocked,
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// `learn_and_sing` can take back over. If both futures are blocked, then
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// `async_main` is blocked and will yield to the executor.
+</span><span style="color:#75715e"></span>	futures::join<span style="color:#f92672">!</span>(f1, f2);
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-    block_on(async_main());
+	block_on(async_main());
 }
 </code></pre></div>
       </div></div>
@@ -831,7 +834,33 @@
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -886,14 +915,7 @@
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20200307191429_rust/">Rust</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -906,7 +928,7 @@
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

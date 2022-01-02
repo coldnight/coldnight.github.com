@@ -6,11 +6,11 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。
+<meta name="description" content="tags: LeetCode  移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。
 Example 1
  Input: &amp;ldquo;bcabc&amp;rdquo; Output: &amp;ldquo;abc&amp;rdquo;  Example 2
  Input: &amp;ldquo;cbacdcbc&amp;rdquo; Output: &amp;ldquo;acdb&amp;rdquo;   解法之一:
- 通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母  func removeDuplicateLetters(s string) string { var countOfEachLetter [26]int var visited [26]bool stack := make([]byte, 0) stackBottom := 0 bytesArr := []byte(s) for _, c := range bytesArr { countOfEachLetter[getIndex(c)]&#43;&#43; } for _, c := range bytesArr { index := getIndex(c) countOfEachLetter[index]-- if visited[index] { continue } // countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 后面还有该字符  for len(stack[stackBottom:]) &amp;gt; 0 &amp;amp;&amp;amp; stack[stackBottom] &amp;gt; c &amp;amp;&amp;amp; countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 { // 标记为未访问用于后面的字符加入结果  visited[getIndex(stack[stackBottom])] = false // 移动栈底  stackBottom&#43;&#43; } // 加入到结果栈  stack = append(stack, c) visited[index] = true } return string(stack[stackBottom:]) } func getIndex(b byte) int { return int(b - &amp;#39;a&amp;#39;) } 通过上面解法遇到如下错误：" />
+ 通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母  func removeDuplicateLetters(s string) string { var countOfEachLetter [26]int var visited [26]bool stack := make([]byte, 0) stackBottom := 0 bytesArr := []byte(s) for _, c := range bytesArr { countOfEachLetter[getIndex(c)]&#43;&#43; } for _, c := range bytesArr { index := getIndex(c) countOfEachLetter[index]-- if visited[index] { continue } // countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 后面还有该字符 	for len(stack[stackBottom:]) &amp;gt; 0 &amp;amp;&amp;amp; stack[stackBottom] &amp;gt; c &amp;amp;&amp;amp; countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 { // 标记为未访问用于后面的字符加入结果 	visited[getIndex(stack[stackBottom])] = false // 移动栈底 	stackBottom&#43;&#43; } // 加入到结果栈 	stack = append(stack, c) visited[index] = true } return string(stack[stackBottom:]) } func getIndex(b byte) int { return int(b - &amp;#39;a&amp;#39;) } 通过上面解法遇到如下错误：" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/" />
@@ -38,11 +38,11 @@ Example 1
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 316.Remove Duplicate Letters">
-<meta property="og:description" content="移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。
+<meta property="og:description" content="tags: LeetCode  移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。
 Example 1
  Input: &amp;ldquo;bcabc&amp;rdquo; Output: &amp;ldquo;abc&amp;rdquo;  Example 2
  Input: &amp;ldquo;cbacdcbc&amp;rdquo; Output: &amp;ldquo;acdb&amp;rdquo;   解法之一:
- 通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母  func removeDuplicateLetters(s string) string { var countOfEachLetter [26]int var visited [26]bool stack := make([]byte, 0) stackBottom := 0 bytesArr := []byte(s) for _, c := range bytesArr { countOfEachLetter[getIndex(c)]&#43;&#43; } for _, c := range bytesArr { index := getIndex(c) countOfEachLetter[index]-- if visited[index] { continue } // countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 后面还有该字符  for len(stack[stackBottom:]) &amp;gt; 0 &amp;amp;&amp;amp; stack[stackBottom] &amp;gt; c &amp;amp;&amp;amp; countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 { // 标记为未访问用于后面的字符加入结果  visited[getIndex(stack[stackBottom])] = false // 移动栈底  stackBottom&#43;&#43; } // 加入到结果栈  stack = append(stack, c) visited[index] = true } return string(stack[stackBottom:]) } func getIndex(b byte) int { return int(b - &amp;#39;a&amp;#39;) } 通过上面解法遇到如下错误：" />
+ 通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母  func removeDuplicateLetters(s string) string { var countOfEachLetter [26]int var visited [26]bool stack := make([]byte, 0) stackBottom := 0 bytesArr := []byte(s) for _, c := range bytesArr { countOfEachLetter[getIndex(c)]&#43;&#43; } for _, c := range bytesArr { index := getIndex(c) countOfEachLetter[index]-- if visited[index] { continue } // countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 后面还有该字符 	for len(stack[stackBottom:]) &amp;gt; 0 &amp;amp;&amp;amp; stack[stackBottom] &amp;gt; c &amp;amp;&amp;amp; countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 { // 标记为未访问用于后面的字符加入结果 	visited[getIndex(stack[stackBottom])] = false // 移动栈底 	stackBottom&#43;&#43; } // 加入到结果栈 	stack = append(stack, c) visited[index] = true } return string(stack[stackBottom:]) } func getIndex(b byte) int { return int(b - &amp;#39;a&amp;#39;) } 通过上面解法遇到如下错误：" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -163,7 +163,10 @@ Example 1
   
 
   <div class="post-content"><div>
-        <p>移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。</p>
+        <ul>
+<li>tags: <a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
+</ul>
+<p>移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。</p>
 <p>Example 1</p>
 <ul>
 <li><strong><strong>Input</strong></strong>: &ldquo;bcabc&rdquo;</li>
@@ -183,43 +186,43 @@ Example 1
 </ol>
 <!-- raw HTML omitted -->
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">removeDuplicateLetters</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
-        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">countOfEachLetter</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">int</span>
-        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">visited</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">bool</span>
-        <span style="color:#a6e22e">stack</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">0</span>)
-        <span style="color:#a6e22e">stackBottom</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">countOfEachLetter</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">int</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">visited</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">bool</span>
+	<span style="color:#a6e22e">stack</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">0</span>)
+	<span style="color:#a6e22e">stackBottom</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
 
-        <span style="color:#a6e22e">bytesArr</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">bytesArr</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
 
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">bytesArr</span> {
-                <span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">c</span>)]<span style="color:#f92672">++</span>
-        }
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">bytesArr</span> {
+		<span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">c</span>)]<span style="color:#f92672">++</span>
+	}
 
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">bytesArr</span> {
-                <span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">c</span>)
-                <span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">index</span>]<span style="color:#f92672">--</span>
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">index</span>] {
-                        <span style="color:#66d9ef">continue</span>
-                }
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">bytesArr</span> {
+		<span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">c</span>)
+		<span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">index</span>]<span style="color:#f92672">--</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">index</span>] {
+			<span style="color:#66d9ef">continue</span>
+		}
 
-                <span style="color:#75715e">// countOfEachLetter[getIndex(stack[stackBottom])] &gt; 0 后面还有该字符
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">for</span> len(<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>:]) &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>] &gt; <span style="color:#a6e22e">c</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>])] &gt; <span style="color:#ae81ff">0</span> {
-                        <span style="color:#75715e">// 标记为未访问用于后面的字符加入结果
-</span><span style="color:#75715e"></span>                        <span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>])] = <span style="color:#66d9ef">false</span>
+		<span style="color:#75715e">// countOfEachLetter[getIndex(stack[stackBottom])] &gt; 0 后面还有该字符
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> len(<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>:]) &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>] &gt; <span style="color:#a6e22e">c</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>])] &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#75715e">// 标记为未访问用于后面的字符加入结果
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>])] = <span style="color:#66d9ef">false</span>
 
-                        <span style="color:#75715e">// 移动栈底
-</span><span style="color:#75715e"></span>                        <span style="color:#a6e22e">stackBottom</span><span style="color:#f92672">++</span>
-                }
+			<span style="color:#75715e">// 移动栈底
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">stackBottom</span><span style="color:#f92672">++</span>
+		}
 
-                <span style="color:#75715e">// 加入到结果栈
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">stack</span> = append(<span style="color:#a6e22e">stack</span>, <span style="color:#a6e22e">c</span>)
-                <span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">index</span>] = <span style="color:#66d9ef">true</span>
-        }
-        <span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>:])
+		<span style="color:#75715e">// 加入到结果栈
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">stack</span> = append(<span style="color:#a6e22e">stack</span>, <span style="color:#a6e22e">c</span>)
+		<span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">index</span>] = <span style="color:#66d9ef">true</span>
+	}
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">stack</span>[<span style="color:#a6e22e">stackBottom</span>:])
 
 }
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">b</span> <span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#66d9ef">return</span> int(<span style="color:#a6e22e">b</span> <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>)
+	<span style="color:#66d9ef">return</span> int(<span style="color:#a6e22e">b</span> <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>)
 }
 </code></pre></div><p>通过上面解法遇到如下错误：</p>
 <ul>
@@ -229,94 +232,94 @@ Example 1
 </ul>
 <p>经过一番排查不应该从栈底查找，应该从栈顶开始，通过的代码如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">removeDuplicateLetters</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
-        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">countOfEachLetter</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">int</span>
-        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">visited</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">bool</span>
-        <span style="color:#a6e22e">st</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">stack</span>{}
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">countOfEachLetter</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">int</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">visited</span> [<span style="color:#ae81ff">26</span>]<span style="color:#66d9ef">bool</span>
+	<span style="color:#a6e22e">st</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">stack</span>{}
 
-        <span style="color:#a6e22e">bytesArr</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">bytesArr</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
 
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">bytesArr</span> {
-                <span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">c</span>)]<span style="color:#f92672">++</span>
-        }
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">bytesArr</span> {
+		<span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">c</span>)]<span style="color:#f92672">++</span>
+	}
 
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">bytesArr</span> {
-                <span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">c</span>)
-                <span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">index</span>]<span style="color:#f92672">--</span>
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">index</span>] {
-                        <span style="color:#66d9ef">continue</span>
-                }
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">bytesArr</span> {
+		<span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">c</span>)
+		<span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">index</span>]<span style="color:#f92672">--</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">index</span>] {
+			<span style="color:#66d9ef">continue</span>
+		}
 
-                <span style="color:#75715e">// countOfEachLetter[getIndex(st.topChar())] &gt; 0 后面还有该字符
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">for</span> !<span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">empty</span>() <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">topChar</span>() &gt; <span style="color:#a6e22e">c</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">topChar</span>())] &gt; <span style="color:#ae81ff">0</span> {
-                        <span style="color:#75715e">// 标记为未访问用于后面的字符加入结果
-</span><span style="color:#75715e"></span>                        <span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">pop</span>())] = <span style="color:#66d9ef">false</span>
-                }
+		<span style="color:#75715e">// countOfEachLetter[getIndex(st.topChar())] &gt; 0 后面还有该字符
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> !<span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">empty</span>() <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">topChar</span>() &gt; <span style="color:#a6e22e">c</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">countOfEachLetter</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">topChar</span>())] &gt; <span style="color:#ae81ff">0</span> {
+			<span style="color:#75715e">// 标记为未访问用于后面的字符加入结果
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">pop</span>())] = <span style="color:#66d9ef">false</span>
+		}
 
-                <span style="color:#75715e">// 加入到结果栈
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">c</span>)
-                <span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">index</span>] = <span style="color:#66d9ef">true</span>
-        }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">String</span>()
+		<span style="color:#75715e">// 加入到结果栈
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">c</span>)
+		<span style="color:#a6e22e">visited</span>[<span style="color:#a6e22e">index</span>] = <span style="color:#66d9ef">true</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">st</span>.<span style="color:#a6e22e">String</span>()
 }
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getIndex</span>(<span style="color:#a6e22e">b</span> <span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#66d9ef">return</span> int(<span style="color:#a6e22e">b</span> <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>)
+	<span style="color:#66d9ef">return</span> int(<span style="color:#a6e22e">b</span> <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>)
 }
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">stack</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">top</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">stackItem</span>
-        <span style="color:#a6e22e">bottom</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stackItem</span>
+	<span style="color:#a6e22e">top</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">stackItem</span>
+	<span style="color:#a6e22e">bottom</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stackItem</span>
 }
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">stackItem</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">prev</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stackItem</span>
-        <span style="color:#a6e22e">next</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stackItem</span>
-        <span style="color:#a6e22e">c</span>    <span style="color:#66d9ef">byte</span>
+	<span style="color:#a6e22e">prev</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stackItem</span>
+	<span style="color:#a6e22e">next</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stackItem</span>
+	<span style="color:#a6e22e">c</span>    <span style="color:#66d9ef">byte</span>
 }
 
 <span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stack</span>) <span style="color:#a6e22e">topChar</span>() <span style="color:#66d9ef">byte</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>.<span style="color:#a6e22e">c</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>.<span style="color:#a6e22e">c</span>
 }
 
 <span style="color:#75715e">// 从栈顶弹出
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stack</span>) <span style="color:#a6e22e">pop</span>() <span style="color:#66d9ef">byte</span> {
-        <span style="color:#a6e22e">top</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>
-        <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> = <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>.<span style="color:#a6e22e">prev</span>
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">top</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span> {
-                <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span> = <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>
-        }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">top</span>.<span style="color:#a6e22e">c</span>
+	<span style="color:#a6e22e">top</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> = <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>.<span style="color:#a6e22e">prev</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">top</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span> {
+		<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span> = <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">top</span>.<span style="color:#a6e22e">c</span>
 }
 
 <span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stack</span>) <span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">c</span> <span style="color:#66d9ef">byte</span>) {
-        <span style="color:#a6e22e">new</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">stackItem</span>{
-                <span style="color:#a6e22e">prev</span>: <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>,
-                <span style="color:#a6e22e">c</span>: <span style="color:#a6e22e">c</span>,
-        }
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
-                <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span> = <span style="color:#a6e22e">new</span>
-        }
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
-                <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> = <span style="color:#a6e22e">new</span>
-        } <span style="color:#66d9ef">else</span> {
-                <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>.<span style="color:#a6e22e">next</span> = <span style="color:#a6e22e">new</span>
-                <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> = <span style="color:#a6e22e">new</span>
-        }
+	<span style="color:#a6e22e">new</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">stackItem</span>{
+		<span style="color:#a6e22e">prev</span>: <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>,
+		<span style="color:#a6e22e">c</span>: <span style="color:#a6e22e">c</span>,
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span> = <span style="color:#a6e22e">new</span>
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> = <span style="color:#a6e22e">new</span>
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span>.<span style="color:#a6e22e">next</span> = <span style="color:#a6e22e">new</span>
+		<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> = <span style="color:#a6e22e">new</span>
+	}
 }
 
 
 <span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stack</span>) <span style="color:#a6e22e">empty</span>() <span style="color:#66d9ef">bool</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">top</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span>
 }
 
 <span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">stack</span>) <span style="color:#a6e22e">String</span>() <span style="color:#66d9ef">string</span> {
-        <span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">10</span>)
-        <span style="color:#a6e22e">current</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">current</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-                <span style="color:#a6e22e">buf</span> = append(<span style="color:#a6e22e">buf</span>, <span style="color:#a6e22e">current</span>.<span style="color:#a6e22e">c</span>)
-                <span style="color:#a6e22e">current</span> = <span style="color:#a6e22e">current</span>.<span style="color:#a6e22e">next</span>
-        }
-        <span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">buf</span>)
+	<span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">10</span>)
+	<span style="color:#a6e22e">current</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">bottom</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">current</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">buf</span> = append(<span style="color:#a6e22e">buf</span>, <span style="color:#a6e22e">current</span>.<span style="color:#a6e22e">c</span>)
+		<span style="color:#a6e22e">current</span> = <span style="color:#a6e22e">current</span>.<span style="color:#a6e22e">next</span>
+	}
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">buf</span>)
 }
 </code></pre></div>
       </div></div>
@@ -879,7 +882,33 @@ Example 1
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -992,14 +1021,7 @@ Example 1
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -1012,7 +1034,7 @@ Example 1
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

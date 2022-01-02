@@ -6,9 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="https://leetcode.com/problems/longest-palindromic-substring/description/
+<meta name="description" content="tags: LeetCode   https://leetcode.com/problems/longest-palindromic-substring/description/
  思路 直接暴力往两边搜索
-func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if length == 0 { return s } start, end := 0, 0 for ci, _ := range buf { i, j := ci, ci // 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况  for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { i-- j&#43;&#43; } // 考虑 &amp;#34;bba&amp;#34; 这种情况  if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { i, j = ci-1, ci } // 考虑 &amp;#34;abb&amp;#34; 这种情况  if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { i, j = ci, ci &#43; 1 } if i !" />
+func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if length == 0 { return s } start, end := 0, 0 for ci, _ := range buf { i, j := ci, ci // 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况 	for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { i-- j&#43;&#43; } // 考虑 &amp;#34;bba&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { i, j = ci-1, ci } // 考虑 &amp;#34;abb&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { i, j = ci, ci &#43; 1 } if i !" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/" />
@@ -36,9 +36,9 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 5.Longest Palindromic Substring">
-<meta property="og:description" content="https://leetcode.com/problems/longest-palindromic-substring/description/
+<meta property="og:description" content="tags: LeetCode   https://leetcode.com/problems/longest-palindromic-substring/description/
  思路 直接暴力往两边搜索
-func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if length == 0 { return s } start, end := 0, 0 for ci, _ := range buf { i, j := ci, ci // 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况  for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { i-- j&#43;&#43; } // 考虑 &amp;#34;bba&amp;#34; 这种情况  if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { i, j = ci-1, ci } // 考虑 &amp;#34;abb&amp;#34; 这种情况  if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { i, j = ci, ci &#43; 1 } if i !" />
+func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if length == 0 { return s } start, end := 0, 0 for ci, _ := range buf { i, j := ci, ci // 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况 	for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { i-- j&#43;&#43; } // 考虑 &amp;#34;bba&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { i, j = ci-1, ci } // 考虑 &amp;#34;abb&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { i, j = ci, ci &#43; 1 } if i !" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -159,76 +159,79 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
   
 
   <div class="post-content"><div>
-        <blockquote>
+        <ul>
+<li>tags: <a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
+</ul>
+<blockquote>
 <p><a href="https://leetcode.com/problems/longest-palindromic-substring/description/">https://leetcode.com/problems/longest-palindromic-substring/description/</a></p>
 </blockquote>
 <h2 id="思路">思路<a href="#思路" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>直接暴力往两边搜索</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
-        <span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
-        <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">buf</span>)
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
-                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>
-        }
+	<span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">buf</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>
+	}
 
-        <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
+	<span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
 
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">buf</span> {
-                <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">buf</span> {
+		<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span>
 
-        <span style="color:#75715e">// 无法处理 &#34;aaaa&#34; 和 &#34;noon&#34; 这种情况
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
-                        <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
-                        <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
-                }
+		<span style="color:#75715e">// 无法处理 &#34;aaaa&#34; 和 &#34;noon&#34; 这种情况
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
+			<span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
+			<span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
+		}
 
-        <span style="color:#75715e">// 考虑 &#34;bba&#34; 这种情况
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] {
-                        <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">ci</span>
-                }
+		<span style="color:#75715e">// 考虑 &#34;bba&#34; 这种情况
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] {
+			<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">ci</span>
+		}
 
-        <span style="color:#75715e">// 考虑 &#34;abb&#34; 这种情况
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
-                        <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-                }
+		<span style="color:#75715e">// 考虑 &#34;abb&#34; 这种情况
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
+			<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+		}
 
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> {
-                        <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span>
-                }
-        }
-        <span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>])
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> {
+			<span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span>
+		}
+	}
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>])
 }
 </code></pre></div><p>上面代码无法处理 &ldquo;aaaa&rdquo; 和 &ldquo;noon&rdquo; 这种情况，只要把下面处理 &ldquo;bba&rdquo; 和 &ldquo;abb&rdquo; 情况的代码放到上面即可</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
-        <span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
-        <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">buf</span>)
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
-                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>
-        }
+	<span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">buf</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>
+	}
 
-        <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
+	<span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
 
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">buf</span> {
-                <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">buf</span> {
+		<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span>
 
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] {
-                        <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">ci</span>
-                }
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] {
+			<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">ci</span>
+		}
 
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
-                        <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-                }
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
+			<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+		}
 
-                <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
-                        <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
-                        <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
-                }
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
+			<span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
+			<span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
+		}
 
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> {
-                        <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span>
-                }
-        }
-        <span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>])
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> {
+			<span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span>
+		}
+	}
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>])
 }
 </code></pre></div><p>但上面又导致 &ldquo;ccc&rdquo; 无法处理，所以需要处理两种情况：</p>
 <ol>
@@ -237,37 +240,37 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
 </ol>
 <p>对比以上两个结果取大的那个，调整后如下</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
-        <span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
-        <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">buf</span>)
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
-                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>
-        }
+	<span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">buf</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>
+	}
 
-        <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
+	<span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
 
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">buf</span> {
-                <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span>
-                <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
-                        <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
-                        <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
-                }
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">buf</span> {
+		<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span>
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
+			<span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
+			<span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
+		}
 
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> {
-                        <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span>
-                }
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> {
+			<span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span>
+		}
 
-                <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span>] {
-                        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
-                                <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
-                                <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
-                        }
-                        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> {
-                                <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span>
-                        }
-                }
-        }
-        <span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>])
+		<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span>] {
+			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
+				<span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
+				<span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
+			}
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> {
+				<span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span>
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> string(<span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>])
 }
 </code></pre></div>
       </div></div>
@@ -830,7 +833,33 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -943,14 +972,7 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -963,7 +985,7 @@ func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

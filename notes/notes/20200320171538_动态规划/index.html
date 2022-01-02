@@ -262,17 +262,17 @@
 
 <span style="color:#75715e">//　假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getCoinNumber</span>(<span style="color:#a6e22e">total</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">total</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
-                        <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-                } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>  <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
-                        <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-                } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
-                        <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-                }
-        }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">total</span>]
+	<span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">total</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>  <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">total</span>]
 }
 </code></pre></div><p>上面算法实现有一个问题，就是每次计算时只优先考虑采用最大面值（类似贪心算法），无法应对某些情况，对比下面代码</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">dp</span>
@@ -280,35 +280,35 @@
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;math&#34;</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">x</span> &lt; <span style="color:#a6e22e">y</span> {
-                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span>
-        }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">y</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">x</span> &lt; <span style="color:#a6e22e">y</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">y</span>
 }
 
 <span style="color:#75715e">//　假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getCoinNumber</span>(<span style="color:#a6e22e">total</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-        <span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">total</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-                <span style="color:#a6e22e">cost</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">MaxInt32</span>
+	<span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">total</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">cost</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">MaxInt32</span>
 
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
-                        <span style="color:#a6e22e">cost</span> = <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">cost</span>, <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
-                }
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">cost</span> = <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">cost</span>, <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+		}
 
-                <span style="color:#66d9ef">if</span>  <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
-                        <span style="color:#a6e22e">cost</span> = <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">cost</span>, <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
-                }
+		<span style="color:#66d9ef">if</span>  <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">cost</span> = <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">cost</span>, <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+		}
 
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
-                        <span style="color:#a6e22e">cost</span> = <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">cost</span>, <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
-                }
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cost</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">MaxInt32</span> {
-                        panic(<span style="color:#e6db74">&#34;error&#34;</span>)
-                }
-                <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">cost</span>
-        }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">total</span>]
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">cost</span> = <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">cost</span>, <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+		}
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cost</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">MaxInt32</span> {
+			panic(<span style="color:#e6db74">&#34;error&#34;</span>)
+		}
+		<span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">cost</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">total</span>]
 }
 </code></pre></div><h3 id="0x01单路取苹果">0x01单路取苹果<a href="#0x01单路取苹果" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <h4 id="描述">描述<a href="#描述" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
@@ -899,15 +899,43 @@
    
 
    
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
       
-   
-
-   
-
-   
-
-   
-
    
 
    
@@ -1018,7 +1046,7 @@
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

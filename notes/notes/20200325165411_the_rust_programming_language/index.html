@@ -6,7 +6,24 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" 语句和表达式 所有权 引用和借用 结构体 枚举 模式匹配 if let 模块化 错误处理 Traits 生命周期 闭包 迭代器 智能指针 Rust 宏 Rust 并发  函数指针 fn 区分闭包的 Fn 特性，函数指针都实现来三个闭包的特性。
+<meta name="description" content="  tags: 读书笔记,Rust
+  语句和表达式
+  所有权
+  引用和借用
+  结构体
+  枚举
+  模式匹配
+  if let
+  模块化
+  错误处理
+  Traits
+  生命周期
+  闭包
+  迭代器
+  智能指针
+  Rust 宏
+  Rust 并发
+  函数指针 fn 区分闭包的 Fn 特性，函数指针都实现来三个闭包的特性。
 fn do(f: fn(i32) -&amp;gt; i32, arg: i32) -&amp;gt; i32 { f(arg) &#43; f(arg) } " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -35,7 +52,24 @@ fn do(f: fn(i32) -&amp;gt; i32, arg: i32) -&amp;gt; i32 { f(arg) &#43; f(arg) } 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="《The Rust Programming Language》读书笔记">
-<meta property="og:description" content=" 语句和表达式 所有权 引用和借用 结构体 枚举 模式匹配 if let 模块化 错误处理 Traits 生命周期 闭包 迭代器 智能指针 Rust 宏 Rust 并发  函数指针 fn 区分闭包的 Fn 特性，函数指针都实现来三个闭包的特性。
+<meta property="og:description" content="  tags: 读书笔记,Rust
+  语句和表达式
+  所有权
+  引用和借用
+  结构体
+  枚举
+  模式匹配
+  if let
+  模块化
+  错误处理
+  Traits
+  生命周期
+  闭包
+  迭代器
+  智能指针
+  Rust 宏
+  Rust 并发
+  函数指针 fn 区分闭包的 Fn 特性，函数指针都实现来三个闭包的特性。
 fn do(f: fn(i32) -&amp;gt; i32, arg: i32) -&amp;gt; i32 { f(arg) &#43; f(arg) } " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200325165411_the_rust_programming_language/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
@@ -158,22 +192,57 @@ fn do(f: fn(i32) -&amp;gt; i32, arg: i32) -&amp;gt; i32 { f(arg) &#43; f(arg) } 
 
   <div class="post-content"><div>
         <ul>
-<li><a href="/notes/notes/20200629174820-%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F/">语句和表达式</a></li>
-<li><a href="/notes/notes/20200629174911-%E6%89%80%E6%9C%89%E6%9D%83/">所有权</a></li>
-<li><a href="/notes/notes/20200629174943-%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8/">引用和借用</a></li>
-<li><a href="/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/">结构体</a></li>
-<li><a href="/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/">枚举</a></li>
-<li><a href="/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/">模式匹配</a></li>
-<li><a href="/notes/notes/20200629180202-if_let/">if let</a></li>
-<li><a href="/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/">模块化</a></li>
-<li><a href="/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/">错误处理</a></li>
-<li><a href="/notes/notes/20200629180345-traits/">Traits</a></li>
-<li><a href="/notes/notes/20200629180413-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a></li>
-<li><a href="/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/">闭包</a></li>
-<li><a href="/notes/notes/20200629180506-%E8%BF%AD%E4%BB%A3%E5%99%A8/">迭代器</a></li>
-<li><a href="/notes/notes/20200629180545-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">智能指针</a></li>
-<li><a href="/notes/notes/20200629180623-rust_%E5%AE%8F/">Rust 宏</a></li>
-<li><a href="/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/">Rust 并发</a></li>
+<li>
+<p>tags: <a href="/notes/notes/20211210181234-%E8%AF%BB%E8%BF%87%E7%9A%84%E4%B9%A6/">读书笔记</a>,<a href="/notes/topics/20200307191429_rust/">Rust</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629174820-%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F/">语句和表达式</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629174911-%E6%89%80%E6%9C%89%E6%9D%83/">所有权</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629174943-%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8/">引用和借用</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/">结构体</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/">枚举</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/">模式匹配</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180202-if_let/">if let</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/">模块化</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/">错误处理</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180345-traits/">Traits</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180413-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/">闭包</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180506-%E8%BF%AD%E4%BB%A3%E5%99%A8/">迭代器</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180545-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">智能指针</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180623-rust_%E5%AE%8F/">Rust 宏</a></p>
+</li>
+<li>
+<p><a href="/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/">Rust 并发</a></p>
+</li>
 </ul>
 <h2 id="函数指针">函数指针<a href="#函数指针" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p><code>fn</code> 区分闭包的 <code>Fn</code> 特性，函数指针都实现来三个闭包的特性。</p>
@@ -215,7 +284,19 @@ fn do(f: fn(i32) -&amp;gt; i32, arg: i32) -&amp;gt; i32 { f(arg) &#43; f(arg) } 
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -801,7 +882,19 @@ fn do(f: fn(i32) -&amp;gt; i32, arg: i32) -&amp;gt; i32 { f(arg) &#43; f(arg) } 
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -856,16 +949,7 @@ fn do(f: fn(i32) -&amp;gt; i32, arg: i32) -&amp;gt; i32 { f(arg) &#43; f(arg) } 
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20211210181234-%E8%AF%BB%E8%BF%87%E7%9A%84%E4%B9%A6/">读书笔记</a></li>
-       
-          <li><a href="/notes/notes/20200307191429_rust/">Rust</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -878,7 +962,7 @@ fn do(f: fn(i32) -&amp;gt; i32, arg: i32) -&amp;gt; i32 { f(arg) &#43; f(arg) } 
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

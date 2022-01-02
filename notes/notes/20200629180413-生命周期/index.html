@@ -172,11 +172,11 @@ fn longest&amp;lt;&amp;#39;a&amp;gt;(x: &amp;amp;&amp;#39;a str, y: &amp;amp;&am
 </span><span style="color:#75715e"></span><span style="color:#f92672">&amp;&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">i32</span> <span style="color:#75715e">// a mutable reference with an explicit lifetime
 </span></code></pre></div><p>参考以下代码</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">longest</span><span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span><span style="color:#f92672">&gt;</span>(x: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#66d9ef">str</span>, y: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#66d9ef">str</span>) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#66d9ef">str</span> {
-    <span style="color:#66d9ef">if</span> x.len() <span style="color:#f92672">&gt;</span> y.len() {
-        x
-    } <span style="color:#66d9ef">else</span> {
-        y
-    }
+	<span style="color:#66d9ef">if</span> x.len() <span style="color:#f92672">&gt;</span> y.len() {
+		x
+	} <span style="color:#66d9ef">else</span> {
+		y
+	}
 }
 </code></pre></div><p>以上代码</p>
 <ul>
@@ -193,14 +193,14 @@ fn longest&amp;lt;&amp;#39;a&amp;gt;(x: &amp;amp;&amp;#39;a str, y: &amp;amp;&am
 <p>如果结构体需要持有引用，需要在定义结构体时给每一个引用都加上生命周期注解。</p>
 <p>如果结构体声明了生命周期参数，那么 <code>impl</code> 同样也要声明。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ImportantExcerpt</span><span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span><span style="color:#f92672">&gt;</span> {
-    part: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#66d9ef">str</span>,
+	part: <span style="color:#66d9ef">&amp;</span><span style="color:#f92672">&#39;</span><span style="color:#a6e22e">a</span> <span style="color:#66d9ef">str</span>,
 }
 
 <span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span><span style="color:#f92672">&gt;</span> ImportantExcerpt<span style="color:#f92672">&lt;&#39;</span><span style="color:#a6e22e">a</span><span style="color:#f92672">&gt;</span> {
-    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">announce_and_return_part</span>(<span style="color:#f92672">&amp;</span>self, announcement: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> {
-        println!(<span style="color:#e6db74">&#34;Attention please: {}&#34;</span>, announcement);
-        self.part
-    }
+	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">announce_and_return_part</span>(<span style="color:#f92672">&amp;</span>self, announcement: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span> {
+		println!(<span style="color:#e6db74">&#34;Attention please: {}&#34;</span>, announcement);
+		self.part
+	}
 }
 </code></pre></div><h3 id="生命周期省略-elision-规则">生命周期省略（elision）规则<a href="#生命周期省略-elision-规则" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
@@ -224,6 +224,34 @@ fn longest&amp;lt;&amp;#39;a&amp;gt;(x: &amp;amp;&amp;#39;a str, y: &amp;amp;&am
 
   
 
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
 
    
 
@@ -911,7 +939,7 @@ fn longest&amp;lt;&amp;#39;a&amp;gt;(x: &amp;amp;&amp;#39;a str, y: &amp;amp;&am
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

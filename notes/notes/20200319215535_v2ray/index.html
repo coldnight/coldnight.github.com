@@ -6,10 +6,10 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="翻墙 架构 Client -&amp;gt; DIDIYun(HAProxy) -&amp;gt; HK
+<meta name="description" content="tags: 翻墙  翻墙 架构 Client -&amp;gt; DIDIYun(HAProxy) -&amp;gt; HK
 滴滴云 HAPorxy 配置 117.51.146.119
 frontend v_linuxzen_com bind *:6697 option tcplog mode tcp default_backend v_linuxzen_com_nodes backend v_linuxzen_com_nodes mode tcp balance roundrobin option ssl-hello-chk server webserver1 45.115.36.35:443 check 客户端改动 需要调整 hosts
-$ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts HK V2Ray Docker 启动 $ docker run -d -p 127.0.0.1:25001:25001 --name v2ray --restart always -v /etc/v2ray:/etc/v2ray v2ray/official HK Let&amp;rsquo;s Encrypt 证书 $ acme.sh --issue -d linuxzen." />
+$ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts HK V2Ray Docker 启动 $ docker run -d -p 127.0.0.1:25001:25001 --name v2ray --restart always -v /etc/v2ray:/etc/v2ray v2ray/official HK Let&amp;rsquo;s Encrypt 证书 $ acme." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200319215535_v2ray/" />
@@ -37,10 +37,10 @@ $ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="V2Ray">
-<meta property="og:description" content="翻墙 架构 Client -&amp;gt; DIDIYun(HAProxy) -&amp;gt; HK
+<meta property="og:description" content="tags: 翻墙  翻墙 架构 Client -&amp;gt; DIDIYun(HAProxy) -&amp;gt; HK
 滴滴云 HAPorxy 配置 117.51.146.119
 frontend v_linuxzen_com bind *:6697 option tcplog mode tcp default_backend v_linuxzen_com_nodes backend v_linuxzen_com_nodes mode tcp balance roundrobin option ssl-hello-chk server webserver1 45.115.36.35:443 check 客户端改动 需要调整 hosts
-$ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts HK V2Ray Docker 启动 $ docker run -d -p 127.0.0.1:25001:25001 --name v2ray --restart always -v /etc/v2ray:/etc/v2ray v2ray/official HK Let&amp;rsquo;s Encrypt 证书 $ acme.sh --issue -d linuxzen." />
+$ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts HK V2Ray Docker 启动 $ docker run -d -p 127.0.0.1:25001:25001 --name v2ray --restart always -v /etc/v2ray:/etc/v2ray v2ray/official HK Let&amp;rsquo;s Encrypt 证书 $ acme." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200319215535_v2ray/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -161,22 +161,25 @@ $ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts 
   
 
   <div class="post-content"><div>
-        <h2 id="翻墙">翻墙<a href="#翻墙" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <ul>
+<li>tags: <a href="/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/">翻墙</a></li>
+</ul>
+<h2 id="翻墙">翻墙<a href="#翻墙" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="架构">架构<a href="#架构" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>Client -&gt; DIDIYun(HAProxy) -&gt; HK</p>
 <h3 id="滴滴云-haporxy-配置">滴滴云 HAPorxy 配置<a href="#滴滴云-haporxy-配置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>117.51.146.119</p>
 <pre tabindex="0"><code class="language-haproxy" data-lang="haproxy">frontend v_linuxzen_com
-    bind *:6697
-    option tcplog
-    mode tcp
-    default_backend v_linuxzen_com_nodes
+	bind *:6697
+	option tcplog
+	mode tcp
+	default_backend v_linuxzen_com_nodes
 
 backend v_linuxzen_com_nodes
-    mode tcp
-    balance roundrobin
-    option ssl-hello-chk
-    server webserver1 45.115.36.35:443 check
+	mode tcp
+	balance roundrobin
+	option ssl-hello-chk
+	server webserver1 45.115.36.35:443 check
 </code></pre><h3 id="客户端改动">客户端改动<a href="#客户端改动" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>需要调整 hosts</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#39;117.51.146.119 v.linuxzen.com&#39;</span> | sudo tee -a /etc/hosts
@@ -188,86 +191,86 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
 </code></pre></div><h3 id="hk-v2ray-配置">HK V2Ray 配置<a href="#hk-v2ray-配置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#f92672">&#34;log&#34;</span>: {
-    <span style="color:#f92672">&#34;loglevel&#34;</span>: <span style="color:#e6db74">&#34;debug&#34;</span>,
-    <span style="color:#f92672">&#34;access&#34;</span>: <span style="color:#e6db74">&#34;/var/log/v2ray/access.log&#34;</span>,
-    <span style="color:#f92672">&#34;error&#34;</span>: <span style="color:#e6db74">&#34;/var/log/v2ray/error.log&#34;</span>
+	<span style="color:#f92672">&#34;loglevel&#34;</span>: <span style="color:#e6db74">&#34;debug&#34;</span>,
+	<span style="color:#f92672">&#34;access&#34;</span>: <span style="color:#e6db74">&#34;/var/log/v2ray/access.log&#34;</span>,
+	<span style="color:#f92672">&#34;error&#34;</span>: <span style="color:#e6db74">&#34;/var/log/v2ray/error.log&#34;</span>
   },
   <span style="color:#f92672">&#34;inbounds&#34;</span>: [
-    {
-      <span style="color:#f92672">&#34;port&#34;</span>: <span style="color:#ae81ff">25001</span>,
-      <span style="color:#f92672">&#34;listen&#34;</span>:<span style="color:#e6db74">&#34;0.0.0.0&#34;</span>,
-      <span style="color:#f92672">&#34;protocol&#34;</span>: <span style="color:#e6db74">&#34;vmess&#34;</span>,
-      <span style="color:#f92672">&#34;settings&#34;</span>: {
-        <span style="color:#f92672">&#34;clients&#34;</span>: [
-          {
-            <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;1fde12b8-0cfd-11ea-a4b3-acde48001122&#34;</span>,
-            <span style="color:#f92672">&#34;alterId&#34;</span>: <span style="color:#ae81ff">64</span>
-          }
-        ]
-      },
-      <span style="color:#f92672">&#34;streamSettings&#34;</span>: {
-        <span style="color:#f92672">&#34;network&#34;</span>: <span style="color:#e6db74">&#34;ws&#34;</span>,
-        <span style="color:#f92672">&#34;wsSettings&#34;</span>: {
-          <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;/passport&#34;</span>
-        }
-      }
-    }
+	{
+	  <span style="color:#f92672">&#34;port&#34;</span>: <span style="color:#ae81ff">25001</span>,
+	  <span style="color:#f92672">&#34;listen&#34;</span>:<span style="color:#e6db74">&#34;0.0.0.0&#34;</span>,
+	  <span style="color:#f92672">&#34;protocol&#34;</span>: <span style="color:#e6db74">&#34;vmess&#34;</span>,
+	  <span style="color:#f92672">&#34;settings&#34;</span>: {
+		<span style="color:#f92672">&#34;clients&#34;</span>: [
+		  {
+			<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;1fde12b8-0cfd-11ea-a4b3-acde48001122&#34;</span>,
+			<span style="color:#f92672">&#34;alterId&#34;</span>: <span style="color:#ae81ff">64</span>
+		  }
+		]
+	  },
+	  <span style="color:#f92672">&#34;streamSettings&#34;</span>: {
+		<span style="color:#f92672">&#34;network&#34;</span>: <span style="color:#e6db74">&#34;ws&#34;</span>,
+		<span style="color:#f92672">&#34;wsSettings&#34;</span>: {
+		  <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;/passport&#34;</span>
+		}
+	  }
+	}
   ],
   <span style="color:#f92672">&#34;outbounds&#34;</span>: [
-    {
-      <span style="color:#f92672">&#34;protocol&#34;</span>: <span style="color:#e6db74">&#34;freedom&#34;</span>,
-      <span style="color:#f92672">&#34;settings&#34;</span>: {}
-    }
+	{
+	  <span style="color:#f92672">&#34;protocol&#34;</span>: <span style="color:#e6db74">&#34;freedom&#34;</span>,
+	  <span style="color:#f92672">&#34;settings&#34;</span>: {}
+	}
   ]
 }
 </code></pre></div><h3 id="hk-nginx-配置">HK Nginx 配置<a href="#hk-nginx-配置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
-        <span style="color:#f92672">listen</span>  <span style="color:#ae81ff">80</span>;
-        <span style="color:#f92672">server_name</span>     <span style="color:#e6db74">v.linuxzen.com</span>;
-        <span style="color:#f92672">return</span>         <span style="color:#ae81ff">301</span> <span style="color:#e6db74">https://</span>$server_name$request_uri;
+		<span style="color:#f92672">listen</span>  <span style="color:#ae81ff">80</span>;
+		<span style="color:#f92672">server_name</span>     <span style="color:#e6db74">v.linuxzen.com</span>;
+		<span style="color:#f92672">return</span>         <span style="color:#ae81ff">301</span> <span style="color:#e6db74">https://</span>$server_name$request_uri;
 }
 
 <span style="color:#66d9ef">upstream</span> <span style="color:#e6db74">v2ray</span> {
-        <span style="color:#f92672">server</span> 127.0.0.1:<span style="color:#ae81ff">25001</span>;
-        <span style="color:#f92672">server</span> 127.0.0.1:<span style="color:#ae81ff">25002</span>;
+		<span style="color:#f92672">server</span> 127.0.0.1:<span style="color:#ae81ff">25001</span>;
+		<span style="color:#f92672">server</span> 127.0.0.1:<span style="color:#ae81ff">25002</span>;
 }
 
 <span style="color:#66d9ef">server{</span>
-        <span style="color:#e6db74">listen</span> <span style="color:#ae81ff">443</span> <span style="color:#e6db74">http2</span> <span style="color:#e6db74">ssl</span> <span style="color:#e6db74">fastopen=3</span> <span style="color:#e6db74">reuseport</span>;
-        <span style="color:#75715e"># listen 80;
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">server_name</span>     <span style="color:#e6db74">v.linuxzen.com</span>;
+		<span style="color:#e6db74">listen</span> <span style="color:#ae81ff">443</span> <span style="color:#e6db74">http2</span> <span style="color:#e6db74">ssl</span> <span style="color:#e6db74">fastopen=3</span> <span style="color:#e6db74">reuseport</span>;
+		<span style="color:#75715e"># listen 80;
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">server_name</span>     <span style="color:#e6db74">v.linuxzen.com</span>;
 
-        <span style="color:#66d9ef">ssl_certificate</span> <span style="color:#e6db74">/etc/nginx/certs/linuxzen.com/fullchain.pem</span>;
-        <span style="color:#66d9ef">ssl_certificate_key</span> <span style="color:#e6db74">/etc/nginx/certs/linuxzen.com/privkey.pem</span>;
-        <span style="color:#66d9ef">ssl_protocols</span> <span style="color:#e6db74">TLSv1</span> <span style="color:#e6db74">TLSv1.1</span> <span style="color:#e6db74">TLSv1.2</span>;
-        <span style="color:#66d9ef">ssl_prefer_server_ciphers</span> <span style="color:#66d9ef">on</span>;
-        <span style="color:#66d9ef">ssl_dhparam</span> <span style="color:#e6db74">/etc/ssl/certs/dhparam.pem</span>;
-        <span style="color:#66d9ef">ssl_ciphers</span> <span style="color:#e6db74">&#39;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA&#39;</span>;
-        <span style="color:#66d9ef">ssl_session_timeout</span> <span style="color:#e6db74">1d</span>;
-        <span style="color:#66d9ef">ssl_session_cache</span> <span style="color:#e6db74">shared:SSL:50m</span>;
-        <span style="color:#66d9ef">ssl_stapling</span> <span style="color:#66d9ef">on</span>;
-        <span style="color:#66d9ef">ssl_stapling_verify</span> <span style="color:#66d9ef">on</span>;
-        <span style="color:#66d9ef">add_header</span> <span style="color:#e6db74">Strict-Transport-Security</span> <span style="color:#e6db74">max-age=15768000</span>;
+		<span style="color:#66d9ef">ssl_certificate</span> <span style="color:#e6db74">/etc/nginx/certs/linuxzen.com/fullchain.pem</span>;
+		<span style="color:#66d9ef">ssl_certificate_key</span> <span style="color:#e6db74">/etc/nginx/certs/linuxzen.com/privkey.pem</span>;
+		<span style="color:#66d9ef">ssl_protocols</span> <span style="color:#e6db74">TLSv1</span> <span style="color:#e6db74">TLSv1.1</span> <span style="color:#e6db74">TLSv1.2</span>;
+		<span style="color:#66d9ef">ssl_prefer_server_ciphers</span> <span style="color:#66d9ef">on</span>;
+		<span style="color:#66d9ef">ssl_dhparam</span> <span style="color:#e6db74">/etc/ssl/certs/dhparam.pem</span>;
+		<span style="color:#66d9ef">ssl_ciphers</span> <span style="color:#e6db74">&#39;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA&#39;</span>;
+		<span style="color:#66d9ef">ssl_session_timeout</span> <span style="color:#e6db74">1d</span>;
+		<span style="color:#66d9ef">ssl_session_cache</span> <span style="color:#e6db74">shared:SSL:50m</span>;
+		<span style="color:#66d9ef">ssl_stapling</span> <span style="color:#66d9ef">on</span>;
+		<span style="color:#66d9ef">ssl_stapling_verify</span> <span style="color:#66d9ef">on</span>;
+		<span style="color:#66d9ef">add_header</span> <span style="color:#e6db74">Strict-Transport-Security</span> <span style="color:#e6db74">max-age=15768000</span>;
 
-        <span style="color:#66d9ef">access_log</span>      <span style="color:#e6db74">/var/log/nginx/v.linuxzen.com.log</span>;
+		<span style="color:#66d9ef">access_log</span>      <span style="color:#e6db74">/var/log/nginx/v.linuxzen.com.log</span>;
 
-        <span style="color:#66d9ef">location</span> <span style="color:#e6db74">/</span> {
-                <span style="color:#f92672">root</span>    <span style="color:#e6db74">/srv/www/v.linuxzen.com</span>;
-                <span style="color:#f92672">index</span>   <span style="color:#e6db74">index.html</span> <span style="color:#e6db74">index.htm</span>;
-        }
-        <span style="color:#66d9ef">location</span> <span style="color:#e6db74">/passport</span> {
-                <span style="color:#f92672">proxy_redirect</span>  <span style="color:#66d9ef">off</span>;
-                <span style="color:#f92672">proxy_pass</span> <span style="color:#e6db74">http://v2ray</span>;
-                <span style="color:#f92672">proxy_http_version</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">.1</span>;
-                <span style="color:#f92672">proxy_read_timeout</span> <span style="color:#e6db74">300s</span>;
-                <span style="color:#f92672">proxy_send_timeout</span> <span style="color:#e6db74">300s</span>;
-                <span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">Upgrade</span> $http_upgrade;
-                <span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">Connection</span> <span style="color:#e6db74">&#34;Upgrade&#34;</span>;
-                <span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">Host</span> $http_host;
-                <span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">X-Real-IP</span> $remote_addr;
-                <span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">X-Forwarded-For</span> $proxy_add_x_forwarded_for;
-        }
-        <span style="color:#66d9ef">include</span> /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+		<span style="color:#66d9ef">location</span> <span style="color:#e6db74">/</span> {
+				<span style="color:#f92672">root</span>    <span style="color:#e6db74">/srv/www/v.linuxzen.com</span>;
+				<span style="color:#f92672">index</span>   <span style="color:#e6db74">index.html</span> <span style="color:#e6db74">index.htm</span>;
+		}
+		<span style="color:#66d9ef">location</span> <span style="color:#e6db74">/passport</span> {
+				<span style="color:#f92672">proxy_redirect</span>  <span style="color:#66d9ef">off</span>;
+				<span style="color:#f92672">proxy_pass</span> <span style="color:#e6db74">http://v2ray</span>;
+				<span style="color:#f92672">proxy_http_version</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">.1</span>;
+				<span style="color:#f92672">proxy_read_timeout</span> <span style="color:#e6db74">300s</span>;
+				<span style="color:#f92672">proxy_send_timeout</span> <span style="color:#e6db74">300s</span>;
+				<span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">Upgrade</span> $http_upgrade;
+				<span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">Connection</span> <span style="color:#e6db74">&#34;Upgrade&#34;</span>;
+				<span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">Host</span> $http_host;
+				<span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">X-Real-IP</span> $remote_addr;
+				<span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">X-Forwarded-For</span> $proxy_add_x_forwarded_for;
+		}
+		<span style="color:#66d9ef">include</span> /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 <span style="color:#66d9ef">}</span>
 </code></pre></div><h3 id="新增一个域名用于单独的滴滴云加速">新增一个域名用于单独的滴滴云加速<a href="#新增一个域名用于单独的滴滴云加速" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>使用一个单独的域名 <code>vd.linuxzen.com</code> 用于滴滴云加速，参见<a href="/notes/notes/20200319221212_let_s_encrypt/">Let&rsquo;s Encrypt</a>。</p>
@@ -858,15 +861,43 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
    
 
    
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
       
-   
-
-   
-
-   
-
-   
-
    
 
    
@@ -965,7 +996,7 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

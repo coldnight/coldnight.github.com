@@ -215,48 +215,48 @@
 
 <span style="color:#75715e">#[proc_macro_derive(Custom, attributes(args))]</span>
 <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">derive</span>(input: <span style="color:#a6e22e">TokenStream</span>) -&gt; <span style="color:#a6e22e">TokenStream</span> {
-    <span style="color:#66d9ef">let</span> ast: <span style="color:#a6e22e">DeriveInput</span> <span style="color:#f92672">=</span> parse(input).unwrap();
-    <span style="color:#66d9ef">let</span> name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ast.ident;
+	<span style="color:#66d9ef">let</span> ast: <span style="color:#a6e22e">DeriveInput</span> <span style="color:#f92672">=</span> parse(input).unwrap();
+	<span style="color:#66d9ef">let</span> name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ast.ident;
 
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec![];
+	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec![];
 
-    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Data::Struct(ds) <span style="color:#f92672">=</span> ast.data {
-        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Fields::Named(fields) <span style="color:#f92672">=</span> ds.fields {
-            <span style="color:#66d9ef">for</span> field <span style="color:#66d9ef">in</span> fields.named.iter() {
-                <span style="color:#66d9ef">let</span> field_name <span style="color:#f92672">=</span> field.ident.clone().unwrap();
-                <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(attr) <span style="color:#f92672">=</span> field.attrs.clone().iter().next() {
-                    <span style="color:#66d9ef">match</span> parse_args_attr_value(<span style="color:#f92672">&amp;</span>attr) {
-                        Ok(v) <span style="color:#f92672">=&gt;</span> {
-                           <span style="color:#75715e">// TODO
-</span><span style="color:#75715e"></span>                        },
-                        Err(err) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> err.to_compile_error().into(),
-                    }
-                }
-            }
-        }
-    }
-    <span style="color:#66d9ef">let</span> tokens <span style="color:#f92672">=</span> quote<span style="color:#f92672">!</span>{
-    };
-    tokens.into()
+	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Data::Struct(ds) <span style="color:#f92672">=</span> ast.data {
+		<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Fields::Named(fields) <span style="color:#f92672">=</span> ds.fields {
+			<span style="color:#66d9ef">for</span> field <span style="color:#66d9ef">in</span> fields.named.iter() {
+				<span style="color:#66d9ef">let</span> field_name <span style="color:#f92672">=</span> field.ident.clone().unwrap();
+				<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(attr) <span style="color:#f92672">=</span> field.attrs.clone().iter().next() {
+					<span style="color:#66d9ef">match</span> parse_args_attr_value(<span style="color:#f92672">&amp;</span>attr) {
+						Ok(v) <span style="color:#f92672">=&gt;</span> {
+						   <span style="color:#75715e">// TODO
+</span><span style="color:#75715e"></span>						},
+						Err(err) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> err.to_compile_error().into(),
+					}
+				}
+			}
+		}
+	}
+	<span style="color:#66d9ef">let</span> tokens <span style="color:#f92672">=</span> quote<span style="color:#f92672">!</span>{
+	};
+	tokens.into()
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">parse_args_attr_value</span>(attr: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">syn</span>::Attribute) -&gt; Result<span style="color:#f92672">&lt;</span>Option<span style="color:#f92672">&lt;</span>syn::LitStr<span style="color:#f92672">&gt;</span>, syn::Error<span style="color:#f92672">&gt;</span> {
-    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(seg) <span style="color:#f92672">=</span> attr.path.segments.first() {
-        <span style="color:#66d9ef">if</span> seg.ident <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;args&#34;</span> {
-            <span style="color:#66d9ef">let</span> args <span style="color:#f92672">=</span> attr.parse_args()<span style="color:#f92672">?</span>;
-            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Meta::NameValue(values) <span style="color:#f92672">=</span> args {
-                <span style="color:#66d9ef">let</span> arg_name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>values.path.segments.first().unwrap().ident;
-                <span style="color:#66d9ef">if</span> arg_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span> {
-                    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Lit::Str(name) <span style="color:#f92672">=</span> values.lit {
-                        <span style="color:#66d9ef">return</span> Ok(Some(name));
-                    }
-                } <span style="color:#66d9ef">else</span> {
-                    <span style="color:#66d9ef">return</span> Err(syn::Error::new(attr.bracket_token.span, <span style="color:#e6db74">&#34;expected `args(name = \&#34;...\&#34;)`&#34;</span>.to_owned()));
-                }
-            }
-        }
-    }
-    <span style="color:#66d9ef">return</span> Ok(None)
+	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(seg) <span style="color:#f92672">=</span> attr.path.segments.first() {
+		<span style="color:#66d9ef">if</span> seg.ident <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;args&#34;</span> {
+			<span style="color:#66d9ef">let</span> args <span style="color:#f92672">=</span> attr.parse_args()<span style="color:#f92672">?</span>;
+			<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Meta::NameValue(values) <span style="color:#f92672">=</span> args {
+				<span style="color:#66d9ef">let</span> arg_name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>values.path.segments.first().unwrap().ident;
+				<span style="color:#66d9ef">if</span> arg_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span> {
+					<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Lit::Str(name) <span style="color:#f92672">=</span> values.lit {
+						<span style="color:#66d9ef">return</span> Ok(Some(name));
+					}
+				} <span style="color:#66d9ef">else</span> {
+					<span style="color:#66d9ef">return</span> Err(syn::Error::new(attr.bracket_token.span, <span style="color:#e6db74">&#34;expected `args(name = \&#34;...\&#34;)`&#34;</span>.to_owned()));
+				}
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> Ok(None)
 }
 </code></pre></div><h3 id="直接赋值">直接赋值<a href="#直接赋值" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>直接赋值类似于上面的关键字解析调用，但是对应的 <code>attr.parse_args</code> 需要替换为 <code>attr.parse_meta</code> ，比如解析：</p>
@@ -272,48 +272,48 @@
 
 <span style="color:#75715e">#[proc_macro_derive(Custom, attributes(args))]</span>
 <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">derive</span>(input: <span style="color:#a6e22e">TokenStream</span>) -&gt; <span style="color:#a6e22e">TokenStream</span> {
-    <span style="color:#66d9ef">let</span> ast: <span style="color:#a6e22e">DeriveInput</span> <span style="color:#f92672">=</span> parse(input).unwrap();
-    <span style="color:#66d9ef">let</span> name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ast.ident;
+	<span style="color:#66d9ef">let</span> ast: <span style="color:#a6e22e">DeriveInput</span> <span style="color:#f92672">=</span> parse(input).unwrap();
+	<span style="color:#66d9ef">let</span> name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ast.ident;
 
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec![];
+	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_fields <span style="color:#f92672">=</span> vec![];
 
-    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Data::Struct(ds) <span style="color:#f92672">=</span> ast.data {
-        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Fields::Named(fields) <span style="color:#f92672">=</span> ds.fields {
-            <span style="color:#66d9ef">for</span> field <span style="color:#66d9ef">in</span> fields.named.iter() {
-                <span style="color:#66d9ef">let</span> field_name <span style="color:#f92672">=</span> field.ident.clone().unwrap();
-                <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(attr) <span style="color:#f92672">=</span> field.attrs.clone().iter().next() {
-                    <span style="color:#66d9ef">match</span> parse_meta_attr_value(<span style="color:#f92672">&amp;</span>attr) {
-                        Ok(v) <span style="color:#f92672">=&gt;</span> {
-                           <span style="color:#75715e">// TODO
-</span><span style="color:#75715e"></span>                        },
-                        Err(err) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> err.to_compile_error().into(),
-                    }
-                }
-            }
-        }
-    }
-    <span style="color:#66d9ef">let</span> tokens <span style="color:#f92672">=</span> quote<span style="color:#f92672">!</span>{
-    };
-    tokens.into()
+	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Data::Struct(ds) <span style="color:#f92672">=</span> ast.data {
+		<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Fields::Named(fields) <span style="color:#f92672">=</span> ds.fields {
+			<span style="color:#66d9ef">for</span> field <span style="color:#66d9ef">in</span> fields.named.iter() {
+				<span style="color:#66d9ef">let</span> field_name <span style="color:#f92672">=</span> field.ident.clone().unwrap();
+				<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(attr) <span style="color:#f92672">=</span> field.attrs.clone().iter().next() {
+					<span style="color:#66d9ef">match</span> parse_meta_attr_value(<span style="color:#f92672">&amp;</span>attr) {
+						Ok(v) <span style="color:#f92672">=&gt;</span> {
+						   <span style="color:#75715e">// TODO
+</span><span style="color:#75715e"></span>						},
+						Err(err) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> err.to_compile_error().into(),
+					}
+				}
+			}
+		}
+	}
+	<span style="color:#66d9ef">let</span> tokens <span style="color:#f92672">=</span> quote<span style="color:#f92672">!</span>{
+	};
+	tokens.into()
 }
 
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">parse_meta_attr_value</span>(attr: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">syn</span>::Attribute) -&gt; Result<span style="color:#f92672">&lt;</span>Option<span style="color:#f92672">&lt;</span>syn::LitStr<span style="color:#f92672">&gt;</span>, syn::Error<span style="color:#f92672">&gt;</span> {
-    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(seg) <span style="color:#f92672">=</span> attr.path.segments.first() {
-        <span style="color:#66d9ef">if</span> seg.ident <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;meta&#34;</span> {
-            <span style="color:#66d9ef">let</span> args <span style="color:#f92672">=</span> attr.parse_meta()<span style="color:#f92672">?</span>;
-            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Meta::NameValue(values) <span style="color:#f92672">=</span> args {
-                <span style="color:#66d9ef">let</span> arg_name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>values.path.segments.first().unwrap().ident;
-                <span style="color:#66d9ef">if</span> arg_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;meta&#34;</span> {
-                    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Lit::Str(name) <span style="color:#f92672">=</span> values.lit {
-                        <span style="color:#66d9ef">return</span> Ok(Some(name));
-                    }
-                } <span style="color:#66d9ef">else</span> {
-                    <span style="color:#66d9ef">return</span> Err(syn::Error::new(attr.bracket_token.span, <span style="color:#e6db74">&#34;expected `meta = \&#34;...\&#34;`&#34;</span>.to_owned()));
-                }
-            }
-        }
-    }
-    <span style="color:#66d9ef">return</span> Ok(None)
+	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(seg) <span style="color:#f92672">=</span> attr.path.segments.first() {
+		<span style="color:#66d9ef">if</span> seg.ident <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;meta&#34;</span> {
+			<span style="color:#66d9ef">let</span> args <span style="color:#f92672">=</span> attr.parse_meta()<span style="color:#f92672">?</span>;
+			<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Meta::NameValue(values) <span style="color:#f92672">=</span> args {
+				<span style="color:#66d9ef">let</span> arg_name <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>values.path.segments.first().unwrap().ident;
+				<span style="color:#66d9ef">if</span> arg_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;meta&#34;</span> {
+					<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> syn::Lit::Str(name) <span style="color:#f92672">=</span> values.lit {
+						<span style="color:#66d9ef">return</span> Ok(Some(name));
+					}
+				} <span style="color:#66d9ef">else</span> {
+					<span style="color:#66d9ef">return</span> Err(syn::Error::new(attr.bracket_token.span, <span style="color:#e6db74">&#34;expected `meta = \&#34;...\&#34;`&#34;</span>.to_owned()));
+				}
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> Ok(None)
 }
 </code></pre></div>
       </div></div>
@@ -322,6 +322,48 @@
 
   
 
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
 
    
 
@@ -971,20 +1013,6 @@
 
    
 
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
 
 <hr>
 
@@ -1009,7 +1037,7 @@
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

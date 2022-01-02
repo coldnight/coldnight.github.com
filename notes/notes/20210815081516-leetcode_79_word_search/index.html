@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="79. Word Search
+<meta name="description" content="tags: LeetCode  79. Word Search
 class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp;gt;&amp;amp; board, string word) { backtracking(board, word, 0, 0); return res; } private: string track; bool res = false; enum Direction { right, down, up, left, }; /** * @param dir: 0: right, 1: down, 2: up, 3: left */ void backtracking(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp;gt;&amp;amp; board, string word, int row, int col) { if (track == word || res) { res = true; return; } for (int i = row; i &amp;lt; board." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -35,7 +35,7 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 79. Word Search">
-<meta property="og:description" content="79. Word Search
+<meta property="og:description" content="tags: LeetCode  79. Word Search
 class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp;gt;&amp;amp; board, string word) { backtracking(board, word, 0, 0); return res; } private: string track; bool res = false; enum Direction { right, down, up, left, }; /** * @param dir: 0: right, 1: down, 2: up, 3: left */ void backtracking(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp;gt;&amp;amp; board, string word, int row, int col) { if (track == word || res) { res = true; return; } for (int i = row; i &amp;lt; board." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210815081516-leetcode_79_word_search/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
@@ -157,87 +157,90 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
   
 
   <div class="post-content"><div>
-        <p><a href="https://leetcode.com/problems/word-search/">79. Word Search</a></p>
+        <ul>
+<li>tags: <a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
+</ul>
+<p><a href="https://leetcode.com/problems/word-search/">79. Word Search</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
-        backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-        <span style="color:#66d9ef">return</span> res;
-    }
+	<span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
+		backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span> res;
+	}
 <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    string track;
-    <span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
+	string track;
+	<span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
 
-    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
-        right,
-        down,
-        up,
-        left,
-    };
-    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     * @param dir: 0: right, 1: down, 2: up, 3: left
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
-            res <span style="color:#f92672">=</span> true;
-            <span style="color:#66d9ef">return</span>;
-        }
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
-                <span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
-                <span style="color:#66d9ef">if</span> (directions.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                    <span style="color:#66d9ef">return</span>;
-                }
-                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
-                    <span style="color:#66d9ef">int</span> r, c;
-                    track.push_back(board[i][j]);
-                    std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, row, col, d);
-                    <span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                        backtracking(board, word, r, c);
-                    }
-                    track.pop_back();
-                }
+	<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
+		right,
+		down,
+		up,
+		left,
+	};
+	<span style="color:#75715e">/**
+</span><span style="color:#75715e">	 * @param dir: 0: right, 1: down, 2: up, 3: left
+</span><span style="color:#75715e">	 */</span>
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		<span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
+			res <span style="color:#f92672">=</span> true;
+			<span style="color:#66d9ef">return</span>;
+		}
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
+			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
+				<span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
+				<span style="color:#66d9ef">if</span> (directions.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+					<span style="color:#66d9ef">return</span>;
+				}
+				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
+					<span style="color:#66d9ef">int</span> r, c;
+					track.push_back(board[i][j]);
+					std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, row, col, d);
+					<span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+						backtracking(board, word, r, c);
+					}
+					track.pop_back();
+				}
 
-            }
-        }
-    }
+			}
+		}
+	}
 
-    vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(right);
-        }
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(down);
-        }
+	vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(right);
+		}
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(down);
+		}
 
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(up);
-        }
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(left);
-        }
-        <span style="color:#66d9ef">return</span> r;
-    }
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(up);
+		}
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(left);
+		}
+		<span style="color:#66d9ef">return</span> r;
+	}
 
-    tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
-        <span style="color:#66d9ef">switch</span>(dir) {
-            <span style="color:#66d9ef">case</span> right:
-                col<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> left:
-                col<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> up:
-                row<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> down:
-                row<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-        }
-        tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
-        <span style="color:#66d9ef">return</span> r;
-    }
+	tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
+		<span style="color:#66d9ef">switch</span>(dir) {
+			<span style="color:#66d9ef">case</span> right:
+				col<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> left:
+				col<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> up:
+				row<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> down:
+				row<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+		}
+		tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
+		<span style="color:#66d9ef">return</span> r;
+	}
 };
 </code></pre></div><p>失败的用例：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">[[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]]
@@ -245,94 +248,94 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 </code></pre><p>因为方向往回走导致，应该规避方向往回走。通过一个 set 来跟踪位置，防止进入前面的位置：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
-        backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-        <span style="color:#66d9ef">return</span> res;
-    }
+	<span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
+		backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span> res;
+	}
 <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    string track;
-    <span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
-    set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
+	string track;
+	<span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
+	set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
 
-    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
-        right,
-        down,
-        up,
-        left,
-    };
-    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     * @param dir: 0: right, 1: down, 2: up, 3: left
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
-            res <span style="color:#f92672">=</span> true;
-            <span style="color:#66d9ef">return</span>;
-        }
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
-                <span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
-                <span style="color:#66d9ef">if</span> (directions.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                    <span style="color:#66d9ef">return</span>;
-                }
-                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
-                    tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (i, j);
-                    <span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
-                        <span style="color:#66d9ef">continue</span>;
-                    }
-                    pos.insert(p);
-                    track.push_back(board[i][j]);
+	<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
+		right,
+		down,
+		up,
+		left,
+	};
+	<span style="color:#75715e">/**
+</span><span style="color:#75715e">	 * @param dir: 0: right, 1: down, 2: up, 3: left
+</span><span style="color:#75715e">	 */</span>
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		<span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
+			res <span style="color:#f92672">=</span> true;
+			<span style="color:#66d9ef">return</span>;
+		}
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
+			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
+				<span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
+				<span style="color:#66d9ef">if</span> (directions.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+					<span style="color:#66d9ef">return</span>;
+				}
+				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
+					tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (i, j);
+					<span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
+						<span style="color:#66d9ef">continue</span>;
+					}
+					pos.insert(p);
+					track.push_back(board[i][j]);
 
-                    <span style="color:#66d9ef">int</span> r, c;
-                    std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, row, col, d);
+					<span style="color:#66d9ef">int</span> r, c;
+					std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, row, col, d);
 
 
-                    <span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                        backtracking(board, word, r, c);
-                    }
-                    track.pop_back();
-                    pos.erase(p);
-                }
+					<span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+						backtracking(board, word, r, c);
+					}
+					track.pop_back();
+					pos.erase(p);
+				}
 
-            }
-        }
-    }
+			}
+		}
+	}
 
-    vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(right);
-        }
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(down);
-        }
+	vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(right);
+		}
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(down);
+		}
 
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(up);
-        }
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(left);
-        }
-        <span style="color:#66d9ef">return</span> r;
-    }
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(up);
+		}
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(left);
+		}
+		<span style="color:#66d9ef">return</span> r;
+	}
 
-    tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
-        <span style="color:#66d9ef">switch</span>(dir) {
-            <span style="color:#66d9ef">case</span> right:
-                col<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> left:
-                col<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> up:
-                row<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> down:
-                row<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-        }
-        tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
-        <span style="color:#66d9ef">return</span> r;
-    }
+	tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
+		<span style="color:#66d9ef">switch</span>(dir) {
+			<span style="color:#66d9ef">case</span> right:
+				col<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> left:
+				col<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> up:
+				row<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> down:
+				row<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+		}
+		tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
+		<span style="color:#66d9ef">return</span> r;
+	}
 };
 </code></pre></div><p>失败的用例：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">[[&quot;a&quot;]]
@@ -340,93 +343,93 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 </code></pre><p>代码逻辑有问题，修正后：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
-        backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-        <span style="color:#66d9ef">return</span> res;
-    }
+	<span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
+		backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span> res;
+	}
 <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    string track;
-    <span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
-    set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
+	string track;
+	<span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
+	set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
 
-    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
-        right,
-        down,
-        up,
-        left,
-    };
-    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     * @param dir: 0: right, 1: down, 2: up, 3: left
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
-            res <span style="color:#f92672">=</span> true;
-            <span style="color:#66d9ef">return</span>;
-        }
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
-                tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (i, j);
-                <span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
-                    <span style="color:#66d9ef">continue</span>;
-                }
-                pos.insert(p);
-                track.push_back(board[i][j]);
-                <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
-                    res <span style="color:#f92672">=</span> true;
-                    <span style="color:#66d9ef">return</span>;
-                }
-                <span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                    <span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
-                    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
-                        <span style="color:#66d9ef">int</span> r, c;
-                        std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, row, col, d);
-                        backtracking(board, word, r, c);
-                    }
-                }
+	<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
+		right,
+		down,
+		up,
+		left,
+	};
+	<span style="color:#75715e">/**
+</span><span style="color:#75715e">	 * @param dir: 0: right, 1: down, 2: up, 3: left
+</span><span style="color:#75715e">	 */</span>
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		<span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
+			res <span style="color:#f92672">=</span> true;
+			<span style="color:#66d9ef">return</span>;
+		}
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
+			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
+				tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (i, j);
+				<span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
+					<span style="color:#66d9ef">continue</span>;
+				}
+				pos.insert(p);
+				track.push_back(board[i][j]);
+				<span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
+					res <span style="color:#f92672">=</span> true;
+					<span style="color:#66d9ef">return</span>;
+				}
+				<span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+					<span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
+					<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
+						<span style="color:#66d9ef">int</span> r, c;
+						std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, row, col, d);
+						backtracking(board, word, r, c);
+					}
+				}
 
-                track.pop_back();
-                pos.erase(p);
+				track.pop_back();
+				pos.erase(p);
 
-            }
-        }
-    }
+			}
+		}
+	}
 
-    vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(right);
-        }
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(down);
-        }
+	vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(right);
+		}
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(down);
+		}
 
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(up);
-        }
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(left);
-        }
-        <span style="color:#66d9ef">return</span> r;
-    }
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(up);
+		}
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(left);
+		}
+		<span style="color:#66d9ef">return</span> r;
+	}
 
-    tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
-        <span style="color:#66d9ef">switch</span>(dir) {
-            <span style="color:#66d9ef">case</span> right:
-                col<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> left:
-                col<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> up:
-                row<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> down:
-                row<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-        }
-        tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
-        <span style="color:#66d9ef">return</span> r;
-    }
+	tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
+		<span style="color:#66d9ef">switch</span>(dir) {
+			<span style="color:#66d9ef">case</span> right:
+				col<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> left:
+				col<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> up:
+				row<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> down:
+				row<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+		}
+		tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
+		<span style="color:#66d9ef">return</span> r;
+	}
 };
 </code></pre></div><p>以下测试用例无法通过：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">[[&quot;a&quot;,&quot;b&quot;]]
@@ -434,93 +437,93 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 </code></pre><p>调整代码后（进入下一个节点的 row/col 没用 i/j）:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
-        backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-        <span style="color:#66d9ef">return</span> res;
-    }
+	<span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
+		backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span> res;
+	}
 <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    string track;
-    <span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
-    set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
+	string track;
+	<span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
+	set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
 
-    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
-        right,
-        down,
-        up,
-        left,
-    };
-    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     * @param dir: 0: right, 1: down, 2: up, 3: left
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        cout <span style="color:#f92672">&lt;&lt;</span> track <span style="color:#f92672">&lt;&lt;</span> endl;
-        <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
-            res <span style="color:#f92672">=</span> true;
-            <span style="color:#66d9ef">return</span>;
-        }
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
-                tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (i, j);
-                <span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
-                    <span style="color:#66d9ef">continue</span>;
-                }
-                pos.insert(p);
-                track.push_back(board[i][j]);
-                <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word) {
-                    res <span style="color:#f92672">=</span> true;
-                    <span style="color:#66d9ef">return</span>;
-                }
-                <span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                    <span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
-                    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
-                        <span style="color:#66d9ef">int</span> r, c;
-                        std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, i, j, d);
-                        backtracking(board, word, r, c);
-                    }
-                }
+	<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
+		right,
+		down,
+		up,
+		left,
+	};
+	<span style="color:#75715e">/**
+</span><span style="color:#75715e">	 * @param dir: 0: right, 1: down, 2: up, 3: left
+</span><span style="color:#75715e">	 */</span>
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		cout <span style="color:#f92672">&lt;&lt;</span> track <span style="color:#f92672">&lt;&lt;</span> endl;
+		<span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
+			res <span style="color:#f92672">=</span> true;
+			<span style="color:#66d9ef">return</span>;
+		}
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
+			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
+				tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (i, j);
+				<span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
+					<span style="color:#66d9ef">continue</span>;
+				}
+				pos.insert(p);
+				track.push_back(board[i][j]);
+				<span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word) {
+					res <span style="color:#f92672">=</span> true;
+					<span style="color:#66d9ef">return</span>;
+				}
+				<span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+					<span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
+					<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
+						<span style="color:#66d9ef">int</span> r, c;
+						std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, i, j, d);
+						backtracking(board, word, r, c);
+					}
+				}
 
-                track.pop_back();
-                pos.erase(p);
-            }
-        }
-    }
+				track.pop_back();
+				pos.erase(p);
+			}
+		}
+	}
 
-    vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(right);
-        }
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(down);
-        }
+	vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(right);
+		}
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(down);
+		}
 
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(up);
-        }
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(left);
-        }
-        <span style="color:#66d9ef">return</span> r;
-    }
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(up);
+		}
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(left);
+		}
+		<span style="color:#66d9ef">return</span> r;
+	}
 
-    tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
-        <span style="color:#66d9ef">switch</span>(dir) {
-            <span style="color:#66d9ef">case</span> right:
-                col<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> left:
-                col<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> up:
-                row<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> down:
-                row<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-        }
-        tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
-        <span style="color:#66d9ef">return</span> r;
-    }
+	tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
+		<span style="color:#66d9ef">switch</span>(dir) {
+			<span style="color:#66d9ef">case</span> right:
+				col<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> left:
+				col<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> up:
+				row<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> down:
+				row<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+		}
+		tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
+		<span style="color:#66d9ef">return</span> r;
+	}
 };
 </code></pre></div><p>此时的失败用例：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">[[&quot;a&quot;,&quot;b&quot;],[&quot;c&quot;,&quot;d&quot;]]
@@ -528,103 +531,103 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 </code></pre><p>改成如果位置已经存在则返回可以通过:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
-        backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-        <span style="color:#66d9ef">return</span> res;
-    }
+	<span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
+		backtracking(board, word, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span> res;
+	}
 <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    string track;
-    <span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
-    set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
+	string track;
+	<span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
+	set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
 
-    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
-        right,
-        down,
-        up,
-        left,
-    };
-    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     * @param dir: 0: right, 1: down, 2: up, 3: left
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
-            res <span style="color:#f92672">=</span> true;
-            <span style="color:#66d9ef">return</span>;
-        }
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
-                tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (i, j);
-                <span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
-                    <span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// &lt;--------- here
-</span><span style="color:#75715e"></span>                }
-                pos.insert(p);
-                track.push_back(board[i][j]);
-                <span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                    <span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
-                    <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word) {
-                        res <span style="color:#f92672">=</span> true;
-                        <span style="color:#66d9ef">return</span>;
-                    }
-                    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
-                        <span style="color:#66d9ef">int</span> r, c;
-                        std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, i, j, d);
-                        backtracking(board, word, r, c);
-                    }
-                }
+	<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
+		right,
+		down,
+		up,
+		left,
+	};
+	<span style="color:#75715e">/**
+</span><span style="color:#75715e">	 * @param dir: 0: right, 1: down, 2: up, 3: left
+</span><span style="color:#75715e">	 */</span>
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		<span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word <span style="color:#f92672">||</span> res) {
+			res <span style="color:#f92672">=</span> true;
+			<span style="color:#66d9ef">return</span>;
+		}
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> row; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
+			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> col; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
+				tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (i, j);
+				<span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
+					<span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// &lt;--------- here
+</span><span style="color:#75715e"></span>				}
+				pos.insert(p);
+				track.push_back(board[i][j]);
+				<span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+					<span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, i, j);
+					<span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word) {
+						res <span style="color:#f92672">=</span> true;
+						<span style="color:#66d9ef">return</span>;
+					}
+					<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
+						<span style="color:#66d9ef">int</span> r, c;
+						std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, i, j, d);
+						backtracking(board, word, r, c);
+					}
+				}
 
-                track.pop_back();
-                pos.erase(p);
-            }
-        }
-    }
+				track.pop_back();
+				pos.erase(p);
+			}
+		}
+	}
 
-    vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(right);
-        }
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(down);
-        }
+	vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(right);
+		}
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(down);
+		}
 
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(up);
-        }
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(left);
-        }
-        <span style="color:#66d9ef">return</span> r;
-    }
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(up);
+		}
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(left);
+		}
+		<span style="color:#66d9ef">return</span> r;
+	}
 
-    tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
-        <span style="color:#66d9ef">switch</span>(dir) {
-            <span style="color:#66d9ef">case</span> right:
-                col<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> left:
-                col<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> up:
-                row<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> down:
-                row<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-        }
-        tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
-        <span style="color:#66d9ef">return</span> r;
-    }
+	tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
+		<span style="color:#66d9ef">switch</span>(dir) {
+			<span style="color:#66d9ef">case</span> right:
+				col<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> left:
+				col<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> up:
+				row<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> down:
+				row<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+		}
+		tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
+		<span style="color:#66d9ef">return</span> r;
+	}
 };
 </code></pre></div><p>但是在下面测试用例失败了：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">[[&quot;b&quot;],[&quot;a&quot;],[&quot;b&quot;],[&quot;b&quot;],[&quot;a&quot;]]
 &quot;baa&quot;
 </code></pre><p>简单的过滤掉：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">if</span> (board.size() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> board[<span style="color:#ae81ff">0</span>].size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
-    string s;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
-        s.push_back(board[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]);
-    }
-    <span style="color:#66d9ef">return</span> s.find(word) <span style="color:#f92672">!=</span> string<span style="color:#f92672">::</span>npos;
+	string s;
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
+		s.push_back(board[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]);
+	}
+	<span style="color:#66d9ef">return</span> s.find(word) <span style="color:#f92672">!=</span> string<span style="color:#f92672">::</span>npos;
 }
 </code></pre></div><p>现在下面失败了：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">[[&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;],[&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;a&quot;],[&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;],[&quot;b&quot;,&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;a&quot;,&quot;b&quot;],[&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;],[&quot;b&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;]]
@@ -632,93 +635,93 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 </code></pre><p>经过仔细推敲后：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
-                backtracking(board, word, i, j);
-            }
-        }
-        <span style="color:#66d9ef">return</span> res;
-    }
+	<span style="color:#66d9ef">bool</span> exist(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> board.size(); i<span style="color:#f92672">++</span>) {
+			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> board[i].size(); j<span style="color:#f92672">++</span>) {
+				backtracking(board, word, i, j);
+			}
+		}
+		<span style="color:#66d9ef">return</span> res;
+	}
 <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    string track;
-    <span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
-    set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
+	string track;
+	<span style="color:#66d9ef">bool</span> res <span style="color:#f92672">=</span> false;
+	set<span style="color:#f92672">&lt;</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> pos;
 
-    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
-        right,
-        down,
-        up,
-        left,
-    };
-    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     * @param dir: 0: right, 1: down, 2: up, 3: left
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (row, col);
-        <span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
-            <span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// &lt;--------- here
-</span><span style="color:#75715e"></span>        }
-        pos.insert(p);
-        track.push_back(board[row][col]);
-        <span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word) {
-            cout <span style="color:#f92672">&lt;&lt;</span> track <span style="color:#f92672">&lt;&lt;</span> endl;
-            res <span style="color:#f92672">=</span> true;
-            <span style="color:#66d9ef">return</span>;
-        }
-        <span style="color:#66d9ef">if</span> (res) {
-            <span style="color:#66d9ef">return</span>;
-        }
-        <span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-            cout <span style="color:#f92672">&lt;&lt;</span> row <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span> <span style="color:#f92672">&lt;&lt;</span> col <span style="color:#f92672">&lt;&lt;</span> endl;
-            <span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, row, col);
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
-                <span style="color:#66d9ef">int</span> r, c;
-                std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, row, col, d);
-                cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;  &#34;</span> <span style="color:#f92672">&lt;&lt;</span> r <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;,&#34;</span> <span style="color:#f92672">&lt;&lt;</span> c <span style="color:#f92672">&lt;&lt;</span> endl;
-                backtracking(board, word, r, c);
-            }
-        }
-        track.pop_back();
-        pos.erase(p);
-    }
+	<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
+		right,
+		down,
+		up,
+		left,
+	};
+	<span style="color:#75715e">/**
+</span><span style="color:#75715e">	 * @param dir: 0: right, 1: down, 2: up, 3: left
+</span><span style="color:#75715e">	 */</span>
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p (row, col);
+		<span style="color:#66d9ef">if</span> (pos.find(p) <span style="color:#f92672">!=</span> pos.end()) {
+			<span style="color:#66d9ef">return</span>;  <span style="color:#75715e">// &lt;--------- here
+</span><span style="color:#75715e"></span>		}
+		pos.insert(p);
+		track.push_back(board[row][col]);
+		<span style="color:#66d9ef">if</span> (track <span style="color:#f92672">==</span> word) {
+			cout <span style="color:#f92672">&lt;&lt;</span> track <span style="color:#f92672">&lt;&lt;</span> endl;
+			res <span style="color:#f92672">=</span> true;
+			<span style="color:#66d9ef">return</span>;
+		}
+		<span style="color:#66d9ef">if</span> (res) {
+			<span style="color:#66d9ef">return</span>;
+		}
+		<span style="color:#66d9ef">if</span> (word.find(track) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+			cout <span style="color:#f92672">&lt;&lt;</span> row <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span> <span style="color:#f92672">&lt;&lt;</span> col <span style="color:#f92672">&lt;&lt;</span> endl;
+			<span style="color:#66d9ef">auto</span> directions <span style="color:#f92672">=</span> get_next_directions(board, row, col);
+			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d: directions) {
+				<span style="color:#66d9ef">int</span> r, c;
+				std<span style="color:#f92672">::</span>tie(r, c) <span style="color:#f92672">=</span> next_char_pos(board, row, col, d);
+				cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;  &#34;</span> <span style="color:#f92672">&lt;&lt;</span> r <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;,&#34;</span> <span style="color:#f92672">&lt;&lt;</span> c <span style="color:#f92672">&lt;&lt;</span> endl;
+				backtracking(board, word, r, c);
+			}
+		}
+		track.pop_back();
+		pos.erase(p);
+	}
 
-    vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
-        vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(right);
-        }
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-            r.push_back(down);
-        }
+	vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> get_next_directions(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col) {
+		vector<span style="color:#f92672">&lt;</span>Direction<span style="color:#f92672">&gt;</span> r;
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&lt;</span> board[row].size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(right);
+		}
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+			r.push_back(down);
+		}
 
-        <span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(up);
-        }
-        <span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-            r.push_back(left);
-        }
-        <span style="color:#66d9ef">return</span> r;
-    }
+		<span style="color:#66d9ef">if</span> (row <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(up);
+		}
+		<span style="color:#66d9ef">if</span> (col <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+			r.push_back(left);
+		}
+		<span style="color:#66d9ef">return</span> r;
+	}
 
-    tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
-        <span style="color:#66d9ef">switch</span>(dir) {
-            <span style="color:#66d9ef">case</span> right:
-                col<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> left:
-                col<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> up:
-                row<span style="color:#f92672">--</span>;
-                <span style="color:#66d9ef">break</span>;
-            <span style="color:#66d9ef">case</span> down:
-                row<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">break</span>;
-        }
-        tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
-        <span style="color:#66d9ef">return</span> r;
-    }
+	tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> next_char_pos(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, <span style="color:#66d9ef">int</span> row, <span style="color:#66d9ef">int</span> col, Direction dir) {
+		<span style="color:#66d9ef">switch</span>(dir) {
+			<span style="color:#66d9ef">case</span> right:
+				col<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> left:
+				col<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> up:
+				row<span style="color:#f92672">--</span>;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> down:
+				row<span style="color:#f92672">++</span>;
+				<span style="color:#66d9ef">break</span>;
+		}
+		tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>r(row, col);
+		<span style="color:#66d9ef">return</span> r;
+	}
 };
 </code></pre></div><p>下面用例会导致处理事件过长：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">[[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;],[&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;A&quot;]]
@@ -1309,7 +1312,33 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -1422,14 +1451,7 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -1442,7 +1464,7 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

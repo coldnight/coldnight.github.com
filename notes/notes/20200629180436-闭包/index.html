@@ -183,20 +183,20 @@ struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, 
   <span style="color:#66d9ef">where</span> T: Fn(<span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span>
 {
   <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(calculation: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Cacher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
-    Cacher {
-      calculation,
-      value: None,
-    }
+	Cacher {
+	  calculation,
+	  value: None,
+	}
   }
 
   <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">value</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, arg: <span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span> {
-    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(value) <span style="color:#f92672">=</span> self.value {
-        value
-    } <span style="color:#66d9ef">else</span> {
-        <span style="color:#66d9ef">let</span> value <span style="color:#f92672">=</span> (self.calculation)(arg);
-        self.value <span style="color:#f92672">=</span> Some(value);
-        value
-    }
+	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(value) <span style="color:#f92672">=</span> self.value {
+		value
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">let</span> value <span style="color:#f92672">=</span> (self.calculation)(arg);
+		self.value <span style="color:#f92672">=</span> Some(value);
+		value
+	}
   }
 }
 </code></pre></div><p>闭包和函数的区别：闭包会捕捉当前环境，但是函数不会。</p>
@@ -220,6 +220,34 @@ struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, 
 
   
 
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
 
    
 
@@ -907,7 +935,7 @@ struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, 
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>

@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="目标 当跟随这篇文章完成后将产出如下内容：
+<meta name="description" content="tags: Go  目标 当跟随这篇文章完成后将产出如下内容：
  代码 http://gitlab.17zuoye.net/vgo/go-swagger-example 文档 http://swagger.17zuoye.net/?url=http%3A%2F%2F10.200.242.61%3A9090%2Fswagger.json  准备  Go1.14 及以上版本 安装 go-swagger ：参见 官方文档。 接下来使用 gin 框架作为示例，如果之前没接触过可以先了解下该框架  创建一个项目 $ mkdir go-swagger-example $ cd go-swagger-example/ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example 开始使用 首先在你的 `main.go` 定义 go generate 像下面这样：
 //go:generate swagger generate spec -o ./swagger.yml package main func main() { println(&amp;#34;Hello world!&amp;#34;); } 此时如果运行 go generate 在项目目录下就会生成一个 swagger.yml 文件：
 paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关定义 在之前实践的过程中发现，如果在多个包中定义了相同名称的结构体会到只一个结构体覆盖另外一个结构体的定义。 所以为了解决这个问题，我把所有 swagger 相关的定义都放在同一个包下来避免相同名字的结构体。" />
@@ -37,7 +37,7 @@ paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Go Swagger 实现代码即文档">
-<meta property="og:description" content="目标 当跟随这篇文章完成后将产出如下内容：
+<meta property="og:description" content="tags: Go  目标 当跟随这篇文章完成后将产出如下内容：
  代码 http://gitlab.17zuoye.net/vgo/go-swagger-example 文档 http://swagger.17zuoye.net/?url=http%3A%2F%2F10.200.242.61%3A9090%2Fswagger.json  准备  Go1.14 及以上版本 安装 go-swagger ：参见 官方文档。 接下来使用 gin 框架作为示例，如果之前没接触过可以先了解下该框架  创建一个项目 $ mkdir go-swagger-example $ cd go-swagger-example/ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example 开始使用 首先在你的 `main.go` 定义 go generate 像下面这样：
 //go:generate swagger generate spec -o ./swagger.yml package main func main() { println(&amp;#34;Hello world!&amp;#34;); } 此时如果运行 go generate 在项目目录下就会生成一个 swagger.yml 文件：
 paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关定义 在之前实践的过程中发现，如果在多个包中定义了相同名称的结构体会到只一个结构体覆盖另外一个结构体的定义。 所以为了解决这个问题，我把所有 swagger 相关的定义都放在同一个包下来避免相同名字的结构体。" />
@@ -161,7 +161,10 @@ paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关
   
 
   <div class="post-content"><div>
-        <h2 id="目标">目标<a href="#目标" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <ul>
+<li>tags: <a href="/notes/notes/20200218115725/">Go</a></li>
+</ul>
+<h2 id="目标">目标<a href="#目标" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>当跟随这篇文章完成后将产出如下内容：</p>
 <ul>
 <li>代码 <a href="http://gitlab.17zuoye.net/vgo/go-swagger-example">http://gitlab.17zuoye.net/vgo/go-swagger-example</a></li>
@@ -183,7 +186,7 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 </span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-    println(<span style="color:#e6db74">&#34;Hello world!&#34;</span>);
+	println(<span style="color:#e6db74">&#34;Hello world!&#34;</span>);
 }
 </code></pre></div><p>此时如果运行 <code>go generate</code> 在项目目录下就会生成一个 <code>swagger.yml</code> 文件：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">paths</span>: {}
@@ -227,8 +230,8 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 <span style="color:#f92672">host</span>: <span style="color:#ae81ff">10.200.242.35</span>:<span style="color:#ae81ff">8080</span>
 <span style="color:#f92672">info</span>:
   <span style="color:#f92672">contact</span>:
-    <span style="color:#f92672">email</span>: <span style="color:#ae81ff">hui.wang.a@17zuoye.com</span>
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">王会</span>
+	<span style="color:#f92672">email</span>: <span style="color:#ae81ff">hui.wang.a@17zuoye.com</span>
+	<span style="color:#f92672">name</span>: <span style="color:#ae81ff">王会</span>
   <span style="color:#f92672">description</span>: <span style="color:#ae81ff">Swagger 演示后端接口</span>
   <span style="color:#f92672">title</span>: <span style="color:#ae81ff">defines API documentation.</span>
   <span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.1.0</span>
@@ -244,7 +247,7 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">service</span>
 
 <span style="color:#f92672">import</span> (
-        <span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
 )
 
 
@@ -252,14 +255,14 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Router</span> = <span style="color:#a6e22e">Engine</span>.<span style="color:#a6e22e">Group</span>(<span style="color:#e6db74">&#34;/api&#34;</span>)
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-        <span style="color:#75715e">// Mount handlers to gin here
+	<span style="color:#75715e">// Mount handlers to gin here
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h3 id="post-提交信息">POST 提交信息<a href="#post-提交信息" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>假设我们编写一个创建用户信息的接口，需要名字和年龄两个参数。我们在 <code>service</code> 包下创建 <code>user.go</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">service</span>
 
 <span style="color:#f92672">import</span> (
-        <span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
 )
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">CreateUser</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
@@ -267,14 +270,14 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 }
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-        <span style="color:#75715e">// swagger:route POST /users users-create
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 创建用户。
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Responses:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   default: DefaultResponse
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   201: UserResponse
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">CreateUser</span>)
+	<span style="color:#75715e">// swagger:route POST /users users-create
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 创建用户。
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Responses:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   default: DefaultResponse
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   201: UserResponse
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">CreateUser</span>)
 }
 </code></pre></div><p>通过上面代码中的注释我们创建了一个 Swagger 中的 <code>route</code>  其 ID 是 <code>users-create</code> 。
 我们在注释中也声明了响应，但是我们目前还没有定义参数和对应的响应。</p>
@@ -284,29 +287,29 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 
 <span style="color:#75715e">// UserCreateForm 用于创建用户的表单，可以供 gin 使用
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserCreateForm</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34;`</span>
-        <span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age&#34;`</span>
+	<span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34;`</span>
+	<span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age&#34;`</span>
 }
 
 <span style="color:#75715e">// UserCreateParams 声明 Swagger 参数生成文档
 </span><span style="color:#75715e">// swagger:parameters users-create
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserCreateParams</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#75715e">// in: body
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">UserCreateForm</span>
+	<span style="color:#75715e">// in: body
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">UserCreateForm</span>
 }
 
 <span style="color:#75715e">// UserEntity user entity to respond
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserEntity</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">ID</span>       <span style="color:#66d9ef">uint64</span> <span style="color:#e6db74">`json:&#34;id&#34;`</span>
-        <span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34;`</span>
-        <span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age&#34;`</span>
+	<span style="color:#a6e22e">ID</span>       <span style="color:#66d9ef">uint64</span> <span style="color:#e6db74">`json:&#34;id&#34;`</span>
+	<span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34;`</span>
+	<span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age&#34;`</span>
 }
 
 <span style="color:#75715e">// UserResponse 声明 Swagger 响应用于文档生成
 </span><span style="color:#75715e">// swagger:response
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserResponse</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#75715e">// in: body
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">UserEntity</span>
+	<span style="color:#75715e">// in: body
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">UserEntity</span>
 }
 </code></pre></div><p>接下来调整 <code>swagger/swagger.go</code> 定义 <code>DefaultResponse</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Package swagger defines API documentation.
@@ -330,15 +333,15 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 
 <span style="color:#75715e">// Default default entity
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Default</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">Code</span>    <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;code&#34;`</span>
-        <span style="color:#a6e22e">Message</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;msg&#34;`</span>
+	<span style="color:#a6e22e">Code</span>    <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+	<span style="color:#a6e22e">Message</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;msg&#34;`</span>
 }
 
 <span style="color:#75715e">// DefaultResponse 默认响应，用于 Swagger 文档生成
 </span><span style="color:#75715e">// swagger:response
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">DefaultResponse</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#75715e">// in: body
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">Default</span>
+	<span style="color:#75715e">// in: body
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">Default</span>
 }
 </code></pre></div><p>现在我们运行 <code>go generate</code> 将会生成如下 <code>swagger.yml</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">basePath</span>: <span style="color:#ae81ff">/api/</span>
@@ -346,79 +349,79 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 - <span style="color:#ae81ff">application/json</span>
 <span style="color:#f92672">definitions</span>:
   <span style="color:#f92672">Default</span>:
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">Default default entity</span>
-    <span style="color:#f92672">properties</span>:
-      <span style="color:#f92672">code</span>:
-        <span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
-        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
-        <span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Code</span>
-      <span style="color:#f92672">msg</span>:
-        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
-        <span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Message</span>
-    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
-    <span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
+	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">Default default entity</span>
+	<span style="color:#f92672">properties</span>:
+	  <span style="color:#f92672">code</span>:
+		<span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
+		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
+		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Code</span>
+	  <span style="color:#f92672">msg</span>:
+		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
+		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Message</span>
+	<span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
+	<span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
   <span style="color:#f92672">UserEntity</span>:
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserEntity user entity to respond</span>
-    <span style="color:#f92672">properties</span>:
-      <span style="color:#f92672">age</span>:
-        <span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
-        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
-        <span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Age</span>
-      <span style="color:#f92672">id</span>:
-        <span style="color:#f92672">format</span>: <span style="color:#ae81ff">uint64</span>
-        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
-        <span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">ID</span>
-      <span style="color:#f92672">username</span>:
-        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
-        <span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Username</span>
-    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
-    <span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
+	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserEntity user entity to respond</span>
+	<span style="color:#f92672">properties</span>:
+	  <span style="color:#f92672">age</span>:
+		<span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
+		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
+		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Age</span>
+	  <span style="color:#f92672">id</span>:
+		<span style="color:#f92672">format</span>: <span style="color:#ae81ff">uint64</span>
+		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
+		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">ID</span>
+	  <span style="color:#f92672">username</span>:
+		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
+		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Username</span>
+	<span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
+	<span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
   <span style="color:#f92672">UserCreateForm</span>:
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserCreateForm 用于创建用户的表单，可以供 gin 使用</span>
-    <span style="color:#f92672">properties</span>:
-      <span style="color:#f92672">age</span>:
-        <span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
-        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
-        <span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Age</span>
-      <span style="color:#f92672">username</span>:
-        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
-        <span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Username</span>
-    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
-    <span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
+	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserCreateForm 用于创建用户的表单，可以供 gin 使用</span>
+	<span style="color:#f92672">properties</span>:
+	  <span style="color:#f92672">age</span>:
+		<span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
+		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
+		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Age</span>
+	  <span style="color:#f92672">username</span>:
+		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
+		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Username</span>
+	<span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
+	<span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
 <span style="color:#f92672">host</span>: <span style="color:#ae81ff">10.200.242.35</span>:<span style="color:#ae81ff">8080</span>
 <span style="color:#f92672">info</span>:
   <span style="color:#f92672">contact</span>:
-    <span style="color:#f92672">email</span>: <span style="color:#ae81ff">hui.wang.a@17zuoye.com</span>
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">王会</span>
+	<span style="color:#f92672">email</span>: <span style="color:#ae81ff">hui.wang.a@17zuoye.com</span>
+	<span style="color:#f92672">name</span>: <span style="color:#ae81ff">王会</span>
   <span style="color:#f92672">description</span>: <span style="color:#ae81ff">Swagger 演示后端接口</span>
   <span style="color:#f92672">title</span>: <span style="color:#ae81ff">defines API documentation.</span>
   <span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.1.0</span>
 <span style="color:#f92672">paths</span>:
   <span style="color:#f92672">/users</span>:
-    <span style="color:#f92672">post</span>:
-      <span style="color:#f92672">operationId</span>: <span style="color:#ae81ff">users-create</span>
-      <span style="color:#f92672">parameters</span>:
-      - <span style="color:#f92672">in</span>: <span style="color:#ae81ff">body</span>
-        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Body</span>
-        <span style="color:#f92672">schema</span>:
-          <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/UserCreateForm&#39;</span>
-      <span style="color:#f92672">responses</span>:
-        <span style="color:#e6db74">&#34;201&#34;</span>:
-          <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/responses/UserResponse&#39;</span>
-        <span style="color:#f92672">default</span>:
-          <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/responses/DefaultResponse&#39;</span>
-      <span style="color:#f92672">summary</span>: <span style="color:#ae81ff">创建用户。</span>
+	<span style="color:#f92672">post</span>:
+	  <span style="color:#f92672">operationId</span>: <span style="color:#ae81ff">users-create</span>
+	  <span style="color:#f92672">parameters</span>:
+	  - <span style="color:#f92672">in</span>: <span style="color:#ae81ff">body</span>
+		<span style="color:#f92672">name</span>: <span style="color:#ae81ff">Body</span>
+		<span style="color:#f92672">schema</span>:
+		  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/UserCreateForm&#39;</span>
+	  <span style="color:#f92672">responses</span>:
+		<span style="color:#e6db74">&#34;201&#34;</span>:
+		  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/responses/UserResponse&#39;</span>
+		<span style="color:#f92672">default</span>:
+		  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/responses/DefaultResponse&#39;</span>
+	  <span style="color:#f92672">summary</span>: <span style="color:#ae81ff">创建用户。</span>
 <span style="color:#f92672">produces</span>:
 - <span style="color:#ae81ff">application/vnd.17zuoye.v1+json</span>
 <span style="color:#f92672">responses</span>:
   <span style="color:#f92672">DefaultResponse</span>:
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">DefaultResponse 默认响应，用于 Swagger 文档生成</span>
-    <span style="color:#f92672">schema</span>:
-      <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/Default&#39;</span>
+	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">DefaultResponse 默认响应，用于 Swagger 文档生成</span>
+	<span style="color:#f92672">schema</span>:
+	  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/Default&#39;</span>
   <span style="color:#f92672">UserResponse</span>:
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserResponse 声明 Swagger 响应用于文档生成</span>
-    <span style="color:#f92672">schema</span>:
-      <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/UserEntity&#39;</span>
+	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserResponse 声明 Swagger 响应用于文档生成</span>
+	<span style="color:#f92672">schema</span>:
+	  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/UserEntity&#39;</span>
 <span style="color:#f92672">schemes</span>:
 - <span style="color:#ae81ff">http</span>
 <span style="color:#f92672">swagger</span>: <span style="color:#e6db74">&#34;2.0&#34;</span>
@@ -429,7 +432,7 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">service</span>
 
 <span style="color:#f92672">import</span> (
-        <span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
 )
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">CreateUser</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
@@ -441,72 +444,72 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 }
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-        <span style="color:#75715e">// swagger:route POST /users users-create
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 创建用户。
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Responses:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   default: DefaultResponse
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   201: UserResponse
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">CreateUser</span>)
+	<span style="color:#75715e">// swagger:route POST /users users-create
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 创建用户。
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Responses:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   default: DefaultResponse
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   201: UserResponse
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">CreateUser</span>)
 
-        <span style="color:#75715e">// swagger:route GET /users users-query
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 查询用户。
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Respones:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   default: DefaultResponse
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   200: UsersResponse
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">QueryUsers</span>)
+	<span style="color:#75715e">// swagger:route GET /users users-query
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 查询用户。
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Respones:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   default: DefaultResponse
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   200: UsersResponse
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">QueryUsers</span>)
 }
 </code></pre></div><p>接下来调整 <code>swagger/user.go</code> 定义参数和响应：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">swagger</span>
 
 <span style="color:#75715e">// UserCreateForm 用于创建用户的表单，可以供 gin 使用
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserCreateForm</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34;`</span>
-        <span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age&#34;`</span>
+	<span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34;`</span>
+	<span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age&#34;`</span>
 }
 
 <span style="color:#75715e">// UserCreateParams 声明 Swagger 参数生成文档
 </span><span style="color:#75715e">// swagger:parameters users-create
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserCreateParams</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#75715e">// in: body
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">UserCreateForm</span>
+	<span style="color:#75715e">// in: body
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">UserCreateForm</span>
 }
 
 <span style="color:#75715e">// UserEntity user entity to respond
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserEntity</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">ID</span>       <span style="color:#66d9ef">uint64</span> <span style="color:#e6db74">`json:&#34;id&#34;`</span>
-        <span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34;`</span>
-        <span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age&#34;`</span>
+	<span style="color:#a6e22e">ID</span>       <span style="color:#66d9ef">uint64</span> <span style="color:#e6db74">`json:&#34;id&#34;`</span>
+	<span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34;`</span>
+	<span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age&#34;`</span>
 }
 
 <span style="color:#75715e">// UserResponse 声明 Swagger 响应用于文档生成
 </span><span style="color:#75715e">// swagger:response
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserResponse</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#75715e">// in: body
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">UserEntity</span>
+	<span style="color:#75715e">// in: body
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Body</span> <span style="color:#a6e22e">UserEntity</span>
 }
 
 <span style="color:#75715e">// UserQueryParams 声明 Swagger 参数生成文档
 </span><span style="color:#75715e">// swagger:parameters users-query
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserQueryParams</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#75715e">// json tag 用于 swagger
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// in: query
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34; form:&#34;username&#34;`</span>
+	<span style="color:#75715e">// json tag 用于 swagger
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// in: query
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;username&#34; form:&#34;username&#34;`</span>
 }
 
 <span style="color:#75715e">// UsersResponse 用户列表响应
 </span><span style="color:#75715e">// swagger:response
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UsersResponse</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#75715e">// in: body
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Body</span> <span style="color:#66d9ef">struct</span> {
-                <span style="color:#a6e22e">Page</span>    <span style="color:#66d9ef">int</span>          <span style="color:#e6db74">`json:&#34;page&#34;`</span>
-                <span style="color:#a6e22e">PerPage</span> <span style="color:#66d9ef">int</span>          <span style="color:#e6db74">`json:&#34;perPage&#34;`</span>
-                <span style="color:#a6e22e">Total</span>   <span style="color:#66d9ef">int</span>          <span style="color:#e6db74">`json:&#34;total&#34;`</span>
-                <span style="color:#a6e22e">Users</span>   []<span style="color:#a6e22e">UserEntity</span> <span style="color:#e6db74">`json:&#34;users&#34;`</span>
-        }
+	<span style="color:#75715e">// in: body
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Body</span> <span style="color:#66d9ef">struct</span> {
+		<span style="color:#a6e22e">Page</span>    <span style="color:#66d9ef">int</span>          <span style="color:#e6db74">`json:&#34;page&#34;`</span>
+		<span style="color:#a6e22e">PerPage</span> <span style="color:#66d9ef">int</span>          <span style="color:#e6db74">`json:&#34;perPage&#34;`</span>
+		<span style="color:#a6e22e">Total</span>   <span style="color:#66d9ef">int</span>          <span style="color:#e6db74">`json:&#34;total&#34;`</span>
+		<span style="color:#a6e22e">Users</span>   []<span style="color:#a6e22e">UserEntity</span> <span style="color:#e6db74">`json:&#34;users&#34;`</span>
+	}
 }
 </code></pre></div><p>运行 <code>go generate &amp;&amp; swagger serve -F swagger swagger.yml</code> 可查看效果。</p>
 <h3 id="url-中-path-参数">URL 中 Path 参数<a href="#url-中-path-参数" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
@@ -516,7 +519,7 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">service</span>
 
 <span style="color:#f92672">import</span> (
-        <span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
 )
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">CreateUser</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
@@ -532,44 +535,44 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 }
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-        <span style="color:#75715e">// swagger:route POST /users users-create
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 创建用户。
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Responses:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   default: DefaultResponse
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   201: UserResponse
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">CreateUser</span>)
+	<span style="color:#75715e">// swagger:route POST /users users-create
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 创建用户。
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Responses:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   default: DefaultResponse
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   201: UserResponse
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">CreateUser</span>)
 
-        <span style="color:#75715e">// swagger:route GET /users users-query
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 查询用户。
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Responses:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   default: DefaultResponse
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   200: UsersResponse
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">QueryUsers</span>)
+	<span style="color:#75715e">// swagger:route GET /users users-query
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 查询用户。
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Responses:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   default: DefaultResponse
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   200: UsersResponse
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">QueryUsers</span>)
 
-        <span style="color:#75715e">// swagger:operation PATCH /users/{userId} users-update
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 更新用户信息。
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// ---
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// parameters:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// - in: path
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   name: userId
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   type: int
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   description: 用户 ID
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// - in: body
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   name: Body
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//   schema:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//     &#34;$ref&#34;: &#34;#/definitions/UserCreateForm&#34;
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// respones:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//  &#34;200&#34;:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//    &#34;$ref&#34;: &#34;#/responses/UserResponse&#34;
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//  &#34;default&#34;:
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//    &#34;$ref&#34;: &#34;#/responses/DefaultResponse&#34;
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">PATCH</span>(<span style="color:#e6db74">&#34;/users/:id&#34;</span>, <span style="color:#a6e22e">UpdateUser</span>)
+	<span style="color:#75715e">// swagger:operation PATCH /users/{userId} users-update
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 更新用户信息。
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// ---
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// parameters:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// - in: path
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   name: userId
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   type: int
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   description: 用户 ID
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// - in: body
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   name: Body
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//   schema:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//     &#34;$ref&#34;: &#34;#/definitions/UserCreateForm&#34;
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// respones:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//  &#34;200&#34;:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//    &#34;$ref&#34;: &#34;#/responses/UserResponse&#34;
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//  &#34;default&#34;:
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//    &#34;$ref&#34;: &#34;#/responses/DefaultResponse&#34;
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Router</span>.<span style="color:#a6e22e">PATCH</span>(<span style="color:#e6db74">&#34;/users/:id&#34;</span>, <span style="color:#a6e22e">UpdateUser</span>)
 }
 </code></pre></div><h2 id="部署">部署<a href="#部署" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>可以通过 CI/CD 生成 <code>swagger.yml</code> 进行部署，然后将对应的 JSON 地址结合公司 <a href="http://swagger.17zuoye.net/">http://swagger.17zuoye.net/</a>
@@ -1184,7 +1187,33 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
    
 
    
-      
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
    
 
    
@@ -1249,14 +1278,7 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20200218115725/">Go</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
@@ -1269,7 +1291,7 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
         <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
       </div>
