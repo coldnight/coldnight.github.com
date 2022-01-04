@@ -6,7 +6,380 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 04 Jan 2022 10:43:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 04 Jan 2022 11:36:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flink: Exactly Once Guarantees</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104113644-flink_exactly_once_guarantees/</link>
+      <pubDate>Tue, 04 Jan 2022 11:36:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104113644-flink_exactly_once_guarantees/</guid>
+      <description>tags: Flink State Snapshots,Fault Tolerance via State Snapshots source: https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#exactly-once-guarantees  Depending on the choices you make, Flink possiable outcomes:
+ Flink makes no effort to recover from failures (at most once) Nothing is lost, but you may experience duplicated results (at least once) Nothing is lost or duplicated (exactly once)   Given that Flink recovers from faults by rewinding and replaying the source data streams, when the ideal situation is described as exactly once this does not mean that every event will be processed exactly once.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111119-flink_state_snapshots/&#34;&gt;Flink State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111325-fault_tolerance_via_state_snapshots/&#34;&gt;Fault Tolerance via State Snapshots&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#exactly-once-guarantees&#34;&gt;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#exactly-once-guarantees&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Depending on the choices you make, Flink possiable outcomes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Flink makes no effort to recover from failures (at most once)&lt;/li&gt;
+&lt;li&gt;Nothing is lost, but you may experience duplicated results (at least once)&lt;/li&gt;
+&lt;li&gt;Nothing is lost or duplicated (exactly once)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Given that Flink recovers from faults by rewinding and replaying the source data streams, when the ideal situation is described as exactly once this does not mean that every event will be processed exactly once. Instead, it means that every event will affect the state being managed by Flink exactly once.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;exactly-once-end-to-end&#34;&gt;Exactly Once End-to-end&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;To achieve exactly once end-to-end, so that every event from the sources affects the sinks exactly once, the following must be true:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;your sources must be replayable, and&lt;/li&gt;
+&lt;li&gt;your sinks must be transactional (or idempotent)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Wikipedia: Chandy–Lamport algorithm</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104112626-wikipedia_chandy_lamport_algorithm/</link>
+      <pubDate>Tue, 04 Jan 2022 11:26:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104112626-wikipedia_chandy_lamport_algorithm/</guid>
+      <description> tags: 分布式 source: https://en.wikipedia.org/wiki/Chandy%E2%80%93Lamport%5Falgorithm  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320174417_%E5%88%86%E5%B8%83%E5%BC%8F/&#34;&gt;分布式&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://en.wikipedia.org/wiki/Chandy%E2%80%93Lamport%5Falgorithm&#34;&gt;https://en.wikipedia.org/wiki/Chandy%E2%80%93Lamport%5Falgorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Flink: How does State Snapshotting Work?</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104112527-flink_how_does_state_snapshotting_work/</link>
+      <pubDate>Tue, 04 Jan 2022 11:25:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104112527-flink_how_does_state_snapshotting_work/</guid>
+      <description>tags: Fault Tolerance via State Snapshots,Flink State Snapshots,Wikipedia: Chandy–Lamport algorithm source: https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#how-does-state-snapshotting-work  Workflow:
+  Checkpoint coordinator (part of the job manager) instructs a task manager to begin a checkpoint.
+  Insert numbered checkpoint barriers into their streams of all the sources record their offsets.
+  checkpoint barriers flow through the job graph, indicating the part of the stream before and after each checkpoint.
+Checkpoint n will contain the state of each operator that resulted from having consumed every event before checkpoint barrier n, and none of the events after it.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111325-fault_tolerance_via_state_snapshots/&#34;&gt;Fault Tolerance via State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111119-flink_state_snapshots/&#34;&gt;Flink State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104112626-wikipedia_chandy_lamport_algorithm/&#34;&gt;Wikipedia: Chandy–Lamport algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#how-does-state-snapshotting-work&#34;&gt;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#how-does-state-snapshotting-work&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Workflow:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Checkpoint coordinator (part of the job manager) instructs a task manager to begin a checkpoint.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Insert numbered &lt;em&gt;checkpoint barriers&lt;/em&gt; into their streams of all the sources record their offsets.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;checkpoint barriers&lt;/em&gt; flow through the job graph, indicating the part of the stream before and after each checkpoint.&lt;/p&gt;
+&lt;p&gt;Checkpoint &lt;em&gt;n&lt;/em&gt; will contain the state of each operator that resulted from having consumed &lt;strong&gt;every event before checkpoint barrier n, and none of the events after it&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;As each operator in the job graph receives one of these barriers, it records its state.&lt;/p&gt;
+&lt;p&gt;Operators with two input streams (such as a CoProcessFunction) perform barrier alignment so that the snapshot will reflect the state resulting from consuming events from both input streams up to (but not past) both barriers.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/2022-01-04_11-31-22_stream_barriers.svg&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;h2 id=&#34;asynchronously-snapshot&#34;&gt;Asynchronously snapshot&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Flink’s state backends use a copy-on-write mechanism to allow stream processing to continue unimpeded while older versions of the state are being asynchronously snapshotted. Only when the snapshots have been durably persisted will these older versions of the state be garbage collected.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Flink Checkpoint</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104112356-flink_checkpoint/</link>
+      <pubDate>Tue, 04 Jan 2022 11:23:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104112356-flink_checkpoint/</guid>
+      <description> tags: Flink State Snapshots,Fault Tolerance via State Snapshots   a snapshot taken automatically by Flink for the purpose of being able to recover from faults. Checkpoints can be incremental, and are optimized for being restored quickly.
+ </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111119-flink_state_snapshots/&#34;&gt;Flink State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111325-fault_tolerance_via_state_snapshots/&#34;&gt;Fault Tolerance via State Snapshots&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;a snapshot taken automatically by Flink for the purpose of being able to recover from faults. Checkpoints can be incremental, and are optimized for being restored quickly.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Flink Savepoint</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104112301-flink_savepoint/</link>
+      <pubDate>Tue, 04 Jan 2022 11:23:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104112301-flink_savepoint/</guid>
+      <description> tags: Flink State Snapshots   a snapshot triggered manually by a user (or an API call) for some operational purpose, such as a stateful redeploy/upgrade/rescaling operation. Savepoints are always complete, and are optimized for operational flexibility.
+ </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111119-flink_state_snapshots/&#34;&gt;Flink State Snapshots&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;a snapshot triggered manually by a user (or an API call) for some operational purpose, such as a stateful redeploy/upgrade/rescaling operation. Savepoints are always complete, and are optimized for operational flexibility.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Flink Checkpoint Storage</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104111922-flink_checkpoint_storage/</link>
+      <pubDate>Tue, 04 Jan 2022 11:19:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104111922-flink_checkpoint_storage/</guid>
+      <description>tags: Flink State Snapshots,Fault Tolerance via State Snapshots,Flink Checkpoint source: https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#checkpoint-storage   Flink periodically takes persistent snapshots of all the state in every operator and copies these snapshots somewhere more durable, such as a distributed file system. In the event of the failure, Flink can restore the complete state of your application and resume processing as though nothing had gone wrong.
+ Two implementations:
+ A distributed file system.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111119-flink_state_snapshots/&#34;&gt;Flink State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111325-fault_tolerance_via_state_snapshots/&#34;&gt;Fault Tolerance via State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104112356-flink_checkpoint/&#34;&gt;Flink Checkpoint&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#checkpoint-storage&#34;&gt;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#checkpoint-storage&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Flink periodically takes persistent snapshots of all the state in every operator and copies these snapshots somewhere more durable, such as a distributed file system. In the event of the failure, Flink can restore the complete state of your application and resume processing as though nothing had gone wrong.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Two implementations:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A distributed file system.&lt;/li&gt;
+&lt;li&gt;JobManager’s heap.&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>State Backends</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104111432-state_backends/</link>
+      <pubDate>Tue, 04 Jan 2022 11:14:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104111432-state_backends/</guid>
+      <description>tags: Flink State Snapshots,Fault Tolerance via State Snapshots,Stateful Stream Processing  Two implementations of state backends are available:
+RocksDB An embedded key/value store keeps its working state on disk.
+Overhead Accesses and updates involve serialization and deserialization.
+Java heap-based state backend Keeps its working state in memory, on the Java heap.
+Risk Large amount state will cause OOM.
+Conclusion  Both of these state backends are able to do asynchronous snapshotting, meaning that they can take a snapshot without impeding the ongoing stream processing.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111119-flink_state_snapshots/&#34;&gt;Flink State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111325-fault_tolerance_via_state_snapshots/&#34;&gt;Fault Tolerance via State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104105853-stateful_stream_processing/&#34;&gt;Stateful Stream Processing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Two implementations of state backends are available:&lt;/p&gt;
+&lt;h2 id=&#34;rocksdb&#34;&gt;RocksDB&lt;/h2&gt;
+&lt;p&gt;An embedded key/value store keeps its working state on disk.&lt;/p&gt;
+&lt;h3 id=&#34;overhead&#34;&gt;Overhead&lt;/h3&gt;
+&lt;p&gt;Accesses and updates involve serialization and deserialization.&lt;/p&gt;
+&lt;h2 id=&#34;java-heap-based-state-backend&#34;&gt;Java heap-based state backend&lt;/h2&gt;
+&lt;p&gt;Keeps its working state in memory, on the Java heap.&lt;/p&gt;
+&lt;h3 id=&#34;risk&#34;&gt;Risk&lt;/h3&gt;
+&lt;p&gt;Large amount state will cause OOM.&lt;/p&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Both of these state backends are able to do asynchronous snapshotting, meaning that they can take a snapshot without impeding the ongoing stream processing.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Fault Tolerance via State Snapshots</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104111325-fault_tolerance_via_state_snapshots/</link>
+      <pubDate>Tue, 04 Jan 2022 11:13:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104111325-fault_tolerance_via_state_snapshots/</guid>
+      <description> tags: Flink State Snapshots,Stateful Stream Processing source: https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111119-flink_state_snapshots/&#34;&gt;Flink State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104105853-stateful_stream_processing/&#34;&gt;Stateful Stream Processing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/&#34;&gt;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Flink State Snapshots</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104111119-flink_state_snapshots/</link>
+      <pubDate>Tue, 04 Jan 2022 11:11:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104111119-flink_state_snapshots/</guid>
+      <description> tags: Stateful Stream Processing  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104105853-stateful_stream_processing/&#34;&gt;Stateful Stream Processing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Stateful Stream Processing</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104105853-stateful_stream_processing/</link>
+      <pubDate>Tue, 04 Jan 2022 10:58:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104105853-stateful_stream_processing/</guid>
+      <description>tags: Stream processing,Flink source:  https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/overview/#stateful-stream-processing https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/concepts/stateful-stream-processing/     This means that how one event is handled can depend on the accumulated effect of all the events that came before it.
+ How the stateful streaming processing works on a distributed cluster?  The set of parallel instances of a stateful operator is effectively a sharded key-value store. Each parallel instance is responsible for handling events for a specific group of keys, and the state for those keys is kept locally.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104105119-stream_processing/&#34;&gt;Stream processing&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100601_flink/&#34;&gt;Flink&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source:
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/overview/#stateful-stream-processing&#34;&gt;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/overview/#stateful-stream-processing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/concepts/stateful-stream-processing/&#34;&gt;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/concepts/stateful-stream-processing/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This means that how one event is handled can depend on the accumulated effect of all the events that came before it.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;how-the-stateful-streaming-processing-works-on-a-distributed-cluster&#34;&gt;How the stateful streaming processing works on  a distributed cluster?&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The set of parallel instances of a stateful operator is effectively a sharded key-value store. Each parallel instance is responsible for handling events for a specific group of keys, and the state for those keys is kept locally.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;State are stored and accessed locally by sharded key-value store,&lt;/li&gt;
+&lt;li&gt;A fully-connected network shuffle will be occurring between all the instances,&lt;/li&gt;
+&lt;li&gt;All of the events that will be processed together.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;State is always accessed locally, which helps Flink applications achieve high throughput and low-latency. You can choose to keep state on the JVM heap, or if it is too large, in efficiently organized on-disk data structures.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;some-examples-of-stateful-operations&#34;&gt;Some examples of stateful operations&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;When an application searches for certain event patterns, the state will store the sequence of events encountered so far.&lt;/li&gt;
+&lt;li&gt;When aggregating events per minute/hour/day, the state holds the pending aggregates.&lt;/li&gt;
+&lt;li&gt;When training a machine learning model over a stream of data points, the state holds the current version of the model parameters.&lt;/li&gt;
+&lt;li&gt;When historic data needs to be managed, the state allows efficient access to events that occurred in the past.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Timely Stream Processing</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104105829-timely_stream_processing/</link>
+      <pubDate>Tue, 04 Jan 2022 10:58:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104105829-timely_stream_processing/</guid>
+      <description>tags: Stream processing,Flink source: https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/overview/#timely-stream-processing  Flink timely stream processing support by using event timestamps that are recorded in data stream, rather than using the clocks of the machines processing the data.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104105119-stream_processing/&#34;&gt;Stream processing&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100601_flink/&#34;&gt;Flink&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/overview/#timely-stream-processing&#34;&gt;https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/overview/#timely-stream-processing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Flink timely stream processing support by using event timestamps that are recorded in data stream, rather than using the clocks of the machines processing the data.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Flink Redistributing</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104105758-flink_redistributing/</link>
+      <pubDate>Tue, 04 Jan 2022 10:57:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104105758-flink_redistributing/</guid>
+      <description>tags: Flink Parallel Dataflows   Redistributing streams (as between map() and keyBy/window above, as well as between keyBy/window and Sink) change the partitioning of streams. Each operator subtask sends data to different target subtasks, depending on the selected transformation. Examples are keyBy() (which re-partitions by hashing the key), broadcast(), or rebalance() (which re-partitions randomly). In a redistributing exchange the ordering among the elements is only preserved within each pair of sending and receiving subtasks (for example, subtask[1] of map() and subtask[2] of keyBy/window).</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104105628-flink_parallel_dataflows/&#34;&gt;Flink Parallel Dataflows&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Redistributing streams (as between map() and keyBy/window above, as well as between keyBy/window and Sink) change the partitioning of streams. Each operator subtask sends data to different target subtasks, depending on the selected transformation. Examples are keyBy() (which re-partitions by hashing the key), broadcast(), or rebalance() (which re-partitions randomly). In a redistributing exchange the ordering among the elements is only preserved within each pair of sending and receiving subtasks (for example, subtask[1] of map() and subtask[2] of keyBy/window). So, for example, the redistribution between the keyBy/window and the Sink operators shown above introduces non-determinism regarding the order in which the aggregated results for different keys arrive at the Sink.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>One-to-one</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104105704-one_to_one/</link>
+      <pubDate>Tue, 04 Jan 2022 10:57:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104105704-one_to_one/</guid>
+      <description> tags: Flink Parallel Dataflows   One-to-one streams (for example between the Source and the map() operators in the figure above) preserve the partitioning and ordering of the elements. That means that subtask[1] of the map() operator will see the same elements in the same order as they were produced by subtask[1] of the Source operator.
+ </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104105628-flink_parallel_dataflows/&#34;&gt;Flink Parallel Dataflows&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;One-to-one streams (for example between the Source and the map() operators in the figure above) preserve the partitioning and ordering of the elements. That means that subtask[1] of the map() operator will see the same elements in the same order as they were produced by subtask[1] of the Source operator.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Flink Parallel Dataflows</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104105628-flink_parallel_dataflows/</link>
+      <pubDate>Tue, 04 Jan 2022 10:56:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104105628-flink_parallel_dataflows/</guid>
+      <description> tags: Flink   Streams can transport data between two operators in a one-to-one (or forwarding) pattern, or in a redistributing pattern:
+ </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100601_flink/&#34;&gt;Flink&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Streams can transport data between two operators in a one-to-one (or forwarding) pattern, or in a redistributing pattern:&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Stream processing</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104105119-stream_processing/</link>
+      <pubDate>Tue, 04 Jan 2022 10:51:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104105119-stream_processing/</guid>
+      <description> tags: Flink   Stream processing, on the other hand, involves unbounded data streams. Conceptually, at least, the input may never end, and so you are forced to continuously process the data as it arrives.
+ </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100601_flink/&#34;&gt;Flink&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Stream processing, on the other hand, involves unbounded data streams. Conceptually, at least, the input may never end, and so you are forced to continuously process the data as it arrives.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Batch processing</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104105030-batch_processing/</link>
+      <pubDate>Tue, 04 Jan 2022 10:50:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104105030-batch_processing/</guid>
+      <description> tags: Spark   Batch processing is the paradigm at work when you process a bounded data stream. In this mode of operation you can choose to ingest the entire dataset before producing any results, which means that it is possible, for example, to sort the data, compute global statistics, or produce a final report that summarizes all of the input.
+ </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210827080540-spark/&#34;&gt;Spark&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Batch processing is the paradigm at work when you process a bounded data stream. In this mode of operation you can choose to ingest the entire dataset before producing any results, which means that it is possible, for example, to sort the data, compute global statistics, or produce a final report that summarizes all of the input.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Flink实时计算-深入理解 Checkpoint和Savepoint</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104104436-flink%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97_%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3_checkpoint%E5%92%8Csavepoint/</link>
+      <pubDate>Tue, 04 Jan 2022 10:44:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104104436-flink%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97_%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3_checkpoint%E5%92%8Csavepoint/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>知乎：Flink实时计算-深入理解 Checkpoint和Savepoint</title>
+      <link>https://www.linuxzen.com/notes/notes/20220104104450-%E7%9F%A5%E4%B9%8E_flink%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97_%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3_checkpoint%E5%92%8Csavepoint/</link>
+      <pubDate>Tue, 04 Jan 2022 10:44:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220104104450-%E7%9F%A5%E4%B9%8E_flink%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97_%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3_checkpoint%E5%92%8Csavepoint/</guid>
+      <description> tags: Flink,Flink State Snapshots,Flink Checkpoint,Flink Savepoint source: https://zhuanlan.zhihu.com/p/79526638  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100601_flink/&#34;&gt;Flink&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104111119-flink_state_snapshots/&#34;&gt;Flink State Snapshots&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104112356-flink_checkpoint/&#34;&gt;Flink Checkpoint&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104112301-flink_savepoint/&#34;&gt;Flink Savepoint&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://zhuanlan.zhihu.com/p/79526638&#34;&gt;https://zhuanlan.zhihu.com/p/79526638&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>GitHub: 像小说一样品读 Linux 0.11 核心代码</title>
       <link>https://www.linuxzen.com/notes/notes/20220104104331-github_%E5%83%8F%E5%B0%8F%E8%AF%B4%E4%B8%80%E6%A0%B7%E5%93%81%E8%AF%BB_linux_0_11_%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81/</link>

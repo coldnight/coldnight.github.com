@@ -139,6 +139,589 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104113644-flink_exactly_once_guarantees/">Flink: Exactly Once Guarantees</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Flink State Snapshots,Fault Tolerance via State Snapshots source: https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#exactly-once-guarantees  Depending on the choices you make, Flink possiable outcomes:
+ Flink makes no effort to recover from failures (at most once) Nothing is lost, but you may experience duplicated results (at least once) Nothing is lost or duplicated (exactly once)   Given that Flink recovers from faults by rewinding and replaying the source data streams, when the ideal situation is described as exactly once this does not mean that every event will be processed exactly once.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104113644-flink_exactly_once_guarantees/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104112626-wikipedia_chandy_lamport_algorithm/">Wikipedia: Chandy–Lamport algorithm</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104112626-wikipedia_chandy_lamport_algorithm/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104112527-flink_how_does_state_snapshotting_work/">Flink: How does State Snapshotting Work?</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Fault Tolerance via State Snapshots,Flink State Snapshots,Wikipedia: Chandy–Lamport algorithm source: https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#how-does-state-snapshotting-work  Workflow:
+  Checkpoint coordinator (part of the job manager) instructs a task manager to begin a checkpoint.
+  Insert numbered checkpoint barriers into their streams of all the sources record their offsets.
+  checkpoint barriers flow through the job graph, indicating the part of the stream before and after each checkpoint.
+Checkpoint n will contain the state of each operator that resulted from having consumed every event before checkpoint barrier n, and none of the events after it.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104112527-flink_how_does_state_snapshotting_work/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104112356-flink_checkpoint/">Flink Checkpoint</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104112356-flink_checkpoint/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104112301-flink_savepoint/">Flink Savepoint</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104112301-flink_savepoint/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104111922-flink_checkpoint_storage/">Flink Checkpoint Storage</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Flink State Snapshots,Fault Tolerance via State Snapshots,Flink Checkpoint source: https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/fault%5Ftolerance/#checkpoint-storage   Flink periodically takes persistent snapshots of all the state in every operator and copies these snapshots somewhere more durable, such as a distributed file system. In the event of the failure, Flink can restore the complete state of your application and resume processing as though nothing had gone wrong.
+ Two implementations:
+ A distributed file system.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104111922-flink_checkpoint_storage/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104111432-state_backends/">State Backends</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Flink State Snapshots,Fault Tolerance via State Snapshots,Stateful Stream Processing  Two implementations of state backends are available:
+RocksDB An embedded key/value store keeps its working state on disk.
+Overhead Accesses and updates involve serialization and deserialization.
+Java heap-based state backend Keeps its working state in memory, on the Java heap.
+Risk Large amount state will cause OOM.
+Conclusion  Both of these state backends are able to do asynchronous snapshotting, meaning that they can take a snapshot without impeding the ongoing stream processing.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104111432-state_backends/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104111325-fault_tolerance_via_state_snapshots/">Fault Tolerance via State Snapshots</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104111325-fault_tolerance_via_state_snapshots/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104111119-flink_state_snapshots/">Flink State Snapshots</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104111119-flink_state_snapshots/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104105853-stateful_stream_processing/">Stateful Stream Processing</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Stream processing,Flink source:  https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/learn-flink/overview/#stateful-stream-processing https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/concepts/stateful-stream-processing/     This means that how one event is handled can depend on the accumulated effect of all the events that came before it.
+ How the stateful streaming processing works on a distributed cluster?  The set of parallel instances of a stateful operator is effectively a sharded key-value store. Each parallel instance is responsible for handling events for a specific group of keys, and the state for those keys is kept locally.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104105853-stateful_stream_processing/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104105829-timely_stream_processing/">Timely Stream Processing</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104105829-timely_stream_processing/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104105758-flink_redistributing/">Flink Redistributing</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Flink Parallel Dataflows   Redistributing streams (as between map() and keyBy/window above, as well as between keyBy/window and Sink) change the partitioning of streams. Each operator subtask sends data to different target subtasks, depending on the selected transformation. Examples are keyBy() (which re-partitions by hashing the key), broadcast(), or rebalance() (which re-partitions randomly). In a redistributing exchange the ordering among the elements is only preserved within each pair of sending and receiving subtasks (for example, subtask[1] of map() and subtask[2] of keyBy/window).
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104105758-flink_redistributing/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104105704-one_to_one/">One-to-one</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104105704-one_to_one/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104105628-flink_parallel_dataflows/">Flink Parallel Dataflows</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104105628-flink_parallel_dataflows/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104105119-stream_processing/">Stream processing</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104105119-stream_processing/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104105030-batch_processing/">Batch processing</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104105030-batch_processing/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104104436-flink%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97_%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3_checkpoint%E5%92%8Csavepoint/">Flink实时计算-深入理解 Checkpoint和Savepoint</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104104436-flink%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97_%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3_checkpoint%E5%92%8Csavepoint/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104104450-%E7%9F%A5%E4%B9%8E_flink%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97_%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3_checkpoint%E5%92%8Csavepoint/">知乎：Flink实时计算-深入理解 Checkpoint和Savepoint</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104104450-%E7%9F%A5%E4%B9%8E_flink%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97_%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3_checkpoint%E5%92%8Csavepoint/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20220104104331-github_%E5%83%8F%E5%B0%8F%E8%AF%B4%E4%B8%80%E6%A0%B7%E5%93%81%E8%AF%BB_linux_0_11_%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81/">GitHub: 像小说一样品读 Linux 0.11 核心代码</a>
         </h1>
         <div class="post-meta">
