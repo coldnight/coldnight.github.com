@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Linux I/O Linux I/O 演进  阻塞式：read()/write() 非阻塞式：select()/poll()/epoll()，不支持文件 I/O Thread Pool Direct I/O（数据软件）：绕过 page cache 异步 IO（Linux AIO）：早起进支持文件 I/O，近期支持了 epoll 支持非文件 I/O  Linux io_uring  [译] Linux 异步 I/O 框架 io_uring：基本原理、程序示例与性能压测  对比 Linux AIO：
+<meta name="description" content="tags: Linux  Linux I/O Linux I/O 演进  阻塞式：read()/write() 非阻塞式：select()/poll()/epoll()，不支持文件 I/O Thread Pool Direct I/O（数据软件）：绕过 page cache 异步 IO（Linux AIO）：早起进支持文件 I/O，近期支持了 epoll 支持非文件 I/O  Linux io_uring  [译] Linux 异步 I/O 框架 io_uring：基本原理、程序示例与性能压测  对比 Linux AIO：
  重新设计实现真正的是不。 支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。 灵活、可扩展：基于 io_uring 能够重写 Linux 的每个系统调用。  原理及核心数据结构：SQ/CQ/SQE/CQE 每个 io_uring 实例都有两个环形队列，在内核和应用程序之间共享：
  提交队列：submission queue（SQ） 完成队列：completion queue（CQ）  这两个队列：
  都是单生产者、单消费者，size 是 2 的幂次； 提供无锁接口（lock-less access interface），内部使用内存屏障做同步（coordinated with memory barrers）。  使用方式：" />
@@ -37,7 +37,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Linux kernel">
-<meta property="og:description" content="Linux I/O Linux I/O 演进  阻塞式：read()/write() 非阻塞式：select()/poll()/epoll()，不支持文件 I/O Thread Pool Direct I/O（数据软件）：绕过 page cache 异步 IO（Linux AIO）：早起进支持文件 I/O，近期支持了 epoll 支持非文件 I/O  Linux io_uring  [译] Linux 异步 I/O 框架 io_uring：基本原理、程序示例与性能压测  对比 Linux AIO：
+<meta property="og:description" content="tags: Linux  Linux I/O Linux I/O 演进  阻塞式：read()/write() 非阻塞式：select()/poll()/epoll()，不支持文件 I/O Thread Pool Direct I/O（数据软件）：绕过 page cache 异步 IO（Linux AIO）：早起进支持文件 I/O，近期支持了 epoll 支持非文件 I/O  Linux io_uring  [译] Linux 异步 I/O 框架 io_uring：基本原理、程序示例与性能压测  对比 Linux AIO：
  重新设计实现真正的是不。 支持任何类型的 I/O：cached files、direct-access files 甚至 blocking sockets。 灵活、可扩展：基于 io_uring 能够重写 Linux 的每个系统调用。  原理及核心数据结构：SQ/CQ/SQE/CQE 每个 io_uring 实例都有两个环形队列，在内核和应用程序之间共享：
  提交队列：submission queue（SQ） 完成队列：completion queue（CQ）  这两个队列：
  都是单生产者、单消费者，size 是 2 的幂次； 提供无锁接口（lock-less access interface），内部使用内存屏障做同步（coordinated with memory barrers）。  使用方式：" />
@@ -161,7 +161,10 @@
   
 
   <div class="post-content"><div>
-        <h2 id="linux-i-o">Linux I/O<a href="#linux-i-o" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <ul>
+<li>tags: <a href="/notes/notes/20220104103936-linux/">Linux</a></li>
+</ul>
+<h2 id="linux-i-o">Linux I/O<a href="#linux-i-o" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="linux-i-o-演进">Linux I/O 演进<a href="#linux-i-o-演进" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
 <li>阻塞式：read()/write()</li>
@@ -250,6 +253,12 @@
 
   
 
+
+   
+
+   
+
+   
 
    
 
