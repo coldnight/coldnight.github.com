@@ -139,6 +139,130 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104163050-privoxy_socks5_to_http/">Privoxy socks5 to HTTP</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104163050-privoxy_socks5_to_http/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104162722-privoxy/">Privoxy</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104162722-privoxy/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104162549-tools/">Tools</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104162549-tools/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220104162448-https/">HTTPs</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-01-04
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220104162448-https/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20220104150531-beam/">Beam</a>
         </h1>
         <div class="post-meta">
@@ -10112,10 +10236,10 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
         <div class="post-content">
           
           
-          这里以新增 vd.linuxzen.com 为例。
+          tags: Over the Wall,HTTPs  这里以新增 vd.linuxzen.com 为例。
 新增 DNS 解析  通过 DNSPOD 新增 DNS 解析 A 记录  调整 Nginx 新增 HTTP 站点 Nginx 参考配置
 server { listen 80; server_name vd.linuxzen.com; include /etc/nginx/snippets/letsencrypt-acme-challenge.conf; } 新增签发证书 $ acme.sh --force --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d vd.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/ 安装证书
-$ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.com/cert.pem --key-file /etc/nginx/certs/linuxzen.com/privkey.pem --fullchain-file /etc/nginx/certs/linuxzen.
+$ acme.sh --install-cert -d linuxzen.
           
           
         </div>
@@ -10124,6 +10248,37 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
         <div>
           <a class="read-more button"
             href="/notes/notes/20200319221212_let_s_encrypt/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/">Over the Wall</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2020-03-19
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/"> →</a>
         </div>
         
       </div>
@@ -10148,7 +10303,7 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
         <div class="post-content">
           
           
-          tags: 翻墙  翻墙 架构 Client -&gt; DIDIYun(HAProxy) -&gt; HK
+          tags: Over the Wall,Tools  架构 Client -&gt; DIDIYun(HAProxy) -&gt; HK
 滴滴云 HAPorxy 配置 117.51.146.119
 frontend v_linuxzen_com bind *:6697 option tcplog mode tcp default_backend v_linuxzen_com_nodes backend v_linuxzen_com_nodes mode tcp balance roundrobin option ssl-hello-chk server webserver1 45.115.36.35:443 check 客户端改动 需要调整 hosts
 $ echo &#39;117.51.146.119 v.linuxzen.com&#39; | sudo tee -a /etc/hosts HK V2Ray Docker 启动 $ docker run -d -p 127.0.0.1:25001:25001 --name v2ray --restart always -v /etc/v2ray:/etc/v2ray v2ray/official HK Let&rsquo;s Encrypt 证书 $ acme.
@@ -10184,7 +10339,7 @@ $ echo &#39;117.51.146.119 v.linuxzen.com&#39; | sudo tee -a /etc/hosts HK V2Ray
         <div class="post-content">
           
           
-          xinetd 代理 SMTP 和 IMAP 通过 xinetd 代理 SMTP 和 IMAP 实现 gmail 翻墙。
+          tags: Over the Wall  xinetd 代理 SMTP 和 IMAP 通过 xinetd 代理 SMTP 和 IMAP 实现 gmail 翻墙。
   配置服务端
 service imap { type = UNLISTED port = 993 bind = 0.0.0.0 socket_type = stream wait = no user = nobody redirect = imap.gmail.com 993 per_source = UNLIMITED cps = 100 2 } service smtp-465 { type = UNLISTED port = 465 bind = 0.0.0.0 socket_type = stream wait = no user = nobody redirect = smtp.
           
@@ -10195,37 +10350,6 @@ service imap { type = UNLISTED port = 993 bind = 0.0.0.0 socket_type = stream wa
         <div>
           <a class="read-more button"
             href="/notes/notes/20200319223026_xinetd/"> →</a>
-        </div>
-        
-      </div>
-    
-      <div class="post on-list">
-        <h1 class="post-title">
-          <a href="https://www.linuxzen.com/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/">翻墙</a>
-        </h1>
-        <div class="post-meta">
-          <span class="post-date">
-            2020-03-19
-          </span>
-          
-            <span class="post-author">:: [Gray King]</span>
-          
-        </div>
-
-        
-
-        
-
-        <div class="post-content">
-          
-          
-          
-        </div>
-
-        
-        <div>
-          <a class="read-more button"
-            href="/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/"> →</a>
         </div>
         
       </div>

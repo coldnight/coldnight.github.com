@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: 翻墙  翻墙 架构 Client -&amp;gt; DIDIYun(HAProxy) -&amp;gt; HK
+<meta name="description" content="tags: Over the Wall,Tools  架构 Client -&amp;gt; DIDIYun(HAProxy) -&amp;gt; HK
 滴滴云 HAPorxy 配置 117.51.146.119
 frontend v_linuxzen_com bind *:6697 option tcplog mode tcp default_backend v_linuxzen_com_nodes backend v_linuxzen_com_nodes mode tcp balance roundrobin option ssl-hello-chk server webserver1 45.115.36.35:443 check 客户端改动 需要调整 hosts
 $ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts HK V2Ray Docker 启动 $ docker run -d -p 127.0.0.1:25001:25001 --name v2ray --restart always -v /etc/v2ray:/etc/v2ray v2ray/official HK Let&amp;rsquo;s Encrypt 证书 $ acme." />
@@ -37,7 +37,7 @@ $ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="V2Ray">
-<meta property="og:description" content="tags: 翻墙  翻墙 架构 Client -&amp;gt; DIDIYun(HAProxy) -&amp;gt; HK
+<meta property="og:description" content="tags: Over the Wall,Tools  架构 Client -&amp;gt; DIDIYun(HAProxy) -&amp;gt; HK
 滴滴云 HAPorxy 配置 117.51.146.119
 frontend v_linuxzen_com bind *:6697 option tcplog mode tcp default_backend v_linuxzen_com_nodes backend v_linuxzen_com_nodes mode tcp balance roundrobin option ssl-hello-chk server webserver1 45.115.36.35:443 check 客户端改动 需要调整 hosts
 $ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts HK V2Ray Docker 启动 $ docker run -d -p 127.0.0.1:25001:25001 --name v2ray --restart always -v /etc/v2ray:/etc/v2ray v2ray/official HK Let&amp;rsquo;s Encrypt 证书 $ acme." />
@@ -162,12 +162,11 @@ $ echo &amp;#39;117.51.146.119 v.linuxzen.com&amp;#39; | sudo tee -a /etc/hosts 
 
   <div class="post-content"><div>
         <ul>
-<li>tags: <a href="/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/">翻墙</a></li>
+<li>tags: <a href="/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/">Over the Wall</a>,<a href="/notes/notes/20220104162549-tools/">Tools</a></li>
 </ul>
-<h2 id="翻墙">翻墙<a href="#翻墙" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h3 id="架构">架构<a href="#架构" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h2 id="架构">架构<a href="#架构" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Client -&gt; DIDIYun(HAProxy) -&gt; HK</p>
-<h3 id="滴滴云-haporxy-配置">滴滴云 HAPorxy 配置<a href="#滴滴云-haporxy-配置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h2 id="滴滴云-haporxy-配置">滴滴云 HAPorxy 配置<a href="#滴滴云-haporxy-配置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>117.51.146.119</p>
 <pre tabindex="0"><code class="language-haproxy" data-lang="haproxy">frontend v_linuxzen_com
 	bind *:6697
@@ -180,15 +179,15 @@ backend v_linuxzen_com_nodes
 	balance roundrobin
 	option ssl-hello-chk
 	server webserver1 45.115.36.35:443 check
-</code></pre><h3 id="客户端改动">客户端改动<a href="#客户端改动" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</code></pre><h2 id="客户端改动">客户端改动<a href="#客户端改动" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>需要调整 hosts</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#39;117.51.146.119 v.linuxzen.com&#39;</span> | sudo tee -a /etc/hosts
-</code></pre></div><h3 id="hk-v2ray-docker-启动">HK V2Ray Docker 启动<a href="#hk-v2ray-docker-启动" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</code></pre></div><h2 id="hk-v2ray-docker-启动">HK V2Ray Docker 启动<a href="#hk-v2ray-docker-启动" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker run -d -p 127.0.0.1:25001:25001 --name v2ray --restart always -v /etc/v2ray:/etc/v2ray v2ray/official
-</code></pre></div><h3 id="hk-let-s-encrypt-证书">HK Let&rsquo;s Encrypt 证书<a href="#hk-let-s-encrypt-证书" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</code></pre></div><h2 id="hk-let-s-encrypt-证书">HK Let&rsquo;s Encrypt 证书<a href="#hk-let-s-encrypt-证书" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ acme.sh --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/
 $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.com/cert.pem --key-file /etc/nginx/certs/linuxzen.com/privkey.pem --fullchain-file /etc/nginx/certs/linuxzen.com/fullchain.pem --reloadcmd <span style="color:#e6db74">&#34;sudo service nginx reload &amp;&amp; docker restart ipsec-vpn-ssl &amp;&amp; docker restart v2ray &amp;&amp; docker restart v2ray2&#34;</span>
-</code></pre></div><h3 id="hk-v2ray-配置">HK V2Ray 配置<a href="#hk-v2ray-配置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</code></pre></div><h2 id="hk-v2ray-配置">HK V2Ray 配置<a href="#hk-v2ray-配置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#f92672">&#34;log&#34;</span>: {
 	<span style="color:#f92672">&#34;loglevel&#34;</span>: <span style="color:#e6db74">&#34;debug&#34;</span>,
@@ -223,7 +222,7 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
 	}
   ]
 }
-</code></pre></div><h3 id="hk-nginx-配置">HK Nginx 配置<a href="#hk-nginx-配置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</code></pre></div><h2 id="hk-nginx-配置">HK Nginx 配置<a href="#hk-nginx-配置" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
 		<span style="color:#f92672">listen</span>  <span style="color:#ae81ff">80</span>;
 		<span style="color:#f92672">server_name</span>     <span style="color:#e6db74">v.linuxzen.com</span>;
@@ -272,7 +271,7 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
 		}
 		<span style="color:#66d9ef">include</span> /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 <span style="color:#66d9ef">}</span>
-</code></pre></div><h3 id="新增一个域名用于单独的滴滴云加速">新增一个域名用于单独的滴滴云加速<a href="#新增一个域名用于单独的滴滴云加速" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</code></pre></div><h2 id="新增一个域名用于单独的滴滴云加速">新增一个域名用于单独的滴滴云加速<a href="#新增一个域名用于单独的滴滴云加速" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>使用一个单独的域名 <code>vd.linuxzen.com</code> 用于滴滴云加速，参见<a href="/notes/notes/20200319221212_let_s_encrypt/">Let&rsquo;s Encrypt</a>。</p>
 
       </div></div>
@@ -969,7 +968,13 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
    
 
    
-      
+
+   
+
+   
+
+   
+
    
 
    
@@ -1048,14 +1053,7 @@ $ acme.sh --install-cert -d linuxzen.com --cert-file /etc/nginx/certs/linuxzen.c
 <hr>
 
   <div class="bl-section">
-    <h4>Links to this note</h4>
-    <div class="backlinks">
-      <ul>
-       
-          <li><a href="/notes/notes/20200319224041_%E7%BF%BB%E5%A2%99/">翻墙</a></li>
-       
-     </ul>
-    </div>
+    <h4>No notes link to this note</h4>
   </div>
 
 
