@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Zotero zotxt 500 :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="tags: Zotero,Emacs  I got an error when I&amp;rsquo;m inserting Zotero ref to Emacs by M-x org-zotxt-insert-reference-link RET
+[error] request--callback: peculiar error: 500 I got the error of zotxt by follow the instruction Debug Output Logging:
+(5)(&#43;0000003): HTTP/1.0 500 Internal Server Error X-Zotero-Version: 5.0.96.3 X-Zotero-Connector-API-Version: 2 Content-Type: text/plain; charset=UTF-8 csl is nullTypeError: csl is null buildBibliographyResponse/responseData&amp;lt;@resource://gre/modules/addons/XPIProvider.jsm -&amp;gt; jar:file:///Users/wanghui/Library/Application%20Support/Zotero/Profiles/34hkbjfm.default/extensions/zotxt@e6h.org.xpi!/bootstrap.js:220:9 buildBibliographyResponse@resource://gre/modules/addons/XPIProvider.jsm -&amp;gt; jar:file:///Users/wanghui/Library/Application%20Support/Zotero/Profiles/34hkbjfm.default/extensions/zotxt@e6h.org.xpi!/bootstrap.js:219:24 buildResponse/&amp;lt;@resource://gre/modules/addons/XPIProvider.jsm -&amp;gt; jar:file:///Users/wanghui/Library/Application%20Support/Zotero/Profiles/34hkbjfm.default/extensions/zotxt@e6h.org.xpi!/bootstrap.js:156:20 tryCatcher@resource://zotero/loader.jsm -&amp;gt; resource://zotero/bluebird/util.js:16:16 module.exports/Promise.prototype._settlePromiseFromHandler@resource://zotero/loader.jsm -&amp;gt; resource://zotero/bluebird/promise." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220105090334-zotero_zotxt_500/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Zotero zotxt 500">
+<meta property="og:description" content="tags: Zotero,Emacs  I got an error when I&amp;rsquo;m inserting Zotero ref to Emacs by M-x org-zotxt-insert-reference-link RET
+[error] request--callback: peculiar error: 500 I got the error of zotxt by follow the instruction Debug Output Logging:
+(5)(&#43;0000003): HTTP/1.0 500 Internal Server Error X-Zotero-Version: 5.0.96.3 X-Zotero-Connector-API-Version: 2 Content-Type: text/plain; charset=UTF-8 csl is nullTypeError: csl is null buildBibliographyResponse/responseData&amp;lt;@resource://gre/modules/addons/XPIProvider.jsm -&amp;gt; jar:file:///Users/wanghui/Library/Application%20Support/Zotero/Profiles/34hkbjfm.default/extensions/zotxt@e6h.org.xpi!/bootstrap.js:220:9 buildBibliographyResponse@resource://gre/modules/addons/XPIProvider.jsm -&amp;gt; jar:file:///Users/wanghui/Library/Application%20Support/Zotero/Profiles/34hkbjfm.default/extensions/zotxt@e6h.org.xpi!/bootstrap.js:219:24 buildResponse/&amp;lt;@resource://gre/modules/addons/XPIProvider.jsm -&amp;gt; jar:file:///Users/wanghui/Library/Application%20Support/Zotero/Profiles/34hkbjfm.default/extensions/zotxt@e6h.org.xpi!/bootstrap.js:156:20 tryCatcher@resource://zotero/loader.jsm -&amp;gt; resource://zotero/bluebird/util.js:16:16 module.exports/Promise.prototype._settlePromiseFromHandler@resource://zotero/loader.jsm -&amp;gt; resource://zotero/bluebird/promise." />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220105090334-zotero_zotxt_500/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2022-01-05 09:03:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/topics/"> Topics</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/flashcards/">Flashcards</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/topics/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/flashcards/">Flashcards</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20220105090334-zotero_zotxt_500/">Zotero zotxt 500</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2022-01-05 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <ul>
+<li>tags: <a href="/notes/notes/20220105065640-zotero/">Zotero</a>,<a href="/notes/topics/20200218120634/">Emacs</a></li>
+</ul>
+<p>I got an error when I&rsquo;m inserting Zotero ref to Emacs by <code>M-x org-zotxt-insert-reference-link RET</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[error] request--callback: peculiar error: 500
+</code></pre></div><p>I got the error of zotxt by follow the instruction <a href="https://www.zotero.org/support/debug%5Foutput">Debug Output Logging</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">(5)(+0000003): HTTP/1.0 500 Internal Server Error X-Zotero-Version: 5.0.96.3 X-Zotero-Connector-API-Version: 2 Content-Type: text/plain; charset=UTF-8 csl is nullTypeError: csl is null buildBibliographyResponse/responseData&lt;@resource://gre/modules/addons/XPIProvider.jsm -&gt; jar:file:///Users/wanghui/Library/Application%20Support/Zotero/Profiles/34hkbjfm.default/extensions/zotxt@e6h.org.xpi!/bootstrap.js:220:9 buildBibliographyResponse@resource://gre/modules/addons/XPIProvider.jsm -&gt; jar:file:///Users/wanghui/Library/Application%20Support/Zotero/Profiles/34hkbjfm.default/extensions/zotxt@e6h.org.xpi!/bootstrap.js:219:24 buildResponse/&lt;@resource://gre/modules/addons/XPIProvider.jsm -&gt; jar:file:///Users/wanghui/Library/Application%20Support/Zotero/Profiles/34hkbjfm.default/extensions/zotxt@e6h.org.xpi!/bootstrap.js:156:20 tryCatcher@resource://zotero/loader.jsm -&gt; resource://zotero/bluebird/util.js:16:16 module.exports/Promise.prototype._settlePromiseFromHandler@resource://zotero/loader.jsm -&gt; resource://zotero/bluebird/promise.js:547:13 module.exports/Promise.prototype._settlePromise@resource://zotero/loader.jsm -&gt; resource://zotero/bluebird/promise.js:604:13 module.exports/Promise.prototype._settlePromise0@resource://zotero/loader.jsm -&gt; resource://zotero/bluebird/promise.js:649:5 module.exports/Promise.prototype._settlePromises@resource://zotero/loader.jsm -&gt; resource://zotero/bluebird/promise.js:729:13 module.exports/Promise.prototype._fulfill@resource://zotero/loader.jsm -&gt; resource://zotero/bluebird/promise.js:673:13 module.exports/PromiseArray.prototype._resolve@resource://zotero/loader.jsm -&gt; resource://zotero/bluebird/promise_array.js:127:5 module.exports/MappingPromiseArray.prototype._promiseFulfilled@resource://zotero/loader.jsm -&gt; resource://zotero/bluebird/map.js:108:13 module.exports/Promise.prototype._settlePromise@resource://zotero/loader.jsm -&gt; resource://zotero/bluebird/promise.js:609:17 module.exports/Promise… (3613 chars)
+</code></pre></div><p>And I found <a href="https://github.com/egh/zotxt/issues/8">this issue:  zotxt api does not work for non-latin references</a>. By looking at <a href="https://github.com/egh/zotxt/issues/8#issuecomment-608167494">the reply</a>, I think it&rsquo;s the same issue I&rsquo;m got: I did&rsquo;nt install the style which I setted in my Emacs config:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(use-package org-zotxt
+  :straight (:host github :repo <span style="color:#e6db74">&#34;egh/zotxt-emacs&#34;</span>)
+  :bind
+  (:map org-mode-map
+        (<span style="color:#e6db74">&#34;C-c z i&#34;</span> <span style="color:#f92672">.</span> org-zotxt-insert-reference-link)
+        (<span style="color:#e6db74">&#34;C-c z a&#34;</span> <span style="color:#f92672">.</span> org-zotxt-open-attachment))
+  :custom
+  (zotxt-default-bibliography-style <span style="color:#e6db74">&#34;mkbehr-short&#34;</span>)
+  :hook
+  (org-mode <span style="color:#f92672">.</span> org-zotxt-mode))
+</code></pre></div><p>By removing the <code>:custom</code>, issue resolved:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(use-package org-zotxt
+  :straight (:host github :repo <span style="color:#e6db74">&#34;egh/zotxt-emacs&#34;</span>)
+  :bind
+  (:map org-mode-map
+        (<span style="color:#e6db74">&#34;C-c z i&#34;</span> <span style="color:#f92672">.</span> org-zotxt-insert-reference-link)
+        (<span style="color:#e6db74">&#34;C-c z a&#34;</span> <span style="color:#f92672">.</span> org-zotxt-open-attachment))
+  :hook
+  (org-mode <span style="color:#f92672">.</span> org-zotxt-mode))
+</code></pre></div>
+      </div></div>
+
+  
+
+  
+
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+
+<hr>
+
+  <div class="bl-section">
+    <h4>No notes link to this note</h4>
+  </div>
+
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>
