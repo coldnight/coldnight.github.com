@@ -60,11 +60,86 @@
       <pubDate>Wed, 05 Jan 2022 16:41:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220105164146-streaming_102_the_world_beyond_batch/</guid>
-      <description> tags: Bigdata,Flink,Dataflow Model,Streaming source: “Streaming 102: The World beyond Batch – O’Reilly.” Accessed January 5, 2022. https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/.  </description>
+      <description>tags: Bigdata,Flink,Dataflow Model,Streaming source: “Streaming 102: The World beyond Batch – O’Reilly.” Accessed January 5, 2022. https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/.  Three more concepts:
+ Watermarks: Useful for event time windowing. All input data with event times less than watermark have been observed. Triggers: Signal for a window to produce output. Accumulation: The way to handle multiple results that are observed for the same window.  Streaming 101 Redux What: Transformations Where: windowing Make a temporal boundary for a unbounded data source.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/&#34;&gt;Bigdata&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320100601_flink/&#34;&gt;Flink&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220105163640-dataflow_model/&#34;&gt;Dataflow Model&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220105165615-streaming/&#34;&gt;Streaming&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;//select/items/1_A6HSBD85&#34;&gt;“Streaming 102: The World beyond Batch – O’Reilly.” Accessed January 5, 2022. https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;Three more concepts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Watermarks&lt;/strong&gt;: Useful for event time windowing. All input data with event times less than &lt;em&gt;watermark&lt;/em&gt; have been observed.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Triggers&lt;/strong&gt;: Signal for a window to produce output.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Accumulation&lt;/strong&gt;: The way to handle multiple results that are observed for the same window.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;streaming-101-redux&#34;&gt;Streaming 101 Redux&lt;/h2&gt;
+&lt;h3 id=&#34;what-transformations&#34;&gt;What: Transformations&lt;/h3&gt;
+&lt;h3 id=&#34;where-windowing&#34;&gt;Where: windowing&lt;/h3&gt;
+&lt;p&gt;Make a temporal boundary for a unbounded data source.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fixed window&lt;/li&gt;
+&lt;li&gt;Sliding window&lt;/li&gt;
+&lt;li&gt;Session window&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/2022-01-06_11-23-54_Figure-03-Windowing.jpg&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;h2 id=&#34;streaming-102&#34;&gt;Streaming 102&lt;/h2&gt;
+&lt;h3 id=&#34;when-watermarks&#34;&gt;When: watermarks&lt;/h3&gt;
+&lt;p&gt;Watermarks is a function:
+\(F(P) -&amp;gt; E\)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;P&lt;/em&gt; - processing time&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;E&lt;/em&gt; - event time, all inputs with event time less than &lt;em&gt;E&lt;/em&gt; have been observed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The guarantee of watermarks:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Perfect watermarks&lt;/strong&gt;: no late data, all inputs with event time less than watermarks have been observed.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Heuristic watermarks&lt;/strong&gt;: may have late data, as accurate as possible. The data may late if the gap between processing time and event time is too large.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;When&lt;/strong&gt;: windows are materialized? The watermark passes the end of the window.&lt;/p&gt;
+&lt;p&gt;Shortcomings of watermarks:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Too slow&lt;/strong&gt;: will be very slow to konwn unprocessed data.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Too fast&lt;/strong&gt;: window may miss data that cause late data.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;when-triggers&#34;&gt;When: triggers&lt;/h3&gt;
+&lt;p&gt;Triggers complete watermarks that answered: &lt;strong&gt;When&lt;/strong&gt; in processing time are results materialized?&lt;/p&gt;
+&lt;p&gt;Triggers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Watermark progress&lt;/strong&gt;: implicit version that will be trigger when the watermark passed the end of the window.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Processing time progress&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Element counts&lt;/strong&gt;: Triggering when some finite number of elements have been observed in a window.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Punctuations&lt;/strong&gt;: data-dependent triggers&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Composite triggers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Repetitions&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Conjunctions&lt;/strong&gt; (logical AND)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Disjunctions&lt;/strong&gt; (logical OR)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sequences&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;how-accumulation&#34;&gt;How: accumulation&lt;/h3&gt;
+&lt;p&gt;Do refinements of results relate when multiple panes are produced by triggers in a single window.&lt;/p&gt;
+&lt;p&gt;Three different modes of accumulation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Discarding&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Accumulating&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Accumulatin &amp;amp; retracting&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;where-session-windows&#34;&gt;Where: session windows&lt;/h3&gt;
+&lt;p&gt;Captures a period of activity, terminated by a gap of inactivity.&lt;/p&gt;
+&lt;h2 id=&#34;intermezzo&#34;&gt;Intermezzo&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;What&lt;/em&gt; results are calculated? Answered via transformations.
+&lt;em&gt;Where&lt;/em&gt; in event time are results calculated? Answered via windowing.
+&lt;em&gt;When&lt;/em&gt; in processing time are results materialized? Answered via watermarks and triggers.
+&lt;em&gt;How&lt;/em&gt; do refinements of results relate? Answered via accumulation modes.&lt;/p&gt;
+&lt;/blockquote&gt;
 </content>
     </item>
     

@@ -6,7 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Bigdata,Flink,Dataflow Model,Streaming source: “Streaming 102: The World beyond Batch – O’Reilly.” Accessed January 5, 2022. https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/.  " />
+<meta name="description" content="tags: Bigdata,Flink,Dataflow Model,Streaming source: “Streaming 102: The World beyond Batch – O’Reilly.” Accessed January 5, 2022. https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/.  Three more concepts:
+ Watermarks: Useful for event time windowing. All input data with event times less than watermark have been observed. Triggers: Signal for a window to produce output. Accumulation: The way to handle multiple results that are observed for the same window.  Streaming 101 Redux What: Transformations Where: windowing Make a temporal boundary for a unbounded data source." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220105164146-streaming_102_the_world_beyond_batch/" />
@@ -34,7 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Streaming 102: The world beyond batch">
-<meta property="og:description" content=" tags: Bigdata,Flink,Dataflow Model,Streaming source: “Streaming 102: The World beyond Batch – O’Reilly.” Accessed January 5, 2022. https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/.  " />
+<meta property="og:description" content="tags: Bigdata,Flink,Dataflow Model,Streaming source: “Streaming 102: The World beyond Batch – O’Reilly.” Accessed January 5, 2022. https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/.  Three more concepts:
+ Watermarks: Useful for event time windowing. All input data with event times less than watermark have been observed. Triggers: Signal for a window to produce output. Accumulation: The way to handle multiple results that are observed for the same window.  Streaming 101 Redux What: Transformations Where: windowing Make a temporal boundary for a unbounded data source." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220105164146-streaming_102_the_world_beyond_batch/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -159,6 +161,80 @@
 <li>tags: <a href="/notes/topics/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/">Bigdata</a>,<a href="/notes/notes/20200320100601_flink/">Flink</a>,<a href="/notes/notes/20220105163640-dataflow_model/">Dataflow Model</a>,<a href="/notes/notes/20220105165615-streaming/">Streaming</a></li>
 <li>source: <a href="//select/items/1_A6HSBD85">“Streaming 102: The World beyond Batch – O’Reilly.” Accessed January 5, 2022. https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/.</a></li>
 </ul>
+<p>Three more concepts:</p>
+<ul>
+<li><strong>Watermarks</strong>: Useful for event time windowing. All input data with event times less than <em>watermark</em> have been observed.</li>
+<li><strong>Triggers</strong>: Signal for a window to produce output.</li>
+<li><strong>Accumulation</strong>: The way to handle multiple results that are observed for the same window.</li>
+</ul>
+<h2 id="streaming-101-redux">Streaming 101 Redux<a href="#streaming-101-redux" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="what-transformations">What: Transformations<a href="#what-transformations" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="where-windowing">Where: windowing<a href="#where-windowing" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Make a temporal boundary for a unbounded data source.</p>
+<ul>
+<li>Fixed window</li>
+<li>Sliding window</li>
+<li>Session window</li>
+</ul>
+
+  <figure class="left" >
+    <img src="/notes/ox-hugo/2022-01-06_11-23-54_Figure-03-Windowing.jpg"   />
+    
+  </figure>
+
+
+<h2 id="streaming-102">Streaming 102<a href="#streaming-102" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="when-watermarks">When: watermarks<a href="#when-watermarks" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Watermarks is a function:
+\(F(P) -&gt; E\)</p>
+<ul>
+<li><em>P</em> - processing time</li>
+<li><em>E</em> - event time, all inputs with event time less than <em>E</em> have been observed.</li>
+</ul>
+<p>The guarantee of watermarks:</p>
+<ul>
+<li><strong>Perfect watermarks</strong>: no late data, all inputs with event time less than watermarks have been observed.</li>
+<li><strong>Heuristic watermarks</strong>: may have late data, as accurate as possible. The data may late if the gap between processing time and event time is too large.</li>
+</ul>
+<p><strong>When</strong>: windows are materialized? The watermark passes the end of the window.</p>
+<p>Shortcomings of watermarks:</p>
+<ul>
+<li><strong>Too slow</strong>: will be very slow to konwn unprocessed data.</li>
+<li><strong>Too fast</strong>: window may miss data that cause late data.</li>
+</ul>
+<h3 id="when-triggers">When: triggers<a href="#when-triggers" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Triggers complete watermarks that answered: <strong>When</strong> in processing time are results materialized?</p>
+<p>Triggers:</p>
+<ul>
+<li><strong>Watermark progress</strong>: implicit version that will be trigger when the watermark passed the end of the window.</li>
+<li><strong>Processing time progress</strong></li>
+<li><strong>Element counts</strong>: Triggering when some finite number of elements have been observed in a window.</li>
+<li><strong>Punctuations</strong>: data-dependent triggers</li>
+</ul>
+<p>Composite triggers:</p>
+<ul>
+<li><strong>Repetitions</strong></li>
+<li><strong>Conjunctions</strong> (logical AND)</li>
+<li><strong>Disjunctions</strong> (logical OR)</li>
+<li><strong>Sequences</strong></li>
+</ul>
+<h3 id="how-accumulation">How: accumulation<a href="#how-accumulation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Do refinements of results relate when multiple panes are produced by triggers in a single window.</p>
+<p>Three different modes of accumulation:</p>
+<ul>
+<li><strong>Discarding</strong></li>
+<li><strong>Accumulating</strong></li>
+<li><strong>Accumulatin &amp; retracting</strong></li>
+</ul>
+<h3 id="where-session-windows">Where: session windows<a href="#where-session-windows" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Captures a period of activity, terminated by a gap of inactivity.</p>
+<h2 id="intermezzo">Intermezzo<a href="#intermezzo" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<blockquote>
+<p><em>What</em> results are calculated? Answered via transformations.
+<em>Where</em> in event time are results calculated? Answered via windowing.
+<em>When</em> in processing time are results materialized? Answered via watermarks and triggers.
+<em>How</em> do refinements of results relate? Answered via accumulation modes.</p>
+</blockquote>
 
       </div></div>
 
