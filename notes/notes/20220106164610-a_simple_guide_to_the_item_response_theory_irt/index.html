@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>A Simple Guide to the Item Response Theory (IRT) :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="tags: Algorithm,IRT,读书笔记 source: Yu, Chong Ho. “A Simple Guide to the Item Response Theory ( IRT ) and Rasch Modeling.” Accessed January 6, 2022. https://www.semanticscholar.org/paper/A-Simple-Guide-to-the-Item-Response-Theory-(-IRT-)-Yu/f42efb1bcf38f6650a8b16650e2811e8803cd4ec.  IRT is about fitness or simplicity for test. There are two versions of IRT:
+ IRT - three parameters. Rasch modeling - one parameter only.  Three parameters:
+ A - discrimination, how effectively this item can discriminate students&amp;rsquo;s proficient between highly and less." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220106164610-a_simple_guide_to_the_item_response_theory_irt/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="A Simple Guide to the Item Response Theory (IRT)">
+<meta property="og:description" content="tags: Algorithm,IRT,读书笔记 source: Yu, Chong Ho. “A Simple Guide to the Item Response Theory ( IRT ) and Rasch Modeling.” Accessed January 6, 2022. https://www.semanticscholar.org/paper/A-Simple-Guide-to-the-Item-Response-Theory-(-IRT-)-Yu/f42efb1bcf38f6650a8b16650e2811e8803cd4ec.  IRT is about fitness or simplicity for test. There are two versions of IRT:
+ IRT - three parameters. Rasch modeling - one parameter only.  Three parameters:
+ A - discrimination, how effectively this item can discriminate students&amp;rsquo;s proficient between highly and less." />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220106164610-a_simple_guide_to_the_item_response_theory_irt/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2022-01-06 16:46:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/topics/"> Topics</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/flashcards/">Flashcards</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/topics/"> Topics</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/flashcards/">Flashcards</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20220106164610-a_simple_guide_to_the_item_response_theory_irt/">A Simple Guide to the Item Response Theory (IRT)</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2022-01-06 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <ul>
+<li>tags: <a href="/notes/notes/20220104182327-algorithm/">Algorithm</a>,<a href="/notes/notes/20220106164620-irt/">IRT</a>,<a href="/notes/notes/20211210181234-%E8%AF%BB%E8%BF%87%E7%9A%84%E4%B9%A6/">读书笔记</a></li>
+<li>source: <a href="//select/items/1_ZJTHYQ25">Yu, Chong Ho. “A Simple Guide to the Item Response Theory ( IRT ) and Rasch Modeling.” Accessed January 6, 2022. https://www.semanticscholar.org/paper/A-Simple-Guide-to-the-Item-Response-Theory-(-IRT-)-Yu/f42efb1bcf38f6650a8b16650e2811e8803cd4ec.</a></li>
+</ul>
+<p>IRT is about fitness or simplicity for test. There are two versions of IRT:</p>
+<ul>
+<li><em>IRT</em> - three parameters.</li>
+<li><em>Rasch modeling</em> - one parameter only.</li>
+</ul>
+<p>Three parameters:</p>
+<ol>
+<li><em>A</em> - <strong>discrimination</strong>, how effectively this item can discriminate students&rsquo;s proficient between highly and less.</li>
+<li><em>B</em> - <strong>difficulty,</strong> or the <strong>threshold</strong>, tells us how easy or how difficult an item is.</li>
+<li><em>G</em> or <em>C</em> -  <strong>guessing</strong>, indicates the item correct by guess.</li>
+</ol>
+<p>One parameter: keep the <em>A</em> parameter constant and ignoring the <em>G</em> parameter.</p>
+<h2 id="new-words">New words<a href="#new-words" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="tentatively">tentatively<a href="#tentatively" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<table>
+<thead>
+<tr>
+<th>position</th>
+<th>ease</th>
+<th>box</th>
+<th>interval</th>
+<th>due</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>front</td>
+<td>2.5</td>
+<td>0</td>
+<td>0</td>
+<td>2022-01-06T08:56:49Z</td>
+</tr>
+</tbody>
+</table>
+<h4 id="back">Back<a href="#back" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p><code>Adverb</code> <a href="https://audio.oxforddictionaries.com/en/mp3/tentatively%5Fgb%5F1.mp3"><em>ˈtɛntətɪvli</em></a></p>
+<ul>
+<li>subject to further confirmation; not definitely</li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li>the project is tentatively scheduled for next year</li>
+<li>unions tentatively agreed to a three-year contract</li>
+</ul>
+<h3 id="proficiency">proficiency<a href="#proficiency" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<table>
+<thead>
+<tr>
+<th>position</th>
+<th>ease</th>
+<th>box</th>
+<th>interval</th>
+<th>due</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>front</td>
+<td>2.5</td>
+<td>0</td>
+<td>0</td>
+<td>2022-01-06T09:06:43Z</td>
+</tr>
+</tbody>
+</table>
+<h4 id="back">Back<a href="#back" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p><code>Noun</code> <a href="https://audio.oxforddictionaries.com/en/mp3/proficiency%5Fgb%5F1.mp3"><em>prəˈfɪʃnsi</em></a></p>
+<ul>
+<li>
+<p>a high degree of skill; expertise</p>
+<p>Synonyms: skill/skilfulness/expertise/experience/ability/capability/capacity/competence/competency/adeptness/adroitness/excellence/mastery/prowess/professionalism/aptitude/deftness/dexterity/finesse/facility/effectiveness/accomplishment/aptness/expertness/talent</p>
+<p>Examples:</p>
+<ul>
+<li>he demonstrated his proficiency in Chinese</li>
+</ul>
+</li>
+</ul>
+<h3 id="characteristic">characteristic<a href="#characteristic" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<table>
+<thead>
+<tr>
+<th>position</th>
+<th>ease</th>
+<th>box</th>
+<th>interval</th>
+<th>due</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>front</td>
+<td>2.5</td>
+<td>0</td>
+<td>0</td>
+<td>2022-01-06T09:07:38Z</td>
+</tr>
+</tbody>
+</table>
+<h4 id="back">Back<a href="#back" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p><code>Adjective</code> <a href="https://audio.oxforddictionaries.com/en/mp3/characteristic%5Fgb%5F1.mp3"><em>ˌkarɪktəˈrɪstɪk</em></a></p>
+<ul>
+<li>
+<p>typical of a particular person, place, or thing</p>
+<p>Synonyms: typical/usual/normal/predictable/habitual/in character</p>
+<p>Examples:</p>
+<ul>
+<li>he began with a characteristic attack on extremism</li>
+</ul>
+</li>
+</ul>
+<p><code>Noun</code> <a href="https://audio.oxforddictionaries.com/en/mp3/characteristic%5Fgb%5F1.mp3"><em>ˌkarɪktəˈrɪstɪk</em></a></p>
+<ul>
+<li>
+<p>a feature or quality belonging typically to a person, place, or thing and serving to identify them</p>
+<p>Synonyms: attribute/feature</p>
+<p>Examples:</p>
+<ul>
+<li>certain defining characteristics of the school emerge from the study</li>
+</ul>
+</li>
+<li>
+<p>the whole number or integral part of a logarithm, which gives the order of magnitude of the original number.</p>
+</li>
+</ul>
+<h3 id="curve">curve<a href="#curve" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<table>
+<thead>
+<tr>
+<th>position</th>
+<th>ease</th>
+<th>box</th>
+<th>interval</th>
+<th>due</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>front</td>
+<td>2.5</td>
+<td>0</td>
+<td>0</td>
+<td>2022-01-06T09:08:21Z</td>
+</tr>
+</tbody>
+</table>
+<h4 id="back">Back<a href="#back" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p><code>Noun</code> <a href="https://audio.oxforddictionaries.com/en/mp3/curve%5Fgb%5F1.mp3"><em>kəːv</em></a></p>
+<ul>
+<li>
+<p>a line or outline which gradually deviates from being straight for some or all of its length</p>
+<p>Synonyms: curve/bend/bow/arch</p>
+<p>Examples:</p>
+<ul>
+<li>the parapet wall sweeps down in a bold curve</li>
+</ul>
+</li>
+</ul>
+<p><code>Verb</code> <a href="https://audio.oxforddictionaries.com/en/mp3/curve%5Fgb%5F1.mp3"><em>kəːv</em></a></p>
+<ul>
+<li>
+<p>form or cause to form a curve</p>
+<p>Synonyms: bend/turn/loop/wind/meander/undulate/snake/spiral/twist/coil/curl/bent/arched/bowed/crescent/curving/recurved/wavy/twisted/twisty/sinuous/serpentine/meandering/undulating/curvilinear/curvy</p>
+<p>Examples:</p>
+<ul>
+<li>her mouth curved in a smile</li>
+<li>starting with arms outstretched, curve the body sideways</li>
+</ul>
+</li>
+</ul>
+<h3 id="discrimination">discrimination<a href="#discrimination" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<table>
+<thead>
+<tr>
+<th>position</th>
+<th>ease</th>
+<th>box</th>
+<th>interval</th>
+<th>due</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>front</td>
+<td>2.5</td>
+<td>0</td>
+<td>0</td>
+<td>2022-01-06T09:13:29Z</td>
+</tr>
+</tbody>
+</table>
+<h4 id="back">Back<a href="#back" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p><code>Noun</code> <a href="https://audio.oxforddictionaries.com/en/mp3/discrimination%5Fgb%5F1.mp3"><em>dɪˌskrɪmɪˈneɪʃn</em></a></p>
+<ul>
+<li>
+<p>the unjust or prejudicial treatment of different categories of people, especially on the grounds of ethnicity, age, sex, or disability</p>
+<p>Synonyms: prejudice/bias/bigotry/intolerance/narrow-mindedness/unfairness/inequity/favouritism/one-sidedness/partisanship</p>
+<p>Examples:</p>
+<ul>
+<li>victims of racial discrimination</li>
+<li>there is widespread discrimination against women</li>
+</ul>
+</li>
+<li>
+<p>recognition and understanding of the difference between one thing and another</p>
+<p>Synonyms: differentiation/distinction/telling the difference</p>
+<p>Examples:</p>
+<ul>
+<li>discrimination between right and wrong</li>
+<li>young children have difficulties in making fine discriminations</li>
+</ul>
+</li>
+<li>
+<p>the selection of a signal having a required characteristic, such as frequency or amplitude, by means of a discriminator.</p>
+</li>
+</ul>
+
+      </div></div>
+
+  
+
+  
+
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+
+<hr>
+
+  <div class="bl-section">
+    <h4>No notes link to this note</h4>
+  </div>
+
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>
