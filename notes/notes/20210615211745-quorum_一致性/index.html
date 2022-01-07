@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="确定读写成功 确定读写节点在多少节点成功才可以认为写入成功：需要保证读取时至少一个包含新值。
+<meta name="description" content=" tags: 一致性  确定读写成功 确定读写节点在多少节点成功才可以认为写入成功：需要保证读取时至少一个包含新值。
 n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至少查询 \(r\) 个节点，则只要 \(w &#43; r &amp;gt; n\) ，读取的节点中一定会包含最新值。
  \(w\) 仲裁写（法定票数写） \(r\) 仲裁读（法定票说读）  一般 \(n\) 设置为奇数： \(w=r=(n&#43;1)/2\) （向上取整）。
 可容忍的失效节点数 仲裁条件 \(w&#43;r&amp;gt;n\) 定义了系统可容忍的失效节点数。
@@ -38,7 +38,7 @@ n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至�
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Quorum 一致性">
-<meta property="og:description" content="确定读写成功 确定读写节点在多少节点成功才可以认为写入成功：需要保证读取时至少一个包含新值。
+<meta property="og:description" content=" tags: 一致性  确定读写成功 确定读写节点在多少节点成功才可以认为写入成功：需要保证读取时至少一个包含新值。
 n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至少查询 \(r\) 个节点，则只要 \(w &#43; r &amp;gt; n\) ，读取的节点中一定会包含最新值。
  \(w\) 仲裁写（法定票数写） \(r\) 仲裁读（法定票说读）  一般 \(n\) 设置为奇数： \(w=r=(n&#43;1)/2\) （向上取整）。
 可容忍的失效节点数 仲裁条件 \(w&#43;r&amp;gt;n\) 定义了系统可容忍的失效节点数。
@@ -163,7 +163,10 @@ n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至�
   
 
   <div class="post-content"><div>
-        <h2 id="确定读写成功">确定读写成功<a href="#确定读写成功" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <ul>
+<li>tags: <a href="/notes/topics/20220101074955-%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li>
+</ul>
+<h2 id="确定读写成功">确定读写成功<a href="#确定读写成功" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>确定读写节点在多少节点成功才可以认为写入成功：需要保证读取时至少一个包含新值。</p>
 <p>n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至少查询 \(r\) 个节点，则只要 \(w + r &gt; n\) ，读取的节点中一定会包含最新值。</p>
 <ul>
@@ -195,6 +198,12 @@ n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至�
 
   
 
+
+   
+
+   
+      
+   
 
    
 
@@ -1091,6 +1100,8 @@ n 个副本的情况下，写入需要 \(w\) 个节点确认，读取必须至�
     <h4>Links to this note</h4>
     <div class="backlinks">
       <ul>
+       
+          <li><a href="/notes/notes/20220107113911-patterns_of_distributed_systems_quorum/">Patterns of Distributed Systems: Quorum</a></li>
        
           <li><a href="/notes/notes/20210725072621-%E4%B8%80%E8%87%B4%E6%80%A7%E4%B8%8E%E5%85%B1%E8%AF%86/">一致性与共识</a></li>
        
