@@ -6,7 +6,65 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 11 Jan 2022 08:17:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 12 Jan 2022 07:08:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>5W1H</title>
+      <link>https://www.linuxzen.com/notes/notes/20220112070827-5w1h/</link>
+      <pubDate>Wed, 12 Jan 2022 07:08:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220112070827-5w1h/</guid>
+      <description> tags: Learning  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122121-learning/&#34;&gt;Learning&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>TCP Fast Open</title>
+      <link>https://www.linuxzen.com/notes/notes/20220112070151-tcp_fast_open/</link>
+      <pubDate>Wed, 12 Jan 2022 07:01:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220112070151-tcp_fast_open/</guid>
+      <description>tags: TCP,Network,5W1H  TCP Fast Open(TFO):
+  WHY TFO is proposed?
+TCP Three-Way Handshake for every new TCP connection is too expensive.
+  WHAT is the TFO?
+TCP Fast Open (TFO) is a mechanism that aims to reduce the latency penalty imposed on new TCP connections.
+  HOW the TFO reduce the latency on new TCP connections?
+TFO allows data transfer within the SYN packet.
+  WHEN the TFO is avaiable.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813071635-tcp/&#34;&gt;TCP&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200827180638-network/&#34;&gt;Network&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220112070827-5w1h/&#34;&gt;5W1H&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;TCP Fast Open(TFO):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;WHY&lt;/strong&gt; TFO is proposed?&lt;/p&gt;
+&lt;p&gt;TCP Three-Way Handshake for every new TCP connection is too expensive.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;WHAT&lt;/strong&gt; is the TFO?&lt;/p&gt;
+&lt;p&gt;TCP Fast Open (TFO) is a mechanism that aims to reduce the latency penalty imposed on new TCP connections.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;HOW&lt;/strong&gt; the TFO reduce the latency on new TCP connections?&lt;/p&gt;
+&lt;p&gt;TFO allows data transfer within the &lt;em&gt;SYN&lt;/em&gt; packet.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;WHEN&lt;/strong&gt; the TFO is avaiable.&lt;/p&gt;
+&lt;p&gt;TFO support is now avaiable in Linux 3.7+ kernels, and should be enabled by a viable option in both client and server side.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;WHAT&lt;/strong&gt; limitations does TFO have?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Maximum size limited.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Controlling Queue Delay</title>
       <link>https://www.linuxzen.com/notes/notes/20220111081756-controlling_queue_delay/</link>
@@ -6048,16 +6106,58 @@ class Solution { public: bool exist(vector&amp;lt;vector&amp;lt;char&amp;gt;&amp
       <pubDate>Fri, 13 Aug 2021 07:17:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210813071739-networking_101_building_blocks_of_tcp/</guid>
-      <description>t:PROPERTIES: :ID: F12F1566-375E-42BE-ACB8-F8743EFCCE7A
-:END:
- tags: TCP,High Performance Browser Networking 原文链接：https://hpbn.co/building-blocks-of-tcp/。  </description>
-      <content>&lt;p&gt;t:PROPERTIES:
-:ID:       F12F1566-375E-42BE-ACB8-F8743EFCCE7A&lt;/p&gt;
-&lt;p&gt;:END:&lt;/p&gt;
-&lt;ul&gt;
+      <description>tags: TCP,High Performance Browser Networking 原文链接：https://hpbn.co/building-blocks-of-tcp/。  Overview The 4th version of RFC 675, and final two seperate RFCs:
+ RFC 791 - Internet Protocol(IPv4) RFC 793 - Transmission Control Protocol  TCP provides:
+ Effective abstraction. A reliable network running over unreliable channel. Hiding most the complexity of network communication:  retransmission of lost data, in-order delivery, congestion control and avoidance, data integrity, and more.    Three-Way Handhsake Sequence numbers are important for keep in-order delivery, and they are picked randomly from both sides for security reasons.</description>
+      <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813071635-tcp/&#34;&gt;TCP&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813080226-high_performance_browser_networking/&#34;&gt;High Performance Browser Networking&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;原文链接：&lt;a href=&#34;https://hpbn.co/building-blocks-of-tcp/&#34;&gt;https://hpbn.co/building-blocks-of-tcp/&lt;/a&gt;。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;The 4th version of RFC 675, and final two seperate RFCs:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RFC 791 - Internet Protocol(IPv4)&lt;/li&gt;
+&lt;li&gt;RFC 793 - Transmission Control Protocol&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;TCP provides:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Effective abstraction.&lt;/li&gt;
+&lt;li&gt;A reliable network running over unreliable channel.&lt;/li&gt;
+&lt;li&gt;Hiding most the complexity of network communication:
+&lt;ul&gt;
+&lt;li&gt;retransmission of lost data,&lt;/li&gt;
+&lt;li&gt;in-order delivery,&lt;/li&gt;
+&lt;li&gt;congestion control and avoidance,&lt;/li&gt;
+&lt;li&gt;data integrity,&lt;/li&gt;
+&lt;li&gt;and more.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;three-way-handhsake&#34;&gt;Three-Way Handhsake&lt;/h2&gt;
+&lt;p&gt;Sequence numbers are important for keep in-order delivery, and they are picked randomly from both sides for security reasons.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;SYN&lt;/em&gt; - &lt;strong&gt;CLIENT&lt;/strong&gt; picks a random sequence number &lt;em&gt;X&lt;/em&gt; and sends a &lt;em&gt;SYN&lt;/em&gt; packet, which may also include addition TCP flags and options.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;SYN ACK&lt;/em&gt; - &lt;strong&gt;SERVER&lt;/strong&gt; increments &lt;em&gt;X&lt;/em&gt; by one, picks own random sequence number &lt;em&gt;Y&lt;/em&gt;, appends its own set of flags and options, and dispatches the response.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;ACK&lt;/em&gt; - &lt;strong&gt;CLIENT&lt;/strong&gt; increments both &lt;em&gt;X&lt;/em&gt; and &lt;em&gt;Y&lt;/em&gt; by one and completes the handhsake by dispatching the last &lt;em&gt;ACK&lt;/em&gt; packet in the handshake.&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/2022-01-12_06-56-52_eefa1170a673da0140efe1ece7a2884b.svg&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Implications of Performance&lt;/strong&gt;:
+&lt;em&gt;Expensive to Create&lt;/em&gt; - Every new TCP connection will have a full roundtrip of latency before any application data can be transferred. &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;h2 id=&#34;congestion-avoidance-and-control&#34;&gt;Congestion Avoidance and Control&lt;/h2&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220112070151-tcp_fast_open/&#34;&gt;TCP Fast Open&lt;/a&gt; aims to solve the &lt;em&gt;Expensive to Create&lt;/em&gt; problem.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
 </content>
     </item>
     
