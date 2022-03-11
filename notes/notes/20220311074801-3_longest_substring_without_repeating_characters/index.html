@@ -262,7 +262,30 @@ longest <span style="color:#f92672">=</span> max(longest, right <span style="col
 longest <span style="color:#f92672">=</span> max(longest, right <span style="color:#f92672">-</span> left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
 </code></pre></div></li>
 </ol>
-<!-- raw HTML omitted -->
+<p>Finally code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#+begin_src cpp
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+	<span style="color:#66d9ef">int</span> lengthOfLongestSubstring(string s) {
+		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">int</span> longest <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+		map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> indices;
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> right <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; right <span style="color:#f92672">&lt;</span> s.size(); right<span style="color:#f92672">++</span>) {
+			<span style="color:#66d9ef">char</span> l <span style="color:#f92672">=</span> s[right];
+			<span style="color:#66d9ef">if</span> (indices.find(l) <span style="color:#f92672">!=</span> indices.end() <span style="color:#f92672">&amp;&amp;</span> indices[l] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> left) {
+				left <span style="color:#f92672">=</span> indices[l] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+			}
+			longest <span style="color:#f92672">=</span> max(longest, right <span style="color:#f92672">-</span> left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+			indices[l] <span style="color:#f92672">=</span> right;
+		}
+		<span style="color:#66d9ef">return</span> longest;
+	}
+};
+
+<span style="color:#75715e">#+end_src
+</span><span style="color:#75715e"></span>
+</code></pre></div><p>Full with failed:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 	<span style="color:#66d9ef">int</span> lengthOfLongestSubstring(string s) {
