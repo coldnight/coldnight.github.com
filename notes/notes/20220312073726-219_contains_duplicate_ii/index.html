@@ -6,8 +6,10 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Sliding Window,Hash Table,LeetCode101  This is an near by problem that can be solved by Sliding Window. The k in the problem is somehow means contiguous.
-class Solution { public: bool containsNearbyDuplicate(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k) { int left = 0; unordered_map&amp;lt;int, int&amp;gt; indices; for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { auto iter = indices.find(nums[right]); if (iter != indices.end()) { if (abs(right - iter-&amp;gt;second) &amp;lt;= k) { return true; } left = iter-&amp;gt;second &#43; 1; } indices[nums[right]] = right; } return false; } }; " />
+<meta name="description" content="tags: Sliding Window,Hash Table,LeetCode101  This is an near by problem that can be solved by Sliding Window. The k in the problem is somehow means contiguous.
+And using a HashTable to indicate that two values in the different position are equal.
+The steps is following:
+ Find two values of each side of window are equal. Return true if the offset between their indices is less than or equal k." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220312073726-219_contains_duplicate_ii/" />
@@ -35,8 +37,10 @@ class Solution { public: bool containsNearbyDuplicate(vector&amp;lt;int&amp;gt;&
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="219. Contains Duplicate II">
-<meta property="og:description" content=" tags: Sliding Window,Hash Table,LeetCode101  This is an near by problem that can be solved by Sliding Window. The k in the problem is somehow means contiguous.
-class Solution { public: bool containsNearbyDuplicate(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k) { int left = 0; unordered_map&amp;lt;int, int&amp;gt; indices; for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { auto iter = indices.find(nums[right]); if (iter != indices.end()) { if (abs(right - iter-&amp;gt;second) &amp;lt;= k) { return true; } left = iter-&amp;gt;second &#43; 1; } indices[nums[right]] = right; } return false; } }; " />
+<meta property="og:description" content="tags: Sliding Window,Hash Table,LeetCode101  This is an near by problem that can be solved by Sliding Window. The k in the problem is somehow means contiguous.
+And using a HashTable to indicate that two values in the different position are equal.
+The steps is following:
+ Find two values of each side of window are equal. Return true if the offset between their indices is less than or equal k." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220312073726-219_contains_duplicate_ii/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -172,6 +176,14 @@ class Solution { public: bool containsNearbyDuplicate(vector&amp;lt;int&amp;gt;&
 <li>tags: <a href="/notes/notes/20220311074820-sliding_window/">Sliding Window</a>,<a href="/notes/notes/20220311221617-hash_table/">Hash Table</a>,<a href="/notes/notes/20220311065137-leetcode101/">LeetCode101</a></li>
 </ul>
 <p>This is an near by problem that can be solved by Sliding Window. The <em>k</em> in the problem is somehow means <strong>contiguous</strong>.</p>
+<p>And using a <code>HashTable</code> to indicate that two values in the different position are equal.</p>
+<p>The steps is following:</p>
+<ol>
+<li>Find two values of each side of window are equal.</li>
+<li>Return <code>true</code> if the offset between their indices is less than or equal <em>k</em>.
+Otherwise set <code>left</code> to the new position and continue.</li>
+</ol>
+<!-- raw HTML omitted -->
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 	<span style="color:#66d9ef">bool</span> containsNearbyDuplicate(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> k) {
