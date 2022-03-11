@@ -6,7 +6,46 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 11 Mar 2022 21:30:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Mar 2022 22:08:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>209. Minimum Size Subarray Sum</title>
+      <link>https://www.linuxzen.com/notes/notes/20220311220839-209_minimum_size_subarray_sum/</link>
+      <pubDate>Fri, 11 Mar 2022 22:08:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220311220839-209_minimum_size_subarray_sum/</guid>
+      <description>tags: Sliding Window,LeetCode101  Key:
+ sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target.  class Solution { public: int minSubArrayLen(int target, vector&amp;lt;int&amp;gt;&amp;amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &amp;lt; nums.size(); right++) { sum += nums[right]; while (sum &amp;gt;= target) { minimal = min(minimal, right - left + 1); sum -= nums[left++]; } } return minimal == INT_MAX ?</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Key:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;sum is &lt;em&gt;greater than&lt;/em&gt; or &lt;em&gt;equal&lt;/em&gt; to &lt;code&gt;target&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Compute minimal must above slide left window, as decrease may cause sum less than target.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; minSubArrayLen(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; target, vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; sum &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; minimal &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; INT_MAX;
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			sum &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; nums[right];
+
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (sum &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; target) {
+				minimal &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; min(minimal, right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+				sum &lt;span style=&#34;color:#f92672&#34;&gt;-=&lt;/span&gt; nums[left&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;];
+			}
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; minimal &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; INT_MAX &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; minimal;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>187. Repeated DNA Sequences</title>
       <link>https://www.linuxzen.com/notes/notes/20220311213000-187_repeated_dna_sequences/</link>

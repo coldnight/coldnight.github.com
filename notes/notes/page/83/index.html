@@ -147,6 +147,43 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220311220839-209_minimum_size_subarray_sum/"><ol start="209">
+<li>Minimum Size Subarray Sum</li>
+</ol>
+</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-11
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Sliding Window,LeetCode101  Key:
+ sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target.  class Solution { public: int minSubArrayLen(int target, vector&lt;int&gt;&amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &lt; nums.size(); right++) { sum += nums[right]; while (sum &gt;= target) { minimal = min(minimal, right - left + 1); sum -= nums[left++]; } } return minimal == INT_MAX ?
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220311220839-209_minimum_size_subarray_sum/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20220311213000-187_repeated_dna_sequences/"><ol start="187">
 <li>Repeated DNA Sequences</li>
 </ol>
