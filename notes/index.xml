@@ -13,11 +13,34 @@
       <pubDate>Fri, 11 Mar 2022 08:38:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220311083843-an_introduction_to_sliding_window_algorithms/</guid>
-      <description> tags: Sliding Window source: Moore, Jordan. “An Introduction to Sliding Window Algorithms.” Medium, July 26, 2020. https://levelup.gitconnected.com/an-introduction-to-sliding-window-algorithms-5533c4fe1cc7.  </description>
+      <description>tags: Sliding Window source: Moore, Jordan. “An Introduction to Sliding Window Algorithms.” Medium, July 26, 2020. https://levelup.gitconnected.com/an-introduction-to-sliding-window-algorithms-5533c4fe1cc7.  Efficientive algorithm:
+ Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away. &amp;ndash; Antoine de Saint-Exupéry
+ The following return values can use a sliding window:
+ Minimum value Maximum value Longest value Shortest value K-sized value  And contiguous is one of the biggest clues.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;//select/items/1_DHN8YQ98&#34;&gt;Moore, Jordan. “An Introduction to Sliding Window Algorithms.” Medium, July 26, 2020. https://levelup.gitconnected.com/an-introduction-to-sliding-window-algorithms-5533c4fe1cc7.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;Efficientive algorithm:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away. &amp;ndash; Antoine de Saint-Exupéry&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The following return values can use a sliding window:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Minimum value&lt;/li&gt;
+&lt;li&gt;Maximum value&lt;/li&gt;
+&lt;li&gt;Longest value&lt;/li&gt;
+&lt;li&gt;Shortest value&lt;/li&gt;
+&lt;li&gt;K-sized value&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;And &lt;strong&gt;contiguous&lt;/strong&gt; is one of the biggest clues.&lt;/p&gt;
+&lt;p&gt;Common data structures are &lt;strong&gt;strings&lt;/strong&gt;, &lt;strong&gt;arrays&lt;/strong&gt; and even &lt;strong&gt;linked lists&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Framework:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Slide right window to move forward&lt;/li&gt;
+&lt;li&gt;Slide left window to meet the requirements.&lt;/li&gt;
+&lt;li&gt;Compare to result.&lt;/li&gt;
+&lt;/ol&gt;
 </content>
     </item>
     
@@ -90,11 +113,139 @@ Sliding Window to slove the problem of all elements that in the window.</descrip
       <pubDate>Fri, 11 Mar 2022 07:48:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220311074801-3_longest_substring_without_repeating_characters/</guid>
-      <description> tags: Sliding Window,LeetCode101  </description>
+      <description>tags: Sliding Window,LeetCode101  Use HashMap to store counts of letters Two points we should be noticed:
+  The length of substring should be (right - left) + 1, as one side must count.
+  We must decrese the number in the counts first, and then slide the left window, or we must decrese the wrong one, please compare between Wrong and Correct.
+Wrong
+left++; counts[s[left]]--; Correct</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
+&lt;h2 id=&#34;use-hashmap-to-store-counts-of-letters&#34;&gt;Use HashMap to store counts of letters&lt;/h2&gt;
+&lt;p&gt;Two points we should be noticed:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;strong&gt;length of substring&lt;/strong&gt; should be &lt;code&gt;(right - left) + 1&lt;/code&gt;, as one side must count.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;We must decrese the number in the &lt;code&gt;counts&lt;/code&gt; first, and then slide the left window, or we must decrese the wrong one, please compare between &lt;strong&gt;Wrong&lt;/strong&gt; and &lt;strong&gt;Correct&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Wrong&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;left&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+counts[s[left]]&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Correct&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;counts[s[left]]&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+left&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The full code see:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; lengthOfLongestSubstring(string s) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; c;
+		map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; counts;
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// for loop to slide the right side of window.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; s.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s[right];
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (counts.find(c) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; counts.end()) {
+				counts[c] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+			}
+			counts[c]&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+
+			&lt;span style=&#34;color:#75715e&#34;&gt;// slide the left side of window to meet the requirements,
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// here is &amp;#34;Without Repeating Characters&amp;#34;.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; counts.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; counts.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (iter&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;second &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+					counts[s[left]]&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+					left&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+					&lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+				}
+			}
+
+			&lt;span style=&#34;color:#75715e&#34;&gt;// compare to result.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; longest;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See also: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311083843-an_introduction_to_sliding_window_algorithms/&#34;&gt;An Introduction to Sliding Window Algorithms&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;use-hashmap-to-store-index-of-letters&#34;&gt;Use HashMap to store index of letters&lt;/h2&gt;
+&lt;p&gt;Points that should be noticed:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The whole string without repeating, that will not meet the condition: letter is indexed already.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot; &amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;au&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// no duplicated
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (indices.find(l) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; indices.end()) {
+	left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+	longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In those cases longest will be 0, if this is the only one block to compute the &lt;code&gt;longest&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Move compute the &lt;code&gt;longest&lt;/code&gt; out of the if block, the problem should be sloved.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// no duplicated
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (indices.find(l) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; indices.end()) {
+	left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+}
+longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;left&lt;/code&gt; may go backward from a HashTable, and that must be avoid.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;abba&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (indices.find(l) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; indices.end() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; left) {
+	left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+}
+longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; lengthOfLongestSubstring(string s) {
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+
+		map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; indices;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; s.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s[right];
+
+			&lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;			// failed on string without repeating: &amp;#34; &amp;#34; &amp;#34;au&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;			if (indices.find(l) != indices.end()) {
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;				left = indices[l] + 1;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;				longest = max(longest, right - left + 1);
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;			}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;			*/&lt;/span&gt;
+
+			&lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;			// failed on left go backward: &amp;#34;abba&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;			 if (indices.find(l) != indices.end()) {
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;				 left = indices[l] + 1;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;			 }
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;			 longest = max(longest, right - left + 1);
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;			*/&lt;/span&gt;
+
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (indices.find(l) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; indices.end() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; left) {
+				left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			}
+			longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+			indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; right;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; longest;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
     </item>
     
     <item>
