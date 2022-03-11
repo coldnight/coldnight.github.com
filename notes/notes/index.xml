@@ -6,7 +6,40 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 11 Mar 2022 22:16:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 12 Mar 2022 07:37:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>219. Contains Duplicate II</title>
+      <link>https://www.linuxzen.com/notes/notes/20220312073726-219_contains_duplicate_ii/</link>
+      <pubDate>Sat, 12 Mar 2022 07:37:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220312073726-219_contains_duplicate_ii/</guid>
+      <description> tags: Sliding Window,Hash Table,LeetCode101  This is an near by problem that can be solved by Sliding Window. The k in the problem is somehow means contiguous.
+class Solution { public: bool containsNearbyDuplicate(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k) { int left = 0; unordered_map&amp;lt;int, int&amp;gt; indices; for (auto right = 0; right &amp;lt; nums.size(); right++) { auto iter = indices.find(nums[right]); if (iter != indices.end()) { if (abs(right - iter-&amp;gt;second) &amp;lt;= k) { return true; } left = iter-&amp;gt;second + 1; } indices[nums[right]] = right; } return false; } }; </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This is an near by problem that can be solved by Sliding Window. The &lt;em&gt;k&lt;/em&gt; in the problem is somehow means &lt;strong&gt;contiguous&lt;/strong&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; containsNearbyDuplicate(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		unordered_map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; indices;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; indices.find(nums[right]);
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; indices.end()) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (abs(right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; iter&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;second) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; k) {
+					&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+				}
+				left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iter&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;second &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			}
+			indices[nums[right]] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; right;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>Hash Table</title>
       <link>https://www.linuxzen.com/notes/notes/20220311221617-hash_table/</link>
