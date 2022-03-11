@@ -204,6 +204,11 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
 	left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
 }
 longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And notice that &lt;code&gt;+1&lt;/code&gt; must exists in the condition, the &lt;strong&gt;WRONG&lt;/strong&gt; edition:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (indices.find(l) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; indices.end() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; left) {
+	left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+}
+longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Finally code:&lt;/p&gt;

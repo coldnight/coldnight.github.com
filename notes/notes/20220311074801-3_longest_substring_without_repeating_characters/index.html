@@ -260,6 +260,11 @@ longest <span style="color:#f92672">=</span> max(longest, right <span style="col
 	left <span style="color:#f92672">=</span> indices[l] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
 }
 longest <span style="color:#f92672">=</span> max(longest, right <span style="color:#f92672">-</span> left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</code></pre></div><p>And notice that <code>+1</code> must exists in the condition, the <strong>WRONG</strong> edition:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">if</span> (indices.find(l) <span style="color:#f92672">!=</span> indices.end() <span style="color:#f92672">&amp;&amp;</span> indices[l] <span style="color:#f92672">&gt;</span> left) {
+	left <span style="color:#f92672">=</span> indices[l] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+}
+longest <span style="color:#f92672">=</span> max(longest, right <span style="color:#f92672">-</span> left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
 </code></pre></div></li>
 </ol>
 <p>Finally code:</p>
