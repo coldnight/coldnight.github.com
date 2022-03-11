@@ -6,7 +6,82 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 11 Mar 2022 08:38:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Mar 2022 18:39:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hash Set</title>
+      <link>https://www.linuxzen.com/notes/notes/20220311183913-hash_set/</link>
+      <pubDate>Fri, 11 Mar 2022 18:39:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220311183913-hash_set/</guid>
+      <description> tags: Data Structures  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>1695. Maximum Erasure Value</title>
+      <link>https://www.linuxzen.com/notes/notes/20220311183843-1695_maximum_erasure_value/</link>
+      <pubDate>Fri, 11 Mar 2022 18:38:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220311183843-1695_maximum_erasure_value/</guid>
+      <description>tags: Sliding Window,LeetCode101,Hash Set  Use HashMap to store indices See also: 3. Longest Substring Without Repeating Characters
+class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int maximum = 0; int left = 0, right = 0; unordered_map&amp;lt;int, int&amp;gt; indices; for (; right &amp;lt; nums.size(); right++) { int n = nums[right]; if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] + 1 &amp;gt; left) { left = indices[n] + 1; } maximum = max(maximum, std::accumulate(nums.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;use-hashmap-to-store-indices&#34;&gt;Use HashMap to store indices&lt;/h2&gt;
+&lt;p&gt;See also: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074801-3_longest_substring_without_repeating_characters/&#34;&gt;3. Longest Substring Without Repeating Characters&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; maximumUniqueSubarray(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; maximum &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		unordered_map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; indices;
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[right];
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (indices.find(n) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; indices.end() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; indices[n] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; left) {
+				left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; indices[n] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			}
+			maximum &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(maximum, std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;accumulate(nums.begin() &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; left, nums.begin() &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;));
+			indices[n] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; right;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; maximum;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It is too slow, as there is a \(O(n^2)\) time complexity(&lt;code&gt;std::accmulate&lt;/code&gt; is the embed \(O(n)\) ).&lt;/p&gt;
+&lt;h2 id=&#34;slide-left-window-step-by-step-and-use-hashset-to-store-numbers&#34;&gt;Slide left window step by step and use HashSet to store numbers&lt;/h2&gt;
+&lt;p&gt;The keys we should noted:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We must decrease all the numbers that behind the new left position(a &lt;code&gt;while&lt;/code&gt; loop is used here).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; maximumUniqueSubarray(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; maximum &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, sum &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		unordered_set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; hset;
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[right];
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (hset.find(n) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; hset.end()) {
+				hset.erase(nums[left]);
+				sum &lt;span style=&#34;color:#f92672&#34;&gt;-=&lt;/span&gt; nums[left];
+				left&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+			}
+			sum &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; n;
+			maximum &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(maximum, sum);
+			hset.insert(n);
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; maximum;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>An Introduction to Sliding Window Algorithms</title>
       <link>https://www.linuxzen.com/notes/notes/20220311083843-an_introduction_to_sliding_window_algorithms/</link>
@@ -269,6 +344,25 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
 	}
 };
 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Optimization:&lt;/strong&gt; use the &lt;code&gt;unordered_map&lt;/code&gt; to instead &lt;code&gt;map&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; lengthOfLongestSubstring(string s) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+
+		unordered_map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; indices;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; s.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s[right];
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (indices.find(l) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; indices.end() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; left) {
+				left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			}
+			longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+			indices[l] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; right;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; longest;
+	}
+};
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
     </item>
     
@@ -278,10 +372,16 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
       <pubDate>Fri, 11 Mar 2022 07:48:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220311074820-sliding_window/</guid>
-      <description> tags: Algorithm  </description>
+      <description> tags: Algorithm   Slide right to move forward to find the solution. Slide left to keep the solution, and collect to the results. Must avoid left go to backward.  </description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;ol&gt;
+&lt;li&gt;Slide right to move forward to find the solution.&lt;/li&gt;
+&lt;li&gt;Slide left to keep the solution, and collect to the results.&lt;/li&gt;
+&lt;li&gt;Must avoid left go to backward.&lt;/li&gt;
+&lt;/ol&gt;
 </content>
     </item>
     

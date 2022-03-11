@@ -325,6 +325,25 @@ longest <span style="color:#f92672">=</span> max(longest, right <span style="col
 	}
 };
 
+</code></pre></div><p><strong>Optimization:</strong> use the <code>unordered_map</code> to instead <code>map</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+	<span style="color:#66d9ef">int</span> lengthOfLongestSubstring(string s) {
+		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">int</span> longest <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+		unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> indices;
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> right <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; right <span style="color:#f92672">&lt;</span> s.size(); right<span style="color:#f92672">++</span>) {
+			<span style="color:#66d9ef">char</span> l <span style="color:#f92672">=</span> s[right];
+			<span style="color:#66d9ef">if</span> (indices.find(l) <span style="color:#f92672">!=</span> indices.end() <span style="color:#f92672">&amp;&amp;</span> indices[l] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> left) {
+				left <span style="color:#f92672">=</span> indices[l] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+			}
+			longest <span style="color:#f92672">=</span> max(longest, right <span style="color:#f92672">-</span> left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+			indices[l] <span style="color:#f92672">=</span> right;
+		}
+		<span style="color:#66d9ef">return</span> longest;
+	}
+};
 </code></pre></div>
       </div></div>
 
@@ -335,6 +354,12 @@ longest <span style="color:#f92672">=</span> max(longest, right <span style="col
 
    
 
+   
+
+   
+
+   
+      
    
 
    
@@ -1381,7 +1406,14 @@ longest <span style="color:#f92672">=</span> max(longest, right <span style="col
 <hr>
 
   <div class="bl-section">
-    <h4>No notes link to this note</h4>
+    <h4>Links to this note</h4>
+    <div class="backlinks">
+      <ul>
+       
+          <li><a href="/notes/notes/20220311183843-1695_maximum_erasure_value/">1695. Maximum Erasure Value</a></li>
+       
+     </ul>
+    </div>
   </div>
 
 
