@@ -8,19 +8,19 @@
     <language>zh-cn</language>
     <lastBuildDate>Sat, 12 Mar 2022 07:37:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>219. Contains Duplicate II</title>
+      <title>LeetCode101: 219. Contains Duplicate II</title>
       <link>https://www.linuxzen.com/notes/notes/20220312073726-219_contains_duplicate_ii/</link>
       <pubDate>Sat, 12 Mar 2022 07:37:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220312073726-219_contains_duplicate_ii/</guid>
-      <description>tags: Sliding Window,Hash Table,LeetCode101  This is an near by problem that can be solved by Sliding Window. The k in the problem is somehow means contiguous.
+      <description>tags: Sliding Window,Hash Table,LeetCode101  This is an &amp;ldquo;near by&amp;rdquo; problem that can be solved by Sliding Window. The k in the problem is somehow means contiguous.
 And using a HashTable to indicate that two values in the different position are equal.
 The steps is following:
  Find two values at each side of window are equal. Return true if the offset between their indices is less than or equal k.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;This is an near by problem that can be solved by Sliding Window. The &lt;em&gt;k&lt;/em&gt; in the problem is somehow means &lt;strong&gt;contiguous&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;This is an &amp;ldquo;near by&amp;rdquo; problem that can be solved by Sliding Window. The &lt;em&gt;k&lt;/em&gt; in the problem is somehow means &lt;strong&gt;contiguous&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;And using a &lt;code&gt;HashTable&lt;/code&gt; to indicate that two values in the different position are equal.&lt;/p&gt;
 &lt;p&gt;The steps is following:&lt;/p&gt;
 &lt;ol&gt;
@@ -64,13 +64,13 @@ Otherwise set &lt;code&gt;left&lt;/code&gt; to the new position and continue.&lt
     </item>
     
     <item>
-      <title>209. Minimum Size Subarray Sum</title>
+      <title>LeetCode101: 209. Minimum Size Subarray Sum</title>
       <link>https://www.linuxzen.com/notes/notes/20220311220839-209_minimum_size_subarray_sum/</link>
       <pubDate>Fri, 11 Mar 2022 22:08:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220311220839-209_minimum_size_subarray_sum/</guid>
       <description>tags: Sliding Window,LeetCode101  Key:
- sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target.  class Solution { public: int minSubArrayLen(int target, vector&amp;lt;int&amp;gt;&amp;amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &amp;lt; nums.size(); right++) { sum += nums[right]; while (sum &amp;gt;= target) { minimal = min(minimal, right - left + 1); sum -= nums[left++]; } } return minimal == INT_MAX ?</description>
+ sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target. See also 1695. Maximum Erasure Value  class Solution { public: int minSubArrayLen(int target, vector&amp;lt;int&amp;gt;&amp;amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &amp;lt; nums.size(); right++) { sum += nums[right]; while (sum &amp;gt;= target) { minimal = min(minimal, right - left + 1); sum -= nums[left++]; } } return minimal == INT_MAX ?</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -78,6 +78,7 @@ Otherwise set &lt;code&gt;left&lt;/code&gt; to the new position and continue.&lt
 &lt;ol&gt;
 &lt;li&gt;sum is &lt;em&gt;greater than&lt;/em&gt; or &lt;em&gt;equal&lt;/em&gt; to &lt;code&gt;target&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Compute minimal must above slide left window, as decrease may cause sum less than target.&lt;/li&gt;
+&lt;li&gt;See also &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183843-1695_maximum_erasure_value/&#34;&gt;1695. Maximum Erasure Value&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
@@ -113,6 +114,44 @@ Otherwise set &lt;code&gt;left&lt;/code&gt; to the new position and continue.&lt
     </item>
     
     <item>
+      <title>LeetCode101: 187. Repeated DNA Sequences</title>
+      <link>https://www.linuxzen.com/notes/notes/20220311213045-187_repeated_dna_sequences/</link>
+      <pubDate>Fri, 11 Mar 2022 21:30:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220311213045-187_repeated_dna_sequences/</guid>
+      <description> tags: Sliding Window,LeetCode101,Hash Set  Key:
+ Fixed size window, right should start from 9  class Solution { public: vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { int left = 0; unordered_set&amp;lt;string&amp;gt; results; unordered_set&amp;lt;string&amp;gt; hset; for (auto right = 9; right &amp;lt; s.size(); right++) { string sub(s, left, 10); if (hset.find(sub) != hset.end()) { results.insert(sub); } hset.insert(sub); left++; } return vector&amp;lt;string&amp;gt;(results.begin(), results.end()); } }; </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Key:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Fixed size window, &lt;code&gt;right&lt;/code&gt; should start from &lt;code&gt;9&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;string&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; findRepeatedDnaSequences(string s) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		unordered_set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;string&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; results;
+		unordered_set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;string&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; hset;
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; s.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			string &lt;span style=&#34;color:#a6e22e&#34;&gt;sub&lt;/span&gt;(s, left, &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;);
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (hset.find(sub) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; hset.end()) {
+				results.insert(sub);
+			}
+			hset.insert(sub);
+			left&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;string&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(results.begin(), results.end());
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
       <title>Hash Set</title>
       <link>https://www.linuxzen.com/notes/notes/20220311183913-hash_set/</link>
       <pubDate>Fri, 11 Mar 2022 18:39:00 +0800</pubDate>
@@ -126,7 +165,7 @@ Otherwise set &lt;code&gt;left&lt;/code&gt; to the new position and continue.&lt
     </item>
     
     <item>
-      <title>1695. Maximum Erasure Value</title>
+      <title>LeetCode101: 1695. Maximum Erasure Value</title>
       <link>https://www.linuxzen.com/notes/notes/20220311183843-1695_maximum_erasure_value/</link>
       <pubDate>Fri, 11 Mar 2022 18:38:00 +0800</pubDate>
       
@@ -288,7 +327,7 @@ Sliding Window to slove the problem of all elements that in the window.</descrip
     </item>
     
     <item>
-      <title>3. Longest Substring Without Repeating Characters</title>
+      <title>LeetCode101: 3. Longest Substring Without Repeating Characters</title>
       <link>https://www.linuxzen.com/notes/notes/20220311074801-3_longest_substring_without_repeating_characters/</link>
       <pubDate>Fri, 11 Mar 2022 07:48:00 +0800</pubDate>
       
@@ -501,20 +540,6 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
     </item>
     
     <item>
-      <title>445. Add Two Numbers II</title>
-      <link>https://www.linuxzen.com/notes/notes/20220311073810-445_add_two_numbers_ii/</link>
-      <pubDate>Fri, 11 Mar 2022 07:38:00 +0800</pubDate>
-      
-      <guid>https://www.linuxzen.com/notes/notes/20220311073810-445_add_two_numbers_ii/</guid>
-      <description>tags: Linked List,Stack, LeetCode101,2. Add Two Numbers  两数之和的进阶版，位高的数字在链表的头部，常规解法是通过「栈」进行反转链表，然后回退到2. Add Two Numbers的解法。</description>
-      <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070813-linked_list/&#34;&gt;Linked List&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070727-2_add_two_numbers/&#34;&gt;2. Add Two Numbers&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;两数之和的进阶版，位高的数字在链表的头部，常规解法是通过「栈」进行反转链表，然后回退到&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070727-2_add_two_numbers/&#34;&gt;2. Add Two Numbers&lt;/a&gt;的解法。&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
       <title>Data Structures</title>
       <link>https://www.linuxzen.com/notes/notes/20220311073856-data_structures/</link>
       <pubDate>Fri, 11 Mar 2022 07:38:00 +0800</pubDate>
@@ -524,6 +549,20 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200802151319-computer_systems/&#34;&gt;Computer Systems&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 445. Add Two Numbers II</title>
+      <link>https://www.linuxzen.com/notes/notes/20220311073810-445_add_two_numbers_ii/</link>
+      <pubDate>Fri, 11 Mar 2022 07:38:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220311073810-445_add_two_numbers_ii/</guid>
+      <description>tags: Linked List,Stack, LeetCode101,2. Add Two Numbers  两数之和的进阶版，位高的数字在链表的头部，常规解法是通过「栈」进行反转链表，然后回退到2. Add Two Numbers的解法。</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070813-linked_list/&#34;&gt;Linked List&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070727-2_add_two_numbers/&#34;&gt;2. Add Two Numbers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;两数之和的进阶版，位高的数字在链表的头部，常规解法是通过「栈」进行反转链表，然后回退到&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070727-2_add_two_numbers/&#34;&gt;2. Add Two Numbers&lt;/a&gt;的解法。&lt;/p&gt;
 </content>
     </item>
     
@@ -554,7 +593,7 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
     </item>
     
     <item>
-      <title>2. Add Two Numbers</title>
+      <title>LeetCode101: 2. Add Two Numbers</title>
       <link>https://www.linuxzen.com/notes/notes/20220311070727-2_add_two_numbers/</link>
       <pubDate>Fri, 11 Mar 2022 07:07:00 +0800</pubDate>
       

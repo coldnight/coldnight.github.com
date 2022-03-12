@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   
-    <title>209. Minimum Size Subarray Sum :: Taking Smart Notes With Org-mode</title>
+    <title>LeetCode101: 209. Minimum Size Subarray Sum :: Taking Smart Notes With Org-mode</title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Sliding Window,LeetCode101  Key:
- sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target.  class Solution { public: int minSubArrayLen(int target, vector&amp;lt;int&amp;gt;&amp;amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { sum &#43;= nums[right]; while (sum &amp;gt;= target) { minimal = min(minimal, right - left &#43; 1); sum -= nums[left&#43;&#43;]; } } return minimal == INT_MAX ?" />
+ sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target. See also 1695. Maximum Erasure Value  class Solution { public: int minSubArrayLen(int target, vector&amp;lt;int&amp;gt;&amp;amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { sum &#43;= nums[right]; while (sum &amp;gt;= target) { minimal = min(minimal, right - left &#43; 1); sum -= nums[left&#43;&#43;]; } } return minimal == INT_MAX ?" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220311220839-209_minimum_size_subarray_sum/" />
@@ -34,9 +34,9 @@
 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="209. Minimum Size Subarray Sum">
+<meta property="og:title" content="LeetCode101: 209. Minimum Size Subarray Sum">
 <meta property="og:description" content="tags: Sliding Window,LeetCode101  Key:
- sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target.  class Solution { public: int minSubArrayLen(int target, vector&amp;lt;int&amp;gt;&amp;amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { sum &#43;= nums[right]; while (sum &amp;gt;= target) { minimal = min(minimal, right - left &#43; 1); sum -= nums[left&#43;&#43;]; } } return minimal == INT_MAX ?" />
+ sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target. See also 1695. Maximum Erasure Value  class Solution { public: int minSubArrayLen(int target, vector&amp;lt;int&amp;gt;&amp;amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { sum &#43;= nums[right]; while (sum &amp;gt;= target) { minimal = min(minimal, right - left &#43; 1); sum -= nums[left&#43;&#43;]; } } return minimal == INT_MAX ?" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220311220839-209_minimum_size_subarray_sum/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -146,10 +146,7 @@
     
 <div class="post">
   <h1 class="post-title">
-    <a href="https://www.linuxzen.com/notes/notes/20220311220839-209_minimum_size_subarray_sum/"><ol start="209">
-<li>Minimum Size Subarray Sum</li>
-</ol>
-</a></h1>
+    <a href="https://www.linuxzen.com/notes/notes/20220311220839-209_minimum_size_subarray_sum/">LeetCode101: 209. Minimum Size Subarray Sum</a></h1>
   <div class="post-meta">
     
       <span class="post-date">
@@ -175,6 +172,7 @@
 <ol>
 <li>sum is <em>greater than</em> or <em>equal</em> to <code>target</code></li>
 <li>Compute minimal must above slide left window, as decrease may cause sum less than target.</li>
+<li>See also <a href="/notes/notes/20220311183843-1695_maximum_erasure_value/">1695. Maximum Erasure Value</a></li>
 </ol>
 <!-- raw HTML omitted -->
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
@@ -203,6 +201,8 @@
 
   
 
+
+   
 
    
 
