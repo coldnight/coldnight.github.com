@@ -6,7 +6,478 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 12 Mar 2022 07:37:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Mar 2022 08:58:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 496. Next Greater Element I</title>
+      <link>https://www.linuxzen.com/notes/notes/20220314085847-leetcode101_496_next_greater_element_i/</link>
+      <pubDate>Mon, 14 Mar 2022 08:58:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220314085847-leetcode101_496_next_greater_element_i/</guid>
+      <description>tags: Monotonic Stack,Hash Table,LeetCode101  Mono-descreasing and reverse order travel class Solution { public: vector&amp;lt;int&amp;gt; nextGreaterElement(vector&amp;lt;int&amp;gt;&amp;amp; nums1, vector&amp;lt;int&amp;gt;&amp;amp; nums2) { // Mono-descreasing and reverse order travel. 	// The next greater of the popped value is the top of the stack, if it has any. 	// 	// For example: [1,3,4,2] 	// the stack goes: 	// [2] 	// [4] -&amp;gt; 2 	// [4, 3, 1] 	stack&amp;lt;int&amp;gt; st; vector&amp;lt;int&amp;gt; res; unordered_map&amp;lt;int, int&amp;gt; m; for (int i = nums2.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;mono-descreasing-and-reverse-order-travel&#34;&gt;Mono-descreasing and reverse order travel&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; nextGreaterElement(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums1, vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums2) {
+		&lt;span style=&#34;color:#75715e&#34;&gt;// Mono-descreasing and reverse order travel.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;// The next greater of the popped value is the top of the stack, if it has any.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;//  For example: [1,3,4,2]
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;// the stack goes:
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;// [2]
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;// [4] -&amp;gt; 2
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;// [4, 3, 1]
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; st;
+
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; res;
+		unordered_map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; m;
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums2.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; st.top() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums2[i]) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; st.top();
+				st.pop();
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty()) {
+					m[c] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; st.top();
+				}
+			}
+			st.push(nums2[i]);
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (st.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; st.top();
+			st.pop();
+			m[c] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; st.top();
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums1.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (m.find(nums1[i]) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; m.end()) {
+				res.push_back(m[nums1[i]]);
+			} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+				res.push_back(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+	}
+};
+
+
+&lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;[1,3,5,2,4]
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;[6,5,4,3,2,1,7]
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;The stack goes:
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;[7, 1]
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;[7, 2] -&amp;gt; 1 and 1 is next greater is the top of the stack
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;*/&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 402. Remove K Digits</title>
+      <link>https://www.linuxzen.com/notes/notes/20220314074324-leetcode101_402_remove_k_digits/</link>
+      <pubDate>Mon, 14 Mar 2022 07:43:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220314074324-leetcode101_402_remove_k_digits/</guid>
+      <description>tags: Monotonic Stack,LeetCode101  Mono-increasing stack and reverse order travel (Not Work) Notes:
+ We attempt to remove the most large numbers in the left, first, we use the right n numbers to meet the requirements, which is num.length - k and then, using a monotonic increasing stack to keep the result as samller as we can.  (A monotonic increasing stack will remove larger elements before pushing.)
+Also note that: the result&amp;rsquo;s length is not actually equal num.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;mono-increasing-stack-and-reverse-order-travel--not-work&#34;&gt;Mono-increasing stack and reverse order travel (Not Work)&lt;/h2&gt;
+&lt;p&gt;Notes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We attempt to remove the most large numbers in the left,&lt;/li&gt;
+&lt;li&gt;first, we use the right &lt;em&gt;n&lt;/em&gt; numbers to meet the requirements, which is &lt;code&gt;num.length&lt;/code&gt; - &lt;code&gt;k&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;and then, using a monotonic increasing stack to keep the result as samller as we can.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;(A monotonic increasing stack will remove larger elements before pushing.)&lt;/p&gt;
+&lt;p&gt;Also note that: the result&amp;rsquo;s length is not actually equal &lt;code&gt;num.length - k&lt;/code&gt;, it&amp;rsquo;s less than or equal &lt;code&gt;num.length - k&lt;/code&gt;, like num = &amp;ldquo;10200&amp;rdquo;, k = 1. Which means the result in stack could be longer than the required or leading &amp;lsquo;0&amp;rsquo;.&lt;/p&gt;
+&lt;p&gt;We failed at:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The result is an empty string, that the &amp;ldquo;0&amp;rdquo; should be returned. num = &amp;ldquo;10&amp;rdquo;, k = 2&lt;/li&gt;
+&lt;li&gt;num = &amp;ldquo;112&amp;rdquo;, k = 1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	string removeKdigits(string num, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (num.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; k) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#75715e&#34;&gt;// A monotonic increasing stack will remove larger elements before pushing.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; mst;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; num.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; k;
+		string r;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; num.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (mst.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mst.top() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; num[i]) {
+				mst.pop();
+			}
+			mst.push(num[i]);
+		}
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// Pop surplus and the leading &amp;#39;0&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (mst.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;mst.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mst.top() &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;0&amp;#39;&lt;/span&gt;)) {
+			mst.pop();
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;mst.empty()) {
+			r.push_back(mst.top());
+			mst.pop();
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; r : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;mono-increasing-stack-and-normal-order-travel&#34;&gt;Mono-increasing stack and normal order travel&lt;/h2&gt;
+&lt;p&gt;We are not focus on keep &lt;code&gt;n - k&lt;/code&gt; numbers from right to left, but focus on remove &lt;code&gt;k&lt;/code&gt; numbers from left to right.&lt;/p&gt;
+&lt;p&gt;A more detail explanation to see: &lt;a href=&#34;https://leetcode.com/problems/remove-k-digits/discuss/1779458/C%2B%2B-oror-Easy-To-Understand-oror-Stack-oror-Short-and-Simple&#34;&gt;https://leetcode.com/problems/remove-k-digits/discuss/1779458/C%2B%2B-oror-Easy-To-Understand-oror-Stack-oror-Short-and-Simple&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	string removeKdigits(string num, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (num.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; k) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#75715e&#34;&gt;// A monotonic increasing stack will remove bigger elements before pushing.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; mst;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; num.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; k;
+		string r;
+
+		mst.push(num[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]);
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; num.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;mst.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mst.top() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; num[i]) {
+				mst.pop();
+				k&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+			}
+
+			&lt;span style=&#34;color:#75715e&#34;&gt;// the leading zero
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (mst.size() &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mst.top() &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;0&amp;#39;&lt;/span&gt;) {
+				mst.pop();
+			}
+
+			mst.push(num[i]);
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;mst.empty()) {
+			k&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+			mst.pop();
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;mst.empty()) {
+			r.push_back(mst.top());
+			mst.pop();
+		}
+		reverse(r.begin(), r.end());
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; r : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 456. 132 Pattern</title>
+      <link>https://www.linuxzen.com/notes/notes/20220313153222-456_132_pattern/</link>
+      <pubDate>Sun, 13 Mar 2022 15:32:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220313153222-456_132_pattern/</guid>
+      <description>tags: Monotonic Stack,LeetCode101  We travel the numbers in the reverse order:
+ Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &amp;lt; j &amp;lt; k, not i + 1 = j, j + 1 = k // class Solution { public: bool find132pattern(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int K = INT_MIN; stack&amp;lt;int&amp;gt; mst; // mono-increasing stack 	for (int i = nums.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We travel the numbers in the reverse order:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Use a mono-&lt;strong&gt;increasing&lt;/strong&gt; stack to find the largest number(&lt;strong&gt;3&lt;/strong&gt; in the &lt;strong&gt;132&lt;/strong&gt; pattern),&lt;/li&gt;
+&lt;li&gt;the value popped from stack is the second large number(&lt;strong&gt;2&lt;/strong&gt; in the &lt;strong&gt;132&lt;/strong&gt; pattern),&lt;/li&gt;
+&lt;li&gt;if any value less than the second large number, returns &lt;code&gt;true&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Note:
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// - subsequence is not contiguous, is i &amp;lt; j &amp;lt; k, not i + 1 = j, j + 1 = k
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; find132pattern(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; K &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; INT_MIN;
+		stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; mst;   &lt;span style=&#34;color:#75715e&#34;&gt;// mono-increasing stack
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nums[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; K) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+			}
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;mst.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mst.top() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums[i]) {
+				K &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mst.top();
+				mst.pop();
+			}
+
+			mst.push(nums[i]);
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+	}
+};
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Monotonic Stack</title>
+      <link>https://www.linuxzen.com/notes/notes/20220313145125-monotonic_stack/</link>
+      <pubDate>Sun, 13 Mar 2022 14:51:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220313145125-monotonic_stack/</guid>
+      <description>tags: Data Structures,Stack source: “Monotonic Stack.” Accessed March 13, 2022. https://liuzhenglaichn.gitbook.io/algorithm/monotonic-stack.  A monotonic stack is a stack whose elements are monotonically increasing or descreasing.
+It&amp;rsquo;s not only about the order in the stack, it&amp;rsquo;s also about remove larger/smaller elements before pushing.
+Monotonically descreasing we need to pop smaller elements from the stack before pushing a new element:
+vector&amp;lt;int&amp;gt; nums; // fill nums stack&amp;lt;int&amp;gt; st; for (auto i = nums.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;//select/items/1_YUUTVRT9&#34;&gt;“Monotonic Stack.” Accessed March 13, 2022. https://liuzhenglaichn.gitbook.io/algorithm/monotonic-stack.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A monotonic stack is a stack whose elements are monotonically increasing or descreasing.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;It&amp;rsquo;s not only about the order in the stack, it&amp;rsquo;s also about remove larger/smaller elements before pushing.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;monotonically-descreasing&#34;&gt;Monotonically descreasing&lt;/h2&gt;
+&lt;p&gt;we need to pop &lt;strong&gt;smaller&lt;/strong&gt; elements from the stack before pushing a new element:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; nums;
+&lt;span style=&#34;color:#75715e&#34;&gt;// fill nums
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; st;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;) {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; st.top() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; nums[i]) {
+		st.pop();
+	}
+	st.push(nums[i])
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;To push &lt;code&gt;3&lt;/code&gt; to &lt;code&gt;[5, 4, 2, 1]&lt;/code&gt;, we need pop &lt;code&gt;2, 1&lt;/code&gt; out first.&lt;/li&gt;
+&lt;li&gt;Then the stack become &lt;code&gt;[5, 4, 3]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;monotonically-increasing&#34;&gt;Monotonically increasing&lt;/h2&gt;
+&lt;p&gt;vice versa.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; nums;
+&lt;span style=&#34;color:#75715e&#34;&gt;// fill nums
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; st;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;) {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; st.top() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums[i]) {
+		st.pop();
+	}
+	st.push(nums[i]);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;increasing-vs-decreasing&#34;&gt;Increasing vs Decreasing&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Mono-increasing attempt to keep the result as &lt;strong&gt;greater&lt;/strong&gt; as possible.&lt;/li&gt;
+&lt;li&gt;Vice versa.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>AVL Tree</title>
+      <link>https://www.linuxzen.com/notes/notes/20220312215308-avl_tree/</link>
+      <pubDate>Sat, 12 Mar 2022 21:53:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220312215308-avl_tree/</guid>
+      <description> tags: Binary Search Tree  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215158-binary_search_tree/&#34;&gt;Binary Search Tree&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Binary Search Tree</title>
+      <link>https://www.linuxzen.com/notes/notes/20220312215158-binary_search_tree/</link>
+      <pubDate>Sat, 12 Mar 2022 21:51:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220312215158-binary_search_tree/</guid>
+      <description> tags: Data Structures  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Red-Black Tree</title>
+      <link>https://www.linuxzen.com/notes/notes/20220312215140-red_black_tree/</link>
+      <pubDate>Sat, 12 Mar 2022 21:51:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220312215140-red_black_tree/</guid>
+      <description> tags: Binary Search Tree, AVL Tree  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215158-binary_search_tree/&#34;&gt;Binary Search Tree&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215308-avl_tree/&#34;&gt;AVL Tree&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>set vs unordered_set in C&#43;&#43; STL</title>
+      <link>https://www.linuxzen.com/notes/notes/20220312215003-set_vs_unordered_set_in_c_stl/</link>
+      <pubDate>Sat, 12 Mar 2022 21:50:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220312215003-set_vs_unordered_set_in_c_stl/</guid>
+      <description>tags: C/C++ source: GeeksforGeeks. “Set vs Unordered_set in C++ STL,” May 28, 2018. https://www.geeksforgeeks.org/set-vs-unordered_set-c-stl/.  set Ordered set that implemented by a &amp;ldquo;Self balancing BST&amp;rdquo; like Red-Black Tree.
+Extra find operations  equal_range returns range of elements matching a specific key lower_bound returns an iterator to the first element not less than the given key upper_bound returns an iterator to the first element greater than the given key  #include &amp;lt;iostream&amp;gt;#include &amp;lt;set&amp;gt;#include &amp;lt;assert.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320171108_c/&#34;&gt;C/C++&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;//select/items/1_NQWCERKU&#34;&gt;GeeksforGeeks. “Set vs Unordered_set in C++ STL,” May 28, 2018. https://www.geeksforgeeks.org/set-vs-unordered_set-c-stl/.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;set&#34;&gt;set&lt;/h2&gt;
+&lt;p&gt;Ordered set that implemented by a &amp;ldquo;Self balancing BST&amp;rdquo; like &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215140-red_black_tree/&#34;&gt;Red-Black Tree&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;extra-find-operations&#34;&gt;Extra find operations&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;equal_range
+returns range of elements matching a specific key&lt;/li&gt;
+&lt;li&gt;lower_bound
+returns an iterator to the first element not less than the given key&lt;/li&gt;
+&lt;li&gt;upper_bound
+returns an iterator to the first element greater than the given key&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;set&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;assert.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;) {
+	set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; hset;
+
+	hset.insert(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;);
+	hset.insert(&lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;);
+	hset.insert(&lt;span style=&#34;color:#ae81ff&#34;&gt;13&lt;/span&gt;);
+
+	{
+		&lt;span style=&#34;color:#75715e&#34;&gt;// Lower bound equal or greater than
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hset.lower_bound(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;);
+		assert(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;// 5&amp;#39;s lower bound is 5 itself in the set
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	}
+	{
+		&lt;span style=&#34;color:#75715e&#34;&gt;// Upper bound greater than 5
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hset.upper_bound(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;);
+		assert(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;// 5&amp;#39;s upper bound is the first value greater than itself
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;unordered-set&#34;&gt;unordered_set&lt;/h2&gt;
+&lt;p&gt;Set that implemented by &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>OrderedSet</title>
+      <link>https://www.linuxzen.com/notes/notes/20220312213701-orderedset/</link>
+      <pubDate>Sat, 12 Mar 2022 21:37:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220312213701-orderedset/</guid>
+      <description>tags: C/C++,Java,Data Structures  In C++ the set container is an ordered or sorted set, unordered_set is the normal set in C++. Differences between them please check set vs unordered_set in C++ STL.
+In Java there is an java.util.SortedSet interface.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320171108_c/&#34;&gt;C/C++&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20210901081938-java/&#34;&gt;Java&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In C++ the &lt;a href=&#34;https://en.cppreference.com/w/cpp/container/set&#34;&gt;set&lt;/a&gt; container is an ordered or sorted set, &lt;a href=&#34;https://en.cppreference.com/w/cpp/container/unordered%5Fset&#34;&gt;unordered_set&lt;/a&gt; is the normal set in C++. Differences between them please check &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215003-set_vs_unordered_set_in_c_stl/&#34;&gt;set vs unordered_set in C++ STL&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In Java there is an &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/java/util/SortedSet.html&#34;&gt;java.util.SortedSet&lt;/a&gt; interface.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 220. Contains Duplicate III</title>
+      <link>https://www.linuxzen.com/notes/notes/20220312212227-leetcode101_220_contains_duplicate_iii/</link>
+      <pubDate>Sat, 12 Mar 2022 21:22:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220312212227-leetcode101_220_contains_duplicate_iii/</guid>
+      <description>tags: Sliding Window,OrderedSet  Use HashSet to attempt to meet the requirements in the window class Solution { public: bool containsNearbyAlmostDuplicate(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k, int t) { auto left = 0; auto K = 0; set&amp;lt;long&amp;gt; hset; // set in cpp is an sorted set 	for (auto right = 0; right &amp;lt; nums.size(); right++) { K = right - left; if (K &amp;gt; k) { hset.erase(nums[left]); left++; } hset.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312213701-orderedset/&#34;&gt;OrderedSet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;use-hashset-to-attempt-to-meet-the-requirements-in-the-window&#34;&gt;Use HashSet to attempt to meet the requirements in the window&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; containsNearbyAlmostDuplicate(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; t) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; K &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; hset; &lt;span style=&#34;color:#75715e&#34;&gt;// set in cpp is an sorted set
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			K &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left;
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (K &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; k) {
+				hset.erase(nums[left]);
+				left&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+			}
+			hset.insert(nums[right]);
+
+			&lt;span style=&#34;color:#75715e&#34;&gt;// some numbers are the same.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (hset.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; (right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+			}
+
+			&lt;span style=&#34;color:#75715e&#34;&gt;// abs less than or equal t
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; prev &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hset.begin();
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hset.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; hset.end(); iter&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; prev &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; abs(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;prev &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; t) {
+					&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+				}
+				prev &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iter;
+			}
+
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+	}
+};
+
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// 1. find previous value that meet the requirement, which is abs(nums[i] - nums[j]) &amp;lt;= t
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 2. See if also meet the requirement, which is abs(i - j) &amp;lt;= k, otherwise slide left
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Use a fixed window, which size is ~k~. And maintain a set of numbers in the window.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// To check if there numbers meet the requirement.
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;It&amp;rsquo;s too slow and got &amp;ldquo;Time Limit Exceeded&amp;rdquo;&lt;/strong&gt;: &lt;a href=&#34;https://leetcode.com/submissions/detail/658425251/testcase/&#34;&gt;https://leetcode.com/submissions/detail/658425251/testcase/&lt;/a&gt;. In this case the &lt;em&gt;t&lt;/em&gt; is &lt;code&gt;0&lt;/code&gt;, so we can avoid the embed for loop with a &lt;code&gt;if&lt;/code&gt; condition:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (t &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ) {
+	&lt;span style=&#34;color:#75715e&#34;&gt;// abs less than or equal t
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; prev &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hset.begin();
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hset.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; hset.end(); iter&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; prev &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; abs(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;prev &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; t) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+		}
+		prev &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iter;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;But then we got: &lt;a href=&#34;https://leetcode.com/submissions/detail/658426815/testcase/&#34;&gt;https://leetcode.com/submissions/detail/658426815/testcase/&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;use-sortedset-lower-bound-uppoer-bound-to-meet-the-requirements-of-abs--nums-i-nums-j--t&#34;&gt;Use SortedSet lower_bound/uppoer_bound to meet the requirements of abs(nums[i] - nums[j]) &amp;lt; t&lt;/h2&gt;
+&lt;p&gt;After a search of OrderedSet. As we known &lt;em&gt;nums[j]&lt;/em&gt; and &lt;em&gt;t&lt;/em&gt;, we need find which range
+of &lt;em&gt;nums[i]&lt;/em&gt; is meeting the requirement. Then we can find it in the OrderedSet.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; containsNearbyAlmostDuplicate(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; t) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; K &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; hset; &lt;span style=&#34;color:#75715e&#34;&gt;// set in cpp is an sorted set
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; right &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums.size(); right&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[right];
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ((right &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; left) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; k) {
+				hset.erase(nums[left&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;]);
+			}
+			&lt;span style=&#34;color:#75715e&#34;&gt;// Find a value that equal or greater than required.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// According to abs(nums[i] - nums[j]) &amp;lt;= t, the differ between
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// nums[i] and nums[j] less than t.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// Which means nums[i] - nums[j] &amp;lt;= t and nums[j] - nums[i] &amp;lt;= t.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// So here, we find back /t/ based on current value, as we are using
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// sorted set, so a bigger value could be found too.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// For example, now the value is 5, t is 2. Then we found the value
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// greater than or equal to 3, the possible values may found: 3, 4, 5, 6, 7.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// Any of them is meeting the requirements.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hset.lower_bound(n &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; t);
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; hset.end() and (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; n) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; t) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+			}
+			hset.insert(nums[right]);
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+	}
+};
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 219. Contains Duplicate II</title>
       <link>https://www.linuxzen.com/notes/notes/20220312073726-219_contains_duplicate_ii/</link>
@@ -623,7 +1094,8 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
       
       <guid>https://www.linuxzen.com/notes/notes/20220311065137-leetcode101/</guid>
       <description> tags: Algorithm,Data Structures  又要开始找工作了，刷题、刷题、刷题！步骤：
- 按顺序找到题目 解题/学习 总结考察的点（树、双指针、回溯、DP、模拟现实、递归） 刷相同解法框架的题  </description>
+ 按顺序找到题目 解题/学习 总结考察的点（树、双指针、回溯、DP、模拟现实、递归） 刷相同解法框架的题  一些模糊的感觉：
+ 尝试不同的遍历顺序可能是解题关键，正序遍历不行试一下反序遍历，反之亦然！  </description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -633,6 +1105,10 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
 &lt;li&gt;解题/学习&lt;/li&gt;
 &lt;li&gt;总结考察的点（树、双指针、回溯、DP、模拟现实、递归）&lt;/li&gt;
 &lt;li&gt;刷相同解法框架的题&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;一些模糊的感觉：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;尝试不同的遍历顺序可能是解题关键，正序遍历不行试一下反序遍历，反之亦然！&lt;/li&gt;
 &lt;/ol&gt;
 </content>
     </item>

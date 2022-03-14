@@ -147,6 +147,335 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220314085847-leetcode101_496_next_greater_element_i/">LeetCode101: 496. Next Greater Element I</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-14
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Monotonic Stack,Hash Table,LeetCode101  Mono-descreasing and reverse order travel class Solution { public: vector&lt;int&gt; nextGreaterElement(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) { // Mono-descreasing and reverse order travel. 	// The next greater of the popped value is the top of the stack, if it has any. 	// 	// For example: [1,3,4,2] 	// the stack goes: 	// [2] 	// [4] -&gt; 2 	// [4, 3, 1] 	stack&lt;int&gt; st; vector&lt;int&gt; res; unordered_map&lt;int, int&gt; m; for (int i = nums2.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220314085847-leetcode101_496_next_greater_element_i/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220314074324-leetcode101_402_remove_k_digits/">LeetCode101: 402. Remove K Digits</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-14
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Monotonic Stack,LeetCode101  Mono-increasing stack and reverse order travel (Not Work) Notes:
+ We attempt to remove the most large numbers in the left, first, we use the right n numbers to meet the requirements, which is num.length - k and then, using a monotonic increasing stack to keep the result as samller as we can.  (A monotonic increasing stack will remove larger elements before pushing.)
+Also note that: the result&rsquo;s length is not actually equal num.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220314074324-leetcode101_402_remove_k_digits/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220313153222-456_132_pattern/">LeetCode101: 456. 132 Pattern</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-13
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Monotonic Stack,LeetCode101  We travel the numbers in the reverse order:
+ Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &lt; j &lt; k, not i + 1 = j, j + 1 = k // class Solution { public: bool find132pattern(vector&lt;int&gt;&amp; nums) { int K = INT_MIN; stack&lt;int&gt; mst; // mono-increasing stack 	for (int i = nums.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220313153222-456_132_pattern/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220313145125-monotonic_stack/">Monotonic Stack</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-13
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Data Structures,Stack source: “Monotonic Stack.” Accessed March 13, 2022. https://liuzhenglaichn.gitbook.io/algorithm/monotonic-stack.  A monotonic stack is a stack whose elements are monotonically increasing or descreasing.
+It&rsquo;s not only about the order in the stack, it&rsquo;s also about remove larger/smaller elements before pushing.
+Monotonically descreasing we need to pop smaller elements from the stack before pushing a new element:
+vector&lt;int&gt; nums; // fill nums stack&lt;int&gt; st; for (auto i = nums.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220313145125-monotonic_stack/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220312215308-avl_tree/">AVL Tree</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-12
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220312215308-avl_tree/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220312215158-binary_search_tree/">Binary Search Tree</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-12
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220312215158-binary_search_tree/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220312215140-red_black_tree/">Red-Black Tree</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-12
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220312215140-red_black_tree/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220312215003-set_vs_unordered_set_in_c_stl/">set vs unordered_set in C++ STL</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-12
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: C/C++ source: GeeksforGeeks. “Set vs Unordered_set in C++ STL,” May 28, 2018. https://www.geeksforgeeks.org/set-vs-unordered_set-c-stl/.  set Ordered set that implemented by a &ldquo;Self balancing BST&rdquo; like Red-Black Tree.
+Extra find operations  equal_range returns range of elements matching a specific key lower_bound returns an iterator to the first element not less than the given key upper_bound returns an iterator to the first element greater than the given key  #include &lt;iostream&gt;#include &lt;set&gt;#include &lt;assert.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220312215003-set_vs_unordered_set_in_c_stl/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220312213701-orderedset/">OrderedSet</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-12
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220312213701-orderedset/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220312212227-leetcode101_220_contains_duplicate_iii/">LeetCode101: 220. Contains Duplicate III</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-12
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Sliding Window,OrderedSet  Use HashSet to attempt to meet the requirements in the window class Solution { public: bool containsNearbyAlmostDuplicate(vector&lt;int&gt;&amp; nums, int k, int t) { auto left = 0; auto K = 0; set&lt;long&gt; hset; // set in cpp is an sorted set 	for (auto right = 0; right &lt; nums.size(); right++) { K = right - left; if (K &gt; k) { hset.erase(nums[left]); left++; } hset.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220312212227-leetcode101_220_contains_duplicate_iii/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20220312073726-219_contains_duplicate_ii/">LeetCode101: 219. Contains Duplicate II</a>
         </h1>
         <div class="post-meta">
