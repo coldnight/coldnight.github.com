@@ -6,7 +6,62 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 15 Mar 2022 11:23:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Mar 2022 15:21:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 769. Max Chunks To Make Sorted</title>
+      <link>https://www.linuxzen.com/notes/notes/20220315152142-leetcode101_769_max_chunks_to_make_sorted/</link>
+      <pubDate>Tue, 15 Mar 2022 15:21:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220315152142-leetcode101_769_max_chunks_to_make_sorted/</guid>
+      <description>tags: Tricky,LeetCode101  original: 0, 2, 1, 4, 3, 5, 7, 6 max: 0, 2, 2, 4, 4, 5, 7, 7 sorted: 0, 1, 2, 3, 4, 5, 6, 7 index: 0, 1, 2, 3, 4, 5, 6, 7
+As shown above, the position of break point is same to the position of max value of chunks. So here:
+ We track chunks&amp;rsquo;s max value. Break at the position of max value lives in sorted array, which means the index in this case.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;original: 0, 2, 1, 4, 3, 5, 7, 6
+max:      0, 2, 2, 4, 4, 5, 7, 7
+sorted:   0, 1, 2, 3, 4, 5, 6, 7
+index:    0, 1, 2, 3, 4, 5, 6, 7&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;As shown above, the position of break point is same to the position of &lt;code&gt;max&lt;/code&gt; value of chunks.
+So here:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We track chunks&amp;rsquo;s &lt;code&gt;max&lt;/code&gt; value.&lt;/li&gt;
+&lt;li&gt;Break at the position of &lt;code&gt;max&lt;/code&gt; value lives in sorted array, which means the index in this case.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; maxChunksToSorted(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; arr) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; count &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; arr.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(arr[i], m);
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (m &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; i) {
+				count&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; count;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Tricky</title>
+      <link>https://www.linuxzen.com/notes/notes/20220315152159-tricky/</link>
+      <pubDate>Tue, 15 Mar 2022 15:21:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220315152159-tricky/</guid>
+      <description> tags: Algorithm  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 739. Daily Temperatures</title>
       <link>https://www.linuxzen.com/notes/notes/20220315112303-leetcode101_739_daily_temperatures/</link>
@@ -361,10 +416,10 @@ Also note that: the result&amp;rsquo;s length is not actually equal num.</descri
       <pubDate>Sun, 13 Mar 2022 15:32:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220313153222-456_132_pattern/</guid>
-      <description>tags: Monotonic Stack,LeetCode101  We travel the numbers in the reverse order:
+      <description>tags: Monotonic Stack,LeetCode101,Tricky  We travel the numbers in the reverse order:
  Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &amp;lt; j &amp;lt; k, not i + 1 = j, j + 1 = k // class Solution { public: bool find132pattern(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int K = INT_MIN; stack&amp;lt;int&amp;gt; mst; // mono-increasing stack 	for (int i = nums.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;We travel the numbers in the reverse order:&lt;/p&gt;
 &lt;ol&gt;
