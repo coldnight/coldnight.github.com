@@ -6,7 +6,63 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 15 Mar 2022 07:13:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Mar 2022 10:51:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 654. Maximum Binary Tree</title>
+      <link>https://www.linuxzen.com/notes/notes/20220315105116-leetcode101_654_maximum_binary_tree/</link>
+      <pubDate>Tue, 15 Mar 2022 10:51:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220315105116-leetcode101_654_maximum_binary_tree/</guid>
+      <description>tags: Monotonic Stack,LeetCode101,Binary Search Tree  Mono-descreasing stack Key:
+ The largest number is the root, that we can observe in by iteration. We must clear the stack to fill the right side of BST after loop. The last popped element is the left of current node. From top to bottom, the top element is the right side of the element that under the top.  class Solution { public: TreeNode* constructMaximumBinaryTree(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;TreeNode*&amp;gt; res(nums.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215158-binary_search_tree/&#34;&gt;Binary Search Tree&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;mono-descreasing-stack&#34;&gt;Mono-descreasing stack&lt;/h2&gt;
+&lt;p&gt;Key:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The largest number is the root, that we can observe in by iteration.&lt;/li&gt;
+&lt;li&gt;We must clear the stack to fill the right side of BST after loop.&lt;/li&gt;
+&lt;li&gt;The last popped element is the left of current node.
+From top to bottom, the top element is the right side of the element that under the top.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; constructMaximumBinaryTree(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums) {
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&amp;gt;&lt;/span&gt; res(nums.size(), &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;);
+		stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; st; &lt;span style=&#34;color:#75715e&#34;&gt;// mono-descreasing stack, remove smaller elements before pushing.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			res[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; TreeNode(nums[i]);
+
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nums[st.top()] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums[i]) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; st.top();
+				st.pop();
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nums[st.top()] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums[i]) {
+					res[st.top()]&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; res[j];
+				} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+					res[i]&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; res[j];
+				}
+			}
+
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (root &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; res[i]&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;val) {
+				root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; res[i];
+			}
+			st.push(i);
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (st.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; st.top();
+			st.pop();
+			res[st.top()]&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; res[j];
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; root;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 581. Shortest Unsorted Continuous Subarray</title>
       <link>https://www.linuxzen.com/notes/notes/20220315071351-leetcode101_581_shortest_unsorted_continuous_subarray/</link>
