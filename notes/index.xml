@@ -6,7 +6,37 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 15 Mar 2022 10:51:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Mar 2022 11:23:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 739. Daily Temperatures</title>
+      <link>https://www.linuxzen.com/notes/notes/20220315112303-leetcode101_739_daily_temperatures/</link>
+      <pubDate>Tue, 15 Mar 2022 11:23:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220315112303-leetcode101_739_daily_temperatures/</guid>
+      <description>tags: Monotonic Stack,LeetCode101,LeetCode101: 496. Next Greater Element I  Mono-descreasing stack class Solution { public: vector&amp;lt;int&amp;gt; dailyTemperatures(vector&amp;lt;int&amp;gt;&amp;amp; temperatures) { vector&amp;lt;int&amp;gt; res(temperatures.size(), 0); stack&amp;lt;int&amp;gt; st; for (int i = 0; i &amp;lt; temperatures.size(); i++) { while (!st.empty() &amp;amp;&amp;amp; temperatures[st.top()] &amp;lt; temperatures[i]) { res[st.top()] = i - st.top(); st.pop(); } st.push(i); } return res; } }; [73,74,75,71,69,72,76,73]</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220314085847-leetcode101_496_next_greater_element_i/&#34;&gt;LeetCode101: 496. Next Greater Element I&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;mono-descreasing-stack&#34;&gt;Mono-descreasing stack&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; dailyTemperatures(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; temperatures) {
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; res(temperatures.size(), &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+		stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; st;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; temperatures.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; temperatures[st.top()] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; temperatures[i]) {
+				res[st.top()] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; st.top();
+				st.pop();
+			}
+			st.push(i);
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;[73,74,75,71,69,72,76,73]&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 654. Maximum Binary Tree</title>
       <link>https://www.linuxzen.com/notes/notes/20220315105116-leetcode101_654_maximum_binary_tree/</link>
