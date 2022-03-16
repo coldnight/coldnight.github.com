@@ -6,7 +6,65 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 15 Mar 2022 15:21:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Mar 2022 08:00:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 1249. Minimum Remove to Make Valid Parentheses</title>
+      <link>https://www.linuxzen.com/notes/notes/20220316080026-leetcode101_1249_minimum_remove_to_make_valid_parentheses/</link>
+      <pubDate>Wed, 16 Mar 2022 08:00:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220316080026-leetcode101_1249_minimum_remove_to_make_valid_parentheses/</guid>
+      <description>tags: Stack,LeetCode101  Stack class Solution { public: string minRemoveToMakeValid(string s) { stack&amp;lt;char&amp;gt; st; char open = &amp;#39;(&amp;#39;, close = &amp;#39;)&amp;#39;; int open_count = 0; string res; // forward to remove unnecessary close parentheses 	for (auto iter = s.begin(); iter != s.end(); ++iter) { if (*iter == open) { open_count++; } if (open_count == 0 &amp;amp;&amp;amp; *iter == close) { continue; } if (*iter == close) { open_count--; } st.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;stack&#34;&gt;Stack&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	string minRemoveToMakeValid(string s) {
+		stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; st;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; open &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;(&amp;#39;&lt;/span&gt;, close &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;)&amp;#39;&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; open_count &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		string res;
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// forward to remove unnecessary close parentheses
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; s.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; open) {
+				open_count&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+			}
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (open_count &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; close) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;
+			}
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; close) {
+				open_count&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+			}
+			st.push(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter);
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; close_count &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#75715e&#34;&gt;// backward to remove unnecessary open parentheses
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty()) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (st.top() &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; close) {
+				close_count&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+			}
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (st.top() &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; open) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (close_count &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ) {
+					st.pop();
+					&lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;
+				}
+				close_count&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+			}
+
+			res.push_back(st.top());
+			st.pop();
+		}
+
+		reverse(res.begin(), res.end());
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 769. Max Chunks To Make Sorted</title>
       <link>https://www.linuxzen.com/notes/notes/20220315152142-leetcode101_769_max_chunks_to_make_sorted/</link>
