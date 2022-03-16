@@ -6,7 +6,67 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 16 Mar 2022 08:00:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Mar 2022 08:52:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 946. Validate Stack Sequences</title>
+      <link>https://www.linuxzen.com/notes/notes/20220316085247-leetcode101_946_validate_stack_sequences/</link>
+      <pubDate>Wed, 16 Mar 2022 08:52:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220316085247-leetcode101_946_validate_stack_sequences/</guid>
+      <description>tags: Stack  Intuition for (int i = 0; i &amp;lt; pushed.size(); i++) { if (pushed[i] != popped[pushed.size() - 1 - i]) { return false; } } But the pop/push operations can happend in any sequence.
+Stack Using a stack. Returns false, IF the next value neither the popped nor pushed.
+In each sequence we must do a operation: push or pop. When to push:
+ stack is empty, or top of stack is not current popped value  When to pop:</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;intuition&#34;&gt;Intuition&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; pushed.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (pushed[i] &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; popped[pushed.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; i]) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;But the pop/push operations can happend in any &lt;em&gt;sequence&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;stack&#34;&gt;Stack&lt;/h2&gt;
+&lt;p&gt;Using a stack. Returns false, IF the next value neither the popped nor pushed.&lt;/p&gt;
+&lt;p&gt;In each sequence we must do a operation: push or pop.
+When to push:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;stack is empty, or&lt;/li&gt;
+&lt;li&gt;top of stack is not current popped value&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When to pop:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;top of stack is current popped value&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If no operation could do, returns false.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; validateStackSequences(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; pushed, vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; popped) {
+		stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; st;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; pushed.size() &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; popped.size()) {
+			&lt;span style=&#34;color:#75715e&#34;&gt;// we end push, but still not meet the popped value.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (i &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; pushed.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; (st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; st.top() &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; popped[j])) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+			}
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (st.empty()) {
+				st.push(pushed[i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;]);
+			}
+
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (st.top() &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; popped[j]) {
+				st.push(pushed[i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;]);
+			} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+				st.pop();
+				j&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 1249. Minimum Remove to Make Valid Parentheses</title>
       <link>https://www.linuxzen.com/notes/notes/20220316080026-leetcode101_1249_minimum_remove_to_make_valid_parentheses/</link>
