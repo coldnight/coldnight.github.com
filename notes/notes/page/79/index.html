@@ -166,7 +166,7 @@
           
           
           tags: Tricky,Stack,LeetCode101  The key is how to detect integer overflow without store to a larger size integer.
-For this purpose to detect before carry:
+For this purpose, we could detect integer overflow before carry:
   The maximal of INT_MAX before carry is \(\frac{INT\_MAX}{10}\). We continue compare pop with the suffix of INT_MAX, 7, if maximal before carry is equal to \(\frac{INT\_MAX}{10}\).
   The minimal of INT_MIN before carry is \(\frac{INT\_MIN}{10}\) too. We continue compare pop with the suffix of INT_MIN, -8, if minimal before carry is equal to \(\frac{INT\_MIN}{10}\).
           

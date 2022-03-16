@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Tricky,Stack,LeetCode101  The key is how to detect integer overflow without store to a larger size integer.
-For this purpose to detect before carry:
+For this purpose, we could detect integer overflow before carry:
   The maximal of INT_MAX before carry is \(\frac{INT\_MAX}{10}\). We continue compare pop with the suffix of INT_MAX, 7, if maximal before carry is equal to \(\frac{INT\_MAX}{10}\).
   The minimal of INT_MIN before carry is \(\frac{INT\_MIN}{10}\) too. We continue compare pop with the suffix of INT_MIN, -8, if minimal before carry is equal to \(\frac{INT\_MIN}{10}\)." />
 <meta name="keywords" content="" />
@@ -38,7 +38,7 @@ For this purpose to detect before carry:
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 7. Reverse Integer">
 <meta property="og:description" content="tags: Tricky,Stack,LeetCode101  The key is how to detect integer overflow without store to a larger size integer.
-For this purpose to detect before carry:
+For this purpose, we could detect integer overflow before carry:
   The maximal of INT_MAX before carry is \(\frac{INT\_MAX}{10}\). We continue compare pop with the suffix of INT_MAX, 7, if maximal before carry is equal to \(\frac{INT\_MAX}{10}\).
   The minimal of INT_MIN before carry is \(\frac{INT\_MIN}{10}\) too. We continue compare pop with the suffix of INT_MIN, -8, if minimal before carry is equal to \(\frac{INT\_MIN}{10}\)." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220316215304-leetcode101_7_reverse_integer/" />
@@ -173,7 +173,7 @@ For this purpose to detect before carry:
 <li>tags: <a href="/notes/notes/20220315152159-tricky/">Tricky</a>,<a href="/notes/notes/20220311073821-stack/">Stack</a>,<a href="/notes/notes/20220311065137-leetcode101/">LeetCode101</a></li>
 </ul>
 <p>The key is how to detect integer overflow without store to a larger size integer.</p>
-<p>For this purpose to detect before carry:</p>
+<p>For this purpose, we could detect integer overflow before carry:</p>
 <ul>
 <li>
 <p>The maximal of <em>INT_MAX</em> before carry is \(\frac{INT\_MAX}{10}\). We continue compare <code>pop</code> with the suffix of <em>INT_MAX</em>, <code>7</code>, if maximal before carry is equal to \(\frac{INT\_MAX}{10}\).</p>
