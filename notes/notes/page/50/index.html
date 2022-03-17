@@ -147,6 +147,75 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220318072424-integer_overflow/">Integer Overflow</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-18
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: C/C++  In some problems, we need to detect is our result overflow in a 32-bit integer. The key ideas is check our value before it becomes bigger.
+For example:
+// INT_MAX 2147483647 // INT_MIN -2147483648  // INT_MAX&#39;s suffix is 7 if (res &gt; INT_MAX / 10 || (res == INT_MAX / 10 &amp;&amp; pop &gt; 7)) { return 0; } // INT_MIN&#39;s suffix is -8 if (res &lt; INT_MIN / 10 || (res == INT_MIN / 10 &amp;&amp; pop &lt; -8)) { return 0; } res = res * 10 + pop; Our final result need a 10 times current value and plus a value, then we check:
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220318072424-integer_overflow/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220318072345-leetcode101_8_string_to_integer_atoi/">LeetCode101: 8. String to Integer (atoi)</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-18
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Tricky,LeetCode101,Integer Overflow  The key idea is how to detect integer overflow, it&rsquo;s same to: LeetCode101: 7. Reverse Integer.
+class Solution { public: int myAtoi(string s) { auto iter = s.begin(); int base = 1, r = 0, p = 0; // Skip whitespace 	for (; iter != s.end() &amp;&amp; *iter == &#39; &#39;; ++iter) { } // negative or positive 	if (*iter == &#39;-&#39; || *iter == &#39;+&#39;) { if (*iter == &#39;-&#39;) { base = -1; } ++iter; } for (; iter !
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220318072345-leetcode101_8_string_to_integer_atoi/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20220317073333-leetcode101_6_zigzag_conversion/">LeetCode101: 6. Zigzag Conversion</a>
         </h1>
         <div class="post-meta">
@@ -201,7 +270,7 @@ P A H N A P L S I I G Y I R The columns only the head and tail rows is correct s
         <div class="post-content">
           
           
-          tags: Tricky,Stack,LeetCode101  The key is how to detect integer overflow without store to a larger size integer.
+          tags: Tricky,Stack,LeetCode101,Integer Overflow  The key is how to detect integer overflow without store to a larger size integer.
 For this purpose, we could detect integer overflow before carry:
   The maximal of INT_MAX before carry is \(\frac{INT\_MAX}{10}\). We continue compare pop with the suffix of INT_MAX, 7, if maximal before carry is equal to \(\frac{INT\_MAX}{10}\).
   The minimal of INT_MIN before carry is \(\frac{INT\_MIN}{10}\) too. We continue compare pop with the suffix of INT_MIN, -8, if minimal before carry is equal to \(\frac{INT\_MIN}{10}\).

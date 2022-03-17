@@ -6,7 +6,94 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 17 Mar 2022 07:33:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 18 Mar 2022 07:24:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Integer Overflow</title>
+      <link>https://www.linuxzen.com/notes/notes/20220318072424-integer_overflow/</link>
+      <pubDate>Fri, 18 Mar 2022 07:24:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220318072424-integer_overflow/</guid>
+      <description>tags: C/C++  In some problems, we need to detect is our result overflow in a 32-bit integer. The key ideas is check our value before it becomes bigger.
+For example:
+// INT_MAX 2147483647 // INT_MIN -2147483648  // INT_MAX&amp;#39;s suffix is 7 if (res &amp;gt; INT_MAX / 10 || (res == INT_MAX / 10 &amp;amp;&amp;amp; pop &amp;gt; 7)) { return 0; } // INT_MIN&amp;#39;s suffix is -8 if (res &amp;lt; INT_MIN / 10 || (res == INT_MIN / 10 &amp;amp;&amp;amp; pop &amp;lt; -8)) { return 0; } res = res * 10 + pop; Our final result need a 10 times current value and plus a value, then we check:</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320171108_c/&#34;&gt;C/C++&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In some problems, we need to detect is our result overflow in a 32-bit integer. The key ideas is check our value before it becomes bigger.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;// INT_MAX 2147483647
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// INT_MIN -2147483648
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;// INT_MAX&amp;#39;s suffix is 7
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (res &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; INT_MAX &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; (res &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; INT_MAX &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; pop &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;)) {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+}
+&lt;span style=&#34;color:#75715e&#34;&gt;// INT_MIN&amp;#39;s suffix is -8
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (res &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; INT_MIN &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; (res &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; INT_MIN &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; pop &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;)) {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+}
+res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; pop;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Our final result need a 10 times current value and plus a value, then we check:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If our result greater than &lt;code&gt;INT_MAX / 10&lt;/code&gt;, which means overflow.&lt;/li&gt;
+&lt;li&gt;Then if our result equals to &lt;code&gt;INT_MAX / 10&lt;/code&gt;, we continue compare the plus value to the suffix of &lt;em&gt;INT_MAX&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 8. String to Integer (atoi)</title>
+      <link>https://www.linuxzen.com/notes/notes/20220318072345-leetcode101_8_string_to_integer_atoi/</link>
+      <pubDate>Fri, 18 Mar 2022 07:23:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220318072345-leetcode101_8_string_to_integer_atoi/</guid>
+      <description>tags: Tricky,LeetCode101,Integer Overflow  The key idea is how to detect integer overflow, it&amp;rsquo;s same to: LeetCode101: 7. Reverse Integer.
+class Solution { public: int myAtoi(string s) { auto iter = s.begin(); int base = 1, r = 0, p = 0; // Skip whitespace 	for (; iter != s.end() &amp;amp;&amp;amp; *iter == &amp;#39; &amp;#39;; ++iter) { } // negative or positive 	if (*iter == &amp;#39;-&amp;#39; || *iter == &amp;#39;+&amp;#39;) { if (*iter == &amp;#39;-&amp;#39;) { base = -1; } ++iter; } for (; iter !</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318072424-integer_overflow/&#34;&gt;Integer Overflow&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The key idea is how to detect integer overflow, it&amp;rsquo;s same to: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220316215304-leetcode101_7_reverse_integer/&#34;&gt;LeetCode101: 7. Reverse Integer&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; myAtoi(string s) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s.begin();
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; base &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// Skip whitespace
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (; iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; s.end() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+		}
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// negative or positive
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt;) {
+				base &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			}
+			&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter;
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (; iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; s.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+			&lt;span style=&#34;color:#75715e&#34;&gt;// failed at here: the logic between conditions is OR not AND
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;9&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;0&amp;#39;&lt;/span&gt;) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+			}
+			p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;0&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; base;
+			&lt;span style=&#34;color:#75715e&#34;&gt;// 7 is the INX_MAX&amp;#39;s suffix, remember?
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; INT_MAX &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; (r &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; INT_MAX &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;)) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; INT_MAX;
+			}
+			&lt;span style=&#34;color:#75715e&#34;&gt;// 8 is the INT_MIN&amp;#39;s suffix, too.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; INT_MIN &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; (r &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; INT_MIN &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;)) {
+			   &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; INT_MIN;
+			}
+			r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; p;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 6. Zigzag Conversion</title>
       <link>https://www.linuxzen.com/notes/notes/20220317073333-leetcode101_6_zigzag_conversion/</link>
@@ -183,12 +270,12 @@ P     I
       <pubDate>Wed, 16 Mar 2022 21:53:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220316215304-leetcode101_7_reverse_integer/</guid>
-      <description>tags: Tricky,Stack,LeetCode101  The key is how to detect integer overflow without store to a larger size integer.
+      <description>tags: Tricky,Stack,LeetCode101,Integer Overflow  The key is how to detect integer overflow without store to a larger size integer.
 For this purpose, we could detect integer overflow before carry:
   The maximal of INT_MAX before carry is \(\frac{INT\_MAX}{10}\). We continue compare pop with the suffix of INT_MAX, 7, if maximal before carry is equal to \(\frac{INT\_MAX}{10}\).
   The minimal of INT_MIN before carry is \(\frac{INT\_MIN}{10}\) too. We continue compare pop with the suffix of INT_MIN, -8, if minimal before carry is equal to \(\frac{INT\_MIN}{10}\).</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318072424-integer_overflow/&#34;&gt;Integer Overflow&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The key is how to detect integer overflow without store to a larger size integer.&lt;/p&gt;
 &lt;p&gt;For this purpose, we could detect integer overflow before carry:&lt;/p&gt;
