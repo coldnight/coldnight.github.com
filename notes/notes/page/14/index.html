@@ -166,7 +166,7 @@
           
           
           tags: LeetCode101,Math  The key idea is:
- To use \(log10(10^n) = n\) to get how many digits in the number. Then we need iterate \(n + 1\) times to compare each side. The digit in the left is \(\frac{x}{10^{n-i}} \mod 10\). The digit in the right is \(\frac{x}{10^i} \mod 10\).  class Solution { public: bool isPalindrome(int x) { if (x &lt; 0) { return false; } // failed at here 	if (x &lt; 10) { return true; } int n = log10(x); int ld = pow(10, n); // left div 	int rd = 1; // right div 	for (int i = 0; i &lt; (n + 1) / 2; i++) { // left right 	if (x / rd % 10 !
+ To use \(log10(10^n) = n\) to get how many digits in the number. Then we need iterate \(n + 1\) times to compare each side. The digit in the left is \(\frac{x}{10^{n-i}} \mod 10\). The digit in the right is \(\frac{x}{10^i} \mod 10\).  class Solution { public: bool isPalindrome(int x) { if (x &lt; 0) { return false; } // failed at here 	if (x &lt; 10) { return true; } int n = log10(x); int ld = pow(10, n); // left div 	int rd = 1; // right div 	for (int i = 0; i &lt; (n + 1) / 2; i++) { // left right 	if (x / ld % 10 !
           
           
         </div>
