@@ -6,7 +6,66 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 18 Mar 2022 07:24:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 18 Mar 2022 08:44:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 9. Palindrome Number</title>
+      <link>https://www.linuxzen.com/notes/notes/20220318084438-leetcode101_9_palindrome_number/</link>
+      <pubDate>Fri, 18 Mar 2022 08:44:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220318084438-leetcode101_9_palindrome_number/</guid>
+      <description>tags: LeetCode101,Math  The key idea is:
+ To use \(log10(10^n) = n\) to get how many digits in the number. Then we need iterate \(n + 1\) times to compare each side. The digit in the left is \(\frac{x}{10^{n-1}} \mod 10\). The digit in the right is \(\frac{x}{10^i} \mod 10\).  class Solution { public: bool isPalindrome(int x) { if (x &amp;lt; 0) { return false; } // failed at here 	if (x &amp;lt; 10) { return true; } int n = log10(x); int ld = pow(10, n); // left div 	int rd = 1; // right div 	for (int i = 0; i &amp;lt; (n + 1) / 2; i++) { // left right 	if (x / rd % 10 !</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318084456-math/&#34;&gt;Math&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The key idea is:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;To use \(log10(10^n) = n\) to get how many digits in the number.&lt;/li&gt;
+&lt;li&gt;Then we need iterate \(n + 1\) times to compare each side.&lt;/li&gt;
+&lt;li&gt;The digit in the left is  \(\frac{x}{10^{n-1}} \mod 10\).&lt;/li&gt;
+&lt;li&gt;The digit in the right is \(\frac{x}{10^i} \mod 10\).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; isPalindrome(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (x &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+		}
+		&lt;span style=&#34;color:#75715e&#34;&gt;// failed at here
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (x &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; log10(x);
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; ld &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pow(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;, n);  &lt;span style=&#34;color:#75715e&#34;&gt;// left div
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; rd &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;           &lt;span style=&#34;color:#75715e&#34;&gt;// right div
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#75715e&#34;&gt;// left                   right
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (x &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; rd &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; rd &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+			}
+			ld &lt;span style=&#34;color:#f92672&#34;&gt;/=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;;
+			rd &lt;span style=&#34;color:#f92672&#34;&gt;*=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Math</title>
+      <link>https://www.linuxzen.com/notes/notes/20220318084456-math/</link>
+      <pubDate>Fri, 18 Mar 2022 08:44:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220318084456-math/</guid>
+      <description> tags: Algorithm  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Integer Overflow</title>
       <link>https://www.linuxzen.com/notes/notes/20220318072424-integer_overflow/</link>
