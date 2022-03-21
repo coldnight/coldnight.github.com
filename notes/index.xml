@@ -6,7 +6,121 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 18 Mar 2022 08:44:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Mar 2022 17:47:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 316. Remove Duplicate Letters</title>
+      <link>https://www.linuxzen.com/notes/notes/20220321174725-leetcode101_316_remove_duplicate_letters/</link>
+      <pubDate>Mon, 21 Mar 2022 17:47:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220321174725-leetcode101_316_remove_duplicate_letters/</guid>
+      <description>tags: String,LeetCode101,Stack,Hash Table,Hash Set  I have solved this problem years before, LeetCode: 316.Remove Duplicate Letters, but still stuck on it.
+The key idea is not only about stack, but also required a map to record how many same letters behind current one. Which helps us to decide if drop current letter or not, when the new letter is less than the top of stack, which means smaller in lexicographical order.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I have solved this problem years before, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/&#34;&gt;LeetCode: 316.Remove Duplicate Letters&lt;/a&gt;, but still stuck on it.&lt;/p&gt;
+&lt;p&gt;The key idea is not only about stack, but also required a map to record how many same letters behind current one.
+Which helps us to decide if drop current letter or not, when the new letter is less than the top of stack, which means smaller in lexicographical order.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	string removeDuplicateLetters(string s) {
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; countOfLetters(&lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; pickedLetters(&lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt;, false);
+		stack&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; st;
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; s.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+			countOfLetters[&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; s.size(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+			countOfLetters[s[i] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (pickedLetters[s[i] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;]) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;
+			}
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; s[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; st.top() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; countOfLetters[st.top() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+				pickedLetters[st.top() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false;
+				st.pop();
+			}
+			st.push(s[i]);
+			pickedLetters[s[i] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+
+		}
+		string r;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;st.empty()) {
+			r.push_back(st.top());
+			st.pop();
+		}
+		reverse(r.begin(), r.end());
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 763. Partition Labels</title>
+      <link>https://www.linuxzen.com/notes/notes/20220321174504-leetcode101_763_partition_labels/</link>
+      <pubDate>Mon, 21 Mar 2022 17:45:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220321174504-leetcode101_763_partition_labels/</guid>
+      <description>tags: String,LeetCode101,Hash Set,Hash Table,Stack  The key idea is similar to LeetCode101: 316. Remove Duplicate Letters, we use a HashMap to track how many letters which is same in the string. Then we use a HashSet to store appeared letters. When there is no more letters appeared in the HashSet, it&amp;rsquo;s time to partition.
+class Solution { public: vector&amp;lt;int&amp;gt; partitionLabels(string s) { unordered_map&amp;lt;char, int&amp;gt; cntOfLetters; unordered_set&amp;lt;char&amp;gt; appearedLetters; vector&amp;lt;int&amp;gt; r; int count = 0; for (auto iter = s.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The key idea is similar to &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174725-leetcode101_316_remove_duplicate_letters/&#34;&gt;LeetCode101: 316. Remove Duplicate Letters&lt;/a&gt;, we use a HashMap to track how many letters which is same in the string.
+Then we use a HashSet to store appeared letters. When there is no more letters appeared in the HashSet, it&amp;rsquo;s time to partition.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; partitionLabels(string s) {
+		unordered_map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; cntOfLetters;
+		unordered_set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; appearedLetters;
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; r;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; count &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; s.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+			cntOfLetters[&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter]&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+		}
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; s.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+			appearedLetters.insert(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter);
+			cntOfLetters[&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter]&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+			count&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+			&lt;span style=&#34;color:#75715e&#34;&gt;// Append current count to result if there is no appeared letters
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// behind.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; behind &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false;
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; si &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; appearedLetters.begin(); si &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; appearedLetters.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;si) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (cntOfLetters[&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;si]){
+					behind &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true;
+					&lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+				}
+			}
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;behind) {
+				r.push_back(count);
+				count &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (count &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+			r.push_back(count);
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>String</title>
+      <link>https://www.linuxzen.com/notes/notes/20220321174510-string/</link>
+      <pubDate>Mon, 21 Mar 2022 17:45:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220321174510-string/</guid>
+      <description> tags: Algorithm  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 9. Palindrome Number</title>
       <link>https://www.linuxzen.com/notes/notes/20220318084438-leetcode101_9_palindrome_number/</link>
