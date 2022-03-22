@@ -6,9 +6,82 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 21 Mar 2022 18:38:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 22 Mar 2022 16:22:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>LeetCode: 11. Container With Most Water</title>
+      <title>LeetCode101: 1663. Smallest String With A Given Numeric Value</title>
+      <link>https://www.linuxzen.com/notes/notes/20220322162250-leetcode101_1663_smallest_string_with_a_given_numeric_value/</link>
+      <pubDate>Tue, 22 Mar 2022 16:22:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220322162250-leetcode101_1663_smallest_string_with_a_given_numeric_value/</guid>
+      <description>tags: String,LeetCode101,Tricky  Initialize a string that fills &#39;a&#39; in it. Then we turn it to the expected string from end to start.
+The maximal value of each position in the string is 26. If we start from all elements is &#39;a&#39; in the string. Then the represent value of the string is n. If it&amp;rsquo;s not equal to k. Then we need turn the last char of string to r = k - n.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Initialize a string that fills &lt;code&gt;&#39;a&#39;&lt;/code&gt; in it. Then we turn it to the expected string from end to start.&lt;/p&gt;
+&lt;p&gt;The maximal value of each position in the string is 26. If we start from all elements is &lt;code&gt;&#39;a&#39;&lt;/code&gt; in the string. Then the represent value of the string is &lt;em&gt;n&lt;/em&gt;. If it&amp;rsquo;s not equal to &lt;em&gt;k&lt;/em&gt;. Then we need turn the last char of string to &lt;em&gt;r&lt;/em&gt; = &lt;em&gt;k&lt;/em&gt; - &lt;em&gt;n&lt;/em&gt;. Two cases must be handled:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Fill &lt;em&gt;z&lt;/em&gt; and continue, if &lt;em&gt;r&lt;/em&gt; is greater than 25(25 as there is already a &lt;code&gt;&#39;a&#39;&lt;/code&gt; character there).&lt;/li&gt;
+&lt;li&gt;Fill the corresponding character and done, if &lt;em&gt;r&lt;/em&gt; is less than or equal 25.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	string getSmallestString(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k) {
+		string &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;(n, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;);
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+		k &lt;span style=&#34;color:#f92672&#34;&gt;-=&lt;/span&gt; r.size();
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;) {
+				k &lt;span style=&#34;color:#f92672&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;;
+				r[j&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;z&amp;#39;&lt;/span&gt;;
+			} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+				r[j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; k;
+				k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 12. Integer to Roman</title>
+      <link>https://www.linuxzen.com/notes/notes/20220322155933-leetcode101_12_integer_to_roman/</link>
+      <pubDate>Tue, 22 Mar 2022 15:59:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220322155933-leetcode101_12_integer_to_roman/</guid>
+      <description>tags: Math,Hash Table,LeetCode101  class Solution { public: string intToRoman(int num) { vector&amp;lt;string&amp;gt; roman {&amp;#34;M&amp;#34;, &amp;#34;CM&amp;#34;, &amp;#34;D&amp;#34;, &amp;#34;CD&amp;#34;, &amp;#34;C&amp;#34;, &amp;#34;XC&amp;#34;, &amp;#34;L&amp;#34;, &amp;#34;XL&amp;#34;, &amp;#34;X&amp;#34;, &amp;#34;IX&amp;#34;, &amp;#34;V&amp;#34;, &amp;#34;IV&amp;#34;, &amp;#34;I&amp;#34;}; vector&amp;lt;int&amp;gt; integers {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 }; string r; int times = 0; for (int i = 0; i &amp;lt; integers.size(); ++i) { if (num &amp;gt;= integers[i]) { times = num / integers[i]; num -= times * integers[i]; for (int j = times; j &amp;gt; 0; --j) { r.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318084456-math/&#34;&gt;Math&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	string intToRoman(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; num) {
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;string&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; roman {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;M&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;CM&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;D&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;CD&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;C&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;XC&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;L&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;XL&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;X&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;IX&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;V&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;IV&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;I&amp;#34;&lt;/span&gt;};
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; integers {&lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;900&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;400&lt;/span&gt;,  &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;90&lt;/span&gt;,   &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;,   &lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt;,  &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;,  &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;,    &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,   &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;,     &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; };
+		string r;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; integers.size(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; integers[i]) {
+				times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; num &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; integers[i];
+				num &lt;span style=&#34;color:#f92672&#34;&gt;-=&lt;/span&gt; times &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; integers[i];
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; times; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;j) {
+					r.append(roman[i]);
+				}
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 11. Container With Most Water</title>
       <link>https://www.linuxzen.com/notes/notes/20220321183809-leetcode_11_container_with_most_water/</link>
       <pubDate>Mon, 21 Mar 2022 18:38:00 +0800</pubDate>
       
