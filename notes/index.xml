@@ -6,7 +6,43 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 21 Mar 2022 17:47:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Mar 2022 18:38:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode: 11. Container With Most Water</title>
+      <link>https://www.linuxzen.com/notes/notes/20220321183809-leetcode_11_container_with_most_water/</link>
+      <pubDate>Mon, 21 Mar 2022 18:38:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220321183809-leetcode_11_container_with_most_water/</guid>
+      <description> tags: Two Pointer,Tricky,LeetCode101  The key ideas are:
+ We start from two edges and move to the middle with two pointers. Move the pointer to the middle which side is smaller.  class Solution { public: int maxArea(vector&amp;lt;int&amp;gt;&amp;amp; height) { int i = 0, j = height.size() - 1; int water = 0; while (i &amp;lt; j) { water = max(water, (j - i) * min(height[i], height[j])); if (height[i] &amp;gt; height[j]) { --j; } else { ++i; } } return water; } }; </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointer&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The key ideas are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We start from two edges and move to the middle with two pointers.&lt;/li&gt;
+&lt;li&gt;Move the pointer to the middle which side is smaller.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; maxArea(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; height) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; height.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; water &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; j) {
+			water &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(water, (j &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; i) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; min(height[i], height[j]));
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (height[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; height[j]) {
+				&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;j;
+			} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+				&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i;
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; water;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 316. Remove Duplicate Letters</title>
       <link>https://www.linuxzen.com/notes/notes/20220321174725-leetcode101_316_remove_duplicate_letters/</link>
