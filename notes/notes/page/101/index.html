@@ -147,6 +147,73 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220323175835-leetcode101_991_broken_calculator/">LeetCode101: 991. Broken Calculator</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-23
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Math,backtracking,LeetCode101  Backtracking and stack overflow Intuition:
+We can abstract all the operations to a Tree, then apply DFS on it.
+For example: startValue=2, target=3, the tree looks like:
+/* 2 /\ / \ / \ 1(-1) 4(x2) /\ /\--+ / \ / \ 0(-1) 2(x2) 3(-1) 8(x2) */ class Solution { public: int brokenCalc(int startValue, int target) { unordered_set&lt;int&gt; visited; return backtracking(0, startValue, target, visited); } int backtracking(int count, int val, int target, unordered_set&lt;int&gt; &amp; visited) { if (val == target) { return count; } if (visited.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220323175835-leetcode101_991_broken_calculator/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220323105605-alias/">alias</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-03-23
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220323105605-alias/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20220322162250-leetcode101_1663_smallest_string_with_a_given_numeric_value/">LeetCode101: 1663. Smallest String With A Given Numeric Value</a>
         </h1>
         <div class="post-meta">
@@ -8216,7 +8283,7 @@ sbt new file:///path/to/template.g8 sbt 国内加速 ~/.sbt/repositories:
         <div class="post-content">
           
           
-          tags: LeetCode  https://leetcode.com/problems/path-sum-ii/
+          tags: LeetCode,backtracking  https://leetcode.com/problems/path-sum-ii/
 /** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: vector&lt;vector&lt;int&gt;&gt; pathSum(TreeNode* root, int targetSum) { vector&lt;vector&lt;int&gt;&gt; r; if (root == nullptr) { return r; } if (root-&gt;left !
           
           
@@ -9561,7 +9628,7 @@ class Solution { public: vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&
         <div class="post-content">
           
           
-          tags: LeetCode source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：
+          tags: LeetCode,backtracking source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：
  纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag  纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
 r - c 在正对角线是一致的：
  斜对角线 r + c 是一致的:
@@ -10077,7 +10144,7 @@ CAP 理论 可线性化与网络延迟 很少有系统真正满足线性化，�
         <div class="post-content">
           
           
-          tags: LeetCode  视频解析：https://www.youtube.com/watch?v=s7AvT7cGdSo
+          tags: LeetCode,backtracking  视频解析：https://www.youtube.com/watch?v=s7AvT7cGdSo
 在 LeetCode: 46. Permutations 的基础上增加重复的元素。感觉不能依赖于 track + map 的去重逻辑回溯。
 class Solution { public: vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) { vector&lt;vector&lt;int&gt;&gt; res; } }; 数据特征：
 Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, class Solution { public: vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) { set&lt;vector&lt;int&gt;&gt; res; vector&lt;vector&lt;int&gt;&gt; ret; int n, i; vector&lt;vector&lt;int&gt;&gt; perms; if (nums.
@@ -10151,7 +10218,7 @@ Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 
         <div class="post-content">
           
           
-          tags: LeetCode  Keywords backtrack 回溯算法
+          tags: LeetCode,backtracking  Keywords backtrack 回溯算法
 图解 举例： [1, 2, 3] ，顺着叶子节点和删除的节点就可以还原成全排列。
  从上面图可以看出来，叶子节点加上回溯路径上被移除的节点就是结果的一项，从左到右依次是：
  [3,R:2,R:1] -&gt; [3,2,1] [2,R:3,R:1] -&gt; [2,3,1] &hellip;  class Solution { public: vector&lt;vector&lt;int&gt;&gt; permute(vector&lt;int&gt;&amp; nums) { vector&lt;vector&lt;int&gt;&gt; res; vector&lt;int&gt; track; backtrack(res, track, nums); return res; } void backtrack(vector&lt;vector&lt;int&gt;&gt; &amp; res, vector&lt;int&gt; &amp; track, vector&lt;int&gt;&amp; nums) { if (track.size() == nums.size()) { res.push_back(track); return; } for (int i = 0; i &lt; nums.size(); i++) { if (visited.
@@ -13095,7 +13162,7 @@ They are: tutorials, how-to guides, technical reference and explanation. They re
         <div class="post-content">
           
           
-          分为三种：前序、后序和中序，其中最容易用栈改写的是后序。
+          tags: Algorithm,Data Structures,Binary Search Tree  分为三种：前序、后序和中序，其中最容易用栈改写的是后序。
 前序(Preorder)：Root -&gt; Left -&gt; Right class Solution { public: void processPreorderTraversal(TreeNode* root, vector&lt;int&gt; &amp; collector) { if (root == nullptr) { return; } processPreorderTraversal(root-&gt;left, collector); collector.push_back(root-&gt;val); processPreorderTraversal(root-&gt;right, collector); } vector&lt;int&gt; inorderTraversal(TreeNode* root) { vector&lt;int&gt; ret; if (root == nullptr) { return ret; } processPreorderTraversal(root, ret); return ret; } }; 中序(Inorder): Left -&gt; Root -&gt; Right class Solution { public: void processInorderTraversal(TreeNode* root, vector&lt;int&gt; &amp; collector) { if (root == nullptr) { return; } processInorderTraversal(root-&gt;left, collector); collector.
           
           
@@ -15423,7 +15490,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
         <div class="post-content">
           
           
-          状态转移方程 无后效性  如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。
+          tags: Algorithm  状态转移方程 无后效性  如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。
  一旦 \(f(n)\) 确定，“我们如何凑出 \(f(n)\) ”就再也用不着了：
  要求出 \(f(15)\)，只需要知道 \(f(14)\),\(f(10)\),\(f(4)\) 的值， 而 \(f(14)\),\(f(10)\),\(f(4)\) 是如何算出来的，对之后的问题没有影响。  “未来与过去无关”，这就是无后效性。
 最优子结构  大问题的最优解可以由小问题的最优解推出，这个性质叫做“最优子结构性质”：

@@ -6,7 +6,93 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 22 Mar 2022 16:22:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 23 Mar 2022 17:58:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 991. Broken Calculator</title>
+      <link>https://www.linuxzen.com/notes/notes/20220323175835-leetcode101_991_broken_calculator/</link>
+      <pubDate>Wed, 23 Mar 2022 17:58:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220323175835-leetcode101_991_broken_calculator/</guid>
+      <description>tags: Math,backtracking,LeetCode101  Backtracking and stack overflow Intuition:
+We can abstract all the operations to a Tree, then apply DFS on it.
+For example: startValue=2, target=3, the tree looks like:
+/* 2 /\ / \ / \ 1(-1) 4(x2) /\ /\--+ / \ / \ 0(-1) 2(x2) 3(-1) 8(x2) */ class Solution { public: int brokenCalc(int startValue, int target) { unordered_set&amp;lt;int&amp;gt; visited; return backtracking(0, startValue, target, visited); } int backtracking(int count, int val, int target, unordered_set&amp;lt;int&amp;gt; &amp;amp; visited) { if (val == target) { return count; } if (visited.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318084456-math/&#34;&gt;Math&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;backtracking&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;backtracking-and-stack-overflow&#34;&gt;Backtracking and stack overflow&lt;/h2&gt;
+&lt;p&gt;Intuition:&lt;/p&gt;
+&lt;p&gt;We can abstract all the operations to a Tree, then apply DFS on it.&lt;/p&gt;
+&lt;p&gt;For example: startValue=2, target=3, the tree looks like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;		  2
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;		 /\
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;		/  \
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;	   /    \
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;   1(-1)    4(x2)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;	/\        /\--+
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;   /  \      /     \
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;0(-1) 2(x2) 3(-1)  8(x2)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;*/&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; brokenCalc(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; startValue, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; target) {
+		unordered_set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; visited;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backtracking&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, startValue, target, visited);
+	}
+
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backtracking&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; count, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; val, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; target, unordered_set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; visited) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (val &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; target) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; count;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (visited.find(val) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; visited.end()) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+		count&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+		visited.insert(val);
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (val &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+			left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; backtracking(count, val &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, target, visited);
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (val &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;) {
+			right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; backtracking(count, val &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, target, visited);
+		}
+		visited.erase(val);
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (left &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; min(left, right);
+		} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (left &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; left;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; right;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;change-target-to-startvalue&#34;&gt;Change target to startValue&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; brokenCalc(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; startValue, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; target) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (target &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; startValue) {
+			target &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;;
+			r&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; startValue &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; target;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>alias</title>
+      <link>https://www.linuxzen.com/notes/notes/20220323105605-alias/</link>
+      <pubDate>Wed, 23 Mar 2022 10:56:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220323105605-alias/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
     <item>
       <title>LeetCode101: 1663. Smallest String With A Given Numeric Value</title>
       <link>https://www.linuxzen.com/notes/notes/20220322162250-leetcode101_1663_smallest_string_with_a_given_numeric_value/</link>
@@ -8093,10 +8179,10 @@ ratings&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;foreach &lt;span 
       <pubDate>Mon, 16 Aug 2021 08:30:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210816083017-leetcode_113_path_sum_ii/</guid>
-      <description>tags: LeetCode  https://leetcode.com/problems/path-sum-ii/
+      <description>tags: LeetCode,backtracking  https://leetcode.com/problems/path-sum-ii/
 /** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; pathSum(TreeNode* root, int targetSum) { vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; if (root == nullptr) { return r; } if (root-&amp;gt;left !</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;backtracking&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/path-sum-ii/&#34;&gt;https://leetcode.com/problems/path-sum-ii/&lt;/a&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
@@ -9906,9 +9992,9 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combina
       <pubDate>Tue, 03 Aug 2021 07:46:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210803074630-leetcode_52_n_queens_ii/</guid>
-      <description>tags: LeetCode source: https://leetcode.com/problems/n-queens-ii/  参见：LeetCode: 51. N-Queens</description>
+      <description>tags: LeetCode,backtracking source: https://leetcode.com/problems/n-queens-ii/  参见：LeetCode: 51. N-Queens</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;backtracking&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;https://leetcode.com/problems/n-queens-ii/&#34;&gt;https://leetcode.com/problems/n-queens-ii/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;参见：&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210802073234-leetcode_51_n_queues/&#34;&gt;LeetCode: 51. N-Queens&lt;/a&gt;&lt;/p&gt;
@@ -9921,15 +10007,9 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combina
       <pubDate>Tue, 03 Aug 2021 06:50:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</guid>
-      <description>相关 LeetCode：
- LeetCode: 46. Permutations LeetCode: 47. Permutations II LeetCode: 51. N-Queens LeetCode: 52. N-Queens II LeetCode: 113. Path Sum II  </description>
-      <content>&lt;p&gt;相关 LeetCode：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210719073125-leetcode_46_permutations/&#34;&gt;LeetCode: 46. Permutations&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210721073657-leetcode_47_permutations_ii/&#34;&gt;LeetCode: 47. Permutations II&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210802073234-leetcode_51_n_queues/&#34;&gt;LeetCode: 51. N-Queens&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803074630-leetcode_52_n_queens_ii/&#34;&gt;LeetCode: 52. N-Queens II&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210816083017-leetcode_113_path_sum_ii/&#34;&gt;LeetCode: 113. Path Sum II&lt;/a&gt;&lt;/li&gt;
+      <description> tags: Algorithm,Brute Force Approach  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311081528-brute_force_approach/&#34;&gt;Brute Force Approach&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -10007,13 +10087,13 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combina
       <pubDate>Mon, 02 Aug 2021 07:32:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210802073234-leetcode_51_n_queues/</guid>
-      <description>tags: LeetCode source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：
+      <description>tags: LeetCode,backtracking source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：
  纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag  纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
 r - c 在正对角线是一致的：
  斜对角线 r + c 是一致的:
  class Solution { public: vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; solveNQueens(int n) { for (int r = 0; r &amp;lt; n; r++) { string col = string(n, &amp;#39;.&amp;#39;); track.push_back(col); } backtracking(0, n); return res; } private: set&amp;lt;int&amp;gt; cols; // c 	set&amp;lt;int&amp;gt; posDiag; // r - c 	set&amp;lt;int&amp;gt; negDiag; // r + c 	vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; vector&amp;lt;string&amp;gt; track; void backtracking(int r, int n) { if (r == n) { res.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;backtracking&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;https://leetcode.com/problems/n-queens/&#34;&gt;https://leetcode.com/problems/n-queens/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：&lt;/p&gt;
@@ -10577,12 +10657,12 @@ NTP 检测到本地石英比时间服务器更快或者更慢，NTP 会调整本
       <pubDate>Wed, 21 Jul 2021 07:36:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210721073657-leetcode_47_permutations_ii/</guid>
-      <description>tags: LeetCode  视频解析：https://www.youtube.com/watch?v=s7AvT7cGdSo
+      <description>tags: LeetCode,backtracking  视频解析：https://www.youtube.com/watch?v=s7AvT7cGdSo
 在 LeetCode: 46. Permutations 的基础上增加重复的元素。感觉不能依赖于 track + map 的去重逻辑回溯。
 class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permuteUnique(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; } }; 数据特征：
 Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permuteUnique(vector&amp;lt;int&amp;gt;&amp;amp; nums) { set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; ret; int n, i; vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; perms; if (nums.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;backtracking&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;视频解析：&lt;a href=&#34;https://www.youtube.com/watch?v=s7AvT7cGdSo&#34;&gt;https://www.youtube.com/watch?v=s7AvT7cGdSo&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;在 &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210719073125-leetcode_46_permutations/&#34;&gt;LeetCode: 46. Permutations&lt;/a&gt; 的基础上增加重复的元素。感觉不能依赖于 &lt;code&gt;track&lt;/code&gt; + &lt;code&gt;map&lt;/code&gt; 的去重逻辑回溯。&lt;/p&gt;
@@ -10760,12 +10840,12 @@ Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0,
       <pubDate>Mon, 19 Jul 2021 07:31:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210719073125-leetcode_46_permutations/</guid>
-      <description>tags: LeetCode  Keywords backtrack 回溯算法
+      <description>tags: LeetCode,backtracking  Keywords backtrack 回溯算法
 图解 举例： [1, 2, 3] ，顺着叶子节点和删除的节点就可以还原成全排列。
  从上面图可以看出来，叶子节点加上回溯路径上被移除的节点就是结果的一项，从左到右依次是：
  [3,R:2,R:1] -&amp;gt; [3,2,1] [2,R:3,R:1] -&amp;gt; [2,3,1] &amp;hellip;  class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permute(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; backtrack(res, track, nums); return res; } void backtrack(vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; &amp;amp; res, vector&amp;lt;int&amp;gt; &amp;amp; track, vector&amp;lt;int&amp;gt;&amp;amp; nums) { if (track.size() == nums.size()) { res.push_back(track); return; } for (int i = 0; i &amp;lt; nums.size(); i++) { if (visited.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;backtracking&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;keywords&#34;&gt;Keywords&lt;/h2&gt;
 &lt;p&gt;backtrack 回溯算法&lt;/p&gt;
@@ -13896,9 +13976,12 @@ printf &amp;#39;\e[3J&amp;#39; &amp;amp;&amp;amp; log show --predicate &amp;#39;
       <pubDate>Sat, 20 Feb 2021 20:32:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210220203210-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/</guid>
-      <description>分为三种：前序、后序和中序，其中最容易用栈改写的是后序。
+      <description>tags: Algorithm,Data Structures,Binary Search Tree  分为三种：前序、后序和中序，其中最容易用栈改写的是后序。
 前序(Preorder)：Root -&amp;gt; Left -&amp;gt; Right class Solution { public: void processPreorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processPreorderTraversal(root-&amp;gt;left, collector); collector.push_back(root-&amp;gt;val); processPreorderTraversal(root-&amp;gt;right, collector); } vector&amp;lt;int&amp;gt; inorderTraversal(TreeNode* root) { vector&amp;lt;int&amp;gt; ret; if (root == nullptr) { return ret; } processPreorderTraversal(root, ret); return ret; } }; 中序(Inorder): Left -&amp;gt; Root -&amp;gt; Right class Solution { public: void processInorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processInorderTraversal(root-&amp;gt;left, collector); collector.</description>
-      <content>&lt;p&gt;分为三种：前序、后序和中序，其中最容易用栈改写的是后序。&lt;/p&gt;
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215158-binary_search_tree/&#34;&gt;Binary Search Tree&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;分为三种：前序、后序和中序，其中最容易用栈改写的是后序。&lt;/p&gt;
 &lt;h2 id=&#34;前序--preorder--root-left-right&#34;&gt;前序(Preorder)：Root -&amp;gt; Left -&amp;gt; Right&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
 &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
@@ -18671,7 +18754,7 @@ kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage -
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
-      <description>状态转移方程 无后效性  如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。
+      <description>tags: Algorithm  状态转移方程 无后效性  如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。
  一旦 \(f(n)\) 确定，“我们如何凑出 \(f(n)\) ”就再也用不着了：
  要求出 \(f(15)\)，只需要知道 \(f(14)\),\(f(10)\),\(f(4)\) 的值， 而 \(f(14)\),\(f(10)\),\(f(4)\) 是如何算出来的，对之后的问题没有影响。  “未来与过去无关”，这就是无后效性。
 最优子结构  大问题的最优解可以由小问题的最优解推出，这个性质叫做“最优子结构性质”：
@@ -18681,7 +18764,10 @@ kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage -
 状态转移公式 公式 \(f(n)=min\{f(n-1),f(n-3),f(n-5)\} + 1\)
 检查是否满足上面提到的两个特性：
  无后效性：对于 \(n\)，一旦 \(f(n)\) 确定，以后只关心 \(f(n)\) 的值，不关心怎么计算的； 最优子结构：对于 \(n\)，只要 \(n - 1\) \(n - 3\) \(n - 5\) 能是最优解，那么就能计算出 n;  推导过程  假设找零 15：</description>
-      <content>&lt;h2 id=&#34;状态转移方程&#34;&gt;状态转移方程&lt;/h2&gt;
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;状态转移方程&#34;&gt;状态转移方程&lt;/h2&gt;
 &lt;h3 id=&#34;无后效性&#34;&gt;无后效性&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。&lt;/p&gt;
@@ -18837,8 +18923,11 @@ kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage -
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320173033_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</guid>
-      <description>Wikipedia: 归并排序</description>
-      <content>&lt;p&gt;Wikipedia: &lt;a href=&#34;https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F&#34;&gt;归并排序&lt;/a&gt;&lt;/p&gt;
+      <description>tags: Algorithm  Wikipedia: 归并排序</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Wikipedia: &lt;a href=&#34;https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F&#34;&gt;归并排序&lt;/a&gt;&lt;/p&gt;
 </content>
     </item>
     
@@ -18848,13 +18937,9 @@ kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage -
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320171501_%E7%AE%97%E6%B3%95/</guid>
-      <description> LeetCode 动态规划 归并排序 二叉树的遍历 回溯算法  </description>
+      <description> alias: Algorithm  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&#34;&gt;动态规划&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320173033_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/&#34;&gt;归并排序&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210220203210-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/&#34;&gt;二叉树的遍历&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;回溯算法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;alias: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
