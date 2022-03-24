@@ -15,7 +15,7 @@
       <guid>https://www.linuxzen.com/notes/notes/20220324120212-sorting/</guid>
       <description> tags: Algorithm  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -28,7 +28,7 @@
       <guid>https://www.linuxzen.com/notes/notes/20220324114305-881_boats_to_save_people/</guid>
       <description>tags: Hash Table,LeetCode101,Sorting,Two Pointers  Intuition with HashMap class Solution { public: int numRescueBoats(vector&amp;lt;int&amp;gt;&amp;amp; people, int limit) { unordered_map&amp;lt;int, int&amp;gt; cntOfWeights; for (auto iter = people.begin(); iter != people.end(); ++iter) { cntOfWeights[*iter]++; } int r = 0; for (int i = 0; i &amp;lt; people.size(); i++) { if (cntOfWeights[people[i]] == 0) { continue; } cntOfWeights[people[i]]--; for (int j = (limit - people[i]); j &amp;gt; 0; --j) { if (cntOfWeights.find(j) !</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;intuition-with-hashmap&#34;&gt;Intuition with HashMap&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
@@ -86,7 +86,7 @@ We can abstract all the operations to a Tree, then apply DFS on it.
 For example: startValue=2, target=3, the tree looks like:
 /* 2 /\ / \ / \ 1(-1) 4(x2) /\ /\--+ / \ / \ 0(-1) 2(x2) 3(-1) 8(x2) */ class Solution { public: int brokenCalc(int startValue, int target) { unordered_set&amp;lt;int&amp;gt; visited; return backtracking(0, startValue, target, visited); } int backtracking(int count, int val, int target, unordered_set&amp;lt;int&amp;gt; &amp;amp; visited) { if (val == target) { return count; } if (visited.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318084456-math/&#34;&gt;Math&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;backtracking&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318084456-math/&#34;&gt;Math&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;backtracking&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;backtracking-and-stack-overflow&#34;&gt;Backtracking and stack overflow&lt;/h2&gt;
 &lt;p&gt;Intuition:&lt;/p&gt;
@@ -160,7 +160,7 @@ For example: startValue=2, target=3, the tree looks like:
       <description>tags: String,LeetCode101,Tricky  Initialize a string that fills &#39;a&#39; in it. Then we turn it to the expected string from end to start.
 The maximal value of each position in the string is 26. If we start from all elements is &#39;a&#39; in the string. Then the represent value of the string is n. If it&amp;rsquo;s not equal to k. Then we need turn the last character of string to r = k - n.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Initialize a string that fills &lt;code&gt;&#39;a&#39;&lt;/code&gt; in it. Then we turn it to the expected string from end to start.&lt;/p&gt;
 &lt;p&gt;The maximal value of each position in the string is 26. If we start from all elements is &lt;code&gt;&#39;a&#39;&lt;/code&gt; in the string. Then the represent value of the string is &lt;em&gt;n&lt;/em&gt;. If it&amp;rsquo;s not equal to &lt;em&gt;k&lt;/em&gt;. Then we need turn the last character of string to &lt;em&gt;r&lt;/em&gt; = &lt;em&gt;k&lt;/em&gt; - &lt;em&gt;n&lt;/em&gt;. Two cases must be handled:&lt;/p&gt;
@@ -198,7 +198,7 @@ The maximal value of each position in the string is 26. If we start from all ele
       <guid>https://www.linuxzen.com/notes/notes/20220322155933-leetcode101_12_integer_to_roman/</guid>
       <description>tags: Math,Hash Table,LeetCode101  class Solution { public: string intToRoman(int num) { vector&amp;lt;string&amp;gt; roman {&amp;#34;M&amp;#34;, &amp;#34;CM&amp;#34;, &amp;#34;D&amp;#34;, &amp;#34;CD&amp;#34;, &amp;#34;C&amp;#34;, &amp;#34;XC&amp;#34;, &amp;#34;L&amp;#34;, &amp;#34;XL&amp;#34;, &amp;#34;X&amp;#34;, &amp;#34;IX&amp;#34;, &amp;#34;V&amp;#34;, &amp;#34;IV&amp;#34;, &amp;#34;I&amp;#34;}; vector&amp;lt;int&amp;gt; integers {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 }; string r; int times = 0; for (int i = 0; i &amp;lt; integers.size(); ++i) { if (num &amp;gt;= integers[i]) { times = num / integers[i]; num -= times * integers[i]; for (int j = times; j &amp;gt; 0; --j) { r.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318084456-math/&#34;&gt;Math&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318084456-math/&#34;&gt;Math&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
@@ -233,7 +233,7 @@ The maximal value of each position in the string is 26. If we start from all ele
       <description> tags: Two Pointers,Tricky,LeetCode101  The key ideas are:
  We start from two edges and move to the middle with two pointers. Move the pointer to the middle which side is smaller.  class Solution { public: int maxArea(vector&amp;lt;int&amp;gt;&amp;amp; height) { int i = 0, j = height.size() - 1; int water = 0; while (i &amp;lt; j) { water = max(water, (j - i) * min(height[i], height[j])); if (height[i] &amp;gt; height[j]) { --j; } else { ++i; } } return water; } }; </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The key ideas are:&lt;/p&gt;
 &lt;ol&gt;
@@ -269,7 +269,7 @@ The maximal value of each position in the string is 26. If we start from all ele
       <description>tags: String,LeetCode101,Stack,Hash Table,Hash Set  I have solved this problem years before, LeetCode: 316.Remove Duplicate Letters, but still stuck on it.
 The key idea is not only about stack, but also required a map to record how many same letters behind current one. Which helps us to decide if drop current letter or not, when the new letter is less than the top of stack, which means smaller in lexicographical order.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;I have solved this problem years before, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/&#34;&gt;LeetCode: 316.Remove Duplicate Letters&lt;/a&gt;, but still stuck on it.&lt;/p&gt;
 &lt;p&gt;The key idea is not only about stack, but also required a map to record how many same letters behind current one.
@@ -319,7 +319,7 @@ Which helps us to decide if drop current letter or not, when the new letter is l
       <description>tags: String,LeetCode101,Hash Set,Hash Table,Stack  The key idea is similar to LeetCode101: 316. Remove Duplicate Letters, we use a HashMap to track how many letters which is same in the string. Then we use a HashSet to store appeared letters. When there is no more letters appeared in the HashSet, it&amp;rsquo;s time to partition.
 class Solution { public: vector&amp;lt;int&amp;gt; partitionLabels(string s) { unordered_map&amp;lt;char, int&amp;gt; cntOfLetters; unordered_set&amp;lt;char&amp;gt; appearedLetters; vector&amp;lt;int&amp;gt; r; int count = 0; for (auto iter = s.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The key idea is similar to &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174725-leetcode101_316_remove_duplicate_letters/&#34;&gt;LeetCode101: 316. Remove Duplicate Letters&lt;/a&gt;, we use a HashMap to track how many letters which is same in the string.
 Then we use a HashSet to store appeared letters. When there is no more letters appeared in the HashSet, it&amp;rsquo;s time to partition.&lt;/p&gt;
@@ -369,7 +369,7 @@ Then we use a HashSet to store appeared letters. When there is no more letters a
       <guid>https://www.linuxzen.com/notes/notes/20220321174510-string/</guid>
       <description> tags: Algorithm  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -383,7 +383,7 @@ Then we use a HashSet to store appeared letters. When there is no more letters a
       <description>tags: LeetCode101,Math  The key idea is:
  To use \(log10(10^n) = n\) to get how many digits in the number. Then we need iterate \(n + 1\) times to compare each side. The digit in the left is \(\frac{x}{10^{n-i}} \mod 10\). The digit in the right is \(\frac{x}{10^i} \mod 10\).  class Solution { public: bool isPalindrome(int x) { if (x &amp;lt; 0) { return false; } // failed at here 	if (x &amp;lt; 10) { return true; } int n = log10(x); int ld = pow(10, n); // left div 	int rd = 1; // right div 	for (int i = 0; i &amp;lt; (n + 1) / 2; i++) { // left right 	if (x / ld % 10 !</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318084456-math/&#34;&gt;Math&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318084456-math/&#34;&gt;Math&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The key idea is:&lt;/p&gt;
 &lt;ol&gt;
@@ -428,7 +428,7 @@ Then we use a HashSet to store appeared letters. When there is no more letters a
       <guid>https://www.linuxzen.com/notes/notes/20220318084456-math/</guid>
       <description> tags: Algorithm  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -477,7 +477,7 @@ res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; res &lt;span style=
       <description>tags: Tricky,LeetCode101,Integer Overflow  The key idea is how to detect integer overflow, it&amp;rsquo;s same to: LeetCode101: 7. Reverse Integer.
 class Solution { public: int myAtoi(string s) { auto iter = s.begin(); int base = 1, r = 0, p = 0; // Skip whitespace 	for (; iter != s.end() &amp;amp;&amp;amp; *iter == &amp;#39; &amp;#39;; ++iter) { } // negative or positive 	if (*iter == &amp;#39;-&amp;#39; || *iter == &amp;#39;+&amp;#39;) { if (*iter == &amp;#39;-&amp;#39;) { base = -1; } ++iter; } for (; iter !</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318072424-integer_overflow/&#34;&gt;Integer Overflow&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318072424-integer_overflow/&#34;&gt;Integer Overflow&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The key idea is how to detect integer overflow, it&amp;rsquo;s same to: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220316215304-leetcode101_7_reverse_integer/&#34;&gt;LeetCode101: 7. Reverse Integer&lt;/a&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
@@ -531,7 +531,7 @@ class Solution { public: int myAtoi(string s) { auto iter = s.begin(); int base 
 For example, &amp;quot;PAYPALISHIRING&amp;quot;, numRows=3:
 P A H N A P L S I I G Y I R The columns only the head and tail rows is correct should be:</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Make&lt;/p&gt;
 &lt;ul&gt;
@@ -701,7 +701,7 @@ For this purpose, we could detect integer overflow before carry:
   The maximal of INT_MAX before carry is \(\frac{INT\_MAX}{10}\). We continue compare pop with the suffix of INT_MAX, 7, if maximal before carry is equal to \(\frac{INT\_MAX}{10}\).
   The minimal of INT_MIN before carry is \(\frac{INT\_MIN}{10}\) too. We continue compare pop with the suffix of INT_MIN, -8, if minimal before carry is equal to \(\frac{INT\_MIN}{10}\).</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318072424-integer_overflow/&#34;&gt;Integer Overflow&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220318072424-integer_overflow/&#34;&gt;Integer Overflow&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The key is how to detect integer overflow without store to a larger size integer.&lt;/p&gt;
 &lt;p&gt;For this purpose, we could detect integer overflow before carry:&lt;/p&gt;
@@ -807,7 +807,7 @@ When to push:&lt;/p&gt;
       <guid>https://www.linuxzen.com/notes/notes/20220316080026-leetcode101_1249_minimum_remove_to_make_valid_parentheses/</guid>
       <description>tags: Stack,LeetCode101  Stack class Solution { public: string minRemoveToMakeValid(string s) { stack&amp;lt;char&amp;gt; st; char open = &amp;#39;(&amp;#39;, close = &amp;#39;)&amp;#39;; int open_count = 0; string res; // forward to remove unnecessary close parentheses 	for (auto iter = s.begin(); iter != s.end(); ++iter) { if (*iter == open) { open_count++; } if (open_count == 0 &amp;amp;&amp;amp; *iter == close) { continue; } if (*iter == close) { open_count--; } st.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;stack&#34;&gt;Stack&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
@@ -867,7 +867,7 @@ When to push:&lt;/p&gt;
 As shown above, the position of break point is same to the position of max value of chunks. So here:
  We track chunks&amp;rsquo;s max value. Break at the position of max value lives in sorted array, which means the index in this case.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;!-- raw HTML omitted --&gt;
@@ -907,7 +907,7 @@ So here:&lt;/p&gt;
       <guid>https://www.linuxzen.com/notes/notes/20220315152159-tricky/</guid>
       <description> tags: Algorithm  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -920,7 +920,7 @@ So here:&lt;/p&gt;
       <guid>https://www.linuxzen.com/notes/notes/20220315112303-leetcode101_739_daily_temperatures/</guid>
       <description>tags: Monotonic Stack,LeetCode101,LeetCode101: 496. Next Greater Element I  Mono-descreasing stack class Solution { public: vector&amp;lt;int&amp;gt; dailyTemperatures(vector&amp;lt;int&amp;gt;&amp;amp; temperatures) { vector&amp;lt;int&amp;gt; res(temperatures.size(), 0); stack&amp;lt;int&amp;gt; st; for (int i = 0; i &amp;lt; temperatures.size(); i++) { while (!st.empty() &amp;amp;&amp;amp; temperatures[st.top()] &amp;lt; temperatures[i]) { res[st.top()] = i - st.top(); st.pop(); } st.push(i); } return res; } }; [73,74,75,71,69,72,76,73]</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220314085847-leetcode101_496_next_greater_element_i/&#34;&gt;LeetCode101: 496. Next Greater Element I&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220314085847-leetcode101_496_next_greater_element_i/&#34;&gt;LeetCode101: 496. Next Greater Element I&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;mono-descreasing-stack&#34;&gt;Mono-descreasing stack&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
@@ -951,7 +951,7 @@ So here:&lt;/p&gt;
       <description>tags: Monotonic Stack,LeetCode101,Binary Search Tree  Mono-descreasing stack Key:
  The largest number is the root, that we can observe in by iteration. We must clear the stack to fill the right side of BST after loop. The last popped element is the left of current node. From top to bottom, the top element is the right side of the element that under the top.  class Solution { public: TreeNode* constructMaximumBinaryTree(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;TreeNode*&amp;gt; res(nums.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215158-binary_search_tree/&#34;&gt;Binary Search Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215158-binary_search_tree/&#34;&gt;Binary Search Tree&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;mono-descreasing-stack&#34;&gt;Mono-descreasing stack&lt;/h2&gt;
 &lt;p&gt;Key:&lt;/p&gt;
@@ -1007,7 +1007,7 @@ From top to bottom, the top element is the right side of the element that under 
       <description>tags: Monotonic Stack,LeetCode101  Mono-increasing stack Key:
  Some case should move backward as the new value we meeted is larger than it. When we meet 2 in the stack, and here we need move backward. Some case we need move forward, as the following values are the mono-increaing stack: [1, 2, 5, 3, 4]  class Solution { public: int findUnsortedSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { stack&amp;lt;int&amp;gt; st; // mono-increasing 	int left = -1, right = -2; for (int i = 0; i &amp;lt; nums.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;mono-increasing-stack&#34;&gt;Mono-increasing stack&lt;/h2&gt;
 &lt;p&gt;Key:&lt;/p&gt;
@@ -1063,7 +1063,7 @@ When we meet &lt;code&gt;2&lt;/code&gt; in the stack, and here we need move back
       <guid>https://www.linuxzen.com/notes/notes/20220315063008-leetcode101_503_next_greater_element_ii/</guid>
       <description>tags: Monotonic Stack,LeetCode101 related: LeetCode101: 496. Next Greater Element I  Mono-descreasing stack / normal order loop twice  Loop twice to solve circular interger array Mono-descreasing stack to store index, avoid HashMap in Next Greater Element I, as there is a cicular array.  class Solution { public: vector&amp;lt;int&amp;gt; nextGreaterElements(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;int&amp;gt; res(nums.size(), -1); stack&amp;lt;int&amp;gt; st; for (int j = 0, i = 0; j &amp;lt; nums.size() * 2; ++j) { i = j &amp;gt;= nums.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;related: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220314085847-leetcode101_496_next_greater_element_i/&#34;&gt;LeetCode101: 496. Next Greater Element I&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;mono-descreasing-stack-normal-order-loop-twice&#34;&gt;Mono-descreasing stack / normal order loop twice&lt;/h2&gt;
@@ -1100,7 +1100,7 @@ When we meet &lt;code&gt;2&lt;/code&gt; in the stack, and here we need move back
       <guid>https://www.linuxzen.com/notes/notes/20220314085847-leetcode101_496_next_greater_element_i/</guid>
       <description>tags: Monotonic Stack,Hash Table,LeetCode101  Mono-descreasing and reverse order travel class Solution { public: vector&amp;lt;int&amp;gt; nextGreaterElement(vector&amp;lt;int&amp;gt;&amp;amp; nums1, vector&amp;lt;int&amp;gt;&amp;amp; nums2) { // Mono-descreasing and reverse order travel. 	// The next greater of the popped value is the top of the stack, if it has any. 	// 	// For example: [1,3,4,2] 	// the stack goes: 	// [2] 	// [4] -&amp;gt; 2 	// [4, 3, 1] 	stack&amp;lt;int&amp;gt; st; vector&amp;lt;int&amp;gt; res; unordered_map&amp;lt;int, int&amp;gt; m; for (int i = nums2.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;mono-descreasing-and-reverse-order-travel&#34;&gt;Mono-descreasing and reverse order travel&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
@@ -1170,7 +1170,7 @@ When we meet &lt;code&gt;2&lt;/code&gt; in the stack, and here we need move back
  We attempt to remove the most large numbers in the left, first, we use the right n numbers to meet the requirements, which is num.length - k and then, using a monotonic increasing stack to keep the result as samller as we can.  (A monotonic increasing stack will remove larger elements before pushing.)
 Also note that: the result&amp;rsquo;s length is not actually equal num.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;mono-increasing-stack-and-reverse-order-travel--not-work&#34;&gt;Mono-increasing stack and reverse order travel (Not Work)&lt;/h2&gt;
 &lt;p&gt;Notes:&lt;/p&gt;
@@ -1269,7 +1269,7 @@ Also note that: the result&amp;rsquo;s length is not actually equal num.</descri
       <description>tags: Monotonic Stack,LeetCode101,Tricky  We travel the numbers in the reverse order:
  Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &amp;lt; j &amp;lt; k, not i + 1 = j, j + 1 = k // class Solution { public: bool find132pattern(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int K = INT_MIN; stack&amp;lt;int&amp;gt; mst; // mono-increasing stack 	for (int i = nums.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220313145125-monotonic_stack/&#34;&gt;Monotonic Stack&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;We travel the numbers in the reverse order:&lt;/p&gt;
 &lt;ol&gt;
@@ -1316,7 +1316,7 @@ It&amp;rsquo;s not only about the order in the stack, it&amp;rsquo;s also about 
 Monotonically descreasing we need to pop smaller elements from the stack before pushing a new element:
 vector&amp;lt;int&amp;gt; nums; // fill nums stack&amp;lt;int&amp;gt; st; for (auto i = nums.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;//select/items/1_YUUTVRT9&#34;&gt;“Monotonic Stack.” Accessed March 13, 2022. https://liuzhenglaichn.gitbook.io/algorithm/monotonic-stack.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;A monotonic stack is a stack whose elements are monotonically increasing or descreasing.&lt;/p&gt;
@@ -1378,7 +1378,7 @@ vector&amp;lt;int&amp;gt; nums; // fill nums stack&amp;lt;int&amp;gt; st; for (a
       <guid>https://www.linuxzen.com/notes/notes/20220312215158-binary_search_tree/</guid>
       <description> tags: Data Structures  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -1458,7 +1458,7 @@ returns an iterator to the first element greater than the given key&lt;/li&gt;
       <description>tags: C/C++,Java,Data Structures  In C++ the set container is an ordered or sorted set, unordered_set is the normal set in C++. Differences between them please check set vs unordered_set in C++ STL.
 In Java there is an java.util.SortedSet interface.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320171108_c/&#34;&gt;C/C++&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20210901081938-java/&#34;&gt;Java&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320171108_c/&#34;&gt;C/C++&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20210901081938-java/&#34;&gt;Java&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;In C++ the &lt;a href=&#34;https://en.cppreference.com/w/cpp/container/set&#34;&gt;set&lt;/a&gt; container is an ordered or sorted set, &lt;a href=&#34;https://en.cppreference.com/w/cpp/container/unordered%5Fset&#34;&gt;unordered_set&lt;/a&gt; is the normal set in C++. Differences between them please check &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215003-set_vs_unordered_set_in_c_stl/&#34;&gt;set vs unordered_set in C++ STL&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In Java there is an &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/java/util/SortedSet.html&#34;&gt;java.util.SortedSet&lt;/a&gt; interface.&lt;/p&gt;
@@ -1574,7 +1574,7 @@ And using a HashTable to indicate that two values in the different position are 
 The steps is following:
  Find two values at each side of window are equal. Return true if the offset between their indices is less than or equal k.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;This is an &amp;ldquo;near by&amp;rdquo; problem that can be solved by Sliding Window. The &lt;em&gt;k&lt;/em&gt; in the problem is somehow means &lt;strong&gt;contiguous&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;And using a &lt;code&gt;HashTable&lt;/code&gt; to indicate that two values in the different position are equal.&lt;/p&gt;
@@ -1614,7 +1614,7 @@ Otherwise set &lt;code&gt;left&lt;/code&gt; to the new position and continue.&lt
       <guid>https://www.linuxzen.com/notes/notes/20220311221617-hash_table/</guid>
       <description> tags: Data Structures  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -1628,7 +1628,7 @@ Otherwise set &lt;code&gt;left&lt;/code&gt; to the new position and continue.&lt
       <description>tags: Sliding Window,LeetCode101  Key:
  sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target. See also 1695. Maximum Erasure Value  class Solution { public: int minSubArrayLen(int target, vector&amp;lt;int&amp;gt;&amp;amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &amp;lt; nums.size(); right++) { sum += nums[right]; while (sum &amp;gt;= target) { minimal = min(minimal, right - left + 1); sum -= nums[left++]; } } return minimal == INT_MAX ?</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Key:&lt;/p&gt;
 &lt;ol&gt;
@@ -1678,7 +1678,7 @@ Otherwise set &lt;code&gt;left&lt;/code&gt; to the new position and continue.&lt
       <description> tags: Sliding Window,LeetCode101,Hash Set  Key:
  Fixed size window, right should start from 9  class Solution { public: vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { int left = 0; unordered_set&amp;lt;string&amp;gt; results; unordered_set&amp;lt;string&amp;gt; hset; for (auto right = 9; right &amp;lt; s.size(); right++) { string sub(s, left, 10); if (hset.find(sub) != hset.end()) { results.insert(sub); } hset.insert(sub); left++; } return vector&amp;lt;string&amp;gt;(results.begin(), results.end()); } }; </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Key:&lt;/p&gt;
 &lt;ol&gt;
@@ -1715,7 +1715,7 @@ Otherwise set &lt;code&gt;left&lt;/code&gt; to the new position and continue.&lt
       <guid>https://www.linuxzen.com/notes/notes/20220311183913-hash_set/</guid>
       <description> tags: Data Structures  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -1729,7 +1729,7 @@ Otherwise set &lt;code&gt;left&lt;/code&gt; to the new position and continue.&lt
       <description>tags: Sliding Window,LeetCode101,Hash Set  Use HashMap to store indices See also: 3. Longest Substring Without Repeating Characters
 class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int maximum = 0; int left = 0, right = 0; unordered_map&amp;lt;int, int&amp;gt; indices; for (; right &amp;lt; nums.size(); right++) { int n = nums[right]; if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] + 1 &amp;gt; left) { left = indices[n] + 1; } maximum = max(maximum, std::accumulate(nums.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311183913-hash_set/&#34;&gt;Hash Set&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;use-hashmap-to-store-indices&#34;&gt;Use HashMap to store indices&lt;/h2&gt;
 &lt;p&gt;See also: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074801-3_longest_substring_without_repeating_characters/&#34;&gt;3. Longest Substring Without Repeating Characters&lt;/a&gt;&lt;/p&gt;
@@ -1842,7 +1842,7 @@ class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp
       <guid>https://www.linuxzen.com/notes/notes/20220311081528-brute_force_approach/</guid>
       <description> tags: Algorithm  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -1855,7 +1855,7 @@ class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp
       <guid>https://www.linuxzen.com/notes/notes/20220311075423-two_pointer/</guid>
       <description> tags: Algorithm  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -1894,7 +1894,7 @@ Sliding Window to slove the problem of all elements that in the window.</descrip
 Wrong
 left++; counts[s[left]]--; Correct</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;use-hashmap-to-store-counts-of-letters&#34;&gt;Use HashMap to store counts of letters&lt;/h2&gt;
 &lt;p&gt;Two points we should be noticed:&lt;/p&gt;
@@ -2074,7 +2074,7 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
       <guid>https://www.linuxzen.com/notes/notes/20220311074820-sliding_window/</guid>
       <description> tags: Algorithm   Slide right to move forward to find the solution. Slide left to keep the solution, and collect to the results. Must avoid left go to backward.  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;ol&gt;
@@ -2096,19 +2096,6 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
     </item>
     
     <item>
-      <title>Data Structures</title>
-      <link>https://www.linuxzen.com/notes/notes/20220311073856-data_structures/</link>
-      <pubDate>Fri, 11 Mar 2022 07:38:00 +0800</pubDate>
-      
-      <guid>https://www.linuxzen.com/notes/notes/20220311073856-data_structures/</guid>
-      <description> tags: Computer Systems  </description>
-      <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200802151319-computer_systems/&#34;&gt;Computer Systems&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    </item>
-    
-    <item>
       <title>LeetCode101: 445. Add Two Numbers II</title>
       <link>https://www.linuxzen.com/notes/notes/20220311073810-445_add_two_numbers_ii/</link>
       <pubDate>Fri, 11 Mar 2022 07:38:00 +0800</pubDate>
@@ -2116,7 +2103,7 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
       <guid>https://www.linuxzen.com/notes/notes/20220311073810-445_add_two_numbers_ii/</guid>
       <description>tags: Linked List,Stack, LeetCode101,2. Add Two Numbers  两数之和的进阶版，位高的数字在链表的头部，常规解法是通过「栈」进行反转链表，然后回退到2. Add Two Numbers的解法。</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070813-linked_list/&#34;&gt;Linked List&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070727-2_add_two_numbers/&#34;&gt;2. Add Two Numbers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070813-linked_list/&#34;&gt;Linked List&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073821-stack/&#34;&gt;Stack&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070727-2_add_two_numbers/&#34;&gt;2. Add Two Numbers&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;两数之和的进阶版，位高的数字在链表的头部，常规解法是通过「栈」进行反转链表，然后回退到&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070727-2_add_two_numbers/&#34;&gt;2. Add Two Numbers&lt;/a&gt;的解法。&lt;/p&gt;
 </content>
@@ -2130,7 +2117,7 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
       <guid>https://www.linuxzen.com/notes/notes/20220311073821-stack/</guid>
       <description> tags: Data Structures  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -2143,7 +2130,7 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
       <guid>https://www.linuxzen.com/notes/notes/20220311070813-linked_list/</guid>
       <description> tags: Data Structures  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -2156,7 +2143,7 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
       <guid>https://www.linuxzen.com/notes/notes/20220311070727-2_add_two_numbers/</guid>
       <description>tags: Linked List, LeetCode101  正常的「链表」遍历操作，需要注意的就是不要在末尾忘记处理进位，如果 carry 大于 0 需要追加到结果链表末尾。</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070813-linked_list/&#34;&gt;Linked List&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070813-linked_list/&#34;&gt;Linked List&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;正常的「链表」遍历操作，需要注意的就是不要在末尾忘记处理进位，如果 carry 大于 0 需要追加到结果链表末尾。&lt;/p&gt;
 </content>
@@ -2170,6 +2157,32 @@ longest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(longest, ri
       <guid>https://www.linuxzen.com/notes/notes/20220311070749-linked_list/</guid>
       <description></description>
       <content></content>
+    </item>
+    
+    <item>
+      <title>LeetCode101</title>
+      <link>https://www.linuxzen.com/notes/notes/20220311065137-leetcode101/</link>
+      <pubDate>Fri, 11 Mar 2022 06:51:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220311065137-leetcode101/</guid>
+      <description> tags: Algorithm,Data Structures  又要开始找工作了，刷题、刷题、刷题！步骤：
+ 按顺序找到题目 解题/学习 总结考察的点（树、双指针、回溯、DP、模拟现实、递归） 刷相同解法框架的题  一些模糊的感觉：
+ 尝试不同的遍历顺序可能是解题关键，正序遍历不行试一下反序遍历，反之亦然！  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;又要开始找工作了，刷题、刷题、刷题！步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;按顺序找到题目&lt;/li&gt;
+&lt;li&gt;解题/学习&lt;/li&gt;
+&lt;li&gt;总结考察的点（树、双指针、回溯、DP、模拟现实、递归）&lt;/li&gt;
+&lt;li&gt;刷相同解法框架的题&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;一些模糊的感觉：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;尝试不同的遍历顺序可能是解题关键，正序遍历不行试一下反序遍历，反之亦然！&lt;/li&gt;
+&lt;/ol&gt;
+</content>
     </item>
     
     <item>
@@ -3677,7 +3690,7 @@ Tools that based on Ganache:</description>
  IRT - three parameters. Rasch modeling - one parameter only.  Three parameters:
  A - discrimination, how effectively this item can discriminate students&amp;rsquo;s proficient between highly and less.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220106164620-irt/&#34;&gt;IRT&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211210181234-%E8%AF%BB%E8%BF%87%E7%9A%84%E4%B9%A6/&#34;&gt;读书笔记&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220106164620-irt/&#34;&gt;IRT&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211210181234-%E8%AF%BB%E8%BF%87%E7%9A%84%E4%B9%A6/&#34;&gt;读书笔记&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;//select/items/1_ZJTHYQ25&#34;&gt;Yu, Chong Ho. “A Simple Guide to the Item Response Theory ( IRT ) and Rasch Modeling.” Accessed January 6, 2022. https://www.semanticscholar.org/paper/A-Simple-Guide-to-the-Item-Response-Theory-(-IRT-)-Yu/f42efb1bcf38f6650a8b16650e2811e8803cd4ec.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;IRT is about fitness or simplicity for test. There are two versions of IRT:&lt;/p&gt;
@@ -3906,7 +3919,7 @@ Tools that based on Ganache:</description>
       <guid>https://www.linuxzen.com/notes/notes/20220106164620-irt/</guid>
       <description> tags: Algorithm,Bigdata,Educational Measurement  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/&#34;&gt;Bigdata&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220106173334-educational_measurement/&#34;&gt;Educational Measurement&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320100519_%E5%A4%A7%E6%95%B0%E6%8D%AE/&#34;&gt;Bigdata&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220106173334-educational_measurement/&#34;&gt;Educational Measurement&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -4535,21 +4548,8 @@ Workflow:
       <guid>https://www.linuxzen.com/notes/notes/20220104182458-an_algorithm_for_passing_programming_interviews/</guid>
       <description> tags: Algorithm source: https://malisper.me/an-algorithm-for-passing-programming-interviews/  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;https://malisper.me/an-algorithm-for-passing-programming-interviews/&#34;&gt;https://malisper.me/an-algorithm-for-passing-programming-interviews/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Algorithm</title>
-      <link>https://www.linuxzen.com/notes/notes/20220104182327-algorithm/</link>
-      <pubDate>Tue, 04 Jan 2022 18:23:00 +0800</pubDate>
-      
-      <guid>https://www.linuxzen.com/notes/notes/20220104182327-algorithm/</guid>
-      <description> tags: Computer Systems  </description>
-      <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200802151319-computer_systems/&#34;&gt;Computer Systems&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -10041,7 +10041,7 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combina
       <guid>https://www.linuxzen.com/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</guid>
       <description> tags: Algorithm,Brute Force Approach  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311081528-brute_force_approach/&#34;&gt;Brute Force Approach&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311081528-brute_force_approach/&#34;&gt;Brute Force Approach&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -14011,7 +14011,7 @@ printf &amp;#39;\e[3J&amp;#39; &amp;amp;&amp;amp; log show --predicate &amp;#39;
       <description>tags: Algorithm,Data Structures,Binary Search Tree  分为三种：前序、后序和中序，其中最容易用栈改写的是后序。
 前序(Preorder)：Root -&amp;gt; Left -&amp;gt; Right class Solution { public: void processPreorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processPreorderTraversal(root-&amp;gt;left, collector); collector.push_back(root-&amp;gt;val); processPreorderTraversal(root-&amp;gt;right, collector); } vector&amp;lt;int&amp;gt; inorderTraversal(TreeNode* root) { vector&amp;lt;int&amp;gt; ret; if (root == nullptr) { return ret; } processPreorderTraversal(root, ret); return ret; } }; 中序(Inorder): Left -&amp;gt; Root -&amp;gt; Right class Solution { public: void processInorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processInorderTraversal(root-&amp;gt;left, collector); collector.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215158-binary_search_tree/&#34;&gt;Binary Search Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220312215158-binary_search_tree/&#34;&gt;Binary Search Tree&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;分为三种：前序、后序和中序，其中最容易用栈改写的是后序。&lt;/p&gt;
 &lt;h2 id=&#34;前序--preorder--root-left-right&#34;&gt;前序(Preorder)：Root -&amp;gt; Left -&amp;gt; Right&lt;/h2&gt;
@@ -18269,7 +18269,7 @@ kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage -
       <guid>https://www.linuxzen.com/notes/notes/20200320172132_leetcode/</guid>
       <description> tags: Learning,Algorithm  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122121-learning/&#34;&gt;Learning&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211231122121-learning/&#34;&gt;Learning&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
@@ -18797,7 +18797,7 @@ kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage -
 检查是否满足上面提到的两个特性：
  无后效性：对于 \(n\)，一旦 \(f(n)\) 确定，以后只关心 \(f(n)\) 的值，不关心怎么计算的； 最优子结构：对于 \(n\)，只要 \(n - 1\) \(n - 3\) \(n - 5\) 能是最优解，那么就能计算出 n;  推导过程  假设找零 15：</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;状态转移方程&#34;&gt;状态转移方程&lt;/h2&gt;
 &lt;h3 id=&#34;无后效性&#34;&gt;无后效性&lt;/h3&gt;
@@ -18957,7 +18957,7 @@ kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage -
       <guid>https://www.linuxzen.com/notes/notes/20200320173033_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</guid>
       <description>tags: Algorithm,Sorting  Wikipedia: 归并排序</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Wikipedia: &lt;a href=&#34;https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F&#34;&gt;归并排序&lt;/a&gt;&lt;/p&gt;
 </content>
@@ -18971,7 +18971,7 @@ kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage -
       <guid>https://www.linuxzen.com/notes/notes/20200320171501_%E7%AE%97%E6%B3%95/</guid>
       <description> alias: Algorithm  </description>
       <content>&lt;ul&gt;
-&lt;li&gt;alias: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;alias: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
