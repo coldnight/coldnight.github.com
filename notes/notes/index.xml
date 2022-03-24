@@ -6,7 +6,85 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 23 Mar 2022 17:58:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 24 Mar 2022 12:02:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sorting</title>
+      <link>https://www.linuxzen.com/notes/notes/20220324120212-sorting/</link>
+      <pubDate>Thu, 24 Mar 2022 12:02:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220324120212-sorting/</guid>
+      <description> tags: Algorithm  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Sorting</title>
+      <link>https://www.linuxzen.com/notes/notes/20220324120155-sorting/</link>
+      <pubDate>Thu, 24 Mar 2022 12:01:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220324120155-sorting/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>881. Boats to Save People</title>
+      <link>https://www.linuxzen.com/notes/notes/20220324114305-881_boats_to_save_people/</link>
+      <pubDate>Thu, 24 Mar 2022 11:43:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220324114305-881_boats_to_save_people/</guid>
+      <description>tags: Hash Table,LeetCode101,Sorting,Two Pointer  Intuition with HashMap class Solution { public: int numRescueBoats(vector&amp;lt;int&amp;gt;&amp;amp; people, int limit) { unordered_map&amp;lt;int, int&amp;gt; cntOfWeights; for (auto iter = people.begin(); iter != people.end(); ++iter) { cntOfWeights[*iter]++; } int r = 0; for (int i = 0; i &amp;lt; people.size(); i++) { if (cntOfWeights[people[i]] == 0) { continue; } cntOfWeights[people[i]]--; for (int j = (limit - people[i]); j &amp;gt; 0; --j) { if (cntOfWeights.find(j) !</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointer&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;intuition-with-hashmap&#34;&gt;Intuition with HashMap&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; numRescueBoats(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; people, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; limit) {
+		unordered_map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; cntOfWeights;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; people.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; people.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+			cntOfWeights[&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter]&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; people.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (cntOfWeights[people[i]] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;
+			}
+			cntOfWeights[people[i]]&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (limit &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; people[i]); j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;j) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (cntOfWeights.find(j) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; cntOfWeights.end() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cntOfWeights[j] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+					cntOfWeights[j]&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+					&lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+				}
+			}
+			r&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;sorting-and-two-pointers&#34;&gt;Sorting and Two Pointers&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; numRescueBoats(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; people, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; limit) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; people.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// heaviest go first
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		sort(people.rbegin(), people.rend());
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; j; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (people[i] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; people[j] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; limit)
+				j&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; i;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 991. Broken Calculator</title>
       <link>https://www.linuxzen.com/notes/notes/20220323175835-leetcode101_991_broken_calculator/</link>
@@ -18923,9 +19001,9 @@ kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage -
       <pubDate>Fri, 20 Mar 2020 00:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20200320173033_%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</guid>
-      <description>tags: Algorithm  Wikipedia: 归并排序</description>
+      <description>tags: Algorithm,Sorting  Wikipedia: 归并排序</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Wikipedia: &lt;a href=&#34;https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F&#34;&gt;归并排序&lt;/a&gt;&lt;/p&gt;
 </content>
