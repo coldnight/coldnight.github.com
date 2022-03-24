@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Hash Table,LeetCode101,Sorting,Two Pointer  Intuition with HashMap class Solution { public: int numRescueBoats(vector&amp;lt;int&amp;gt;&amp;amp; people, int limit) { unordered_map&amp;lt;int, int&amp;gt; cntOfWeights; for (auto iter = people.begin(); iter != people.end(); &#43;&#43;iter) { cntOfWeights[*iter]&#43;&#43;; } int r = 0; for (int i = 0; i &amp;lt; people.size(); i&#43;&#43;) { if (cntOfWeights[people[i]] == 0) { continue; } cntOfWeights[people[i]]--; for (int j = (limit - people[i]); j &amp;gt; 0; --j) { if (cntOfWeights.find(j) !" />
+<meta name="description" content="tags: Hash Table,LeetCode101,Sorting,Two Pointers  Intuition with HashMap class Solution { public: int numRescueBoats(vector&amp;lt;int&amp;gt;&amp;amp; people, int limit) { unordered_map&amp;lt;int, int&amp;gt; cntOfWeights; for (auto iter = people.begin(); iter != people.end(); &#43;&#43;iter) { cntOfWeights[*iter]&#43;&#43;; } int r = 0; for (int i = 0; i &amp;lt; people.size(); i&#43;&#43;) { if (cntOfWeights[people[i]] == 0) { continue; } cntOfWeights[people[i]]--; for (int j = (limit - people[i]); j &amp;gt; 0; --j) { if (cntOfWeights.find(j) !" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220324114305-881_boats_to_save_people/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 881. Boats to Save People">
-<meta property="og:description" content="tags: Hash Table,LeetCode101,Sorting,Two Pointer  Intuition with HashMap class Solution { public: int numRescueBoats(vector&amp;lt;int&amp;gt;&amp;amp; people, int limit) { unordered_map&amp;lt;int, int&amp;gt; cntOfWeights; for (auto iter = people.begin(); iter != people.end(); &#43;&#43;iter) { cntOfWeights[*iter]&#43;&#43;; } int r = 0; for (int i = 0; i &amp;lt; people.size(); i&#43;&#43;) { if (cntOfWeights[people[i]] == 0) { continue; } cntOfWeights[people[i]]--; for (int j = (limit - people[i]); j &amp;gt; 0; --j) { if (cntOfWeights.find(j) !" />
+<meta property="og:description" content="tags: Hash Table,LeetCode101,Sorting,Two Pointers  Intuition with HashMap class Solution { public: int numRescueBoats(vector&amp;lt;int&amp;gt;&amp;amp; people, int limit) { unordered_map&amp;lt;int, int&amp;gt; cntOfWeights; for (auto iter = people.begin(); iter != people.end(); &#43;&#43;iter) { cntOfWeights[*iter]&#43;&#43;; } int r = 0; for (int i = 0; i &amp;lt; people.size(); i&#43;&#43;) { if (cntOfWeights[people[i]] == 0) { continue; } cntOfWeights[people[i]]--; for (int j = (limit - people[i]); j &amp;gt; 0; --j) { if (cntOfWeights.find(j) !" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220324114305-881_boats_to_save_people/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -164,7 +164,7 @@
 
   <div class="post-content"><div>
         <ul>
-<li>tags: <a href="/notes/notes/20220311221617-hash_table/">Hash Table</a>,<a href="/notes/notes/20220311065137-leetcode101/">LeetCode101</a>,<a href="/notes/notes/20220324120212-sorting/">Sorting</a>,<a href="/notes/notes/20220311075423-two_pointer/">Two Pointer</a></li>
+<li>tags: <a href="/notes/notes/20220311221617-hash_table/">Hash Table</a>,<a href="/notes/notes/20220311065137-leetcode101/">LeetCode101</a>,<a href="/notes/notes/20220324120212-sorting/">Sorting</a>,<a href="/notes/notes/20220311075423-two_pointer/">Two Pointers</a></li>
 </ul>
 <h2 id="intuition-with-hashmap">Intuition with HashMap<a href="#intuition-with-hashmap" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {

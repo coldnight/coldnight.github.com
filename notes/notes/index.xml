@@ -26,9 +26,9 @@
       <pubDate>Thu, 24 Mar 2022 11:43:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220324114305-881_boats_to_save_people/</guid>
-      <description>tags: Hash Table,LeetCode101,Sorting,Two Pointer  Intuition with HashMap class Solution { public: int numRescueBoats(vector&amp;lt;int&amp;gt;&amp;amp; people, int limit) { unordered_map&amp;lt;int, int&amp;gt; cntOfWeights; for (auto iter = people.begin(); iter != people.end(); ++iter) { cntOfWeights[*iter]++; } int r = 0; for (int i = 0; i &amp;lt; people.size(); i++) { if (cntOfWeights[people[i]] == 0) { continue; } cntOfWeights[people[i]]--; for (int j = (limit - people[i]); j &amp;gt; 0; --j) { if (cntOfWeights.find(j) !</description>
+      <description>tags: Hash Table,LeetCode101,Sorting,Two Pointers  Intuition with HashMap class Solution { public: int numRescueBoats(vector&amp;lt;int&amp;gt;&amp;amp; people, int limit) { unordered_map&amp;lt;int, int&amp;gt; cntOfWeights; for (auto iter = people.begin(); iter != people.end(); ++iter) { cntOfWeights[*iter]++; } int r = 0; for (int i = 0; i &amp;lt; people.size(); i++) { if (cntOfWeights[people[i]] == 0) { continue; } cntOfWeights[people[i]]--; for (int j = (limit - people[i]); j &amp;gt; 0; --j) { if (cntOfWeights.find(j) !</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;intuition-with-hashmap&#34;&gt;Intuition with HashMap&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
@@ -230,10 +230,10 @@ The maximal value of each position in the string is 26. If we start from all ele
       <pubDate>Mon, 21 Mar 2022 18:38:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220321183809-leetcode_11_container_with_most_water/</guid>
-      <description> tags: Two Pointer,Tricky,LeetCode101  The key ideas are:
+      <description> tags: Two Pointers,Tricky,LeetCode101  The key ideas are:
  We start from two edges and move to the middle with two pointers. Move the pointer to the middle which side is smaller.  class Solution { public: int maxArea(vector&amp;lt;int&amp;gt;&amp;amp; height) { int i = 0, j = height.size() - 1; int water = 0; while (i &amp;lt; j) { water = max(water, (j - i) * min(height[i], height[j])); if (height[i] &amp;gt; height[j]) { --j; } else { ++i; } } return water; } }; </description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointer&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220315152159-tricky/&#34;&gt;Tricky&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The key ideas are:&lt;/p&gt;
 &lt;ol&gt;
@@ -1848,7 +1848,7 @@ class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp
     </item>
     
     <item>
-      <title>Two Pointer</title>
+      <title>Two Pointers</title>
       <link>https://www.linuxzen.com/notes/notes/20220311075423-two_pointer/</link>
       <pubDate>Fri, 11 Mar 2022 07:54:00 +0800</pubDate>
       
@@ -1861,15 +1861,15 @@ class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp
     </item>
     
     <item>
-      <title>Differences between Sliding Window and Two Pointer</title>
+      <title>Differences between Sliding Window and Two Pointers</title>
       <link>https://www.linuxzen.com/notes/notes/20220311075357-differences_between_sliding_window_and_two_pointer/</link>
       <pubDate>Fri, 11 Mar 2022 07:53:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220311075357-differences_between_sliding_window_and_two_pointer/</guid>
-      <description>tags: Sliding Window,Two Pointer source:  力扣 LeetCode. “题解：借这个问题科普一下「滑动窗口」和「双指针」的区别 - 力扣（LeetCode）.” Accessed March 11, 2022. https://leetcode-cn.com/problems/get-equal-substrings-within-budget/solution/jie-zhe-ge-wen-ti-ke-pu-yi-xia-hua-dong-6128z/. https://stackoverflow.com/a/64078338    Two Pointer to slove the problem of two elements that two pointes pointed.
+      <description>tags: Sliding Window,Two Pointers source:  力扣 LeetCode. “题解：借这个问题科普一下「滑动窗口」和「双指针」的区别 - 力扣（LeetCode）.” Accessed March 11, 2022. https://leetcode-cn.com/problems/get-equal-substrings-within-budget/solution/jie-zhe-ge-wen-ti-ke-pu-yi-xia-hua-dong-6128z/. https://stackoverflow.com/a/64078338    Two Pointer to slove the problem of two elements that two pointes pointed.
 Sliding Window to slove the problem of all elements that in the window.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311074820-sliding_window/&#34;&gt;Sliding Window&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source:
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;//select/items/1_J7GH8PBW&#34;&gt;力扣 LeetCode. “题解：借这个问题科普一下「滑动窗口」和「双指针」的区别 - 力扣（LeetCode）.” Accessed March 11, 2022. https://leetcode-cn.com/problems/get-equal-substrings-within-budget/solution/jie-zhe-ge-wen-ti-ke-pu-yi-xia-hua-dong-6128z/.&lt;/a&gt;&lt;/li&gt;
