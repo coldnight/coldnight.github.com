@@ -6,7 +6,158 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 29 Mar 2022 16:08:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 29 Mar 2022 18:14:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 287. Find the Duplicate Number</title>
+      <link>https://www.linuxzen.com/notes/notes/20220329181423-leetcode101_287_find_the_duplicate_number/</link>
+      <pubDate>Tue, 29 Mar 2022 18:14:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220329181423-leetcode101_287_find_the_duplicate_number/</guid>
+      <description>tags: Cycle detection,Fast &amp;amp; Slow Pointers,LeetCode101  Treat as A Linked List with circle According to the length of nums is n + 1, and integer range is [1, n], so we can treat each element as a index that point to some next value. For example:
+[1,3,4,2,2] It can be treated as(format is element(index)):
+ 1(0) -&amp;gt; 3(1) -&amp;gt; 2(3) -&amp;gt; 4(3) -&amp;gt; 2(4) -&amp;gt; 4(3)
+ We can see there is a circle in it, so:</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329171237-cycle_detection/&#34;&gt;Cycle detection&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329171337-fast_slow_pointers/&#34;&gt;Fast &amp;amp; Slow Pointers&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;treat-as-a-linked-list-with-circle&#34;&gt;Treat as A Linked List with circle&lt;/h2&gt;
+&lt;p&gt;According to the length of &lt;code&gt;nums&lt;/code&gt; is &lt;code&gt;n + 1&lt;/code&gt;, and integer range is &lt;code&gt;[1, n]&lt;/code&gt;, so we can treat each element as a index that point to some next value. For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It can be treated as(format is &lt;em&gt;element(index)&lt;/em&gt;):&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1(0) -&amp;gt; 3(1) -&amp;gt; 2(3) -&amp;gt; 4(3) -&amp;gt; 2(4) -&amp;gt; 4(3)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;We can see there is a circle in it, so:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; findDuplicate(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; slow &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[nums[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]]; &lt;span style=&#34;color:#75715e&#34;&gt;// 1 step
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; fast &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[slow]; &lt;span style=&#34;color:#75715e&#34;&gt;// 2 steps
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (slow &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; fast) {
+			slow &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[slow]; &lt;span style=&#34;color:#75715e&#34;&gt;// 1 step
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			fast &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[nums[fast]]; &lt;span style=&#34;color:#75715e&#34;&gt;// move 2 steps
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		}
+		slow &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]; &lt;span style=&#34;color:#75715e&#34;&gt;// put tortoise back to beginning.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (slow &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; fast) {
+			slow &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[slow];
+			fast &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[fast];
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; slow;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 142. Linked List Cycle II</title>
+      <link>https://www.linuxzen.com/notes/notes/20220329180222-leetcode101_142_linked_list_cycle_ii/</link>
+      <pubDate>Tue, 29 Mar 2022 18:02:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220329180222-leetcode101_142_linked_list_cycle_ii/</guid>
+      <description>tags: Cycle detection,Fast &amp;amp; Slow Pointers,LeetCode101  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) {} * }; */ class Solution { public: ListNode *detectCycle(ListNode *head) { if (head == nullptr || head-&amp;gt;next == nullptr) { return nullptr; } // tortoise move 1 step 	auto slow = head-&amp;gt;next; // hare move 2 steps 	auto fast = head-&amp;gt;next-&amp;gt;next; while (slow !</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329171237-cycle_detection/&#34;&gt;Cycle detection&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329171337-fast_slow_pointers/&#34;&gt;Fast &amp;amp; Slow Pointers&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * Definition for singly-linked list.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * struct ListNode {
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     int val;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     ListNode *next;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *     ListNode(int x) : val(x), next(NULL) {}
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * };
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; */&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	ListNode &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;detectCycle(ListNode &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;head) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (head &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; head&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;;
+		}
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// tortoise move 1 step
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; slow &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; head&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next;
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// hare move 2 steps
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; fast &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; head&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next;
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (slow &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; fast) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (slow &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; fast &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; fast&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nullptr&lt;/span&gt;;
+			}
+			slow &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; slow&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next;
+			fast &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; fast&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next;
+		}
+		slow &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; head;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (slow &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; fast) {
+			slow &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; slow&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next;
+			fast &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; fast&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;next;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; slow;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Algh</title>
+      <link>https://www.linuxzen.com/notes/notes/20220329171342-algh/</link>
+      <pubDate>Tue, 29 Mar 2022 17:13:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220329171342-algh/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Algh</title>
+      <link>https://www.linuxzen.com/notes/notes/20220329171347-algh/</link>
+      <pubDate>Tue, 29 Mar 2022 17:13:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220329171347-algh/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Fast &amp; Slow Pointers</title>
+      <link>https://www.linuxzen.com/notes/notes/20220329171337-fast_slow_pointers/</link>
+      <pubDate>Tue, 29 Mar 2022 17:13:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220329171337-fast_slow_pointers/</guid>
+      <description> tags: Algorithm,Two Pointers  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Cycle detection</title>
+      <link>https://www.linuxzen.com/notes/notes/20220329171237-cycle_detection/</link>
+      <pubDate>Tue, 29 Mar 2022 17:12:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220329171237-cycle_detection/</guid>
+      <description>tags: Algorithm,Linked List,Fast &amp;amp; Slow Pointers source: https://en.wikipedia.org/wiki/Cycle%5Fdetection  Floyd&amp;rsquo;s tortoise and hare With two pointers:
+ tortoise move slow: move 1 step in each loop. hare move fast: move 2 steps in each loop.  If there is a circle existed, tortoise and hare will meet eventually in the circle. Now both tortoise and hare are in the circle, how to figure out the beginning of the circle?</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311070813-linked_list/&#34;&gt;Linked List&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329171337-fast_slow_pointers/&#34;&gt;Fast &amp;amp; Slow Pointers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://en.wikipedia.org/wiki/Cycle%5Fdetection&#34;&gt;https://en.wikipedia.org/wiki/Cycle%5Fdetection&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;floyd-s-tortoise-and-hare&#34;&gt;Floyd&amp;rsquo;s tortoise and hare&lt;/h2&gt;
+&lt;p&gt;With two pointers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;tortoise move slow: move 1 step in each loop.&lt;/li&gt;
+&lt;li&gt;hare move fast: move 2 steps in each loop.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If there is a circle existed, tortoise and hare will meet eventually in the circle.
+Now both tortoise and hare are in the circle, how to figure out the beginning of the circle?&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We put tortoise back to the beginning they both started. Such as, the first element of the linked list.&lt;/li&gt;
+&lt;li&gt;Then we move both tortoise and hare step by step, they will meet in the beginning of the circle.&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    </item>
+    
     <item>
       <title>Tree</title>
       <link>https://www.linuxzen.com/notes/notes/20220329160804-tree/</link>
