@@ -6,8 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Heap (data structure),Data Structures,Complete Binary Tree,Tree  Binary tree with two additional constraints:
- Shape property: complete binary tree. Heap property: the key stored in each node is greater or equal(max-heaps) to or less than or equal to(min-heaps) the keys in the node&amp;rsquo;s children, according to some total order.  Heap operations Insert Extract Search Delete " />
+<meta name="description" content="tags: Heap (data structure),Data Structures,Complete Binary Tree,Tree  Binary tree with two additional constraints:
+ Shape property: complete binary tree. Heap property: the key stored in each node is greater or equal(max-heaps) to or less than or equal to(min-heaps) the keys in the node&amp;rsquo;s children, according to some total order.  Heap operations Insert Steps to add an element to a heap:
+ Add element to the bottom level of the heap at the leftmost open space." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220329160438-binary_heap/" />
@@ -35,8 +36,9 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Binary heap">
-<meta property="og:description" content=" tags: Heap (data structure),Data Structures,Complete Binary Tree,Tree  Binary tree with two additional constraints:
- Shape property: complete binary tree. Heap property: the key stored in each node is greater or equal(max-heaps) to or less than or equal to(min-heaps) the keys in the node&amp;rsquo;s children, according to some total order.  Heap operations Insert Extract Search Delete " />
+<meta property="og:description" content="tags: Heap (data structure),Data Structures,Complete Binary Tree,Tree  Binary tree with two additional constraints:
+ Shape property: complete binary tree. Heap property: the key stored in each node is greater or equal(max-heaps) to or less than or equal to(min-heaps) the keys in the node&amp;rsquo;s children, according to some total order.  Heap operations Insert Steps to add an element to a heap:
+ Add element to the bottom level of the heap at the leftmost open space." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220329160438-binary_heap/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -175,9 +177,27 @@
 </ol>
 <h2 id="heap-operations">Heap operations<a href="#heap-operations" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="insert">Insert<a href="#insert" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<h3 id="extract">Extract<a href="#extract" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Steps to add an element to a heap:</p>
+<ol>
+<li>Add element to the bottom level of the heap at the leftmost open space.</li>
+<li>Compare to its parent, if they are in the correct the order, stop.</li>
+<li>If not, swap element with its parent and return to the previous step.</li>
+</ol>
+<h3 id="extract-delete-the-root-from-heap">Extract: Delete the root from heap<a href="#extract-delete-the-root-from-heap" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ol>
+<li>Replace the root of heap with the last element on the bottom level.</li>
+<li>Compare the new root with its children; if they are in the correct order, stop.</li>
+<li>If not, swap the element with one of its children and return to the previous step.</li>
+</ol>
 <h3 id="search">Search<a href="#search" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <h3 id="delete">Delete<a href="#delete" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="decrease-or-increase-key">Decrease or increase key<a href="#decrease-or-increase-key" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h2 id="heap-implementation-with-array">Heap implementation with array<a href="#heap-implementation-with-array" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>each element <em>a</em> at index <em>i</em> has</p>
+<ul>
+<li>children at indices <em>2i + 1</em> and <em>2i + 2</em>.</li>
+<li>Its parent at index floor((i - 1) / 2).</li>
+</ul>
 
       </div></div>
 

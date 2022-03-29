@@ -56,8 +56,9 @@
       <pubDate>Tue, 29 Mar 2022 16:04:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220329160438-binary_heap/</guid>
-      <description> tags: Heap (data structure),Data Structures,Complete Binary Tree,Tree  Binary tree with two additional constraints:
- Shape property: complete binary tree. Heap property: the key stored in each node is greater or equal(max-heaps) to or less than or equal to(min-heaps) the keys in the node&amp;rsquo;s children, according to some total order.  Heap operations Insert Extract Search Delete </description>
+      <description>tags: Heap (data structure),Data Structures,Complete Binary Tree,Tree  Binary tree with two additional constraints:
+ Shape property: complete binary tree. Heap property: the key stored in each node is greater or equal(max-heaps) to or less than or equal to(min-heaps) the keys in the node&amp;rsquo;s children, according to some total order.  Heap operations Insert Steps to add an element to a heap:
+ Add element to the bottom level of the heap at the leftmost open space.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220328073805-heap_data_structure/&#34;&gt;Heap (data structure)&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329160738-complete_binary_tree/&#34;&gt;Complete Binary Tree&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329160804-tree/&#34;&gt;Tree&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -68,9 +69,27 @@
 &lt;/ol&gt;
 &lt;h2 id=&#34;heap-operations&#34;&gt;Heap operations&lt;/h2&gt;
 &lt;h3 id=&#34;insert&#34;&gt;Insert&lt;/h3&gt;
-&lt;h3 id=&#34;extract&#34;&gt;Extract&lt;/h3&gt;
+&lt;p&gt;Steps to add an element to a heap:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Add element to the bottom level of the heap at the leftmost open space.&lt;/li&gt;
+&lt;li&gt;Compare to its parent, if they are in the correct the order, stop.&lt;/li&gt;
+&lt;li&gt;If not, swap element with its parent and return to the previous step.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;extract-delete-the-root-from-heap&#34;&gt;Extract: Delete the root from heap&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Replace the root of heap with the last element on the bottom level.&lt;/li&gt;
+&lt;li&gt;Compare the new root with its children; if they are in the correct order, stop.&lt;/li&gt;
+&lt;li&gt;If not, swap the element with one of its children and return to the previous step.&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h3 id=&#34;search&#34;&gt;Search&lt;/h3&gt;
 &lt;h3 id=&#34;delete&#34;&gt;Delete&lt;/h3&gt;
+&lt;h3 id=&#34;decrease-or-increase-key&#34;&gt;Decrease or increase key&lt;/h3&gt;
+&lt;h2 id=&#34;heap-implementation-with-array&#34;&gt;Heap implementation with array&lt;/h2&gt;
+&lt;p&gt;each element &lt;em&gt;a&lt;/em&gt; at index &lt;em&gt;i&lt;/em&gt; has&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;children at indices &lt;em&gt;2i + 1&lt;/em&gt; and &lt;em&gt;2i + 2&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Its parent at index floor((i - 1) / 2).&lt;/li&gt;
+&lt;/ul&gt;
 </content>
     </item>
     
