@@ -6,7 +6,94 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 28 Mar 2022 11:06:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 29 Mar 2022 07:23:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 215. Kth Largest Element in an Array</title>
+      <link>https://www.linuxzen.com/notes/notes/20220329072317-leetcode101_215_kth_largest_element_in_an_array/</link>
+      <pubDate>Tue, 29 Mar 2022 07:23:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220329072317-leetcode101_215_kth_largest_element_in_an_array/</guid>
+      <description> tags: Priority Queue,LeetCode101  Max heap priority queue class Solution { public: int findKthLargest(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k) { // max heap 	priority_queue&amp;lt;int&amp;gt; pq; for (auto iter = nums.begin(); iter != nums.end(); ++iter) { pq.push(*iter); } // The Kth largest element should let k &amp;gt; 1 not k &amp;gt; 0 	for (; k &amp;gt; 1; --k) { pq.pop(); } return pq.top(); } }; </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329070523-priority_queue/&#34;&gt;Priority Queue&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;max-heap-priority-queue&#34;&gt;Max heap priority queue&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; findKthLargest(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k) {
+		&lt;span style=&#34;color:#75715e&#34;&gt;// max heap
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		priority_queue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; pq;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; nums.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+			pq.push(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter);
+		}
+		&lt;span style=&#34;color:#75715e&#34;&gt;// The Kth largest element should let k &amp;gt; 1 not k &amp;gt; 0
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (; k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;k) {
+			pq.pop();
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; pq.top();
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 1337. The K Weakest Rows in a Matrix</title>
+      <link>https://www.linuxzen.com/notes/notes/20220329071403-leetcode101_1337_the_k_weakest_rows_in_a_matrix/</link>
+      <pubDate>Tue, 29 Mar 2022 07:14:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220329071403-leetcode101_1337_the_k_weakest_rows_in_a_matrix/</guid>
+      <description>tags: Priority Queue,LeetCode101  The key ideas:
+ Use a std::pair to hold {count, index}, so it can compare count first then the index. Use a min heap priority queue to get the K weakest rows.  class Solution { public: vector&amp;lt;int&amp;gt; kWeakestRows(vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt;&amp;amp; mat, int k) { // min heap 	priority_queue&amp;lt; std::pair&amp;lt;int, int&amp;gt;, vector&amp;lt;std::pair&amp;lt;int, int&amp;gt; &amp;gt;, std::greater&amp;lt;std::pair&amp;lt;int, int&amp;gt; &amp;gt; &amp;gt; pq; for (auto iter = mat.begin(); iter != mat.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329070523-priority_queue/&#34;&gt;Priority Queue&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The key ideas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use a &lt;code&gt;std::pair&lt;/code&gt; to hold &lt;code&gt;{count, index}&lt;/code&gt;, so it can compare &lt;em&gt;count&lt;/em&gt; first then the &lt;em&gt;index&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Use a min heap priority queue to get the &lt;em&gt;K&lt;/em&gt; weakest rows.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; kWeakestRows(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; mat, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k) {
+		&lt;span style=&#34;color:#75715e&#34;&gt;// min heap
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		priority_queue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;
+			std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;pair&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;,
+			vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;pair&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;,
+			std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;greater&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;pair&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; pq;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mat.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; mat.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; count((&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter).begin(), (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter).end(), &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+			pq.push({c, iter &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; mat.begin()});
+		}
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; ret;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (; k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;k) {
+			ret.push_back(pq.top().second);
+			pq.pop();
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; ret;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Priority Queue</title>
+      <link>https://www.linuxzen.com/notes/notes/20220329070523-priority_queue/</link>
+      <pubDate>Tue, 29 Mar 2022 07:05:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220329070523-priority_queue/</guid>
+      <description> tags: Data Structures,Heap (data structure)  The priority queue is solved:
+ The K smallest/largest/weakest X.  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220328073805-heap_data_structure/&#34;&gt;Heap (data structure)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The priority queue is solved:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;em&gt;K&lt;/em&gt; smallest/largest/weakest X.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>How to Speak and Write Correctly</title>
       <link>https://www.linuxzen.com/notes/notes/20220328110642-how_to_speak_and_write_correctly/</link>
@@ -49,6 +136,43 @@ For some reasons, maybe my English was not good enough to read it, I haven&amp;r
 &lt;h4 id=&#34;preposition&#34;&gt;Preposition&lt;/h4&gt;
 &lt;h4 id=&#34;conjunction&#34;&gt;Conjunction&lt;/h4&gt;
 &lt;h4 id=&#34;interjection&#34;&gt;Interjection&lt;/h4&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Heapsort</title>
+      <link>https://www.linuxzen.com/notes/notes/20220328074013-heapsort/</link>
+      <pubDate>Mon, 28 Mar 2022 07:40:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220328074013-heapsort/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Heap (data structure)</title>
+      <link>https://www.linuxzen.com/notes/notes/20220328073805-heap_data_structure/</link>
+      <pubDate>Mon, 28 Mar 2022 07:38:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220328073805-heap_data_structure/</guid>
+      <description>tags: Data Structures  WHAT is a heap? Tree-based data structure which is essentially an almost complete tree that statifies the heap property.
+Max heap For any given node C, if P is a parent node of C, then the key(the value) of P is greater than or equal to the key of C.
+Min heap The P is less than or equal to the key C.
+When to use a heap?</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220311073856-data_structures/&#34;&gt;Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;what-is-a-heap&#34;&gt;WHAT is a heap?&lt;/h2&gt;
+&lt;p&gt;Tree-based data structure which is essentially an almost complete tree that statifies the heap property.&lt;/p&gt;
+&lt;h3 id=&#34;max-heap&#34;&gt;&lt;em&gt;Max&lt;/em&gt; heap&lt;/h3&gt;
+&lt;p&gt;For any given node &lt;em&gt;C&lt;/em&gt;, if &lt;em&gt;P&lt;/em&gt; is a parent node of &lt;em&gt;C&lt;/em&gt;, then the key(the value) of &lt;em&gt;P&lt;/em&gt; is greater than or equal to the key of &lt;em&gt;C&lt;/em&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;min-heap&#34;&gt;&lt;em&gt;Min&lt;/em&gt; heap&lt;/h3&gt;
+&lt;p&gt;The &lt;em&gt;P&lt;/em&gt; is less than or equal to the key &lt;em&gt;C&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;when-to-use-a-heap&#34;&gt;When to use a heap?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Priority queue.&lt;/li&gt;
+&lt;li&gt;Heapsort.&lt;/li&gt;
+&lt;/ul&gt;
 </content>
     </item>
     
