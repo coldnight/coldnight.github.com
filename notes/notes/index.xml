@@ -10663,7 +10663,7 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combina
       <pubDate>Mon, 02 Aug 2021 07:32:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20210802073234-leetcode_51_n_queues/</guid>
-      <description>tags: LeetCode,backtracking source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：
+      <description>tags: LeetCode,backtracking source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线都不再允许放置。我们按行进行遍历，所以我们需要跟踪以下位置是否已经放置 Queue：
  纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag  纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
 r - c 在正对角线是一致的：
  斜对角线 r + c 是一致的:
@@ -10672,7 +10672,7 @@ r - c 在正对角线是一致的：
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200320172132_leetcode/&#34;&gt;LeetCode&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210803065050-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&#34;&gt;backtracking&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;https://leetcode.com/problems/n-queens/&#34;&gt;https://leetcode.com/problems/n-queens/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;一旦一个 Queue 被放置，那么横轴、纵轴、对角线。我们按行进行便利，所以我们需要跟踪以下位置是否已经放置 Queue：&lt;/p&gt;
+&lt;p&gt;一旦一个 Queue 被放置，那么横轴、纵轴、对角线都不再允许放置。我们按行进行遍历，所以我们需要跟踪以下位置是否已经放置 Queue：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;纵轴（Column）：cols&lt;/li&gt;
 &lt;li&gt;主对角线（Positive Diagonal）：posDiag&lt;/li&gt;
