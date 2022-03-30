@@ -6,7 +6,56 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 29 Mar 2022 18:14:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Mar 2022 16:01:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 74. Search a 2D Matrix</title>
+      <link>https://www.linuxzen.com/notes/notes/20220330160157-leetcode101_74_search_a_2d_matrix/</link>
+      <pubDate>Wed, 30 Mar 2022 16:01:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220330160157-leetcode101_74_search_a_2d_matrix/</guid>
+      <description> tags: Divide-and-Conquer,LeetCode101,Binary Search  class Solution { public: bool searchMatrix(vector&amp;lt;vector&amp;lt;int&amp;gt; &amp;gt; &amp;amp;matrix, int target) { int n = matrix.size(); int m = matrix[0].size(); int l = 0, r = m * n - 1; while (l != r){ int mid = l + (r - l) / 2; if (matrix[mid / m][mid % m] &amp;lt; target) l = mid + 1; else r = mid; } return matrix[r / m][r % m] == target; } }; </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220330155829-divide_and_conquer/&#34;&gt;Divide-and-Conquer&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220330155829-divide_and_conquer/&#34;&gt;Binary Search&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; searchMatrix(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;matrix, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; target) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; matrix.size();
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; matrix[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;].size();
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; m &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (l &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; r){
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; mid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; (r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; l) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;;
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (matrix[mid &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; m][mid &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; m] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; target)
+				l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mid &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
+				r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mid;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; matrix[r &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; m][r &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; m] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; target;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Divide-and-Conquer</title>
+      <link>https://www.linuxzen.com/notes/notes/20220330155829-divide_and_conquer/</link>
+      <pubDate>Wed, 30 Mar 2022 15:58:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220330155829-divide_and_conquer/</guid>
+      <description> tags: Algorithm WIKIEPEDIA: https://en.wikipedia.org/wiki/Divide-and-conquer%5Falgorithm  The points should been noted:
+ The middle position is not (right - left) / 2, it must be left + ((right - left) / 2).  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;WIKIEPEDIA: &lt;a href=&#34;https://en.wikipedia.org/wiki/Divide-and-conquer%5Falgorithm&#34;&gt;https://en.wikipedia.org/wiki/Divide-and-conquer%5Falgorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The points should been noted:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The middle position is not &lt;code&gt;(right - left) / 2&lt;/code&gt;, it must be &lt;code&gt;left + ((right - left) / 2)&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 287. Find the Duplicate Number</title>
       <link>https://www.linuxzen.com/notes/notes/20220329181423-leetcode101_287_find_the_duplicate_number/</link>
