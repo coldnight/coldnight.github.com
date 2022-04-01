@@ -6,7 +6,89 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 30 Mar 2022 16:55:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Apr 2022 10:43:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>In-place Reverse</title>
+      <link>https://www.linuxzen.com/notes/notes/20220401104307-in_place_reverse/</link>
+      <pubDate>Fri, 01 Apr 2022 10:43:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220401104307-in_place_reverse/</guid>
+      <description>tags: In-place WikiPedia: https://en.wikipedia.org/wiki/In-place%5Falgorithm  Let see two examples before we go further:
+  As above we can see, to reverse a array in-place, we just need swap each two elements in the list from both side to middle.
+The pseudo code from WikiPedia:
+function reverse_in_place(a[0..n-1]) for i from 0 to floor((n-2)/2) tmp := a[i] a[i] := a[n − 1 − i] a[n − 1 − i] := tmp The travel the array to the middle and swap each other in the list, two points we must be noticed:</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220401104238-in_place/&#34;&gt;In-place&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;WikiPedia: &lt;a href=&#34;https://en.wikipedia.org/wiki/In-place%5Falgorithm&#34;&gt;https://en.wikipedia.org/wiki/In-place%5Falgorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let see two examples before we go further:&lt;/p&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/in-place-reverse-1.png&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/in-place-reverse-2.png&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;p&gt;As above we can see, to reverse a array in-place, we just need swap each two elements in the list from both side to middle.&lt;/p&gt;
+&lt;p&gt;The pseudo code from WikiPedia:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;reverse_in_place&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;0.&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;])
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;to&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;floor&lt;/span&gt;((&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+		&lt;span style=&#34;color:#a6e22e&#34;&gt;tmp&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;]
+		&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;−&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;−&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;]
+		&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;−&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;−&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;tmp&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The travel the array to the middle and swap each other in the list, two points we must be noticed:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We stop the element at(not before): &lt;code&gt;floor((n - 2) / 2)&lt;/code&gt;, It&amp;rsquo;s both &lt;code&gt;1&lt;/code&gt; of the two above figures.&lt;/li&gt;
+&lt;li&gt;We swap current element with &lt;code&gt;n - 1 - i&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>In-place</title>
+      <link>https://www.linuxzen.com/notes/notes/20220401104238-in_place/</link>
+      <pubDate>Fri, 01 Apr 2022 10:42:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220401104238-in_place/</guid>
+      <description> tags: Algorithm  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 344. Reverse String</title>
+      <link>https://www.linuxzen.com/notes/notes/20220401104229-leetcode101_344_reverse_string/</link>
+      <pubDate>Fri, 01 Apr 2022 10:42:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220401104229-leetcode101_344_reverse_string/</guid>
+      <description> tags: In-place,LeetCode101,In-place Reverse  class Solution { public: void reverseString(vector&amp;lt;char&amp;gt;&amp;amp; s) { if (s.size() == 1) { return; } for (int i = 0; i &amp;lt;= (s.size() - 2) / 2; ++i) { swap(s[s.size() - 1 - i], s[i]); } } }; </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220401104238-in_place/&#34;&gt;In-place&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220401104307-in_place_reverse/&#34;&gt;In-place Reverse&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; reverseString(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; s) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (s.size() &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; (s.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+			swap(s[s.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; i], s[i]);
+		}
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 35. Search Insert Position</title>
       <link>https://www.linuxzen.com/notes/notes/20220330165507-leetcode101_35_search_insert_position/</link>
@@ -4211,11 +4293,11 @@ Tools that based on Ganache:</description>
       <pubDate>Thu, 06 Jan 2022 16:46:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220106164610-a_simple_guide_to_the_item_response_theory_irt/</guid>
-      <description>tags: Algorithm,IRT,读书笔记 source: Yu, Chong Ho. “A Simple Guide to the Item Response Theory ( IRT ) and Rasch Modeling.” Accessed January 6, 2022. https://www.semanticscholar.org/paper/A-Simple-Guide-to-the-Item-Response-Theory-(-IRT-)-Yu/f42efb1bcf38f6650a8b16650e2811e8803cd4ec.  IRT is about fitness or simplicity for test. There are two versions of IRT:
+      <description>tags: IRT,读书笔记 source: Yu, Chong Ho. “A Simple Guide to the Item Response Theory ( IRT ) and Rasch Modeling.” Accessed January 6, 2022. https://www.semanticscholar.org/paper/A-Simple-Guide-to-the-Item-Response-Theory-(-IRT-)-Yu/f42efb1bcf38f6650a8b16650e2811e8803cd4ec.  IRT is about fitness or simplicity for test. There are two versions of IRT:
  IRT - three parameters. Rasch modeling - one parameter only.  Three parameters:
  A - discrimination, how effectively this item can discriminate students&amp;rsquo;s proficient between highly and less.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220106164620-irt/&#34;&gt;IRT&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211210181234-%E8%AF%BB%E8%BF%87%E7%9A%84%E4%B9%A6/&#34;&gt;读书笔记&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220106164620-irt/&#34;&gt;IRT&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20211210181234-%E8%AF%BB%E8%BF%87%E7%9A%84%E4%B9%A6/&#34;&gt;读书笔记&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;//select/items/1_ZJTHYQ25&#34;&gt;Yu, Chong Ho. “A Simple Guide to the Item Response Theory ( IRT ) and Rasch Modeling.” Accessed January 6, 2022. https://www.semanticscholar.org/paper/A-Simple-Guide-to-the-Item-Response-Theory-(-IRT-)-Yu/f42efb1bcf38f6650a8b16650e2811e8803cd4ec.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;IRT is about fitness or simplicity for test. There are two versions of IRT:&lt;/p&gt;
