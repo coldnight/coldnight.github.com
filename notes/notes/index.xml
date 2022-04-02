@@ -6,7 +6,55 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 01 Apr 2022 10:43:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 02 Apr 2022 14:37:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 680. Valid Palindrome II</title>
+      <link>https://www.linuxzen.com/notes/notes/20220402143729-leetcode101_680_valid_palindrome_ii/</link>
+      <pubDate>Sat, 02 Apr 2022 14:37:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220402143729-leetcode101_680_valid_palindrome_ii/</guid>
+      <description>tags: String,Two Pointers,LeetCode101  We move two pointers move inwards, when we meet two different characters:
+ Remove left character to see the remains string still satisfied a valid palindrome. Remove right character to see the remains string still satisfied a valid palindrome.  Returns true if either one above two is true.
+class Solution { public: bool validPalindrome(string s) { for (int i = 0, j = s.size() -1; i &amp;lt; j; i++,j--) { if (s[i] !</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220321174510-string/&#34;&gt;String&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We move two pointers move inwards, when we meet two different characters:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Remove left character to see the remains string still satisfied a valid palindrome.&lt;/li&gt;
+&lt;li&gt;Remove right character to see the remains string still satisfied a valid palindrome.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Returns true if either one above two is true.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; validPalindrome(string s) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; j; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (s[i] &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; s[j]) {
+				&lt;span style=&#34;color:#75715e&#34;&gt;// remove left
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;				&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; left &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; isPalindrome(s, i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, j);
+
+				&lt;span style=&#34;color:#75715e&#34;&gt;// remove right
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;				&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; isPalindrome(s, i, j &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+
+				&lt;span style=&#34;color:#75715e&#34;&gt;// return at here as we are done travel the string in the isPalindrome invocation.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;				&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; right &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; left;
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+	}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; isPalindrome(string &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; s, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; j; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;) {
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (s[i] &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; s[j]) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false;
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>In-place Reverse</title>
       <link>https://www.linuxzen.com/notes/notes/20220401104307-in_place_reverse/</link>
