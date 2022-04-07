@@ -6,7 +6,164 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 02 Apr 2022 14:37:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 07 Apr 2022 08:19:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 167. Two Sum II - Input Array Is Sorted</title>
+      <link>https://www.linuxzen.com/notes/notes/20220407081954-leetcode101_167_two_sum_ii_input_array_is_sorted/</link>
+      <pubDate>Thu, 07 Apr 2022 08:19:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220407081954-leetcode101_167_two_sum_ii_input_array_is_sorted/</guid>
+      <description> tags: LeetCode101,Sorting,Two Pointers  Key ideas:
+ Move both sides to inwards. If the sum value less than target, move left pointer. Otherwise move right poinger.  class Solution { public: vector&amp;lt;int&amp;gt; twoSum(vector&amp;lt;int&amp;gt;&amp;amp; numbers, int target) { int S, l = 0, r = numbers.size() - 1; vector&amp;lt;int&amp;gt; res(2, 0); while (l &amp;lt; r) { S = numbers[l] + numbers[r]; if (S == target) { break; } if (S &amp;lt; target) { l++; } else { r--; } } res[0] = l + 1; res[1] = r + 1; return res; } }; </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Key ideas:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Move both sides to inwards.&lt;/li&gt;
+&lt;li&gt;If the sum value less than target, move left pointer.&lt;/li&gt;
+&lt;li&gt;Otherwise move right poinger.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; twoSum(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; numbers, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; target) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; S, l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; numbers.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; res(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; r) {
+			S &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; numbers[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; numbers[r];
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (S &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; target) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+			}
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (S &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; target) {
+				l&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+			} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+				r&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+			}
+		}
+		res[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+		res[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 16. 3Sum Closest</title>
+      <link>https://www.linuxzen.com/notes/notes/20220407081015-leetcode101_16_3sum_closest/</link>
+      <pubDate>Thu, 07 Apr 2022 08:10:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220407081015-leetcode101_16_3sum_closest/</guid>
+      <description> tags: LeetCode101,Sorting,Two Pointers,Three Pointers  Key ideas see LeetCode101: 15. 3Sum
+class Solution { public: int threeSumClosest(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { sort(nums.begin(), nums.end()); int closest = INT_MAX, l, r, sum, T, res; for (int i = 0; i &amp;lt; nums.size(); i++) { l = i + 1; r = nums.size() - 1; T = target - nums[i]; while (l &amp;lt; r) { sum = nums[l] + nums[r]; if (abs(sum - T) &amp;lt; closest) { res = sum + nums[i]; closest = abs(sum - T); } if (sum == T) { return target; } if (sum &amp;lt; T) { l++; } else { r--; } } } return res; } }; </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220407080033-three_pointers/&#34;&gt;Three Pointers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Key ideas see &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220407080010-leetcode101_15_3sum/&#34;&gt;LeetCode101: 15. 3Sum&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; threeSumClosest(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; target) {
+		sort(nums.begin(), nums.end());
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; closest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; INT_MAX, l, r, sum, T, res;
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nums[i];
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; r) {
+				sum &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; nums[r];
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (abs(sum &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; T) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; closest) {
+					res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sum &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; nums[i];
+					closest &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; abs(sum &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; T);
+				}
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (sum &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; T) {
+					&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; target;
+				} &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (sum &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; T) {
+					l&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+				} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+					r&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+				}
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 15. 3Sum</title>
+      <link>https://www.linuxzen.com/notes/notes/20220407080010-leetcode101_15_3sum/</link>
+      <pubDate>Thu, 07 Apr 2022 08:00:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220407080010-leetcode101_15_3sum/</guid>
+      <description>tags: LeetCode101,Sorting,Two Pointers,Three Pointers  Key ideas:
+ Sort the nums first. Then, we travel the nums, pick current element as nums[i], and apply LeetCode101: 167. Two Sum II - Input Array Is Sorted to the remains. We skip the same numbers to avoid duplicate.  class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; threeSum(vector&amp;lt;int&amp;gt;&amp;amp; nums) { sort(nums.begin(), nums.end()); int l, r, sum, T; vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; for (int i = 0; i &amp;lt; nums.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220324120212-sorting/&#34;&gt;Sorting&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220407080033-three_pointers/&#34;&gt;Three Pointers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Key ideas:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Sort the &lt;code&gt;nums&lt;/code&gt; first.&lt;/li&gt;
+&lt;li&gt;Then, we travel the &lt;code&gt;nums&lt;/code&gt;, pick current element as &lt;code&gt;nums[i]&lt;/code&gt;, and apply &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220407081954-leetcode101_167_two_sum_ii_input_array_is_sorted/&#34;&gt;LeetCode101: 167. Two Sum II - Input Array Is Sorted&lt;/a&gt; to the remains.&lt;/li&gt;
+&lt;li&gt;We skip the same numbers to avoid duplicate.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; threeSum(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums) {
+		sort(nums.begin(), nums.end());
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; l, r, sum, T;
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; res;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; nums.size(); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+			&lt;span style=&#34;color:#75715e&#34;&gt;// Skip same numbers to avoid duplicate
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nums[i] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nums[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]) {
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;
+			}
+
+			l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums.size() &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+			T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nums[i];
+			&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; r) {
+				sum &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums[l] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; nums[r];
+				&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (sum &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; T) {
+					res.push_back({nums[i], nums[l], nums[r]});
+
+					&lt;span style=&#34;color:#75715e&#34;&gt;// Skip same numbers in each side to avoid duplicate
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;					&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nums[l] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nums[l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;])
+						l&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+					&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nums[r] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nums[r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;])
+						r&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+					l&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+					r&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+				} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;if&lt;/span&gt; (sum &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; T) {
+					l&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+				} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+					r&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+				}
+			}
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Three Pointers</title>
+      <link>https://www.linuxzen.com/notes/notes/20220407080033-three_pointers/</link>
+      <pubDate>Thu, 07 Apr 2022 08:00:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220407080033-three_pointers/</guid>
+      <description> tags: Two Pointers  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311075423-two_pointer/&#34;&gt;Two Pointers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 680. Valid Palindrome II</title>
       <link>https://www.linuxzen.com/notes/notes/20220402143729-leetcode101_680_valid_palindrome_ii/</link>
@@ -232,6 +389,82 @@ function reverse_in_place(a[0..n-1]) for i from 0 to floor((n-2)/2) tmp := a[i] 
 &lt;li&gt;The middle position is not &lt;code&gt;(right - left) / 2&lt;/code&gt;, it must be &lt;code&gt;left + ((right - left) / 2)&lt;/code&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 </content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 136. Single Number</title>
+      <link>https://www.linuxzen.com/notes/notes/20220330070916-leetcode101_136_single_number/</link>
+      <pubDate>Wed, 30 Mar 2022 07:09:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220330070916-leetcode101_136_single_number/</guid>
+      <description>tags: Bit Manipulation,Bitwise Operator: XOR  According to bitwise operator XOR:
+ x ^ x = 0 y ^ 0 = y  We apply the XOR operator to all the nums, all the same numbers will apply x ^ x = 0, and then y ^ 0 = y will result the single number.
+class Solution { public: int singleNumber(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int xorN = 0; for (auto iter = nums.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220330070500-bit_manipulation/&#34;&gt;Bit Manipulation&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220330070545-bitwise_operator_xor/&#34;&gt;Bitwise Operator: XOR&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;According to bitwise operator &lt;code&gt;XOR&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;x ^ x = 0&lt;/li&gt;
+&lt;li&gt;y ^ 0 = y&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We apply the XOR operator to all the &lt;code&gt;nums&lt;/code&gt;, all the same numbers will apply &lt;code&gt;x ^ x = 0&lt;/code&gt;, and then &lt;code&gt;y ^ 0 = y&lt;/code&gt; will result the single number.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; singleNumber(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums) {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; xorN &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nums.begin(); iter &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; nums.end(); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;iter) {
+			xorN &lt;span style=&#34;color:#f92672&#34;&gt;^=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;iter;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; xorN;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Bit Manipulation</title>
+      <link>https://www.linuxzen.com/notes/notes/20220330070500-bit_manipulation/</link>
+      <pubDate>Wed, 30 Mar 2022 07:05:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220330070500-bit_manipulation/</guid>
+      <description> tags: Algorithm  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104182327-algorithm/&#34;&gt;Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Bitwise Operator: XOR</title>
+      <link>https://www.linuxzen.com/notes/notes/20220330070545-bitwise_operator_xor/</link>
+      <pubDate>Wed, 30 Mar 2022 07:05:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220330070545-bitwise_operator_xor/</guid>
+      <description> tags: Bitwise Operators   0101 (decimal 5)  XOR 0011 (decimal 3) = 0110 (decimal 6)
+  0010 (decimal 2)  XOR 1010 (decimal 10) = 1000 (decimal 8)
+ Useful features:
+1 ^ 1 = 0 2 ^ 0 = 2 </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220330070500-bit_manipulation/&#34;&gt;Bitwise Operators&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;0101 (decimal 5)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;XOR 0011 (decimal 3)
+= 0110 (decimal 6)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;0010 (decimal 2)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;XOR 1010 (decimal 10)
+= 1000 (decimal 8)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Useful features:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
     </item>
     
     <item>
