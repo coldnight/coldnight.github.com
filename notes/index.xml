@@ -6,7 +6,49 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 07 Apr 2022 08:19:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 08 Apr 2022 12:39:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode101: 703. Kth Largest Element in a Stream</title>
+      <link>https://www.linuxzen.com/notes/notes/20220408123913-leetcode101_703_kth_largest_element_in_a_stream/</link>
+      <pubDate>Fri, 08 Apr 2022 12:39:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220408123913-leetcode101_703_kth_largest_element_in_a_stream/</guid>
+      <description> tags: Priority Queue,LeetCode101  Using a min heap to keep k elements, top is the Kth largest element.
+class KthLargest { private: // min heap 	priority_queue&amp;lt;int, vector&amp;lt;int&amp;gt;, std::greater&amp;lt;int&amp;gt;&amp;gt; pq; int K; public: KthLargest(int k, vector&amp;lt;int&amp;gt;&amp;amp; nums) { K = k; for (auto n: nums) { add(n); } } int add(int val) { pq.push(val); while (pq.size() &amp;gt; K) { pq.pop(); } return pq.top(); } }; /** * Your KthLargest object will be instantiated and called as such: * KthLargest* obj = new KthLargest(k, nums); * int param_1 = obj-&amp;gt;add(val); */ </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329070523-priority_queue/&#34;&gt;Priority Queue&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Using a min heap to keep &lt;em&gt;k&lt;/em&gt; elements, top is the Kth largest element.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;KthLargest&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	&lt;span style=&#34;color:#75715e&#34;&gt;// min heap
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	priority_queue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;, std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;greater&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; pq;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; K;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	KthLargest(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k, vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums) {
+		K &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; k;
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; n: nums) {
+			add(n);
+		}
+	}
+
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; val) {
+		pq.push(val);
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (pq.size() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; K) {
+			pq.pop();
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; pq.top();
+	}
+};
+
+&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * Your KthLargest object will be instantiated and called as such:
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * KthLargest* obj = new KthLargest(k, nums);
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * int param_1 = obj-&amp;gt;add(val);
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; */&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 167. Two Sum II - Input Array Is Sorted</title>
       <link>https://www.linuxzen.com/notes/notes/20220407081954-leetcode101_167_two_sum_ii_input_array_is_sorted/</link>
