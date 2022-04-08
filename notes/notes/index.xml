@@ -13,12 +13,12 @@
       <pubDate>Fri, 08 Apr 2022 13:11:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220408131130-leetcode101_27_remove_element/</guid>
-      <description> tags: LeetCode101,In-place  Travel array from in reverse order, and record how many times need to swap, which is how many elements not equal val.
+      <description> tags: LeetCode101,In-place  Travel array in reverse order, and record how many times need to swap, which is how many elements not equal val.
 class Solution { public: int removeElement(vector&amp;lt;int&amp;gt;&amp;amp; nums, int val) { int k = 0; for (int j = nums.size() - 1; j &amp;gt;= 0; --j) { if (nums[j] == val) { for (int i = 0; i &amp;lt; k; ++i) { swap(nums[i + j], nums[j + i + 1]); } } else { k++; } } return k; } }; </description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220401104238-in_place/&#34;&gt;In-place&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Travel array from in reverse order, and record how many times need to swap,
+&lt;p&gt;Travel array in reverse order, and record how many times need to swap,
 which is how many elements not equal &lt;em&gt;val&lt;/em&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
 &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
