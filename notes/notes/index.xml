@@ -6,7 +6,70 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 08 Apr 2022 13:11:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 09 Apr 2022 08:29:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43; Lambda</title>
+      <link>https://www.linuxzen.com/notes/notes/20220409082936-c_lambda/</link>
+      <pubDate>Sat, 09 Apr 2022 08:29:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220409082936-c_lambda/</guid>
+      <description> tags: C/C++  Capture a map with reference If we capture a map by value, then we can&amp;rsquo;t use the operator []:
+unordered_map&amp;lt;int, int&amp;gt; freq; // Won&amp;#39;t compile // auto comp_by_map = [freq](const int&amp;amp; a, const int&amp;amp; b) { return freq[a] &amp;lt; freq[b];}; auto comp_by_map = [&amp;amp;freq](const int&amp;amp; a, const int&amp;amp; b) { return freq[a] &amp;lt; freq[b];}; </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320171108_c/&#34;&gt;C/C++&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;capture-a-map-with-reference&#34;&gt;Capture a map with reference&lt;/h2&gt;
+&lt;p&gt;If we capture a &lt;em&gt;map&lt;/em&gt; by value, then we can&amp;rsquo;t use the operator &lt;code&gt;[]&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;unordered_map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; freq;
+&lt;span style=&#34;color:#75715e&#34;&gt;// Won&amp;#39;t compile
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// auto comp_by_map = [freq](const int&amp;amp; a, const int&amp;amp; b) { return freq[a] &amp;lt; freq[b];};
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; comp_by_map &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;freq](&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; a, &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; b) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; freq[a] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; freq[b];};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>LeetCode101: 347. Top K Frequent Elements</title>
+      <link>https://www.linuxzen.com/notes/notes/20220409082813-leetcode101_347_top_k_frequent_elements/</link>
+      <pubDate>Sat, 09 Apr 2022 08:28:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220409082813-leetcode101_347_top_k_frequent_elements/</guid>
+      <description>tags: Hash Table,Heap (data structure),LeetCode101,Priority Queue,C++ Lambda  class Solution { public: vector&amp;lt;int&amp;gt; topKFrequent(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k) { vector&amp;lt;int&amp;gt; res; unordered_map&amp;lt;int, int&amp;gt; freq; // Note that: we need caputre a map by reference, 	// otherwise we can&amp;#39;t use the operator[]. 	// See also: https://stackoverflow.com/a/6281071 	auto comp_by_map = [&amp;amp;freq](const int&amp;amp; a, const int&amp;amp; b) { return freq[a] &amp;lt; freq[b];}; // Note that: here we need pass our lambda /comp_by_map/ to the 	// constructor of std::priority_queue.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311221617-hash_table/&#34;&gt;Hash Table&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220328073805-heap_data_structure/&#34;&gt;Heap (data structure)&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220311065137-leetcode101/&#34;&gt;LeetCode101&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220329070523-priority_queue/&#34;&gt;Priority Queue&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220409082936-c_lambda/&#34;&gt;C++ Lambda&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Solution&lt;/span&gt; {
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+	vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; topKFrequent(vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; nums, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k) {
+		vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; res;
+		unordered_map&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; freq;
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// Note that: we need caputre a map by reference,
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;// otherwise we can&amp;#39;t use the operator[].
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;// See also: https://stackoverflow.com/a/6281071
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; comp_by_map &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;freq](&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; a, &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; b) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; freq[a] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; freq[b];};
+
+		&lt;span style=&#34;color:#75715e&#34;&gt;// Note that: here we need pass our lambda /comp_by_map/ to the
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#75715e&#34;&gt;// constructor of std::priority_queue.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		priority_queue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;, vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;decltype&lt;/span&gt;(comp_by_map)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; pq(comp_by_map);
+
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; n: nums) {
+			freq[n] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; freq.find(n) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; freq.end() &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; freq[n] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; iter: freq) {
+			pq.push(iter.first);
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+			res.push_back(pq.top());
+			pq.pop();
+			k&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;;
+		}
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+	}
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>LeetCode101: 27. Remove Element</title>
       <link>https://www.linuxzen.com/notes/notes/20220408131130-leetcode101_27_remove_element/</link>
