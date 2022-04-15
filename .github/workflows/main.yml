@@ -20,11 +20,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Checkout submodules
-        uses: srt32/git-actions@v0.0.3
         with:
-          args: git submodule update --init --recursive
-
+          submodules: true
       - name: copy notes to static
         uses: MadaraUchiha/copy-action@master
         with:
