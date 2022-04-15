@@ -6,7 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: 分布式,一致性 source: https://signalsandthreads.com/clock-synchronization/  " />
+<meta name="description" content="tags: 分布式,一致性,Clock Synchronization,Multicast source: https://signalsandthreads.com/clock-synchronization/  Electronic Oscillator: Computer itself to Dervie its Notion of Time Computer&amp;rsquo;s clock are based on a 1 MHz electronic oscillator circuit, that is oscillating at some frequency, and driving an interrupt. So the operating system can use it to derive its notion of time. It helps computer to keep the time correct.
+But a bad oscillator could be influenced by the heat of CPU, like compiling Linux kernel, etc." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210809103849-clock_synchronization_with_chris_perl/" />
@@ -34,7 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Clock Synchronization with Chris Perl">
-<meta property="og:description" content=" tags: 分布式,一致性 source: https://signalsandthreads.com/clock-synchronization/  " />
+<meta property="og:description" content="tags: 分布式,一致性,Clock Synchronization,Multicast source: https://signalsandthreads.com/clock-synchronization/  Electronic Oscillator: Computer itself to Dervie its Notion of Time Computer&amp;rsquo;s clock are based on a 1 MHz electronic oscillator circuit, that is oscillating at some frequency, and driving an interrupt. So the operating system can use it to derive its notion of time. It helps computer to keep the time correct.
+But a bad oscillator could be influenced by the heat of CPU, like compiling Linux kernel, etc." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210809103849-clock_synchronization_with_chris_perl/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -164,9 +166,90 @@
 
   <div class="post-content"><div>
         <ul>
-<li>tags: <a href="/notes/topics/20200320174417_%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>,<a href="/notes/topics/20220101074955-%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li>
+<li>tags: <a href="/notes/topics/20200320174417_%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>,<a href="/notes/topics/20220101074955-%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a>,<a href="/notes/notes/20220414150932-clock_synchronization/">Clock Synchronization</a>,<a href="/notes/notes/20220414161423-multicast/">Multicast</a></li>
 <li>source: <a href="https://signalsandthreads.com/clock-synchronization/">https://signalsandthreads.com/clock-synchronization/</a></li>
 </ul>
+<h2 id="electronic-oscillator-computer-itself-to-dervie-its-notion-of-time">Electronic Oscillator: Computer itself to Dervie its Notion of Time<a href="#electronic-oscillator-computer-itself-to-dervie-its-notion-of-time" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Computer&rsquo;s clock are based on a 1 MHz electronic oscillator circuit, that is oscillating at some frequency, and driving an interrupt.
+So the operating system can use it to derive its notion of time. It helps computer to keep the time correct.</p>
+<p>But a bad oscillator could be influenced by the heat of CPU, like compiling Linux kernel, etc. A really high-quality oscillator would be really expensive.</p>
+<h2 id="gps-external-reference">GPS: External Reference<a href="#gps-external-reference" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Buy a GPS appliance to receive time from the signal of the GPS satellites.</p>
+<blockquote>
+<p>From the book DDIA, nearly every large data center have one in their room to synchronize time from GPS.</p>
+</blockquote>
+<p>The accuracy there is something like maybe 100 nanoseconds.</p>
+<h2 id="why-clock-synchronization-is-so-important">Why Clock Synchronization is so Important?<a href="#why-clock-synchronization-is-so-important" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Total ordering of events in a distributed system.</p>
+<h2 id="ntp-synchronize-clock-inside-of-a-computer-network">NTP: Synchronize Clock Inside of a Computer Network<a href="#ntp-synchronize-clock-inside-of-a-computer-network" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>NTP stands for Network Time Protocol.</p>
+<p>There are four timestamps, as the core:</p>
+<ol>
+<li><em>client send timestamp</em>: before client send a packet to server, client record a timestamp as it.</li>
+<li><em>server receive timestamp</em>: when the server received the packet.</li>
+<li><em>server send timestamp</em>: when the server reply to the client.</li>
+<li><em>client receive timestamp</em>: when the client recived the reply packet from the server.</li>
+</ol>
+<p>With those four timestamps, we can compute two important numbers:</p>
+<ol>
+<li>The <em>offset</em>, how far my clock is off from yours.</li>
+<li>The <em>delay</em>, how long it took those packets to traverse the network.</li>
+</ol>
+<h3 id="the-weakness-of-ntp">The Weakness of NTP<a href="#the-weakness-of-ntp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>Too much assumption.</li>
+<li>Adjust time abruptly.</li>
+<li>May change time in the negative direction.</li>
+</ul>
+<h2 id="chrony-a-more-customizable-implementation-of-ntp">chrony: A More Customizable Implementation of NTP<a href="#chrony-a-more-customizable-implementation-of-ntp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>NTP can do the Slewing in an appropariate way: keep the rates pretty close to the real-time rates, and it&rsquo;s slowly,
+for chrony, the default is 12 seconds to remove one second of error.</p>
+<h2 id="ptp-precision-time-protocol">PTP:  Precision Time Protocol<a href="#ptp-precision-time-protocol" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>A successor to NTP that uses multicast, hardware timestamping, networking switches, and faster default update rates to achieve better synchronization.
+Which meets MiFID II<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<blockquote>
+<p>NTP is good to milliseconds. PTP is good to microseconds.</p>
+</blockquote>
+<p>Three things made PTP much more accurate than NTP:</p>
+<ul>
+<li><em>Hardware Timestamping</em>: many hardware vendors support it with PTP. So PTP get a timestamp when the packet arrives at the network card.</li>
+<li><em>Frequency of Updates</em>.</li>
+<li><em>Lots of Switches</em>, multicast by switches, involved and help you move time across the network while understanding their own delays that they’re adding to it.</li>
+</ul>
+<h3 id="multicast-best-master-clock-algorithm">Multicast: Best Master Clock Algorithm<a href="#multicast-best-master-clock-algorithm" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>A process for determining the best time source available, which PTP then uses as its grandmaster<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<p>With multicast, as a client, you don&rsquo;t need to configured which server to talk, just run the client, and start receiving from grandmaster.
+It also good to grandmaster: NO connection need to maintain.</p>
+<p>Also with the multicast, PTP should be used:</p>
+<ol>
+<li>In a small area.</li>
+<li><em>Hybrid mode</em>, sync message comes in multicast, but the delay request and the delay response wind up being unicast.</li>
+</ol>
+<h2 id="final-solution">Final Solution<a href="#final-solution" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ol>
+<li>Some GPS appliances get time from GPS.</li>
+<li>Use PTP to move time from the GPS appliances to a set of Linux machines.</li>
+<li>The, NTP interleaved mode to move the time from those machines onto machines further downstream.</li>
+</ol>
+<h3 id="short-overview-of-ntp-interleaved-mode">Short Overview of NTP Interleaved Mode<a href="#short-overview-of-ntp-interleaved-mode" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<blockquote>
+<p>the interleaved mode is sort of a special way in which you can run NTP and that when you transmit your next NTP packet you send that hardware timestamp that you got for the previous transmission, and then the other side, each side can use those. I don’t want to get into too much of the details of how that works, but it allows you to get more accuracy and to leverage those hardware timestamps on transmission.</p>
+</blockquote>
+<h2 id="results">Results<a href="#results" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<blockquote>
+<p>We are absolutely no worse error than about 35 microseconds.</p>
+</blockquote>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>A set of European financial regulations that required, among a number of other changes, that some market participants, including Jane Street, be able to show that their clocks were synchronized, within 100 Microseconds, to UTC.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>The clock used by PTP as its time reference.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
 
       </div></div>
 
@@ -174,6 +257,14 @@
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 
