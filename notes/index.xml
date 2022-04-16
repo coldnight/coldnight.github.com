@@ -6,18 +6,139 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 14 Apr 2022 18:50:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Apr 2022 07:55:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>netstat</title>
+      <link>https://www.linuxzen.com/notes/notes/20220416075544-netstat/</link>
+      <pubDate>Sat, 16 Apr 2022 07:55:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220416075544-netstat/</guid>
+      <description> tags: Linux,Network,Tools  netstat -s: show network status(errors) # show udp status $ netstat -s --udp Udp: 437.0k/s packets received 0.0/s packets to unknown port received. 386.9k/s packet receive errors 0.0/s packets sent RcvbufErrors: 123.8k/s SndbufErrors: 0 InCsumErrors: 0 </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104103936-linux/&#34;&gt;Linux&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200827180638-network/&#34;&gt;Network&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104162549-tools/&#34;&gt;Tools&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;netstat-s-show-network-status--errors&#34;&gt;netstat -s: show network status(errors)&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# show udp status&lt;/span&gt;
+$ netstat -s --udp
+Udp:
+	  437.0k/s packets received
+		0.0/s packets to unknown port received.
+	  386.9k/s packet receive errors
+		0.0/s packets sent
+	RcvbufErrors:  123.8k/s
+	SndbufErrors: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+	InCsumErrors: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>ethtool</title>
+      <link>https://www.linuxzen.com/notes/notes/20220416073825-ethtool/</link>
+      <pubDate>Sat, 16 Apr 2022 07:38:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220416073825-ethtool/</guid>
+      <description> tags: Linux,Network,TCP,UDP,Tools  ethtool -S: Reveal where the packets actuaaly went receiver$ watch &amp;#39;sudo ethtool -S eth2 |grep rx&amp;#39; rx_nodesc_drop_cnt: 451.3k/s rx-0.rx_packets: 8.0/s rx-1.rx_packets: 0.0/s rx-2.rx_packets: 0.0/s rx-3.rx_packets: 0.5/s rx-4.rx_packets: 355.2k/s rx-5.rx_packets: 0.0/s rx-6.rx_packets: 0.0/s rx-7.rx_packets: 0.5/s rx-8.rx_packets: 0.0/s rx-9.rx_packets: 0.0/s rx-10.rx_packets: 0.0/s </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104103936-linux/&#34;&gt;Linux&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200827180638-network/&#34;&gt;Network&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210813071635-tcp/&#34;&gt;TCP&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220414185017-udp/&#34;&gt;UDP&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104162549-tools/&#34;&gt;Tools&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;ethtool-s-reveal-where-the-packets-actuaaly-went&#34;&gt;ethtool -S: Reveal where the packets actuaaly went&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;receiver$ watch &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;sudo ethtool -S eth2 |grep rx&amp;#39;&lt;/span&gt;
+	 rx_nodesc_drop_cnt:    451.3k/s
+	 rx-0.rx_packets:     8.0/s
+	 rx-1.rx_packets:     0.0/s
+	 rx-2.rx_packets:     0.0/s
+	 rx-3.rx_packets:     0.5/s
+	 rx-4.rx_packets:  355.2k/s
+	 rx-5.rx_packets:     0.0/s
+	 rx-6.rx_packets:     0.0/s
+	 rx-7.rx_packets:     0.5/s
+	 rx-8.rx_packets:     0.0/s
+	 rx-9.rx_packets:     0.0/s
+	 rx-10.rx_packets:    0.0/s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Multi-queue NICs</title>
+      <link>https://www.linuxzen.com/notes/notes/20220416073757-multi_queue_nics/</link>
+      <pubDate>Sat, 16 Apr 2022 07:37:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220416073757-multi_queue_nics/</guid>
+      <description>tags: Linux,High Performance,Network,ethtool source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.  What are Multi-queue NICs RX queue was used to pass packets between hardware and kernel. Now days NICs support multiple RX queues: Each RX queue is pinned to a separate CPU.
+Multi-queue hashing algorithms  Use a hash from packet to decide the RX queue number. The hash is usually counted from a tuple (src IP, dst IP, src port, dst port).</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104103936-linux/&#34;&gt;Linux&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220110112848-high_performance/&#34;&gt;High Performance&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200827180638-network/&#34;&gt;Network&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220416073825-ethtool/&#34;&gt;ethtool&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;//select/items/1_6G8SYFXJ&#34;&gt;The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;what-are-multi-queue-nics&#34;&gt;What are Multi-queue NICs&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;RX queue&lt;/em&gt; was used to pass packets between hardware and kernel. Now days NICs support multiple RX
+queues: &lt;strong&gt;Each RX queue is pinned to a separate CPU&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;multi-queue-hashing-algorithms&#34;&gt;Multi-queue hashing algorithms&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Use a hash from packet to decide the RX queue number. The hash is usually counted from a tuple (src IP, dst IP, src port, dst port). This guarantees that packets for a single flow will always end up on exactly the same RX queue, and reordering of packets within a single flow can&amp;rsquo;t happen.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The hash algorithm is configurable with &lt;em&gt;ethtool&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;receiver$ ethtool -n eth2 rx-flow-hash udp4
+UDP over IPV4 flows use these fields &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; computing Hash flow key:
+IP SA
+IP DA
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Reads as&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;RX_queue_number&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;hash&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;192.168.254.30&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;192.168.254.1&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;number_of_queues&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>iptables</title>
+      <link>https://www.linuxzen.com/notes/notes/20220416073414-iptables/</link>
+      <pubDate>Sat, 16 Apr 2022 07:34:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220416073414-iptables/</guid>
+      <description> tags: Network,Linux,Tools  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200827180638-network/&#34;&gt;Network&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104103936-linux/&#34;&gt;Linux&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104162549-tools/&#34;&gt;Tools&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>How to receive a million packets per second</title>
       <link>https://www.linuxzen.com/notes/notes/20220414185003-how_to_receive_a_million_packets_per_second/</link>
       <pubDate>Thu, 14 Apr 2022 18:50:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220414185003-how_to_receive_a_million_packets_per_second/</guid>
-      <description> tags: Network,UDP,High Performance source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.  </description>
+      <description>tags: Network,UDP,High Performance,iptables,ethtool,netstat source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.  Keys:
+  Make sure traffic won&amp;rsquo;t be interfered with by the iptables
+iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK #+end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]] 2. The first bottleneck ​ + All packets are received by a signal RX queue, checked out with =ethtool -S=.</description>
       <content>&lt;ul&gt;
-&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200827180638-network/&#34;&gt;Network&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220414185017-udp/&#34;&gt;UDP&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220110112848-high_performance/&#34;&gt;High Performance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200827180638-network/&#34;&gt;Network&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220414185017-udp/&#34;&gt;UDP&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220110112848-high_performance/&#34;&gt;High Performance&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220416073414-iptables/&#34;&gt;iptables&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220416073825-ethtool/&#34;&gt;ethtool&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220416075544-netstat/&#34;&gt;netstat&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;//select/items/1_6G8SYFXJ&#34;&gt;The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;Keys:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Make sure traffic won&amp;rsquo;t be interfered with by the &lt;em&gt;iptables&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;	 iptables -I INPUT &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; -p udp --dport &lt;span style=&#34;color:#ae81ff&#34;&gt;4321&lt;/span&gt; -j ACCEPT
+	 iptables -t raw -I PREROUTING &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; -p udp --dport &lt;span style=&#34;color:#ae81ff&#34;&gt;4321&lt;/span&gt; -j NOTRACK
+   &lt;span style=&#34;color:#75715e&#34;&gt;#+end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]&lt;/span&gt;
+
+2. The first bottleneck
+​   + All packets are received by a signal RX queue, checked out with &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;ethtool -S&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;.
+​   + How to solve: according to &lt;span style=&#34;color:#f92672&#34;&gt;[[&lt;/span&gt;id:C471A6FF-7F4E-4E23-B070-14CE146BFA14&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;Multi-queue NICs&lt;span style=&#34;color:#f92672&#34;&gt;]]&lt;/span&gt;, change the hash algorithm with &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;ethtool&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;:
+	 &lt;span style=&#34;color:#75715e&#34;&gt;#+begin_src bash&lt;/span&gt;
+	   ethtool -N eth2 rx-flow-hash udp4 sdfn
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Multiple threads with NUMA, and with multiple receiver ips to fit in &lt;em&gt;multi-queue hash algorithm&lt;/em&gt;.
+Also note that there is a lock contention on the UDP receive buffer side, see &lt;a href=&#34;//select/items/1_BMTNPMC4&#34;&gt;Rivera, Diego, Eduardo Acha, Jose Piquer, and Javier Bustos-Jimenez. “Analysis of Linux UDP Sockets Concurrent Performance.” In 2014 33rd International Conference of the Chilean Computer Science Society (SCCC), 65–69. Talca: IEEE, 2014. https://doi.org/10.1109/SCCC.2014.8.&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;SO_REUSEPORT&lt;/code&gt; to avoid the lock on the UDP receive buffer.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;When this flag is set on a socket descriptor, Linux will allow many processes to bind to the same port. In fact, any number of processes will be allowed to bind and the load will be spread across them.&lt;/p&gt;
+&lt;p&gt;With SO_REUSEPORT each of the processes will have a separate socket descriptor. Therefore each will own a dedicated UDP receive buffer. This avoids the contention issues previously encountered:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 </content>
     </item>
     
