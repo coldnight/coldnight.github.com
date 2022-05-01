@@ -183,6 +183,13 @@ sudo update-alternatives --config pinentry
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">export GPG_TTY<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>tty<span style="color:#66d9ef">)</span>
 gpg-connect-agent updatestartuptty /bye &gt;/dev/null
 </code></pre></div><p>Then I could commit in bash, but still couldn&rsquo;t commit with Magit.</p>
+<p>Finally I realized that I executed above command that still in the Emacs, with vterm. So:</p>
+<ol>
+<li>I quit the Emacs.</li>
+<li>Executed the above command.</li>
+<li>Start Emacs again.</li>
+</ol>
+<p>And it works.</p>
 
       </div></div>
 

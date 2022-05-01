@@ -32,6 +32,13 @@ sudo update-alternatives --config pinentry
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;export GPG_TTY&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;tty&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;
 gpg-connect-agent updatestartuptty /bye &amp;gt;/dev/null
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then I could commit in bash, but still couldn&amp;rsquo;t commit with Magit.&lt;/p&gt;
+&lt;p&gt;Finally I realized that I executed above command that still in the Emacs, with vterm. So:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;I quit the Emacs.&lt;/li&gt;
+&lt;li&gt;Executed the above command.&lt;/li&gt;
+&lt;li&gt;Start Emacs again.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;And it works.&lt;/p&gt;
 </content>
     </item>
     
