@@ -6,7 +6,22 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 05 May 2022 14:19:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 May 2022 14:41:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Luhn algorithm using SWAR and SIMD</title>
+      <link>https://www.linuxzen.com/notes/notes/20220505144135-luhn_algorithm_using_swar_and_simd/</link>
+      <pubDate>Thu, 05 May 2022 14:41:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220505144135-luhn_algorithm_using_swar_and_simd/</guid>
+      <description>tags: SIMD,High Performance source: “Luhn Algorithm Using SWAR and SIMD.” Accessed May 5, 2022. https://nullprogram.com/blog/2022/04/30/.  3x increase after used SIMD.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200628182211-avx512/&#34;&gt;SIMD&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220110112848-high_performance/&#34;&gt;High Performance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;//select/items/1_PU38VIYU&#34;&gt;“Luhn Algorithm Using SWAR and SIMD.” Accessed May 5, 2022. https://nullprogram.com/blog/2022/04/30/.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;3x increase after used SIMD.&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>Removing characters from strings faster with AVX-512</title>
       <link>https://www.linuxzen.com/notes/notes/20220505141919-removing_characters_from_strings_faster_with_avx_512/</link>
@@ -28754,19 +28769,19 @@ Iterator class 重载的操作符：
       
       <guid>https://www.linuxzen.com/notes/notes/20200628182211-avx512/</guid>
       <description> tags: Computer Systems,C/C++,优化,High Performance  部分 intel CPU 支持向量指令集同时进行多路整数和浮点数计算，以此来进行对相关算法进行优化，这里整理相关链接：
- 编译器支持相关封装避免编写汇编代码，官方指南：Intrinsics Guide 基于 sse_mathfun 的 avx_mathfun 封装相关宏和函数 mp3 库 lame 中的 SSE 加速实现 libmp3lame/vector/xmm_quantize_sub.c  AVX512 VNNI  https://en.wikichip.org/wiki/x86/avx512%5Fvnni  </description>
+ 编译器支持相关封装避免编写汇编代码，官方指南：Intrinsics Guide 基于 sse_mathfun 的 avx_mathfun 封装相关宏和函数 mp3 库 lame 中的 SSE 加速实现 libmp3lame/vector/xmm_quantize_sub.c  AVX512 VNNI  https://en.wikichip.org/wiki/x86/avx512_vnni  </description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200802151319-computer_systems/&#34;&gt;Computer Systems&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200320171108_c/&#34;&gt;C/C++&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200628182150-%E4%BC%98%E5%8C%96/&#34;&gt;优化&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220110112848-high_performance/&#34;&gt;High Performance&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;部分 intel CPU 支持向量指令集同时进行多路整数和浮点数计算，以此来进行对相关算法进行优化，这里整理相关链接：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;编译器支持相关封装避免编写汇编代码，官方指南：&lt;a href=&#34;https://software.intel.com/sites/landingpage/IntrinsicsGuide/#&#34;&gt;Intrinsics Guide&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;基于 sse_mathfun 的 &lt;a href=&#34;https://github.com/reyoung/avx%5Fmathfun&#34;&gt;avx_mathfun&lt;/a&gt; 封装相关宏和函数&lt;/li&gt;
-&lt;li&gt;mp3 库 lame 中的 SSE 加速实现 &lt;a href=&#34;https://github.com/zlargon/lame/blob/master/libmp3lame/vector/xmm%5Fquantize%5Fsub.c&#34;&gt;libmp3lame/vector/xmm_quantize_sub.c&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;基于 sse_mathfun 的 &lt;a href=&#34;https://github.com/reyoung/avx_mathfun&#34;&gt;avx_mathfun&lt;/a&gt; 封装相关宏和函数&lt;/li&gt;
+&lt;li&gt;mp3 库 lame 中的 SSE 加速实现 &lt;a href=&#34;https://github.com/zlargon/lame/blob/master/libmp3lame/vector/xmm_quantize_sub.c&#34;&gt;libmp3lame/vector/xmm_quantize_sub.c&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;avx512-vnni&#34;&gt;AVX512 VNNI&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://en.wikichip.org/wiki/x86/avx512%5Fvnni&#34;&gt;https://en.wikichip.org/wiki/x86/avx512%5Fvnni&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikichip.org/wiki/x86/avx512_vnni&#34;&gt;https://en.wikichip.org/wiki/x86/avx512_vnni&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
