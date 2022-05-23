@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: C&#43;&#43;11 内存模型,C/C&#43;&#43;  C&#43;&#43; 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C&#43;&#43; 同步原子（atomic）较短的调用。
 较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。release 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
-atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1, memory_order_release); while(atomic_load(&amp;amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
+atomic&amp;lt;int&amp;gt; done;  // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1, memory_order_release); while(atomic_load(&amp;amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
 来看下面 litmus test：
 Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
 <meta name="keywords" content="" />
@@ -40,7 +40,7 @@ Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
 <meta property="og:title" content="C&#43;&#43; 弱同步原子（acquire/release atomic）">
 <meta property="og:description" content="tags: C&#43;&#43;11 内存模型,C/C&#43;&#43;  C&#43;&#43; 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C&#43;&#43; 同步原子（atomic）较短的调用。
 较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。release 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
-atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1, memory_order_release); while(atomic_load(&amp;amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
+atomic&amp;lt;int&amp;gt; done;  // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1, memory_order_release); while(atomic_load(&amp;amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
 来看下面 litmus test：
 Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/" />
@@ -176,11 +176,11 @@ Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?" />
 </ul>
 <p>C++ 还添加了较弱的原子，可以使用 <code>atomic_store_explicit</code> 和 <code>atomic_load_explicit</code> 以及附加的n内存排序参数来访问这些原子。使用 <code>memory_order_seq_cst</code> 使显式调用等效于<a href="/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/">C++ 同步原子（atomic）</a>较短的调用。</p>
 <p>较弱的原子称为 <code>acquire/release</code> 原子，一个 <code>release</code> 如果被后来的 <code>acquire</code> 观察到，那么就创建了一个 <code>happen-before</code> 的关系(从 <code>release</code> 到 <code>acquire</code>)。这个术语意在唤起 <code>mutex:release</code> 就像 <code>unlock mutex</code> ， <code>acquire</code> 就像锁定同一个 <code>mutex</code> 。<code>release</code> 之前执行的写入必须对后续 <code>acquire</code> 之后执行的读取可见，就像解锁 <code>mutex</code> 之前执行的写入必须对后解锁 <code>mutex</code> 之后执行的读取可见一样。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">atomic<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> done;
-
-<span style="color:#75715e">// Thread 1                                         // Thread 2
-</span><span style="color:#75715e"></span>atomic_store(<span style="color:#f92672">&amp;</span>done, <span style="color:#ae81ff">1</span>, memory_order_release);       <span style="color:#66d9ef">while</span>(atomic_load(<span style="color:#f92672">&amp;</span>done, memory_order_acquire) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) { <span style="color:#75715e">/* loop */</span> }
-</code></pre></div><p><code>acquire/release</code> 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于<a href="/notes/notes/20210716110953-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7_coherence/">内存一致性（coherence）</a>而非<a href="/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/">顺序一致性</a>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>atomic<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> done;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Thread 1                                         // Thread 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>atomic_store(<span style="color:#f92672">&amp;</span>done, <span style="color:#ae81ff">1</span>, memory_order_release);       <span style="color:#66d9ef">while</span>(atomic_load(<span style="color:#f92672">&amp;</span>done, memory_order_acquire) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) { <span style="color:#75715e">/* loop */</span> }
+</span></span></code></pre></div><p><code>acquire/release</code> 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于<a href="/notes/notes/20210716110953-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7_coherence/">内存一致性（coherence）</a>而非<a href="/notes/notes/20210712151942-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7/">顺序一致性</a>。</p>
 <p>来看下面 <a href="/notes/notes/20210712153952-litmus_test/">litmus test</a>：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">Litmus Test: Store Buffering
 Can this program see r1 = 0, r2 = 0?

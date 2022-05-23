@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Two Pointers,Three Pointers,LeetCode101,Sorting  Based on:
  LeetCode101: 167. Two Sum II - Input Array Is Sorted LeetCode101: 15. 3Sum  We create a new loop:
-class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; fourSum(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { sort(nums.begin(), nums.end()); vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; int T, S, r, l; for (int i = 0; i &amp;lt; nums.size(); &#43;&#43;i) { if (i &amp;gt; 0 &amp;amp;&amp;amp; nums[i] == nums[i - 1]) { continue; } for (int j = i &#43; 1; j &amp;lt; nums." />
+class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; fourSum(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { 	sort(nums.begin(), nums.end()); 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	int T, S, r, l; 	for (int i = 0; i &amp;lt; nums.size(); &#43;&#43;i) { 	if (i &amp;gt; 0 &amp;amp;&amp;amp; nums[i] == nums[i - 1]) { 	continue; 	} 	for (int j = i &#43; 1; j &amp;lt; nums." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220408125015-leetcode101_18_4sum/" />
@@ -38,7 +38,7 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; fourSum
 <meta property="og:title" content="LeetCode101: 18. 4Sum">
 <meta property="og:description" content="tags: Two Pointers,Three Pointers,LeetCode101,Sorting  Based on:
  LeetCode101: 167. Two Sum II - Input Array Is Sorted LeetCode101: 15. 3Sum  We create a new loop:
-class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; fourSum(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { sort(nums.begin(), nums.end()); vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; int T, S, r, l; for (int i = 0; i &amp;lt; nums.size(); &#43;&#43;i) { if (i &amp;gt; 0 &amp;amp;&amp;amp; nums[i] == nums[i - 1]) { continue; } for (int j = i &#43; 1; j &amp;lt; nums." />
+class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; fourSum(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { 	sort(nums.begin(), nums.end()); 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	int T, S, r, l; 	for (int i = 0; i &amp;lt; nums.size(); &#43;&#43;i) { 	if (i &amp;gt; 0 &amp;amp;&amp;amp; nums[i] == nums[i - 1]) { 	continue; 	} 	for (int j = i &#43; 1; j &amp;lt; nums." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220408125015-leetcode101_18_4sum/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -176,47 +176,47 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; fourSum
 <li><a href="/notes/notes/20220407080010-leetcode101_15_3sum/">LeetCode101: 15. 3Sum</a></li>
 </ul>
 <p>We create a new loop:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> fourSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> target) {
-		sort(nums.begin(), nums.end());
-		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
-		<span style="color:#66d9ef">int</span> T, S, r, l;
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); <span style="color:#f92672">++</span>i) {
-			<span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> nums[i] <span style="color:#f92672">==</span> nums[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
-				<span style="color:#66d9ef">continue</span>;
-			}
-			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> nums.size(); <span style="color:#f92672">++</span>j) {
-				<span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&gt;</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> nums[j] <span style="color:#f92672">==</span> nums[j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
-					<span style="color:#66d9ef">continue</span>;
-				}
-				l <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-				r <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
-				T <span style="color:#f92672">=</span> target <span style="color:#f92672">-</span> nums[i] <span style="color:#f92672">-</span> nums[j];
-				<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> r) {
-					S <span style="color:#f92672">=</span> nums[l] <span style="color:#f92672">+</span> nums[r];
-					<span style="color:#66d9ef">if</span> (S <span style="color:#f92672">==</span> T) {
-						res.push_back({nums[i], nums[j], nums[l], nums[r]});
-						<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> r <span style="color:#f92672">&amp;&amp;</span> nums[l] <span style="color:#f92672">==</span> nums[l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) {
-							l<span style="color:#f92672">++</span>;
-						}
-						<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> r <span style="color:#f92672">&amp;&amp;</span> nums[r] <span style="color:#f92672">==</span> nums[r <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
-							r<span style="color:#f92672">--</span>;
-						}
-						l<span style="color:#f92672">++</span>;
-						r<span style="color:#f92672">--</span>;
-					} <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (S <span style="color:#f92672">&lt;</span> T) {
-						l<span style="color:#f92672">++</span>;
-					} <span style="color:#66d9ef">else</span> {
-						r<span style="color:#f92672">--</span>;
-					}
-				}
-			}
-		}
-		<span style="color:#66d9ef">return</span> res;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> fourSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		sort(nums.begin(), nums.end());
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> T, S, r, l;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> nums[i] <span style="color:#f92672">==</span> nums[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> nums.size(); <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&gt;</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> nums[j] <span style="color:#f92672">==</span> nums[j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				l <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>				r <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>				T <span style="color:#f92672">=</span> target <span style="color:#f92672">-</span> nums[i] <span style="color:#f92672">-</span> nums[j];
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> r) {
+</span></span><span style="display:flex;"><span>					S <span style="color:#f92672">=</span> nums[l] <span style="color:#f92672">+</span> nums[r];
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> (S <span style="color:#f92672">==</span> T) {
+</span></span><span style="display:flex;"><span>						res.push_back({nums[i], nums[j], nums[l], nums[r]});
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> r <span style="color:#f92672">&amp;&amp;</span> nums[l] <span style="color:#f92672">==</span> nums[l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>							l<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> r <span style="color:#f92672">&amp;&amp;</span> nums[r] <span style="color:#f92672">==</span> nums[r <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>							r<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>						l<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>						r<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>					} <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (S <span style="color:#f92672">&lt;</span> T) {
+</span></span><span style="display:flex;"><span>						l<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>					} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>						r<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="#[derive(Debug)] enum UsState { Alabama, Alaska, } enum Coin { Penny, Nickel, Dime, Quarter(UsState), } fn value_cents(coin: Coin) -&amp;gt; u8 { match coin { Coin::Peny =&amp;gt; { println!(&amp;#34;Lucy penny!&amp;#34;); 1 }, Coin::Nickel =&amp;gt; 5, Coin::Dime =&amp;gt; 10, Coin::Quarter(state) =&amp;gt; { println!(&amp;#34;State quarter from {:?}!&amp;#34;, state); 25 }, } } // Option fn plus_one(x: Option&amp;lt;i32&amp;gt;) -&amp;gt; Option&amp;lt;i32&amp;gt; { match x { None =&amp;gt; None, Some(i) =&amp;gt; Some(i &#43; 1), } } let five = Some(5); let six = plus_one(five); let none = plus_one(None); 编译器会检查 match 覆盖所有情况， _ 可以用于所有未覆盖的情况。" />
+<meta name="description" content="#[derive(Debug)] enum UsState {  Alabama,  Alaska, }  enum Coin {  Penny,  Nickel,  Dime,  Quarter(UsState), }  fn value_cents(coin: Coin) -&amp;gt; u8 {   match coin { 	Coin::Peny =&amp;gt; { 	println!(&amp;#34;Lucy penny!&amp;#34;); 	1 	}, 	Coin::Nickel =&amp;gt; 5, 	Coin::Dime =&amp;gt; 10, 	Coin::Quarter(state) =&amp;gt; { 	println!(&amp;#34;State quarter from {:?}!&amp;#34;, state); 	25 	},  } }  // Option fn plus_one(x: Option&amp;lt;i32&amp;gt;) -&amp;gt; Option&amp;lt;i32&amp;gt; {  match x { 	None =&amp;gt; None, 	Some(i) =&amp;gt; Some(i &#43; 1),  } }  let five = Some(5); let six = plus_one(five); let none = plus_one(None); 编译器会检查 match 覆盖所有情况， _ 可以用于所有未覆盖的情况。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="模式匹配">
-<meta property="og:description" content="#[derive(Debug)] enum UsState { Alabama, Alaska, } enum Coin { Penny, Nickel, Dime, Quarter(UsState), } fn value_cents(coin: Coin) -&amp;gt; u8 { match coin { Coin::Peny =&amp;gt; { println!(&amp;#34;Lucy penny!&amp;#34;); 1 }, Coin::Nickel =&amp;gt; 5, Coin::Dime =&amp;gt; 10, Coin::Quarter(state) =&amp;gt; { println!(&amp;#34;State quarter from {:?}!&amp;#34;, state); 25 }, } } // Option fn plus_one(x: Option&amp;lt;i32&amp;gt;) -&amp;gt; Option&amp;lt;i32&amp;gt; { match x { None =&amp;gt; None, Some(i) =&amp;gt; Some(i &#43; 1), } } let five = Some(5); let six = plus_one(five); let none = plus_one(None); 编译器会检查 match 覆盖所有情况， _ 可以用于所有未覆盖的情况。" />
+<meta property="og:description" content="#[derive(Debug)] enum UsState {  Alabama,  Alaska, }  enum Coin {  Penny,  Nickel,  Dime,  Quarter(UsState), }  fn value_cents(coin: Coin) -&amp;gt; u8 {   match coin { 	Coin::Peny =&amp;gt; { 	println!(&amp;#34;Lucy penny!&amp;#34;); 	1 	}, 	Coin::Nickel =&amp;gt; 5, 	Coin::Dime =&amp;gt; 10, 	Coin::Quarter(state) =&amp;gt; { 	println!(&amp;#34;State quarter from {:?}!&amp;#34;, state); 	25 	},  } }  // Option fn plus_one(x: Option&amp;lt;i32&amp;gt;) -&amp;gt; Option&amp;lt;i32&amp;gt; {  match x { 	None =&amp;gt; None, 	Some(i) =&amp;gt; Some(i &#43; 1),  } }  let five = Some(5); let six = plus_one(five); let none = plus_one(None); 编译器会检查 match 覆盖所有情况， _ 可以用于所有未覆盖的情况。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -163,47 +163,47 @@
   
 
   <div class="post-content"><div>
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Debug)]</span>
-<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">UsState</span> {
-  Alabama,
-  Alaska,
-}
-
-<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Coin</span> {
-  Penny,
-  Nickel,
-  Dime,
-  Quarter(UsState),
-}
-
-<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">value_cents</span>(coin: <span style="color:#a6e22e">Coin</span>) -&gt; <span style="color:#66d9ef">u8</span> {
-
-  <span style="color:#66d9ef">match</span> coin {
-	Coin::Peny <span style="color:#f92672">=&gt;</span> {
-	  println!(<span style="color:#e6db74">&#34;Lucy penny!&#34;</span>);
-	  <span style="color:#ae81ff">1</span>
-	},
-	Coin::Nickel <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">5</span>,
-	Coin::Dime <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">10</span>,
-	Coin::Quarter(state) <span style="color:#f92672">=&gt;</span> {
-	  println!(<span style="color:#e6db74">&#34;State quarter from {:?}!&#34;</span>, state);
-	  <span style="color:#ae81ff">25</span>
-	},
-  }
-}
-
-<span style="color:#75715e">// Option
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">plus_one</span>(x: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span>) -&gt; Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> {
-  <span style="color:#66d9ef">match</span> x {
-	None <span style="color:#f92672">=&gt;</span> None,
-	Some(i) <span style="color:#f92672">=&gt;</span> Some(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>),
-  }
-}
-
-<span style="color:#66d9ef">let</span> five <span style="color:#f92672">=</span> Some(<span style="color:#ae81ff">5</span>);
-<span style="color:#66d9ef">let</span> six <span style="color:#f92672">=</span> plus_one(five);
-<span style="color:#66d9ef">let</span> none <span style="color:#f92672">=</span> plus_one(None);
-</code></pre></div><p>编译器会检查 <code>match</code> 覆盖所有情况， <code>_</code> 可以用于所有未覆盖的情况。</p>
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[derive(Debug)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">UsState</span> {
+</span></span><span style="display:flex;"><span>  Alabama,
+</span></span><span style="display:flex;"><span>  Alaska,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Coin</span> {
+</span></span><span style="display:flex;"><span>  Penny,
+</span></span><span style="display:flex;"><span>  Nickel,
+</span></span><span style="display:flex;"><span>  Dime,
+</span></span><span style="display:flex;"><span>  Quarter(UsState),
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">value_cents</span>(coin: <span style="color:#a6e22e">Coin</span>) -&gt; <span style="color:#66d9ef">u8</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">match</span> coin {
+</span></span><span style="display:flex;"><span>	Coin::Peny <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>	  println!(<span style="color:#e6db74">&#34;Lucy penny!&#34;</span>);
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	Coin::Nickel <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">5</span>,
+</span></span><span style="display:flex;"><span>	Coin::Dime <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>	Coin::Quarter(state) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>	  println!(<span style="color:#e6db74">&#34;State quarter from {:?}!&#34;</span>, state);
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Option
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">plus_one</span>(x: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span>) -&gt; Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">match</span> x {
+</span></span><span style="display:flex;"><span>	None <span style="color:#f92672">=&gt;</span> None,
+</span></span><span style="display:flex;"><span>	Some(i) <span style="color:#f92672">=&gt;</span> Some(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> five <span style="color:#f92672">=</span> Some(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> six <span style="color:#f92672">=</span> plus_one(five);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> none <span style="color:#f92672">=</span> plus_one(None);
+</span></span></code></pre></div><p>编译器会检查 <code>match</code> 覆盖所有情况， <code>_</code> 可以用于所有未覆盖的情况。</p>
 
       </div></div>
 

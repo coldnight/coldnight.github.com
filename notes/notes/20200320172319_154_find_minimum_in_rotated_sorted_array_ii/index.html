@@ -12,7 +12,7 @@
   left[0]=3, right[4]=3, mid[2]=3, 这时候不确定最小值在哪边但是 right&amp;ndash; 是安全的，所以执行 right&amp;ndash;
   left[0]=3, right[3]=1, mid[2]=3, 这时候 mid &amp;lt; right 说明最小值在 mid 的右边，所以调整 left = mid &#43; 1
   左右两边索引一致终止循环
-  实现 func findMin(nums []int) int { length := len(nums) left, right := 0, length - 1 for left &amp;lt; right { mid := (left &#43; right) / 2 if nums[mid] &amp;gt; nums[right] { left = mid &#43; 1 } else if nums[mid] &amp;lt; nums[right] { right = mid } else { right-- } } return nums[right] } " />
+  实现 func findMin(nums []int) int { 	length := len(nums) 	left, right := 0, length - 1 	for left &amp;lt; right { 	mid := (left &#43; right) / 2 	if nums[mid] &amp;gt; nums[right] { 	left = mid &#43; 1 	} else if nums[mid] &amp;lt; nums[right] { 	right = mid 	} else { 	right-- 	} 	} 	return nums[right] } " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320172319_154_find_minimum_in_rotated_sorted_array_ii/" />
@@ -46,7 +46,7 @@
   left[0]=3, right[4]=3, mid[2]=3, 这时候不确定最小值在哪边但是 right&amp;ndash; 是安全的，所以执行 right&amp;ndash;
   left[0]=3, right[3]=1, mid[2]=3, 这时候 mid &amp;lt; right 说明最小值在 mid 的右边，所以调整 left = mid &#43; 1
   左右两边索引一致终止循环
-  实现 func findMin(nums []int) int { length := len(nums) left, right := 0, length - 1 for left &amp;lt; right { mid := (left &#43; right) / 2 if nums[mid] &amp;gt; nums[right] { left = mid &#43; 1 } else if nums[mid] &amp;lt; nums[right] { right = mid } else { right-- } } return nums[right] } " />
+  实现 func findMin(nums []int) int { 	length := len(nums) 	left, right := 0, length - 1 	for left &amp;lt; right { 	mid := (left &#43; right) / 2 	if nums[mid] &amp;gt; nums[right] { 	left = mid &#43; 1 	} else if nums[mid] &amp;lt; nums[right] { 	right = mid 	} else { 	right-- 	} 	} 	return nums[right] } " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320172319_154_find_minimum_in_rotated_sorted_array_ii/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -202,22 +202,22 @@
 </li>
 </ul>
 <h2 id="实现">实现<a href="#实现" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findMin</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-	<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
-	<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> &lt; <span style="color:#a6e22e">right</span> {
-		<span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> (<span style="color:#a6e22e">left</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">right</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] &gt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>] {
-			<span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>] {
-			<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">mid</span>
-		} <span style="color:#66d9ef">else</span> {
-			<span style="color:#a6e22e">right</span><span style="color:#f92672">--</span>
-		}
-	}
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>]
-}
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findMin</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> &lt; <span style="color:#a6e22e">right</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">mid</span> <span style="color:#f92672">:=</span> (<span style="color:#a6e22e">left</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">right</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] &gt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>] {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">mid</span>] &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>] {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">mid</span>
+</span></span><span style="display:flex;"><span>		} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">right</span><span style="color:#f92672">--</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">right</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
       </div></div>
 
   

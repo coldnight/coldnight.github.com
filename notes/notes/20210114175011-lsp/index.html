@@ -169,11 +169,11 @@ mkdir build cd build cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .. mv compile_comma
 <li>tags: <a href="/notes/topics/20200218120634/">Emacs</a>,<a href="/notes/topics/20211231165951-lsp/">LSP</a>,<a href="/notes/topics/20200320171108_c/">C/C++</a>,<a href="/notes/notes/20200628123035-cmake/">CMake</a></li>
 </ul>
 <p>通过如下命令生成 clangd 识别的编译配置文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir build
-cd build
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ..
-mv compile_commands.json ../
-</code></pre></div><p>然后重启 <code>M-x lsp-restart-workspace RET</code> 即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir build
+</span></span><span style="display:flex;"><span>cd build
+</span></span><span style="display:flex;"><span>cmake -DCMAKE_EXPORT_COMPILE_COMMANDS<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ..
+</span></span><span style="display:flex;"><span>mv compile_commands.json ../
+</span></span></code></pre></div><p>然后重启 <code>M-x lsp-restart-workspace RET</code> 即可。</p>
 
       </div></div>
 

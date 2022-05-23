@@ -232,44 +232,44 @@ f(r,e)=f(s,e - 1) + e;
 s=r
 \]</p>
 <h2 id="解法">解法<a href="#解法" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">lengthOfLongestSubstring</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">int</span> {
-	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">s</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
-	}
-	<span style="color:#a6e22e">appearedIndexes</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">256</span>]<span style="color:#66d9ef">int</span>{}
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">256</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
-		<span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
-	}
-	<span style="color:#a6e22e">longest</span>, <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
-
-	<span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
-
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cIndex</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">b</span> {
-		<span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> int(<span style="color:#a6e22e">c</span>)
-		<span style="color:#a6e22e">appearedIndex</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">index</span>]
-		<span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">cIndex</span>
-		<span style="color:#75715e">// 出现过需要截断
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">appearedIndex</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> {
-			<span style="color:#75715e">// 重置已出现的字符
-</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">start</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">appearedIndex</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
-				<span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">b</span>[<span style="color:#a6e22e">i</span>]] = <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
-			}
-			<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span>
-			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> &gt; <span style="color:#a6e22e">longest</span> {
-				<span style="color:#a6e22e">longest</span> = <span style="color:#a6e22e">length</span>
-			}
-			<span style="color:#a6e22e">start</span> = <span style="color:#a6e22e">appearedIndex</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
-		}
-		<span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">index</span>] = <span style="color:#a6e22e">cIndex</span>
-	}
-
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> &gt; <span style="color:#a6e22e">longest</span> {
-		<span style="color:#a6e22e">longest</span> = <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-	}
-
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">longest</span>
-}
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">lengthOfLongestSubstring</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">s</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">appearedIndexes</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">256</span>]<span style="color:#66d9ef">int</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">256</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">longest</span>, <span style="color:#a6e22e">start</span>, <span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">cIndex</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">b</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">index</span> <span style="color:#f92672">:=</span> int(<span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">appearedIndex</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">index</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">cIndex</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 出现过需要截断
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">appearedIndex</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 重置已出现的字符
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">start</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">appearedIndex</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">b</span>[<span style="color:#a6e22e">i</span>]] = <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> &gt; <span style="color:#a6e22e">longest</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">longest</span> = <span style="color:#a6e22e">length</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">start</span> = <span style="color:#a6e22e">appearedIndex</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">appearedIndexes</span>[<span style="color:#a6e22e">index</span>] = <span style="color:#a6e22e">cIndex</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> &gt; <span style="color:#a6e22e">longest</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">longest</span> = <span style="color:#a6e22e">end</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">longest</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
       </div></div>
 
   

@@ -167,8 +167,8 @@
           
           tags: Rust  背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
 先来看一个在项目 README.md 中的例子：
-use actix_web::{get, web, App, HttpServer, Responder}; #[get(&#34;/{id}/{name}/index.html&#34;)] async fn index(web::Path((id, name)): web::Path&lt;(u32, String)&gt;) -&gt; impl Responder { format!(&#34;Hello {}! id:{}&#34;, name, id) } #[actix_web::main] async fn main() -&gt; std::io::Result&lt;()&gt; { HttpServer::new(|| App::new().service(index)) .bind(&#34;127.0.0.1:8080&#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：
-use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&gt; impl Responder { let name = req.match_info().get(&#34;name&#34;).unwrap_or(&#34;World&#34;); format!
+use actix_web::{get, web, App, HttpServer, Responder};  #[get(&#34;/{id}/{name}/index.html&#34;)] async fn index(web::Path((id, name)): web::Path&lt;(u32, String)&gt;) -&gt; impl Responder { 	format!(&#34;Hello {}! id:{}&#34;, name, id) }  #[actix_web::main] async fn main() -&gt; std::io::Result&lt;()&gt; { 	HttpServer::new(|| App::new().service(index)) 	.bind(&#34;127.0.0.1:8080&#34;)? 	.run() 	.await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：
+use actix_web::{web, App, HttpRequest, HttpServer, Responder};  async fn greet(req: HttpRequest) -&gt; impl Responder { 	let name = req.
           
           
         </div>

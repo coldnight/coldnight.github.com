@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Binary Search,LeetCode101  There is three corner cases must be handled if we don&amp;rsquo;t find target in nums:
- Return r &#43; 1 if target is greater than right. Or return mid &#43; 1 if target is greater than mid. Otherwise return mid.  class Solution { public: int searchInsert(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { int l = 0, r = nums.size() - 1; int mid = r / 2; while (l !" />
+ Return r &#43; 1 if target is greater than right. Or return mid &#43; 1 if target is greater than mid. Otherwise return mid.  class Solution { public: 	int searchInsert(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { 	int l = 0, r = nums.size() - 1; 	int mid = r / 2; 	while (l !" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220330165507-leetcode101_35_search_insert_position/" />
@@ -36,7 +36,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 35. Search Insert Position">
 <meta property="og:description" content="tags: Binary Search,LeetCode101  There is three corner cases must be handled if we don&amp;rsquo;t find target in nums:
- Return r &#43; 1 if target is greater than right. Or return mid &#43; 1 if target is greater than mid. Otherwise return mid.  class Solution { public: int searchInsert(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { int l = 0, r = nums.size() - 1; int mid = r / 2; while (l !" />
+ Return r &#43; 1 if target is greater than right. Or return mid &#43; 1 if target is greater than mid. Otherwise return mid.  class Solution { public: 	int searchInsert(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { 	int l = 0, r = nums.size() - 1; 	int mid = r / 2; 	while (l !" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220330165507-leetcode101_35_search_insert_position/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -175,33 +175,33 @@
 <li>Otherwise return <code>mid</code>.</li>
 </ol>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">int</span> searchInsert(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> target) {
-		<span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, r <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
-		<span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> r <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-		<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">!=</span> r) {
-			mid <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> (r <span style="color:#f92672">-</span> l) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-			<span style="color:#66d9ef">if</span> (target <span style="color:#f92672">==</span> nums[mid]) {
-				<span style="color:#66d9ef">return</span> mid;
-			}
-
-			<span style="color:#66d9ef">if</span> (target <span style="color:#f92672">&lt;</span> nums[mid]) {
-				r <span style="color:#f92672">=</span> mid;
-			} <span style="color:#66d9ef">else</span> {
-				l <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-			}
-		}
-		<span style="color:#66d9ef">if</span> (target <span style="color:#f92672">&gt;</span> nums[r]) {
-			<span style="color:#66d9ef">return</span> r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-		}
-		<span style="color:#66d9ef">if</span> (target <span style="color:#f92672">&gt;</span> nums[mid]) {
-			<span style="color:#66d9ef">return</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-		}
-		<span style="color:#66d9ef">return</span> mid;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> searchInsert(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, r <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> r <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">!=</span> r) {
+</span></span><span style="display:flex;"><span>			mid <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> (r <span style="color:#f92672">-</span> l) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (target <span style="color:#f92672">==</span> nums[mid]) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> mid;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (target <span style="color:#f92672">&lt;</span> nums[mid]) {
+</span></span><span style="display:flex;"><span>				r <span style="color:#f92672">=</span> mid;
+</span></span><span style="display:flex;"><span>			} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				l <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (target <span style="color:#f92672">&gt;</span> nums[r]) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (target <span style="color:#f92672">&gt;</span> nums[mid]) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> mid;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

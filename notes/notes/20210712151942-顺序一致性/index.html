@@ -175,12 +175,12 @@
 </blockquote>
 <p><strong><strong>顺序一致性允许程序员假设程序按照它们在源码中组织相同的顺序执行，并且单个线程的执行只是以某种顺序交替（interleaving），而不是以其他方式排列。</strong></strong></p>
 <p>看一下下面这个 <a href="/notes/notes/20210712153952-litmus_test/">litmus test</a>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Litmus Test: Message Passing
-Can this program see r1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>
-<span style="color:#75715e">// Thread 1           // Thread 2
-</span><span style="color:#75715e"></span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r1 <span style="color:#f92672">=</span> y
-y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r2 <span style="color:#f92672">=</span> x
-</code></pre></div><p>如果 <a href="/notes/notes/20210712153952-litmus_test/">litmus test</a> 的执行顺序一致，则有六种可能的交替：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>Litmus Test: Message Passing
+</span></span><span style="display:flex;"><span>Can this program see r1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Thread 1           // Thread 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r1 <span style="color:#f92672">=</span> y
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r2 <span style="color:#f92672">=</span> x
+</span></span></code></pre></div><p>如果 <a href="/notes/notes/20210712153952-litmus_test/">litmus test</a> 的执行顺序一致，则有六种可能的交替：</p>
 
   <figure class="left" >
     <img src="https://colobu.com/2021/06/30/hwmm/mem-litmus.png"   />

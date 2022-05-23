@@ -6,14 +6,14 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Rust  动态大小类型（DST）和 Sized 特性 str （非 &amp;amp;str ）就是一个 DST，我们不能在运行时得知 str 的大小。 &amp;amp;str 是一个指针类型，大小是已知的。
+<meta name="description" content="tags: Rust  动态大小类型（DST）和 Sized 特性 str （非 &amp;amp;str ）就是一个 DST，我们不能在运行时得知 str 的大小。 &amp;amp;str 是一个指针类型，大小是已知的。
 DST：拥有额外的元数据存储动态大小的信息。
 每一个特性都是一个是个 DST，使用 Trait Object 必须是像 &amp;amp;dyn Trait 和 Box&amp;lt;dyn Trait&amp;gt; （或 Rc&amp;lt;dyn Trait&amp;gt; ）的指针类型。
 dyn 关键字 dyn 关键字用于将 Trait Object 指针和普通的结构体指针区分开来。
 Sized vs ?Sized Rust 有一个特定的特性叫做 Sized 去判断一个类型的大小是否是编译期可知的，并且自动在编译期为所有已知大小的类型实现， 同时 Rust 隐式的为泛型函数的类型参数加上 Sized 的限制（bound），下面这样的泛型函数：
-fn generic&amp;lt;T&amp;gt;(t: T) { // --snip-- } 实际上相当于像下面这样硬编码：
-fn generic&amp;lt;T: Sized&amp;gt;(t: T) { // --snip-- } 也可以通过下面特定的语法取消这个限制：
-fn geneic&amp;lt;T: ?Sized&amp;gt;(t: &amp;amp;T) { // --snip-- } " />
+fn generic&amp;lt;T&amp;gt;(t: T) {  // --snip-- } 实际上相当于像下面这样硬编码：
+fn generic&amp;lt;T: Sized&amp;gt;(t: T) {  // --snip-- } 也可以通过下面特定的语法取消这个限制：
+fn geneic&amp;lt;T: ?" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200329204833_rust_trait_object/" />
@@ -41,14 +41,14 @@ fn geneic&amp;lt;T: ?Sized&amp;gt;(t: &amp;amp;T) { // --snip-- } " />
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust Trait Object">
-<meta property="og:description" content=" tags: Rust  动态大小类型（DST）和 Sized 特性 str （非 &amp;amp;str ）就是一个 DST，我们不能在运行时得知 str 的大小。 &amp;amp;str 是一个指针类型，大小是已知的。
+<meta property="og:description" content="tags: Rust  动态大小类型（DST）和 Sized 特性 str （非 &amp;amp;str ）就是一个 DST，我们不能在运行时得知 str 的大小。 &amp;amp;str 是一个指针类型，大小是已知的。
 DST：拥有额外的元数据存储动态大小的信息。
 每一个特性都是一个是个 DST，使用 Trait Object 必须是像 &amp;amp;dyn Trait 和 Box&amp;lt;dyn Trait&amp;gt; （或 Rc&amp;lt;dyn Trait&amp;gt; ）的指针类型。
 dyn 关键字 dyn 关键字用于将 Trait Object 指针和普通的结构体指针区分开来。
 Sized vs ?Sized Rust 有一个特定的特性叫做 Sized 去判断一个类型的大小是否是编译期可知的，并且自动在编译期为所有已知大小的类型实现， 同时 Rust 隐式的为泛型函数的类型参数加上 Sized 的限制（bound），下面这样的泛型函数：
-fn generic&amp;lt;T&amp;gt;(t: T) { // --snip-- } 实际上相当于像下面这样硬编码：
-fn generic&amp;lt;T: Sized&amp;gt;(t: T) { // --snip-- } 也可以通过下面特定的语法取消这个限制：
-fn geneic&amp;lt;T: ?Sized&amp;gt;(t: &amp;amp;T) { // --snip-- } " />
+fn generic&amp;lt;T&amp;gt;(t: T) {  // --snip-- } 实际上相当于像下面这样硬编码：
+fn generic&amp;lt;T: Sized&amp;gt;(t: T) {  // --snip-- } 也可以通过下面特定的语法取消这个限制：
+fn geneic&amp;lt;T: ?" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200329204833_rust_trait_object/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -189,18 +189,18 @@ fn geneic&amp;lt;T: ?Sized&amp;gt;(t: &amp;amp;T) { // --snip-- } " />
 <h2 id="sized-vs-sized">Sized vs ?Sized<a href="#sized-vs-sized" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Rust 有一个特定的特性叫做 <code>Sized</code> 去判断一个类型的大小是否是编译期可知的，并且自动在编译期为所有已知大小的类型实现，
 同时 Rust 隐式的为泛型函数的类型参数加上 <code>Sized</code> 的限制（bound），下面这样的泛型函数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>) {
-   <span style="color:#75715e">// --snip--
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>实际上相当于像下面这样硬编码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T: Sized<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>) {
-  <span style="color:#75715e">// --snip--
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>也可以通过下面特定的语法取消这个限制：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">geneic</span><span style="color:#f92672">&lt;</span>T: <span style="color:#f92672">?</span>Sized<span style="color:#f92672">&gt;</span>(t: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span>) {
-  <span style="color:#75715e">// --snip--
-</span><span style="color:#75715e"></span>}
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// --snip--
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>实际上相当于像下面这样硬编码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T: Sized<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// --snip--
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>也可以通过下面特定的语法取消这个限制：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">geneic</span><span style="color:#f92672">&lt;</span>T: <span style="color:#f92672">?</span>Sized<span style="color:#f92672">&gt;</span>(t: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// --snip--
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div>
       </div></div>
 
   

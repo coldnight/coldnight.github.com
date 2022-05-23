@@ -232,21 +232,20 @@
 </ul>
 <h2 id="集群管理">集群管理<a href="#集群管理" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="查看消费状况">查看消费状况<a href="#查看消费状况" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --describe
-</code></pre></div><h3 id="重置消费">重置消费<a href="#重置消费" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看重置到最晚</span>
-kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-latest --dry-run
-
-<span style="color:#75715e"># 执行重置到最晚</span>
-kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-latest --execute
-
-
-<span style="color:#75715e"># 当前（最早）</span>
-kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-current --dry-run
-
-kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-current --execute
-
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --describe
+</span></span></code></pre></div><h3 id="重置消费">重置消费<a href="#重置消费" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 查看重置到最晚</span>
+</span></span><span style="display:flex;"><span>kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-latest --dry-run
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 执行重置到最晚</span>
+</span></span><span style="display:flex;"><span>kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-latest --execute
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 当前（最早）</span>
+</span></span><span style="display:flex;"><span>kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-current --dry-run
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kafka-consumer-groups.sh --bootstrap-server 192.168.1.111:9092 --group cabbage --topic xxx.topic --reset-offsets --to-current --execute
+</span></span></code></pre></div>
       </div></div>
 
   

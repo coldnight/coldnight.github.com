@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="循环展开 let fields = vec![ syn::Ident::new(&amp;#34;foo&amp;#34;, syn::Span::call_site()), syn::Ident::new(&amp;#34;bar&amp;#34;, syn::Span::call_site()), ]; let token = quote!{ #(#fields),* }; // -&amp;gt; foo,bar " />
+<meta name="description" content="循环展开 let fields = vec![  syn::Ident::new(&amp;#34;foo&amp;#34;, syn::Span::call_site()),  syn::Ident::new(&amp;#34;bar&amp;#34;, syn::Span::call_site()), ]; let token = quote!{  #(#fields),* }; // -&amp;gt; foo,bar " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210616144334-quote/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="quote">
-<meta property="og:description" content="循环展开 let fields = vec![ syn::Ident::new(&amp;#34;foo&amp;#34;, syn::Span::call_site()), syn::Ident::new(&amp;#34;bar&amp;#34;, syn::Span::call_site()), ]; let token = quote!{ #(#fields),* }; // -&amp;gt; foo,bar " />
+<meta property="og:description" content="循环展开 let fields = vec![  syn::Ident::new(&amp;#34;foo&amp;#34;, syn::Span::call_site()),  syn::Ident::new(&amp;#34;bar&amp;#34;, syn::Span::call_site()), ]; let token = quote!{  #(#fields),* }; // -&amp;gt; foo,bar " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210616144334-quote/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -164,14 +164,14 @@
 
   <div class="post-content"><div>
         <h2 id="循环展开">循环展开<a href="#循环展开" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> fields <span style="color:#f92672">=</span> vec![
-  syn::Ident::new(<span style="color:#e6db74">&#34;foo&#34;</span>, syn::Span::call_site()),
-  syn::Ident::new(<span style="color:#e6db74">&#34;bar&#34;</span>, syn::Span::call_site()),
-];
-<span style="color:#66d9ef">let</span> token <span style="color:#f92672">=</span> quote<span style="color:#f92672">!</span>{
-  #(#fields),<span style="color:#f92672">*</span>
-}; <span style="color:#75715e">// -&gt; foo,bar
-</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> fields <span style="color:#f92672">=</span> vec![
+</span></span><span style="display:flex;"><span>  syn::Ident::new(<span style="color:#e6db74">&#34;foo&#34;</span>, syn::Span::call_site()),
+</span></span><span style="display:flex;"><span>  syn::Ident::new(<span style="color:#e6db74">&#34;bar&#34;</span>, syn::Span::call_site()),
+</span></span><span style="display:flex;"><span>];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> token <span style="color:#f92672">=</span> quote<span style="color:#f92672">!</span>{
+</span></span><span style="display:flex;"><span>  #(#fields),<span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>}; <span style="color:#75715e">// -&gt; foo,bar
+</span></span></span></code></pre></div>
       </div></div>
 
   

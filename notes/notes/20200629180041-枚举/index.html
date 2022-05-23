@@ -7,8 +7,8 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="多种类型的集合体，一个类型的变量可以存储多种类型的值，枚举的每一项都是该枚举类型的变体：
-enum IpAddrKind { V4, V6, } fn main() { route(IpAddrKind::V4); route(IpAddrkind::V6); } fn route(kind: IpAddrKind) { // ... }   枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
-struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&amp;#34;::1&amp;#34;)); struct Message { Quit, Move{ x: i32, y: i32 }, // anonymous struct  Write(String), ChangeColor(i32, i32, i32), // three i32 values }   枚举也可以通过 impl 实现方法" />
+enum IpAddrKind {  V4,  V6, }  fn main() {  route(IpAddrKind::V4);  route(IpAddrkind::V6); }  fn route(kind: IpAddrKind) {  // ... }   枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
+struct Ipv4Addr {  // --snip-- }  enum IpAddr {  V4(Ipv4Addr),  V6(String), }  let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&amp;#34;::1&amp;#34;));  struct Message {  Quit,  Move{ x: i32, y: i32 }, // anonymous struct  Write(String),  ChangeColor(i32, i32, i32), // three i32 values }   枚举也可以通过 impl 实现方法" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/" />
@@ -37,8 +37,8 @@ struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let ho
 <meta property="og:type" content="article" />
 <meta property="og:title" content="枚举">
 <meta property="og:description" content="多种类型的集合体，一个类型的变量可以存储多种类型的值，枚举的每一项都是该枚举类型的变体：
-enum IpAddrKind { V4, V6, } fn main() { route(IpAddrKind::V4); route(IpAddrkind::V6); } fn route(kind: IpAddrKind) { // ... }   枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
-struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&amp;#34;::1&amp;#34;)); struct Message { Quit, Move{ x: i32, y: i32 }, // anonymous struct  Write(String), ChangeColor(i32, i32, i32), // three i32 values }   枚举也可以通过 impl 实现方法" />
+enum IpAddrKind {  V4,  V6, }  fn main() {  route(IpAddrKind::V4);  route(IpAddrkind::V6); }  fn route(kind: IpAddrKind) {  // ... }   枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
+struct Ipv4Addr {  // --snip-- }  enum IpAddr {  V4(Ipv4Addr),  V6(String), }  let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&amp;#34;::1&amp;#34;));  struct Message {  Quit,  Move{ x: i32, y: i32 }, // anonymous struct  Write(String),  ChangeColor(i32, i32, i32), // three i32 values }   枚举也可以通过 impl 实现方法" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -170,70 +170,68 @@ struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let ho
         <ul>
 <li>
 <p>多种类型的集合体，一个类型的变量可以存储多种类型的值，枚举的每一项都是该枚举类型的变体：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">IpAddrKind</span> {
-  V4,
-  V6,
-}
-
-<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-  route(IpAddrKind::V4);
-  route(IpAddrkind::V6);
-}
-
-<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">route</span>(kind: <span style="color:#a6e22e">IpAddrKind</span>) {
-  <span style="color:#75715e">// ...
-</span><span style="color:#75715e"></span>}
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">IpAddrKind</span> {
+</span></span><span style="display:flex;"><span>  V4,
+</span></span><span style="display:flex;"><span>  V6,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  route(IpAddrKind::V4);
+</span></span><span style="display:flex;"><span>  route(IpAddrkind::V6);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">route</span>(kind: <span style="color:#a6e22e">IpAddrKind</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div></li>
 <li>
 <p>枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Ipv4Addr</span> {
-  <span style="color:#75715e">// --snip--
-</span><span style="color:#75715e"></span>}
-
-<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">IpAddr</span> {
-  V4(Ipv4Addr),
-  V6(String),
-}
-
-<span style="color:#66d9ef">let</span> home <span style="color:#f92672">=</span> IpAddr::V4(<span style="color:#ae81ff">127</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>);
-<span style="color:#66d9ef">let</span> loopback <span style="color:#f92672">=</span> IpAddr::V6(String::from(<span style="color:#e6db74">&#34;::1&#34;</span>));
-
-<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Message</span> {
-  Quit,
-  Move{ x: <span style="color:#66d9ef">i32</span>, y: <span style="color:#66d9ef">i32</span> },       <span style="color:#75715e">// anonymous struct
-</span><span style="color:#75715e"></span>  Write(String),
-  ChangeColor(<span style="color:#66d9ef">i32</span>, <span style="color:#66d9ef">i32</span>, <span style="color:#66d9ef">i32</span>),   <span style="color:#75715e">// three i32 values
-</span><span style="color:#75715e"></span>}
-
-
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Ipv4Addr</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// --snip--
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">IpAddr</span> {
+</span></span><span style="display:flex;"><span>  V4(Ipv4Addr),
+</span></span><span style="display:flex;"><span>  V6(String),
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> home <span style="color:#f92672">=</span> IpAddr::V4(<span style="color:#ae81ff">127</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> loopback <span style="color:#f92672">=</span> IpAddr::V6(String::from(<span style="color:#e6db74">&#34;::1&#34;</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Message</span> {
+</span></span><span style="display:flex;"><span>  Quit,
+</span></span><span style="display:flex;"><span>  Move{ x: <span style="color:#66d9ef">i32</span>, y: <span style="color:#66d9ef">i32</span> },       <span style="color:#75715e">// anonymous struct
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Write(String),
+</span></span><span style="display:flex;"><span>  ChangeColor(<span style="color:#66d9ef">i32</span>, <span style="color:#66d9ef">i32</span>, <span style="color:#66d9ef">i32</span>),   <span style="color:#75715e">// three i32 values
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div></li>
 <li>
 <p>枚举也可以通过 <code>impl</code> 实现方法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> Message {
-  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">call</span>(<span style="color:#f92672">&amp;</span>self) {
-	  <span style="color:#66d9ef">match</span> self {
-		<span style="color:#75715e">// ...
-</span><span style="color:#75715e"></span>	  }
-  }
-}
-
-<span style="color:#66d9ef">let</span> m <span style="color:#f92672">=</span> Message::Write(String::from(<span style="color:#e6db74">&#34;hello&#34;</span>));
-m.call();
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Message {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">call</span>(<span style="color:#f92672">&amp;</span>self) {
+</span></span><span style="display:flex;"><span>	  <span style="color:#66d9ef">match</span> self {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	  }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> m <span style="color:#f92672">=</span> Message::Write(String::from(<span style="color:#e6db74">&#34;hello&#34;</span>));
+</span></span><span style="display:flex;"><span>m.call();
+</span></span></code></pre></div></li>
 <li>
 <p><code>Option</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">enum</span> Option<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
-  Some(T),
-  None,
-}
-</code></pre></div><p>由于 <code>Option</code> 很重要，所以已经在 <code>prelude</code> 包含，也就是说无需使用 <code>Option::</code> 前缀就可以直接使用 <code>Some</code> 和 <code>None</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> some_number <span style="color:#f92672">=</span> Some(<span style="color:#ae81ff">5</span>);
-<span style="color:#66d9ef">let</span> some_number: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> Some(<span style="color:#ae81ff">5</span>);
-<span style="color:#66d9ef">let</span> some_number: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span>::Some(<span style="color:#ae81ff">5</span>);
-
-<span style="color:#66d9ef">let</span> some_number: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> None;
-<span style="color:#66d9ef">let</span> some_number: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> Option::None;
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> Option<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  Some(T),
+</span></span><span style="display:flex;"><span>  None,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>由于 <code>Option</code> 很重要，所以已经在 <code>prelude</code> 包含，也就是说无需使用 <code>Option::</code> 前缀就可以直接使用 <code>Some</code> 和 <code>None</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> some_number <span style="color:#f92672">=</span> Some(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> some_number: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> Some(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> some_number: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span>::Some(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> some_number: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> None;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> some_number: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> Option::None;
+</span></span></code></pre></div></li>
 </ul>
 
       </div></div>

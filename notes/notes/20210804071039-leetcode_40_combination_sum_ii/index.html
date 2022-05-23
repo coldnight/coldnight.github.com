@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum-ii/  LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。对结果进行排序然后通过 set 对结果进行去重：
-class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum2(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { sort(candidates.begin(), candidates.end()); backtracking(candidates, 0, 0, target); vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; for (auto t : res) { r.push_back(t); } return r; } private: set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; map&amp;lt;int, bool&amp;gt; visited; void backtracking(vector&amp;lt;int&amp;gt;&amp;amp; condidates, int start, int n, int target) { if (n == target) { res.insert(track); return; } if (n &amp;gt; target) { return; } int c = 0; int sz = condidates." />
+class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum2(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { 	sort(candidates.begin(), candidates.end()); 	backtracking(candidates, 0, 0, target); 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; 	for (auto t : res) { 	r.push_back(t); 	} 	return r; 	} private: 	set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track; 	map&amp;lt;int, bool&amp;gt; visited;  	void backtracking(vector&amp;lt;int&amp;gt;&amp;amp; condidates, int start, int n, int target) { 	if (n == target) { 	res." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210804071039-leetcode_40_combination_sum_ii/" />
@@ -36,7 +36,7 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combina
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 40. Combination Sum II">
 <meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum-ii/  LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。对结果进行排序然后通过 set 对结果进行去重：
-class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum2(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { sort(candidates.begin(), candidates.end()); backtracking(candidates, 0, 0, target); vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; for (auto t : res) { r.push_back(t); } return r; } private: set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; map&amp;lt;int, bool&amp;gt; visited; void backtracking(vector&amp;lt;int&amp;gt;&amp;amp; condidates, int start, int n, int target) { if (n == target) { res.insert(track); return; } if (n &amp;gt; target) { return; } int c = 0; int sz = condidates." />
+class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum2(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { 	sort(candidates.begin(), candidates.end()); 	backtracking(candidates, 0, 0, target); 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; 	for (auto t : res) { 	r.push_back(t); 	} 	return r; 	} private: 	set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track; 	map&amp;lt;int, bool&amp;gt; visited;  	void backtracking(vector&amp;lt;int&amp;gt;&amp;amp; condidates, int start, int n, int target) { 	if (n == target) { 	res." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210804071039-leetcode_40_combination_sum_ii/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -170,86 +170,86 @@ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combina
 <li>source: <a href="https://leetcode.com/problems/combination-sum-ii/">https://leetcode.com/problems/combination-sum-ii/</a></li>
 </ul>
 <p><a href="/notes/notes/20210804064757-leetcode_39_combination_sum/">LeetCode: 39. Combination Sum</a> 的进阶。元素不在唯一且每一个元素只能出现一次。对结果进行排序然后通过 set 对结果进行去重：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum2(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
-		sort(candidates.begin(), candidates.end());
-		backtracking(candidates, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, target);
-		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> r;
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> t : res) {
-			r.push_back(t);
-		}
-		<span style="color:#66d9ef">return</span>  r;
-	}
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-	set<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
-	map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> visited;
-
-	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> condidates, <span style="color:#66d9ef">int</span> start, <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> target) {
-		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> target) {
-			res.insert(track);
-			<span style="color:#66d9ef">return</span>;
-		}
-		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;</span> target) {
-			<span style="color:#66d9ef">return</span>;
-		}
-
-		<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">int</span> sz <span style="color:#f92672">=</span> condidates.size();
-
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> start; i <span style="color:#f92672">&lt;</span> sz; i<span style="color:#f92672">++</span>) {
-			c <span style="color:#f92672">=</span> condidates[i];
-			track.push_back(c);
-			backtracking(condidates, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n <span style="color:#f92672">+</span> c, target);
-			track.pop_back();
-		}
-	}
-};
-</code></pre></div><p>以下测试用例无法通过：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum2(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		sort(candidates.begin(), candidates.end());
+</span></span><span style="display:flex;"><span>		backtracking(candidates, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, target);
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> r;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> t : res) {
+</span></span><span style="display:flex;"><span>			r.push_back(t);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>  r;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	set<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
+</span></span><span style="display:flex;"><span>	map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> visited;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> condidates, <span style="color:#66d9ef">int</span> start, <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> target) {
+</span></span><span style="display:flex;"><span>			res.insert(track);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;</span> target) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> sz <span style="color:#f92672">=</span> condidates.size();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> start; i <span style="color:#f92672">&lt;</span> sz; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			c <span style="color:#f92672">=</span> condidates[i];
+</span></span><span style="display:flex;"><span>			track.push_back(c);
+</span></span><span style="display:flex;"><span>			backtracking(condidates, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n <span style="color:#f92672">+</span> c, target);
+</span></span><span style="display:flex;"><span>			track.pop_back();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>以下测试用例无法通过：</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 30
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum2(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
-		sort(candidates.begin(), candidates.end());
-		backtracking(candidates, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, target);
-		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> r;
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> t : res) {
-			r.push_back(t);
-		}
-		<span style="color:#66d9ef">return</span>  r;
-	}
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-	set<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
-	map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> visited;
-
-	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> condidates, <span style="color:#66d9ef">int</span> start, <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> target) {
-		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;=</span> target) {
-			<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> target) {
-				res.insert(track);
-			}
-			<span style="color:#66d9ef">return</span>;
-		}
-
-		<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">int</span> sz <span style="color:#f92672">=</span> condidates.size();
-
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> start; i <span style="color:#f92672">&lt;</span> sz; i<span style="color:#f92672">++</span>) {
-			<span style="color:#75715e">// 避免全是一样的陷入无限的循环。
-</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;</span> start <span style="color:#f92672">&amp;&amp;</span> condidates[i] <span style="color:#f92672">==</span> condidates[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
-				<span style="color:#66d9ef">continue</span>;
-			}
-			c <span style="color:#f92672">=</span> condidates[i];
-			track.push_back(c);
-			backtracking(condidates, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n <span style="color:#f92672">+</span> c, target);
-			track.pop_back();
-		}
-		cout <span style="color:#f92672">&lt;&lt;</span> start <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">&lt;&lt;</span> sz <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span>;
-	}
-};
-</code></pre></div>
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum2(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		sort(candidates.begin(), candidates.end());
+</span></span><span style="display:flex;"><span>		backtracking(candidates, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, target);
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> r;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> t : res) {
+</span></span><span style="display:flex;"><span>			r.push_back(t);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>  r;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	set<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
+</span></span><span style="display:flex;"><span>	map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> visited;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> condidates, <span style="color:#66d9ef">int</span> start, <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;=</span> target) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> target) {
+</span></span><span style="display:flex;"><span>				res.insert(track);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> sz <span style="color:#f92672">=</span> condidates.size();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> start; i <span style="color:#f92672">&lt;</span> sz; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 避免全是一样的陷入无限的循环。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;</span> start <span style="color:#f92672">&amp;&amp;</span> condidates[i] <span style="color:#f92672">==</span> condidates[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			c <span style="color:#f92672">=</span> condidates[i];
+</span></span><span style="display:flex;"><span>			track.push_back(c);
+</span></span><span style="display:flex;"><span>			backtracking(condidates, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n <span style="color:#f92672">+</span> c, target);
+</span></span><span style="display:flex;"><span>			track.pop_back();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> start <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">&lt;&lt;</span> sz <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

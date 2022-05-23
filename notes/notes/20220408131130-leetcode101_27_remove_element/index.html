@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content=" tags: LeetCode101,In-place  Travel array in reverse order, and record how many times need to swap, which is how many elements not equal val.
-class Solution { public: int removeElement(vector&amp;lt;int&amp;gt;&amp;amp; nums, int val) { int k = 0; for (int j = nums.size() - 1; j &amp;gt;= 0; --j) { if (nums[j] == val) { for (int i = 0; i &amp;lt; k; &#43;&#43;i) { swap(nums[i &#43; j], nums[j &#43; i &#43; 1]); } } else { k&#43;&#43;; } } return k; } }; " />
+class Solution { public: 	int removeElement(vector&amp;lt;int&amp;gt;&amp;amp; nums, int val) { 	int k = 0; 	for (int j = nums.size() - 1; j &amp;gt;= 0; --j) { 	if (nums[j] == val) { 	for (int i = 0; i &amp;lt; k; &#43;&#43;i) { 	swap(nums[i &#43; j], nums[j &#43; i &#43; 1]); 	} 	} else { 	k&#43;&#43;; 	} 	} 	return k; 	} }; " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220408131130-leetcode101_27_remove_element/" />
@@ -36,7 +36,7 @@ class Solution { public: int removeElement(vector&amp;lt;int&amp;gt;&amp;amp; nu
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 27. Remove Element">
 <meta property="og:description" content=" tags: LeetCode101,In-place  Travel array in reverse order, and record how many times need to swap, which is how many elements not equal val.
-class Solution { public: int removeElement(vector&amp;lt;int&amp;gt;&amp;amp; nums, int val) { int k = 0; for (int j = nums.size() - 1; j &amp;gt;= 0; --j) { if (nums[j] == val) { for (int i = 0; i &amp;lt; k; &#43;&#43;i) { swap(nums[i &#43; j], nums[j &#43; i &#43; 1]); } } else { k&#43;&#43;; } } return k; } }; " />
+class Solution { public: 	int removeElement(vector&amp;lt;int&amp;gt;&amp;amp; nums, int val) { 	int k = 0; 	for (int j = nums.size() - 1; j &amp;gt;= 0; --j) { 	if (nums[j] == val) { 	for (int i = 0; i &amp;lt; k; &#43;&#43;i) { 	swap(nums[i &#43; j], nums[j &#43; i &#43; 1]); 	} 	} else { 	k&#43;&#43;; 	} 	} 	return k; 	} }; " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220408131130-leetcode101_27_remove_element/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -170,23 +170,23 @@ class Solution { public: int removeElement(vector&amp;lt;int&amp;gt;&amp;amp; nu
 </ul>
 <p>Travel array in reverse order, and record how many times need to swap,
 which is how many elements not equal <em>val</em>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">int</span> removeElement(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> val) {
-		<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>j) {
-			<span style="color:#66d9ef">if</span> (nums[j] <span style="color:#f92672">==</span> val) {
-				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> k; <span style="color:#f92672">++</span>i) {
-					swap(nums[i <span style="color:#f92672">+</span> j], nums[j <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]);
-				}
-			} <span style="color:#66d9ef">else</span> {
-				k<span style="color:#f92672">++</span>;
-			}
-		}
-		<span style="color:#66d9ef">return</span> k;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> removeElement(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> val) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>j) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (nums[j] <span style="color:#f92672">==</span> val) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> k; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>					swap(nums[i <span style="color:#f92672">+</span> j], nums[j <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				k<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> k;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

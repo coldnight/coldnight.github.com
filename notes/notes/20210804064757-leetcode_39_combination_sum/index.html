@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum/  class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { backtracking(candidates, 0, target); return res; } private: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; void backtracking(vector&amp;lt;int&amp;gt; &amp;amp; candidates, int n, int target) { if (n == target) { res.push_back(track); return; } // this is new 	if (n &amp;gt; target) { return; } for (auto c : candidates) { track.push_back(c); backtracking(candidates, n &#43; c, target); track.pop_back(); } } }; 问题：会有不同顺序但是元素相同的数组，如何快速高效的进行过滤？" />
+<meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum/  class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { 	backtracking(candidates, 0, target); 	return res; 	}  private: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track;  	void backtracking(vector&amp;lt;int&amp;gt; &amp;amp; candidates, int n, int target) { 	if (n == target) { 	res.push_back(track); 	return; 	} 	// this is new 	if (n &amp;gt; target) { 	return; 	} 	for (auto c : candidates) { 	track." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210804064757-leetcode_39_combination_sum/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 39. Combination Sum">
-<meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum/  class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { backtracking(candidates, 0, target); return res; } private: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; void backtracking(vector&amp;lt;int&amp;gt; &amp;amp; candidates, int n, int target) { if (n == target) { res.push_back(track); return; } // this is new 	if (n &amp;gt; target) { return; } for (auto c : candidates) { track.push_back(c); backtracking(candidates, n &#43; c, target); track.pop_back(); } } }; 问题：会有不同顺序但是元素相同的数组，如何快速高效的进行过滤？" />
+<meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum/  class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { 	backtracking(candidates, 0, target); 	return res; 	}  private: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track;  	void backtracking(vector&amp;lt;int&amp;gt; &amp;amp; candidates, int n, int target) { 	if (n == target) { 	res.push_back(track); 	return; 	} 	// this is new 	if (n &amp;gt; target) { 	return; 	} 	for (auto c : candidates) { 	track." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210804064757-leetcode_39_combination_sum/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -168,72 +168,72 @@
 <li>source: <a href="https://leetcode.com/problems/combination-sum/">https://leetcode.com/problems/combination-sum/</a></li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
-		backtracking(candidates, <span style="color:#ae81ff">0</span>, target);
-		<span style="color:#66d9ef">return</span> res;
-	}
-
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
-
-	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> candidates, <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> target) {
-		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> target) {
-			res.push_back(track);
-			<span style="color:#66d9ef">return</span>;
-		}
-		<span style="color:#75715e">// this is new
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;</span> target) {
-			<span style="color:#66d9ef">return</span>;
-		}
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> c : candidates) {
-			track.push_back(c);
-			backtracking(candidates, n <span style="color:#f92672">+</span> c, target);
-			track.pop_back();
-		}
-	}
-};
-</code></pre></div><p>问题：会有不同顺序但是元素相同的数组，如何快速高效的进行过滤？</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		backtracking(candidates, <span style="color:#ae81ff">0</span>, target);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> candidates, <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> target) {
+</span></span><span style="display:flex;"><span>			res.push_back(track);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// this is new
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;</span> target) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> c : candidates) {
+</span></span><span style="display:flex;"><span>			track.push_back(c);
+</span></span><span style="display:flex;"><span>			backtracking(candidates, n <span style="color:#f92672">+</span> c, target);
+</span></span><span style="display:flex;"><span>			track.pop_back();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>问题：会有不同顺序但是元素相同的数组，如何快速高效的进行过滤？</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">- [[2,2,3],[2,3,2],[3,2,2],[7]]
 + [[2,2,3],[7]]
 </code></pre><p>一个比较 tricky 的技巧，就是判断最终结果是不是升序的，不是就放弃，居然可以通过：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
-		backtracking(candidates, <span style="color:#ae81ff">0</span>, target);
-		<span style="color:#66d9ef">return</span> res;
-	}
-
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
-
-	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> candidates, <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> target) {
-		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> target) {
-			<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> t : track) {
-				<span style="color:#66d9ef">if</span> (t <span style="color:#f92672">&lt;</span> p) {
-					<span style="color:#66d9ef">return</span>;
-				}
-				p <span style="color:#f92672">=</span> t;
-			}
-			res.push_back(track);
-			<span style="color:#66d9ef">return</span>;
-		}
-		<span style="color:#75715e">// this is new
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;</span> target) {
-			<span style="color:#66d9ef">return</span>;
-		}
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> c : candidates) {
-			track.push_back(c);
-			backtracking(candidates, n <span style="color:#f92672">+</span> c, target);
-			track.pop_back();
-		}
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		backtracking(candidates, <span style="color:#ae81ff">0</span>, target);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtracking</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> candidates, <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> target) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> t : track) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> (t <span style="color:#f92672">&lt;</span> p) {
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				p <span style="color:#f92672">=</span> t;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			res.push_back(track);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// this is new
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;</span> target) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> c : candidates) {
+</span></span><span style="display:flex;"><span>			track.push_back(c);
+</span></span><span style="display:flex;"><span>			backtracking(candidates, n <span style="color:#f92672">+</span> c, target);
+</span></span><span style="display:flex;"><span>			track.pop_back();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

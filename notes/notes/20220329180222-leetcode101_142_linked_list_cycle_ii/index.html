@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Cycle detection,Fast &amp;amp; Slow Pointers,LeetCode101  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) {} * }; */ class Solution { public: ListNode *detectCycle(ListNode *head) { if (head == nullptr || head-&amp;gt;next == nullptr) { return nullptr; } // tortoise move 1 step 	auto slow = head-&amp;gt;next; // hare move 2 steps 	auto fast = head-&amp;gt;next-&amp;gt;next; while (slow !" />
+<meta name="description" content="tags: Cycle detection,Fast &amp;amp; Slow Pointers,LeetCode101  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) {} * }; */ class Solution { public: 	ListNode *detectCycle(ListNode *head) { 	if (head == nullptr || head-&amp;gt;next == nullptr) { 	return nullptr; 	}  	// tortoise move 1 step 	auto slow = head-&amp;gt;next;  	// hare move 2 steps 	auto fast = head-&amp;gt;next-&amp;gt;next;  	while (slow !" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220329180222-leetcode101_142_linked_list_cycle_ii/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 142. Linked List Cycle II">
-<meta property="og:description" content="tags: Cycle detection,Fast &amp;amp; Slow Pointers,LeetCode101  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) {} * }; */ class Solution { public: ListNode *detectCycle(ListNode *head) { if (head == nullptr || head-&amp;gt;next == nullptr) { return nullptr; } // tortoise move 1 step 	auto slow = head-&amp;gt;next; // hare move 2 steps 	auto fast = head-&amp;gt;next-&amp;gt;next; while (slow !" />
+<meta property="og:description" content="tags: Cycle detection,Fast &amp;amp; Slow Pointers,LeetCode101  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) {} * }; */ class Solution { public: 	ListNode *detectCycle(ListNode *head) { 	if (head == nullptr || head-&amp;gt;next == nullptr) { 	return nullptr; 	}  	// tortoise move 1 step 	auto slow = head-&amp;gt;next;  	// hare move 2 steps 	auto fast = head-&amp;gt;next-&amp;gt;next;  	while (slow !" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220329180222-leetcode101_142_linked_list_cycle_ii/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -167,43 +167,43 @@
 <li>tags: <a href="/notes/notes/20220329171237-cycle_detection/">Cycle detection</a>,<a href="/notes/notes/20220329171337-fast_slow_pointers/">Fast &amp; Slow Pointers</a>,<a href="/notes/notes/20220311065137-leetcode101/">LeetCode101</a></li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
-</span><span style="color:#75715e"> * Definition for singly-linked list.
-</span><span style="color:#75715e"> * struct ListNode {
-</span><span style="color:#75715e"> *     int val;
-</span><span style="color:#75715e"> *     ListNode *next;
-</span><span style="color:#75715e"> *     ListNode(int x) : val(x), next(NULL) {}
-</span><span style="color:#75715e"> * };
-</span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	ListNode <span style="color:#f92672">*</span>detectCycle(ListNode <span style="color:#f92672">*</span>head) {
-		<span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
-			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
-		}
-
-		<span style="color:#75715e">// tortoise move 1 step
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">auto</span> slow <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
-
-		<span style="color:#75715e">// hare move 2 steps
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">auto</span> fast <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
-
-		<span style="color:#66d9ef">while</span> (slow <span style="color:#f92672">!=</span> fast) {
-			<span style="color:#66d9ef">if</span> (slow <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> fast <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> fast<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
-				<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
-			}
-			slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
-			fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
-		}
-		slow <span style="color:#f92672">=</span> head;
-		<span style="color:#66d9ef">while</span> (slow <span style="color:#f92672">!=</span> fast) {
-			slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
-			fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next;
-		}
-		<span style="color:#66d9ef">return</span> slow;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Definition for singly-linked list.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * struct ListNode {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     int val;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode *next;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode(int x) : val(x), next(NULL) {}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * };
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	ListNode <span style="color:#f92672">*</span>detectCycle(ListNode <span style="color:#f92672">*</span>head) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// tortoise move 1 step
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">auto</span> slow <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// hare move 2 steps
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">auto</span> fast <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (slow <span style="color:#f92672">!=</span> fast) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (slow <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> fast <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> fast<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>			fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		slow <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (slow <span style="color:#f92672">!=</span> fast) {
+</span></span><span style="display:flex;"><span>			slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>			fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> slow;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

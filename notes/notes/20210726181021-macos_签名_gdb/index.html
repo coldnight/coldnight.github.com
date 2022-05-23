@@ -9,7 +9,7 @@
 <meta name="description" content="tags: GDB,macOS  macOS 下通过 GDB 调试程序会出现：
 Unable to find Mach task port for process-id 1375: (os/kern) failure (0x5). (please check gdb is codesigned - see taskgated(8))   需要通过 Keychain Access Application 创建证书： code-sign-cert
   需要对 gdb 进行签名，首先创建 gdb-entitlement.xml ：
-&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; &amp;lt;key&amp;gt;com.apple.security.cs.debugger&amp;lt;/key&amp;gt; &amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt;   运行签名
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; 	&amp;lt;key&amp;gt;com.apple.security.cs.debugger&amp;lt;/key&amp;gt; 	&amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt;   运行签名
 codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   See also: PermissionsDarwin。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -41,7 +41,7 @@ codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   Se
 <meta property="og:description" content="tags: GDB,macOS  macOS 下通过 GDB 调试程序会出现：
 Unable to find Mach task port for process-id 1375: (os/kern) failure (0x5). (please check gdb is codesigned - see taskgated(8))   需要通过 Keychain Access Application 创建证书： code-sign-cert
   需要对 gdb 进行签名，首先创建 gdb-entitlement.xml ：
-&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; &amp;lt;key&amp;gt;com.apple.security.cs.debugger&amp;lt;/key&amp;gt; &amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt;   运行签名
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; 	&amp;lt;key&amp;gt;com.apple.security.cs.debugger&amp;lt;/key&amp;gt; 	&amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt;   运行签名
 codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   See also: PermissionsDarwin。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210726181021-macos_%E7%AD%BE%E5%90%8D_gdb/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
@@ -183,18 +183,18 @@ codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   Se
 </li>
 <li>
 <p>需要对 gdb 进行签名，首先创建 <code>gdb-entitlement.xml</code> ：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
-<span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
-<span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
-<span style="color:#f92672">&lt;dict&gt;</span>
-	<span style="color:#f92672">&lt;key&gt;</span>com.apple.security.cs.debugger<span style="color:#f92672">&lt;/key&gt;</span>
-	<span style="color:#f92672">&lt;true/&gt;</span>
-<span style="color:#f92672">&lt;/dict&gt;</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;key&gt;</span>com.apple.security.cs.debugger<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;true/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span></code></pre></div></li>
 <li>
 <p>运行签名</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">codesign --entitlements gdb-entitlement.xml -fs code-sign-cert <span style="color:#66d9ef">$(</span>which gdb<span style="color:#66d9ef">)</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>codesign --entitlements gdb-entitlement.xml -fs code-sign-cert <span style="color:#66d9ef">$(</span>which gdb<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div></li>
 </ol>
 <p>See also: <a href="https://sourceware.org/gdb/wiki/PermissionsDarwin">PermissionsDarwin</a>。</p>
 

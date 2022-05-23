@@ -181,31 +181,31 @@ returns an iterator to the first element not less than the given key</li>
 returns an iterator to the first element greater than the given key</li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;set&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;assert.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
-	set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> hset;
-
-	hset.insert(<span style="color:#ae81ff">5</span>);
-	hset.insert(<span style="color:#ae81ff">8</span>);
-	hset.insert(<span style="color:#ae81ff">13</span>);
-
-	{
-		<span style="color:#75715e">// Lower bound equal or greater than
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> hset.lower_bound(<span style="color:#ae81ff">5</span>);
-		assert(<span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>); <span style="color:#75715e">// 5&#39;s lower bound is 5 itself in the set
-</span><span style="color:#75715e"></span>	}
-	{
-		<span style="color:#75715e">// Upper bound greater than 5
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> hset.upper_bound(<span style="color:#ae81ff">5</span>);
-		assert(<span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> <span style="color:#ae81ff">8</span>); <span style="color:#75715e">// 5&#39;s upper bound is the first value greater than itself
-</span><span style="color:#75715e"></span>	}
-}
-</code></pre></div><h2 id="unordered-set">unordered_set<a href="#unordered-set" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;set&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;assert.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>	set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> hset;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	hset.insert(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>	hset.insert(<span style="color:#ae81ff">8</span>);
+</span></span><span style="display:flex;"><span>	hset.insert(<span style="color:#ae81ff">13</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Lower bound equal or greater than
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> hset.lower_bound(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>		assert(<span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>); <span style="color:#75715e">// 5&#39;s lower bound is 5 itself in the set
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Upper bound greater than 5
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> hset.upper_bound(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>		assert(<span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> <span style="color:#ae81ff">8</span>); <span style="color:#75715e">// 5&#39;s upper bound is the first value greater than itself
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="unordered-set">unordered_set<a href="#unordered-set" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Set that implemented by <a href="/notes/notes/20220311221617-hash_table/">Hash Table</a>.</p>
 
       </div></div>

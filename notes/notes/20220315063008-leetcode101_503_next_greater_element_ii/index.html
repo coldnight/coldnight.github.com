@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Monotonic Stack,LeetCode101 related: LeetCode101: 496. Next Greater Element I  Mono-descreasing stack / normal order loop twice  Loop twice to solve circular interger array Mono-descreasing stack to store index, avoid HashMap in Next Greater Element I, as there is a cicular array.  class Solution { public: vector&amp;lt;int&amp;gt; nextGreaterElements(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;int&amp;gt; res(nums.size(), -1); stack&amp;lt;int&amp;gt; st; for (int j = 0, i = 0; j &amp;lt; nums.size() * 2; &#43;&#43;j) { i = j &amp;gt;= nums." />
+<meta name="description" content="tags: Monotonic Stack,LeetCode101 related: LeetCode101: 496. Next Greater Element I  Mono-descreasing stack / normal order loop twice  Loop twice to solve circular interger array Mono-descreasing stack to store index, avoid HashMap in Next Greater Element I, as there is a cicular array.  class Solution { public: 	vector&amp;lt;int&amp;gt; nextGreaterElements(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	vector&amp;lt;int&amp;gt; res(nums.size(), -1); 	stack&amp;lt;int&amp;gt; st;  	for (int j = 0, i = 0; j &amp;lt; nums." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220315063008-leetcode101_503_next_greater_element_ii/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 503. Next Greater Element II">
-<meta property="og:description" content="tags: Monotonic Stack,LeetCode101 related: LeetCode101: 496. Next Greater Element I  Mono-descreasing stack / normal order loop twice  Loop twice to solve circular interger array Mono-descreasing stack to store index, avoid HashMap in Next Greater Element I, as there is a cicular array.  class Solution { public: vector&amp;lt;int&amp;gt; nextGreaterElements(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;int&amp;gt; res(nums.size(), -1); stack&amp;lt;int&amp;gt; st; for (int j = 0, i = 0; j &amp;lt; nums.size() * 2; &#43;&#43;j) { i = j &amp;gt;= nums." />
+<meta property="og:description" content="tags: Monotonic Stack,LeetCode101 related: LeetCode101: 496. Next Greater Element I  Mono-descreasing stack / normal order loop twice  Loop twice to solve circular interger array Mono-descreasing stack to store index, avoid HashMap in Next Greater Element I, as there is a cicular array.  class Solution { public: 	vector&amp;lt;int&amp;gt; nextGreaterElements(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	vector&amp;lt;int&amp;gt; res(nums.size(), -1); 	stack&amp;lt;int&amp;gt; st;  	for (int j = 0, i = 0; j &amp;lt; nums." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220315063008-leetcode101_503_next_greater_element_ii/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -173,24 +173,24 @@
 <li>Mono-descreasing stack to store index, avoid HashMap in <strong>Next Greater Element I</strong>, as there is a <strong>cicular array</strong>.</li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nextGreaterElements(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(nums.size(), <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
-		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st;
-
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> nums.size() <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>; <span style="color:#f92672">++</span>j) {
-			i <span style="color:#f92672">=</span> j <span style="color:#f92672">&gt;=</span> nums.size() <span style="color:#f92672">?</span> j <span style="color:#f92672">-</span> nums.size() <span style="color:#f92672">:</span> j;
-			<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty() <span style="color:#f92672">&amp;&amp;</span> nums[st.top()] <span style="color:#f92672">&lt;</span> nums[i]) {
-				res[st.top()] <span style="color:#f92672">=</span> nums[i];
-				st.pop();
-			}
-			st.push(i);
-		}
-		<span style="color:#66d9ef">return</span> res;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nextGreaterElements(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(nums.size(), <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> nums.size() <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>			i <span style="color:#f92672">=</span> j <span style="color:#f92672">&gt;=</span> nums.size() <span style="color:#f92672">?</span> j <span style="color:#f92672">-</span> nums.size() <span style="color:#f92672">:</span> j;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty() <span style="color:#f92672">&amp;&amp;</span> nums[st.top()] <span style="color:#f92672">&lt;</span> nums[i]) {
+</span></span><span style="display:flex;"><span>				res[st.top()] <span style="color:#f92672">=</span> nums[i];
+</span></span><span style="display:flex;"><span>				st.pop();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			st.push(i);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

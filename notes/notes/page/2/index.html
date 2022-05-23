@@ -923,7 +923,7 @@ Multi-queue hashing algorithms  Use a hash from packet to decide the RX queue nu
           
           tags: Network,UDP,High Performance,iptables,ethtool,netstat,NUMA source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.  Keys:
   Make sure traffic won&rsquo;t be interfered with by the iptables
-iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK #+end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]] 2. The first bottleneck ​ + All packets are received by a signal RX queue, checked out with =ethtool -S=.
+	iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT 	iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK  #+end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]  2. The first bottleneck ​ + All packets are received by a signal RX queue, checked out with =ethtool -S=.
           
           
         </div>
@@ -1080,7 +1080,7 @@ iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT iptables -t raw -I PREROUTING 
         <div class="post-content">
           
           
-          tags: Hash Table,Heap (data structure),LeetCode101,Priority Queue,C++ Lambda  class Solution { public: vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) { vector&lt;int&gt; res; unordered_map&lt;int, int&gt; freq; // Note that: we need caputre a map by reference, 	// otherwise we can&#39;t use the operator[]. 	// See also: https://stackoverflow.com/a/6281071 	auto comp_by_map = [&amp;freq](const int&amp; a, const int&amp; b) { return freq[a] &lt; freq[b]; }; // Note that: here we need pass our lambda /comp_by_map/ to the 	// constructor of std::priority_queue.
+          tags: Hash Table,Heap (data structure),LeetCode101,Priority Queue,C++ Lambda  class Solution { public: 	vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) { 	vector&lt;int&gt; res; 	unordered_map&lt;int, int&gt; freq;  	// Note that: we need caputre a map by reference, 	// otherwise we can&#39;t use the operator[]. 	// See also: https://stackoverflow.com/a/6281071 	auto comp_by_map = [&amp;freq](const int&amp; a, const int&amp; b) { 	return freq[a] &lt; freq[b]; 	};  	// Note that: here we need pass our lambda /comp_by_map/ to the 	// constructor of std::priority_queue.
           
           
         </div>
@@ -1146,7 +1146,7 @@ iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT iptables -t raw -I PREROUTING 
           
           tags: Two Pointers,Three Pointers,LeetCode101,Sorting  Based on:
  LeetCode101: 167. Two Sum II - Input Array Is Sorted LeetCode101: 15. 3Sum  We create a new loop:
-class Solution { public: vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&gt;&amp; nums, int target) { sort(nums.begin(), nums.end()); vector&lt;vector&lt;int&gt;&gt; res; int T, S, r, l; for (int i = 0; i &lt; nums.size(); ++i) { if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) { continue; } for (int j = i + 1; j &lt; nums.
+class Solution { public: 	vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&gt;&amp; nums, int target) { 	sort(nums.begin(), nums.end()); 	vector&lt;vector&lt;int&gt;&gt; res; 	int T, S, r, l; 	for (int i = 0; i &lt; nums.size(); ++i) { 	if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) { 	continue; 	} 	for (int j = i + 1; j &lt; nums.
           
           
         </div>
@@ -1178,6 +1178,9 @@ class Solution { public: vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&g
 
         <div class="post-content">
           
+          
+          tags: Priority Queue,LeetCode101  Using a min heap to keep k elements, top is the Kth largest element.
+class KthLargest { private: 	// min heap 	priority_queue&lt;int, vector&lt;int&gt;, std::greater&lt;int&gt;&gt; pq; 	int K; public: 	KthLargest(int k, vector&lt;int&gt;&amp; nums) { 	K = k; 	for (auto n: nums) { 	add(n); 	} 	}  	int add(int val) { 	pq.push(val); 	while (pq.size() &gt; K) { 	pq.
           
           
         </div>
@@ -1304,7 +1307,7 @@ class Solution { public: vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&g
           
           
           tags: LeetCode101,Sorting,Two Pointers,Three Pointers  Key ideas:
- Sort the nums first. Then, we travel the nums, pick current element as nums[i], and apply LeetCode101: 167. Two Sum II - Input Array Is Sorted to the remains. We skip the same numbers to avoid duplicate.  class Solution { public: vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) { sort(nums.begin(), nums.end()); int l, r, sum, T; vector&lt;vector&lt;int&gt;&gt; res; for (int i = 0; i &lt; nums.
+ Sort the nums first. Then, we travel the nums, pick current element as nums[i], and apply LeetCode101: 167. Two Sum II - Input Array Is Sorted to the remains. We skip the same numbers to avoid duplicate.  class Solution { public: 	vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) { 	sort(nums.begin(), nums.end()); 	int l, r, sum, T; 	vector&lt;vector&lt;int&gt;&gt; res; 	for (int i = 0; i &lt; nums.
           
           
         </div>
@@ -1370,7 +1373,7 @@ class Solution { public: vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&g
           
           tags: String,Two Pointers,LeetCode101  Two pointers move inwards, when we meet two different characters:
  Remove left character to see if the remains string still satisfied a valid palindrome. Remove right character to see if the remains string still satisfied a valid palindrome.  Returns true if either one above two is true.
-class Solution { public: bool validPalindrome(string s) { for (int i = 0, j = s.size() -1; i &lt; j; i++,j--) { if (s[i] !
+class Solution { public: 	bool validPalindrome(string s) { 	for (int i = 0, j = s.
           
           
         </div>
@@ -1406,7 +1409,7 @@ class Solution { public: bool validPalindrome(string s) { for (int i = 0, j = s.
           tags: In-place WikiPedia: https://en.wikipedia.org/wiki/In-place%5Falgorithm  Let see two examples before we go further:
   As above we can see, to reverse a array in-place, we just need swap each two elements in the array from both side to middle.
 The pseudo code from WikiPedia:
-function reverse_in_place(a[0..n-1]) for i from 0 to floor((n-2)/2) tmp := a[i] a[i] := a[n − 1 − i] a[n − 1 − i] := tmp The loop travels the array to the middle and swap each other in the list, two points we must be noticed:
+function reverse_in_place(a[0..n-1]) 	for i from 0 to floor((n-2)/2) 	tmp := a[i] 	a[i] := a[n − 1 − i] 	a[n − 1 − i] := tmp The loop travels the array to the middle and swap each other in the list, two points we must be noticed:
           
           
         </div>
@@ -1502,7 +1505,7 @@ function reverse_in_place(a[0..n-1]) for i from 0 to floor((n-2)/2) tmp := a[i] 
           
           
           tags: Binary Search,LeetCode101  There is three corner cases must be handled if we don&rsquo;t find target in nums:
- Return r + 1 if target is greater than right. Or return mid + 1 if target is greater than mid. Otherwise return mid.  class Solution { public: int searchInsert(vector&lt;int&gt;&amp; nums, int target) { int l = 0, r = nums.size() - 1; int mid = r / 2; while (l !
+ Return r + 1 if target is greater than right. Or return mid + 1 if target is greater than mid. Otherwise return mid.  class Solution { public: 	int searchInsert(vector&lt;int&gt;&amp; nums, int target) { 	int l = 0, r = nums.size() - 1; 	int mid = r / 2; 	while (l !
           
           
         </div>
@@ -1599,7 +1602,7 @@ function reverse_in_place(a[0..n-1]) for i from 0 to floor((n-2)/2) tmp := a[i] 
           
           tags: Bit Manipulation,Bitwise Operator: XOR  According to bitwise operator XOR:
  x ^ x = 0 y ^ 0 = y  We apply the XOR operator to all the nums, all the same numbers will apply x ^ x = 0, and then y ^ 0 = y will result the single number.
-class Solution { public: int singleNumber(vector&lt;int&gt;&amp; nums) { int xorN = 0; for (auto iter = nums.
+class Solution { public: 	int singleNumber(vector&lt;int&gt;&amp; nums) { 	int xorN = 0; 	for (auto iter = nums.
           
           
         </div>
@@ -1730,7 +1733,7 @@ class Solution { public: int singleNumber(vector&lt;int&gt;&amp; nums) { int xor
         <div class="post-content">
           
           
-          tags: Cycle detection,Fast &amp; Slow Pointers,LeetCode101  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) {} * }; */ class Solution { public: ListNode *detectCycle(ListNode *head) { if (head == nullptr || head-&gt;next == nullptr) { return nullptr; } // tortoise move 1 step 	auto slow = head-&gt;next; // hare move 2 steps 	auto fast = head-&gt;next-&gt;next; while (slow !
+          tags: Cycle detection,Fast &amp; Slow Pointers,LeetCode101  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) {} * }; */ class Solution { public: 	ListNode *detectCycle(ListNode *head) { 	if (head == nullptr || head-&gt;next == nullptr) { 	return nullptr; 	}  	// tortoise move 1 step 	auto slow = head-&gt;next;  	// hare move 2 steps 	auto fast = head-&gt;next-&gt;next;  	while (slow !
           
           
         </div>
@@ -1956,6 +1959,8 @@ class Solution { public: int singleNumber(vector&lt;int&gt;&amp; nums) { int xor
         <div class="post-content">
           
           
+          tags: Priority Queue,LeetCode101  Max heap priority queue class Solution { public: 	int findKthLargest(vector&lt;int&gt;&amp; nums, int k) { 	// max heap 	priority_queue&lt;int&gt; pq; 	for (auto iter = nums.begin(); iter != nums.end(); ++iter) { 	pq.push(*iter); 	} 	// The Kth largest element should let k &gt; 1 not k &gt; 0 	for (; k &gt; 1; --k) { 	pq.pop(); 	} 	return pq.
+          
           
         </div>
 
@@ -1988,7 +1993,7 @@ class Solution { public: int singleNumber(vector&lt;int&gt;&amp; nums) { int xor
           
           
           tags: Priority Queue,LeetCode101  The key ideas:
- Use a std::pair to hold {count, index}, so it can compare count first then the index. Use a min heap priority queue to get the K weakest rows.  class Solution { public: vector&lt;int&gt; kWeakestRows(vector&lt;vector&lt;int&gt;&gt;&amp; mat, int k) { // min heap 	priority_queue&lt; std::pair&lt;int, int&gt;, vector&lt;std::pair&lt;int, int&gt; &gt;, std::greater&lt;std::pair&lt;int, int&gt; &gt; &gt; pq; for (auto iter = mat.begin(); iter != mat.
+ Use a std::pair to hold {count, index}, so it can compare count first then the index. Use a min heap priority queue to get the K weakest rows.  class Solution { public: 	vector&lt;int&gt; kWeakestRows(vector&lt;vector&lt;int&gt;&gt;&amp; mat, int k) { 	// min heap 	priority_queue&lt; 	std::pair&lt;int, int&gt;, 	vector&lt;std::pair&lt;int, int&gt; &gt;, 	std::greater&lt;std::pair&lt;int, int&gt; &gt; &gt; pq; 	for (auto iter = mat.
           
           
         </div>
@@ -2183,7 +2188,7 @@ When to use a heap?
         <div class="post-content">
           
           
-          tags: Hash Table,LeetCode101,Sorting,Two Pointers  Intuition with HashMap class Solution { public: int numRescueBoats(vector&lt;int&gt;&amp; people, int limit) { unordered_map&lt;int, int&gt; cntOfWeights; for (auto iter = people.begin(); iter != people.end(); ++iter) { cntOfWeights[*iter]++; } int r = 0; for (int i = 0; i &lt; people.size(); i++) { if (cntOfWeights[people[i]] == 0) { continue; } cntOfWeights[people[i]]--; for (int j = (limit - people[i]); j &gt; 0; --j) { if (cntOfWeights.find(j) !
+          tags: Hash Table,LeetCode101,Sorting,Two Pointers  Intuition with HashMap class Solution { public: 	int numRescueBoats(vector&lt;int&gt;&amp; people, int limit) { 	unordered_map&lt;int, int&gt; cntOfWeights; 	for (auto iter = people.begin(); iter != people.end(); ++iter) { 	cntOfWeights[*iter]++; 	} 	int r = 0; 	for (int i = 0; i &lt; people.size(); i++) { 	if (cntOfWeights[people[i]] == 0) { 	continue; 	} 	cntOfWeights[people[i]]--; 	for (int j = (limit - people[i]); j &gt; 0; --j) { 	if (cntOfWeights.
           
           
         </div>
@@ -2219,7 +2224,7 @@ When to use a heap?
           tags: Math,backtracking,LeetCode101  Backtracking and stack overflow Intuition:
 We can abstract all the operations to a Tree, then apply DFS on it.
 For example: startValue=2, target=3, the tree looks like:
-/* 2 /\ / \ / \ 1(-1) 4(x2) /\ /\--+ / \ / \ 0(-1) 2(x2) 3(-1) 8(x2) */ class Solution { public: int brokenCalc(int startValue, int target) { unordered_set&lt;int&gt; visited; return backtracking(0, startValue, target, visited); } int backtracking(int count, int val, int target, unordered_set&lt;int&gt; &amp; visited) { if (val == target) { return count; } if (visited.
+/* 2 /\ / \ / \ 1(-1) 4(x2) /\ /\--+ / \ / \ 0(-1) 2(x2) 3(-1) 8(x2) */ class Solution { public: 	int brokenCalc(int startValue, int target) { 	unordered_set&lt;int&gt; visited; 	return backtracking(0, startValue, target, visited); 	}  	int backtracking(int count, int val, int target, unordered_set&lt;int&gt; &amp; visited) { 	if (val == target) { 	return count; 	} 	if (visited.
           
           
         </div>
@@ -2286,7 +2291,7 @@ The maximal value of each position in the string is 26. If we start from all ele
         <div class="post-content">
           
           
-          tags: Math,Hash Table,LeetCode101  class Solution { public: string intToRoman(int num) { vector&lt;string&gt; roman {&#34;M&#34;, &#34;CM&#34;, &#34;D&#34;, &#34;CD&#34;, &#34;C&#34;, &#34;XC&#34;, &#34;L&#34;, &#34;XL&#34;, &#34;X&#34;, &#34;IX&#34;, &#34;V&#34;, &#34;IV&#34;, &#34;I&#34;}; vector&lt;int&gt; integers {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 }; string r; int times = 0; for (int i = 0; i &lt; integers.size(); ++i) { if (num &gt;= integers[i]) { times = num / integers[i]; num -= times * integers[i]; for (int j = times; j &gt; 0; --j) { r.
+          tags: Math,Hash Table,LeetCode101  class Solution { public: 	string intToRoman(int num) { 	vector&lt;string&gt; roman {&#34;M&#34;, &#34;CM&#34;, &#34;D&#34;, &#34;CD&#34;, &#34;C&#34;, &#34;XC&#34;, &#34;L&#34;, &#34;XL&#34;, &#34;X&#34;, &#34;IX&#34;, &#34;V&#34;, &#34;IV&#34;, &#34;I&#34;}; 	vector&lt;int&gt; integers {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 }; 	string r; 	int times = 0;  	for (int i = 0; i &lt; integers.size(); ++i) { 	if (num &gt;= integers[i]) { 	times = num / integers[i]; 	num -= times * integers[i]; 	for (int j = times; j &gt; 0; --j) { 	r.
           
           
         </div>
@@ -2385,7 +2390,7 @@ The key idea is not only about stack, but also required a map to record how many
           
           
           tags: String,LeetCode101,Hash Set,Hash Table,Stack  The key idea is similar to LeetCode101: 316. Remove Duplicate Letters, we use a HashMap to track how many letters which is same in the string. Then we use a HashSet to store appeared letters. When there is no more letters appeared in the HashSet, it&rsquo;s time to partition.
-class Solution { public: vector&lt;int&gt; partitionLabels(string s) { unordered_map&lt;char, int&gt; cntOfLetters; unordered_set&lt;char&gt; appearedLetters; vector&lt;int&gt; r; int count = 0; for (auto iter = s.
+class Solution { public: 	vector&lt;int&gt; partitionLabels(string s) { 	unordered_map&lt;char, int&gt; cntOfLetters; 	unordered_set&lt;char&gt; appearedLetters; 	vector&lt;int&gt; r; 	int count = 0; 	for (auto iter = s.
           
           
         </div>
@@ -2450,7 +2455,7 @@ class Solution { public: vector&lt;int&gt; partitionLabels(string s) { unordered
           
           
           tags: LeetCode101,Math  The key idea is:
- To use \(log10(10^n) = n\) to get how many digits in the number. Then we need iterate \(n + 1\) times to compare each side. The digit in the left is \(\frac{x}{10^{n-i}} \mod 10\). The digit in the right is \(\frac{x}{10^i} \mod 10\).  class Solution { public: bool isPalindrome(int x) { if (x &lt; 0) { return false; } // failed at here 	if (x &lt; 10) { return true; } int n = log10(x); int ld = pow(10, n); // left div 	int rd = 1; // right div 	for (int i = 0; i &lt; (n + 1) / 2; i++) { // left right 	if (x / ld % 10 !
+ To use \(log10(10^n) = n\) to get how many digits in the number. Then we need iterate \(n + 1\) times to compare each side. The digit in the left is \(\frac{x}{10^{n-i}} \mod 10\). The digit in the right is \(\frac{x}{10^i} \mod 10\).  class Solution { public: 	bool isPalindrome(int x) { 	if (x &lt; 0) { 	return false; 	} 	// failed at here 	if (x &lt; 10) { 	return true; 	} 	int n = log10(x); 	int ld = pow(10, n); // left div 	int rd = 1; // right div 	for (int i = 0; i &lt; (n + 1) / 2; i++) { 	// left right 	if (x / ld % 10 !
           
           
         </div>
@@ -2516,7 +2521,7 @@ class Solution { public: vector&lt;int&gt; partitionLabels(string s) { unordered
           
           tags: C/C++  In some problems, we need to detect is our result overflow in a 32-bit integer. The key ideas is check our value before it becomes bigger.
 For example:
-// INT_MAX 2147483647 // INT_MIN -2147483648  // INT_MAX&#39;s suffix is 7 if (res &gt; INT_MAX / 10 || (res == INT_MAX / 10 &amp;&amp; pop &gt; 7)) { return 0; } // INT_MIN&#39;s suffix is -8 if (res &lt; INT_MIN / 10 || (res == INT_MIN / 10 &amp;&amp; pop &lt; -8)) { return 0; } res = res * 10 + pop; Our final result need a 10 times current value and plus a value, then we check:
+ // INT_MAX 2147483647 // INT_MIN -2147483648  // INT_MAX&#39;s suffix is 7 if (res &gt; INT_MAX / 10 || (res == INT_MAX / 10 &amp;&amp; pop &gt; 7)) { 	return 0; } // INT_MIN&#39;s suffix is -8 if (res &lt; INT_MIN / 10 || (res == INT_MIN / 10 &amp;&amp; pop &lt; -8)) { 	return 0; } res = res * 10 + pop; Our final result need a 10 times current value and plus a value, then we check:
           
           
         </div>
@@ -2550,7 +2555,7 @@ For example:
           
           
           tags: Tricky,LeetCode101,Integer Overflow  The key idea is how to detect integer overflow, it&rsquo;s same to: LeetCode101: 7. Reverse Integer.
-class Solution { public: int myAtoi(string s) { auto iter = s.begin(); int base = 1, r = 0, p = 0; // Skip whitespace 	for (; iter != s.end() &amp;&amp; *iter == &#39; &#39;; ++iter) { } // negative or positive 	if (*iter == &#39;-&#39; || *iter == &#39;+&#39;) { if (*iter == &#39;-&#39;) { base = -1; } ++iter; } for (; iter !
+class Solution { public: 	int myAtoi(string s) { 	auto iter = s.begin(); 	int base = 1, r = 0, p = 0;  	// Skip whitespace 	for (; iter != s.end() &amp;&amp; *iter == &#39; &#39;; ++iter) { 	}  	// negative or positive 	if (*iter == &#39;-&#39; || *iter == &#39;+&#39;) { 	if (*iter == &#39;-&#39;) { 	base = -1; 	} 	++iter; 	}  	for (; iter !
           
           
         </div>
@@ -2655,7 +2660,7 @@ For this purpose, we could detect integer overflow before carry:
         <div class="post-content">
           
           
-          tags: Stack  Intuition for (int i = 0; i &lt; pushed.size(); i++) { if (pushed[i] != popped[pushed.size() - 1 - i]) { return false; } } But the pop/push operations can happend in any sequence.
+          tags: Stack  Intuition for (int i = 0; i &lt; pushed.size(); i++) { 	if (pushed[i] != popped[pushed.size() - 1 - i]) { 	return false; 	} } But the pop/push operations can happend in any sequence.
 Stack Using a stack. Returns false, IF the next value neither the popped nor pushed.
 In each sequence we must do a operation: push or pop. When to push:
  stack is empty, or top of stack is not current popped value  When to pop:
@@ -2691,7 +2696,7 @@ In each sequence we must do a operation: push or pop. When to push:
         <div class="post-content">
           
           
-          tags: Stack,LeetCode101  Stack class Solution { public: string minRemoveToMakeValid(string s) { stack&lt;char&gt; st; char open = &#39;(&#39;, close = &#39;)&#39;; int open_count = 0; string res; // forward to remove unnecessary close parentheses 	for (auto iter = s.begin(); iter != s.end(); ++iter) { if (*iter == open) { open_count++; } if (open_count == 0 &amp;&amp; *iter == close) { continue; } if (*iter == close) { open_count--; } st.
+          tags: Stack,LeetCode101  Stack class Solution { public: 	string minRemoveToMakeValid(string s) { 	stack&lt;char&gt; st; 	char open = &#39;(&#39;, close = &#39;)&#39;; 	int open_count = 0; 	string res;  	// forward to remove unnecessary close parentheses 	for (auto iter = s.begin(); iter != s.end(); ++iter) { 	if (*iter == open) { 	open_count++; 	} 	if (open_count == 0 &amp;&amp; *iter == close) { 	continue; 	} 	if (*iter == close) { 	open_count--; 	} 	st.
           
           
         </div>
@@ -2822,7 +2827,7 @@ As shown above, the position of break point is same to the position of max value
           
           
           tags: Monotonic Stack,LeetCode101,Binary Search Tree  Mono-descreasing stack Key:
- The largest number is the root, that we can observe in by iteration. We must clear the stack to fill the right side of BST after loop. The last popped element is the left of current node. From top to bottom, the top element is the right side of the element that under the top.  class Solution { public: TreeNode* constructMaximumBinaryTree(vector&lt;int&gt;&amp; nums) { vector&lt;TreeNode*&gt; res(nums.
+ The largest number is the root, that we can observe in by iteration. We must clear the stack to fill the right side of BST after loop. The last popped element is the left of current node. From top to bottom, the top element is the right side of the element that under the top.  class Solution { public: 	TreeNode* constructMaximumBinaryTree(vector&lt;int&gt;&amp; nums) { 	vector&lt;TreeNode*&gt; res(nums.
           
           
         </div>
@@ -2856,7 +2861,7 @@ As shown above, the position of break point is same to the position of max value
           
           
           tags: Monotonic Stack,LeetCode101  Mono-increasing stack Key:
- Some case should move backward as the new value we meeted is larger than it. When we meet 2 in the stack, and here we need move backward. Some case we need move forward, as the following values are the mono-increaing stack: [1, 2, 5, 3, 4]  class Solution { public: int findUnsortedSubarray(vector&lt;int&gt;&amp; nums) { stack&lt;int&gt; st; // mono-increasing 	int left = -1, right = -2; for (int i = 0; i &lt; nums.
+ Some case should move backward as the new value we meeted is larger than it. When we meet 2 in the stack, and here we need move backward. Some case we need move forward, as the following values are the mono-increaing stack: [1, 2, 5, 3, 4]  class Solution { public: 	int findUnsortedSubarray(vector&lt;int&gt;&amp; nums) { 	stack&lt;int&gt; st; // mono-increasing 	int left = -1, right = -2; 	for (int i = 0; i &lt; nums.
           
           
         </div>
@@ -2889,7 +2894,7 @@ As shown above, the position of break point is same to the position of max value
         <div class="post-content">
           
           
-          tags: Monotonic Stack,LeetCode101 related: LeetCode101: 496. Next Greater Element I  Mono-descreasing stack / normal order loop twice  Loop twice to solve circular interger array Mono-descreasing stack to store index, avoid HashMap in Next Greater Element I, as there is a cicular array.  class Solution { public: vector&lt;int&gt; nextGreaterElements(vector&lt;int&gt;&amp; nums) { vector&lt;int&gt; res(nums.size(), -1); stack&lt;int&gt; st; for (int j = 0, i = 0; j &lt; nums.size() * 2; ++j) { i = j &gt;= nums.
+          tags: Monotonic Stack,LeetCode101 related: LeetCode101: 496. Next Greater Element I  Mono-descreasing stack / normal order loop twice  Loop twice to solve circular interger array Mono-descreasing stack to store index, avoid HashMap in Next Greater Element I, as there is a cicular array.  class Solution { public: 	vector&lt;int&gt; nextGreaterElements(vector&lt;int&gt;&amp; nums) { 	vector&lt;int&gt; res(nums.size(), -1); 	stack&lt;int&gt; st;  	for (int j = 0, i = 0; j &lt; nums.
           
           
         </div>
@@ -2922,7 +2927,7 @@ As shown above, the position of break point is same to the position of max value
         <div class="post-content">
           
           
-          tags: Monotonic Stack,Hash Table,LeetCode101  Mono-descreasing and reverse order travel class Solution { public: vector&lt;int&gt; nextGreaterElement(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) { // Mono-descreasing and reverse order travel. 	// The next greater of the popped value is the top of the stack, if it has any. 	// 	// For example: [1,3,4,2] 	// the stack goes: 	// [2] 	// [4] -&gt; 2 	// [4, 3, 1] 	stack&lt;int&gt; st; vector&lt;int&gt; res; unordered_map&lt;int, int&gt; m; for (int i = nums2.
+          tags: Monotonic Stack,Hash Table,LeetCode101  Mono-descreasing and reverse order travel class Solution { public: 	vector&lt;int&gt; nextGreaterElement(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) { 	// Mono-descreasing and reverse order travel. 	// The next greater of the popped value is the top of the stack, if it has any. 	// 	// For example: [1,3,4,2] 	// the stack goes: 	// [2] 	// [4] -&gt; 2 	// [4, 3, 1] 	stack&lt;int&gt; st;  	vector&lt;int&gt; res; 	unordered_map&lt;int, int&gt; m;  	for (int i = nums2.
           
           
         </div>
@@ -2991,7 +2996,7 @@ Also note that: the result&rsquo;s length is not actually equal num.
           
           
           tags: Monotonic Stack,LeetCode101,Tricky  We travel the numbers in the reverse order:
- Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &lt; j &lt; k, not i + 1 = j, j + 1 = k // class Solution { public: bool find132pattern(vector&lt;int&gt;&amp; nums) { int K = INT_MIN; stack&lt;int&gt; mst; // mono-increasing stack 	for (int i = nums.
+ Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &lt; j &lt; k, not i + 1 = j, j + 1 = k // class Solution { public: 	bool find132pattern(vector&lt;int&gt;&amp; nums) { 	int K = INT_MIN; 	stack&lt;int&gt; mst; // mono-increasing stack 	for (int i = nums.
           
           
         </div>
@@ -3027,7 +3032,7 @@ Also note that: the result&rsquo;s length is not actually equal num.
           tags: Data Structures,Stack source: “Monotonic Stack.” Accessed March 13, 2022. https://liuzhenglaichn.gitbook.io/algorithm/monotonic-stack.  A monotonic stack is a stack whose elements are monotonically increasing or descreasing.
 It&rsquo;s not only about the order in the stack, it&rsquo;s also about remove larger/smaller elements before pushing.
 Monotonically descreasing we need to pop smaller elements from the stack before pushing a new element:
-vector&lt;int&gt; nums; // fill nums stack&lt;int&gt; st; for (auto i = nums.
+vector&lt;int&gt; nums; // fill nums stack&lt;int&gt; st;  for (auto i = nums.
           
           
         </div>
@@ -3218,7 +3223,7 @@ Extra find operations  equal_range returns range of elements matching a specific
         <div class="post-content">
           
           
-          tags: Sliding Window,OrderedSet  Use HashSet to attempt to meet the requirements in the window class Solution { public: bool containsNearbyAlmostDuplicate(vector&lt;int&gt;&amp; nums, int k, int t) { auto left = 0; auto K = 0; set&lt;long&gt; hset; // set in cpp is an sorted set 	for (auto right = 0; right &lt; nums.size(); right++) { K = right - left; if (K &gt; k) { hset.erase(nums[left]); left++; } hset.
+          tags: Sliding Window,OrderedSet  Use HashSet to attempt to meet the requirements in the window class Solution { public: 	bool containsNearbyAlmostDuplicate(vector&lt;int&gt;&amp; nums, int k, int t) { 	auto left = 0; 	auto K = 0; 	set&lt;long&gt; hset; // set in cpp is an sorted set 	for (auto right = 0; right &lt; nums.size(); right++) { 	K = right - left; 	if (K &gt; k) { 	hset.
           
           
         </div>
@@ -3319,7 +3324,7 @@ The steps is following:
           
           
           tags: Sliding Window,LeetCode101  Key:
- sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target. See also 1695. Maximum Erasure Value  class Solution { public: int minSubArrayLen(int target, vector&lt;int&gt;&amp; nums) { int left = 0; int sum = 0; int minimal = INT_MAX; for (auto right = 0; right &lt; nums.size(); right++) { sum += nums[right]; while (sum &gt;= target) { minimal = min(minimal, right - left + 1); sum -= nums[left++]; } } return minimal == INT_MAX ?
+ sum is greater than or equal to target Compute minimal must above slide left window, as decrease may cause sum less than target. See also 1695. Maximum Erasure Value  class Solution { public: 	int minSubArrayLen(int target, vector&lt;int&gt;&amp; nums) { 	int left = 0; 	int sum = 0; 	int minimal = INT_MAX;  	for (auto right = 0; right &lt; nums.
           
           
         </div>
@@ -3386,6 +3391,9 @@ The steps is following:
         <div class="post-content">
           
           
+          tags: Sliding Window,LeetCode101,Hash Set  Key:
+ Fixed size window, right should start from 9  class Solution { public: 	vector&lt;string&gt; findRepeatedDnaSequences(string s) { 	int left = 0; 	unordered_set&lt;string&gt; results; 	unordered_set&lt;string&gt; hset;  	for (auto right = 9; right &lt; s.size(); right++) { 	string sub(s, left, 10); 	if (hset.find(sub) != hset.end()) { 	results.insert(sub); 	} 	hset.insert(sub); 	left++; 	}  	return vector&lt;string&gt;(results.
+          
           
         </div>
 
@@ -3449,7 +3457,7 @@ The steps is following:
           
           
           tags: Sliding Window,LeetCode101,Hash Set  Use HashMap to store indices See also: 3. Longest Substring Without Repeating Characters
-class Solution { public: int maximumUniqueSubarray(vector&lt;int&gt;&amp; nums) { int maximum = 0; int left = 0, right = 0; unordered_map&lt;int, int&gt; indices; for (; right &lt; nums.size(); right++) { int n = nums[right]; if (indices.find(n) != indices.end() &amp;&amp; indices[n] + 1 &gt; left) { left = indices[n] + 1; } maximum = max(maximum, std::accumulate(nums.
+class Solution { public: 	int maximumUniqueSubarray(vector&lt;int&gt;&amp; nums) { 	int maximum = 0; 	int left = 0, right = 0; 	unordered_map&lt;int, int&gt; indices;  	for (; right &lt; nums.size(); right++) { 	int n = nums[right]; 	if (indices.find(n) != indices.end() &amp;&amp; indices[n] + 1 &gt; left) { 	left = indices[n] + 1; 	} 	maximum = max(maximum, std::accumulate(nums.
           
           
         </div>
@@ -8747,7 +8755,7 @@ user&rsquo;s stake is also used as a way to incentivise good validator behavior.
     
       <div class="post on-list">
         <h1 class="post-title">
-          <a href="https://www.linuxzen.com/notes/notes/20220104070408-shinobi_systems_solana_proof_of_stake_proof_of_history_primer/">Shinobi Systems' Solana Proof of Stake + Proof of History Primer</a>
+          <a href="https://www.linuxzen.com/notes/notes/20220104070408-shinobi_systems_solana_proof_of_stake_proof_of_history_primer/">Shinobi Systems&rsquo; Solana Proof of Stake + Proof of History Primer</a>
         </h1>
         <div class="post-meta">
           <span class="post-date">
@@ -9293,7 +9301,7 @@ user&rsquo;s stake is also used as a way to incentivise good validator behavior.
           
           
           tags: org-roam, Org Mode source:  https://seds.nl/notes/org%5Froam%5Fexport%5Fbacklinks%5Fon%5Fhugo/ https://seds.nl/notes/export%5Forg%5Froam%5Fbacklinks%5Fwith%5Fgohugo/    利用 hugo 的 partial template layouts/partials/backlinks.html
-{{ $re := $.File.BaseFileName }} {{ $backlinks := slice }} {{ range .Site.AllPages }} {{ if and (findRE $re .RawContent) (not (eq $re .File.BaseFileName)) }} {{ $backlinks = $backlinks | append . }} {{ end }} {{ end }} &lt;hr&gt; {{ if gt (len $backlinks) 0 }} &lt;div class=&#34;bl-section&#34;&gt; &lt;h4&gt;Links to this note&lt;/h4&gt; &lt;div class=&#34;backlinks&#34;&gt; &lt;ul&gt; {{ range $backlinks }} &lt;li&gt;&lt;a href=&#34;{{ .
+{{ $re := $.File.BaseFileName }} {{ $backlinks := slice }} {{ range .Site.AllPages }}  {{ if and (findRE $re .RawContent) (not (eq $re .File.BaseFileName)) }} 	{{ $backlinks = $backlinks | append . }}  {{ end }} {{ end }}  &lt;hr&gt; {{ if gt (len $backlinks) 0 }}  &lt;div class=&#34;bl-section&#34;&gt; 	&lt;h4&gt;Links to this note&lt;/h4&gt; 	&lt;div class=&#34;backlinks&#34;&gt; 	&lt;ul&gt; 	{{ range $backlinks }} 	&lt;li&gt;&lt;a href=&#34;{{ .
           
           
         </div>
@@ -10009,7 +10017,7 @@ can(could)/may(might)/must/need/to/shall(should)/will(would).
           
           案例 Airflow powers AI。
 Airflow SSO 接入 公司 SSO 系统不是基于开源标准，而是一套自定义的方式，目前网上没有成熟的解决方案，通过查看 Flask-AppBuilder 和 Airflow 的代码发现可以扩展 flask_appbuilder.security.views.AuthRemoteUserView 并通过自定义的 SecurityManager 指定 authremoteuserview 来实现，去掉具体 SSO 逻辑后的代码如下：
-from urllib.parse import urlencode from urllib.parse import urljoin import requests from flask import flash from flask import redirect from flask import request from flask_appbuilder.baseviews import expose from flask_appbuilder.security.views import AuthRemoteUserView try: from airflow.www.security import AirflowSecurityManager except ImportError: AirflowSecurityManager = None __version__ = &#34;0.1.0&#34; AUTHORIZE_URL = &#34;https://example.com/sso/login&#34; ACCESS_TOKEN_URL = &#34;https://example.
+from urllib.parse import urlencode from urllib.parse import urljoin  import requests  from flask import flash from flask import redirect from flask import request from flask_appbuilder.baseviews import expose from flask_appbuilder.security.views import AuthRemoteUserView  try: 	from airflow.www.security import AirflowSecurityManager except ImportError: 	AirflowSecurityManager = None  __version__ = &#34;0.
           
           
         </div>
@@ -10208,7 +10216,7 @@ sbt new file:///path/to/template.g8 sbt 国内加速 ~/.sbt/repositories:
           
           
           tags: LeetCode  https://leetcode.com/problems/validate-binary-search-tree/
-/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: bool isValidBST(TreeNode* root) { if (root == nullptr || (root-&gt;left == nullptr &amp;&amp; root-&gt;right == nullptr)) { return true; } if (root-&gt;left !
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: 	bool isValidBST(TreeNode* root) { 	if (root == nullptr || (root-&gt;left == nullptr &amp;&amp; root-&gt;right == nullptr)) { 	return true; 	} 	if (root-&gt;left !
           
           
         </div>
@@ -10242,7 +10250,7 @@ sbt new file:///path/to/template.g8 sbt 国内加速 ~/.sbt/repositories:
           
           
           tags: LeetCode,backtracking  https://leetcode.com/problems/path-sum-ii/
-/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: vector&lt;vector&lt;int&gt;&gt; pathSum(TreeNode* root, int targetSum) { vector&lt;vector&lt;int&gt;&gt; r; if (root == nullptr) { return r; } if (root-&gt;left !
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: 	vector&lt;vector&lt;int&gt;&gt; pathSum(TreeNode* root, int targetSum) { 	vector&lt;vector&lt;int&gt;&gt; r; 	if (root == nullptr) { 	return r; 	} 	if (root-&gt;left !
           
           
         </div>
@@ -10277,7 +10285,7 @@ sbt new file:///path/to/template.g8 sbt 国内加速 ~/.sbt/repositories:
           
           tags: LeetCode  https://leetcode.com/problems/path-sum/
 递归版
-/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: bool hasPathSum(TreeNode* root, int targetSum) { if (root == nullptr) { return false; } return pathSum(root, 0, targetSum); } bool pathSum(TreeNode* node, int sum, int targetSum) { sum += node-&gt;val; if (node-&gt;left == nullptr &amp;&amp; node-&gt;right == nullptr) { if (sum == targetSum) { return true; } } if (node-&gt;left !
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: 	bool hasPathSum(TreeNode* root, int targetSum) { 	if (root == nullptr) { 	return false; 	} 	return pathSum(root, 0, targetSum); 	}  	bool pathSum(TreeNode* node, int sum, int targetSum) { 	sum += node-&gt;val; 	if (node-&gt;left == nullptr &amp;&amp; node-&gt;right == nullptr) { 	if (sum == targetSum) { 	return true; 	} 	} 	if (node-&gt;left !
           
           
         </div>
@@ -10311,7 +10319,7 @@ sbt new file:///path/to/template.g8 sbt 国内加速 ~/.sbt/repositories:
           
           
           tags: LeetCode  79. Word Search
-class Solution { public: bool exist(vector&lt;vector&lt;char&gt;&gt;&amp; board, string word) { backtracking(board, word, 0, 0); return res; } private: string track; bool res = false; enum Direction { right, down, up, left, }; /** * @param dir: 0: right, 1: down, 2: up, 3: left */ void backtracking(vector&lt;vector&lt;char&gt;&gt;&amp; board, string word, int row, int col) { if (track == word || res) { res = true; return; } for (int i = row; i &lt; board.
+class Solution { public: 	bool exist(vector&lt;vector&lt;char&gt;&gt;&amp; board, string word) { 	backtracking(board, word, 0, 0); 	return res; 	} private: 	string track; 	bool res = false;  	enum Direction { 	right, 	down, 	up, 	left, 	}; 	/** * @param dir: 0: right, 1: down, 2: up, 3: left */ 	void backtracking(vector&lt;vector&lt;char&gt;&gt;&amp; board, string word, int row, int col) { 	if (track == word || res) { 	res = true; 	return; 	} 	for (int i = row; i &lt; board.
           
           
         </div>
@@ -11241,7 +11249,7 @@ MapReduce 工作流 将 MapReduce 作业链接到工作流是非常普遍的，�
           
           
           tags: LeetCode  https://leetcode.com/problems/valid-sudoku/
-&lt;- high -- low -&gt; +------------------- wow(row(i):0,col(j):0) 0 -&gt; [ 0010, 0010 ] | 1 -&gt; [ 0000, 0000 ] | 2 -&gt; [ 0000, 0000 ] | | +--------------- wow(row(i):0,col(j):1) 0 -&gt; [ 0010 | 1 = 0011, 0010 ] | | 1 -&gt; [ 0000, 0000 | 1 = 0001 ] | | 2 -&gt; [ 0000, 0000 ] | | | | +----------- wow(row(i):0,col(j):2) 0 -&gt; [ 0011 | 3 = 0100, 0010 ] | | | 1 -&gt; [ 0000, 0001 ] | | | 2 -&gt; [ 0000, 0000 | 3 = 0100 ] +---+---+---+ | 2 | 1 | 3 | +---+---+---+ ----| 3 | 2 | 1 | | +---+---+---+ | | 1 | 3 | 2 | | +---+---+---+ |- wow(row(i):1,col(j):0) 0 -&gt; [0010 | 3 = 0110, 0010] +---------------------+ 1 -&gt; [0000, 0001 | 3 = 0101] 2 -&gt; [0000, 0100] class Solution { public: bool isValidSudoku(vector&lt;vector&lt;char&gt;&gt;&amp; board) { vector&lt;int&gt; wow(9,0); int mux1; int mux2; int mux3; int box_index; for(int i=0;i&lt;9;i++){ for(int j=0;j&lt;9;j++){ if(board[i][j] == &#39;.
+&lt;- high -- low -&gt; +------------------- wow(row(i):0,col(j):0) 0 -&gt; [ 0010, 0010 ] | 1 -&gt; [ 0000, 0000 ] | 2 -&gt; [ 0000, 0000 ] | | +--------------- wow(row(i):0,col(j):1) 0 -&gt; [ 0010 | 1 = 0011, 0010 ] | | 1 -&gt; [ 0000, 0000 | 1 = 0001 ] | | 2 -&gt; [ 0000, 0000 ] | | | | +----------- wow(row(i):0,col(j):2) 0 -&gt; [ 0011 | 3 = 0100, 0010 ] | | | 1 -&gt; [ 0000, 0001 ] | | | 2 -&gt; [ 0000, 0000 | 3 = 0100 ] +---+---+---+ | 2 | 1 | 3 | +---+---+---+ ----| 3 | 2 | 1 | | +---+---+---+ | | 1 | 3 | 2 | | +---+---+---+ |- wow(row(i):1,col(j):0) 0 -&gt; [0010 | 3 = 0110, 0010] +---------------------+ 1 -&gt; [0000, 0001 | 3 = 0101] 2 -&gt; [0000, 0100] class Solution { public: 	bool isValidSudoku(vector&lt;vector&lt;char&gt;&gt;&amp; board) { 	vector&lt;int&gt; wow(9,0); 	int mux1; 	int mux2; 	int mux3; 	int box_index;  	for(int i=0;i&lt;9;i++){ 	for(int j=0;j&lt;9;j++){ 	if(board[i][j] == &#39;.
           
           
         </div>
@@ -11306,7 +11314,7 @@ MapReduce 工作流 将 MapReduce 作业链接到工作流是非常普遍的，�
           
           
           tags: LeetCode source: https://leetcode.com/problems/combination-sum-ii/  LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。对结果进行排序然后通过 set 对结果进行去重：
-class Solution { public: vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&lt;int&gt;&amp; candidates, int target) { sort(candidates.begin(), candidates.end()); backtracking(candidates, 0, 0, target); vector&lt;vector&lt;int&gt;&gt; r; for (auto t : res) { r.push_back(t); } return r; } private: set&lt;vector&lt;int&gt;&gt; res; vector&lt;int&gt; track; map&lt;int, bool&gt; visited; void backtracking(vector&lt;int&gt;&amp; condidates, int start, int n, int target) { if (n == target) { res.insert(track); return; } if (n &gt; target) { return; } int c = 0; int sz = condidates.
+class Solution { public: 	vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&lt;int&gt;&amp; candidates, int target) { 	sort(candidates.begin(), candidates.end()); 	backtracking(candidates, 0, 0, target); 	vector&lt;vector&lt;int&gt;&gt; r; 	for (auto t : res) { 	r.push_back(t); 	} 	return r; 	} private: 	set&lt;vector&lt;int&gt;&gt; res; 	vector&lt;int&gt; track; 	map&lt;int, bool&gt; visited;  	void backtracking(vector&lt;int&gt;&amp; condidates, int start, int n, int target) { 	if (n == target) { 	res.
           
           
         </div>
@@ -11339,7 +11347,7 @@ class Solution { public: vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&
         <div class="post-content">
           
           
-          tags: LeetCode source: https://leetcode.com/problems/combination-sum/  class Solution { public: vector&lt;vector&lt;int&gt;&gt; combinationSum(vector&lt;int&gt;&amp; candidates, int target) { backtracking(candidates, 0, target); return res; } private: vector&lt;vector&lt;int&gt;&gt; res; vector&lt;int&gt; track; void backtracking(vector&lt;int&gt; &amp; candidates, int n, int target) { if (n == target) { res.push_back(track); return; } // this is new 	if (n &gt; target) { return; } for (auto c : candidates) { track.push_back(c); backtracking(candidates, n + c, target); track.pop_back(); } } }; 问题：会有不同顺序但是元素相同的数组，如何快速高效的进行过滤？
+          tags: LeetCode source: https://leetcode.com/problems/combination-sum/  class Solution { public: 	vector&lt;vector&lt;int&gt;&gt; combinationSum(vector&lt;int&gt;&amp; candidates, int target) { 	backtracking(candidates, 0, target); 	return res; 	}  private: 	vector&lt;vector&lt;int&gt;&gt; res; 	vector&lt;int&gt; track;  	void backtracking(vector&lt;int&gt; &amp; candidates, int n, int target) { 	if (n == target) { 	res.push_back(track); 	return; 	} 	// this is new 	if (n &gt; target) { 	return; 	} 	for (auto c : candidates) { 	track.
           
           
         </div>
@@ -11593,7 +11601,7 @@ class Solution { public: vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&
  纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag  纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
 r - c 在正对角线是一致的：
  斜对角线 r + c 是一致的:
- class Solution { public: vector&lt;vector&lt;string&gt;&gt; solveNQueens(int n) { for (int r = 0; r &lt; n; r++) { string col = string(n, &#39;.&#39;); track.push_back(col); } backtracking(0, n); return res; } private: set&lt;int&gt; cols; // c 	set&lt;int&gt; posDiag; // r - c 	set&lt;int&gt; negDiag; // r + c 	vector&lt;vector&lt;string&gt;&gt; res; vector&lt;string&gt; track; void backtracking(int r, int n) { if (r == n) { res.
+ class Solution { public: 	vector&lt;vector&lt;string&gt;&gt; solveNQueens(int n) { 	for (int r = 0; r &lt; n; r++) { 	string col = string(n, &#39;.&#39;); 	track.push_back(col); 	} 	backtracking(0, n); 	return res; 	} private: 	set&lt;int&gt; cols; // c 	set&lt;int&gt; posDiag; // r - c 	set&lt;int&gt; negDiag; // r + c 	vector&lt;vector&lt;string&gt;&gt; res; 	vector&lt;string&gt; track;  	void backtracking(int r, int n) { 	if (r == n) { 	res.
           
           
         </div>
@@ -12107,8 +12115,8 @@ CAP 理论 可线性化与网络延迟 很少有系统真正满足线性化，�
           
           tags: LeetCode,backtracking  视频解析：https://www.youtube.com/watch?v=s7AvT7cGdSo
 在 LeetCode: 46. Permutations 的基础上增加重复的元素。感觉不能依赖于 track + map 的去重逻辑回溯。
-class Solution { public: vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) { vector&lt;vector&lt;int&gt;&gt; res; } }; 数据特征：
-Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, class Solution { public: vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) { set&lt;vector&lt;int&gt;&gt; res; vector&lt;vector&lt;int&gt;&gt; ret; int n, i; vector&lt;vector&lt;int&gt;&gt; perms; if (nums.
+class Solution { public: 	vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) { 	vector&lt;vector&lt;int&gt;&gt; res;  	} }; 数据特征：
+Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, class Solution { public: 	vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) { 	set&lt;vector&lt;int&gt;&gt; res; 	vector&lt;vector&lt;int&gt;&gt; ret;  	int n, i; 	vector&lt;vector&lt;int&gt;&gt; perms;  	if (nums.
           
           
         </div>
@@ -12182,7 +12190,7 @@ Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 
           tags: LeetCode,backtracking  Keywords backtrack 回溯算法
 图解 举例： [1, 2, 3] ，顺着叶子节点和删除的节点就可以还原成全排列。
  从上面图可以看出来，叶子节点加上回溯路径上被移除的节点就是结果的一项，从左到右依次是：
- [3,R:2,R:1] -&gt; [3,2,1] [2,R:3,R:1] -&gt; [2,3,1] &hellip;  class Solution { public: vector&lt;vector&lt;int&gt;&gt; permute(vector&lt;int&gt;&amp; nums) { vector&lt;vector&lt;int&gt;&gt; res; vector&lt;int&gt; track; backtrack(res, track, nums); return res; } void backtrack(vector&lt;vector&lt;int&gt;&gt; &amp; res, vector&lt;int&gt; &amp; track, vector&lt;int&gt;&amp; nums) { if (track.size() == nums.size()) { res.push_back(track); return; } for (int i = 0; i &lt; nums.size(); i++) { if (visited.
+ [3,R:2,R:1] -&gt; [3,2,1] [2,R:3,R:1] -&gt; [2,3,1] &hellip;  class Solution { public: 	vector&lt;vector&lt;int&gt;&gt; permute(vector&lt;int&gt;&amp; nums) { 	vector&lt;vector&lt;int&gt;&gt; res; 	vector&lt;int&gt; track; 	backtrack(res, track, nums); 	return res; 	}  	void backtrack(vector&lt;vector&lt;int&gt;&gt; &amp; res, vector&lt;int&gt; &amp; track, vector&lt;int&gt;&amp; nums) { 	if (track.size() == nums.size()) { 	res.push_back(track); 	return; 	}  	for (int i = 0; i &lt; nums.
           
           
         </div>
@@ -12279,7 +12287,7 @@ Value: 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, Index: 2, 1, 0, 1, 0, 2, 1, 
           
           tags: C++11 内存模型,C/C++  C++ 还添加了较弱的原子，可以使用 atomic_store_explicit 和 atomic_load_explicit 以及附加的n内存排序参数来访问这些原子。使用 memory_order_seq_cst 使显式调用等效于C++ 同步原子（atomic）较短的调用。
 较弱的原子称为 acquire/release 原子，一个 release 如果被后来的 acquire 观察到，那么就创建了一个 happen-before 的关系(从 release 到 acquire)。这个术语意在唤起 mutex:release 就像 unlock mutex ， acquire 就像锁定同一个 mutex 。release 之前执行的写入必须对后续 acquire 之后执行的读取可见，就像解锁 mutex 之前执行的写入必须对后解锁 mutex 之后执行的读取可见一样。
-atomic&lt;int&gt; done; // Thread 1 // Thread 2 atomic_store(&amp;done, 1, memory_order_release); while(atomic_load(&amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
+atomic&lt;int&gt; done;  // Thread 1 // Thread 2 atomic_store(&amp;done, 1, memory_order_release); while(atomic_load(&amp;done, memory_order_acquire) == 0) { /* loop */ } acquire/release 原子只对单个内存位置的操作进行顺序一致的交替执行，所以属于内存一致性（coherence）而非顺序一致性。
 来看下面 litmus test：
 Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0?
           
@@ -12848,7 +12856,7 @@ Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0? // Thread 1 //
         <div class="post-content">
           
           
-          tags: LeetCode source: https://leetcode.com/problems/reverse-nodes-in-k-group/  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: ListNode* reverseKGroup(ListNode* head, int k) { deque&lt;ListNode*&gt; dq; ListNode* cur = head; ListNode* top = nullptr; ListNode* tail = nullptr; bool first_k = true; while (cur !
+          tags: LeetCode source: https://leetcode.com/problems/reverse-nodes-in-k-group/  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: 	ListNode* reverseKGroup(ListNode* head, int k) { 	deque&lt;ListNode*&gt; dq; 	ListNode* cur = head; 	ListNode* top = nullptr; 	ListNode* tail = nullptr; 	bool first_k = true; 	while (cur !
           
           
         </div>
@@ -12974,7 +12982,7 @@ Litmus Test: Store Buffering Can this program see r1 = 0, r2 = 0? // Thread 1 //
         <div class="post-content">
           
           
-          tags: LeetCode source: https://leetcode.com/problems/reverse-linked-list-ii/  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: ListNode* reverseBetween(ListNode* head, int left, int right) { stack&lt;int&gt; st; ListNode* cur = head; ListNode* prev_start = nullptr; if (left == 1) { prev_start = new ListNode(0, head); // dummy prev_start point to head 	} int i = 1; while(cur !
+          tags: LeetCode source: https://leetcode.com/problems/reverse-linked-list-ii/  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: 	ListNode* reverseBetween(ListNode* head, int left, int right) { 	stack&lt;int&gt; st; 	ListNode* cur = head; 	ListNode* prev_start = nullptr;  	if (left == 1) { 	prev_start = new ListNode(0, head); // dummy prev_start point to head 	}  	int i = 1; 	while(cur !
           
           
         </div>
@@ -13866,9 +13874,9 @@ Litmus Test: Write Queue (also called Store Buffer) Can this program see r1 = 0,
           准备 解析宏通过两个 crate 进行：
  quote = &ldquo;1.0&rdquo; syn = &ldquo;1.0&rdquo;  Derive 属性宏 探讨 Rust 宏系统中带属性（Attributes）的 Derive 宏的几种变体，以及如何进行解析。
 属性宏的变体   函数调用
-#[derive(Custom)] struct Demo { #[attr(arg)] a: i8, }   关键字参数调用
-#[derive(Custom)] struct Demo { #[args(name = &#34;val&#34;)] b: i8, }   直接赋值
-#[derive(Custom)] struct Demo { #[meta = &#34;val&#34;] c: i8, }   函数调用 关键字参数调用 可以从 Struct 解析出各个字段，通过解析各个字段的 attrs 属性，并对 attrs 进行遍历，使用 attr.parse_args()? 即可解析出对应的关键字参数，咱们以前面的代码为例:
+#[derive(Custom)] struct Demo {  #[attr(arg)]  a: i8, }   关键字参数调用
+#[derive(Custom)] struct Demo {  #[args(name = &#34;val&#34;)]  b: i8, }   直接赋值
+#[derive(Custom)] struct Demo {  #[meta = &#34;val&#34;]  c: i8, }   函数调用 关键字参数调用 可以从 Struct 解析出各个字段，通过解析各个字段的 attrs 属性，并对 attrs 进行遍历，使用 attr.
           
           
         </div>
@@ -15124,7 +15132,7 @@ They are: tutorials, how-to guides, technical reference and explanation. They re
           
           
           tags: Algorithm,Data Structures,Binary Search Tree  分为三种：前序、后序和中序，其中最容易用栈改写的是后序。
-前序(Preorder)：Root -&gt; Left -&gt; Right class Solution { public: void processPreorderTraversal(TreeNode* root, vector&lt;int&gt; &amp; collector) { if (root == nullptr) { return; } processPreorderTraversal(root-&gt;left, collector); collector.push_back(root-&gt;val); processPreorderTraversal(root-&gt;right, collector); } vector&lt;int&gt; inorderTraversal(TreeNode* root) { vector&lt;int&gt; ret; if (root == nullptr) { return ret; } processPreorderTraversal(root, ret); return ret; } }; 中序(Inorder): Left -&gt; Root -&gt; Right class Solution { public: void processInorderTraversal(TreeNode* root, vector&lt;int&gt; &amp; collector) { if (root == nullptr) { return; } processInorderTraversal(root-&gt;left, collector); collector.
+前序(Preorder)：Root -&gt; Left -&gt; Right class Solution { public: 	void processPreorderTraversal(TreeNode* root, vector&lt;int&gt; &amp; collector) { 	if (root == nullptr) { 	return; 	} 	processPreorderTraversal(root-&gt;left, collector); 	collector.push_back(root-&gt;val); 	processPreorderTraversal(root-&gt;right, collector); 	}  	vector&lt;int&gt; inorderTraversal(TreeNode* root) { 	vector&lt;int&gt; ret; 	if (root == nullptr) { 	return ret; 	} 	processPreorderTraversal(root, ret); 	return ret; 	} }; 中序(Inorder): Left -&gt; Root -&gt; Right class Solution { public: 	void processInorderTraversal(TreeNode* root, vector&lt;int&gt; &amp; collector) { 	if (root == nullptr) { 	return; 	} 	processInorderTraversal(root-&gt;left, collector); 	collector.
           
           
         </div>
@@ -15865,7 +15873,7 @@ $ python script.py 这篇文章将开启一个系列来尝试解答这个问题�
           
           
           tags: Rust  Future  async fn 将一个代码块转换为一个 Future 对象， Future 对象维护一个状态机 Future 对象必须运行在一个 Executor 上  Executor   futures::executor::block_on 阻塞当前线程直到 future 完成
-// `block_on` blocks the current thread until the provided future has run to // completion. Other executors provide more complex behavior, like scheduling // multiple futures onto the same thread. use futures::executor::block_on; async fn hello_world() { println!(&#34;hello, world!&#34;); } fn main() { let future = hello_world(); // Nothing is printed 	block_on(future); // `future` is run and &#34;hello, world!
+// `block_on` blocks the current thread until the provided future has run to // completion. Other executors provide more complex behavior, like scheduling // multiple futures onto the same thread. use futures::executor::block_on;  async fn hello_world() { 	println!(&#34;hello, world!&#34;); }  fn main() { 	let future = hello_world(); // Nothing is printed 	block_on(future); // `future` is run and &#34;hello, world!
           
           
         </div>
@@ -15900,7 +15908,7 @@ $ python script.py 这篇文章将开启一个系列来尝试解答这个问题�
           
           tags: Go  目标 当跟随这篇文章完成后将产出如下内容：
  代码 http://gitlab.17zuoye.net/vgo/go-swagger-example 文档 http://swagger.17zuoye.net/?url=http%3A%2F%2F10.200.242.61%3A9090%2Fswagger.json  准备  Go1.14 及以上版本 安装 go-swagger ：参见 官方文档。 接下来使用 gin 框架作为示例，如果之前没接触过可以先了解下该框架  创建一个项目 $ mkdir go-swagger-example $ cd go-swagger-example/ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example 开始使用 首先在你的 `main.go` 定义 go generate 像下面这样：
-//go:generate swagger generate spec -o ./swagger.yml package main func main() { println(&#34;Hello world!&#34;); } 此时如果运行 go generate 在项目目录下就会生成一个 swagger.yml 文件：
+//go:generate swagger generate spec -o ./swagger.yml package main  func main() { 	println(&#34;Hello world!&#34;); } 此时如果运行 go generate 在项目目录下就会生成一个 swagger.yml 文件：
 paths: {} swagger: &#34;2.0&#34; 使用单独的包托管 swagger 相关定义 在之前实践的过程中发现，如果在多个包中定义了相同名称的结构体会到只一个结构体覆盖另外一个结构体的定义。 所以为了解决这个问题，我把所有 swagger 相关的定义都放在同一个包下来避免相同名字的结构体。
           
           
@@ -16291,7 +16299,7 @@ Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时
  Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。 实际上，这种编程语言层面的保证让这些特性更加实用。
  所有权系统（The Ownership System） 让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。
 让我们通过一个例子来进一步说明：我们定义一个函数，函数拷贝输入文件到临时文件去处理它，然后拷贝输入文件到输出文件。
-fn process(from: &amp;Path, to: &amp;Path) -&gt; IoResult&lt;()&gt; { // creates a new tempdir with the specified suffix 	let tempdir = try!(TempDir::new(&#34;skylight&#34;)); // open the input file 	let mut from_file = try!
+fn process(from: &amp;Path, to: &amp;Path) -&gt; IoResult&lt;()&gt; { 	// creates a new tempdir with the specified suffix 	let tempdir = try!(TempDir::new(&#34;skylight&#34;));  	// open the input file 	let mut from_file = try!
           
           
         </div>
@@ -16391,7 +16399,7 @@ fn process(from: &amp;Path, to: &amp;Path) -&gt; IoResult&lt;()&gt; { // creates
  Deref 允许智能指针实例行为像一个引用，让代码可以同时处理引用和智能指针 Drop 允许自定义智能指针超出作用域的行为。    标准库常见的智能指针
  Box&lt;T&gt; 用于在堆分配值 Rc&lt;T&gt; 引用计数类型，允许多个拥有者 Ref&lt;T&gt; 和 RefMut&lt;T&gt; 和通过 RefCell&lt;T&gt; 访问，运行时取代编译期强制检查借用规则    Box 场景：
   编译期未知大小的类型（递归类型（自己包含自己类型的类型，如链表）编译期无法确定大小）
-// 递归类型 enum List { Cons(i32, Box&lt;List&gt;), Nil, } fn main() { let b = Box::new(5); println!(&#34;b = {}&#34;, b); let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil)))))); }   避免大量数据转移所有权时发生拷贝
+// 递归类型 enum List {  Cons(i32, Box&lt;List&gt;),  Nil, }  fn main() {  let b = Box::new(5);  println!(&#34;b = {}&#34;, b);   let list = Cons(1, 	Box::new(Cons(2, 	Box::new(Cons(3, 	Box::new(Nil)))))); }   避免大量数据转移所有权时发生拷贝
           
           
         </div>
@@ -16456,7 +16464,7 @@ fn process(from: &amp;Path, to: &amp;Path) -&gt; IoResult&lt;()&gt; { // creates
           
           
           生命周期  Rust 中的每一个引用都有其生命周期：引用有效的作用域。 大部分情况下生命周期都是隐式和自举的，在无法完成的情况下就需要我们通过生命周期泛型参数帮助编译器进行注解。 生命周期的主要目标是避免悬空指针。 生命周期泛型参数定义各个引用之间（参数和参数、参数和返回值）的关系，并不改变（延长）变量原本的生命周期  &amp;i32 // a reference &amp;&#39;a i32 // a reference with an explicit lifetime &amp;&#39;a mut i32 // a mutable reference with an explicit lifetime 参考以下代码
-fn longest&lt;&#39;a&gt;(x: &amp;&#39;a str, y: &amp;&#39;a str) -&gt; &amp;&#39;a str { if x.len() &gt; y.len() { x } else { y } } 以上代码
+fn longest&lt;&#39;a&gt;(x: &amp;&#39;a str, y: &amp;&#39;a str) -&gt; &amp;&#39;a str { 	if x.len() &gt; y.len() { 	x 	} else { 	y 	} } 以上代码
  标注生命周期 'a 函数有两个引用参数，都使用生命周期 'a 表示两个参数的生命周期必须一致（存活的周期一样长） 函数返回一个引用，并且存活的时间和生命周期 'a 一致 以上指定不改变任何传入的引用的生命周期，我们只是要求借用检查器（borrow checker）检查这些约束。 也就是说借用检查器要检查传入的两个引用的生命周期必须一致，返回的引用的存活周期不能超过传入的引用的存活周期  思考 当函数返回一个引用时，返回值的生命周期注解要和参数的其中之一相匹配，否则那么引用就是指向里函数内创建的值（不能返回）。 也就是说返回引用时，引用的声明周期必须和参数（其一）相关。如果想要返回函数内创建的值最好返回一个有所有权的值类型。
           
           
@@ -16490,9 +16498,8 @@ fn longest&lt;&#39;a&gt;(x: &amp;&#39;a str, y: &amp;&#39;a str) -&gt; &amp;&#39
         <div class="post-content">
           
           
-          let add_one = | num | { num + 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
-let add_one = | num: i32 | { num + 1 }; fn add_one_v1 (x: u32) -&gt; u32 { x + 1 } let add_one_v2 = |x: u32| -&gt; u32 { x + 1 }; let add_one_v3 = |x| { x + 1 }; let add_one_v4 = |x| x + 1 ; 使用 Fn 存储闭包类型
-struct Cacher&lt;T&gt; where T: Fn(u32) -&gt; u32 { calculation: T, value: Option&lt;u32&gt;, } impl Cacher&lt;T&gt; where T: Fn(u32) -&gt; u32 { fn new(calculation: T) -&gt; Cacher&lt;T&gt; { Cacher { calculation, value: None, } } fn value(&amp;mut self, arg: u32) -&gt; u32 { if let Some(value) = self.
+          let add_one = | num | {  num + 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
+let add_one = | num: i32 | {  num + 1 };  fn add_one_v1 (x: u32) -&gt; u32 { x + 1 } let add_one_v2 = |x: u32| -&gt; u32 { x + 1 }; let add_one_v3 = |x| { x + 1 }; let add_one_v4 = |x| x + 1 ; 使用 Fn 存储闭包类型
           
           
         </div>
@@ -16525,7 +16532,7 @@ struct Cacher&lt;T&gt; where T: Fn(u32) -&gt; u32 { calculation: T, value: Optio
         <div class="post-content">
           
           
-          Traits  定义行为在多个类型中共享。 可以定义默认行为在实现者中间共享。 可以用于定义参数的行为，同样可以定义返回值行为，当用 trait 限定返回值类型时，不能同时（if/else）返回多种实现了该 trait 的类型。  pub trait Summary { fn summarize(&amp;self) -&gt; String; } pub struct Article{ pub title: String, } impl Summary for Article { fn summarize(&amp;self) -&gt; String { format!(&#34;{}&#34;, self.title) } } pub fn notify(item: impl Summary) { println!(&#34;{}&#34;, item.summarize()); } // trait bound 语法糖版本 pub fn notify&lt;T: Summary&gt;(item: T) { println!(&#34;{}&#34;, item.summarize()); } 定义参数行为  通过 impl ： fn notify(item: impl TraitName) ，用于简单明了的场景，比如一个参数 通过 trait bound ： fn notify&lt;T: TraitName&gt; (item: T) ，用于更复杂的场景，比如多个参数用于减少代码   可以通过 + 连接： fn notify(T: TraitName + Display) (item: T)
+          Traits  定义行为在多个类型中共享。 可以定义默认行为在实现者中间共享。 可以用于定义参数的行为，同样可以定义返回值行为，当用 trait 限定返回值类型时，不能同时（if/else）返回多种实现了该 trait 的类型。  pub trait Summary {  fn summarize(&amp;self) -&gt; String; }  pub struct Article{ 	pub title: String, }  impl Summary for Article {  fn summarize(&amp;self) -&gt; String { 	format!(&#34;{}&#34;, self.title)  } }  pub fn notify(item: impl Summary) {  println!(&#34;{}&#34;, item.summarize()); }  // trait bound 语法糖版本 pub fn notify&lt;T: Summary&gt;(item: T) {  println!
           
           
         </div>
@@ -16558,9 +16565,8 @@ struct Cacher&lt;T&gt; where T: Fn(u32) -&gt; u32 { calculation: T, value: Optio
         <div class="post-content">
           
           
-          enum Result&lt;T, E&gt; { Ok(T), Err(E), } ? 操作符 对比
-use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; { let f = File::open(&#34;hello.txt&#34;); let mut f = match f { Ok(file) =&gt; file, Err(e) =&gt; return Err(e), }; let mut s = String::new(); match f.read_to_string(&amp;mut s) { Ok(_) =&gt; Ok(s), Err(e) =&gt; Err(e), } } 和
-use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; { let mut f = File::open(&#34;hello.
+          enum Result&lt;T, E&gt; {  Ok(T),  Err(E), } ? 操作符 对比
+use std::io; use std::io::Read; use std::fs::File;  fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; { 	let f = File::open(&#34;hello.txt&#34;);  	let mut f = match f { 	Ok(file) =&gt; file, 	Err(e) =&gt; return Err(e), 	};  	let mut s = String::new();  	match f.read_to_string(&amp;mut s) { 	Ok(_) =&gt; Ok(s), 	Err(e) =&gt; Err(e), 	} } 和
           
           
         </div>
@@ -16699,8 +16705,8 @@ use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() 
           
           
           多种类型的集合体，一个类型的变量可以存储多种类型的值，枚举的每一项都是该枚举类型的变体：
-enum IpAddrKind { V4, V6, } fn main() { route(IpAddrKind::V4); route(IpAddrkind::V6); } fn route(kind: IpAddrKind) { // ... }   枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
-struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&#34;::1&#34;)); struct Message { Quit, Move{ x: i32, y: i32 }, // anonymous struct  Write(String), ChangeColor(i32, i32, i32), // three i32 values }   枚举也可以通过 impl 实现方法
+enum IpAddrKind {  V4,  V6, }  fn main() {  route(IpAddrKind::V4);  route(IpAddrkind::V6); }  fn route(kind: IpAddrKind) {  // ... }   枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
+struct Ipv4Addr {  // --snip-- }  enum IpAddr {  V4(Ipv4Addr),  V6(String), }  let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&#34;::1&#34;));  struct Message {  Quit,  Move{ x: i32, y: i32 }, // anonymous struct  Write(String),  ChangeColor(i32, i32, i32), // three i32 values }   枚举也可以通过 impl 实现方法
           
           
         </div>
@@ -16734,7 +16740,7 @@ struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let ho
           
           
           结构体 元组结构体（tuple struct） 用于命名元组并和其他元组进行区分：
-struct Color(i32, i32, i32); struct Point(i32, i32, i32); let black = Color(0, 0, 0); let origin = Point(0, 0, 0); 由于定义了元组结构体所有 black 和 origin 是两个不同的类型。
+struct Color(i32, i32, i32); struct Point(i32, i32, i32);  let black = Color(0, 0, 0); let origin = Point(0, 0, 0); 由于定义了元组结构体所有 black 和 origin 是两个不同的类型。
 没有字段的结构体：类单元（Unit-Like）结构体 没有任何字段的结构体和单元类型 () 类似，用于实现一些特性（trait）但是没有任何数据。
 方法语法   self 占有所有权
   &amp;self 不可变借用
@@ -16775,9 +16781,9 @@ struct Color(i32, i32, i32); struct Point(i32, i32, i32); let black = Color(0, 0
           
           
           类型前置 &amp; 表示引用，引用允许变量指向一个值但是不发生所有权转移。 引用不占有所有权，所以变量超出作用域之后不会触发 drop 调用。 引用作为函数形参被成为借用（borrowing）  可变引用   针对特定作用域下的特定数据只能创建一个可变引用。如果要创建多个可变引用可以通过大括号创建新的作用域
-let mut s = String::from(&#34;hello&#34;); { let s1 = mut &amp;s; } let s2 = mut &amp;s;   当已经存在不可变引用时，则无法再创建可变引用，下面代码无法编译通过
+let mut s = String::from(&#34;hello&#34;); {  let s1 = mut &amp;s; } let s2 = mut &amp;s;   当已经存在不可变引用时，则无法再创建可变引用，下面代码无法编译通过
 let mut s = String::from(&#34;hello&#34;); let s1 = &amp;s; // OK let s2 = &amp;s; // OK let s3 = mut &amp;s; // BIG PROBLEM   悬空引用 以下代码是不允许的，无法编译通过
-fn main() { let s = dangling_string(); } fn dangling_string() -&gt; &amp;String { let s = String::from(&#34;hello&#34;); &amp;s } 上面代码 s 在函数内部分配，那么在函数执行完成后 s 将被释放，所以返回 s 的引用会造成悬空引用。
+fn main() {  let s = dangling_string(); }  fn dangling_string() -&gt; &amp;String {  let s = String::from(&#34;hello&#34;);  &amp;s } 上面代码 s 在函数内部分配，那么在函数执行完成后 s 将被释放，所以返回 s 的引用会造成悬空引用。
           
           
         </div>
@@ -17096,6 +17102,15 @@ let s1 = String::from(&#34;hello&#34;); let s2 = s1.clone(); println!(s1); 变�
         <div class="post-content">
           
           
+          tags: Rust  动态大小类型（DST）和 Sized 特性 str （非 &amp;str ）就是一个 DST，我们不能在运行时得知 str 的大小。 &amp;str 是一个指针类型，大小是已知的。
+DST：拥有额外的元数据存储动态大小的信息。
+每一个特性都是一个是个 DST，使用 Trait Object 必须是像 &amp;dyn Trait 和 Box&lt;dyn Trait&gt; （或 Rc&lt;dyn Trait&gt; ）的指针类型。
+dyn 关键字 dyn 关键字用于将 Trait Object 指针和普通的结构体指针区分开来。
+Sized vs ?Sized Rust 有一个特定的特性叫做 Sized 去判断一个类型的大小是否是编译期可知的，并且自动在编译期为所有已知大小的类型实现， 同时 Rust 隐式的为泛型函数的类型参数加上 Sized 的限制（bound），下面这样的泛型函数：
+fn generic&lt;T&gt;(t: T) {  // --snip-- } 实际上相当于像下面这样硬编码：
+fn generic&lt;T: Sized&gt;(t: T) {  // --snip-- } 也可以通过下面特定的语法取消这个限制：
+fn geneic&lt;T: ?
+          
           
         </div>
 
@@ -17140,48 +17155,6 @@ let s1 = String::from(&#34;hello&#34;); let s2 = s1.clone(); println!(s1); 变�
     
       <div class="post on-list">
         <h1 class="post-title">
-          <a href="https://www.linuxzen.com/notes/notes/20200323101418_solid/">SOLID</a>
-        </h1>
-        <div class="post-meta">
-          <span class="post-date">
-            2020-03-23
-          </span>
-          
-            <span class="post-author">:: [Gray King]</span>
-          
-        </div>
-
-        
-
-        
-
-        <div class="post-content">
-          
-          
-          SRP: Single Responsibility Principle   浅显的解释是软件模块只提供单一功能
-  更进一步任何一个软件模块都应该有且只有一个被修改的原因
-  再更进一步这个原则是关于人（Actor）的
-任何一个软件模块都应该只对一个用户或系统利益相关者负责。
-  最终就是任何一个软件模块都应该只对某一类行为负责
-  OCP：Open/Closed Principle 设计良好的软件应该易于扩展，同时抗拒修改。也就是说一个软件模块应该允许在不修改源码的情况下扩展它的行为。
-可以通过组合 SRP（代码分组）和调整依赖关系实现（DIP）。如果 A 组件不想被 B 组件上发生的修改所影响，那么就应该让 B 组件依赖于 A 组件。
-LSP：Liskov Substitution Principle 里氏替换原则：多态。
-每个类型是 S 的对象 o1 都存在一个类型为 T 的对象 o2，能使操作 T 类型的程序 P 在用 o2 替换 o1 时行为保持不变，我们就可以将 S 称为 T 的子类型。
-public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o2 = new T(); P(o1); // ok 	P(o2); // ok  } public static P(T o) { o.
-          
-          
-        </div>
-
-        
-        <div>
-          <a class="read-more button"
-            href="/notes/notes/20200323101418_solid/"> →</a>
-        </div>
-        
-      </div>
-    
-      <div class="post on-list">
-        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20200323104907_%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93/">《架构整洁之道》读书笔记</a>
         </h1>
         <div class="post-meta">
@@ -17213,6 +17186,48 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20200323101418_solid/">SOLID</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2020-03-23
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          SRP: Single Responsibility Principle   浅显的解释是软件模块只提供单一功能
+  更进一步任何一个软件模块都应该有且只有一个被修改的原因
+  再更进一步这个原则是关于人（Actor）的
+任何一个软件模块都应该只对一个用户或系统利益相关者负责。
+  最终就是任何一个软件模块都应该只对某一类行为负责
+  OCP：Open/Closed Principle 设计良好的软件应该易于扩展，同时抗拒修改。也就是说一个软件模块应该允许在不修改源码的情况下扩展它的行为。
+可以通过组合 SRP（代码分组）和调整依赖关系实现（DIP）。如果 A 组件不想被 B 组件上发生的修改所影响，那么就应该让 B 组件依赖于 A 组件。
+LSP：Liskov Substitution Principle 里氏替换原则：多态。
+每个类型是 S 的对象 o1 都存在一个类型为 T 的对象 o2，能使操作 T 类型的程序 P 在用 o2 替换 o1 时行为保持不变，我们就可以将 S 称为 T 的子类型。
+public class LiskovSub {  public static main(String[] args) { 	T o1 = new S(); 	T o2 = new T();  	P(o1); // ok 	P(o2); // ok  }   public static P(T o) { 	o.
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20200323101418_solid/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20200322143810_%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/">系统架构</a>
         </h1>
         <div class="post-meta">
@@ -17238,6 +17253,54 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
         <div>
           <a class="read-more button"
             href="/notes/notes/20200322143810_%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20200320180837_%E7%99%BE%E7%AE%AD%E7%A9%BF%E6%9D%A8/">《百箭穿杨》读书笔记</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2020-03-20
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          需要熟悉股市相关概念进行扫盲。
+粗读要点  树立安全边际，跟随格雷厄姆 寻找好的困难股，降低触底难度，加大触底区间，预测底部区间，分 5 档抄底，最好在 1-3 档就能完成抄底 每次只买总资产的 1% 盈利后可以将本金提出，只留底仓等待顶峰信号后抛出赚取高额利润的前提下保障本金 总是留 25%-40% 的现金 做长线 分析财报看毛利、营收增长率、负债率可以确定一个好股，然后就等一些情况下这只股遇到困难触底 看行业处于哪个周期：萌发、成长啥的 不做重仓  复读要点完善 安全边际 跟随格雷厄姆
+ 偏离：更保守或更激进 大赚小赔不如小赚不赔：不亏钱  困境好企   做有把握的事，不啃硬骨头，广撒网，多捞鱼，选取一批困境好企来实现从小盘大稳定增长股
+  行业中的好企业标准
+  行业很关键
+  需求无限，供给有限
+  关注行业周期
+大周期：新生-&gt;成长-&gt;成熟-&gt;衰落-&gt;消亡 小周期：大周期各个过程中的景气与萧条（一两年、三五年甚至一二十年）
+消亡之前会有死灰复燃，大周期中成长阶段会有萧条，注意区分。
+  门槛高，竞争少
+只有少数寡头，估值会高
+  唯一或第一
+成熟行业比较简单，成长行业比较困难。
+通过企业原则、经营原则、财务原则和市场原则衡量。- P28 生活经验活常识也很重要。
+    落难好企
+ 行业顺境，某些原因导致的猜疑导致股价下跌 行业遭遇整体困境：偶然事件，反转时间比好把握 个股困境，主打产品破灭：有无法度过的风险    财务数据衡量困境好企能否度过难关 - P32
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20200320180837_%E7%99%BE%E7%AE%AD%E7%A9%BF%E6%9D%A8/"> →</a>
         </div>
         
       </div>
@@ -17385,54 +17448,6 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
     
       <div class="post on-list">
         <h1 class="post-title">
-          <a href="https://www.linuxzen.com/notes/notes/20200320180837_%E7%99%BE%E7%AE%AD%E7%A9%BF%E6%9D%A8/">《百箭穿杨》读书笔记</a>
-        </h1>
-        <div class="post-meta">
-          <span class="post-date">
-            2020-03-20
-          </span>
-          
-            <span class="post-author">:: [Gray King]</span>
-          
-        </div>
-
-        
-
-        
-
-        <div class="post-content">
-          
-          
-          需要熟悉股市相关概念进行扫盲。
-粗读要点  树立安全边际，跟随格雷厄姆 寻找好的困难股，降低触底难度，加大触底区间，预测底部区间，分 5 档抄底，最好在 1-3 档就能完成抄底 每次只买总资产的 1% 盈利后可以将本金提出，只留底仓等待顶峰信号后抛出赚取高额利润的前提下保障本金 总是留 25%-40% 的现金 做长线 分析财报看毛利、营收增长率、负债率可以确定一个好股，然后就等一些情况下这只股遇到困难触底 看行业处于哪个周期：萌发、成长啥的 不做重仓  复读要点完善 安全边际 跟随格雷厄姆
- 偏离：更保守或更激进 大赚小赔不如小赚不赔：不亏钱  困境好企   做有把握的事，不啃硬骨头，广撒网，多捞鱼，选取一批困境好企来实现从小盘大稳定增长股
-  行业中的好企业标准
-  行业很关键
-  需求无限，供给有限
-  关注行业周期
-大周期：新生-&gt;成长-&gt;成熟-&gt;衰落-&gt;消亡 小周期：大周期各个过程中的景气与萧条（一两年、三五年甚至一二十年）
-消亡之前会有死灰复燃，大周期中成长阶段会有萧条，注意区分。
-  门槛高，竞争少
-只有少数寡头，估值会高
-  唯一或第一
-成熟行业比较简单，成长行业比较困难。
-通过企业原则、经营原则、财务原则和市场原则衡量。- P28 生活经验活常识也很重要。
-    落难好企
- 行业顺境，某些原因导致的猜疑导致股价下跌 行业遭遇整体困境：偶然事件，反转时间比好把握 个股困境，主打产品破灭：有无法度过的风险    财务数据衡量困境好企能否度过难关 - P32
-          
-          
-        </div>
-
-        
-        <div>
-          <a class="read-more button"
-            href="/notes/notes/20200320180837_%E7%99%BE%E7%AE%AD%E7%A9%BF%E6%9D%A8/"> →</a>
-        </div>
-        
-      </div>
-    
-      <div class="post on-list">
-        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
         </h1>
         <div class="post-meta">
@@ -17557,8 +17572,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
           
           tags: Over the Wall,HTTPs  这里以新增 vd.linuxzen.com 为例。
 新增 DNS 解析  通过 DNSPOD 新增 DNS 解析 A 记录  调整 Nginx 新增 HTTP 站点 Nginx 参考配置
-server { listen 80; server_name vd.linuxzen.com; include /etc/nginx/snippets/letsencrypt-acme-challenge.conf; } 新增签发证书 $ acme.sh --force --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d vd.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/ 安装证书
-$ acme.sh --install-cert -d linuxzen.
+server { 	listen 80; 	server_name vd.linuxzen.com; 	include /etc/nginx/snippets/letsencrypt-acme-challenge.conf; } 新增签发证书 $ acme.sh --force --issue -d linuxzen.com -d www.linuxzen.com -d cwiki.linuxzen.com -d monitor.linuxzen.com -d v.linuxzen.com -d vd.linuxzen.com -d d.linuxzen.com -d piwik.linuxzen.com -d t.linuxzen.com -d wiki.linuxzen.com -d note.linuxzen.com -w /var/www/letsencrypt/ 安装证书
           
           
         </div>
@@ -17814,6 +17828,37 @@ service imap { type = UNLISTED port = 993 bind = 0.0.0.0 socket_type = stream wa
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20200307114151_%E5%B7%B4%E6%AF%94%E4%BC%A6%E5%AF%8C%E7%BF%81%E6%96%B0%E8%A7%A3/">《巴比伦富翁新解》读书笔记</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2020-03-07
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20200307114151_%E5%B7%B4%E6%AF%94%E4%BC%A6%E5%AF%8C%E7%BF%81%E6%96%B0%E8%A7%A3/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20200224133304_cpi/">CPI</a>
         </h1>
         <div class="post-meta">
@@ -18062,37 +18107,6 @@ service imap { type = UNLISTED port = 993 bind = 0.0.0.0 socket_type = stream wa
     
       <div class="post on-list">
         <h1 class="post-title">
-          <a href="https://www.linuxzen.com/notes/notes/20200307114151_%E5%B7%B4%E6%AF%94%E4%BC%A6%E5%AF%8C%E7%BF%81%E6%96%B0%E8%A7%A3/">《巴比伦富翁新解》读书笔记</a>
-        </h1>
-        <div class="post-meta">
-          <span class="post-date">
-            2020-03-07
-          </span>
-          
-            <span class="post-author">:: [Gray King]</span>
-          
-        </div>
-
-        
-
-        
-
-        <div class="post-content">
-          
-          
-          
-        </div>
-
-        
-        <div>
-          <a class="read-more button"
-            href="/notes/notes/20200307114151_%E5%B7%B4%E6%AF%94%E4%BC%A6%E5%AF%8C%E7%BF%81%E6%96%B0%E8%A7%A3/"> →</a>
-        </div>
-        
-      </div>
-    
-      <div class="post on-list">
-        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20200224132645_/">基金</a>
         </h1>
         <div class="post-meta">
@@ -18315,7 +18329,7 @@ AGGREGATE 边界 识别模型中的 AGGREGATE 根和对应的边界。
 Example 1
  Input: &ldquo;bcabc&rdquo; Output: &ldquo;abc&rdquo;  Example 2
  Input: &ldquo;cbacdcbc&rdquo; Output: &ldquo;acdb&rdquo;   解法之一:
- 通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母  func removeDuplicateLetters(s string) string { var countOfEachLetter [26]int var visited [26]bool stack := make([]byte, 0) stackBottom := 0 bytesArr := []byte(s) for _, c := range bytesArr { countOfEachLetter[getIndex(c)]++ } for _, c := range bytesArr { index := getIndex(c) countOfEachLetter[index]-- if visited[index] { continue } // countOfEachLetter[getIndex(stack[stackBottom])] &gt; 0 后面还有该字符 	for len(stack[stackBottom:]) &gt; 0 &amp;&amp; stack[stackBottom] &gt; c &amp;&amp; countOfEachLetter[getIndex(stack[stackBottom])] &gt; 0 { // 标记为未访问用于后面的字符加入结果 	visited[getIndex(stack[stackBottom])] = false // 移动栈底 	stackBottom++ } // 加入到结果栈 	stack = append(stack, c) visited[index] = true } return string(stack[stackBottom:]) } func getIndex(b byte) int { return int(b - &#39;a&#39;) } 通过上面解法遇到如下错误：
+ 通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母  func removeDuplicateLetters(s string) string { 	var countOfEachLetter [26]int 	var visited [26]bool 	stack := make([]byte, 0) 	stackBottom := 0  	bytesArr := []byte(s)  	for _, c := range bytesArr { 	countOfEachLetter[getIndex(c)]++ 	}  	for _, c := range bytesArr { 	index := getIndex(c) 	countOfEachLetter[index]-- 	if visited[index] { 	continue 	}  	// countOfEachLetter[getIndex(stack[stackBottom])] &gt; 0 后面还有该字符 	for len(stack[stackBottom:]) &gt; 0 &amp;&amp; stack[stackBottom] &gt; c &amp;&amp; countOfEachLetter[getIndex(stack[stackBottom])] &gt; 0 { 	// 标记为未访问用于后面的字符加入结果 	visited[getIndex(stack[stackBottom])] = false  	// 移动栈底 	stackBottom++ 	}  	// 加入到结果栈 	stack = append(stack, c) 	visited[index] = true 	} 	return string(stack[stackBottom:])  }  func getIndex(b byte) int { 	return int(b - &#39;a&#39;) } 通过上面解法遇到如下错误：
           
           
         </div>
@@ -18350,7 +18364,7 @@ Example 1
           
           tags: LeetCode  解法 1 找到中间节点依次往左右扩散：
  向左边扩散，如果左边的大于当前元素，那么当前元素即为最小值 向右边扩散，如果右边的小于当前元素，那么右边元素即为最小值  如果以上不成立则第一个元素为最小元素（未旋转），以下是代码
-func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[0] } // 从中间开始确定方向 	mid := length / 2 - 1 left, right := mid, mid for left - 1 &gt;= 0 || right + 1 &lt; length { if left - 1 &gt;= 0 { if nums[left - 1] &gt; nums[left] { return nums[left]; } left-- } if right + 1 &lt; length { if nums[right] &gt; nums[right + 1] { return nums[right + 1] } right++ } } return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：
+func findMin(nums []int) int { 	length := len(nums) 	if length == 1 { 	return nums[0] 	}  	// 从中间开始确定方向 	mid := length / 2 - 1  	left, right := mid, mid  	for left - 1 &gt;= 0 || right + 1 &lt; length { 	if left - 1 &gt;= 0 { 	if nums[left - 1] &gt; nums[left] { 	return nums[left]; 	} 	left-- 	}  	if right + 1 &lt; length { 	if nums[right] &gt; nums[right + 1] { 	return nums[right + 1] 	}  	right++ 	} 	} 	return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：
           
           
         </div>
@@ -18455,7 +18469,7 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
           
           
           tags: LeetCode  思路 归并排序
-代码 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 { nums := mergeSort(nums1, nums2) length := len(nums) if length % 2 != 0 { return float64(nums[(length - 1) / 2]) } i := length / 2 return (float64(nums[i]) + float64(nums[i - 1])) / 2 } func mergeSort(nums1 []int, nums2 []int) []int { l1 := len(nums1) l2 := len(nums2) result := make([]int, 0, l1 + l2) i, j := 0, 0 for i &lt; l1 &amp;&amp; j &lt; l2 { if nums1[i] &lt; nums2[j] { result = append(result, nums1[i]) i++ } else { result = append(result, nums2[j]) j++ } } result = append(result, nums1[i:].
+代码 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 { 	nums := mergeSort(nums1, nums2) 	length := len(nums) 	if length % 2 != 0 { 	return float64(nums[(length - 1) / 2]) 	} 	i := length / 2 	return (float64(nums[i]) + float64(nums[i - 1])) / 2 }   func mergeSort(nums1 []int, nums2 []int) []int { 	l1 := len(nums1) 	l2 := len(nums2) 	result := make([]int, 0, l1 + l2)  	i, j := 0, 0  	for i &lt; l1 &amp;&amp; j &lt; l2 { 	if nums1[i] &lt; nums2[j] { 	result = append(result, nums1[i]) 	i++ 	} else { 	result = append(result, nums2[j]) 	j++ 	} 	} 	result = append(result, nums1[i:].
           
           
         </div>
@@ -18490,7 +18504,7 @@ func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[
           
           tags: LeetCode   https://leetcode.com/problems/longest-palindromic-substring/description/
  思路 直接暴力往两边搜索
-func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if length == 0 { return s } start, end := 0, 0 for ci, _ := range buf { i, j := ci, ci // 无法处理 &#34;aaaa&#34; 和 &#34;noon&#34; 这种情况 	for i &gt; 0 &amp;&amp; j &lt; length - 1 &amp;&amp; buf[i - 1] == buf[j + 1] { i-- j++ } // 考虑 &#34;bba&#34; 这种情况 	if i == j &amp;&amp; ci &gt; 0 &amp;&amp; buf[ci] == buf[ci - 1] { i, j = ci-1, ci } // 考虑 &#34;abb&#34; 这种情况 	if i == j &amp;&amp; ci &lt; length - 1 &amp;&amp; buf[ci] == buf[ci + 1] { i, j = ci, ci + 1 } if i !
+func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 	if length == 0 { 	return s 	}  	start, end := 0, 0  	for ci, _ := range buf { 	i, j := ci, ci  	// 无法处理 &#34;aaaa&#34; 和 &#34;noon&#34; 这种情况 	for i &gt; 0 &amp;&amp; j &lt; length - 1 &amp;&amp; buf[i - 1] == buf[j + 1] { 	i-- 	j++ 	}  	// 考虑 &#34;bba&#34; 这种情况 	if i == j &amp;&amp; ci &gt; 0 &amp;&amp; buf[ci] == buf[ci - 1] { 	i, j = ci-1, ci 	}  	// 考虑 &#34;abb&#34; 这种情况 	if i == j &amp;&amp; ci &lt; length - 1 &amp;&amp; buf[ci] == buf[ci + 1] { 	i, j = ci, ci + 1 	}  	if i !
           
           
         </div>

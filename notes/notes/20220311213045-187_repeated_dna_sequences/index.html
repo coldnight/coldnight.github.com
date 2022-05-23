@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Sliding Window,LeetCode101,Hash Set  Key:
- Fixed size window, right should start from 9  class Solution { public: vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { int left = 0; unordered_set&amp;lt;string&amp;gt; results; unordered_set&amp;lt;string&amp;gt; hset; for (auto right = 9; right &amp;lt; s.size(); right&#43;&#43;) { string sub(s, left, 10); if (hset.find(sub) != hset.end()) { results.insert(sub); } hset.insert(sub); left&#43;&#43;; } return vector&amp;lt;string&amp;gt;(results.begin(), results.end()); } }; " />
+<meta name="description" content="tags: Sliding Window,LeetCode101,Hash Set  Key:
+ Fixed size window, right should start from 9  class Solution { public: 	vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { 	int left = 0; 	unordered_set&amp;lt;string&amp;gt; results; 	unordered_set&amp;lt;string&amp;gt; hset;  	for (auto right = 9; right &amp;lt; s.size(); right&#43;&#43;) { 	string sub(s, left, 10); 	if (hset.find(sub) != hset.end()) { 	results.insert(sub); 	} 	hset.insert(sub); 	left&#43;&#43;; 	}  	return vector&amp;lt;string&amp;gt;(results." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220311213045-187_repeated_dna_sequences/" />
@@ -35,8 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 187. Repeated DNA Sequences">
-<meta property="og:description" content=" tags: Sliding Window,LeetCode101,Hash Set  Key:
- Fixed size window, right should start from 9  class Solution { public: vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { int left = 0; unordered_set&amp;lt;string&amp;gt; results; unordered_set&amp;lt;string&amp;gt; hset; for (auto right = 9; right &amp;lt; s.size(); right&#43;&#43;) { string sub(s, left, 10); if (hset.find(sub) != hset.end()) { results.insert(sub); } hset.insert(sub); left&#43;&#43;; } return vector&amp;lt;string&amp;gt;(results.begin(), results.end()); } }; " />
+<meta property="og:description" content="tags: Sliding Window,LeetCode101,Hash Set  Key:
+ Fixed size window, right should start from 9  class Solution { public: 	vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { 	int left = 0; 	unordered_set&amp;lt;string&amp;gt; results; 	unordered_set&amp;lt;string&amp;gt; hset;  	for (auto right = 9; right &amp;lt; s.size(); right&#43;&#43;) { 	string sub(s, left, 10); 	if (hset.find(sub) != hset.end()) { 	results.insert(sub); 	} 	hset.insert(sub); 	left&#43;&#43;; 	}  	return vector&amp;lt;string&amp;gt;(results." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220311213045-187_repeated_dna_sequences/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -173,26 +173,26 @@
 <li>Fixed size window, <code>right</code> should start from <code>9</code></li>
 </ol>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> findRepeatedDnaSequences(string s) {
-		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		unordered_set<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> results;
-		unordered_set<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> hset;
-
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> right <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>; right <span style="color:#f92672">&lt;</span> s.size(); right<span style="color:#f92672">++</span>) {
-			string <span style="color:#a6e22e">sub</span>(s, left, <span style="color:#ae81ff">10</span>);
-			<span style="color:#66d9ef">if</span> (hset.find(sub) <span style="color:#f92672">!=</span> hset.end()) {
-				results.insert(sub);
-			}
-			hset.insert(sub);
-			left<span style="color:#f92672">++</span>;
-		}
-
-		<span style="color:#66d9ef">return</span> vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>(results.begin(), results.end());
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> findRepeatedDnaSequences(string s) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		unordered_set<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> results;
+</span></span><span style="display:flex;"><span>		unordered_set<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> hset;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> right <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>; right <span style="color:#f92672">&lt;</span> s.size(); right<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			string <span style="color:#a6e22e">sub</span>(s, left, <span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (hset.find(sub) <span style="color:#f92672">!=</span> hset.end()) {
+</span></span><span style="display:flex;"><span>				results.insert(sub);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			hset.insert(sub);
+</span></span><span style="display:flex;"><span>			left<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>(results.begin(), results.end());
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

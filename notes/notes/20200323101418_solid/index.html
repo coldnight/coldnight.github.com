@@ -15,7 +15,7 @@
 可以通过组合 SRP（代码分组）和调整依赖关系实现（DIP）。如果 A 组件不想被 B 组件上发生的修改所影响，那么就应该让 B 组件依赖于 A 组件。
 LSP：Liskov Substitution Principle 里氏替换原则：多态。
 每个类型是 S 的对象 o1 都存在一个类型为 T 的对象 o2，能使操作 T 类型的程序 P 在用 o2 替换 o1 时行为保持不变，我们就可以将 S 称为 T 的子类型。
-public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o2 = new T(); P(o1); // ok 	P(o2); // ok  } public static P(T o) { o." />
+public class LiskovSub {  public static main(String[] args) { 	T o1 = new S(); 	T o2 = new T();  	P(o1); // ok 	P(o2); // ok  }   public static P(T o) { 	o." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200323101418_solid/" />
@@ -52,7 +52,7 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 可以通过组合 SRP（代码分组）和调整依赖关系实现（DIP）。如果 A 组件不想被 B 组件上发生的修改所影响，那么就应该让 B 组件依赖于 A 组件。
 LSP：Liskov Substitution Principle 里氏替换原则：多态。
 每个类型是 S 的对象 o1 都存在一个类型为 T 的对象 o2，能使操作 T 类型的程序 P 在用 o2 替换 o1 时行为保持不变，我们就可以将 S 称为 T 的子类型。
-public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o2 = new T(); P(o1); // ok 	P(o2); // ok  } public static P(T o) { o." />
+public class LiskovSub {  public static main(String[] args) { 	T o1 = new S(); 	T o2 = new T();  	P(o1); // ok 	P(o2); // ok  }   public static P(T o) { 	o." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200323101418_solid/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -203,64 +203,64 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
 <h2 id="lsp-liskov-substitution-principle">LSP：Liskov Substitution Principle<a href="#lsp-liskov-substitution-principle" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>里氏替换原则：多态。</p>
 <p>每个类型是 S 的对象 o1 都存在一个类型为 T 的对象 o2，能使操作 T 类型的程序 P 在用 o2 替换 o1 时行为保持不变，我们就可以将 S 称为 T 的子类型。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LiskovSub</span> <span style="color:#f92672">{</span>
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	T o1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> S<span style="color:#f92672">();</span>
-	T o2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> T<span style="color:#f92672">();</span>
-
-	P<span style="color:#f92672">(</span>o1<span style="color:#f92672">);</span> <span style="color:#75715e">// ok
-</span><span style="color:#75715e"></span>	P<span style="color:#f92672">(</span>o2<span style="color:#f92672">);</span> <span style="color:#75715e">// ok
-</span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
-
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">P</span><span style="color:#f92672">(</span>T o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	o<span style="color:#f92672">.</span><span style="color:#a6e22e">doSomeThing</span><span style="color:#f92672">();</span>
-  <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>正长方形问题</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NonLiskovSub</span> <span style="color:#f92672">{</span>
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	Rectangle r <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Sqaure<span style="color:#f92672">();</span>
-	r<span style="color:#f92672">.</span><span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span>5<span style="color:#f92672">);</span>
-	r<span style="color:#f92672">.</span><span style="color:#a6e22e">setH</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
-
-	<span style="color:#66d9ef">assert</span><span style="color:#f92672">(</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">area</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 10<span style="color:#f92672">);</span> <span style="color:#75715e">// 不成立
-</span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
-
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Reactangle</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
-	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> h <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
-
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> w<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">w</span> <span style="color:#f92672">=</span> w<span style="color:#f92672">;</span>
-	<span style="color:#f92672">}</span>
-
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setH</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> h<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">h</span> <span style="color:#f92672">=</span> h<span style="color:#f92672">;</span>
-	<span style="color:#f92672">}</span>
-
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">area</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-	  <span style="color:#66d9ef">return</span> w <span style="color:#f92672">*</span> h<span style="color:#f92672">;</span>
-	<span style="color:#f92672">}</span>
-  <span style="color:#f92672">}</span>
-
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Square</span> <span style="color:#66d9ef">extends</span> Rectangle <span style="color:#f92672">{</span>
-	<span style="color:#a6e22e">@Override</span>
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> w<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	  setSide<span style="color:#f92672">(</span>w<span style="color:#f92672">);</span>
-	<span style="color:#f92672">}</span>
-
-	<span style="color:#a6e22e">@Override</span>
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setH</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> h<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	  setSide<span style="color:#f92672">(</span>h<span style="color:#f92672">);</span>
-	<span style="color:#f92672">}</span>
-
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setSide</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> s<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">w</span> <span style="color:#f92672">=</span> s<span style="color:#f92672">;</span>
-	  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">h</span> <span style="color:#f92672">=</span> s<span style="color:#f92672">;</span>
-	<span style="color:#f92672">}</span>
-  <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><h2 id="isp-interface-segregation-principle">ISP: Interface-Segregation Principle<a href="#isp-interface-segregation-principle" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LiskovSub</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	T o1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> S<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>	T o2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> T<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	P<span style="color:#f92672">(</span>o1<span style="color:#f92672">);</span> <span style="color:#75715e">// ok
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	P<span style="color:#f92672">(</span>o2<span style="color:#f92672">);</span> <span style="color:#75715e">// ok
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">P</span><span style="color:#f92672">(</span>T o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	o<span style="color:#f92672">.</span><span style="color:#a6e22e">doSomeThing</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>正长方形问题</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NonLiskovSub</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	Rectangle r <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Sqaure<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>	r<span style="color:#f92672">.</span><span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span>5<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	r<span style="color:#f92672">.</span><span style="color:#a6e22e">setH</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">assert</span><span style="color:#f92672">(</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">area</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 10<span style="color:#f92672">);</span> <span style="color:#75715e">// 不成立
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Reactangle</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> w <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> h <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> w<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">w</span> <span style="color:#f92672">=</span> w<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setH</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> h<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">h</span> <span style="color:#f92672">=</span> h<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">area</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#66d9ef">return</span> w <span style="color:#f92672">*</span> h<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Square</span> <span style="color:#66d9ef">extends</span> Rectangle <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setW</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> w<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	  setSide<span style="color:#f92672">(</span>w<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setH</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> h<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	  setSide<span style="color:#f92672">(</span>h<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setSide</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> s<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">w</span> <span style="color:#f92672">=</span> s<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">h</span> <span style="color:#f92672">=</span> s<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="isp-interface-segregation-principle">ISP: Interface-Segregation Principle<a href="#isp-interface-segregation-principle" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>用户应该不依赖它不是用的方法。臃肿的方法拆分成更小更具体的角色接口。</p>
 <h2 id="dip-dependency-inversion-principle">DIP: Dependency Inversion Principle<a href="#dip-dependency-inversion-principle" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>如果想要设计一个灵活的系统，在源代码层面的依赖关系中就应该多引用抽象类行，而非具体实现。</p>
@@ -1415,9 +1415,9 @@ public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o
    
 
    
-
-   
       
+   
+
    
 
    

@@ -200,17 +200,17 @@ JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排�
 <li>传递给 Transformations 和 Actions 的闭包函数也是执行在 Spark 集群上的。</li>
 </ul>
 <p>其他额外的代码都是执行在 Driver 上的，所以想要在 Driver 打印日志需要上使用 <code>collect</code>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">rdd<span style="color:#f92672">.</span>collect<span style="color:#f92672">().</span>foreach<span style="color:#f92672">(</span>println<span style="color:#f92672">)</span>
-</code></pre></div><p><code>collect</code> 可能会导致 Driver 内存爆掉，可以使用 <code>take</code>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">rd<span style="color:#f92672">.</span>take<span style="color:#f92672">(</span><span style="color:#ae81ff">100</span><span style="color:#f92672">).</span>foreach<span style="color:#f92672">(</span>println<span style="color:#f92672">)</span>
-</code></pre></div><p>所以在这就带来在闭包中共享变量的问题，参见 <a href="#spark-%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F">Spark 共享变量</a>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scala" data-lang="scala"><span style="display:flex;"><span>rdd<span style="color:#f92672">.</span>collect<span style="color:#f92672">().</span>foreach<span style="color:#f92672">(</span>println<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p><code>collect</code> 可能会导致 Driver 内存爆掉，可以使用 <code>take</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scala" data-lang="scala"><span style="display:flex;"><span>rd<span style="color:#f92672">.</span>take<span style="color:#f92672">(</span><span style="color:#ae81ff">100</span><span style="color:#f92672">).</span>foreach<span style="color:#f92672">(</span>println<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>所以在这就带来在闭包中共享变量的问题，参见 <a href="#spark-%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F">Spark 共享变量</a>。</p>
 <h2 id="spark-编程抽象">Spark 编程抽象<a href="#spark-编程抽象" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p><a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD Programming Guide</a></p>
 <h3 id="spark-rdd">Spark RDD<a href="#spark-rdd" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <h4 id="集合并行化">集合并行化<a href="#集合并行化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> data <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Array</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">)</span>
-<span style="color:#66d9ef">val</span> distData <span style="color:#66d9ef">=</span> sc<span style="color:#f92672">.</span>parallelize<span style="color:#f92672">(</span>data<span style="color:#f92672">)</span>
-</code></pre></div><h4 id="外部数据集">外部数据集<a href="#外部数据集" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scala" data-lang="scala"><span style="display:flex;"><span><span style="color:#66d9ef">val</span> data <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Array</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> distData <span style="color:#66d9ef">=</span> sc<span style="color:#f92672">.</span>parallelize<span style="color:#f92672">(</span>data<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h4 id="外部数据集">外部数据集<a href="#外部数据集" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <ul>
 <li>输入源支持支持 Hadoop 支持的任何存储源，包括：本地文件系统、<a href="/notes/notes/20210808075530-hadoop_distributed_file_system/">HDFS</a>、Cassandra、<a href="/notes/notes/20210810071455-hbase/">HBase</a>、<a href="http://wiki.apache.org/hadoop/AmazonS3">Amazaon S3</a> 等</li>
 <li>输入格式支持：文本文件、<a href="https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapred/SequenceFileInputFormat.html">SequenceFiles</a> 和任何其他 Hadoop <a href="http://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapred/InputFormat.html">InputFormat</a></li>
@@ -237,11 +237,11 @@ JVM 语言的依赖组织方式则具有天然的优势，可以将依赖（排�
 <li>Accumulators</li>
 </ul>
 <h2 id="设置-spark-python-版本">设置 Spark Python 版本<a href="#设置-spark-python-版本" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export PYSPARK_DRIVER_PYTHON<span style="color:#f92672">=</span>python <span style="color:#75715e"># Do not set in cluster modes.</span>
-export PYSPARK_PYTHON<span style="color:#f92672">=</span>./environment/bin/python <span style="color:#75715e"># Executor</span>
-</code></pre></div><p>上面 environment 是提交的时候需要在 <code>--archives</code> 缀上的:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">spark-submit --archives pyspark_conda_env.tar.gz#environment app.py
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export PYSPARK_DRIVER_PYTHON<span style="color:#f92672">=</span>python <span style="color:#75715e"># Do not set in cluster modes.</span>
+</span></span><span style="display:flex;"><span>export PYSPARK_PYTHON<span style="color:#f92672">=</span>./environment/bin/python <span style="color:#75715e"># Executor</span>
+</span></span></code></pre></div><p>上面 environment 是提交的时候需要在 <code>--archives</code> 缀上的:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>spark-submit --archives pyspark_conda_env.tar.gz#environment app.py
+</span></span></code></pre></div><blockquote>
 <p>Note that <code>PYSPARK_DRIVER_PYTHON</code> above should not be set for cluster modes in YARN or Kubernetes.</p>
 </blockquote>
 <h2 id="spark-管理-python-依赖">Spark 管理 Python 依赖<a href="#spark-管理-python-依赖" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
@@ -254,13 +254,13 @@ export PYSPARK_PYTHON<span style="color:#f92672">=</span>./environment/bin/pytho
 <p>See alos: <a href="https://spark.apache.org/docs/latest/api/python/user%5Fguide/python%5Fpackaging.html">Python Package Management</a></p>
 <h3 id="standalone-cluster">Standalone cluster<a href="#standalone-cluster" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>可以借助上面的 Python 包管理机制，将打包好的环境在各个节点进行同步。假设将 conda-pack 解压到 <code>/opt/conda-envs/test</code>，可以通过在 Spark 任务脚本最上方通过 <code>PYSPARK_PYTHON</code> 指定解释器：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
-
-os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;PYSPARK_PYTHON&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/opt/conda-envs/test&#39;</span>
-
-conf <span style="color:#f92672">=</span> {}
-sc <span style="color:#f92672">=</span> SparkContext(conf<span style="color:#f92672">=</span>conf)
-</code></pre></div><h2 id="spark-hive-表问题汇总">Spark Hive 表问题汇总<a href="#spark-hive-表问题汇总" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;PYSPARK_PYTHON&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/opt/conda-envs/test&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>conf <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>sc <span style="color:#f92672">=</span> SparkContext(conf<span style="color:#f92672">=</span>conf)
+</span></span></code></pre></div><h2 id="spark-hive-表问题汇总">Spark Hive 表问题汇总<a href="#spark-hive-表问题汇总" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h3 id="spark-2-dot-3-之后读取-hive-orc-字段全是-null-或者无法过滤">Spark 2.3 之后读取 Hive Orc 字段全是 null 或者无法过滤<a href="#spark-2-dot-3-之后读取-hive-orc-字段全是-null-或者无法过滤" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>主要是因为 Orc 文件在 Hive 中存储的时候是大小写敏感的 Schema。
 通过如下配置关闭 2.3 之后启用的选项：</p>
@@ -268,8 +268,8 @@ sc <span style="color:#f92672">=</span> SparkContext(conf<span style="color:#f92
 </code></pre><p>但是启用这个会导致写 Hive Orc 表的时候报错：</p>
 <pre tabindex="0"><code class="language-prog" data-lang="prog">[2021-11-20 08:22:26,500] {spark_submit.py:523} INFO - : java.lang.NoSuchMethodException: org.apache.hadoop.hive.ql.metadata.Hive.loadPartition(org.apache.hadoop.fs.Path, java.lang.String, java.util.Map, boolean, boolean, boolean, boolean, boolean, boolean)
 </code></pre><p>只能在读指定表的时候动态设置:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">spark<span style="color:#f92672">.</span>conf<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;spark.sql.hive.convertMetastoreOrc&#34;</span>, <span style="color:#66d9ef">False</span>)
-</code></pre></div><h3 id="更多坑可以看-upgrading-guide">更多坑可以看 Upgrading Guide<a href="#更多坑可以看-upgrading-guide" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>spark<span style="color:#f92672">.</span>conf<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;spark.sql.hive.convertMetastoreOrc&#34;</span>, <span style="color:#66d9ef">False</span>)
+</span></span></code></pre></div><h3 id="更多坑可以看-upgrading-guide">更多坑可以看 Upgrading Guide<a href="#更多坑可以看-upgrading-guide" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p><a href="https://spark.apache.org/docs/2.4.2/sql-migration-guide-upgrade.html">Upgrading Guide</a></p>
 <h3 id="spark-写入的-hive-orc-表但是旧版-hive-无法读取">Spark 写入的 Hive Orc 表但是旧版 Hive 无法读取<a href="#spark-写入的-hive-orc-表但是旧版-hive-无法读取" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <pre tabindex="0"><code class="language-prog" data-lang="prog"># 解决写入 Orc 表但是 Hive 无法读取的问题

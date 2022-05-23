@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Stack,LeetCode101  Stack class Solution { public: string minRemoveToMakeValid(string s) { stack&amp;lt;char&amp;gt; st; char open = &amp;#39;(&amp;#39;, close = &amp;#39;)&amp;#39;; int open_count = 0; string res; // forward to remove unnecessary close parentheses 	for (auto iter = s.begin(); iter != s.end(); &#43;&#43;iter) { if (*iter == open) { open_count&#43;&#43;; } if (open_count == 0 &amp;amp;&amp;amp; *iter == close) { continue; } if (*iter == close) { open_count--; } st." />
+<meta name="description" content="tags: Stack,LeetCode101  Stack class Solution { public: 	string minRemoveToMakeValid(string s) { 	stack&amp;lt;char&amp;gt; st; 	char open = &amp;#39;(&amp;#39;, close = &amp;#39;)&amp;#39;; 	int open_count = 0; 	string res;  	// forward to remove unnecessary close parentheses 	for (auto iter = s.begin(); iter != s.end(); &#43;&#43;iter) { 	if (*iter == open) { 	open_count&#43;&#43;; 	} 	if (open_count == 0 &amp;amp;&amp;amp; *iter == close) { 	continue; 	} 	if (*iter == close) { 	open_count--; 	} 	st." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220316080026-leetcode101_1249_minimum_remove_to_make_valid_parentheses/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 1249. Minimum Remove to Make Valid Parentheses">
-<meta property="og:description" content="tags: Stack,LeetCode101  Stack class Solution { public: string minRemoveToMakeValid(string s) { stack&amp;lt;char&amp;gt; st; char open = &amp;#39;(&amp;#39;, close = &amp;#39;)&amp;#39;; int open_count = 0; string res; // forward to remove unnecessary close parentheses 	for (auto iter = s.begin(); iter != s.end(); &#43;&#43;iter) { if (*iter == open) { open_count&#43;&#43;; } if (open_count == 0 &amp;amp;&amp;amp; *iter == close) { continue; } if (*iter == close) { open_count--; } st." />
+<meta property="og:description" content="tags: Stack,LeetCode101  Stack class Solution { public: 	string minRemoveToMakeValid(string s) { 	stack&amp;lt;char&amp;gt; st; 	char open = &amp;#39;(&amp;#39;, close = &amp;#39;)&amp;#39;; 	int open_count = 0; 	string res;  	// forward to remove unnecessary close parentheses 	for (auto iter = s.begin(); iter != s.end(); &#43;&#43;iter) { 	if (*iter == open) { 	open_count&#43;&#43;; 	} 	if (open_count == 0 &amp;amp;&amp;amp; *iter == close) { 	continue; 	} 	if (*iter == close) { 	open_count--; 	} 	st." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220316080026-leetcode101_1249_minimum_remove_to_make_valid_parentheses/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -167,51 +167,51 @@
 <li>tags: <a href="/notes/notes/20220311073821-stack/">Stack</a>,<a href="/notes/notes/20220311065137-leetcode101/">LeetCode101</a></li>
 </ul>
 <h2 id="stack">Stack<a href="#stack" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	string minRemoveToMakeValid(string s) {
-		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> st;
-		<span style="color:#66d9ef">char</span> open <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;(&#39;</span>, close <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;)&#39;</span>;
-		<span style="color:#66d9ef">int</span> open_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		string res;
-
-		<span style="color:#75715e">// forward to remove unnecessary close parentheses
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> s.begin(); iter <span style="color:#f92672">!=</span> s.end(); <span style="color:#f92672">++</span>iter) {
-			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> open) {
-				open_count<span style="color:#f92672">++</span>;
-			}
-			<span style="color:#66d9ef">if</span> (open_count <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> close) {
-				<span style="color:#66d9ef">continue</span>;
-			}
-			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> close) {
-				open_count<span style="color:#f92672">--</span>;
-			}
-			st.push(<span style="color:#f92672">*</span>iter);
-		}
-
-		<span style="color:#66d9ef">int</span> close_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#75715e">// backward to remove unnecessary open parentheses
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty()) {
-			<span style="color:#66d9ef">if</span> (st.top() <span style="color:#f92672">==</span> close) {
-				close_count<span style="color:#f92672">++</span>;
-			}
-			<span style="color:#66d9ef">if</span> (st.top() <span style="color:#f92672">==</span> open) {
-				<span style="color:#66d9ef">if</span> (close_count <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> ) {
-					st.pop();
-					<span style="color:#66d9ef">continue</span>;
-				}
-				close_count<span style="color:#f92672">--</span>;
-			}
-
-			res.push_back(st.top());
-			st.pop();
-		}
-
-		reverse(res.begin(), res.end());
-		<span style="color:#66d9ef">return</span> res;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	string minRemoveToMakeValid(string s) {
+</span></span><span style="display:flex;"><span>		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> st;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">char</span> open <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;(&#39;</span>, close <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;)&#39;</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> open_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		string res;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// forward to remove unnecessary close parentheses
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> s.begin(); iter <span style="color:#f92672">!=</span> s.end(); <span style="color:#f92672">++</span>iter) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> open) {
+</span></span><span style="display:flex;"><span>				open_count<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (open_count <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> close) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>iter <span style="color:#f92672">==</span> close) {
+</span></span><span style="display:flex;"><span>				open_count<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			st.push(<span style="color:#f92672">*</span>iter);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> close_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// backward to remove unnecessary open parentheses
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty()) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (st.top() <span style="color:#f92672">==</span> close) {
+</span></span><span style="display:flex;"><span>				close_count<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (st.top() <span style="color:#f92672">==</span> open) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> (close_count <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> ) {
+</span></span><span style="display:flex;"><span>					st.pop();
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				close_count<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			res.push_back(st.top());
+</span></span><span style="display:flex;"><span>			st.pop();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		reverse(res.begin(), res.end());
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

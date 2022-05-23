@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: String,LeetCode101,Hash Set,Hash Table,Stack  The key idea is similar to LeetCode101: 316. Remove Duplicate Letters, we use a HashMap to track how many letters which is same in the string. Then we use a HashSet to store appeared letters. When there is no more letters appeared in the HashSet, it&amp;rsquo;s time to partition.
-class Solution { public: vector&amp;lt;int&amp;gt; partitionLabels(string s) { unordered_map&amp;lt;char, int&amp;gt; cntOfLetters; unordered_set&amp;lt;char&amp;gt; appearedLetters; vector&amp;lt;int&amp;gt; r; int count = 0; for (auto iter = s." />
+class Solution { public: 	vector&amp;lt;int&amp;gt; partitionLabels(string s) { 	unordered_map&amp;lt;char, int&amp;gt; cntOfLetters; 	unordered_set&amp;lt;char&amp;gt; appearedLetters; 	vector&amp;lt;int&amp;gt; r; 	int count = 0; 	for (auto iter = s." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220321174504-leetcode101_763_partition_labels/" />
@@ -36,7 +36,7 @@ class Solution { public: vector&amp;lt;int&amp;gt; partitionLabels(string s) { u
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 763. Partition Labels">
 <meta property="og:description" content="tags: String,LeetCode101,Hash Set,Hash Table,Stack  The key idea is similar to LeetCode101: 316. Remove Duplicate Letters, we use a HashMap to track how many letters which is same in the string. Then we use a HashSet to store appeared letters. When there is no more letters appeared in the HashSet, it&amp;rsquo;s time to partition.
-class Solution { public: vector&amp;lt;int&amp;gt; partitionLabels(string s) { unordered_map&amp;lt;char, int&amp;gt; cntOfLetters; unordered_set&amp;lt;char&amp;gt; appearedLetters; vector&amp;lt;int&amp;gt; r; int count = 0; for (auto iter = s." />
+class Solution { public: 	vector&amp;lt;int&amp;gt; partitionLabels(string s) { 	unordered_map&amp;lt;char, int&amp;gt; cntOfLetters; 	unordered_set&amp;lt;char&amp;gt; appearedLetters; 	vector&amp;lt;int&amp;gt; r; 	int count = 0; 	for (auto iter = s." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220321174504-leetcode101_763_partition_labels/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -170,42 +170,42 @@ class Solution { public: vector&amp;lt;int&amp;gt; partitionLabels(string s) { u
 </ul>
 <p>The key idea is similar to <a href="/notes/notes/20220321174725-leetcode101_316_remove_duplicate_letters/">LeetCode101: 316. Remove Duplicate Letters</a>, we use a HashMap to track how many letters which is same in the string.
 Then we use a HashSet to store appeared letters. When there is no more letters appeared in the HashSet, it&rsquo;s time to partition.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> partitionLabels(string s) {
-		unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cntOfLetters;
-		unordered_set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> appearedLetters;
-		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> r;
-		<span style="color:#66d9ef">int</span> count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> s.begin(); iter <span style="color:#f92672">!=</span> s.end(); <span style="color:#f92672">++</span>iter) {
-			cntOfLetters[<span style="color:#f92672">*</span>iter]<span style="color:#f92672">++</span>;
-		}
-
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> s.begin(); iter <span style="color:#f92672">!=</span> s.end(); <span style="color:#f92672">++</span>iter) {
-			appearedLetters.insert(<span style="color:#f92672">*</span>iter);
-			cntOfLetters[<span style="color:#f92672">*</span>iter]<span style="color:#f92672">--</span>;
-			count<span style="color:#f92672">++</span>;
-			<span style="color:#75715e">// Append current count to result if there is no appeared letters
-</span><span style="color:#75715e"></span>			<span style="color:#75715e">// behind.
-</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">bool</span> behind <span style="color:#f92672">=</span> false;
-			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> si <span style="color:#f92672">=</span> appearedLetters.begin(); si <span style="color:#f92672">!=</span> appearedLetters.end(); <span style="color:#f92672">++</span>si) {
-				<span style="color:#66d9ef">if</span> (cntOfLetters[<span style="color:#f92672">*</span>si]){
-					behind <span style="color:#f92672">=</span> true;
-					<span style="color:#66d9ef">break</span>;
-				}
-			}
-			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>behind) {
-				r.push_back(count);
-				count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-			}
-		}
-		<span style="color:#66d9ef">if</span> (count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
-			r.push_back(count);
-		}
-		<span style="color:#66d9ef">return</span> r;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> partitionLabels(string s) {
+</span></span><span style="display:flex;"><span>		unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cntOfLetters;
+</span></span><span style="display:flex;"><span>		unordered_set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> appearedLetters;
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> r;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> s.begin(); iter <span style="color:#f92672">!=</span> s.end(); <span style="color:#f92672">++</span>iter) {
+</span></span><span style="display:flex;"><span>			cntOfLetters[<span style="color:#f92672">*</span>iter]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> iter <span style="color:#f92672">=</span> s.begin(); iter <span style="color:#f92672">!=</span> s.end(); <span style="color:#f92672">++</span>iter) {
+</span></span><span style="display:flex;"><span>			appearedLetters.insert(<span style="color:#f92672">*</span>iter);
+</span></span><span style="display:flex;"><span>			cntOfLetters[<span style="color:#f92672">*</span>iter]<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>			count<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// Append current count to result if there is no appeared letters
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#75715e">// behind.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">bool</span> behind <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> si <span style="color:#f92672">=</span> appearedLetters.begin(); si <span style="color:#f92672">!=</span> appearedLetters.end(); <span style="color:#f92672">++</span>si) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> (cntOfLetters[<span style="color:#f92672">*</span>si]){
+</span></span><span style="display:flex;"><span>					behind <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>behind) {
+</span></span><span style="display:flex;"><span>				r.push_back(count);
+</span></span><span style="display:flex;"><span>				count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>			r.push_back(count);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> r;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

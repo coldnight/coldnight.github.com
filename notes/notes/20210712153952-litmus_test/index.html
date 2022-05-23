@@ -169,12 +169,12 @@ Litmus Test: Message Passing Can this program see r1 = 1, r2 = 0? // Thread 1 //
   <div class="post-content"><div>
         <p>下面这种关于样本结果的问题被称为 <code>litmus test</code> 。它只有两个答案：可能还是不可能？为我们提供了一种区分<a href="/notes/notes/20210712150516-%E5%86%85%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B/">内存一致性模型</a>的清晰方法：如果一个模型支持特定的执行，而另一个不支持，那么这两个模型显然不同。</p>
 <p><code>litmus test</code> 假设所有变量都初始为 <code>0</code> ， <code>rN</code> 表示非共享变量，而是一个线程本地寄存器。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Litmus Test: Message Passing
-Can this program see r1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>
-<span style="color:#75715e">// Thread 1           // Thread 2
-</span><span style="color:#75715e"></span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r1 <span style="color:#f92672">=</span> y
-y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r2 <span style="color:#f92672">=</span> x
-</code></pre></div><p>然而不幸的是，一个特定的模型对一个特定的 <code>litmus test</code> 给出的答案往往令人惊讶。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>Litmus Test: Message Passing
+</span></span><span style="display:flex;"><span>Can this program see r1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Thread 1           // Thread 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r1 <span style="color:#f92672">=</span> y
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>                 r2 <span style="color:#f92672">=</span> x
+</span></span></code></pre></div><p>然而不幸的是，一个特定的模型对一个特定的 <code>litmus test</code> 给出的答案往往令人惊讶。</p>
 
       </div></div>
 

@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Monotonic Stack,LeetCode101,Tricky  We travel the numbers in the reverse order:
- Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &amp;lt; j &amp;lt; k, not i &#43; 1 = j, j &#43; 1 = k // class Solution { public: bool find132pattern(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int K = INT_MIN; stack&amp;lt;int&amp;gt; mst; // mono-increasing stack 	for (int i = nums." />
+ Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &amp;lt; j &amp;lt; k, not i &#43; 1 = j, j &#43; 1 = k // class Solution { public: 	bool find132pattern(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	int K = INT_MIN; 	stack&amp;lt;int&amp;gt; mst; // mono-increasing stack 	for (int i = nums." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220313153222-456_132_pattern/" />
@@ -36,7 +36,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 456. 132 Pattern">
 <meta property="og:description" content="tags: Monotonic Stack,LeetCode101,Tricky  We travel the numbers in the reverse order:
- Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &amp;lt; j &amp;lt; k, not i &#43; 1 = j, j &#43; 1 = k // class Solution { public: bool find132pattern(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int K = INT_MIN; stack&amp;lt;int&amp;gt; mst; // mono-increasing stack 	for (int i = nums." />
+ Use a mono-increasing stack to find the largest number(3 in the 132 pattern), the value popped from stack is the second large number(2 in the 132 pattern), if any value less than the second large number, returns true.  // Note: // // - subsequence is not contiguous, is i &amp;lt; j &amp;lt; k, not i &#43; 1 = j, j &#43; 1 = k // class Solution { public: 	bool find132pattern(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	int K = INT_MIN; 	stack&amp;lt;int&amp;gt; mst; // mono-increasing stack 	for (int i = nums." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220313153222-456_132_pattern/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -175,31 +175,30 @@
 <li>if any value less than the second large number, returns <code>true</code>.</li>
 </ol>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Note:
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e">// - subsequence is not contiguous, is i &lt; j &lt; k, not i + 1 = j, j + 1 = k
-</span><span style="color:#75715e">//
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">bool</span> find132pattern(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-		<span style="color:#66d9ef">int</span> K <span style="color:#f92672">=</span> INT_MIN;
-		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mst;   <span style="color:#75715e">// mono-increasing stack
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
-			<span style="color:#66d9ef">if</span> (nums[i] <span style="color:#f92672">&lt;</span> K) {
-				<span style="color:#66d9ef">return</span> true;
-			}
-			<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>mst.empty() <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">&lt;</span> nums[i]) {
-				K <span style="color:#f92672">=</span> mst.top();
-				mst.pop();
-			}
-
-			mst.push(nums[i]);
-		}
-		<span style="color:#66d9ef">return</span> false;
-	}
-};
-
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Note:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - subsequence is not contiguous, is i &lt; j &lt; k, not i + 1 = j, j + 1 = k
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> find132pattern(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> K <span style="color:#f92672">=</span> INT_MIN;
+</span></span><span style="display:flex;"><span>		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mst;   <span style="color:#75715e">// mono-increasing stack
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (nums[i] <span style="color:#f92672">&lt;</span> K) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>mst.empty() <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">&lt;</span> nums[i]) {
+</span></span><span style="display:flex;"><span>				K <span style="color:#f92672">=</span> mst.top();
+</span></span><span style="display:flex;"><span>				mst.pop();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			mst.push(nums[i]);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

@@ -6,9 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="enum Result&amp;lt;T, E&amp;gt; { Ok(T), Err(E), } ? 操作符 对比
-use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let f = File::open(&amp;#34;hello.txt&amp;#34;); let mut f = match f { Ok(file) =&amp;gt; file, Err(e) =&amp;gt; return Err(e), }; let mut s = String::new(); match f.read_to_string(&amp;amp;mut s) { Ok(_) =&amp;gt; Ok(s), Err(e) =&amp;gt; Err(e), } } 和
-use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let mut f = File::open(&amp;#34;hello." />
+<meta name="description" content="enum Result&amp;lt;T, E&amp;gt; {  Ok(T),  Err(E), } ? 操作符 对比
+use std::io; use std::io::Read; use std::fs::File;  fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { 	let f = File::open(&amp;#34;hello.txt&amp;#34;);  	let mut f = match f { 	Ok(file) =&amp;gt; file, 	Err(e) =&amp;gt; return Err(e), 	};  	let mut s = String::new();  	match f.read_to_string(&amp;amp;mut s) { 	Ok(_) =&amp;gt; Ok(s), 	Err(e) =&amp;gt; Err(e), 	} } 和" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" />
@@ -36,9 +35,8 @@ use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="错误处理">
-<meta property="og:description" content="enum Result&amp;lt;T, E&amp;gt; { Ok(T), Err(E), } ? 操作符 对比
-use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let f = File::open(&amp;#34;hello.txt&amp;#34;); let mut f = match f { Ok(file) =&amp;gt; file, Err(e) =&amp;gt; return Err(e), }; let mut s = String::new(); match f.read_to_string(&amp;amp;mut s) { Ok(_) =&amp;gt; Ok(s), Err(e) =&amp;gt; Err(e), } } 和
-use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let mut f = File::open(&amp;#34;hello." />
+<meta property="og:description" content="enum Result&amp;lt;T, E&amp;gt; {  Ok(T),  Err(E), } ? 操作符 对比
+use std::io; use std::io::Read; use std::fs::File;  fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { 	let f = File::open(&amp;#34;hello.txt&amp;#34;);  	let mut f = match f { 	Ok(file) =&amp;gt; file, 	Err(e) =&amp;gt; return Err(e), 	};  	let mut s = String::new();  	match f.read_to_string(&amp;amp;mut s) { 	Ok(_) =&amp;gt; Ok(s), 	Err(e) =&amp;gt; Err(e), 	} } 和" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -167,53 +165,53 @@ use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() 
   
 
   <div class="post-content"><div>
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">enum</span> Result<span style="color:#f92672">&lt;</span>T, E<span style="color:#f92672">&gt;</span> {
-  Ok(T),
-  Err(E),
-}
-</code></pre></div><h2 id="操作符">? 操作符<a href="#操作符" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> Result<span style="color:#f92672">&lt;</span>T, E<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  Ok(T),
+</span></span><span style="display:flex;"><span>  Err(E),
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="操作符">? 操作符<a href="#操作符" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>对比</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::io;
-<span style="color:#66d9ef">use</span> std::io::Read;
-<span style="color:#66d9ef">use</span> std::fs::File;
-
-<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">read_username_from_file</span>() -&gt; Result<span style="color:#f92672">&lt;</span>String, io::Error<span style="color:#f92672">&gt;</span> {
-	<span style="color:#66d9ef">let</span> f <span style="color:#f92672">=</span> File::open(<span style="color:#e6db74">&#34;hello.txt&#34;</span>);
-
-	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> f <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> f {
-		Ok(file) <span style="color:#f92672">=&gt;</span> file,
-		Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Err(e),
-	};
-
-	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> s <span style="color:#f92672">=</span> String::new();
-
-	<span style="color:#66d9ef">match</span> f.read_to_string(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> s) {
-		Ok(_) <span style="color:#f92672">=&gt;</span> Ok(s),
-		Err(e) <span style="color:#f92672">=&gt;</span> Err(e),
-	}
-}
-</code></pre></div><p>和</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::io;
-<span style="color:#66d9ef">use</span> std::io::Read;
-<span style="color:#66d9ef">use</span> std::fs::File;
-
-<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">read_username_from_file</span>() -&gt; Result<span style="color:#f92672">&lt;</span>String, io::Error<span style="color:#f92672">&gt;</span> {
-	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> f <span style="color:#f92672">=</span> File::open(<span style="color:#e6db74">&#34;hello.txt&#34;</span>)<span style="color:#f92672">?</span>;
-	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> s <span style="color:#f92672">=</span> String::new();
-	f.read_to_string(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> s)<span style="color:#f92672">?</span>;
-	Ok(s)
-}
-</code></pre></div><p>和</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::io;
-<span style="color:#66d9ef">use</span> std::io::Read;
-<span style="color:#66d9ef">use</span> std::fs::File;
-
-<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">read_username_from_file</span>() -&gt; Result<span style="color:#f92672">&lt;</span>String, io::Error<span style="color:#f92672">&gt;</span> {
-	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> s <span style="color:#f92672">=</span> String::new();
-	File::open(<span style="color:#e6db74">&#34;hello.txt&#34;</span>)<span style="color:#f92672">?</span>.read_to_string(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> s)<span style="color:#f92672">?</span>;
-	Ok(s)
-}
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::io;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::io::Read;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::fs::File;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">read_username_from_file</span>() -&gt; Result<span style="color:#f92672">&lt;</span>String, io::Error<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> f <span style="color:#f92672">=</span> File::open(<span style="color:#e6db74">&#34;hello.txt&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> f <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> f {
+</span></span><span style="display:flex;"><span>		Ok(file) <span style="color:#f92672">=&gt;</span> file,
+</span></span><span style="display:flex;"><span>		Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Err(e),
+</span></span><span style="display:flex;"><span>	};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> s <span style="color:#f92672">=</span> String::new();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">match</span> f.read_to_string(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> s) {
+</span></span><span style="display:flex;"><span>		Ok(_) <span style="color:#f92672">=&gt;</span> Ok(s),
+</span></span><span style="display:flex;"><span>		Err(e) <span style="color:#f92672">=&gt;</span> Err(e),
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>和</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::io;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::io::Read;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::fs::File;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">read_username_from_file</span>() -&gt; Result<span style="color:#f92672">&lt;</span>String, io::Error<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> f <span style="color:#f92672">=</span> File::open(<span style="color:#e6db74">&#34;hello.txt&#34;</span>)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> s <span style="color:#f92672">=</span> String::new();
+</span></span><span style="display:flex;"><span>	f.read_to_string(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> s)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>	Ok(s)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>和</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::io;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::io::Read;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::fs::File;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">read_username_from_file</span>() -&gt; Result<span style="color:#f92672">&lt;</span>String, io::Error<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> s <span style="color:#f92672">=</span> String::new();
+</span></span><span style="display:flex;"><span>	File::open(<span style="color:#e6db74">&#34;hello.txt&#34;</span>)<span style="color:#f92672">?</span>.read_to_string(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> s)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>	Ok(s)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
 <li><code>?</code> 操作符用于返回 <code>Result&lt;T,E&gt;</code> 的表达式后面</li>
 <li><code>?</code> 操作符只能用于返回 <code>Result&lt;T,E&gt;</code> 的函数内部</li>
 <li><code>?</code> 操作符执行如下操作

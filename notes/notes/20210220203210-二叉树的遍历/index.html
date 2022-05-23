@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Algorithm,Data Structures,Binary Search Tree  分为三种：前序、后序和中序，其中最容易用栈改写的是后序。
-前序(Preorder)：Root -&amp;gt; Left -&amp;gt; Right class Solution { public: void processPreorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processPreorderTraversal(root-&amp;gt;left, collector); collector.push_back(root-&amp;gt;val); processPreorderTraversal(root-&amp;gt;right, collector); } vector&amp;lt;int&amp;gt; inorderTraversal(TreeNode* root) { vector&amp;lt;int&amp;gt; ret; if (root == nullptr) { return ret; } processPreorderTraversal(root, ret); return ret; } }; 中序(Inorder): Left -&amp;gt; Root -&amp;gt; Right class Solution { public: void processInorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processInorderTraversal(root-&amp;gt;left, collector); collector." />
+前序(Preorder)：Root -&amp;gt; Left -&amp;gt; Right class Solution { public: 	void processPreorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { 	if (root == nullptr) { 	return; 	} 	processPreorderTraversal(root-&amp;gt;left, collector); 	collector.push_back(root-&amp;gt;val); 	processPreorderTraversal(root-&amp;gt;right, collector); 	}  	vector&amp;lt;int&amp;gt; inorderTraversal(TreeNode* root) { 	vector&amp;lt;int&amp;gt; ret; 	if (root == nullptr) { 	return ret; 	} 	processPreorderTraversal(root, ret); 	return ret; 	} }; 中序(Inorder): Left -&amp;gt; Root -&amp;gt; Right class Solution { public: 	void processInorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { 	if (root == nullptr) { 	return; 	} 	processInorderTraversal(root-&amp;gt;left, collector); 	collector." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210220203210-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/" />
@@ -36,7 +36,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:title" content="二叉树的遍历">
 <meta property="og:description" content="tags: Algorithm,Data Structures,Binary Search Tree  分为三种：前序、后序和中序，其中最容易用栈改写的是后序。
-前序(Preorder)：Root -&amp;gt; Left -&amp;gt; Right class Solution { public: void processPreorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processPreorderTraversal(root-&amp;gt;left, collector); collector.push_back(root-&amp;gt;val); processPreorderTraversal(root-&amp;gt;right, collector); } vector&amp;lt;int&amp;gt; inorderTraversal(TreeNode* root) { vector&amp;lt;int&amp;gt; ret; if (root == nullptr) { return ret; } processPreorderTraversal(root, ret); return ret; } }; 中序(Inorder): Left -&amp;gt; Root -&amp;gt; Right class Solution { public: void processInorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { if (root == nullptr) { return; } processInorderTraversal(root-&amp;gt;left, collector); collector." />
+前序(Preorder)：Root -&amp;gt; Left -&amp;gt; Right class Solution { public: 	void processPreorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { 	if (root == nullptr) { 	return; 	} 	processPreorderTraversal(root-&amp;gt;left, collector); 	collector.push_back(root-&amp;gt;val); 	processPreorderTraversal(root-&amp;gt;right, collector); 	}  	vector&amp;lt;int&amp;gt; inorderTraversal(TreeNode* root) { 	vector&amp;lt;int&amp;gt; ret; 	if (root == nullptr) { 	return ret; 	} 	processPreorderTraversal(root, ret); 	return ret; 	} }; 中序(Inorder): Left -&amp;gt; Root -&amp;gt; Right class Solution { public: 	void processInorderTraversal(TreeNode* root, vector&amp;lt;int&amp;gt; &amp;amp; collector) { 	if (root == nullptr) { 	return; 	} 	processInorderTraversal(root-&amp;gt;left, collector); 	collector." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210220203210-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -170,69 +170,69 @@
 </ul>
 <p>分为三种：前序、后序和中序，其中最容易用栈改写的是后序。</p>
 <h2 id="前序--preorder--root-left-right">前序(Preorder)：Root -&gt; Left -&gt; Right<a href="#前序--preorder--root-left-right" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">void</span> processPreorderTraversal(TreeNode<span style="color:#f92672">*</span> root, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> collector) {
-		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
-			<span style="color:#66d9ef">return</span>;
-		}
-		processPreorderTraversal(root<span style="color:#f92672">-&gt;</span>left, collector);
-		collector.push_back(root<span style="color:#f92672">-&gt;</span>val);
-		processPreorderTraversal(root<span style="color:#f92672">-&gt;</span>right, collector);
-	}
-
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> inorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
-		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ret;
-		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
-			<span style="color:#66d9ef">return</span> ret;
-		}
-		processPreorderTraversal(root, ret);
-		<span style="color:#66d9ef">return</span> ret;
-	}
-};
-</code></pre></div><h2 id="中序--inorder--left-root-right">中序(Inorder): Left -&gt; Root -&gt; Right<a href="#中序--inorder--left-root-right" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">void</span> processInorderTraversal(TreeNode<span style="color:#f92672">*</span> root, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> collector) {
-		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
-			<span style="color:#66d9ef">return</span>;
-		}
-		processInorderTraversal(root<span style="color:#f92672">-&gt;</span>left, collector);
-		collector.push_back(root<span style="color:#f92672">-&gt;</span>val);
-		processInorderTraversal(root<span style="color:#f92672">-&gt;</span>right, collector);
-	}
-
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> inorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
-		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ret;
-		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
-			<span style="color:#66d9ef">return</span> ret;
-		}
-		processInorderTraversal(root, ret);
-		<span style="color:#66d9ef">return</span> ret;
-	}
-};
-</code></pre></div><h2 id="后序--postorder--left-right-root">后序(Postorder)：Left -&gt; Right -&gt; Root<a href="#后序--postorder--left-right-root" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">void</span> processPostorderTraversal(TreeNode<span style="color:#f92672">*</span> root, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> collector) {
-		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
-			<span style="color:#66d9ef">return</span>;
-		}
-		processPostorderTraversal(root<span style="color:#f92672">-&gt;</span>left, collector);
-		processPostorderTraversal(root<span style="color:#f92672">-&gt;</span>right, collector);
-		collector.push_back(root<span style="color:#f92672">-&gt;</span>val);
-	}
-
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> postorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
-		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ret;
-		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
-			<span style="color:#66d9ef">return</span> ret;
-		}
-		processPostorderTraversal(root, ret);
-		<span style="color:#66d9ef">return</span> ret;
-	}
-};
-</code></pre></div><h2 id="非递归遍历">非递归遍历<a href="#非递归遍历" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> processPreorderTraversal(TreeNode<span style="color:#f92672">*</span> root, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> collector) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		processPreorderTraversal(root<span style="color:#f92672">-&gt;</span>left, collector);
+</span></span><span style="display:flex;"><span>		collector.push_back(root<span style="color:#f92672">-&gt;</span>val);
+</span></span><span style="display:flex;"><span>		processPreorderTraversal(root<span style="color:#f92672">-&gt;</span>right, collector);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> inorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ret;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> ret;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		processPreorderTraversal(root, ret);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ret;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="中序--inorder--left-root-right">中序(Inorder): Left -&gt; Root -&gt; Right<a href="#中序--inorder--left-root-right" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> processInorderTraversal(TreeNode<span style="color:#f92672">*</span> root, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> collector) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		processInorderTraversal(root<span style="color:#f92672">-&gt;</span>left, collector);
+</span></span><span style="display:flex;"><span>		collector.push_back(root<span style="color:#f92672">-&gt;</span>val);
+</span></span><span style="display:flex;"><span>		processInorderTraversal(root<span style="color:#f92672">-&gt;</span>right, collector);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> inorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ret;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> ret;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		processInorderTraversal(root, ret);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ret;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="后序--postorder--left-right-root">后序(Postorder)：Left -&gt; Right -&gt; Root<a href="#后序--postorder--left-right-root" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> processPostorderTraversal(TreeNode<span style="color:#f92672">*</span> root, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> collector) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		processPostorderTraversal(root<span style="color:#f92672">-&gt;</span>left, collector);
+</span></span><span style="display:flex;"><span>		processPostorderTraversal(root<span style="color:#f92672">-&gt;</span>right, collector);
+</span></span><span style="display:flex;"><span>		collector.push_back(root<span style="color:#f92672">-&gt;</span>val);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> postorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ret;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> ret;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		processPostorderTraversal(root, ret);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ret;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="非递归遍历">非递归遍历<a href="#非递归遍历" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p><a href="https://juejin.cn/post/6844903503807119374">【刷题】二叉树非递归遍历 </a></p>
 
       </div></div>

@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Stack  Intuition for (int i = 0; i &amp;lt; pushed.size(); i&#43;&#43;) { if (pushed[i] != popped[pushed.size() - 1 - i]) { return false; } } But the pop/push operations can happend in any sequence.
+<meta name="description" content="tags: Stack  Intuition for (int i = 0; i &amp;lt; pushed.size(); i&#43;&#43;) { 	if (pushed[i] != popped[pushed.size() - 1 - i]) { 	return false; 	} } But the pop/push operations can happend in any sequence.
 Stack Using a stack. Returns false, IF the next value neither the popped nor pushed.
 In each sequence we must do a operation: push or pop. When to push:
  stack is empty, or top of stack is not current popped value  When to pop:" />
@@ -37,7 +37,7 @@ In each sequence we must do a operation: push or pop. When to push:
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 946. Validate Stack Sequences">
-<meta property="og:description" content="tags: Stack  Intuition for (int i = 0; i &amp;lt; pushed.size(); i&#43;&#43;) { if (pushed[i] != popped[pushed.size() - 1 - i]) { return false; } } But the pop/push operations can happend in any sequence.
+<meta property="og:description" content="tags: Stack  Intuition for (int i = 0; i &amp;lt; pushed.size(); i&#43;&#43;) { 	if (pushed[i] != popped[pushed.size() - 1 - i]) { 	return false; 	} } But the pop/push operations can happend in any sequence.
 Stack Using a stack. Returns false, IF the next value neither the popped nor pushed.
 In each sequence we must do a operation: push or pop. When to push:
  stack is empty, or top of stack is not current popped value  When to pop:" />
@@ -173,12 +173,12 @@ In each sequence we must do a operation: push or pop. When to push:
 <li>tags: <a href="/notes/notes/20220311073821-stack/">Stack</a></li>
 </ul>
 <h2 id="intuition">Intuition<a href="#intuition" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> pushed.size(); i<span style="color:#f92672">++</span>) {
-	<span style="color:#66d9ef">if</span> (pushed[i] <span style="color:#f92672">!=</span> popped[pushed.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> i]) {
-		<span style="color:#66d9ef">return</span> false;
-	}
-}
-</code></pre></div><p>But the pop/push operations can happend in any <em>sequence</em>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> pushed.size(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (pushed[i] <span style="color:#f92672">!=</span> popped[pushed.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> i]) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>But the pop/push operations can happend in any <em>sequence</em>.</p>
 <h2 id="stack">Stack<a href="#stack" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Using a stack. Returns false, IF the next value neither the popped nor pushed.</p>
 <p>In each sequence we must do a operation: push or pop.
@@ -192,31 +192,31 @@ When to push:</p>
 <li>top of stack is current popped value</li>
 </ol>
 <p>If no operation could do, returns false.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">bool</span> validateStackSequences(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> pushed, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> popped) {
-		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st;
-		<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> pushed.size() <span style="color:#f92672">||</span> j <span style="color:#f92672">&lt;</span> popped.size()) {
-			<span style="color:#75715e">// we end push, but still not meet the popped value.
-</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> pushed.size() <span style="color:#f92672">&amp;&amp;</span> (st.empty() <span style="color:#f92672">||</span> st.top() <span style="color:#f92672">!=</span> popped[j])) {
-				<span style="color:#66d9ef">return</span> false;
-			}
-			<span style="color:#66d9ef">if</span> (st.empty()) {
-				st.push(pushed[i<span style="color:#f92672">++</span>]);
-			}
-
-			<span style="color:#66d9ef">if</span> (st.top() <span style="color:#f92672">!=</span> popped[j]) {
-				st.push(pushed[i<span style="color:#f92672">++</span>]);
-			} <span style="color:#66d9ef">else</span> {
-				st.pop();
-				j<span style="color:#f92672">++</span>;
-			}
-		}
-		<span style="color:#66d9ef">return</span> true;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> validateStackSequences(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> pushed, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> popped) {
+</span></span><span style="display:flex;"><span>		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> pushed.size() <span style="color:#f92672">||</span> j <span style="color:#f92672">&lt;</span> popped.size()) {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// we end push, but still not meet the popped value.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> pushed.size() <span style="color:#f92672">&amp;&amp;</span> (st.empty() <span style="color:#f92672">||</span> st.top() <span style="color:#f92672">!=</span> popped[j])) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (st.empty()) {
+</span></span><span style="display:flex;"><span>				st.push(pushed[i<span style="color:#f92672">++</span>]);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (st.top() <span style="color:#f92672">!=</span> popped[j]) {
+</span></span><span style="display:flex;"><span>				st.push(pushed[i<span style="color:#f92672">++</span>]);
+</span></span><span style="display:flex;"><span>			} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				st.pop();
+</span></span><span style="display:flex;"><span>				j<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

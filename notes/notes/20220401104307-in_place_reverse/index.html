@@ -9,7 +9,7 @@
 <meta name="description" content="tags: In-place WikiPedia: https://en.wikipedia.org/wiki/In-place%5Falgorithm  Let see two examples before we go further:
   As above we can see, to reverse a array in-place, we just need swap each two elements in the array from both side to middle.
 The pseudo code from WikiPedia:
-function reverse_in_place(a[0..n-1]) for i from 0 to floor((n-2)/2) tmp := a[i] a[i] := a[n − 1 − i] a[n − 1 − i] := tmp The loop travels the array to the middle and swap each other in the list, two points we must be noticed:" />
+function reverse_in_place(a[0..n-1]) 	for i from 0 to floor((n-2)/2) 	tmp := a[i] 	a[i] := a[n − 1 − i] 	a[n − 1 − i] := tmp The loop travels the array to the middle and swap each other in the list, two points we must be noticed:" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220401104307-in_place_reverse/" />
@@ -40,7 +40,7 @@ function reverse_in_place(a[0..n-1]) for i from 0 to floor((n-2)/2) tmp := a[i] 
 <meta property="og:description" content="tags: In-place WikiPedia: https://en.wikipedia.org/wiki/In-place%5Falgorithm  Let see two examples before we go further:
   As above we can see, to reverse a array in-place, we just need swap each two elements in the array from both side to middle.
 The pseudo code from WikiPedia:
-function reverse_in_place(a[0..n-1]) for i from 0 to floor((n-2)/2) tmp := a[i] a[i] := a[n − 1 − i] a[n − 1 − i] := tmp The loop travels the array to the middle and swap each other in the list, two points we must be noticed:" />
+function reverse_in_place(a[0..n-1]) 	for i from 0 to floor((n-2)/2) 	tmp := a[i] 	a[i] := a[n − 1 − i] 	a[n − 1 − i] := tmp The loop travels the array to the middle and swap each other in the list, two points we must be noticed:" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220401104307-in_place_reverse/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -190,12 +190,12 @@ function reverse_in_place(a[0..n-1]) for i from 0 to floor((n-2)/2) tmp := a[i] 
 
 <p>As above we can see, to reverse a array in-place, we just need swap each two elements in the array from both side to middle.</p>
 <p>The pseudo code from WikiPedia:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">reverse_in_place</span>(<span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">0.</span>.<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#a6e22e">from</span> <span style="color:#ae81ff">0</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">floor</span>((<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
-		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">i</span>]
-		<span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">n</span> <span style="color:#960050;background-color:#1e0010">−</span> <span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">−</span> <span style="color:#a6e22e">i</span>]
-		<span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">n</span> <span style="color:#960050;background-color:#1e0010">−</span> <span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">−</span> <span style="color:#a6e22e">i</span>] <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tmp</span>
-</code></pre></div><p>The loop travels the array to the middle and swap each other in the list, two points we must be noticed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">reverse_in_place</span>(<span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">0.</span>.<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#a6e22e">from</span> <span style="color:#ae81ff">0</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">floor</span>((<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">i</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">n</span> <span style="color:#960050;background-color:#1e0010">−</span> <span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">−</span> <span style="color:#a6e22e">i</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">n</span> <span style="color:#960050;background-color:#1e0010">−</span> <span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">−</span> <span style="color:#a6e22e">i</span>] <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tmp</span>
+</span></span></code></pre></div><p>The loop travels the array to the middle and swap each other in the list, two points we must be noticed:</p>
 <ol>
 <li>We stop the element at(not before): <code>floor((n - 2) / 2)</code>, It&rsquo;s both <code>1</code> of the two above figures.</li>
 <li>We swap current element with <code>n - 1 - i</code>.</li>

@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Math,Hash Table,LeetCode101  class Solution { public: string intToRoman(int num) { vector&amp;lt;string&amp;gt; roman {&amp;#34;M&amp;#34;, &amp;#34;CM&amp;#34;, &amp;#34;D&amp;#34;, &amp;#34;CD&amp;#34;, &amp;#34;C&amp;#34;, &amp;#34;XC&amp;#34;, &amp;#34;L&amp;#34;, &amp;#34;XL&amp;#34;, &amp;#34;X&amp;#34;, &amp;#34;IX&amp;#34;, &amp;#34;V&amp;#34;, &amp;#34;IV&amp;#34;, &amp;#34;I&amp;#34;}; vector&amp;lt;int&amp;gt; integers {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 }; string r; int times = 0; for (int i = 0; i &amp;lt; integers.size(); &#43;&#43;i) { if (num &amp;gt;= integers[i]) { times = num / integers[i]; num -= times * integers[i]; for (int j = times; j &amp;gt; 0; --j) { r." />
+<meta name="description" content="tags: Math,Hash Table,LeetCode101  class Solution { public: 	string intToRoman(int num) { 	vector&amp;lt;string&amp;gt; roman {&amp;#34;M&amp;#34;, &amp;#34;CM&amp;#34;, &amp;#34;D&amp;#34;, &amp;#34;CD&amp;#34;, &amp;#34;C&amp;#34;, &amp;#34;XC&amp;#34;, &amp;#34;L&amp;#34;, &amp;#34;XL&amp;#34;, &amp;#34;X&amp;#34;, &amp;#34;IX&amp;#34;, &amp;#34;V&amp;#34;, &amp;#34;IV&amp;#34;, &amp;#34;I&amp;#34;}; 	vector&amp;lt;int&amp;gt; integers {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 }; 	string r; 	int times = 0;  	for (int i = 0; i &amp;lt; integers.size(); &#43;&#43;i) { 	if (num &amp;gt;= integers[i]) { 	times = num / integers[i]; 	num -= times * integers[i]; 	for (int j = times; j &amp;gt; 0; --j) { 	r." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220322155933-leetcode101_12_integer_to_roman/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 12. Integer to Roman">
-<meta property="og:description" content="tags: Math,Hash Table,LeetCode101  class Solution { public: string intToRoman(int num) { vector&amp;lt;string&amp;gt; roman {&amp;#34;M&amp;#34;, &amp;#34;CM&amp;#34;, &amp;#34;D&amp;#34;, &amp;#34;CD&amp;#34;, &amp;#34;C&amp;#34;, &amp;#34;XC&amp;#34;, &amp;#34;L&amp;#34;, &amp;#34;XL&amp;#34;, &amp;#34;X&amp;#34;, &amp;#34;IX&amp;#34;, &amp;#34;V&amp;#34;, &amp;#34;IV&amp;#34;, &amp;#34;I&amp;#34;}; vector&amp;lt;int&amp;gt; integers {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 }; string r; int times = 0; for (int i = 0; i &amp;lt; integers.size(); &#43;&#43;i) { if (num &amp;gt;= integers[i]) { times = num / integers[i]; num -= times * integers[i]; for (int j = times; j &amp;gt; 0; --j) { r." />
+<meta property="og:description" content="tags: Math,Hash Table,LeetCode101  class Solution { public: 	string intToRoman(int num) { 	vector&amp;lt;string&amp;gt; roman {&amp;#34;M&amp;#34;, &amp;#34;CM&amp;#34;, &amp;#34;D&amp;#34;, &amp;#34;CD&amp;#34;, &amp;#34;C&amp;#34;, &amp;#34;XC&amp;#34;, &amp;#34;L&amp;#34;, &amp;#34;XL&amp;#34;, &amp;#34;X&amp;#34;, &amp;#34;IX&amp;#34;, &amp;#34;V&amp;#34;, &amp;#34;IV&amp;#34;, &amp;#34;I&amp;#34;}; 	vector&amp;lt;int&amp;gt; integers {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 }; 	string r; 	int times = 0;  	for (int i = 0; i &amp;lt; integers.size(); &#43;&#43;i) { 	if (num &amp;gt;= integers[i]) { 	times = num / integers[i]; 	num -= times * integers[i]; 	for (int j = times; j &amp;gt; 0; --j) { 	r." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220322155933-leetcode101_12_integer_to_roman/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -167,27 +167,27 @@
 <li>tags: <a href="/notes/notes/20220318084456-math/">Math</a>,<a href="/notes/notes/20220311221617-hash_table/">Hash Table</a>,<a href="/notes/notes/20220311065137-leetcode101/">LeetCode101</a></li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	string intToRoman(<span style="color:#66d9ef">int</span> num) {
-		vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> roman {<span style="color:#e6db74">&#34;M&#34;</span>, <span style="color:#e6db74">&#34;CM&#34;</span>, <span style="color:#e6db74">&#34;D&#34;</span>, <span style="color:#e6db74">&#34;CD&#34;</span>, <span style="color:#e6db74">&#34;C&#34;</span>, <span style="color:#e6db74">&#34;XC&#34;</span>, <span style="color:#e6db74">&#34;L&#34;</span>, <span style="color:#e6db74">&#34;XL&#34;</span>, <span style="color:#e6db74">&#34;X&#34;</span>, <span style="color:#e6db74">&#34;IX&#34;</span>, <span style="color:#e6db74">&#34;V&#34;</span>, <span style="color:#e6db74">&#34;IV&#34;</span>, <span style="color:#e6db74">&#34;I&#34;</span>};
-		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> integers {<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">900</span>, <span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">400</span>,  <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">90</span>,   <span style="color:#ae81ff">50</span>,   <span style="color:#ae81ff">40</span>,  <span style="color:#ae81ff">10</span>,  <span style="color:#ae81ff">9</span>,    <span style="color:#ae81ff">5</span>,   <span style="color:#ae81ff">4</span>,     <span style="color:#ae81ff">1</span> };
-		string r;
-		<span style="color:#66d9ef">int</span> times <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> integers.size(); <span style="color:#f92672">++</span>i) {
-			<span style="color:#66d9ef">if</span> (num <span style="color:#f92672">&gt;=</span> integers[i]) {
-				times <span style="color:#f92672">=</span> num <span style="color:#f92672">/</span> integers[i];
-				num <span style="color:#f92672">-=</span> times <span style="color:#f92672">*</span> integers[i];
-				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> times; j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>j) {
-					r.append(roman[i]);
-				}
-			}
-		}
-		<span style="color:#66d9ef">return</span> r;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	string intToRoman(<span style="color:#66d9ef">int</span> num) {
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> roman {<span style="color:#e6db74">&#34;M&#34;</span>, <span style="color:#e6db74">&#34;CM&#34;</span>, <span style="color:#e6db74">&#34;D&#34;</span>, <span style="color:#e6db74">&#34;CD&#34;</span>, <span style="color:#e6db74">&#34;C&#34;</span>, <span style="color:#e6db74">&#34;XC&#34;</span>, <span style="color:#e6db74">&#34;L&#34;</span>, <span style="color:#e6db74">&#34;XL&#34;</span>, <span style="color:#e6db74">&#34;X&#34;</span>, <span style="color:#e6db74">&#34;IX&#34;</span>, <span style="color:#e6db74">&#34;V&#34;</span>, <span style="color:#e6db74">&#34;IV&#34;</span>, <span style="color:#e6db74">&#34;I&#34;</span>};
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> integers {<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">900</span>, <span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">400</span>,  <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">90</span>,   <span style="color:#ae81ff">50</span>,   <span style="color:#ae81ff">40</span>,  <span style="color:#ae81ff">10</span>,  <span style="color:#ae81ff">9</span>,    <span style="color:#ae81ff">5</span>,   <span style="color:#ae81ff">4</span>,     <span style="color:#ae81ff">1</span> };
+</span></span><span style="display:flex;"><span>		string r;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> times <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> integers.size(); <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (num <span style="color:#f92672">&gt;=</span> integers[i]) {
+</span></span><span style="display:flex;"><span>				times <span style="color:#f92672">=</span> num <span style="color:#f92672">/</span> integers[i];
+</span></span><span style="display:flex;"><span>				num <span style="color:#f92672">-=</span> times <span style="color:#f92672">*</span> integers[i];
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> times; j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>j) {
+</span></span><span style="display:flex;"><span>					r.append(roman[i]);
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> r;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/reverse-nodes-in-k-group/  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: ListNode* reverseKGroup(ListNode* head, int k) { deque&amp;lt;ListNode*&amp;gt; dq; ListNode* cur = head; ListNode* top = nullptr; ListNode* tail = nullptr; bool first_k = true; while (cur !" />
+<meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/reverse-nodes-in-k-group/  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: 	ListNode* reverseKGroup(ListNode* head, int k) { 	deque&amp;lt;ListNode*&amp;gt; dq; 	ListNode* cur = head; 	ListNode* top = nullptr; 	ListNode* tail = nullptr; 	bool first_k = true; 	while (cur !" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210715064442-leetcode_25_reverse_nodes_in_k_group/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 25. Reverse Nodes in k-Group">
-<meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/reverse-nodes-in-k-group/  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: ListNode* reverseKGroup(ListNode* head, int k) { deque&amp;lt;ListNode*&amp;gt; dq; ListNode* cur = head; ListNode* top = nullptr; ListNode* tail = nullptr; bool first_k = true; while (cur !" />
+<meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/reverse-nodes-in-k-group/  /** * Definition for singly-linked list. * struct ListNode { * int val; * ListNode *next; * ListNode() : val(0), next(nullptr) {} * ListNode(int x) : val(x), next(nullptr) {} * ListNode(int x, ListNode *next) : val(x), next(next) {} * }; */ class Solution { public: 	ListNode* reverseKGroup(ListNode* head, int k) { 	deque&amp;lt;ListNode*&amp;gt; dq; 	ListNode* cur = head; 	ListNode* top = nullptr; 	ListNode* tail = nullptr; 	bool first_k = true; 	while (cur !" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210715064442-leetcode_25_reverse_nodes_in_k_group/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -168,58 +168,58 @@
 <li>source: <a href="https://leetcode.com/problems/reverse-nodes-in-k-group/">https://leetcode.com/problems/reverse-nodes-in-k-group/</a></li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
-</span><span style="color:#75715e"> * Definition for singly-linked list.
-</span><span style="color:#75715e"> * struct ListNode {
-</span><span style="color:#75715e"> *     int val;
-</span><span style="color:#75715e"> *     ListNode *next;
-</span><span style="color:#75715e"> *     ListNode() : val(0), next(nullptr) {}
-</span><span style="color:#75715e"> *     ListNode(int x) : val(x), next(nullptr) {}
-</span><span style="color:#75715e"> *     ListNode(int x, ListNode *next) : val(x), next(next) {}
-</span><span style="color:#75715e"> * };
-</span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	ListNode<span style="color:#f92672">*</span> reverseKGroup(ListNode<span style="color:#f92672">*</span> head, <span style="color:#66d9ef">int</span> k) {
-		deque<span style="color:#f92672">&lt;</span>ListNode<span style="color:#f92672">*&gt;</span> dq;
-		ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
-		ListNode<span style="color:#f92672">*</span> top <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
-		ListNode<span style="color:#f92672">*</span> tail <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
-		<span style="color:#66d9ef">bool</span> first_k <span style="color:#f92672">=</span> true;
-		<span style="color:#66d9ef">while</span> (cur <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
-			dq.push_front(cur);
-			cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
-
-			<span style="color:#66d9ef">if</span> (dq.size() <span style="color:#f92672">==</span> k) {
-				<span style="color:#75715e">// start reverse in k
-</span><span style="color:#75715e"></span>				top <span style="color:#f92672">=</span> dq.front();
-				dq.pop_front();
-
-				<span style="color:#75715e">// override head or connected from last k
-</span><span style="color:#75715e"></span>				<span style="color:#66d9ef">if</span> (first_k) {
-					head <span style="color:#f92672">=</span> top;
-					first_k <span style="color:#f92672">=</span> false;
-				} <span style="color:#66d9ef">else</span> {
-					tail<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> top;
-				}
-
-				<span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>dq.empty()) {
-					top<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> dq.front();
-					dq.pop_front();
-					top <span style="color:#f92672">=</span> top<span style="color:#f92672">-&gt;</span>next;
-				}
-				top<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> cur;
-				tail <span style="color:#f92672">=</span> top; <span style="color:#75715e">// mark the tail of linked list
-</span><span style="color:#75715e"></span>			}
-		}
-
-		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dq.empty() <span style="color:#f92672">&amp;&amp;</span> tail <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
-			tail<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> dq.back();
-		}
-		<span style="color:#66d9ef">return</span> head;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Definition for singly-linked list.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * struct ListNode {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     int val;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode *next;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode() : val(0), next(nullptr) {}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode(int x) : val(x), next(nullptr) {}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * };
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> reverseKGroup(ListNode<span style="color:#f92672">*</span> head, <span style="color:#66d9ef">int</span> k) {
+</span></span><span style="display:flex;"><span>		deque<span style="color:#f92672">&lt;</span>ListNode<span style="color:#f92672">*&gt;</span> dq;
+</span></span><span style="display:flex;"><span>		ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>		ListNode<span style="color:#f92672">*</span> top <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		ListNode<span style="color:#f92672">*</span> tail <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">bool</span> first_k <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (cur <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			dq.push_front(cur);
+</span></span><span style="display:flex;"><span>			cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (dq.size() <span style="color:#f92672">==</span> k) {
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// start reverse in k
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				top <span style="color:#f92672">=</span> dq.front();
+</span></span><span style="display:flex;"><span>				dq.pop_front();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// override head or connected from last k
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#66d9ef">if</span> (first_k) {
+</span></span><span style="display:flex;"><span>					head <span style="color:#f92672">=</span> top;
+</span></span><span style="display:flex;"><span>					first_k <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>				} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>					tail<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> top;
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>dq.empty()) {
+</span></span><span style="display:flex;"><span>					top<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> dq.front();
+</span></span><span style="display:flex;"><span>					dq.pop_front();
+</span></span><span style="display:flex;"><span>					top <span style="color:#f92672">=</span> top<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				top<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> cur;
+</span></span><span style="display:flex;"><span>				tail <span style="color:#f92672">=</span> top; <span style="color:#75715e">// mark the tail of linked list
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dq.empty() <span style="color:#f92672">&amp;&amp;</span> tail <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			tail<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> dq.back();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> head;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

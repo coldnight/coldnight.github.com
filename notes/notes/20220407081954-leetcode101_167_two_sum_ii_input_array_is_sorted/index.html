@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content=" tags: LeetCode101,Sorting,Two Pointers  Key ideas:
- Move both sides to inwards. If the sum value less than target, move left pointer. Otherwise move right poinger.  class Solution { public: vector&amp;lt;int&amp;gt; twoSum(vector&amp;lt;int&amp;gt;&amp;amp; numbers, int target) { int S, l = 0, r = numbers.size() - 1; vector&amp;lt;int&amp;gt; res(2, 0); while (l &amp;lt; r) { S = numbers[l] &#43; numbers[r]; if (S == target) { break; } if (S &amp;lt; target) { l&#43;&#43;; } else { r--; } } res[0] = l &#43; 1; res[1] = r &#43; 1; return res; } }; " />
+ Move both sides to inwards. If the sum value less than target, move left pointer. Otherwise move right poinger.  class Solution { public: 	vector&amp;lt;int&amp;gt; twoSum(vector&amp;lt;int&amp;gt;&amp;amp; numbers, int target) { 	int S, l = 0, r = numbers.size() - 1; 	vector&amp;lt;int&amp;gt; res(2, 0);  	while (l &amp;lt; r) { 	S = numbers[l] &#43; numbers[r]; 	if (S == target) { 	break; 	} 	if (S &amp;lt; target) { 	l&#43;&#43;; 	} else { 	r--; 	} 	} 	res[0] = l &#43; 1; 	res[1] = r &#43; 1; 	return res; 	} }; " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220407081954-leetcode101_167_two_sum_ii_input_array_is_sorted/" />
@@ -36,7 +36,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 167. Two Sum II - Input Array Is Sorted">
 <meta property="og:description" content=" tags: LeetCode101,Sorting,Two Pointers  Key ideas:
- Move both sides to inwards. If the sum value less than target, move left pointer. Otherwise move right poinger.  class Solution { public: vector&amp;lt;int&amp;gt; twoSum(vector&amp;lt;int&amp;gt;&amp;amp; numbers, int target) { int S, l = 0, r = numbers.size() - 1; vector&amp;lt;int&amp;gt; res(2, 0); while (l &amp;lt; r) { S = numbers[l] &#43; numbers[r]; if (S == target) { break; } if (S &amp;lt; target) { l&#43;&#43;; } else { r--; } } res[0] = l &#43; 1; res[1] = r &#43; 1; return res; } }; " />
+ Move both sides to inwards. If the sum value less than target, move left pointer. Otherwise move right poinger.  class Solution { public: 	vector&amp;lt;int&amp;gt; twoSum(vector&amp;lt;int&amp;gt;&amp;amp; numbers, int target) { 	int S, l = 0, r = numbers.size() - 1; 	vector&amp;lt;int&amp;gt; res(2, 0);  	while (l &amp;lt; r) { 	S = numbers[l] &#43; numbers[r]; 	if (S == target) { 	break; 	} 	if (S &amp;lt; target) { 	l&#43;&#43;; 	} else { 	r--; 	} 	} 	res[0] = l &#43; 1; 	res[1] = r &#43; 1; 	return res; 	} }; " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220407081954-leetcode101_167_two_sum_ii_input_array_is_sorted/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -175,29 +175,29 @@
 <li>Otherwise move right poinger.</li>
 </ol>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> twoSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> numbers, <span style="color:#66d9ef">int</span> target) {
-		<span style="color:#66d9ef">int</span> S, l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, r <span style="color:#f92672">=</span> numbers.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
-		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
-
-		<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> r) {
-			S <span style="color:#f92672">=</span> numbers[l] <span style="color:#f92672">+</span> numbers[r];
-			<span style="color:#66d9ef">if</span> (S <span style="color:#f92672">==</span> target) {
-				<span style="color:#66d9ef">break</span>;
-			}
-			<span style="color:#66d9ef">if</span> (S <span style="color:#f92672">&lt;</span> target) {
-				l<span style="color:#f92672">++</span>;
-			} <span style="color:#66d9ef">else</span> {
-				r<span style="color:#f92672">--</span>;
-			}
-		}
-		res[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-		res[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-		<span style="color:#66d9ef">return</span> res;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> twoSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> numbers, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> S, l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, r <span style="color:#f92672">=</span> numbers.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> r) {
+</span></span><span style="display:flex;"><span>			S <span style="color:#f92672">=</span> numbers[l] <span style="color:#f92672">+</span> numbers[r];
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (S <span style="color:#f92672">==</span> target) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (S <span style="color:#f92672">&lt;</span> target) {
+</span></span><span style="display:flex;"><span>				l<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				r<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		res[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		res[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

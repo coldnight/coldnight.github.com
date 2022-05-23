@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Sliding Window,LeetCode101,Hash Set  Use HashMap to store indices See also: 3. Longest Substring Without Repeating Characters
-class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int maximum = 0; int left = 0, right = 0; unordered_map&amp;lt;int, int&amp;gt; indices; for (; right &amp;lt; nums.size(); right&#43;&#43;) { int n = nums[right]; if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] &#43; 1 &amp;gt; left) { left = indices[n] &#43; 1; } maximum = max(maximum, std::accumulate(nums." />
+class Solution { public: 	int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	int maximum = 0; 	int left = 0, right = 0; 	unordered_map&amp;lt;int, int&amp;gt; indices;  	for (; right &amp;lt; nums.size(); right&#43;&#43;) { 	int n = nums[right]; 	if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] &#43; 1 &amp;gt; left) { 	left = indices[n] &#43; 1; 	} 	maximum = max(maximum, std::accumulate(nums." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220311183843-1695_maximum_erasure_value/" />
@@ -36,7 +36,7 @@ class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 1695. Maximum Erasure Value">
 <meta property="og:description" content="tags: Sliding Window,LeetCode101,Hash Set  Use HashMap to store indices See also: 3. Longest Substring Without Repeating Characters
-class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int maximum = 0; int left = 0, right = 0; unordered_map&amp;lt;int, int&amp;gt; indices; for (; right &amp;lt; nums.size(); right&#43;&#43;) { int n = nums[right]; if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] &#43; 1 &amp;gt; left) { left = indices[n] &#43; 1; } maximum = max(maximum, std::accumulate(nums." />
+class Solution { public: 	int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	int maximum = 0; 	int left = 0, right = 0; 	unordered_map&amp;lt;int, int&amp;gt; indices;  	for (; right &amp;lt; nums.size(); right&#43;&#43;) { 	int n = nums[right]; 	if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] &#43; 1 &amp;gt; left) { 	left = indices[n] &#43; 1; 	} 	maximum = max(maximum, std::accumulate(nums." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220311183843-1695_maximum_erasure_value/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -170,53 +170,53 @@ class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp
 </ul>
 <h2 id="use-hashmap-to-store-indices">Use HashMap to store indices<a href="#use-hashmap-to-store-indices" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>See also: <a href="/notes/notes/20220311074801-3_longest_substring_without_repeating_characters/">3. Longest Substring Without Repeating Characters</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">int</span> maximumUniqueSubarray(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-		<span style="color:#66d9ef">int</span> maximum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, right <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> indices;
-
-		<span style="color:#66d9ef">for</span> (; right <span style="color:#f92672">&lt;</span> nums.size(); right<span style="color:#f92672">++</span>) {
-			<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums[right];
-			<span style="color:#66d9ef">if</span> (indices.find(n) <span style="color:#f92672">!=</span> indices.end() <span style="color:#f92672">&amp;&amp;</span> indices[n] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> left) {
-				left <span style="color:#f92672">=</span> indices[n] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-			}
-			maximum <span style="color:#f92672">=</span> max(maximum, std<span style="color:#f92672">::</span>accumulate(nums.begin() <span style="color:#f92672">+</span> left, nums.begin() <span style="color:#f92672">+</span> right <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>));
-			indices[n] <span style="color:#f92672">=</span> right;
-		}
-		<span style="color:#66d9ef">return</span> maximum;
-	}
-};
-</code></pre></div><p>It is too slow, as there is a \(O(n^2)\) time complexity(<code>std::accmulate</code> is the embed \(O(n)\) ).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> maximumUniqueSubarray(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> maximum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, right <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> indices;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (; right <span style="color:#f92672">&lt;</span> nums.size(); right<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums[right];
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (indices.find(n) <span style="color:#f92672">!=</span> indices.end() <span style="color:#f92672">&amp;&amp;</span> indices[n] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> left) {
+</span></span><span style="display:flex;"><span>				left <span style="color:#f92672">=</span> indices[n] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			maximum <span style="color:#f92672">=</span> max(maximum, std<span style="color:#f92672">::</span>accumulate(nums.begin() <span style="color:#f92672">+</span> left, nums.begin() <span style="color:#f92672">+</span> right <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>));
+</span></span><span style="display:flex;"><span>			indices[n] <span style="color:#f92672">=</span> right;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> maximum;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>It is too slow, as there is a \(O(n^2)\) time complexity(<code>std::accmulate</code> is the embed \(O(n)\) ).</p>
 <h2 id="slide-left-window-step-by-step-and-use-hashset-to-store-numbers">Slide left window step by step and use HashSet to store numbers<a href="#slide-left-window-step-by-step-and-use-hashset-to-store-numbers" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>The keys we should noted:</p>
 <ol>
 <li>We must decrease all the numbers that behind the new left position(a <code>while</code> loop is used here).</li>
 </ol>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">int</span> maximumUniqueSubarray(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-		<span style="color:#66d9ef">int</span> maximum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, right <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		unordered_set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> hset;
-
-		<span style="color:#66d9ef">for</span> (; right <span style="color:#f92672">&lt;</span> nums.size(); right<span style="color:#f92672">++</span>) {
-			<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums[right];
-			<span style="color:#66d9ef">while</span> (hset.find(n) <span style="color:#f92672">!=</span> hset.end()) {
-				hset.erase(nums[left]);
-				sum <span style="color:#f92672">-=</span> nums[left];
-				left<span style="color:#f92672">++</span>;
-			}
-			sum <span style="color:#f92672">+=</span> n;
-			maximum <span style="color:#f92672">=</span> max(maximum, sum);
-			hset.insert(n);
-		}
-		<span style="color:#66d9ef">return</span> maximum;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> maximumUniqueSubarray(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> maximum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, right <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		unordered_set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> hset;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (; right <span style="color:#f92672">&lt;</span> nums.size(); right<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums[right];
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">while</span> (hset.find(n) <span style="color:#f92672">!=</span> hset.end()) {
+</span></span><span style="display:flex;"><span>				hset.erase(nums[left]);
+</span></span><span style="display:flex;"><span>				sum <span style="color:#f92672">-=</span> nums[left];
+</span></span><span style="display:flex;"><span>				left<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			sum <span style="color:#f92672">+=</span> n;
+</span></span><span style="display:flex;"><span>			maximum <span style="color:#f92672">=</span> max(maximum, sum);
+</span></span><span style="display:flex;"><span>			hset.insert(n);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> maximum;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

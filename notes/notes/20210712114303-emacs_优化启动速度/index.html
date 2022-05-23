@@ -172,15 +172,15 @@ Dumping Emacs  Emacs WIKI: Dumping Emacs Painless Transition to Portable Dumper 
 </ul>
 <h2 id="优化-gc">优化 GC<a href="#优化-gc" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>参考：<a href="https://emacs-lsp.github.io/lsp-mode/page/performance/">LSP Mode Performance</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp"><span style="color:#75715e">;; Optmization</span>
-<span style="color:#75715e">;; Sources:</span>
-<span style="color:#75715e">;;</span>
-<span style="color:#75715e">;; - https://www.reddit.com/r/emacs/comments/ofhket/further_boost_start_up_time_with_a_simple_tweak/</span>
-<span style="color:#75715e">;; - https://emacs-lsp.github.io/lsp-mode/page/performance/</span>
-<span style="color:#75715e">;;</span>
-(setq gc-cons-threshold <span style="color:#ae81ff">32000000</span>) <span style="color:#75715e">;; 32mb</span>
-(setq read-process-output-max (<span style="color:#a6e22e">*</span> <span style="color:#ae81ff">1024</span> <span style="color:#ae81ff">1024</span>)) <span style="color:#75715e">;; 1mb</span>
-</code></pre></div><p>将启动速度优化到 3 秒左右。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elisp" data-lang="elisp"><span style="display:flex;"><span><span style="color:#75715e">;; Optmization</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Sources:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; - https://www.reddit.com/r/emacs/comments/ofhket/further_boost_start_up_time_with_a_simple_tweak/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; - https://emacs-lsp.github.io/lsp-mode/page/performance/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;;</span>
+</span></span><span style="display:flex;"><span>(setq gc-cons-threshold <span style="color:#ae81ff">32000000</span>) <span style="color:#75715e">;; 32mb</span>
+</span></span><span style="display:flex;"><span>(setq read-process-output-max (<span style="color:#a6e22e">*</span> <span style="color:#ae81ff">1024</span> <span style="color:#ae81ff">1024</span>)) <span style="color:#75715e">;; 1mb</span>
+</span></span></code></pre></div><p>将启动速度优化到 3 秒左右。</p>
 <h2 id="dumping-emacs">Dumping Emacs<a href="#dumping-emacs" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ul>
 <li>Emacs WIKI: <a href="https://www.emacswiki.org/emacs/DumpingEmacs">Dumping Emacs</a></li>

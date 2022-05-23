@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Programming Language  柯里化 func max(a, b int) int { if a &amp;gt; b { return a } return b } func currying(a int) func(int) int { return func(b int) int { return max(a, b) } } " />
+<meta name="description" content=" tags: Programming Language  柯里化 func max(a, b int) int { 	if a &amp;gt; b { 	return a 	} 	return b }  func currying(a int) func(int) int { 	return func(b int) int { 	return max(a, b) 	} } " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200218115725/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Go">
-<meta property="og:description" content=" tags: Programming Language  柯里化 func max(a, b int) int { if a &amp;gt; b { return a } return b } func currying(a int) func(int) int { return func(b int) int { return max(a, b) } } " />
+<meta property="og:description" content=" tags: Programming Language  柯里化 func max(a, b int) int { 	if a &amp;gt; b { 	return a 	} 	return b }  func currying(a int) func(int) int { 	return func(b int) int { 	return max(a, b) 	} } " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200218115725/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -167,19 +167,19 @@
 <li>tags: <a href="/notes/topics/20200320170914_programming_language/">Programming Language</a></li>
 </ul>
 <h2 id="柯里化">柯里化<a href="#柯里化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">max</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">a</span> &gt; <span style="color:#a6e22e">b</span> {
-		 <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span>
-	}
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">b</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">currying</span>(<span style="color:#a6e22e">a</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">func</span>(<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">max</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>)
-	}
-}
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">max</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">a</span> &gt; <span style="color:#a6e22e">b</span> {
+</span></span><span style="display:flex;"><span>		 <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">b</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">currying</span>(<span style="color:#a6e22e">a</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">func</span>(<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">max</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
       </div></div>
 
   
@@ -1392,9 +1392,9 @@
    
 
    
-      
-   
 
+   
+      
    
 
    

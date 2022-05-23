@@ -182,10 +182,10 @@ P A H N A P L S I I G Y I R The columns only the head and tail rows is correct s
 </ul>
 <p>We can use a formula to make columns, which is \(c(R+d)+r\).</p>
 <p>For example, <code>&quot;PAYPALISHIRING&quot;</code>, numRows=3:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">P   A   H   N
-A P L S I I G
-Y   I   R
-</code></pre></div><p>The columns only the head and tail rows is correct should be:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>P   A   H   N
+</span></span><span style="display:flex;"><span>A P L S I I G
+</span></span><span style="display:flex;"><span>Y   I   R
+</span></span></code></pre></div><p>The columns only the head and tail rows is correct should be:</p>
 <p><code>R=3,d=1</code></p>
 <table>
 <thead>
@@ -228,11 +228,11 @@ Y   I   R
 <p>Now we need consider how to insert a character between tow columns in the middle rows.</p>
 <p>We can see, the <code>r</code> is larger, the insert character is more near by left.
 For example, <code>&quot;PAYPALISHIRING&quot;</code>, numRows=4:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">P     I    N
-A   L S  I G
-Y A   H R
-P     I
-</code></pre></div><table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>P     I    N
+</span></span><span style="display:flex;"><span>A   L S  I G
+</span></span><span style="display:flex;"><span>Y A   H R
+</span></span><span style="display:flex;"><span>P     I
+</span></span></code></pre></div><table>
 <thead>
 <tr>
 <th></th>
@@ -290,43 +290,43 @@ P     I
 </table>
 <p>Assume we insert a character to left, the current index is <code>i</code>. Then the inserted character is:
 \(i - 2r\)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	string convert(string s, <span style="color:#66d9ef">int</span> numRows) {
-		<span style="color:#75715e">// The another corner case we should noticed
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (numRows <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
-			<span style="color:#66d9ef">return</span> s;
-		}
-		<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		<span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> numRows <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>;
-		string res;
-		<span style="color:#66d9ef">while</span> (true) {
-			i <span style="color:#f92672">=</span> c <span style="color:#f92672">*</span> (numRows <span style="color:#f92672">+</span> d) <span style="color:#f92672">+</span> r;
-
-			<span style="color:#75715e">// neither head nor tail
-</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (r <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;</span> numRows <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
-				j <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> r);
-				<span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&lt;</span> s.size()) {
-					res.push_back(s[j]);
-				}
-			}
-			<span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> s.size()) {
-				res.push_back(s[i]);
-				c<span style="color:#f92672">++</span>;
-			} <span style="color:#66d9ef">else</span> {
-				r<span style="color:#f92672">++</span>;
-				<span style="color:#66d9ef">if</span> (r <span style="color:#f92672">&gt;=</span> numRows) {
-					<span style="color:#66d9ef">break</span>;
-				}
-				c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-			}
-		}
-		<span style="color:#66d9ef">return</span> res;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	string convert(string s, <span style="color:#66d9ef">int</span> numRows) {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// The another corner case we should noticed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (numRows <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> s;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> numRows <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		string res;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (true) {
+</span></span><span style="display:flex;"><span>			i <span style="color:#f92672">=</span> c <span style="color:#f92672">*</span> (numRows <span style="color:#f92672">+</span> d) <span style="color:#f92672">+</span> r;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// neither head nor tail
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (r <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;</span> numRows <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>				j <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> r);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&lt;</span> s.size()) {
+</span></span><span style="display:flex;"><span>					res.push_back(s[j]);
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> s.size()) {
+</span></span><span style="display:flex;"><span>				res.push_back(s[i]);
+</span></span><span style="display:flex;"><span>				c<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				r<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> (r <span style="color:#f92672">&gt;=</span> numRows) {
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

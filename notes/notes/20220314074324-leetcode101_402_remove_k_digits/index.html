@@ -185,77 +185,77 @@ Also note that: the result&amp;rsquo;s length is not actually equal num." />
 <li>num = &ldquo;112&rdquo;, k = 1</li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	string removeKdigits(string num, <span style="color:#66d9ef">int</span> k) {
-		<span style="color:#66d9ef">if</span> (num.size() <span style="color:#f92672">&lt;=</span> k) {
-			<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;0&#34;</span>;
-		}
-		<span style="color:#75715e">// A monotonic increasing stack will remove larger elements before pushing.
-</span><span style="color:#75715e"></span>		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> mst;
-		<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> num.size() <span style="color:#f92672">-</span> k;
-		string r;
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> num.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
-			<span style="color:#66d9ef">while</span> (mst.size() <span style="color:#f92672">&gt;=</span> n <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">&gt;</span> num[i]) {
-				mst.pop();
-			}
-			mst.push(num[i]);
-		}
-
-		<span style="color:#75715e">// Pop surplus and the leading &#39;0&#39;
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">while</span> (mst.size() <span style="color:#f92672">&gt;</span> n <span style="color:#f92672">||</span> (<span style="color:#f92672">!</span>mst.empty() <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;0&#39;</span>)) {
-			mst.pop();
-		}
-
-		<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>mst.empty()) {
-			r.push_back(mst.top());
-			mst.pop();
-		}
-		<span style="color:#66d9ef">return</span> r.size() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> r : <span style="color:#e6db74">&#34;0&#34;</span>;
-	}
-};
-</code></pre></div><h2 id="mono-increasing-stack-and-normal-order-travel">Mono-increasing stack and normal order travel<a href="#mono-increasing-stack-and-normal-order-travel" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	string removeKdigits(string num, <span style="color:#66d9ef">int</span> k) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (num.size() <span style="color:#f92672">&lt;=</span> k) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;0&#34;</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// A monotonic increasing stack will remove larger elements before pushing.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> mst;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> num.size() <span style="color:#f92672">-</span> k;
+</span></span><span style="display:flex;"><span>		string r;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> num.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">while</span> (mst.size() <span style="color:#f92672">&gt;=</span> n <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">&gt;</span> num[i]) {
+</span></span><span style="display:flex;"><span>				mst.pop();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			mst.push(num[i]);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Pop surplus and the leading &#39;0&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">while</span> (mst.size() <span style="color:#f92672">&gt;</span> n <span style="color:#f92672">||</span> (<span style="color:#f92672">!</span>mst.empty() <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;0&#39;</span>)) {
+</span></span><span style="display:flex;"><span>			mst.pop();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>mst.empty()) {
+</span></span><span style="display:flex;"><span>			r.push_back(mst.top());
+</span></span><span style="display:flex;"><span>			mst.pop();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> r.size() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> r : <span style="color:#e6db74">&#34;0&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="mono-increasing-stack-and-normal-order-travel">Mono-increasing stack and normal order travel<a href="#mono-increasing-stack-and-normal-order-travel" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>We are not focus on keep <code>n - k</code> numbers from right to left, but focus on remove <code>k</code> numbers from left to right.</p>
 <p>A more detail explanation to see: <a href="https://leetcode.com/problems/remove-k-digits/discuss/1779458/C%2B%2B-oror-Easy-To-Understand-oror-Stack-oror-Short-and-Simple">https://leetcode.com/problems/remove-k-digits/discuss/1779458/C%2B%2B-oror-Easy-To-Understand-oror-Stack-oror-Short-and-Simple</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	string removeKdigits(string num, <span style="color:#66d9ef">int</span> k) {
-		<span style="color:#66d9ef">if</span> (num.size() <span style="color:#f92672">&lt;=</span> k) {
-			<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;0&#34;</span>;
-		}
-		<span style="color:#75715e">// A monotonic increasing stack will remove bigger elements before pushing.
-</span><span style="color:#75715e"></span>		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> mst;
-		<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> num.size() <span style="color:#f92672">-</span> k;
-		string r;
-
-		mst.push(num[<span style="color:#ae81ff">0</span>]);
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> num.size(); i<span style="color:#f92672">++</span>) {
-			<span style="color:#66d9ef">while</span> (k <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>mst.empty() <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">&gt;</span> num[i]) {
-				mst.pop();
-				k<span style="color:#f92672">--</span>;
-			}
-
-			<span style="color:#75715e">// the leading zero
-</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (mst.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;0&#39;</span>) {
-				mst.pop();
-			}
-
-			mst.push(num[i]);
-		}
-		<span style="color:#66d9ef">while</span> (k <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>mst.empty()) {
-			k<span style="color:#f92672">--</span>;
-			mst.pop();
-		}
-
-		<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>mst.empty()) {
-			r.push_back(mst.top());
-			mst.pop();
-		}
-		reverse(r.begin(), r.end());
-		<span style="color:#66d9ef">return</span> r.size() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> r : <span style="color:#e6db74">&#34;0&#34;</span>;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	string removeKdigits(string num, <span style="color:#66d9ef">int</span> k) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (num.size() <span style="color:#f92672">&lt;=</span> k) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;0&#34;</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// A monotonic increasing stack will remove bigger elements before pushing.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> mst;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> num.size() <span style="color:#f92672">-</span> k;
+</span></span><span style="display:flex;"><span>		string r;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		mst.push(num[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> num.size(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">while</span> (k <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>mst.empty() <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">&gt;</span> num[i]) {
+</span></span><span style="display:flex;"><span>				mst.pop();
+</span></span><span style="display:flex;"><span>				k<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// the leading zero
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (mst.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> mst.top() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;0&#39;</span>) {
+</span></span><span style="display:flex;"><span>				mst.pop();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			mst.push(num[i]);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (k <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>mst.empty()) {
+</span></span><span style="display:flex;"><span>			k<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>			mst.pop();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>mst.empty()) {
+</span></span><span style="display:flex;"><span>			r.push_back(mst.top());
+</span></span><span style="display:flex;"><span>			mst.pop();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		reverse(r.begin(), r.end());
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> r.size() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> r : <span style="color:#e6db74">&#34;0&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

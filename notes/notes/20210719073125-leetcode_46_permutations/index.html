@@ -9,7 +9,7 @@
 <meta name="description" content="tags: LeetCode,backtracking  Keywords backtrack 回溯算法
 图解 举例： [1, 2, 3] ，顺着叶子节点和删除的节点就可以还原成全排列。
  从上面图可以看出来，叶子节点加上回溯路径上被移除的节点就是结果的一项，从左到右依次是：
- [3,R:2,R:1] -&amp;gt; [3,2,1] [2,R:3,R:1] -&amp;gt; [2,3,1] &amp;hellip;  class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permute(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; backtrack(res, track, nums); return res; } void backtrack(vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; &amp;amp; res, vector&amp;lt;int&amp;gt; &amp;amp; track, vector&amp;lt;int&amp;gt;&amp;amp; nums) { if (track.size() == nums.size()) { res.push_back(track); return; } for (int i = 0; i &amp;lt; nums.size(); i&#43;&#43;) { if (visited." />
+ [3,R:2,R:1] -&amp;gt; [3,2,1] [2,R:3,R:1] -&amp;gt; [2,3,1] &amp;hellip;  class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permute(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track; 	backtrack(res, track, nums); 	return res; 	}  	void backtrack(vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; &amp;amp; res, vector&amp;lt;int&amp;gt; &amp;amp; track, vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	if (track.size() == nums.size()) { 	res.push_back(track); 	return; 	}  	for (int i = 0; i &amp;lt; nums." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210719073125-leetcode_46_permutations/" />
@@ -40,7 +40,7 @@
 <meta property="og:description" content="tags: LeetCode,backtracking  Keywords backtrack 回溯算法
 图解 举例： [1, 2, 3] ，顺着叶子节点和删除的节点就可以还原成全排列。
  从上面图可以看出来，叶子节点加上回溯路径上被移除的节点就是结果的一项，从左到右依次是：
- [3,R:2,R:1] -&amp;gt; [3,2,1] [2,R:3,R:1] -&amp;gt; [2,3,1] &amp;hellip;  class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permute(vector&amp;lt;int&amp;gt;&amp;amp; nums) { vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; backtrack(res, track, nums); return res; } void backtrack(vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; &amp;amp; res, vector&amp;lt;int&amp;gt; &amp;amp; track, vector&amp;lt;int&amp;gt;&amp;amp; nums) { if (track.size() == nums.size()) { res.push_back(track); return; } for (int i = 0; i &amp;lt; nums.size(); i&#43;&#43;) { if (visited." />
+ [3,R:2,R:1] -&amp;gt; [3,2,1] [2,R:3,R:1] -&amp;gt; [2,3,1] &amp;hellip;  class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; permute(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track; 	backtrack(res, track, nums); 	return res; 	}  	void backtrack(vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; &amp;amp; res, vector&amp;lt;int&amp;gt; &amp;amp; track, vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	if (track.size() == nums.size()) { 	res.push_back(track); 	return; 	}  	for (int i = 0; i &amp;lt; nums." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210719073125-leetcode_46_permutations/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -190,68 +190,68 @@
 <li>&hellip;</li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permute(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
-		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
-		backtrack(res, track, nums);
-		<span style="color:#66d9ef">return</span> res;
-	}
-
-	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span> res, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> track, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-		<span style="color:#66d9ef">if</span> (track.size() <span style="color:#f92672">==</span> nums.size()) {
-			res.push_back(track);
-			<span style="color:#66d9ef">return</span>;
-		}
-
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
-			<span style="color:#66d9ef">if</span> (visited.find(nums[i]) <span style="color:#f92672">!=</span> visited.end() <span style="color:#f92672">&amp;&amp;</span> visited[nums[i]]) {
-				<span style="color:#66d9ef">continue</span>;
-			}
-
-			track.push_back(nums[i]);
-			visited[nums[i]] <span style="color:#f92672">=</span> true;
-
-			<span style="color:#75715e">// go into next level
-</span><span style="color:#75715e"></span>			backtrack(res, track, nums);
-
-			visited[nums[i]] <span style="color:#f92672">=</span> false;
-			track.pop_back();
-		}
-	}
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-	map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> visited;
-};
-</code></pre></div><p>根据视频解析：<a href="https://www.youtube.com/watch?v=s7AvT7cGdSo">https://www.youtube.com/watch?v=s7AvT7cGdSo</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permute(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> track;
+</span></span><span style="display:flex;"><span>		backtrack(res, track, nums);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span> res, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> track, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (track.size() <span style="color:#f92672">==</span> nums.size()) {
+</span></span><span style="display:flex;"><span>			res.push_back(track);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (visited.find(nums[i]) <span style="color:#f92672">!=</span> visited.end() <span style="color:#f92672">&amp;&amp;</span> visited[nums[i]]) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			track.push_back(nums[i]);
+</span></span><span style="display:flex;"><span>			visited[nums[i]] <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// go into next level
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			backtrack(res, track, nums);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			visited[nums[i]] <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>			track.pop_back();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> visited;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>根据视频解析：<a href="https://www.youtube.com/watch?v=s7AvT7cGdSo">https://www.youtube.com/watch?v=s7AvT7cGdSo</a></p>
 <p>得出以下解法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permute(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
-		<span style="color:#66d9ef">int</span> n, i;
-		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> perms;
-
-		<span style="color:#66d9ef">if</span> (nums.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
-			res.push_back(nums);
-			<span style="color:#66d9ef">return</span> res;
-		}
-
-		<span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
-			n <span style="color:#f92672">=</span> nums.back();
-			nums.pop_back();
-			perms <span style="color:#f92672">=</span> permute(nums);
-			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> perm : perms) {
-				perm.push_back(n);
-				res.push_back(perm);
-			}
-			nums.insert(nums.begin(), n);
-		}
-
-		<span style="color:#66d9ef">return</span> res;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permute(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> n, i;
+</span></span><span style="display:flex;"><span>		vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> perms;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (nums.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>			res.push_back(nums);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			n <span style="color:#f92672">=</span> nums.back();
+</span></span><span style="display:flex;"><span>			nums.pop_back();
+</span></span><span style="display:flex;"><span>			perms <span style="color:#f92672">=</span> permute(nums);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> perm : perms) {
+</span></span><span style="display:flex;"><span>				perm.push_back(n);
+</span></span><span style="display:flex;"><span>				res.push_back(perm);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			nums.insert(nums.begin(), n);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

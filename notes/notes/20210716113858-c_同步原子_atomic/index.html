@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content=" tags: C&#43;&#43;11 内存模型  C&#43;&#43; 采用了顺序一致的原子变量，很像Java 同步原子（volatile）(与 C&#43;&#43; volatile 没有关系）。
-atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1); while(atomic_load(&amp;amp;done) == 0) { /* loop */ } C&#43;&#43; 弱同步原子（acquire/release atomic） " />
+atomic&amp;lt;int&amp;gt; done;  // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1); while(atomic_load(&amp;amp;done) == 0) { /* loop */ } C&#43;&#43; 弱同步原子（acquire/release atomic） " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/" />
@@ -36,7 +36,7 @@ atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;do
 <meta property="og:type" content="article" />
 <meta property="og:title" content="C&#43;&#43; 同步原子（atomic）">
 <meta property="og:description" content=" tags: C&#43;&#43;11 内存模型  C&#43;&#43; 采用了顺序一致的原子变量，很像Java 同步原子（volatile）(与 C&#43;&#43; volatile 没有关系）。
-atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1); while(atomic_load(&amp;amp;done) == 0) { /* loop */ } C&#43;&#43; 弱同步原子（acquire/release atomic） " />
+atomic&amp;lt;int&amp;gt; done;  // Thread 1 // Thread 2 atomic_store(&amp;amp;done, 1); while(atomic_load(&amp;amp;done) == 0) { /* loop */ } C&#43;&#43; 弱同步原子（acquire/release atomic） " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210716113858-c_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_atomic/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -169,11 +169,11 @@ atomic&amp;lt;int&amp;gt; done; // Thread 1 // Thread 2 atomic_store(&amp;amp;do
 <li>tags: <a href="/notes/notes/20210716113225-c_11_%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">C++11 内存模型</a></li>
 </ul>
 <p>C++ 采用了顺序一致的原子变量，很像<a href="/notes/notes/20210716112805-java_%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_volatile/">Java 同步原子（volatile）</a>(与 C++ volatile 没有关系）。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">atomic<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> done;
-
-<span style="color:#75715e">// Thread 1                    // Thread 2
-</span><span style="color:#75715e"></span>atomic_store(<span style="color:#f92672">&amp;</span>done, <span style="color:#ae81ff">1</span>);        <span style="color:#66d9ef">while</span>(atomic_load(<span style="color:#f92672">&amp;</span>done) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) { <span style="color:#75715e">/* loop */</span> }
-</code></pre></div><h2 id="c-plus-plus-弱同步原子-acquire-release-atomic--20210716115953-c-弱同步原子-acquire-release-atomic-dot-md"><a href="/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/">C++ 弱同步原子（acquire/release atomic）</a><a href="#c-plus-plus-弱同步原子-acquire-release-atomic--20210716115953-c-弱同步原子-acquire-release-atomic-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>atomic<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> done;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Thread 1                    // Thread 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>atomic_store(<span style="color:#f92672">&amp;</span>done, <span style="color:#ae81ff">1</span>);        <span style="color:#66d9ef">while</span>(atomic_load(<span style="color:#f92672">&amp;</span>done) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) { <span style="color:#75715e">/* loop */</span> }
+</span></span></code></pre></div><h2 id="c-plus-plus-弱同步原子-acquire-release-atomic--20210716115953-c-弱同步原子-acquire-release-atomic-dot-md"><a href="/notes/notes/20210716115953-c_%E5%BC%B1%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_acquire_release_atomic/">C++ 弱同步原子（acquire/release atomic）</a><a href="#c-plus-plus-弱同步原子-acquire-release-atomic--20210716115953-c-弱同步原子-acquire-release-atomic-dot-md" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 
       </div></div>
 

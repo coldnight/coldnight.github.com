@@ -177,13 +177,13 @@ queues: <strong>Each RX queue is pinned to a separate CPU</strong>.</p>
 <p>Use a hash from packet to decide the RX queue number. The hash is usually counted from a tuple (src IP, dst IP, src port, dst port). This guarantees that packets for a single flow will always end up on exactly the same RX queue, and reordering of packets within a single flow can&rsquo;t happen.</p>
 </blockquote>
 <p>The hash algorithm is configurable with <em>ethtool</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">receiver$ ethtool -n eth2 rx-flow-hash udp4
-UDP over IPV4 flows use these fields <span style="color:#66d9ef">for</span> computing Hash flow key:
-IP SA
-IP DA
-</code></pre></div><p>Reads as</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">RX_queue_number</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hash</span>(<span style="color:#e6db74">&#39;192.168.254.30&#39;</span>, <span style="color:#e6db74">&#39;192.168.254.1&#39;</span>) <span style="color:#f92672">%</span> <span style="color:#a6e22e">number_of_queues</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>receiver$ ethtool -n eth2 rx-flow-hash udp4
+</span></span><span style="display:flex;"><span>UDP over IPV4 flows use these fields <span style="color:#66d9ef">for</span> computing Hash flow key:
+</span></span><span style="display:flex;"><span>IP SA
+</span></span><span style="display:flex;"><span>IP DA
+</span></span></code></pre></div><p>Reads as</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">RX_queue_number</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hash</span>(<span style="color:#e6db74">&#39;192.168.254.30&#39;</span>, <span style="color:#e6db74">&#39;192.168.254.1&#39;</span>) <span style="color:#f92672">%</span> <span style="color:#a6e22e">number_of_queues</span>
+</span></span></code></pre></div>
       </div></div>
 
   

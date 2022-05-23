@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: String,Two Pointers,LeetCode101  Two pointers move inwards, when we meet two different characters:
  Remove left character to see if the remains string still satisfied a valid palindrome. Remove right character to see if the remains string still satisfied a valid palindrome.  Returns true if either one above two is true.
-class Solution { public: bool validPalindrome(string s) { for (int i = 0, j = s.size() -1; i &amp;lt; j; i&#43;&#43;,j--) { if (s[i] !" />
+class Solution { public: 	bool validPalindrome(string s) { 	for (int i = 0, j = s." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220402143729-leetcode101_680_valid_palindrome_ii/" />
@@ -38,7 +38,7 @@ class Solution { public: bool validPalindrome(string s) { for (int i = 0, j = s.
 <meta property="og:title" content="LeetCode101: 680. Valid Palindrome II">
 <meta property="og:description" content="tags: String,Two Pointers,LeetCode101  Two pointers move inwards, when we meet two different characters:
  Remove left character to see if the remains string still satisfied a valid palindrome. Remove right character to see if the remains string still satisfied a valid palindrome.  Returns true if either one above two is true.
-class Solution { public: bool validPalindrome(string s) { for (int i = 0, j = s.size() -1; i &amp;lt; j; i&#43;&#43;,j--) { if (s[i] !" />
+class Solution { public: 	bool validPalindrome(string s) { 	for (int i = 0, j = s." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220402143729-leetcode101_680_valid_palindrome_ii/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -176,35 +176,35 @@ class Solution { public: bool validPalindrome(string s) { for (int i = 0, j = s.
 <li>Remove right character to see if the remains string still satisfied a valid palindrome.</li>
 </ol>
 <p>Returns true if either one above two is true.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">bool</span> validPalindrome(string s) {
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> s.size() <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> j; i<span style="color:#f92672">++</span>,j<span style="color:#f92672">--</span>) {
-			<span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">!=</span> s[j]) {
-				<span style="color:#75715e">// remove left
-</span><span style="color:#75715e"></span>				<span style="color:#66d9ef">auto</span> left <span style="color:#f92672">=</span> isPalindrome(s, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, j);
-
-				<span style="color:#75715e">// remove right
-</span><span style="color:#75715e"></span>				<span style="color:#66d9ef">auto</span> right <span style="color:#f92672">=</span> isPalindrome(s, i, j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-
-				<span style="color:#75715e">// return at here as we have traveled the string in the
-</span><span style="color:#75715e"></span>				<span style="color:#75715e">// invocation of isPalindrome.
-</span><span style="color:#75715e"></span>				<span style="color:#66d9ef">return</span> right <span style="color:#f92672">||</span> left;
-			}
-		}
-		<span style="color:#66d9ef">return</span> true;
-	}
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">bool</span> isPalindrome(string <span style="color:#f92672">&amp;</span> s, <span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j) {
-		<span style="color:#66d9ef">for</span> (; i <span style="color:#f92672">&lt;</span> j; i<span style="color:#f92672">++</span>,j<span style="color:#f92672">--</span>) {
-			<span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">!=</span> s[j]) {
-				<span style="color:#66d9ef">return</span> false;
-			}
-		}
-		<span style="color:#66d9ef">return</span> true;
-	}
-};
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> validPalindrome(string s) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> s.size() <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> j; i<span style="color:#f92672">++</span>,j<span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">!=</span> s[j]) {
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// remove left
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#66d9ef">auto</span> left <span style="color:#f92672">=</span> isPalindrome(s, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, j);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// remove right
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#66d9ef">auto</span> right <span style="color:#f92672">=</span> isPalindrome(s, i, j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// return at here as we have traveled the string in the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#75715e">// invocation of isPalindrome.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#66d9ef">return</span> right <span style="color:#f92672">||</span> left;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> isPalindrome(string <span style="color:#f92672">&amp;</span> s, <span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (; i <span style="color:#f92672">&lt;</span> j; i<span style="color:#f92672">++</span>,j<span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">!=</span> s[j]) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
       </div></div>
 
   

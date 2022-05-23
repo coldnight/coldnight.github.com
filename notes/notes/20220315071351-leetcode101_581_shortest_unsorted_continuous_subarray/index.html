@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Monotonic Stack,LeetCode101  Mono-increasing stack Key:
- Some case should move backward as the new value we meeted is larger than it. When we meet 2 in the stack, and here we need move backward. Some case we need move forward, as the following values are the mono-increaing stack: [1, 2, 5, 3, 4]  class Solution { public: int findUnsortedSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { stack&amp;lt;int&amp;gt; st; // mono-increasing 	int left = -1, right = -2; for (int i = 0; i &amp;lt; nums." />
+ Some case should move backward as the new value we meeted is larger than it. When we meet 2 in the stack, and here we need move backward. Some case we need move forward, as the following values are the mono-increaing stack: [1, 2, 5, 3, 4]  class Solution { public: 	int findUnsortedSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	stack&amp;lt;int&amp;gt; st; // mono-increasing 	int left = -1, right = -2; 	for (int i = 0; i &amp;lt; nums." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220315071351-leetcode101_581_shortest_unsorted_continuous_subarray/" />
@@ -36,7 +36,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 581. Shortest Unsorted Continuous Subarray">
 <meta property="og:description" content="tags: Monotonic Stack,LeetCode101  Mono-increasing stack Key:
- Some case should move backward as the new value we meeted is larger than it. When we meet 2 in the stack, and here we need move backward. Some case we need move forward, as the following values are the mono-increaing stack: [1, 2, 5, 3, 4]  class Solution { public: int findUnsortedSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { stack&amp;lt;int&amp;gt; st; // mono-increasing 	int left = -1, right = -2; for (int i = 0; i &amp;lt; nums." />
+ Some case should move backward as the new value we meeted is larger than it. When we meet 2 in the stack, and here we need move backward. Some case we need move forward, as the following values are the mono-increaing stack: [1, 2, 5, 3, 4]  class Solution { public: 	int findUnsortedSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	stack&amp;lt;int&amp;gt; st; // mono-increasing 	int left = -1, right = -2; 	for (int i = 0; i &amp;lt; nums." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220315071351-leetcode101_581_shortest_unsorted_continuous_subarray/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -176,42 +176,42 @@ When we meet <code>2</code> in the stack, and here we need move backward.</li>
 <li>Some case we need move forward, as the following values are the mono-increaing stack: <code>[1, 2, 5, 3, 4]</code></li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-	<span style="color:#66d9ef">int</span> findUnsortedSubarray(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st; <span style="color:#75715e">// mono-increasing
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, right <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>;
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
-			<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty() <span style="color:#f92672">&amp;&amp;</span> nums[st.top()] <span style="color:#f92672">&gt;</span> nums[i]) {
-				<span style="color:#75715e">// move backward
-</span><span style="color:#75715e"></span>				<span style="color:#66d9ef">if</span> (left <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> st.top() <span style="color:#f92672">&lt;</span> left) {
-					left <span style="color:#f92672">=</span> st.top(); <span style="color:#75715e">// left should be the previous index
-</span><span style="color:#75715e"></span>				}
-
-				<span style="color:#75715e">// move forward
-</span><span style="color:#75715e"></span>				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;</span> nums.size() <span style="color:#f92672">&amp;&amp;</span> nums[j] <span style="color:#f92672">&lt;</span> nums[st.top()]; j<span style="color:#f92672">++</span>) {
-					<span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&gt;</span> right) {
-						right <span style="color:#f92672">=</span> j;
-					}
-				}
-				st.pop();
-			}
-			st.push(i);
-		}
-		<span style="color:#66d9ef">return</span> (right <span style="color:#f92672">-</span> left) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-	}
-};
-</code></pre></div><h2 id="failed-test-cases">Failed test cases<a href="#failed-test-cases" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">[<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">9</span>,<span style="color:#ae81ff">15</span>]
-[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]
-[<span style="color:#ae81ff">1</span>]
-[<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>]
-[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>]
-[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>]
-[<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>]
-[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>]
-[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>]
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> findUnsortedSubarray(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>		stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st; <span style="color:#75715e">// mono-increasing
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, right <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty() <span style="color:#f92672">&amp;&amp;</span> nums[st.top()] <span style="color:#f92672">&gt;</span> nums[i]) {
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// move backward
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#66d9ef">if</span> (left <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> st.top() <span style="color:#f92672">&lt;</span> left) {
+</span></span><span style="display:flex;"><span>					left <span style="color:#f92672">=</span> st.top(); <span style="color:#75715e">// left should be the previous index
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// move forward
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;</span> nums.size() <span style="color:#f92672">&amp;&amp;</span> nums[j] <span style="color:#f92672">&lt;</span> nums[st.top()]; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&gt;</span> right) {
+</span></span><span style="display:flex;"><span>						right <span style="color:#f92672">=</span> j;
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				st.pop();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			st.push(i);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> (right <span style="color:#f92672">-</span> left) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="failed-test-cases">Failed test cases<a href="#failed-test-cases" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>[<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">9</span>,<span style="color:#ae81ff">15</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>]
+</span></span></code></pre></div>
       </div></div>
 
   
