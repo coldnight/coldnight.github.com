@@ -6,7 +6,82 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 31 May 2022 13:35:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Jun 2022 11:03:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Merkle tree</title>
+      <link>https://www.linuxzen.com/notes/notes/20220601110304-merkle_tree/</link>
+      <pubDate>Wed, 01 Jun 2022 11:03:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220601110304-merkle_tree/</guid>
+      <description>tags: Starcoin Web3 StarTrek,Blockchain source:  Wikipedia: Merkle tree Starcoin Cookbook    What is a Merkle tree. Merkle tree is a hash tree, named after Ralph Merkle, who patented in 1979.
+Most implementations of them are binary, which means two child nodes under each node.
+Why the merkle tree is important to the peer-to-peer network? The main purpose of a merkle tree is to ensure the data we received from a peer-to-peer network are undamaged and unaltered, it&amp;rsquo;s important as the data were splitted into many blocks and stored in multiple nodes in the network.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210804115349-%E5%8C%BA%E5%9D%97%E9%93%BE/&#34;&gt;Blockchain&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source:
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Merkle_tree&#34;&gt;Wikipedia: Merkle tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://starcoinorg.github.io/starcoin-cookbook/zh/docs/concepts/merkletree&#34;&gt;Starcoin Cookbook&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;what-is-a-merkle-tree-dot&#34;&gt;What is a Merkle tree.&lt;/h2&gt;
+&lt;p&gt;Merkle tree is a &lt;strong&gt;hash tree&lt;/strong&gt;, named after Ralph Merkle, who patented in 1979.&lt;/p&gt;
+&lt;p&gt;Most implementations of them are binary, which means two child nodes under each node.&lt;/p&gt;
+&lt;h2 id=&#34;why-the-merkle-tree-is-important-to-the-peer-to-peer-network&#34;&gt;Why the merkle tree is important to the peer-to-peer network?&lt;/h2&gt;
+&lt;p&gt;The main purpose of a merkle tree is to ensure the data we received from a peer-to-peer network are undamaged and unaltered,
+it&amp;rsquo;s important as the data were splitted into many blocks and stored in multiple nodes in the network.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s also provide a mechanism to check the data without to receive all the data.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-a-merkle-tree-work-dot&#34;&gt;How does a merkle tree work.&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s checkout the follow image that download from Wikipedia:&lt;/p&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/2022-06-01_11-29-11_800px-Hash_Tree.svg.png&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;p&gt;From bottom to top:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;L1,L2,L3,L4&lt;/em&gt;: The data are splitted into 4 blocks, and stored as &lt;em&gt;leaf node&lt;/em&gt; in the merkle tree.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Hash 0-0,Hash 0-1,Hash 1-0,Hash 1-1&lt;/em&gt;: Each parent of the data blocks stores the hash of each data block, usually by a cryptographic hash function such as SHA-2.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Hash 0, Hash 1&lt;/em&gt;: Hash of their children&amp;rsquo;s hash.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Top Hash&lt;/em&gt;: Hash of their children&amp;rsquo;s hash.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As we can see, if any data block is changed, then the &lt;strong&gt;root hash&lt;/strong&gt; or &lt;strong&gt;top hash&lt;/strong&gt; will changed too.
+So we can simply compare any two &lt;strong&gt;root hash&lt;/strong&gt; or &lt;strong&gt;top hash&lt;/strong&gt; values to check if the data are changed.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Starcoin Learn Resource</title>
+      <link>https://www.linuxzen.com/notes/notes/20220601104619-starcoin_learn_resource/</link>
+      <pubDate>Wed, 01 Jun 2022 10:46:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220601104619-starcoin_learn_resource/</guid>
+      <description> tags: Starcoin Learn Resource  The documentation of Starcoin are written in multiple places:
+ The Developers Documentation on the main site  English Version Chinese Version   The Starcoin Cookbook  English Version Chinese Version    </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220601104619-starcoin_learn_resource/&#34;&gt;Starcoin Learn Resource&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The documentation of Starcoin are written in multiple places:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The Developers Documentation on the main site
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://starcoin.org/en/developers/&#34;&gt;English Version&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://starcoin.org/zh/developers/&#34;&gt;Chinese Version&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;The Starcoin Cookbook
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://starcoinorg.github.io/starcoin-cookbook/&#34;&gt;English Version&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://starcoinorg.github.io/starcoin-cookbook/zh/&#34;&gt;Chinese Version&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Compile Starcoin from Source And Setup a Dev Node</title>
       <link>https://www.linuxzen.com/notes/notes/20220531133557-compile_starcoin_and_setup_a_dev_node/</link>
