@@ -13,13 +13,13 @@
       <pubDate>Wed, 01 Jun 2022 19:00:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220601190052-starcoin_pow/</guid>
-      <description> tags: Starcoin Web3 StarTrek, Proof-of-work  Generate nonce (random data) as salt to join to the data of block to be hash. The goal is to find hash value that less than target. The target is influenced by difficulty. The difficulty is bigger and the target smaller, which means more difficult to find.
+      <description> tags: Starcoin Web3 StarTrek, Proof-of-work  Generate nonce (random data) as salt to join to the data of block to be hash. The goal is to find a hash value that less than target. The target is influenced by difficulty. As the difficulty gets bigger and the target will be smaller, which means more difficult to find.
 pub fn difficult_to_target(difficulty: U256) -&amp;gt; U256 { 	U256::max_value() / difficulty } </description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104070857-proof_of_work/&#34;&gt;Proof-of-work&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Generate &lt;em&gt;nonce&lt;/em&gt; (random data) as salt to join to the data of block to be hash.
-The goal is to find hash value that less than &lt;em&gt;target&lt;/em&gt;. The &lt;em&gt;target&lt;/em&gt; is influenced by &lt;em&gt;difficulty&lt;/em&gt;. The &lt;em&gt;difficulty&lt;/em&gt; is bigger and the &lt;em&gt;target&lt;/em&gt; smaller, which means more difficult to find.&lt;/p&gt;
+The goal is to find a hash value that less than &lt;em&gt;target&lt;/em&gt;. The &lt;em&gt;target&lt;/em&gt; is influenced by &lt;em&gt;difficulty&lt;/em&gt;. As the &lt;em&gt;difficulty&lt;/em&gt; gets bigger and the &lt;em&gt;target&lt;/em&gt; will be smaller, which means more difficult to find.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;difficult_to_target&lt;/span&gt;(difficulty: &lt;span style=&#34;color:#a6e22e&#34;&gt;U256&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;U256&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		U256::max_value() &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; difficulty
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
