@@ -6,7 +6,239 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 01 Jun 2022 19:00:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Jun 2022 11:09:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Starcoin Blockchain from Scartch</title>
+      <link>https://www.linuxzen.com/notes/notes/20220602110916-starcoin_blockchain/</link>
+      <pubDate>Thu, 02 Jun 2022 11:09:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220602110916-starcoin_blockchain/</guid>
+      <description>tags: Starcoin Web3 StarTrek,Blockchain  Overview Block is the basic element in a blockchain system, as we known blockchain system is just a ledger, which means a bookkeeping1 that recording of financial transactions. In the blockchain system, those transactions are stored in the blocks. In each block, the data stored in may looks like:
+   TXN FROM TO VALUE     #0 God Cale 100   #1 Cale Alice 10   #2 Alice Bob 1   #3 Bob Mike 0.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210804115349-%E5%8C%BA%E5%9D%97%E9%93%BE/&#34;&gt;Blockchain&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;Block is the basic element in a blockchain system, as we known blockchain system is just a ledger, which means a bookkeeping&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; that recording of financial &lt;em&gt;transactions&lt;/em&gt;.
+In the blockchain system, those &lt;em&gt;transactions&lt;/em&gt; are stored in the blocks. In each block, the data stored in may looks like:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;TXN&lt;/th&gt;
+&lt;th&gt;FROM&lt;/th&gt;
+&lt;th&gt;TO&lt;/th&gt;
+&lt;th&gt;VALUE&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;#0&lt;/td&gt;
+&lt;td&gt;God&lt;/td&gt;
+&lt;td&gt;Cale&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;#1&lt;/td&gt;
+&lt;td&gt;Cale&lt;/td&gt;
+&lt;td&gt;Alice&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;#2&lt;/td&gt;
+&lt;td&gt;Alice&lt;/td&gt;
+&lt;td&gt;Bob&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;#3&lt;/td&gt;
+&lt;td&gt;Bob&lt;/td&gt;
+&lt;td&gt;Mike&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Then what&amp;rsquo;s a blockchain? Just simply chain the blocks together, usually add a field to point to its parent:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Blocks #0&lt;/p&gt;
+&lt;p&gt;Parent: None&lt;/p&gt;
+&lt;p&gt;Data:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;TXN&lt;/th&gt;
+&lt;th&gt;FROM&lt;/th&gt;
+&lt;th&gt;TO&lt;/th&gt;
+&lt;th&gt;VALUE&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;#0&lt;/td&gt;
+&lt;td&gt;God&lt;/td&gt;
+&lt;td&gt;Cale&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Blocks #1&lt;/p&gt;
+&lt;p&gt;Parent: #0&lt;/p&gt;
+&lt;p&gt;Data:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;TXN&lt;/th&gt;
+&lt;th&gt;FROM&lt;/th&gt;
+&lt;th&gt;TO&lt;/th&gt;
+&lt;th&gt;VALUE&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;#0&lt;/td&gt;
+&lt;td&gt;Cale&lt;/td&gt;
+&lt;td&gt;Alice&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;#1&lt;/td&gt;
+&lt;td&gt;Cale&lt;/td&gt;
+&lt;td&gt;Mike&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Blocks #2
+Parent: #1&lt;/p&gt;
+&lt;p&gt;Data:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;TXN&lt;/th&gt;
+&lt;th&gt;FROM&lt;/th&gt;
+&lt;th&gt;TO&lt;/th&gt;
+&lt;th&gt;VALUE&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;#0&lt;/td&gt;
+&lt;td&gt;Alice&lt;/td&gt;
+&lt;td&gt;Bob&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;#1&lt;/td&gt;
+&lt;td&gt;Mike&lt;/td&gt;
+&lt;td&gt;David&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Blocks #3&lt;/p&gt;
+&lt;p&gt;Parent: #2&lt;/p&gt;
+&lt;p&gt;Data:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;TXN&lt;/th&gt;
+&lt;th&gt;FROM&lt;/th&gt;
+&lt;th&gt;TO&lt;/th&gt;
+&lt;th&gt;VALUE&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;#0&lt;/td&gt;
+&lt;td&gt;Bob&lt;/td&gt;
+&lt;td&gt;David&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As above shows, we can figure out each person&amp;rsquo;s balance:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;ACCOUNT&lt;/th&gt;
+&lt;th&gt;BALANCE&lt;/th&gt;
+&lt;th&gt;WHY?&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Cale&lt;/td&gt;
+&lt;td&gt;89&lt;/td&gt;
+&lt;td&gt;+100 from god, -10 to Alice, -1 to Mike&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Alice&lt;/td&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;+10 from Cale, -1 to Bob&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Bob&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;+1 from Alice, -0.5 to Mike, -0.5 to David&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Mike&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;+0.5 from Bob, -0.5 to David&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;David&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;+0.5 from Bob, +0.5 from Mike&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Bookkeeping&#34;&gt;https://en.wikipedia.org/wiki/Bookkeeping&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Sparse Merkle Tree</title>
+      <link>https://www.linuxzen.com/notes/notes/20220602102655-sparse_merkle_tree/</link>
+      <pubDate>Thu, 02 Jun 2022 10:26:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220602102655-sparse_merkle_tree/</guid>
+      <description> tags: Merkle tree,Starcoin Web3 StarTrek  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220601110304-merkle_tree/&#34;&gt;Merkle tree&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Jellyfish Merkle Tree</title>
+      <link>https://www.linuxzen.com/notes/notes/20220602102439-jellyfish_merkle_tree/</link>
+      <pubDate>Thu, 02 Jun 2022 10:24:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220602102439-jellyfish_merkle_tree/</guid>
+      <description> tags: Starcoin Web3 StarTrek,Sparse Merkle Tree,Merkle tree,LSM-Tree source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220602102655-sparse_merkle_tree/&#34;&gt;Sparse Merkle Tree&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220601110304-merkle_tree/&#34;&gt;Merkle tree&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606100317-lsm_tree/&#34;&gt;LSM-Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;//select/items/1_BYWHTTNX&#34;&gt;Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Starcoin PoW</title>
       <link>https://www.linuxzen.com/notes/notes/20220601190052-starcoin_pow/</link>
