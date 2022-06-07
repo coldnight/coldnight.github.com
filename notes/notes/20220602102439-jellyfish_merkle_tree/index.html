@@ -6,7 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Starcoin Web3 StarTrek,Sparse Merkle Tree,Merkle tree,LSM-Tree source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  " />
+<meta name="description" content="tags: Starcoin Web3 StarTrek,Sparse Merkle Tree,Merkle tree,LSM-Tree,Account-Model Blockchain Systems source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  Inspired by Patricia Merkle Tree and has been implemented in Rust, but it is language-independent.
+Merkel tree fits pretty well as an authenticated key-value store holding a huge amount of data in a tamper-proof way.
+Two major concerns where people have been trying to achieve some enhnacements:" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220602102439-jellyfish_merkle_tree/" />
@@ -34,7 +36,9 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Jellyfish Merkle Tree">
-<meta property="og:description" content=" tags: Starcoin Web3 StarTrek,Sparse Merkle Tree,Merkle tree,LSM-Tree source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  " />
+<meta property="og:description" content="tags: Starcoin Web3 StarTrek,Sparse Merkle Tree,Merkle tree,LSM-Tree,Account-Model Blockchain Systems source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  Inspired by Patricia Merkle Tree and has been implemented in Rust, but it is language-independent.
+Merkel tree fits pretty well as an authenticated key-value store holding a huge amount of data in a tamper-proof way.
+Two major concerns where people have been trying to achieve some enhnacements:" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220602102439-jellyfish_merkle_tree/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -164,8 +168,21 @@
 
   <div class="post-content"><div>
         <ul>
-<li>tags: <a href="/notes/notes/20220531104515-starcoin_web3_startrek/">Starcoin Web3 StarTrek</a>,<a href="/notes/notes/20220602102655-sparse_merkle_tree/">Sparse Merkle Tree</a>,<a href="/notes/notes/20220601110304-merkle_tree/">Merkle tree</a>,<a href="/notes/notes/20210606100317-lsm_tree/">LSM-Tree</a></li>
+<li>tags: <a href="/notes/notes/20220531104515-starcoin_web3_startrek/">Starcoin Web3 StarTrek</a>,<a href="/notes/notes/20220602102655-sparse_merkle_tree/">Sparse Merkle Tree</a>,<a href="/notes/notes/20220601110304-merkle_tree/">Merkle tree</a>,<a href="/notes/notes/20210606100317-lsm_tree/">LSM-Tree</a>,<a href="/notes/notes/20220607185130-account_model_blockchain_systems/">Account-Model Blockchain Systems</a></li>
 <li>source: <a href="//select/items/1_BYWHTTNX">Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.</a></li>
+</ul>
+<p>Inspired by <a href="/notes/notes/20220607184852-patricia_merkle_tree/">Patricia Merkle Tree</a> and has been implemented in Rust, but it is language-independent.</p>
+<p>Merkel tree fits pretty well as an authenticated key-value store holding a huge amount of data in a tamper-proof way.</p>
+<p>Two major concerns where people have been trying to achieve some enhnacements:</p>
+<ul>
+<li>
+<p>Computation cost</p>
+</li>
+<li>
+<p>Storage footprint</p>
+<p>Among above: Sparse Merkel Tree cut off unnecessary complexity in more compact and efficient merkel tree design,
+to provide a more compact and efficient merkel tree.</p>
+</li>
 </ul>
 
       </div></div>
@@ -174,6 +191,12 @@
 
   
 
+
+   
+
+   
+
+   
 
    
 
