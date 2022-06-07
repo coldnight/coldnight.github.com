@@ -353,13 +353,13 @@ Parent: #1&lt;/p&gt;
       <pubDate>Thu, 02 Jun 2022 10:24:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220602102439-jellyfish_merkle_tree/</guid>
-      <description>tags: Starcoin Web3 StarTrek,Sparse Merkle Tree,Merkle tree,LSM-Tree,Account-Model Blockchain Systems source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  Inspired by Patricia Merkle Tree and has been implemented in Rust, but it is language-independent.
-Merkel tree fits pretty well as an authenticated key-value store holding a huge amount of data in a tamper-proof way.
-Two major concerns where people have been trying to achieve some enhnacements:</description>
+      <description>tags: Starcoin Web3 StarTrek,Sparse Merkle Tree,Merkle tree,LSM-Tree,Account-Model Blockchain Systems source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  JMT(Jellyfish Merkle Tree) a LSM-tree based Implementation of Sparse Merkle Tree Inspired by Patricia Merkle Tree and has been implemented in Rust, but it is language-independent.
+Merkel tree fits pretty well as an authenticated key-value store holding a huge amount of data in a tamper-proof way.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220602102655-sparse_merkle_tree/&#34;&gt;Sparse Merkle Tree&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220601110304-merkle_tree/&#34;&gt;Merkle tree&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210606100317-lsm_tree/&#34;&gt;LSM-Tree&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220607185130-account_model_blockchain_systems/&#34;&gt;Account-Model Blockchain Systems&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;//select/items/1_BYWHTTNX&#34;&gt;Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;jmt--jellyfish-merkle-tree--a-lsm-tree-based-implementation-of-sparse-merkle-tree&#34;&gt;JMT(Jellyfish Merkle Tree) a LSM-tree based Implementation of Sparse Merkle Tree&lt;/h2&gt;
 &lt;p&gt;Inspired by &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220607184852-patricia_merkle_tree/&#34;&gt;Patricia Merkle Tree&lt;/a&gt; and has been implemented in Rust, but it is language-independent.&lt;/p&gt;
 &lt;p&gt;Merkel tree fits pretty well as an authenticated key-value store holding a huge amount of data in a tamper-proof way.&lt;/p&gt;
 &lt;p&gt;Two major concerns where people have been trying to achieve some enhnacements:&lt;/p&gt;
@@ -371,8 +371,19 @@ Two major concerns where people have been trying to achieve some enhnacements:</
 &lt;p&gt;Storage footprint&lt;/p&gt;
 &lt;p&gt;Among above: Sparse Merkel Tree cut off unnecessary complexity in more compact and efficient merkel tree design,
 to provide a more compact and efficient merkel tree.&lt;/p&gt;
+&lt;p&gt;With sparseness can benefit:&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Escape from excessive computation and space overhead.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Less CPU time in generation and verification: Smaller tree sizes, shorter proofs.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Less network bandwidth in transmission.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;JMT(Jellyfish Merkle Tree) is built on top of a LSM-tree based key-value storage, featuring version-based key prevent heavy I/O.&lt;/p&gt;
 </content>
     </item>
     
