@@ -13,12 +13,27 @@
       <pubDate>Tue, 07 Jun 2022 19:18:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220607191822-addressable_merkle_tree_amt/</guid>
-      <description> tags: Merkle tree,Blockchain,Starcoin Web3 StarTrek source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.   This may explain what a colleague told me about the lower the address we got the lower gas we cost.
- </description>
+      <description>tags: Merkle tree,Blockchain,Starcoin Web3 StarTrek source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  What is Addressable mean? It means the leaf node in the tree can be found by an address. The address encoded the path to the leaf node, for example, a leaf node in a binary tree, which has 3 level. Its address may be encoded to 010, the corresponding path is: left-&amp;gt;right-&amp;gt;left:</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220601110304-merkle_tree/&#34;&gt;Merkle tree&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210804115349-%E5%8C%BA%E5%9D%97%E9%93%BE/&#34;&gt;Blockchain&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;//select/items/1_BYWHTTNX&#34;&gt;Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;what-is-addressable-mean&#34;&gt;What is Addressable mean?&lt;/h2&gt;
+&lt;p&gt;It means the leaf node in the tree can be found by an address.
+The address encoded the path to the leaf node, for example, a leaf node in a binary tree,
+which has 3 level. Its address may be encoded to &lt;code&gt;010&lt;/code&gt;, the corresponding path is: &lt;code&gt;left-&amp;gt;right-&amp;gt;left&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;  0    1     0
+  +    +     +
+  v    v     v
+left right left
+
+
+	 root
+	 / \
+   H1   H2
+  /\     /\
+D1  D2 D3 D4
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As we can see, the address &lt;code&gt;010&lt;/code&gt; leads us to the leaf node &lt;code&gt;D2&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This may explain what a colleague told me about the lower the address we got the lower gas we cost.&lt;/p&gt;
 &lt;/blockquote&gt;

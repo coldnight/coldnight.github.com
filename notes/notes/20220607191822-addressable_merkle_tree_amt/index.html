@@ -6,8 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Merkle tree,Blockchain,Starcoin Web3 StarTrek source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.   This may explain what a colleague told me about the lower the address we got the lower gas we cost.
- " />
+<meta name="description" content="tags: Merkle tree,Blockchain,Starcoin Web3 StarTrek source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  What is Addressable mean? It means the leaf node in the tree can be found by an address. The address encoded the path to the leaf node, for example, a leaf node in a binary tree, which has 3 level. Its address may be encoded to 010, the corresponding path is: left-&amp;gt;right-&amp;gt;left:" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220607191822-addressable_merkle_tree_amt/" />
@@ -35,8 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Addressable Merkle Tree(AMT)">
-<meta property="og:description" content=" tags: Merkle tree,Blockchain,Starcoin Web3 StarTrek source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.   This may explain what a colleague told me about the lower the address we got the lower gas we cost.
- " />
+<meta property="og:description" content="tags: Merkle tree,Blockchain,Starcoin Web3 StarTrek source: Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.  What is Addressable mean? It means the leaf node in the tree can be found by an address. The address encoded the path to the leaf node, for example, a leaf node in a binary tree, which has 3 level. Its address may be encoded to 010, the corresponding path is: left-&amp;gt;right-&amp;gt;left:" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220607191822-addressable_merkle_tree_amt/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -169,6 +167,22 @@
 <li>tags: <a href="/notes/notes/20220601110304-merkle_tree/">Merkle tree</a>,<a href="/notes/notes/20210804115349-%E5%8C%BA%E5%9D%97%E9%93%BE/">Blockchain</a>,<a href="/notes/notes/20220531104515-starcoin_web3_startrek/">Starcoin Web3 StarTrek</a></li>
 <li>source: <a href="//select/items/1_BYWHTTNX">Gao, Zhenhuan, Yuxuan Hu, and Qinfan Wu. “Jellyfish Merkle Tree,” n.d., 12.</a></li>
 </ul>
+<h2 id="what-is-addressable-mean">What is Addressable mean?<a href="#what-is-addressable-mean" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>It means the leaf node in the tree can be found by an address.
+The address encoded the path to the leaf node, for example, a leaf node in a binary tree,
+which has 3 level. Its address may be encoded to <code>010</code>, the corresponding path is: <code>left-&gt;right-&gt;left</code>:</p>
+<pre tabindex="0"><code class="language-nil" data-lang="nil">  0    1     0
+  +    +     +
+  v    v     v
+left right left
+
+
+	 root
+	 / \
+   H1   H2
+  /\     /\
+D1  D2 D3 D4
+</code></pre><p>As we can see, the address <code>010</code> leads us to the leaf node <code>D2</code>.</p>
 <blockquote>
 <p>This may explain what a colleague told me about the lower the address we got the lower gas we cost.</p>
 </blockquote>
