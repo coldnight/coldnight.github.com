@@ -22,21 +22,51 @@
 &lt;p&gt;It means the leaf node in the tree can be found by an address.
 The address encoded the path to the leaf node, for example, a leaf node in a binary tree,
 which has 3 level. Its address may be encoded to &lt;code&gt;010&lt;/code&gt;, the corresponding path is: &lt;code&gt;left-&amp;gt;right-&amp;gt;left&lt;/code&gt;:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;  0    1     0
-  +    +     +
-  v    v     v
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;	0    1     0
+	+    +     +
+	v    v     v
 left right left
 
 
-	 root
-	 / \
-   H1   H2
-  /\     /\
+		 root
+		 / \
+	 H1   H2
+	/\     /\
 D1  D2 D3 D4
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As we can see, the address &lt;code&gt;010&lt;/code&gt; leads us to the leaf node &lt;code&gt;D2&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This may explain what a colleague told me about the lower the address we got the lower gas we cost.&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;h2 id=&#34;how-does-amt-work&#34;&gt;How does AMT work?&lt;/h2&gt;
+&lt;p&gt;The main goal of AMT is to let a verifier &lt;em&gt;V&lt;/em&gt; can verify a large data structure &lt;em&gt;D&lt;/em&gt; without holding it,
+which &lt;em&gt;D&lt;/em&gt; provided by an untrusted prover &lt;em&gt;P&lt;/em&gt;, which holds &lt;em&gt;D&lt;/em&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;P&lt;/em&gt; computes \(f(D) \rightarrow r\) and \(\pi\) to the verifier.&lt;/p&gt;
+&lt;p&gt;Both:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;\(r\) the result of the computation of some function \(f\) on \(D\)(e.g. SHA1).&lt;/li&gt;
+&lt;li&gt;\(\pi\) a proof of the correct computation of the result.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;V&lt;/em&gt; can run \(Verify(a, f, r, \pi)\), which returns true if and only if \(f(D) = r\).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;\(a\) holds by &lt;em&gt;V&lt;/em&gt; is a short authenticator, forms a binding commitment to the large data structure &lt;em&gt;D&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/amt-binary.png&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;p&gt;As above shown, this is a Merkle tree stroing \(D = \{0: s0, 1: s1, 2: s2, 3: s3\}\).
+If we want to verify the third item(at the bottom of the tree, from left to right, shown with a dashed line),
+then \(r = s2\) and \(\pi = [h3, h4]\)(shown with a dotted line). \(Verify(a, f, r, \pi)\) returns if and only if the result of below equals to &lt;em&gt;a&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;\(hash(h4 || hash(hash(2 || r) || h3))\)&lt;/p&gt;
 </content>
     </item>
     

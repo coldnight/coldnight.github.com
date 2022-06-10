@@ -171,21 +171,51 @@
 <p>It means the leaf node in the tree can be found by an address.
 The address encoded the path to the leaf node, for example, a leaf node in a binary tree,
 which has 3 level. Its address may be encoded to <code>010</code>, the corresponding path is: <code>left-&gt;right-&gt;left</code>:</p>
-<pre tabindex="0"><code class="language-nil" data-lang="nil">  0    1     0
-  +    +     +
-  v    v     v
+<pre tabindex="0"><code class="language-nil" data-lang="nil">	0    1     0
+	+    +     +
+	v    v     v
 left right left
 
 
-	 root
-	 / \
-   H1   H2
-  /\     /\
+		 root
+		 / \
+	 H1   H2
+	/\     /\
 D1  D2 D3 D4
 </code></pre><p>As we can see, the address <code>010</code> leads us to the leaf node <code>D2</code>.</p>
 <blockquote>
 <p>This may explain what a colleague told me about the lower the address we got the lower gas we cost.</p>
 </blockquote>
+<h2 id="how-does-amt-work">How does AMT work?<a href="#how-does-amt-work" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>The main goal of AMT is to let a verifier <em>V</em> can verify a large data structure <em>D</em> without holding it,
+which <em>D</em> provided by an untrusted prover <em>P</em>, which holds <em>D</em>.</p>
+<ul>
+<li>
+<p><em>P</em> computes \(f(D) \rightarrow r\) and \(\pi\) to the verifier.</p>
+<p>Both:</p>
+<ul>
+<li>\(r\) the result of the computation of some function \(f\) on \(D\)(e.g. SHA1).</li>
+<li>\(\pi\) a proof of the correct computation of the result.</li>
+</ul>
+</li>
+<li>
+<p><em>V</em> can run \(Verify(a, f, r, \pi)\), which returns true if and only if \(f(D) = r\).</p>
+<ul>
+<li>\(a\) holds by <em>V</em> is a short authenticator, forms a binding commitment to the large data structure <em>D</em>.</li>
+</ul>
+</li>
+</ul>
+
+  <figure class="left" >
+    <img src="/notes/ox-hugo/amt-binary.png"   />
+    
+  </figure>
+
+
+<p>As above shown, this is a Merkle tree stroing \(D = \{0: s0, 1: s1, 2: s2, 3: s3\}\).
+If we want to verify the third item(at the bottom of the tree, from left to right, shown with a dashed line),
+then \(r = s2\) and \(\pi = [h3, h4]\)(shown with a dotted line). \(Verify(a, f, r, \pi)\) returns if and only if the result of below equals to <em>a</em>:</p>
+<p>\(hash(h4 || hash(hash(2 || r) || h3))\)</p>
 
       </div></div>
 
