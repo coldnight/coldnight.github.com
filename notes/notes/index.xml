@@ -6,7 +6,61 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 07 Jun 2022 19:18:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Jun 2022 16:45:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>starcoin#3450</title>
+      <link>https://www.linuxzen.com/notes/notes/20220611164505-starcoin_3450/</link>
+      <pubDate>Sat, 11 Jun 2022 16:45:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220611164505-starcoin_3450/</guid>
+      <description>tags: Starcoin Web3 StarTrek,starcoin issue solving  Today I saw this issue: starcoin#3450 at GitHub, I decide to give it a try.
+The corresponding type VMStatus is defined out of starcoin&amp;rsquo;s reposiotry, here.
+The work need to be done seems are:
+ convert function from u16 to a readable string. convert status_code from StatusCode to a readable string.  Let&amp;rsquo;s take a look at StatusCode first, StatusCode is a enum that contains lot of variants, WOW!</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220611154932-starcoin_issue_solving/&#34;&gt;starcoin issue solving&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Today I saw this issue: &lt;a href=&#34;https://github.com/starcoinorg/starcoin/issues/3450&#34;&gt;starcoin#3450&lt;/a&gt; at GitHub, I decide to give it a try.&lt;/p&gt;
+&lt;p&gt;The corresponding type VMStatus is defined out of starcoin&amp;rsquo;s reposiotry, &lt;a href=&#34;https://github.com/starcoinorg/move/blob/main/language/move-core/types/src/vm_status.rs&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The work need to be done seems are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;convert &lt;code&gt;function&lt;/code&gt; from &lt;code&gt;u16&lt;/code&gt; to a readable string.&lt;/li&gt;
+&lt;li&gt;convert &lt;code&gt;status_code&lt;/code&gt; from &lt;code&gt;StatusCode&lt;/code&gt; to a readable string.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&amp;rsquo;s take a look at &lt;code&gt;StatusCode&lt;/code&gt; first, &lt;code&gt;StatusCode&lt;/code&gt; is a &lt;code&gt;enum&lt;/code&gt; that contains lot of variants, WOW!
+My intuition is that can we just get the name of the variant by it&amp;rsquo;s value. Or I&amp;rsquo;ll write an
+ugly &lt;code&gt;match&lt;/code&gt; that contains tons of arms. Maybe there already existed some similar code, Let me do a search.&lt;/p&gt;
+&lt;p&gt;In further research, I found the related struct of this issue is &lt;code&gt;KeptVMStatus&lt;/code&gt;, starcoin returns it as &lt;code&gt;TransactionStatusView&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;KeptVMStatus&lt;/code&gt; is defined in move, at &lt;a href=&#34;https://github.com/starcoinorg/move/blob/main/language/move-core/types/src/vm_status.rs#L77&#34;&gt;here&lt;/a&gt;. The variant &lt;code&gt;ExecutionFailure&lt;/code&gt; of it doesn&amp;rsquo;t contain &lt;code&gt;status_code&lt;/code&gt; and &lt;code&gt;function_name&lt;/code&gt; fields like &lt;code&gt;VmStatus&lt;/code&gt; does.
+The &lt;code&gt;status_code&lt;/code&gt; was removed in this &lt;a href=&#34;https://github.com/starcoinorg/move/commit/0fe6c1ac55c5961bf54091e53bb49c25cd90af5f&#34;&gt;commit&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As the commit message says:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[vm] Filter StatusCodes away from TransactionOutput&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Changes the information kept in TransactionStatus&lt;/li&gt;
+&lt;li&gt;Kept transactions have a new KeptVMStatus. Runtime errors have detailed information, but no error codes. All other errors are bucketed&lt;/li&gt;
+&lt;li&gt;Discarded transactions have a StatusCode&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Closes: #5071
+Approved by: sblackshear&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Emmm, how to get the detailed information from Runtime errors?&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>starcoin issue solving</title>
+      <link>https://www.linuxzen.com/notes/notes/20220611154932-starcoin_issue_solving/</link>
+      <pubDate>Sat, 11 Jun 2022 15:49:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220611154932-starcoin_issue_solving/</guid>
+      <description> tags: Starcoin Web3 StarTrek  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Addressable Merkle Tree(AMT)</title>
       <link>https://www.linuxzen.com/notes/notes/20220607191822-addressable_merkle_tree_amt/</link>
