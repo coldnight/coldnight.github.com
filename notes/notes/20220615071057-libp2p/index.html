@@ -6,7 +6,11 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: P2P,Starcoin Web3 StarTrek,Network source: https://docs.libp2p.io/  " />
+<meta name="description" content="tags: P2P,Starcoin Web3 StarTrek,Network source: https://docs.libp2p.io/  A set of protocols for peer identity, discover, routing, transport and more.
+Peer-to-peer network Peers or nodes communicate with oen another directly, it&amp;rsquo;s different from the client-server architecture.
+libp2p Solved   Transport abstract data transmission and receipt to adapte many protocols, include the future protocols.
+  Identity use public key cryptography as the basis of peer identity， with this:
+ It gives each peer a globally unique &amp;ldquo;name&amp;rdquo;, in the form of a PeerId." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220615071057-libp2p/" />
@@ -34,7 +38,11 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="libp2p">
-<meta property="og:description" content=" tags: P2P,Starcoin Web3 StarTrek,Network source: https://docs.libp2p.io/  " />
+<meta property="og:description" content="tags: P2P,Starcoin Web3 StarTrek,Network source: https://docs.libp2p.io/  A set of protocols for peer identity, discover, routing, transport and more.
+Peer-to-peer network Peers or nodes communicate with oen another directly, it&amp;rsquo;s different from the client-server architecture.
+libp2p Solved   Transport abstract data transmission and receipt to adapte many protocols, include the future protocols.
+  Identity use public key cryptography as the basis of peer identity， with this:
+ It gives each peer a globally unique &amp;ldquo;name&amp;rdquo;, in the form of a PeerId." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220615071057-libp2p/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -167,6 +175,43 @@
 <li>tags: <a href="/notes/notes/20220615070942-p2p/">P2P</a>,<a href="/notes/notes/20220531104515-starcoin_web3_startrek/">Starcoin Web3 StarTrek</a>,<a href="/notes/notes/20200827180638-network/">Network</a></li>
 <li>source: <a href="https://docs.libp2p.io/">https://docs.libp2p.io/</a></li>
 </ul>
+<p>A set of protocols for peer identity, discover, routing, transport and more.</p>
+<h2 id="peer-to-peer-network">Peer-to-peer network<a href="#peer-to-peer-network" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Peers or nodes communicate with oen another directly, it&rsquo;s different from the client-server architecture.</p>
+<h2 id="libp2p-solved">libp2p Solved<a href="#libp2p-solved" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li>
+<p><strong>Transport</strong> abstract data transmission and receipt to adapte many protocols, include the future protocols.</p>
+</li>
+<li>
+<p><strong>Identity</strong> use public key cryptography as the basis of peer identity， with this:</p>
+<ul>
+<li>It gives each peer a globally unique &ldquo;name&rdquo;, in the form of a <code>PeerId</code>.</li>
+<li><code>PeerId</code> allows anyone to retreve the public key for the identified peer, which enables secure communication between peers.</li>
+</ul>
+</li>
+<li>
+<p><strong>Security</strong> libp2p supports &ldquo;upgrading&rdquo; a connection provided by a transport into a securely encrypted channel. Currently support;</p>
+<ul>
+<li>TLS 1.3</li>
+<li>Noise</li>
+</ul>
+</li>
+<li>
+<p><strong>Peer Routing</strong>: <a href="/notes/notes/20220615072945-distributed_hash_table_dht/">Distributed Hash Table(DHT)</a></p>
+<p>Two key pieces:</p>
+<ul>
+<li><code>PeerId</code></li>
+<li>The way to locate them on the network to open a connection.</li>
+</ul>
+</li>
+<li>
+<p><strong>Content Discovery</strong> content routing interface by using <a href="/notes/notes/20220615072945-distributed_hash_table_dht/">DHT</a>.</p>
+</li>
+<li>
+<p><strong>Messaging / PubSub</strong></p>
+</li>
+</ul>
 
       </div></div>
 
@@ -174,6 +219,10 @@
 
   
 
+
+   
+      
+   
 
    
 
@@ -1473,7 +1522,14 @@
 <hr>
 
   <div class="bl-section">
-    <h4>No notes link to this note</h4>
+    <h4>Links to this note</h4>
+    <div class="backlinks">
+      <ul>
+       
+          <li><a href="/notes/notes/20220615072945-distributed_hash_table_dht/">Distributed Hash Table</a></li>
+       
+     </ul>
+    </div>
   </div>
 
 

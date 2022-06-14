@@ -6,17 +6,71 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 15 Jun 2022 07:10:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Jun 2022 07:29:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Distributed Hash Table</title>
+      <link>https://www.linuxzen.com/notes/notes/20220615072945-distributed_hash_table_dht/</link>
+      <pubDate>Wed, 15 Jun 2022 07:29:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220615072945-distributed_hash_table_dht/</guid>
+      <description> tags: P2P,libp2p,Starcoin Web3 StarTrek  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220615070942-p2p/&#34;&gt;P2P&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220615071057-libp2p/&#34;&gt;libp2p&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>libp2p</title>
       <link>https://www.linuxzen.com/notes/notes/20220615071057-libp2p/</link>
       <pubDate>Wed, 15 Jun 2022 07:10:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220615071057-libp2p/</guid>
-      <description> tags: P2P,Starcoin Web3 StarTrek,Network source: https://docs.libp2p.io/  </description>
+      <description>tags: P2P,Starcoin Web3 StarTrek,Network source: https://docs.libp2p.io/  A set of protocols for peer identity, discover, routing, transport and more.
+Peer-to-peer network Peers or nodes communicate with oen another directly, it&amp;rsquo;s different from the client-server architecture.
+libp2p Solved   Transport abstract data transmission and receipt to adapte many protocols, include the future protocols.
+  Identity use public key cryptography as the basis of peer identity， with this:
+ It gives each peer a globally unique &amp;ldquo;name&amp;rdquo;, in the form of a PeerId.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220615070942-p2p/&#34;&gt;P2P&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20200827180638-network/&#34;&gt;Network&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;source: &lt;a href=&#34;https://docs.libp2p.io/&#34;&gt;https://docs.libp2p.io/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A set of protocols for peer identity, discover, routing, transport and more.&lt;/p&gt;
+&lt;h2 id=&#34;peer-to-peer-network&#34;&gt;Peer-to-peer network&lt;/h2&gt;
+&lt;p&gt;Peers or nodes communicate with oen another directly, it&amp;rsquo;s different from the client-server architecture.&lt;/p&gt;
+&lt;h2 id=&#34;libp2p-solved&#34;&gt;libp2p Solved&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Transport&lt;/strong&gt; abstract data transmission and receipt to adapte many protocols, include the future protocols.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Identity&lt;/strong&gt; use public key cryptography as the basis of peer identity， with this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It gives each peer a globally unique &amp;ldquo;name&amp;rdquo;, in the form of a &lt;code&gt;PeerId&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PeerId&lt;/code&gt; allows anyone to retreve the public key for the identified peer, which enables secure communication between peers.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Security&lt;/strong&gt; libp2p supports &amp;ldquo;upgrading&amp;rdquo; a connection provided by a transport into a securely encrypted channel. Currently support;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TLS 1.3&lt;/li&gt;
+&lt;li&gt;Noise&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Peer Routing&lt;/strong&gt;: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220615072945-distributed_hash_table_dht/&#34;&gt;Distributed Hash Table(DHT)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Two key pieces:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;PeerId&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;The way to locate them on the network to open a connection.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Content Discovery&lt;/strong&gt; content routing interface by using &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220615072945-distributed_hash_table_dht/&#34;&gt;DHT&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Messaging / PubSub&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     </item>
