@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: libp2p,Starcoin Web3 StarTrek source: https://docs.rs/libp2p/0.45.1/libp2p/tutorials/index.html  " />
+<meta name="description" content="tags: libp2p,Starcoin Web3 StarTrek source: https://docs.rs/libp2p/0.45.1/libp2p/tutorials/index.html  Ping: Four necessary traits  Identity: PeerId and corresponding Keypair Transport: send and receive bytes on the network. NetworkBehaviour: decode or encode the bytes from the Transport. Swarm: drives both a Transport and a NetworkBehaviour forward.  use futures::StreamExt; use libp2p::ping::{Ping, PingConfig}; use libp2p::{identity, Multiaddr, PeerId, Swarm}; use std::error::Error;  #[async_std::main] async fn main() -&amp;gt; Result&amp;lt;(), Box&amp;lt;dyn Error&amp;gt;&amp;gt; { 	// First we need to create a network identity." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220615073334-rust_libp2p/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust libp2p">
-<meta property="og:description" content=" tags: libp2p,Starcoin Web3 StarTrek source: https://docs.rs/libp2p/0.45.1/libp2p/tutorials/index.html  " />
+<meta property="og:description" content="tags: libp2p,Starcoin Web3 StarTrek source: https://docs.rs/libp2p/0.45.1/libp2p/tutorials/index.html  Ping: Four necessary traits  Identity: PeerId and corresponding Keypair Transport: send and receive bytes on the network. NetworkBehaviour: decode or encode the bytes from the Transport. Swarm: drives both a Transport and a NetworkBehaviour forward.  use futures::StreamExt; use libp2p::ping::{Ping, PingConfig}; use libp2p::{identity, Multiaddr, PeerId, Swarm}; use std::error::Error;  #[async_std::main] async fn main() -&amp;gt; Result&amp;lt;(), Box&amp;lt;dyn Error&amp;gt;&amp;gt; { 	// First we need to create a network identity." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220615073334-rust_libp2p/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -167,7 +167,58 @@
 <li>tags: <a href="/notes/notes/20220615071057-libp2p/">libp2p</a>,<a href="/notes/notes/20220531104515-starcoin_web3_startrek/">Starcoin Web3 StarTrek</a></li>
 <li>source: <a href="https://docs.rs/libp2p/0.45.1/libp2p/tutorials/index.html">https://docs.rs/libp2p/0.45.1/libp2p/tutorials/index.html</a></li>
 </ul>
-
+<h2 id="ping-four-necessary-traits">Ping: Four necessary traits<a href="#ping-four-necessary-traits" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li><strong>Identity</strong>: <code>PeerId</code> and corresponding  <code>Keypair</code></li>
+<li><strong>Transport</strong>: send and receive bytes on the network.</li>
+<li><strong>NetworkBehaviour</strong>: decode or encode the bytes from the Transport.</li>
+<li><strong>Swarm</strong>: drives both a <code>Transport</code> and a <code>NetworkBehaviour</code> forward.</li>
+</ul>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> futures::StreamExt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> libp2p::ping::{Ping, PingConfig};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> libp2p::{identity, Multiaddr, PeerId, Swarm};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::error::Error;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[async_std::main]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; Result<span style="color:#f92672">&lt;</span>(), Box<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">dyn</span> Error<span style="color:#f92672">&gt;&gt;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// First we need to create a network identity.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">let</span> local_key <span style="color:#f92672">=</span> identity::Keypair::generate_ed25519();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> local_peer_id <span style="color:#f92672">=</span> PeerId::from(local_key.public());
+</span></span><span style="display:flex;"><span>		println!(<span style="color:#e6db74">&#34;Local peer id: {:?}&#34;</span>, local_peer_id);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Then construct a transport: defines how to send bytes on the network.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">let</span> transport <span style="color:#f92672">=</span> libp2p::development_transport(local_key).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// NetworkBehaviour defines what bytes to send on the network.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">let</span> behaviour <span style="color:#f92672">=</span> Ping::new(PingConfig::new().with_keep_alive(<span style="color:#66d9ef">true</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Swarm connects transport and behaviour together:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 1. Passing commands from NetworkBehaviour to the Transport.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 2. As well ass events from the Transport to the NetworkBehaviour.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> swarm <span style="color:#f92672">=</span> Swarm::new(transport, behaviour, local_peer_id);
+</span></span><span style="display:flex;"><span>		swarm.listen_on(<span style="color:#e6db74">&#34;/ip4/0.0.0.0/tcp/0&#34;</span>.parse()<span style="color:#f92672">?</span>)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(addr) <span style="color:#f92672">=</span> std::env::args().nth(<span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">let</span> remote: <span style="color:#a6e22e">Multiaddr</span> <span style="color:#f92672">=</span> addr.parse()<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>				swarm.dial(remote)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>				println!(<span style="color:#e6db74">&#34;Dialed {}&#34;</span>, addr);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">loop</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">match</span> swarm.select_next_some().<span style="color:#66d9ef">await</span> {
+</span></span><span style="display:flex;"><span>						libp2p::swarm::SwarmEvent::NewListenAddr {
+</span></span><span style="display:flex;"><span>								listener_id: <span style="color:#a6e22e">_</span>,
+</span></span><span style="display:flex;"><span>								address,
+</span></span><span style="display:flex;"><span>						} <span style="color:#f92672">=&gt;</span> println!(<span style="color:#e6db74">&#34;Listening on {:?}&#34;</span>, address),
+</span></span><span style="display:flex;"><span>						libp2p::swarm::SwarmEvent::Behaviour(event) <span style="color:#f92672">=&gt;</span> println!(<span style="color:#e6db74">&#34;{:?}&#34;</span>, event),
+</span></span><span style="display:flex;"><span>						_ <span style="color:#f92672">=&gt;</span> {}
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		Ok(())
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
       </div></div>
 
   
