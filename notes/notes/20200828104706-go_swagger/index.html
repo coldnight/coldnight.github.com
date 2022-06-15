@@ -194,7 +194,7 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>	println(<span style="color:#e6db74">&#34;Hello world!&#34;</span>);
+</span></span><span style="display:flex;"><span>		println(<span style="color:#e6db74">&#34;Hello world!&#34;</span>);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>此时如果运行 <code>go generate</code> 在项目目录下就会生成一个 <code>swagger.yml</code> 文件：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">paths</span>: {}
@@ -237,12 +237,12 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 </span></span><span style="display:flex;"><span>- <span style="color:#ae81ff">application/json</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">host</span>: <span style="color:#ae81ff">10.200.242.35</span>:<span style="color:#ae81ff">8080</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">info</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">contact</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">email</span>: <span style="color:#ae81ff">hui.wang.a@17zuoye.com</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">name</span>: <span style="color:#ae81ff">王会</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">description</span>: <span style="color:#ae81ff">Swagger 演示后端接口</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">title</span>: <span style="color:#ae81ff">defines API documentation.</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.1.0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">contact</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">email</span>: <span style="color:#ae81ff">hui.wang.a@17zuoye.com</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">name</span>: <span style="color:#ae81ff">王会</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">Swagger 演示后端接口</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">title</span>: <span style="color:#ae81ff">defines API documentation.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.1.0</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">paths</span>: {}
 </span></span><span style="display:flex;"><span><span style="color:#f92672">produces</span>:
 </span></span><span style="display:flex;"><span>- <span style="color:#ae81ff">application/vnd.17zuoye.v1+json</span>
@@ -356,80 +356,80 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 </span></span><span style="display:flex;"><span><span style="color:#f92672">consumes</span>:
 </span></span><span style="display:flex;"><span>- <span style="color:#ae81ff">application/json</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">definitions</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Default</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">Default default entity</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">properties</span>:
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">code</span>:
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Code</span>
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">msg</span>:
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Message</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">UserEntity</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserEntity user entity to respond</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">properties</span>:
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">age</span>:
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Age</span>
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">id</span>:
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">format</span>: <span style="color:#ae81ff">uint64</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">ID</span>
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">username</span>:
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Username</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">UserCreateForm</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserCreateForm 用于创建用户的表单，可以供 gin 使用</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">properties</span>:
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">age</span>:
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Age</span>
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">username</span>:
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Username</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">Default</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">description</span>: <span style="color:#ae81ff">Default default entity</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">properties</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">code</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Code</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">msg</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Message</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">UserEntity</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserEntity user entity to respond</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">properties</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">age</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Age</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">id</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">format</span>: <span style="color:#ae81ff">uint64</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">ID</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">username</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Username</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">UserCreateForm</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserCreateForm 用于创建用户的表单，可以供 gin 使用</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">properties</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">age</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">format</span>: <span style="color:#ae81ff">int64</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Age</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">username</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">x-go-name</span>: <span style="color:#ae81ff">Username</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">x-go-package</span>: <span style="color:#ae81ff">gitlab.17zuoye.net/vgo/go-swagger-example/swagger</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">host</span>: <span style="color:#ae81ff">10.200.242.35</span>:<span style="color:#ae81ff">8080</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">info</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">contact</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">email</span>: <span style="color:#ae81ff">hui.wang.a@17zuoye.com</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">name</span>: <span style="color:#ae81ff">王会</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">description</span>: <span style="color:#ae81ff">Swagger 演示后端接口</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">title</span>: <span style="color:#ae81ff">defines API documentation.</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.1.0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">contact</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">email</span>: <span style="color:#ae81ff">hui.wang.a@17zuoye.com</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">name</span>: <span style="color:#ae81ff">王会</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">Swagger 演示后端接口</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">title</span>: <span style="color:#ae81ff">defines API documentation.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.1.0</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">paths</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">/users</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">post</span>:
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">operationId</span>: <span style="color:#ae81ff">users-create</span>
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">parameters</span>:
-</span></span><span style="display:flex;"><span>	  - <span style="color:#f92672">in</span>: <span style="color:#ae81ff">body</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">name</span>: <span style="color:#ae81ff">Body</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">schema</span>:
-</span></span><span style="display:flex;"><span>		  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/UserCreateForm&#39;</span>
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">responses</span>:
-</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;201&#34;</span>:
-</span></span><span style="display:flex;"><span>		  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/responses/UserResponse&#39;</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">default</span>:
-</span></span><span style="display:flex;"><span>		  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/responses/DefaultResponse&#39;</span>
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">summary</span>: <span style="color:#ae81ff">创建用户。</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">/users</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">post</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">operationId</span>: <span style="color:#ae81ff">users-create</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">parameters</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#f92672">in</span>: <span style="color:#ae81ff">body</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">name</span>: <span style="color:#ae81ff">Body</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">schema</span>:
+</span></span><span style="display:flex;"><span>					<span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/UserCreateForm&#39;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">responses</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#e6db74">&#34;201&#34;</span>:
+</span></span><span style="display:flex;"><span>					<span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/responses/UserResponse&#39;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">default</span>:
+</span></span><span style="display:flex;"><span>					<span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/responses/DefaultResponse&#39;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">summary</span>: <span style="color:#ae81ff">创建用户。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">produces</span>:
 </span></span><span style="display:flex;"><span>- <span style="color:#ae81ff">application/vnd.17zuoye.v1+json</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">responses</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">DefaultResponse</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">DefaultResponse 默认响应，用于 Swagger 文档生成</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">schema</span>:
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/Default&#39;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">UserResponse</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserResponse 声明 Swagger 响应用于文档生成</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">schema</span>:
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/UserEntity&#39;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">DefaultResponse</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">description</span>: <span style="color:#ae81ff">DefaultResponse 默认响应，用于 Swagger 文档生成</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">schema</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/Default&#39;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">UserResponse</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">description</span>: <span style="color:#ae81ff">UserResponse 声明 Swagger 响应用于文档生成</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">schema</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">$ref</span>: <span style="color:#e6db74">&#39;#/definitions/UserEntity&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">schemes</span>:
 </span></span><span style="display:flex;"><span>- <span style="color:#ae81ff">http</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">swagger</span>: <span style="color:#e6db74">&#34;2.0&#34;</span>
@@ -593,6 +593,14 @@ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 

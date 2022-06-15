@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content=" tags: C/C&#43;&#43;  如果类成员属性是值类型或者引用类型则需要改对象有无参数构造方法，否则类无法实例化， 这是因为这类成员属性在构造函数调用之前就需要进行初始化。
 下面代码无法通过编译
-class Foo { public:  Foo(int n) : n {n}  {  };  ~Foo() { };  private:  int n; };  class Bar { public:  Bar(int n)  { 	this-&amp;gt;foo = Foo(n);  };  ~Bar(); private:  Foo &amp;amp; foo; }; " />
+class Foo { public: 	Foo(int n) : n {n} 	{ 	}; 	~Foo() { };  private: 	int n; };  class Bar { public: 	Bar(int n) 	{ 	this-&amp;gt;foo = Foo(n); 	}; 	~Bar(); private: 	Foo &amp;amp; foo; }; " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200628183417-member_initialize/" />
@@ -38,7 +38,7 @@ class Foo { public:  Foo(int n) : n {n}  {  };  ~Foo() { };  private:  int n; };
 <meta property="og:title" content="Member initialize">
 <meta property="og:description" content=" tags: C/C&#43;&#43;  如果类成员属性是值类型或者引用类型则需要改对象有无参数构造方法，否则类无法实例化， 这是因为这类成员属性在构造函数调用之前就需要进行初始化。
 下面代码无法通过编译
-class Foo { public:  Foo(int n) : n {n}  {  };  ~Foo() { };  private:  int n; };  class Bar { public:  Bar(int n)  { 	this-&amp;gt;foo = Foo(n);  };  ~Bar(); private:  Foo &amp;amp; foo; }; " />
+class Foo { public: 	Foo(int n) : n {n} 	{ 	}; 	~Foo() { };  private: 	int n; };  class Bar { public: 	Bar(int n) 	{ 	this-&amp;gt;foo = Foo(n); 	}; 	~Bar(); private: 	Foo &amp;amp; foo; }; " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200628183417-member_initialize/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -176,25 +176,25 @@ class Foo { public:  Foo(int n) : n {n}  {  };  ~Foo() { };  private:  int n; };
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span>
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>  Foo(<span style="color:#66d9ef">int</span> n) <span style="color:#f92672">:</span> n {n}
-</span></span><span style="display:flex;"><span>  {
-</span></span><span style="display:flex;"><span>  };
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">~</span>Foo() { };
+</span></span><span style="display:flex;"><span>	Foo(<span style="color:#66d9ef">int</span> n) <span style="color:#f92672">:</span> n {n}
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>	};
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>Foo() { };
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> n;
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bar</span>
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>  Bar(<span style="color:#66d9ef">int</span> n)
-</span></span><span style="display:flex;"><span>  {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>foo <span style="color:#f92672">=</span> Foo(n);
-</span></span><span style="display:flex;"><span>  };
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">~</span>Bar();
+</span></span><span style="display:flex;"><span>	Bar(<span style="color:#66d9ef">int</span> n)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>foo <span style="color:#f92672">=</span> Foo(n);
+</span></span><span style="display:flex;"><span>	};
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>Bar();
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>  Foo <span style="color:#f92672">&amp;</span> foo;
+</span></span><span style="display:flex;"><span>	Foo <span style="color:#f92672">&amp;</span> foo;
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div>
       </div></div>
@@ -203,6 +203,14 @@ class Foo { public:  Foo(int n) : n {n}  {  };  ~Foo() { };  private:  int n; };
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 

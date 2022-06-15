@@ -159,6 +159,12 @@
   </div>
 
   
+  <span class="post-tags">
+    
+    #<a href="https://www.linuxzen.com/notes/tags/cs/">cs</a>&nbsp;
+    
+  </span>
+  
 
   
 
@@ -612,25 +618,25 @@
 <tr>
 <td>位移</td>
 <td>SAL k,D</td>
-<td>D &lt;- D &laquo; k</td>
+<td>D &lt;- D &lt;&lt; k</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>SHL k,D</td>
-<td>D &lt;- D &laquo; k</td>
+<td>D &lt;- D &lt;&lt; k</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>SAR k,D</td>
-<td>D &lt;- D &raquo; k</td>
+<td>D &lt;- D &gt;&gt; k</td>
 <td><a href="/notes/notes/20200802165150-%E7%AE%97%E6%95%B0%E5%8F%B3%E7%A7%BB/">算数右移</a></td>
 </tr>
 <tr>
 <td></td>
 <td>SHR k,D</td>
-<td>D &lt;- D &raquo; k</td>
+<td>D &lt;- D &gt;&gt; k</td>
 <td><a href="/notes/notes/20200802165502-%E9%80%BB%E8%BE%91%E5%8F%B3%E7%A7%BB/">逻辑右移</a></td>
 </tr>
 <tr>
@@ -676,9 +682,9 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ASM" data-lang="ASM"><span style="display:flex;"><span><span style="color:#75715e">; x in %rdi, y in %rsi, z in %rdx
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span>scale:
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">leaq</span> (%rdi,%rsi,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; x + 4*y
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">leaq</span> (%rdx,%rdx,<span style="color:#ae81ff">2</span>), %rdx   <span style="color:#75715e">; z + 2*z = 3 * z
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">leaq</span> (%rax,%rdx,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; (x + 4*y) + 4*(3*z) = x + 4*y + 12*z
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">leaq</span> (%rdi,%rsi,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; x + 4*y
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">leaq</span> (%rdx,%rdx,<span style="color:#ae81ff">2</span>), %rdx   <span style="color:#75715e">; z + 2*z = 3 * z
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">leaq</span> (%rax,%rdx,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; (x + 4*y) + 4*(3*z) = x + 4*y + 12*z
 </span></span></span></code></pre></div><h2 id="控制">控制<a href="#控制" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>测试数据值，然后根据测试的结果来改变控制流或者数据流。jump 指令可以指定控制应该被传递到程序的某个其他部分。</p>
 <h3 id="条件码">条件码<a href="#条件码" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
@@ -697,6 +703,14 @@
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 

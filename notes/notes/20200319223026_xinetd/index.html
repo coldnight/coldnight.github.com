@@ -177,39 +177,39 @@ service imap { type = UNLISTED port = 993 bind = 0.0.0.0 socket_type = stream wa
 <p>配置服务端</p>
 <pre tabindex="0"><code class="language-xinetd" data-lang="xinetd">service imap
 {
-	type = UNLISTED
-	port = 993
-	bind = 0.0.0.0
-	socket_type = stream
-	wait = no
-	user = nobody
-	redirect = imap.gmail.com 993
-	per_source = UNLIMITED
-	cps = 100 2
+		type = UNLISTED
+		port = 993
+		bind = 0.0.0.0
+		socket_type = stream
+		wait = no
+		user = nobody
+		redirect = imap.gmail.com 993
+		per_source = UNLIMITED
+		cps = 100 2
 }
 service smtp-465
 {
-	type = UNLISTED
-	port = 465
-	bind = 0.0.0.0
-	socket_type = stream
-	wait = no
-	user = nobody
-	redirect = smtp.gmail.com 465
-	per_source = UNLIMITED
-	cps = 100 2
+		type = UNLISTED
+		port = 465
+		bind = 0.0.0.0
+		socket_type = stream
+		wait = no
+		user = nobody
+		redirect = smtp.gmail.com 465
+		per_source = UNLIMITED
+		cps = 100 2
 }
 service smtp-587
 {
-	type = UNLISTED
-	port = 587
-	bind = 0.0.0.0
-	socket_type = stream
-	wait = no
-	user = nobody
-	redirect = smtp.gmail.com 587
-	per_source = UNLIMITED
-	cps = 100 2
+		type = UNLISTED
+		port = 587
+		bind = 0.0.0.0
+		socket_type = stream
+		wait = no
+		user = nobody
+		redirect = smtp.gmail.com 587
+		per_source = UNLIMITED
+		cps = 100 2
 }
 </code></pre></li>
 <li>
@@ -224,39 +224,39 @@ service smtp-587
 <p>通过在滴滴云上配置</p>
 <pre tabindex="0"><code class="language-xinetd" data-lang="xinetd">service imap
 {
-	type = UNLISTED
-	port = 993
-	bind = 0.0.0.0
-	socket_type = stream
-	wait = no
-	user = nobody
-	redirect = 45.115.36.35 993
-	per_source = UNLIMITED
-	cps = 100 2
+		type = UNLISTED
+		port = 993
+		bind = 0.0.0.0
+		socket_type = stream
+		wait = no
+		user = nobody
+		redirect = 45.115.36.35 993
+		per_source = UNLIMITED
+		cps = 100 2
 }
 service smtp-465
 {
-	type = UNLISTED
-	port = 465
-	bind = 0.0.0.0
-	socket_type = stream
-	wait = no
-	user = nobody
-	redirect = 45.115.36.35 465
-	per_source = UNLIMITED
-	cps = 100 2
+		type = UNLISTED
+		port = 465
+		bind = 0.0.0.0
+		socket_type = stream
+		wait = no
+		user = nobody
+		redirect = 45.115.36.35 465
+		per_source = UNLIMITED
+		cps = 100 2
 }
 service smtp-587
 {
-	type = UNLISTED
-	port = 587
-	bind = 0.0.0.0
-	socket_type = stream
-	wait = no
-	user = nobody
-	redirect = 45.115.36.35 587
-	per_source = UNLIMITED
-	cps = 100 2
+		type = UNLISTED
+		port = 587
+		bind = 0.0.0.0
+		socket_type = stream
+		wait = no
+		user = nobody
+		redirect = 45.115.36.35 587
+		per_source = UNLIMITED
+		cps = 100 2
 }
 </code></pre></li>
 <li>
@@ -272,6 +272,14 @@ service smtp-587
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 

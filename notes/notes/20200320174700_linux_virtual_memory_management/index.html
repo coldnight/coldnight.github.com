@@ -222,37 +222,37 @@
 <p>Linux 在分配内存页的时候采用 <strong>本地节点分配策略（node-local allocation policy）</strong> 通过最靠近当前运行 CPU 的节点去分配内存。同时进程也会趋向于采用同一 CPU 运行。</p>
 <p>节点的结构体定义在 <code>&lt;linux/memzone.h&gt;</code> 下</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> pglist_data {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 当前节点包含的分区：ZONE_HIGHMEM,ZONE_NORMAL,ZONE_DMA
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	zone_t node_zones[MAX_NR_ZONES];
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 定义的顺序决定分配优先采用的分区
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	zonelist_t node_zonelists[GFP_ZONEMASK<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前节点包含的分区：ZONE_HIGHMEM,ZONE_NORMAL,ZONE_DMA
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		zone_t node_zones[MAX_NR_ZONES];
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 定义的顺序决定分配优先采用的分区
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		zonelist_t node_zonelists[GFP_ZONEMASK<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 当前节点包含的分区数量，1 到 3 之间，不一定全有，比如一个 CPU Bank 可能没有 ZONE_DMA
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> nr_zones;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前节点包含的分区数量，1 到 3 之间，不一定全有，比如一个 CPU Bank 可能没有 ZONE_DMA
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> nr_zones;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 节点上每一个物理的帧的页数组的第一个元素（第一页），会在某个地方被全局 mem_map 数组替换
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>node_mem_map;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 节点上每一个物理的帧的页数组的第一个元素（第一页），会在某个地方被全局 mem_map 数组替换
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>node_mem_map;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 位图（bitmap）表示节点中没有内存的“洞（holes）”，仅用在 Sparc 和 Sparc64 架构
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>valid_addr_bitmap;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 位图（bitmap）表示节点中没有内存的“洞（holes）”，仅用在 Sparc 和 Sparc64 架构
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>valid_addr_bitmap;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 第五章关于启动内存分配器
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> bootmem_data <span style="color:#f92672">*</span>bdata;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 第五章关于启动内存分配器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> bootmem_data <span style="color:#f92672">*</span>bdata;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 当前节点的起始物理地址
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> node_start_paddr;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前节点的起始物理地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> node_start_paddr;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 用于全局 mem_map 设置页偏移量，用于计算全局 mem_map 和当前节点（lmem_map）之间的页数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> node_start_mapnr;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 用于全局 mem_map 设置页偏移量，用于计算全局 mem_map 和当前节点（lmem_map）之间的页数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> node_start_mapnr;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 当前分区的总页数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> node_size;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前分区的总页数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> node_size;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 从 0 开始的节点 id
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> node_id;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 从 0 开始的节点 id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> node_id;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 指向下一个节点，NULL 表示结尾
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> pglist_data <span style="color:#f92672">*</span>node_next;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 指向下一个节点，NULL 表示结尾
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> pglist_data <span style="color:#f92672">*</span>node_next;
 </span></span><span style="display:flex;"><span>} pg_data_t;
 </span></span></code></pre></div><p>系统中的所有节点都维护在 <strong><strong>pgdat_list</strong></strong> 中。</p>
 <h4 id="分区">分区<a href="#分区" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
@@ -264,48 +264,48 @@
 </ul>
 <p>定义在 <code>&lt;linux/memzone.h&gt;</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> zone_struct {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 自旋锁用于保护并发访问
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	spinlock_t lock;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 自旋锁用于保护并发访问
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		spinlock_t lock;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 全部可用页数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> free_pages;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 全部可用页数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> free_pages;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 分区水印（watermarks）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> pages_min, pages_low, pages_high;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 分区水印（watermarks）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> pages_min, pages_low, pages_high;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 标识位用于告知换页（pageout）守护 kswapd 平衡当前分区（当获取任意水印后则需要进行平衡）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> need_balance;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 标识位用于告知换页（pageout）守护 kswapd 平衡当前分区（当获取任意水印后则需要进行平衡）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> need_balance;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 可用区域位图用于其他分配器（buddy allocator）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	free_area_t free_area[MAX_ORDER];
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 可用区域位图用于其他分配器（buddy allocator）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		free_area_t free_area[MAX_ORDER];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 进程等待页被释放的 Hash table 实现的等待队列，
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	wait_queue_head_t <span style="color:#f92672">*</span> wait_table;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 进程等待页被释放的 Hash table 实现的等待队列，
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		wait_queue_head_t <span style="color:#f92672">*</span> wait_table;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Hash 表中等待队列的数量（2的次方）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> wait_table_size;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Hash 表中等待队列的数量（2的次方）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> wait_table_size;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 用 long 定义上面大小减去二进制对数位的数量
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> wait_table_shift;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 用 long 定义上面大小减去二进制对数位的数量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	 <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> wait_table_shift;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 指向父
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">struct</span> pglist_data <span style="color:#f92672">*</span>zone_pgdat;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 指向父
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	 <span style="color:#66d9ef">struct</span> pglist_data <span style="color:#f92672">*</span>zone_pgdat;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// 当前分区指向的全局 mem_map 的第一页
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>zone_mem_map;
+</span></span><span style="display:flex;"><span>	 <span style="color:#75715e">// 当前分区指向的全局 mem_map 的第一页
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	 <span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>zone_mem_map;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 同 node_start_paddr
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> zone_start_paddr;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 同 node_start_paddr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> zone_start_paddr;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 同 node_start_mapnr
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> zone_start_mapnr;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 同 node_start_mapnr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> zone_start_mapnr;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 字符串名字，如 “DMA”, “Norma” or “HighMem”
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 字符串名字，如 “DMA”, “Norma” or “HighMem”
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 当前分区包含的页数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> size;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前分区包含的页数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> size;
 </span></span><span style="display:flex;"><span>} zone_t;
 </span></span></code></pre></div><h4 id="分区水印">分区水印<a href="#分区水印" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>当系统可用内存非常少时会唤醒换页守护 kswapd 释放内存页。如果压力过大 kswapd 会进行同步释放内存，有时被称为直接回收（direct-reclaim）路径。</p>
@@ -363,35 +363,35 @@
 <p>声明在 <code>&lt;linux/mm.h&gt;</code> 中</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> page {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 页可能归属于多个列表，此字段用于存放所属链表的表头（多个），也用于将多个（blocks）空闲的表连接在一起
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> list_head list;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 用于当文件或设备映射到内存后关联 inode
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 如果页属于文件则指向当前地址空间（address space）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 如果是匿名页但被设置则说明是 swap 地址空间
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> address_space <span style="color:#f92672">*</span>mapping;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 意义取决于页的状态
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 1. 页是文件映射的一部分表示文件的偏移量（offset）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 2. 页是 swap 缓存的一部分表示 address_space 对 swap 地址空间的偏移量
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> index;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 作为文件映射一部分的页的 inode 和偏移量的哈希，将共享同一个哈希桶（hash_bucket）的页连接在一起
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>next_hash;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 当前页的引用计数，变成 0 表示可能被释放，否则就被一个或多个进程使用或用于内核 IO 等待
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	atomic_t count;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 页可能归属于多个列表，此字段用于存放所属链表的表头（多个），也用于将多个（blocks）空闲的表连接在一起
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> list_head list;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 用于当文件或设备映射到内存后关联 inode
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 如果页属于文件则指向当前地址空间（address space）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 如果是匿名页但被设置则说明是 swap 地址空间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> address_space <span style="color:#f92672">*</span>mapping;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 意义取决于页的状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 1. 页是文件映射的一部分表示文件的偏移量（offset）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 2. 页是 swap 缓存的一部分表示 address_space 对 swap 地址空间的偏移量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> index;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 作为文件映射一部分的页的 inode 和偏移量的哈希，将共享同一个哈希桶（hash_bucket）的页连接在一起
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>next_hash;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前页的引用计数，变成 0 表示可能被释放，否则就被一个或多个进程使用或用于内核 IO 等待
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		atomic_t count;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 定义页的状态，见下表
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> flags;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 用于页替换策略
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> list_head lru;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 配合 next_hash 实现类似双端链表的操作
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">**</span>pprev_hash;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 1. 块设备用于跟踪 buffer_head
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 2. 由进程映射的匿名页如果支持交换文件可能关联一个 buffer_head，如果页必须以底层文件系统定义的大小的块和支持的存储同步则有必要
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> buffer_head <span style="color:#f92672">*</span> buffers;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 定义页的状态，见下表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> flags;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 用于页替换策略
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> list_head lru;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 配合 next_hash 实现类似双端链表的操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">**</span>pprev_hash;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 1. 块设备用于跟踪 buffer_head
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 2. 由进程映射的匿名页如果支持交换文件可能关联一个 buffer_head，如果页必须以底层文件系统定义的大小的块和支持的存储同步则有必要
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> buffer_head <span style="color:#f92672">*</span> buffers;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#if defined(CONFIG_HIGHMEM) || defined(WANT_PAGE_VIRTUAL)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// ZONE_HIGHMEM 的虚拟地址
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>virtual;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">#endif </span><span style="color:#75715e">/* CONFIG_HIGMEM || WANT_PAGE_VIRTUAL */</span><span style="color:#75715e">
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">#if defined(CONFIG_HIGHMEM) || defined(WANT_PAGE_VIRTUAL)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// ZONE_HIGHMEM 的虚拟地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>virtual;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">#endif </span><span style="color:#75715e">/* CONFIG_HIGMEM || WANT_PAGE_VIRTUAL */</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} mem_map_t;
 </span></span></code></pre></div><h4 id="映射页到分区">映射页到分区<a href="#映射页到分区" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <ul>
@@ -1183,9 +1183,17 @@
    
 
    
+      
+   
 
    
-      
+
+   
+
+   
+
+   
+
    
 
    

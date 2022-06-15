@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode   https://leetcode.com/problems/longest-palindromic-substring/description/
- 思路 直接暴力往两边搜索
+<meta name="description" content="tags: LeetCode  &amp;gt; https://leetcode.com/problems/longest-palindromic-substring/description/
+思路 直接暴力往两边搜索
 func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 	if length == 0 { 	return s 	}  	start, end := 0, 0  	for ci, _ := range buf { 	i, j := ci, ci  	// 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况 	for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { 	i-- 	j&#43;&#43; 	}  	// 考虑 &amp;#34;bba&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { 	i, j = ci-1, ci 	}  	// 考虑 &amp;#34;abb&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { 	i, j = ci, ci &#43; 1 	}  	if i !" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -36,8 +36,8 @@ func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 5.Longest Palindromic Substring">
-<meta property="og:description" content="tags: LeetCode   https://leetcode.com/problems/longest-palindromic-substring/description/
- 思路 直接暴力往两边搜索
+<meta property="og:description" content="tags: LeetCode  &amp;gt; https://leetcode.com/problems/longest-palindromic-substring/description/
+思路 直接暴力往两边搜索
 func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 	if length == 0 { 	return s 	}  	start, end := 0, 0  	for ci, _ := range buf { 	i, j := ci, ci  	// 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况 	for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { 	i-- 	j&#43;&#43; 	}  	// 考虑 &amp;#34;bba&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { 	i, j = ci-1, ci 	}  	// 考虑 &amp;#34;abb&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { 	i, j = ci, ci &#43; 1 	}  	if i !" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
@@ -170,9 +170,7 @@ func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 
         <ul>
 <li>tags: <a href="/notes/notes/20200320172132_leetcode/">LeetCode</a></li>
 </ul>
-<blockquote>
-<p><a href="https://leetcode.com/problems/longest-palindromic-substring/description/">https://leetcode.com/problems/longest-palindromic-substring/description/</a></p>
-</blockquote>
+<p>&gt; <a href="https://leetcode.com/problems/longest-palindromic-substring/description/">https://leetcode.com/problems/longest-palindromic-substring/description/</a></p>
 <h2 id="思路">思路<a href="#思路" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>直接暴力往两边搜索</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">longestPalindrome</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
@@ -187,18 +185,18 @@ func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">buf</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 无法处理 &#34;aaaa&#34; 和 &#34;noon&#34; 这种情况
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// 无法处理 &#34;aaaa&#34; 和 &#34;noon&#34; 这种情况
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 考虑 &#34;bba&#34; 这种情况
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// 考虑 &#34;bba&#34; 这种情况
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] {
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">ci</span>
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 考虑 &#34;abb&#34; 这种情况
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// 考虑 &#34;abb&#34; 这种情况
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ci</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] {
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> = <span style="color:#a6e22e">ci</span>, <span style="color:#a6e22e">ci</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>		}
@@ -287,6 +285,14 @@ func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 

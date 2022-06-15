@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Network,UDP,High Performance,iptables,ethtool,netstat,NUMA source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.  Keys:
   Make sure traffic won&amp;rsquo;t be interfered with by the iptables
-	iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT 	iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK  #&#43;end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]  2. The first bottleneck ​ &#43; All packets are received by a signal RX queue, checked out with =ethtool -S=." />
+	iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT 	iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK 	#&#43;end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]  2. The first bottleneck ​	&#43; All packets are received by a signal RX queue, checked out with =ethtool -S=." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220414185003-how_to_receive_a_million_packets_per_second/" />
@@ -38,7 +38,7 @@
 <meta property="og:title" content="How to receive a million packets per second">
 <meta property="og:description" content="tags: Network,UDP,High Performance,iptables,ethtool,netstat,NUMA source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.  Keys:
   Make sure traffic won&amp;rsquo;t be interfered with by the iptables
-	iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT 	iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK  #&#43;end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]  2. The first bottleneck ​ &#43; All packets are received by a signal RX queue, checked out with =ethtool -S=." />
+	iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT 	iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK 	#&#43;end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]  2. The first bottleneck ​	&#43; All packets are received by a signal RX queue, checked out with =ethtool -S=." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220414185003-how_to_receive_a_million_packets_per_second/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -169,25 +169,25 @@
   <div class="post-content"><div>
         <ul>
 <li>tags: <a href="/notes/notes/20200827180638-network/">Network</a>,<a href="/notes/notes/20220414185017-udp/">UDP</a>,<a href="/notes/projects/20220110112848-high_performance/">High Performance</a>,<a href="/notes/notes/20220416073414-iptables/">iptables</a>,<a href="/notes/notes/20220416073825-ethtool/">ethtool</a>,<a href="/notes/notes/20220416075544-netstat/">netstat</a>,<a href="/notes/notes/20220416080519-numa/">NUMA</a></li>
-<li>source: <a href="//select/items/1_6G8SYFXJ">The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.</a></li>
+<li>source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. <a href="http://blog.cloudflare.com/how-to-receive-a-million-packets/">http://blog.cloudflare.com/how-to-receive-a-million-packets/</a>.</li>
 </ul>
 <p>Keys:</p>
 <ol>
 <li>
 <p>Make sure traffic won&rsquo;t be interfered with by the <em>iptables</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>	 iptables -I INPUT <span style="color:#ae81ff">1</span> -p udp --dport <span style="color:#ae81ff">4321</span> -j ACCEPT
-</span></span><span style="display:flex;"><span>	 iptables -t raw -I PREROUTING <span style="color:#ae81ff">1</span> -p udp --dport <span style="color:#ae81ff">4321</span> -j NOTRACK
-</span></span><span style="display:flex;"><span>   <span style="color:#75715e">#+end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>		 iptables -I INPUT <span style="color:#ae81ff">1</span> -p udp --dport <span style="color:#ae81ff">4321</span> -j ACCEPT
+</span></span><span style="display:flex;"><span>		 iptables -t raw -I PREROUTING <span style="color:#ae81ff">1</span> -p udp --dport <span style="color:#ae81ff">4321</span> -j NOTRACK
+</span></span><span style="display:flex;"><span>	 <span style="color:#75715e">#+end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>2. The first bottleneck
-</span></span><span style="display:flex;"><span>​   + All packets are received by a signal RX queue, checked out with <span style="color:#f92672">=</span>ethtool -S<span style="color:#f92672">=</span>.
-</span></span><span style="display:flex;"><span>​   + How to solve: according to <span style="color:#f92672">[[</span>id:C471A6FF-7F4E-4E23-B070-14CE146BFA14<span style="color:#f92672">][</span>Multi-queue NICs<span style="color:#f92672">]]</span>, change the hash algorithm with <span style="color:#f92672">=</span>ethtool<span style="color:#f92672">=</span>:
-</span></span><span style="display:flex;"><span>	 <span style="color:#75715e">#+begin_src bash</span>
-</span></span><span style="display:flex;"><span>	   ethtool -N eth2 rx-flow-hash udp4 sdfn
+</span></span><span style="display:flex;"><span>​	 + All packets are received by a signal RX queue, checked out with <span style="color:#f92672">=</span>ethtool -S<span style="color:#f92672">=</span>.
+</span></span><span style="display:flex;"><span>​	 + How to solve: according to <span style="color:#f92672">[[</span>id:C471A6FF-7F4E-4E23-B070-14CE146BFA14<span style="color:#f92672">][</span>Multi-queue NICs<span style="color:#f92672">]]</span>, change the hash algorithm with <span style="color:#f92672">=</span>ethtool<span style="color:#f92672">=</span>:
+</span></span><span style="display:flex;"><span>		 <span style="color:#75715e">#+begin_src bash</span>
+</span></span><span style="display:flex;"><span>			 ethtool -N eth2 rx-flow-hash udp4 sdfn
 </span></span></code></pre></div></li>
 <li>
 <p>Multiple threads with NUMA, and with multiple receiver ips to fit in <em>multi-queue hash algorithm</em>.
-Also note that there is a lock contention on the UDP receive buffer side, see <a href="//select/items/1_BMTNPMC4">Rivera, Diego, Eduardo Acha, Jose Piquer, and Javier Bustos-Jimenez. “Analysis of Linux UDP Sockets Concurrent Performance.” In 2014 33rd International Conference of the Chilean Computer Science Society (SCCC), 65–69. Talca: IEEE, 2014. https://doi.org/10.1109/SCCC.2014.8.</a></p>
+Also note that there is a lock contention on the UDP receive buffer side, see Rivera, Diego, Eduardo Acha, Jose Piquer, and Javier Bustos-Jimenez. “Analysis of Linux UDP Sockets Concurrent Performance.” In 2014 33rd International Conference of the Chilean Computer Science Society (SCCC), 65–69. Talca: IEEE, 2014. <a href="https://doi.org/10.1109/SCCC.2014.8">https://doi.org/10.1109/SCCC.2014.8</a>.</p>
 </li>
 <li>
 <p><code>SO_REUSEPORT</code> to avoid the lock on the UDP receive buffer.</p>
@@ -204,6 +204,14 @@ Also note that there is a lock contention on the UDP receive buffer side, see <a
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 

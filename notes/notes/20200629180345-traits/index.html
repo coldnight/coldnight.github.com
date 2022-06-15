@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Traits  定义行为在多个类型中共享。 可以定义默认行为在实现者中间共享。 可以用于定义参数的行为，同样可以定义返回值行为，当用 trait 限定返回值类型时，不能同时（if/else）返回多种实现了该 trait 的类型。  pub trait Summary {  fn summarize(&amp;amp;self) -&amp;gt; String; }  pub struct Article{ 	pub title: String, }  impl Summary for Article {  fn summarize(&amp;amp;self) -&amp;gt; String { 	format!(&amp;#34;{}&amp;#34;, self.title)  } }  pub fn notify(item: impl Summary) {  println!(&amp;#34;{}&amp;#34;, item.summarize()); }  // trait bound 语法糖版本 pub fn notify&amp;lt;T: Summary&amp;gt;(item: T) {  println!" />
+<meta name="description" content="Traits  定义行为在多个类型中共享。 可以定义默认行为在实现者中间共享。 可以用于定义参数的行为，同样可以定义返回值行为，当用 trait 限定返回值类型时，不能同时（if/else）返回多种实现了该 trait 的类型。  pub trait Summary { 	fn summarize(&amp;amp;self) -&amp;gt; String; }  pub struct Article{ 	pub title: String, }  impl Summary for Article { 	fn summarize(&amp;amp;self) -&amp;gt; String { 	format!(&amp;#34;{}&amp;#34;, self.title) 	} }  pub fn notify(item: impl Summary) { 	println!(&amp;#34;{}&amp;#34;, item.summarize()); }  // trait bound 语法糖版本 pub fn notify&amp;lt;T: Summary&amp;gt;(item: T) { 	println!" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180345-traits/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Traits">
-<meta property="og:description" content="Traits  定义行为在多个类型中共享。 可以定义默认行为在实现者中间共享。 可以用于定义参数的行为，同样可以定义返回值行为，当用 trait 限定返回值类型时，不能同时（if/else）返回多种实现了该 trait 的类型。  pub trait Summary {  fn summarize(&amp;amp;self) -&amp;gt; String; }  pub struct Article{ 	pub title: String, }  impl Summary for Article {  fn summarize(&amp;amp;self) -&amp;gt; String { 	format!(&amp;#34;{}&amp;#34;, self.title)  } }  pub fn notify(item: impl Summary) {  println!(&amp;#34;{}&amp;#34;, item.summarize()); }  // trait bound 语法糖版本 pub fn notify&amp;lt;T: Summary&amp;gt;(item: T) {  println!" />
+<meta property="og:description" content="Traits  定义行为在多个类型中共享。 可以定义默认行为在实现者中间共享。 可以用于定义参数的行为，同样可以定义返回值行为，当用 trait 限定返回值类型时，不能同时（if/else）返回多种实现了该 trait 的类型。  pub trait Summary { 	fn summarize(&amp;amp;self) -&amp;gt; String; }  pub struct Article{ 	pub title: String, }  impl Summary for Article { 	fn summarize(&amp;amp;self) -&amp;gt; String { 	format!(&amp;#34;{}&amp;#34;, self.title) 	} }  pub fn notify(item: impl Summary) { 	println!(&amp;#34;{}&amp;#34;, item.summarize()); }  // trait bound 语法糖版本 pub fn notify&amp;lt;T: Summary&amp;gt;(item: T) { 	println!" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180345-traits/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -171,26 +171,26 @@
 </ul>
 <!-- raw HTML omitted -->
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> Summary {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">summarize</span>(<span style="color:#f92672">&amp;</span>self) -&gt; String;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">summarize</span>(<span style="color:#f92672">&amp;</span>self) -&gt; String;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Article</span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">pub</span> title: String,
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">pub</span> title: String,
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Summary <span style="color:#66d9ef">for</span> Article {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">summarize</span>(<span style="color:#f92672">&amp;</span>self) -&gt; String {
-</span></span><span style="display:flex;"><span>	format!(<span style="color:#e6db74">&#34;{}&#34;</span>, self.title)
-</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">summarize</span>(<span style="color:#f92672">&amp;</span>self) -&gt; String {
+</span></span><span style="display:flex;"><span>		format!(<span style="color:#e6db74">&#34;{}&#34;</span>, self.title)
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">notify</span>(item: <span style="color:#a6e22e">impl</span> Summary) {
-</span></span><span style="display:flex;"><span>  println!(<span style="color:#e6db74">&#34;{}&#34;</span>, item.summarize());
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;{}&#34;</span>, item.summarize());
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// trait bound 语法糖版本
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">notify</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">Summary</span><span style="color:#f92672">&gt;</span>(item: <span style="color:#a6e22e">T</span>) {
-</span></span><span style="display:flex;"><span>  println!(<span style="color:#e6db74">&#34;{}&#34;</span>, item.summarize());
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;{}&#34;</span>, item.summarize());
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="定义参数行为">定义参数行为<a href="#定义参数行为" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
@@ -208,7 +208,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">some_function</span><span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>, u: <span style="color:#a6e22e">U</span>) -&gt; <span style="color:#66d9ef">i32</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">where</span> T: <span style="color:#a6e22e">Display</span> <span style="color:#f92672">+</span> Clone,
-</span></span><span style="display:flex;"><span>	  U: Clone <span style="color:#f92672">+</span> Debug
+</span></span><span style="display:flex;"><span>			U: Clone <span style="color:#f92672">+</span> Debug
 </span></span><span style="display:flex;"><span>{
 </span></span></code></pre></div></li>
 </ul>
@@ -239,11 +239,11 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 等于
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T: Sized<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// --snip--
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// --snip--
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
 </span></span></code></pre></div><p>可以通过 <code>?Sized</code> 来避免这种默认行为：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generic</span><span style="color:#f92672">&lt;</span>T: <span style="color:#f92672">?</span>Sized<span style="color:#f92672">&gt;</span>(t: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// --snip--
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// --snip--
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
 </span></span></code></pre></div>
       </div></div>
@@ -252,6 +252,14 @@
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 

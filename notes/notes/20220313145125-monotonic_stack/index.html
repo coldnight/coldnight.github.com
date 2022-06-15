@@ -171,7 +171,7 @@ vector&amp;lt;int&amp;gt; nums; // fill nums stack&amp;lt;int&amp;gt; st;  for (
   <div class="post-content"><div>
         <ul>
 <li>tags: <a href="/notes/projects/20220311073856-data_structures/">Data Structures</a>,<a href="/notes/notes/20220311073821-stack/">Stack</a></li>
-<li>source: <a href="//select/items/1_YUUTVRT9">“Monotonic Stack.” Accessed March 13, 2022. https://liuzhenglaichn.gitbook.io/algorithm/monotonic-stack.</a></li>
+<li>source: “Monotonic Stack.” Accessed March 13, 2022. <a href="https://liuzhenglaichn.gitbook.io/algorithm/monotonic-stack">https://liuzhenglaichn.gitbook.io/algorithm/monotonic-stack</a>.</li>
 </ul>
 <p>A monotonic stack is a stack whose elements are monotonically increasing or descreasing.</p>
 <p><strong>It&rsquo;s not only about the order in the stack, it&rsquo;s also about remove larger/smaller elements before pushing.</strong></p>
@@ -182,10 +182,10 @@ vector&amp;lt;int&amp;gt; nums; // fill nums stack&amp;lt;int&amp;gt; st;  for (
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> i <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty() <span style="color:#f92672">&amp;&amp;</span> st.top() <span style="color:#f92672">&gt;</span> nums[i]) {
-</span></span><span style="display:flex;"><span>		st.pop();
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	st.push(nums[i])
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty() <span style="color:#f92672">&amp;&amp;</span> st.top() <span style="color:#f92672">&gt;</span> nums[i]) {
+</span></span><span style="display:flex;"><span>				st.pop();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		st.push(nums[i])
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
 <li>To push <code>3</code> to <code>[5, 4, 2, 1]</code>, we need pop <code>2, 1</code> out first.</li>
@@ -198,10 +198,10 @@ vector&amp;lt;int&amp;gt; nums; // fill nums stack&amp;lt;int&amp;gt; st;  for (
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> i <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty() <span style="color:#f92672">&amp;&amp;</span> st.top() <span style="color:#f92672">&lt;</span> nums[i]) {
-</span></span><span style="display:flex;"><span>		st.pop();
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	st.push(nums[i]);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty() <span style="color:#f92672">&amp;&amp;</span> st.top() <span style="color:#f92672">&lt;</span> nums[i]) {
+</span></span><span style="display:flex;"><span>				st.pop();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		st.push(nums[i]);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="increasing-vs-decreasing">Increasing vs Decreasing<a href="#increasing-vs-decreasing" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <ul>
@@ -458,6 +458,14 @@ vector&amp;lt;int&amp;gt; nums; // fill nums stack&amp;lt;int&amp;gt; st;  for (
 
    
       
+   
+
+   
+
+   
+
+   
+
    
 
    

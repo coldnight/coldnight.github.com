@@ -243,30 +243,30 @@
 </ul>
 <!-- raw HTML omitted -->
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">mod</span> sound {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> instrument {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> woodwind {
-</span></span><span style="display:flex;"><span>	  <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clarinet</span>() {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">super</span>::breathe_in();
-</span></span><span style="display:flex;"><span>	  }
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> instrument {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> woodwind {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clarinet</span>() {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">super</span>::breathe_in();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">breathe_in</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">breathe_in</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">mod</span> voice {
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">mod</span> voice {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// 绝对路径以 crate 开始，crate 表示根
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">crate</span>::sound::instrument::woodwind::clarinet();
+</span></span><span style="display:flex;"><span>	 <span style="color:#75715e">// 绝对路径以 crate 开始，crate 表示根
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	 <span style="color:#66d9ef">crate</span>::sound::instrument::woodwind::clarinet();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// 相对路径
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   sound::instrument::woodwind::clarinet();
+</span></span><span style="display:flex;"><span>	 <span style="color:#75715e">// 相对路径
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	 sound::instrument::woodwind::clarinet();
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>上面例子 <code>sound</code> 模块并非公开，但是由于 <code>main</code> 和 <code>sound</code> 定义在同一模块下，所以允许在 <code>main</code> 中引用 <code>sound</code> 。</p>
 </li>
@@ -278,6 +278,14 @@
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 

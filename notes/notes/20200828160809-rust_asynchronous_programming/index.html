@@ -183,12 +183,12 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> futures::executor::block_on;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hello_world</span>() {
-</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;hello, world!&#34;</span>);
+</span></span><span style="display:flex;"><span>		println!(<span style="color:#e6db74">&#34;hello, world!&#34;</span>);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> future <span style="color:#f92672">=</span> hello_world(); <span style="color:#75715e">// Nothing is printed
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	block_on(future); <span style="color:#75715e">// `future` is run and &#34;hello, world!&#34; is printed
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> future <span style="color:#f92672">=</span> hello_world(); <span style="color:#75715e">// Nothing is printed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		block_on(future); <span style="color:#75715e">// `future` is run and &#34;hello, world!&#34; is printed
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
 </span></span></code></pre></div></li>
 </ul>
@@ -201,27 +201,27 @@
 </ul>
 <!-- raw HTML omitted -->
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">learn_and_sing</span>() {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Wait until the song has been learned before singing it.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// We use `.await` here rather than `block_on` to prevent blocking the
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// thread, which makes it possible to `dance` at the same time.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">let</span> song <span style="color:#f92672">=</span> learn_song().<span style="color:#66d9ef">await</span>;
-</span></span><span style="display:flex;"><span>	sing_song(song).<span style="color:#66d9ef">await</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Wait until the song has been learned before singing it.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// We use `.await` here rather than `block_on` to prevent blocking the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// thread, which makes it possible to `dance` at the same time.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">let</span> song <span style="color:#f92672">=</span> learn_song().<span style="color:#66d9ef">await</span>;
+</span></span><span style="display:flex;"><span>		sing_song(song).<span style="color:#66d9ef">await</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">async_main</span>() {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> f1 <span style="color:#f92672">=</span> learn_and_sing();
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> f2 <span style="color:#f92672">=</span> dance();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> f1 <span style="color:#f92672">=</span> learn_and_sing();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> f2 <span style="color:#f92672">=</span> dance();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// `join!` is like `.await` but can wait for multiple futures concurrently.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// If we&#39;re temporarily blocked in the `learn_and_sing` future, the `dance`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// future will take over the current thread. If `dance` becomes blocked,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// `learn_and_sing` can take back over. If both futures are blocked, then
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// `async_main` is blocked and will yield to the executor.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	futures::join<span style="color:#f92672">!</span>(f1, f2);
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// `join!` is like `.await` but can wait for multiple futures concurrently.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// If we&#39;re temporarily blocked in the `learn_and_sing` future, the `dance`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// future will take over the current thread. If `dance` becomes blocked,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// `learn_and_sing` can take back over. If both futures are blocked, then
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// `async_main` is blocked and will yield to the executor.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		futures::join<span style="color:#f92672">!</span>(f1, f2);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>	block_on(async_main());
+</span></span><span style="display:flex;"><span>		block_on(async_main());
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
       </div></div>
@@ -230,6 +230,14 @@
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 

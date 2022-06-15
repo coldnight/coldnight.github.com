@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="let add_one = | num | {  num &#43; 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
-let add_one = | num: i32 | {  num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u32 { x &#43; 1 } let add_one_v2 = |x: u32| -&amp;gt; u32 { x &#43; 1 }; let add_one_v3 = |x| { x &#43; 1 }; let add_one_v4 = |x| x &#43; 1 ; 使用 Fn 存储闭包类型" />
+<meta name="description" content="let add_one = | num | { 	num &#43; 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
+let add_one = | num: i32 | { 	num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u32 { x &#43; 1 } let add_one_v2 = |x: u32| -&amp;gt; u32 { x &#43; 1 }; let add_one_v3 = |x| { x &#43; 1 }; let add_one_v4 = |x| x &#43; 1 ; 使用 Fn 存储闭包类型" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/" />
@@ -35,8 +35,8 @@ let add_one = | num: i32 | {  num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="闭包">
-<meta property="og:description" content="let add_one = | num | {  num &#43; 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
-let add_one = | num: i32 | {  num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u32 { x &#43; 1 } let add_one_v2 = |x: u32| -&amp;gt; u32 { x &#43; 1 }; let add_one_v3 = |x| { x &#43; 1 }; let add_one_v4 = |x| x &#43; 1 ; 使用 Fn 存储闭包类型" />
+<meta property="og:description" content="let add_one = | num | { 	num &#43; 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
+let add_one = | num: i32 | { 	num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u32 { x &#43; 1 } let add_one_v2 = |x: u32| -&amp;gt; u32 { x &#43; 1 }; let add_one_v3 = |x| { x &#43; 1 }; let add_one_v4 = |x| x &#43; 1 ; 使用 Fn 存储闭包类型" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -166,11 +166,11 @@ let add_one = | num: i32 | {  num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u
 
   <div class="post-content"><div>
         <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> add_one <span style="color:#f92672">=</span> <span style="color:#f92672">|</span> num <span style="color:#f92672">|</span> {
-</span></span><span style="display:flex;"><span>  num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><p>由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> add_one <span style="color:#f92672">=</span> <span style="color:#f92672">|</span> num: <span style="color:#66d9ef">i32</span> <span style="color:#f92672">|</span> {
-</span></span><span style="display:flex;"><span>  num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span>  <span style="color:#a6e22e">add_one_v1</span>   (x: <span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span> { x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> }
@@ -179,31 +179,31 @@ let add_one = | num: i32 | {  num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> add_one_v4 <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x<span style="color:#f92672">|</span>               x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  ;
 </span></span></code></pre></div><p>使用 <code>Fn</code> 存储闭包类型</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Cacher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">where</span> T: Fn(<span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">where</span> T: Fn(<span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span>
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  calculation: <span style="color:#a6e22e">T</span>,
-</span></span><span style="display:flex;"><span>  value: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u32</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>	calculation: <span style="color:#a6e22e">T</span>,
+</span></span><span style="display:flex;"><span>	value: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u32</span><span style="color:#f92672">&gt;</span>,
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Cacher<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">where</span> T: Fn(<span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">where</span> T: Fn(<span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span>
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(calculation: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Cacher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
-</span></span><span style="display:flex;"><span>	Cacher {
-</span></span><span style="display:flex;"><span>	  calculation,
-</span></span><span style="display:flex;"><span>	  value: None,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(calculation: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Cacher</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>		Cacher {
+</span></span><span style="display:flex;"><span>			calculation,
+</span></span><span style="display:flex;"><span>			value: None,
+</span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">value</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, arg: <span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(value) <span style="color:#f92672">=</span> self.value {
-</span></span><span style="display:flex;"><span>		value
-</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> value <span style="color:#f92672">=</span> (self.calculation)(arg);
-</span></span><span style="display:flex;"><span>		self.value <span style="color:#f92672">=</span> Some(value);
-</span></span><span style="display:flex;"><span>		value
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">value</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, arg: <span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(value) <span style="color:#f92672">=</span> self.value {
+</span></span><span style="display:flex;"><span>				value
+</span></span><span style="display:flex;"><span>		} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">let</span> value <span style="color:#f92672">=</span> (self.calculation)(arg);
+</span></span><span style="display:flex;"><span>				self.value <span style="color:#f92672">=</span> Some(value);
+</span></span><span style="display:flex;"><span>				value
+</span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>闭包和函数的区别：闭包会捕捉当前环境，但是函数不会。</p>
 <p>三种不同 <code>Fn</code> trait</p>
@@ -214,10 +214,10 @@ let add_one = | num: i32 | {  num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u
 </ul>
 <p>如果想要强制取得使用的所在环境变量的所有权，可以使用 <code>move</code> 关键字</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> vec![<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>];
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> euqal_to_x <span style="color:#f92672">=</span> <span style="color:#66d9ef">move</span> <span style="color:#f92672">|</span>z<span style="color:#f92672">|</span> z <span style="color:#f92672">==</span> x;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> vec![<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>];
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> euqal_to_x <span style="color:#f92672">=</span> <span style="color:#66d9ef">move</span> <span style="color:#f92672">|</span>z<span style="color:#f92672">|</span> z <span style="color:#f92672">==</span> x;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// x has move to closure, so can&#39;t use it anymore.
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// x has move to closure, so can&#39;t use it anymore.
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
 </span></span></code></pre></div>
       </div></div>
@@ -226,6 +226,14 @@ let add_one = | num: i32 | {  num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u
 
   
 
+
+   
+
+   
+
+   
+
+   
 
    
 
