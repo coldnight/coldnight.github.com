@@ -6,7 +6,103 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 21 Jun 2022 15:35:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Jun 2022 17:26:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How a Block Is Executed</title>
+      <link>https://www.linuxzen.com/notes/notes/20220624172625-how_a_block_is_executed/</link>
+      <pubDate>Fri, 24 Jun 2022 17:26:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220624172625-how_a_block_is_executed/</guid>
+      <description>tags: Starcoin Web3 StarTrek,Move  When I start learning Move and looking at the stdlib starcoin-framework and starcoin-framework-commons. Then I realized there are must some magic during the block execution in runtime. To roll the world, the runtime should provide some built in types and call some function in the stdlib.
+How StarcoinVM is Involved? The main functionality is provided by a struct StarcoinVM which is a wrapper of MoveVM.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220618163155-move/&#34;&gt;Move&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When I start learning Move and looking at the stdlib &lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework&#34;&gt;starcoin-framework&lt;/a&gt; and &lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework-commons/&#34;&gt;starcoin-framework-commons&lt;/a&gt;.
+Then I realized there are must some magic during the block execution in runtime.
+To roll the world, the runtime should provide some built in types and call some function in the
+stdlib.&lt;/p&gt;
+&lt;h2 id=&#34;how-starcoinvm-is-involved&#34;&gt;How StarcoinVM is Involved?&lt;/h2&gt;
+&lt;p&gt;The main functionality is provided by a struct &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L76&#34;&gt;StarcoinVM&lt;/a&gt; which is a wrapper of &lt;code&gt;MoveVM&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;A &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/open-block/src/lib.rs#L27&#34;&gt;starcoin_open_block::OpenedBlock&lt;/a&gt; will be created, when a block is created on chain by &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/src/chain.rs#L215-L272&#34;&gt;starcoin_chain::chain::BlockChain::create_block_template&lt;/a&gt;.
+Some &lt;code&gt;transactions&lt;/code&gt; will push into it by its &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/open-block/src/lib.rs#L138&#34;&gt;push_txns&lt;/a&gt;, then it&amp;rsquo;s time to get &lt;code&gt;StarcoinVM&lt;/code&gt; involved.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;StarcoinVM&lt;/code&gt; is on duty to execute those &lt;code&gt;transactions&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-starcoinvm-execute-transactions-in-block&#34;&gt;How does StarcoinVM Execute Transactions in Block?&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L986&#34;&gt;StarcoinVM::execute_block_transactions&lt;/a&gt; will be invoked to execute transactions.&lt;/p&gt;
+&lt;h3 id=&#34;inject-natives-to-movevm&#34;&gt;Inject natives to &lt;code&gt;MoveVM&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;When we created a &lt;code&gt;StarcoinVM&lt;/code&gt; by &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L88-L98&#34;&gt;StarcoinVM::new&lt;/a&gt;, its will create &lt;code&gt;MoveVM&lt;/code&gt; by:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;new&lt;/span&gt;(metrics: Option&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;VMMetrics&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Self&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MoveVM::new(&lt;span style=&#34;color:#66d9ef&#34;&gt;super&lt;/span&gt;::natives::starcoin_natives())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				.expect(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;should be able to create Move VM; check if there are duplicated natives&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		Self {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				move_vm: &lt;span style=&#34;color:#a6e22e&#34;&gt;Arc&lt;/span&gt;::new(inner),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				vm_config: None,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				version: None,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				move_version: None,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				metrics,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;All the natives that been injected to &lt;code&gt;MoveVM&lt;/code&gt; are defined at &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/natives/src/lib.rs#L24-L139&#34;&gt;starcoin_natives::starcoin_natives()&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;load-configs-by-calling-move-module-defined-in-stdlib&#34;&gt;Load Configs by Calling Move Module Defined in stdlib&lt;/h3&gt;
+&lt;p&gt;The first thing it will do is load configs and call some functions in stdlib(Here we will skip the operations of genesis, there in different branch).&lt;/p&gt;
+&lt;p&gt;Those smart contract functions are invoked:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/main/sources/VMConfig.move#L74-L222&#34;&gt;0x1::VMConfig::instruction_schedule()&lt;/a&gt; defines how many gas will be cost to execute each Move instruction.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/main/sources/VMConfig.move#L224-L295&#34;&gt;0x1::VMConfig::native_schedule()&lt;/a&gt; defines how many gas will be cost to execute each native Move expression.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/main/sources/VMConfig.move#L297-L317&#34;&gt;0x1::VMConfig::gas_constants()&lt;/a&gt; some constans about gas.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With those configurations, the &lt;code&gt;StarcoinVM&lt;/code&gt; knows how many gas will be cost during a execution.
+I think this way to maintain config is very smart, as it can change the gas cost way without change
+the node(Rust). Further more, can change it with DAO.&lt;/p&gt;
+&lt;p&gt;Wait a minute, How those smart contract functions are executed?&lt;/p&gt;
+&lt;h3 id=&#34;execute-readonly-function&#34;&gt;Execute Readonly Function&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s see what does &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L1091-L1125&#34;&gt;StarcoinVM::execute_readonly_function&lt;/a&gt; done:&lt;/p&gt;
+&lt;p&gt;In short words, provide a &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data_cache.rs#L33-L36&#34;&gt;StateViewCache&lt;/a&gt; to a new session of &lt;code&gt;MoveVM&lt;/code&gt;, then call &lt;code&gt;session.execute_function&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;StateViewCache&lt;/code&gt; implements some necessary resolver traits that help MoveVM session to locate the module and resource:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/move/blob/ae12f353227a01da84efeec99943c6185afec338/language/move-core/types/src/resolver.rs#L10-L25&#34;&gt;ModuleResolver&lt;/a&gt; find module by ModuleID&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/move/blob/ae12f353227a01da84efeec99943c6185afec338/language/move-core/types/src/resolver.rs#L27-L44&#34;&gt;ResourceResolver&lt;/a&gt; find resource by address and type&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As the stdlib has already deployed on the chain at &lt;code&gt;0x01&lt;/code&gt; address in the genesis process, so the &lt;code&gt;StateViewCache&lt;/code&gt; with
+those resolver resolver implementations will lead &lt;code&gt;MoveVM&lt;/code&gt; locate the stdlib module.&lt;/p&gt;
+&lt;h2 id=&#34;how-a-smart-contract-is-executed&#34;&gt;How a Smart Contract Is Executed&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;m curious about how a smart contract been executed.&lt;/p&gt;
+&lt;p&gt;So, with those questions, let&amp;rsquo;s see how a block is executed on chain.&lt;/p&gt;
+&lt;p&gt;To execute a smart contract, or in &lt;code&gt;starcoin&lt;/code&gt; to invoke Move modules from a Move script,
+we can simply make a RPC invocation &lt;code&gt;contract.call_v2&lt;/code&gt;, which defines at &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/rpc/server/src/module/contract_rpc.rs#L145&#34;&gt;rpc/server/src/module/contract_rpc.rs#L145&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;call_v2&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;self, call: &lt;span style=&#34;color:#a6e22e&#34;&gt;ContractCall&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;FutureResult&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Vec&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;DecodedMoveValue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; service &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self.chain_state.clone();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; storage &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self.storage.clone();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; ContractCall {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				function_id,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				type_args,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				args,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; call;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; metrics &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self.playground.metrics.clone();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; f &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;move&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; state_root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; service.state_root().&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; state &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ChainStateDB::new(storage, Some(state_root));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; output &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; call_contract(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;state,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						function_id.&lt;span style=&#34;color:#ae81ff&#34;&gt;0.&lt;/span&gt;module,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						function_id.&lt;span style=&#34;color:#ae81ff&#34;&gt;0.&lt;/span&gt;function.as_str(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						type_args.into_iter().map(&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;v&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; v.&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;).collect(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						args.into_iter().map(&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;v&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; v.&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;).collect(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						metrics,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				)&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; annotator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MoveValueAnnotator::new(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;state);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				output
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						.into_iter()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						.map(&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;(ty, v)&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; annotator.view_value(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;ty, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;v).map(Into::into))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						.collect::&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;anyhow::Result&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Vec&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;_&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		.map_err(map_err);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		Box::pin(f.boxed())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;call_contract&lt;/code&gt; will eventually call &lt;code&gt;StarcoinVM::execute_readonly_function&lt;/code&gt;.&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>Starcoin Node Debug</title>
       <link>https://www.linuxzen.com/notes/notes/20220621153549-starcoin_node_debug/</link>
