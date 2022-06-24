@@ -71,7 +71,7 @@ those resolver resolver implementations will lead &lt;code&gt;MoveVM&lt;/code&gt
 &lt;h4 id=&#34;transactionblock-prologue&#34;&gt;&lt;code&gt;TransactionBlock::Prologue&lt;/code&gt;&lt;/h4&gt;
 &lt;p&gt;Each block whether it contains transactions or not, a prologue always need to be done, mainly invoke a smart contract function in stdlib:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L44-L125&#34;&gt;0x01::TransactionManager::prologue&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L197-L236&#34;&gt;0x01::TransactionManager::block_prologue&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;transactionblock-usertransaction&#34;&gt;&lt;code&gt;TransactionBlock::UserTransaction&lt;/code&gt;&lt;/h4&gt;
 &lt;p&gt;When a block contains transactions, it have three kinds of payload, which are defined as:&lt;/p&gt;
@@ -84,7 +84,45 @@ those resolver resolver implementations will lead &lt;code&gt;MoveVM&lt;/code&gt
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e6db74&#34;&gt;/// A transaction that executes an existing script function published on-chain.
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;		ScriptFunction(ScriptFunction),
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;how-does-starcoinvm-validate-transactions&#34;&gt;How does StarcoinVM Validate Transactions?&lt;/h2&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;TransactionPayload::Script&lt;/code&gt; and &lt;code&gt;TransactionPayload::ScriptFuntion&lt;/code&gt; have the same behaviour, that defined in &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/c656e4be9c9a507ed85819d165b62419bfb3b367/vm/vm-runtime/src/starcoin_vm.rs#L545-L611&#34;&gt;StarcoinVM::execute_script_or_script_function&lt;/a&gt;.
+Before the script or script funciton been executed, a &lt;code&gt;prologue&lt;/code&gt; which defined in stdlib will be executed first, and then an &lt;code&gt;epilogue&lt;/code&gt; will
+be executed when the transactions is exeucted successfully:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L44-L125&#34;&gt;0x01::TransactionManager::prologue&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L127-L196&#34;&gt;0x01::TransactionManager::epilogue or 0x01::TransactionManager::epilogue_v2&lt;/a&gt;, it depends on which version of stdlib is used in current runtime.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;TransactionPayload::Package&lt;/code&gt; invovled the same smart contract functions, but it&amp;rsquo;s code logic is more complex, check &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/c656e4be9c9a507ed85819d165b62419bfb3b367/vm/vm-runtime/src/starcoin_vm.rs#L435-L543&#34;&gt;StarcoinVM::execute_package&lt;/a&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Publish the package as move module bundle.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;session
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		.publish_module_bundle_with_option(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				package
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						.modules()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						.iter()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						.map(&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;m&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; m.code().to_vec())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						.collect(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				package.package_address(), &lt;span style=&#34;color:#75715e&#34;&gt;// be careful with the sender.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;				cost_strategy,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				PublishModuleBundleOption {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						force_publish: &lt;span style=&#34;color:#a6e22e&#34;&gt;enforced&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;						only_new_module,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		.map_err(&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;e&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; e.into_vm_status())&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Invoke &lt;code&gt;init_script&lt;/code&gt; of the package if has any.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Same question as above, how this module stored into chain? Let&amp;rsquo;s check &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data_cache.rs#L33-L36&#34;&gt;StateViewCache&lt;/a&gt; again, it haven&amp;rsquo;t the corresponding traits.
+After doing some research, I found the session we are used isn&amp;rsquo;t in the offcial Move language, it defined as &lt;a href=&#34;https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/move_vm_adapter.rs#L59-L77&#34;&gt;move_vm::move_vm_runtime::move_vm_adapter::SessionAdapter&lt;/a&gt;.
+It&amp;rsquo;ll invoke &lt;a href=&#34;https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/data_cache.rs#L223-L234&#34;&gt;DataStore::publish_module&lt;/a&gt;, it just put our package into our account cache. This explains how a smart contract is deployed.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-starcoinvm-validate-transactions&#34;&gt;How does StarcoinVM Validate Transactions?&lt;/h2&gt;
 &lt;h2 id=&#34;how-a-smart-contract-is-executed&#34;&gt;How a Smart Contract Is Executed&lt;/h2&gt;
 &lt;p&gt;I&amp;rsquo;m curious about how a smart contract been executed.&lt;/p&gt;
 &lt;p&gt;So, with those questions, let&amp;rsquo;s see how a block is executed on chain.&lt;/p&gt;
@@ -119,7 +157,7 @@ we can simply make a RPC invocation &lt;code&gt;contract.call_v2&lt;/code&gt;, w
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		.map_err(map_err);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		Box::pin(f.boxed())
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;call_contract&lt;/code&gt; will eventually call &lt;code&gt;StarcoinVM::execute_readonly_function&lt;/code&gt;.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;call_contract&lt;/code&gt; will eventually call &lt;code&gt;StarcoinVM::execute_readonly_function&lt;/code&gt; which we already discussed above.&lt;/p&gt;
 </content>
     </item>
     

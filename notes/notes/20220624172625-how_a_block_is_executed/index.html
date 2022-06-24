@@ -221,7 +221,7 @@ those resolver resolver implementations will lead <code>MoveVM</code> locate the
 <h4 id="transactionblock-prologue"><code>TransactionBlock::Prologue</code><a href="#transactionblock-prologue" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>Each block whether it contains transactions or not, a prologue always need to be done, mainly invoke a smart contract function in stdlib:</p>
 <ul>
-<li><a href="https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L44-L125">0x01::TransactionManager::prologue</a></li>
+<li><a href="https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L197-L236">0x01::TransactionManager::block_prologue</a></li>
 </ul>
 <h4 id="transactionblock-usertransaction"><code>TransactionBlock::UserTransaction</code><a href="#transactionblock-usertransaction" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>When a block contains transactions, it have three kinds of payload, which are defined as:</p>
@@ -234,7 +234,45 @@ those resolver resolver implementations will lead <code>MoveVM</code> locate the
 </span></span><span style="display:flex;"><span>		<span style="color:#e6db74">/// A transaction that executes an existing script function published on-chain.
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>		ScriptFunction(ScriptFunction),
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="how-does-starcoinvm-validate-transactions">How does StarcoinVM Validate Transactions?<a href="#how-does-starcoinvm-validate-transactions" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+</span></span></code></pre></div><p><code>TransactionPayload::Script</code> and <code>TransactionPayload::ScriptFuntion</code> have the same behaviour, that defined in <a href="https://github.com/starcoinorg/starcoin/blob/c656e4be9c9a507ed85819d165b62419bfb3b367/vm/vm-runtime/src/starcoin_vm.rs#L545-L611">StarcoinVM::execute_script_or_script_function</a>.
+Before the script or script funciton been executed, a <code>prologue</code> which defined in stdlib will be executed first, and then an <code>epilogue</code> will
+be executed when the transactions is exeucted successfully:</p>
+<ul>
+<li>
+<p><a href="https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L44-L125">0x01::TransactionManager::prologue</a></p>
+</li>
+<li>
+<p><a href="https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L127-L196">0x01::TransactionManager::epilogue or 0x01::TransactionManager::epilogue_v2</a>, it depends on which version of stdlib is used in current runtime.</p>
+<p><code>TransactionPayload::Package</code> invovled the same smart contract functions, but it&rsquo;s code logic is more complex, check <a href="https://github.com/starcoinorg/starcoin/blob/c656e4be9c9a507ed85819d165b62419bfb3b367/vm/vm-runtime/src/starcoin_vm.rs#L435-L543">StarcoinVM::execute_package</a>:</p>
+<ol>
+<li>
+<p>Publish the package as move module bundle.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>session
+</span></span><span style="display:flex;"><span>		.publish_module_bundle_with_option(
+</span></span><span style="display:flex;"><span>				package
+</span></span><span style="display:flex;"><span>						.modules()
+</span></span><span style="display:flex;"><span>						.iter()
+</span></span><span style="display:flex;"><span>						.map(<span style="color:#f92672">|</span>m<span style="color:#f92672">|</span> m.code().to_vec())
+</span></span><span style="display:flex;"><span>						.collect(),
+</span></span><span style="display:flex;"><span>				package.package_address(), <span style="color:#75715e">// be careful with the sender.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				cost_strategy,
+</span></span><span style="display:flex;"><span>				PublishModuleBundleOption {
+</span></span><span style="display:flex;"><span>						force_publish: <span style="color:#a6e22e">enforced</span>,
+</span></span><span style="display:flex;"><span>						only_new_module,
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		.map_err(<span style="color:#f92672">|</span>e<span style="color:#f92672">|</span> e.into_vm_status())<span style="color:#f92672">?</span>;
+</span></span></code></pre></div></li>
+<li>
+<p>Invoke <code>init_script</code> of the package if has any.</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>Same question as above, how this module stored into chain? Let&rsquo;s check <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data_cache.rs#L33-L36">StateViewCache</a> again, it haven&rsquo;t the corresponding traits.
+After doing some research, I found the session we are used isn&rsquo;t in the offcial Move language, it defined as <a href="https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/move_vm_adapter.rs#L59-L77">move_vm::move_vm_runtime::move_vm_adapter::SessionAdapter</a>.
+It&rsquo;ll invoke <a href="https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/data_cache.rs#L223-L234">DataStore::publish_module</a>, it just put our package into our account cache. This explains how a smart contract is deployed.</p>
+<h2 id="how-does-starcoinvm-validate-transactions">How does StarcoinVM Validate Transactions?<a href="#how-does-starcoinvm-validate-transactions" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h2 id="how-a-smart-contract-is-executed">How a Smart Contract Is Executed<a href="#how-a-smart-contract-is-executed" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>I&rsquo;m curious about how a smart contract been executed.</p>
 <p>So, with those questions, let&rsquo;s see how a block is executed on chain.</p>
@@ -269,7 +307,7 @@ we can simply make a RPC invocation <code>contract.call_v2</code>, which defines
 </span></span><span style="display:flex;"><span>		.map_err(map_err);
 </span></span><span style="display:flex;"><span>		Box::pin(f.boxed())
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>The <code>call_contract</code> will eventually call <code>StarcoinVM::execute_readonly_function</code>.</p>
+</span></span></code></pre></div><p>The <code>call_contract</code> will eventually call <code>StarcoinVM::execute_readonly_function</code> which we already discussed above.</p>
 
       </div></div>
 
