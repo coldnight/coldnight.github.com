@@ -29,7 +29,8 @@ Some &lt;code&gt;transactions&lt;/code&gt; will push into it by its &lt;a href=&
 &lt;p&gt;&lt;code&gt;StarcoinVM&lt;/code&gt; is on duty to execute those &lt;code&gt;transactions&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;how-does-starcoinvm-execute-transactions-in-block&#34;&gt;How does StarcoinVM Execute Transactions in Block?&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L986&#34;&gt;StarcoinVM::execute_block_transactions&lt;/a&gt; will be invoked to execute transactions.&lt;/p&gt;
-&lt;h3 id=&#34;inject-natives-to-movevm&#34;&gt;Inject natives to &lt;code&gt;MoveVM&lt;/code&gt;&lt;/h3&gt;
+&lt;h3 id=&#34;preparation&#34;&gt;Preparation&lt;/h3&gt;
+&lt;h4 id=&#34;inject-natives-to-movevm&#34;&gt;Inject natives to &lt;code&gt;MoveVM&lt;/code&gt;&lt;/h4&gt;
 &lt;p&gt;When we created a &lt;code&gt;StarcoinVM&lt;/code&gt; by &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L88-L98&#34;&gt;StarcoinVM::new&lt;/a&gt;, its will create &lt;code&gt;MoveVM&lt;/code&gt; by:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;new&lt;/span&gt;(metrics: Option&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;VMMetrics&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;) -&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Self&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MoveVM::new(&lt;span style=&#34;color:#66d9ef&#34;&gt;super&lt;/span&gt;::natives::starcoin_natives())
@@ -43,9 +44,9 @@ Some &lt;code&gt;transactions&lt;/code&gt; will push into it by its &lt;a href=&
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;All the natives that been injected to &lt;code&gt;MoveVM&lt;/code&gt; are defined at &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/natives/src/lib.rs#L24-L139&#34;&gt;starcoin_natives::starcoin_natives()&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 id=&#34;load-configs-by-calling-move-module-defined-in-stdlib&#34;&gt;Load Configs by Calling Move Module Defined in stdlib&lt;/h3&gt;
+&lt;h4 id=&#34;load-configs-by-calling-move-module-defined-in-stdlib&#34;&gt;Load Configs by Calling Move Module Defined in stdlib&lt;/h4&gt;
 &lt;p&gt;The first thing it will do is load configs and call some functions in stdlib(Here we will skip the operations of genesis, there in different branch).&lt;/p&gt;
-&lt;p&gt;Those smart contract functions are invoked:&lt;/p&gt;
+&lt;p&gt;Those smart contract functions are invoked by &lt;code&gt;StarcoinVM::execute_readonly_function&lt;/code&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/main/sources/VMConfig.move#L74-L222&#34;&gt;0x1::VMConfig::instruction_schedule()&lt;/a&gt; defines how many gas will be cost to execute each Move instruction.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/main/sources/VMConfig.move#L224-L295&#34;&gt;0x1::VMConfig::native_schedule()&lt;/a&gt; defines how many gas will be cost to execute each native Move expression.&lt;/li&gt;
@@ -55,8 +56,8 @@ Some &lt;code&gt;transactions&lt;/code&gt; will push into it by its &lt;a href=&
 I think this way to maintain config is very smart, as it can change the gas cost way without change
 the node(Rust). Further more, can change it with DAO.&lt;/p&gt;
 &lt;p&gt;Wait a minute, How those smart contract functions are executed?&lt;/p&gt;
-&lt;h3 id=&#34;execute-readonly-function&#34;&gt;Execute Readonly Function&lt;/h3&gt;
-&lt;p&gt;Let&amp;rsquo;s see what does &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L1091-L1125&#34;&gt;StarcoinVM::execute_readonly_function&lt;/a&gt; done:&lt;/p&gt;
+&lt;h4 id=&#34;execute-readonly-function&#34;&gt;Execute Readonly Function&lt;/h4&gt;
+&lt;p&gt;Let&amp;rsquo;s see what have done in &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L1091-L1125&#34;&gt;StarcoinVM::execute_readonly_function&lt;/a&gt;:&lt;/p&gt;
 &lt;p&gt;In short words, provide a &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data_cache.rs#L33-L36&#34;&gt;StateViewCache&lt;/a&gt; to a new session of &lt;code&gt;MoveVM&lt;/code&gt;, then call &lt;code&gt;session.execute_function&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;StateViewCache&lt;/code&gt; implements some necessary resolver traits that help MoveVM session to locate the module and resource:&lt;/p&gt;
 &lt;ul&gt;
@@ -65,6 +66,25 @@ the node(Rust). Further more, can change it with DAO.&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;As the stdlib has already deployed on the chain at &lt;code&gt;0x01&lt;/code&gt; address in the genesis process, so the &lt;code&gt;StateViewCache&lt;/code&gt; with
 those resolver resolver implementations will lead &lt;code&gt;MoveVM&lt;/code&gt; locate the stdlib module.&lt;/p&gt;
+&lt;h3 id=&#34;execute-block-transactions&#34;&gt;Execute Block Transactions&lt;/h3&gt;
+&lt;p&gt;Now it&amp;rsquo;s time to check the remain logic, there two types of transactions we need to care about:&lt;/p&gt;
+&lt;h4 id=&#34;transactionblock-prologue&#34;&gt;&lt;code&gt;TransactionBlock::Prologue&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;Each block whether it contains transactions or not, a prologue always need to be done, mainly invoke a smart contract function in stdlib:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L44-L125&#34;&gt;0x01::TransactionManager::prologue&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;transactionblock-usertransaction&#34;&gt;&lt;code&gt;TransactionBlock::UserTransaction&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;When a block contains transactions, it have three kinds of payload, which are defined as:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[derive(Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize, JsonSchema)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TransactionPayload&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e6db74&#34;&gt;/// A transaction that executes code.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;		Script(Script),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e6db74&#34;&gt;/// A transaction that publish or update module code by a package.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;		Package(Package),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e6db74&#34;&gt;/// A transaction that executes an existing script function published on-chain.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;		ScriptFunction(ScriptFunction),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;how-does-starcoinvm-validate-transactions&#34;&gt;How does StarcoinVM Validate Transactions?&lt;/h2&gt;
 &lt;h2 id=&#34;how-a-smart-contract-is-executed&#34;&gt;How a Smart Contract Is Executed&lt;/h2&gt;
 &lt;p&gt;I&amp;rsquo;m curious about how a smart contract been executed.&lt;/p&gt;
 &lt;p&gt;So, with those questions, let&amp;rsquo;s see how a block is executed on chain.&lt;/p&gt;
