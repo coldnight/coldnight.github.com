@@ -7,7 +7,8 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Starcoin Web3 StarTrek,Move  When I start learning Move and looking at the stdlib starcoin-framework and starcoin-framework-commons. Then I realized there are must some magic during the block execution in runtime. To roll the world, the runtime should provide some built in types and call some function in the stdlib.
-How StarcoinVM is Involved? The main functionality is provided by a struct StarcoinVM which is a wrapper of MoveVM." />
+How does StarcoinVM Validate Transactions? As a miner, it&amp;rsquo;s responsible for executing block, it follows:
+ Received some transactions from P2P network: EventHandler of PeerTransactionsMessage." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220624172625-how_a_block_is_executed/" />
@@ -36,7 +37,8 @@ How StarcoinVM is Involved? The main functionality is provided by a struct Starc
 <meta property="og:type" content="article" />
 <meta property="og:title" content="How does a Block be Executed">
 <meta property="og:description" content="tags: Starcoin Web3 StarTrek,Move  When I start learning Move and looking at the stdlib starcoin-framework and starcoin-framework-commons. Then I realized there are must some magic during the block execution in runtime. To roll the world, the runtime should provide some built in types and call some function in the stdlib.
-How StarcoinVM is Involved? The main functionality is provided by a struct StarcoinVM which is a wrapper of MoveVM." />
+How does StarcoinVM Validate Transactions? As a miner, it&amp;rsquo;s responsible for executing block, it follows:
+ Received some transactions from P2P network: EventHandler of PeerTransactionsMessage." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220624172625-how_a_block_is_executed/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -172,7 +174,15 @@ How StarcoinVM is Involved? The main functionality is provided by a struct Starc
 Then I realized there are must some magic during the block execution in runtime.
 To roll the world, the runtime should provide some built in types and call some function in the
 stdlib.</p>
-<h2 id="how-starcoinvm-is-involved">How StarcoinVM is Involved?<a href="#how-starcoinvm-is-involved" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="how-does-starcoinvm-validate-transactions">How does StarcoinVM Validate Transactions?<a href="#how-does-starcoinvm-validate-transactions" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>As a miner, it&rsquo;s responsible for executing block, it follows:</p>
+<ol>
+<li>Received some transactions from P2P network: <a href="https://github.com/starcoinorg/starcoin/blob/fc4f61666be98c64161b08b94f12eddcec1a78f8/txpool/src/lib.rs#L214-L224">EventHandler of PeerTransactionsMessage</a>.</li>
+<li>Import transactions into transactions pool as pending transactions.</li>
+<li>Retrieve pending transactions and put it into the a block prepare to execute.</li>
+</ol>
+<p>In the step 2, the miner need to verify the transactions before put it into queue as pending transactions.</p>
+<h2 id="how-does-starcoinvm-be-involved">How does StarcoinVM be Involved?<a href="#how-does-starcoinvm-be-involved" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>The main functionality is provided by a struct <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L76">StarcoinVM</a> which is a wrapper of <code>MoveVM</code>.</p>
 <p>A <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/open-block/src/lib.rs#L27">starcoin_open_block::OpenedBlock</a> will be created, when a block is created on chain by <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/src/chain.rs#L215-L272">starcoin_chain::chain::BlockChain::create_block_template</a>.
 Some <code>transactions</code> will push into it by its <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/open-block/src/lib.rs#L138">push_txns</a>, then it&rsquo;s time to get <code>StarcoinVM</code> involved.</p>
@@ -272,8 +282,7 @@ be executed when the transactions is exeucted successfully:</p>
 <p>Same question as above, how this module stored into chain? Let&rsquo;s check <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data_cache.rs#L33-L36">StateViewCache</a> again, it haven&rsquo;t the corresponding traits.
 After doing some research, I found the session we are used isn&rsquo;t in the offcial Move language, it defined as <a href="https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/move_vm_adapter.rs#L59-L77">move_vm::move_vm_runtime::move_vm_adapter::SessionAdapter</a>.
 It&rsquo;ll invoke <a href="https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/data_cache.rs#L223-L234">DataStore::publish_module</a>, it just put our package into our account cache. This explains how a smart contract is deployed.</p>
-<h2 id="how-does-starcoinvm-validate-transactions">How does StarcoinVM Validate Transactions?<a href="#how-does-starcoinvm-validate-transactions" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h2 id="how-a-smart-contract-is-executed">How a Smart Contract Is Executed<a href="#how-a-smart-contract-is-executed" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="how-does-a-smart-contract-be-executed">How does a Smart Contract Be Executed<a href="#how-does-a-smart-contract-be-executed" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>I&rsquo;m curious about how a smart contract been executed.</p>
 <p>So, with those questions, let&rsquo;s see how a block is executed on chain.</p>
 <p>To execute a smart contract, or in <code>starcoin</code> to invoke Move modules from a Move script,

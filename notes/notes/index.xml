@@ -14,7 +14,8 @@
       
       <guid>https://www.linuxzen.com/notes/notes/20220624172625-how_a_block_is_executed/</guid>
       <description>tags: Starcoin Web3 StarTrek,Move  When I start learning Move and looking at the stdlib starcoin-framework and starcoin-framework-commons. Then I realized there are must some magic during the block execution in runtime. To roll the world, the runtime should provide some built in types and call some function in the stdlib.
-How StarcoinVM is Involved? The main functionality is provided by a struct StarcoinVM which is a wrapper of MoveVM.</description>
+How does StarcoinVM Validate Transactions? As a miner, it&amp;rsquo;s responsible for executing block, it follows:
+ Received some transactions from P2P network: EventHandler of PeerTransactionsMessage.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220618163155-move/&#34;&gt;Move&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -22,7 +23,15 @@ How StarcoinVM is Involved? The main functionality is provided by a struct Starc
 Then I realized there are must some magic during the block execution in runtime.
 To roll the world, the runtime should provide some built in types and call some function in the
 stdlib.&lt;/p&gt;
-&lt;h2 id=&#34;how-starcoinvm-is-involved&#34;&gt;How StarcoinVM is Involved?&lt;/h2&gt;
+&lt;h2 id=&#34;how-does-starcoinvm-validate-transactions&#34;&gt;How does StarcoinVM Validate Transactions?&lt;/h2&gt;
+&lt;p&gt;As a miner, it&amp;rsquo;s responsible for executing block, it follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Received some transactions from P2P network: &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/fc4f61666be98c64161b08b94f12eddcec1a78f8/txpool/src/lib.rs#L214-L224&#34;&gt;EventHandler of PeerTransactionsMessage&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Import transactions into transactions pool as pending transactions.&lt;/li&gt;
+&lt;li&gt;Retrieve pending transactions and put it into the a block prepare to execute.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In the step 2, the miner need to verify the transactions before put it into queue as pending transactions.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-starcoinvm-be-involved&#34;&gt;How does StarcoinVM be Involved?&lt;/h2&gt;
 &lt;p&gt;The main functionality is provided by a struct &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L76&#34;&gt;StarcoinVM&lt;/a&gt; which is a wrapper of &lt;code&gt;MoveVM&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;A &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/open-block/src/lib.rs#L27&#34;&gt;starcoin_open_block::OpenedBlock&lt;/a&gt; will be created, when a block is created on chain by &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/src/chain.rs#L215-L272&#34;&gt;starcoin_chain::chain::BlockChain::create_block_template&lt;/a&gt;.
 Some &lt;code&gt;transactions&lt;/code&gt; will push into it by its &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/open-block/src/lib.rs#L138&#34;&gt;push_txns&lt;/a&gt;, then it&amp;rsquo;s time to get &lt;code&gt;StarcoinVM&lt;/code&gt; involved.&lt;/p&gt;
@@ -122,8 +131,7 @@ be executed when the transactions is exeucted successfully:&lt;/p&gt;
 &lt;p&gt;Same question as above, how this module stored into chain? Let&amp;rsquo;s check &lt;a href=&#34;https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data_cache.rs#L33-L36&#34;&gt;StateViewCache&lt;/a&gt; again, it haven&amp;rsquo;t the corresponding traits.
 After doing some research, I found the session we are used isn&amp;rsquo;t in the offcial Move language, it defined as &lt;a href=&#34;https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/move_vm_adapter.rs#L59-L77&#34;&gt;move_vm::move_vm_runtime::move_vm_adapter::SessionAdapter&lt;/a&gt;.
 It&amp;rsquo;ll invoke &lt;a href=&#34;https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/data_cache.rs#L223-L234&#34;&gt;DataStore::publish_module&lt;/a&gt;, it just put our package into our account cache. This explains how a smart contract is deployed.&lt;/p&gt;
-&lt;h2 id=&#34;how-does-starcoinvm-validate-transactions&#34;&gt;How does StarcoinVM Validate Transactions?&lt;/h2&gt;
-&lt;h2 id=&#34;how-a-smart-contract-is-executed&#34;&gt;How a Smart Contract Is Executed&lt;/h2&gt;
+&lt;h2 id=&#34;how-does-a-smart-contract-be-executed&#34;&gt;How does a Smart Contract Be Executed&lt;/h2&gt;
 &lt;p&gt;I&amp;rsquo;m curious about how a smart contract been executed.&lt;/p&gt;
 &lt;p&gt;So, with those questions, let&amp;rsquo;s see how a block is executed on chain.&lt;/p&gt;
 &lt;p&gt;To execute a smart contract, or in &lt;code&gt;starcoin&lt;/code&gt; to invoke Move modules from a Move script,
