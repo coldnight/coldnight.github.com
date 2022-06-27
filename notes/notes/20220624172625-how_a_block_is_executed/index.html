@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   
-    <title>How does a Block be Executed :: Taking Smart Notes With Org-mode</title>
+    <title>How is a Block be Executed :: Taking Smart Notes With Org-mode</title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +35,7 @@ How does StarcoinVM Validate Transactions? As a miner, it&amp;rsquo;s responsibl
 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="How does a Block be Executed">
+<meta property="og:title" content="How is a Block be Executed">
 <meta property="og:description" content="tags: Starcoin Web3 StarTrek,Move  When I start learning Move and looking at the stdlib starcoin-framework and starcoin-framework-commons. Then I realized there are must some magic during the block execution in runtime. To roll the world, the runtime should provide some built in types and call some function in the stdlib.
 How does StarcoinVM Validate Transactions? As a miner, it&amp;rsquo;s responsible for executing block, it follows:
   Received some transactions from P2P network: EventHandler of PeerTransactionsMessage." />
@@ -148,7 +148,7 @@ How does StarcoinVM Validate Transactions? As a miner, it&amp;rsquo;s responsibl
     
 <div class="post">
   <h1 class="post-title">
-    <a href="https://www.linuxzen.com/notes/notes/20220624172625-how_a_block_is_executed/">How does a Block be Executed</a></h1>
+    <a href="https://www.linuxzen.com/notes/notes/20220624172625-how_a_block_is_executed/">How is a Block be Executed</a></h1>
   <div class="post-meta">
     
       <span class="post-date">
@@ -196,26 +196,26 @@ stdlib.</p>
 <li>Verify transactions.</li>
 <li>Run <code>0x01::TransactionManager::prologue</code> smart contract.</li>
 </ol>
-<h2 id="how-does-starcoinvm-be-involved">How does StarcoinVM be Involved?<a href="#how-does-starcoinvm-be-involved" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<p>The main functionality is provided by a struct <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L76">StarcoinVM</a> which is a wrapper of <code>MoveVM</code>.</p>
+<h2 id="how-is-starcoinvm-be-involved">How is StarcoinVM be Involved?<a href="#how-is-starcoinvm-be-involved" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>The main functionality is provided by a struct <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin%5Fvm.rs#L76">StarcoinVM</a> which is a wrapper of <code>MoveVM</code>.</p>
 <p>A <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/open-block/src/lib.rs#L27">starcoin_open_block::OpenedBlock</a> will be created, when a block is created on chain by <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/src/chain.rs#L215-L272">starcoin_chain::chain::BlockChain::create_block_template</a>.
 Some <code>pending transactions</code> (if have any) will push into it by its <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/open-block/src/lib.rs#L138">push_txns</a>, then it&rsquo;s time to get <code>StarcoinVM</code> involved.</p>
 <p><code>StarcoinVM</code> is on duty to execute those <code>transactions</code>.</p>
 <h2 id="how-does-starcoinvm-execute-transactions-in-block">How does StarcoinVM Execute Transactions in Block?<a href="#how-does-starcoinvm-execute-transactions-in-block" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<p><a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L986">StarcoinVM::execute_block_transactions</a> will be invoked to execute transactions.</p>
+<p><a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin%5Fvm.rs#L986">StarcoinVM::execute_block_transactions</a> will be invoked to execute transactions.</p>
 <h3 id="preparation">Preparation<a href="#preparation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <h4 id="inject-natives-to-movevm">Inject natives to <code>MoveVM</code><a href="#inject-natives-to-movevm" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
-<p>When we created a <code>StarcoinVM</code> by <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L88-L98">StarcoinVM::new</a>, its will create <code>MoveVM</code> by:</p>
+<p>When we created a <code>StarcoinVM</code> by <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin%5Fvm.rs#L88-L98">StarcoinVM::new</a>, its will create <code>MoveVM</code> by:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(metrics: Option<span style="color:#f92672">&lt;</span>VMMetrics<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Self</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> inner <span style="color:#f92672">=</span> MoveVM::new(<span style="color:#66d9ef">super</span>::natives::starcoin_natives())
-</span></span><span style="display:flex;"><span>        .expect(<span style="color:#e6db74">&#34;should be able to create Move VM; check if there are duplicated natives&#34;</span>);
-</span></span><span style="display:flex;"><span>    Self {
-</span></span><span style="display:flex;"><span>        move_vm: <span style="color:#a6e22e">Arc</span>::new(inner),
-</span></span><span style="display:flex;"><span>        vm_config: None,
-</span></span><span style="display:flex;"><span>        version: None,
-</span></span><span style="display:flex;"><span>        move_version: None,
-</span></span><span style="display:flex;"><span>        metrics,
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> inner <span style="color:#f92672">=</span> MoveVM::new(<span style="color:#66d9ef">super</span>::natives::starcoin_natives())
+</span></span><span style="display:flex;"><span>		.expect(<span style="color:#e6db74">&#34;should be able to create Move VM; check if there are duplicated natives&#34;</span>);
+</span></span><span style="display:flex;"><span>	Self {
+</span></span><span style="display:flex;"><span>		move_vm: <span style="color:#a6e22e">Arc</span>::new(inner),
+</span></span><span style="display:flex;"><span>		vm_config: None,
+</span></span><span style="display:flex;"><span>		version: None,
+</span></span><span style="display:flex;"><span>		move_version: None,
+</span></span><span style="display:flex;"><span>		metrics,
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>All the natives that been injected to <code>MoveVM</code> are defined at <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/natives/src/lib.rs#L24-L139">starcoin_natives::starcoin_natives()</a>.</p>
 <h4 id="load-configs-by-calling-move-module-defined-in-stdlib">Load Configs by Calling Move Module Defined in stdlib<a href="#load-configs-by-calling-move-module-defined-in-stdlib" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
@@ -231,8 +231,8 @@ I think this way to maintain config is very smart, as it can change the gas cost
 the node(Rust). Further more, can change it with DAO.</p>
 <p>Wait a minute, How those smart contract functions are executed?</p>
 <h4 id="execute-readonly-function">Execute Readonly Function<a href="#execute-readonly-function" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
-<p>Let&rsquo;s see what have done in <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L1091-L1125">StarcoinVM::execute_readonly_function</a>:</p>
-<p>In short words, provide a <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data_cache.rs#L33-L36">StateViewCache</a> to a new session of <code>MoveVM</code>, then call <code>session.execute_function</code>.</p>
+<p>Let&rsquo;s see what have done in <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin%5Fvm.rs#L1091-L1125">StarcoinVM::execute_readonly_function</a>:</p>
+<p>In short words, provide a <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data%5Fcache.rs#L33-L36">StateViewCache</a> to a new session of <code>MoveVM</code>, then call <code>session.execute_function</code>.</p>
 <p><code>StateViewCache</code> implements some necessary resolver traits that help MoveVM session to locate the module and resource:</p>
 <ul>
 <li><a href="https://github.com/starcoinorg/move/blob/ae12f353227a01da84efeec99943c6185afec338/language/move-core/types/src/resolver.rs#L10-L25">ModuleResolver</a> find module by ModuleID</li>
@@ -251,14 +251,14 @@ those resolver resolver implementations will lead <code>MoveVM</code> locate the
 <p>When a block contains transactions, it have three kinds of payload, which are defined as:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[derive(Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize, JsonSchema)]</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">TransactionPayload</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// A transaction that executes code.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    Script(Script),
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// A transaction that publish or update module code by a package.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    Package(Package),
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// A transaction that executes an existing script function published on-chain.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    ScriptFunction(ScriptFunction),
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">/// A transaction that executes code.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>	Script(Script),
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">/// A transaction that publish or update module code by a package.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>	Package(Package),
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">/// A transaction that executes an existing script function published on-chain.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>	ScriptFunction(ScriptFunction),
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><code>TransactionPayload::Script</code> and <code>TransactionPayload::ScriptFuntion</code> have the same behaviour, that defined in <a href="https://github.com/starcoinorg/starcoin/blob/c656e4be9c9a507ed85819d165b62419bfb3b367/vm/vm-runtime/src/starcoin_vm.rs#L545-L611">StarcoinVM::execute_script_or_script_function</a>.
+</span></span></code></pre></div><p><code>TransactionPayload::Script</code> and <code>TransactionPayload::ScriptFuntion</code> have the same behaviour, that defined in <a href="https://github.com/starcoinorg/starcoin/blob/c656e4be9c9a507ed85819d165b62419bfb3b367/vm/vm-runtime/src/starcoin%5Fvm.rs#L545-L611">StarcoinVM::execute_script_or_script_function</a>.
 Before the script or script funciton been executed, a <code>prologue</code> which defined in stdlib will be executed first, and then an <code>epilogue</code> will
 be executed when the transactions is exeucted successfully:</p>
 <ul>
@@ -267,25 +267,25 @@ be executed when the transactions is exeucted successfully:</p>
 </li>
 <li>
 <p><a href="https://github.com/starcoinorg/starcoin-framework/blob/e39dfeb6402b913324262cd2972514b918ef7df8/sources/TransactionManager.move#L127-L196">0x01::TransactionManager::epilogue or 0x01::TransactionManager::epilogue_v2</a>, it depends on which version of stdlib is used in current runtime.</p>
-<p><code>TransactionPayload::Package</code> invovled the same smart contract functions, but it&rsquo;s code logic is more complex, check <a href="https://github.com/starcoinorg/starcoin/blob/c656e4be9c9a507ed85819d165b62419bfb3b367/vm/vm-runtime/src/starcoin_vm.rs#L435-L543">StarcoinVM::execute_package</a>:</p>
+<p><code>TransactionPayload::Package</code> invovled the same smart contract functions, but it&rsquo;s code logic is more complex, check <a href="https://github.com/starcoinorg/starcoin/blob/c656e4be9c9a507ed85819d165b62419bfb3b367/vm/vm-runtime/src/starcoin%5Fvm.rs#L435-L543">StarcoinVM::execute_package</a>:</p>
 <ol>
 <li>
 <p>Publish the package as move module bundle.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>session
-</span></span><span style="display:flex;"><span>    .publish_module_bundle_with_option(
-</span></span><span style="display:flex;"><span>        package
-</span></span><span style="display:flex;"><span>            .modules()
-</span></span><span style="display:flex;"><span>            .iter()
-</span></span><span style="display:flex;"><span>            .map(<span style="color:#f92672">|</span>m<span style="color:#f92672">|</span> m.code().to_vec())
-</span></span><span style="display:flex;"><span>            .collect(),
-</span></span><span style="display:flex;"><span>        package.package_address(), <span style="color:#75715e">// be careful with the sender.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        cost_strategy,
-</span></span><span style="display:flex;"><span>        PublishModuleBundleOption {
-</span></span><span style="display:flex;"><span>            force_publish: <span style="color:#a6e22e">enforced</span>,
-</span></span><span style="display:flex;"><span>            only_new_module,
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>    )
-</span></span><span style="display:flex;"><span>    .map_err(<span style="color:#f92672">|</span>e<span style="color:#f92672">|</span> e.into_vm_status())<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>	.publish_module_bundle_with_option(
+</span></span><span style="display:flex;"><span>		package
+</span></span><span style="display:flex;"><span>			.modules()
+</span></span><span style="display:flex;"><span>			.iter()
+</span></span><span style="display:flex;"><span>			.map(<span style="color:#f92672">|</span>m<span style="color:#f92672">|</span> m.code().to_vec())
+</span></span><span style="display:flex;"><span>			.collect(),
+</span></span><span style="display:flex;"><span>		package.package_address(), <span style="color:#75715e">// be careful with the sender.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		cost_strategy,
+</span></span><span style="display:flex;"><span>		PublishModuleBundleOption {
+</span></span><span style="display:flex;"><span>			force_publish: <span style="color:#a6e22e">enforced</span>,
+</span></span><span style="display:flex;"><span>			only_new_module,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>	.map_err(<span style="color:#f92672">|</span>e<span style="color:#f92672">|</span> e.into_vm_status())<span style="color:#f92672">?</span>;
 </span></span></code></pre></div></li>
 <li>
 <p>Invoke <code>init_script</code> of the package if has any.</p>
@@ -293,42 +293,42 @@ be executed when the transactions is exeucted successfully:</p>
 </ol>
 </li>
 </ul>
-<p>Same question as above, how this module stored into chain? Let&rsquo;s check <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data_cache.rs#L33-L36">StateViewCache</a> again, it haven&rsquo;t the corresponding traits.
-After doing some research, I found the session we are used isn&rsquo;t in the offcial Move language, it defined as <a href="https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/move_vm_adapter.rs#L59-L77">move_vm::move_vm_runtime::move_vm_adapter::SessionAdapter</a>.
-It&rsquo;ll invoke <a href="https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/data_cache.rs#L223-L234">DataStore::publish_module</a>, it just put our package into our account cache. This explains how a smart contract is deployed.</p>
+<p>Same question as above, how this module stored into chain? Let&rsquo;s check <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/data%5Fcache.rs#L33-L36">StateViewCache</a> again, it haven&rsquo;t the corresponding traits.
+After doing some research, I found the session we are used isn&rsquo;t in the offcial Move language, it defined as <a href="https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/move%5Fvm%5Fadapter.rs#L59-L77">move_vm::move_vm_runtime::move_vm_adapter::SessionAdapter</a>.
+It&rsquo;ll invoke <a href="https://github.com/starcoinorg/move/blob/4735fa59b63e1b30622411d8af65129e4c80b3bc/language/move-vm/runtime/src/data%5Fcache.rs#L223-L234">DataStore::publish_module</a>, it just put our package into our account cache. This explains how a smart contract is deployed.</p>
 <h2 id="how-does-a-smart-contract-be-executed">How does a Smart Contract Be Executed<a href="#how-does-a-smart-contract-be-executed" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>I&rsquo;m curious about how a smart contract been executed.</p>
 <p>So, with those questions, let&rsquo;s see how a block is executed on chain.</p>
 <p>To execute a smart contract, or in <code>starcoin</code> to invoke Move modules from a Move script,
-we can simply make a RPC invocation <code>contract.call_v2</code>, which defines at <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/rpc/server/src/module/contract_rpc.rs#L145">rpc/server/src/module/contract_rpc.rs#L145</a>:</p>
+we can simply make a RPC invocation <code>contract.call_v2</code>, which defines at <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/rpc/server/src/module/contract%5Frpc.rs#L145">rpc/server/src/module/contract_rpc.rs#L145</a>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">call_v2</span>(<span style="color:#f92672">&amp;</span>self, call: <span style="color:#a6e22e">ContractCall</span>) -&gt; <span style="color:#a6e22e">FutureResult</span><span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>DecodedMoveValue<span style="color:#f92672">&gt;&gt;</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> service <span style="color:#f92672">=</span> self.chain_state.clone();
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> storage <span style="color:#f92672">=</span> self.storage.clone();
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> ContractCall {
-</span></span><span style="display:flex;"><span>        function_id,
-</span></span><span style="display:flex;"><span>        type_args,
-</span></span><span style="display:flex;"><span>        args,
-</span></span><span style="display:flex;"><span>    } <span style="color:#f92672">=</span> call;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> metrics <span style="color:#f92672">=</span> self.playground.metrics.clone();
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> f <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">move</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> state_root <span style="color:#f92672">=</span> service.state_root().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> state <span style="color:#f92672">=</span> ChainStateDB::new(storage, Some(state_root));
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> output <span style="color:#f92672">=</span> call_contract(
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&amp;</span>state,
-</span></span><span style="display:flex;"><span>            function_id.<span style="color:#ae81ff">0.</span>module,
-</span></span><span style="display:flex;"><span>            function_id.<span style="color:#ae81ff">0.</span>function.as_str(),
-</span></span><span style="display:flex;"><span>            type_args.into_iter().map(<span style="color:#f92672">|</span>v<span style="color:#f92672">|</span> v.<span style="color:#ae81ff">0</span>).collect(),
-</span></span><span style="display:flex;"><span>            args.into_iter().map(<span style="color:#f92672">|</span>v<span style="color:#f92672">|</span> v.<span style="color:#ae81ff">0</span>).collect(),
-</span></span><span style="display:flex;"><span>            metrics,
-</span></span><span style="display:flex;"><span>        )<span style="color:#f92672">?</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> annotator <span style="color:#f92672">=</span> MoveValueAnnotator::new(<span style="color:#f92672">&amp;</span>state);
-</span></span><span style="display:flex;"><span>        output
-</span></span><span style="display:flex;"><span>            .into_iter()
-</span></span><span style="display:flex;"><span>            .map(<span style="color:#f92672">|</span>(ty, v)<span style="color:#f92672">|</span> annotator.view_value(<span style="color:#f92672">&amp;</span>ty, <span style="color:#f92672">&amp;</span>v).map(Into::into))
-</span></span><span style="display:flex;"><span>            .collect::<span style="color:#f92672">&lt;</span>anyhow::Result<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;&gt;</span>()
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    .map_err(map_err);
-</span></span><span style="display:flex;"><span>    Box::pin(f.boxed())
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> service <span style="color:#f92672">=</span> self.chain_state.clone();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> storage <span style="color:#f92672">=</span> self.storage.clone();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> ContractCall {
+</span></span><span style="display:flex;"><span>		function_id,
+</span></span><span style="display:flex;"><span>		type_args,
+</span></span><span style="display:flex;"><span>		args,
+</span></span><span style="display:flex;"><span>	} <span style="color:#f92672">=</span> call;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> metrics <span style="color:#f92672">=</span> self.playground.metrics.clone();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> f <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">move</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> state_root <span style="color:#f92672">=</span> service.state_root().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> state <span style="color:#f92672">=</span> ChainStateDB::new(storage, Some(state_root));
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> output <span style="color:#f92672">=</span> call_contract(
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&amp;</span>state,
+</span></span><span style="display:flex;"><span>			function_id.<span style="color:#ae81ff">0.</span>module,
+</span></span><span style="display:flex;"><span>			function_id.<span style="color:#ae81ff">0.</span>function.as_str(),
+</span></span><span style="display:flex;"><span>			type_args.into_iter().map(<span style="color:#f92672">|</span>v<span style="color:#f92672">|</span> v.<span style="color:#ae81ff">0</span>).collect(),
+</span></span><span style="display:flex;"><span>			args.into_iter().map(<span style="color:#f92672">|</span>v<span style="color:#f92672">|</span> v.<span style="color:#ae81ff">0</span>).collect(),
+</span></span><span style="display:flex;"><span>			metrics,
+</span></span><span style="display:flex;"><span>		)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> annotator <span style="color:#f92672">=</span> MoveValueAnnotator::new(<span style="color:#f92672">&amp;</span>state);
+</span></span><span style="display:flex;"><span>		output
+</span></span><span style="display:flex;"><span>			.into_iter()
+</span></span><span style="display:flex;"><span>			.map(<span style="color:#f92672">|</span>(ty, v)<span style="color:#f92672">|</span> annotator.view_value(<span style="color:#f92672">&amp;</span>ty, <span style="color:#f92672">&amp;</span>v).map(Into::into))
+</span></span><span style="display:flex;"><span>			.collect::<span style="color:#f92672">&lt;</span>anyhow::Result<span style="color:#f92672">&lt;</span>Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;&gt;&gt;</span>()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	.map_err(map_err);
+</span></span><span style="display:flex;"><span>	Box::pin(f.boxed())
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The <code>call_contract</code> will eventually call <code>StarcoinVM::execute_readonly_function</code> which we have already discussed above.</p>
 <h2 id="mint-block">Mint Block<a href="#mint-block" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
