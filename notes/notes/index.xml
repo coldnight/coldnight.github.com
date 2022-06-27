@@ -180,6 +180,9 @@ we can simply make a RPC invocation &lt;code&gt;contract.call_v2&lt;/code&gt;, w
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Box::pin(f.boxed())
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;call_contract&lt;/code&gt; will eventually call &lt;code&gt;StarcoinVM::execute_readonly_function&lt;/code&gt; which we have already discussed above.&lt;/p&gt;
+&lt;h2 id=&#34;mint-block&#34;&gt;Mint Block&lt;/h2&gt;
+&lt;p&gt;Once the block had been created and executed, the miner is going to mint the block: generate nounces to meet the diffculty.
+When it has been done, the block is ready to append to the chain, which means all the transactions in the block are take effect.&lt;/p&gt;
 </content>
     </item>
     
