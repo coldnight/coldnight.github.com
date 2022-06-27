@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="tags: Starcoin Web3 StarTrek,Move  When I start learning Move and looking at the stdlib starcoin-framework and starcoin-framework-commons. Then I realized there are must some magic during the block execution in runtime. To roll the world, the runtime should provide some built in types and call some function in the stdlib.
 How does StarcoinVM Validate Transactions? As a miner, it&amp;rsquo;s responsible for executing block, it follows:
- Received some transactions from P2P network: EventHandler of PeerTransactionsMessage." />
+  Received some transactions from P2P network: EventHandler of PeerTransactionsMessage." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220624172625-how_a_block_is_executed/" />
@@ -38,7 +38,7 @@ How does StarcoinVM Validate Transactions? As a miner, it&amp;rsquo;s responsibl
 <meta property="og:title" content="How does a Block be Executed">
 <meta property="og:description" content="tags: Starcoin Web3 StarTrek,Move  When I start learning Move and looking at the stdlib starcoin-framework and starcoin-framework-commons. Then I realized there are must some magic during the block execution in runtime. To roll the world, the runtime should provide some built in types and call some function in the stdlib.
 How does StarcoinVM Validate Transactions? As a miner, it&amp;rsquo;s responsible for executing block, it follows:
- Received some transactions from P2P network: EventHandler of PeerTransactionsMessage." />
+  Received some transactions from P2P network: EventHandler of PeerTransactionsMessage." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220624172625-how_a_block_is_executed/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -177,11 +177,25 @@ stdlib.</p>
 <h2 id="how-does-starcoinvm-validate-transactions">How does StarcoinVM Validate Transactions?<a href="#how-does-starcoinvm-validate-transactions" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>As a miner, it&rsquo;s responsible for executing block, it follows:</p>
 <ol>
-<li>Received some transactions from P2P network: <a href="https://github.com/starcoinorg/starcoin/blob/fc4f61666be98c64161b08b94f12eddcec1a78f8/txpool/src/lib.rs#L214-L224">EventHandler of PeerTransactionsMessage</a>.</li>
-<li>Import transactions into transactions pool as pending transactions.</li>
-<li>Retrieve pending transactions and put it into the a block prepare to execute.</li>
+<li>
+<p>Received some transactions from P2P network: <a href="https://github.com/starcoinorg/starcoin/blob/fc4f61666be98c64161b08b94f12eddcec1a78f8/txpool/src/lib.rs#L214-L224">EventHandler of PeerTransactionsMessage</a>.</p>
+</li>
+<li>
+<p>Import transactions into transactions pool as pending transactions: <a href="https://github.com/starcoinorg/starcoin/blob/fc4f61666be98c64161b08b94f12eddcec1a78f8/txpool/src/pool/queue.rs#L267-L346">txpool::pool::queue::TransactionQueue::import</a></p>
+<p>During importing, it&rsquo;ll verify those transactions by calling <a href="https://github.com/starcoinorg/starcoin/blob/fc4f61666be98c64161b08b94f12eddcec1a78f8/txpool/src/pool/queue.rs#L321-L336">verify_transaction</a>.</p>
+</li>
+<li>
+<p>Retrieve pending transactions and put it into the a block prepare to execute.</p>
+</li>
 </ol>
-<p>In the step 2, the miner need to verify the transactions before put it into queue as pending transactions.</p>
+<p>In the step 2, the miner need to verify the received transactions before put it into queue as pending transactions.</p>
+<p>The actually verify logic are defined at <a href="https://github.com/starcoinorg/starcoin/blob/fc4f61666be98c64161b08b94f12eddcec1a78f8/txpool/src/pool/queue.rs#L321-L336">StarcoinVM::verify_transaction</a>, it follows:</p>
+<ol>
+<li>Check signature.</li>
+<li>Load configs from chain by calling some smart contract functions, see below.</li>
+<li>Verify transactions.</li>
+<li>Run <code>0x01::TransactionManager::prologue</code> smart contract.</li>
+</ol>
 <h2 id="how-does-starcoinvm-be-involved">How does StarcoinVM be Involved?<a href="#how-does-starcoinvm-be-involved" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>The main functionality is provided by a struct <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/vm/vm-runtime/src/starcoin_vm.rs#L76">StarcoinVM</a> which is a wrapper of <code>MoveVM</code>.</p>
 <p>A <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/open-block/src/lib.rs#L27">starcoin_open_block::OpenedBlock</a> will be created, when a block is created on chain by <a href="https://github.com/starcoinorg/starcoin/blob/562a8f65fbd9b5305b7364219a2e9e2e727e09be/chain/src/chain.rs#L215-L272">starcoin_chain::chain::BlockChain::create_block_template</a>.
