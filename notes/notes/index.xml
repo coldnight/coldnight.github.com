@@ -13,26 +13,33 @@
       <pubDate>Tue, 05 Jul 2022 07:16:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220705071653-move_resources_permissions/</guid>
-      <description>tags: Move,Starcoin Web3 StarTrek  Bedrock &amp;ndash; Object-capability model In my words, Move is kind of a Resource-Oriented Programming language. The resource is represented by struct in Move, aka object in other programming language.
-Move also provides public modifier for functions, and without that the function is private, which means that function only allow be invoked in the module.
-But a public function doesn&amp;rsquo;t mean we want everybody to call it.</description>
+      <description>tags: Move,Starcoin Web3 StarTrek  Bedrock &amp;ndash; Object-capability model In my words, Move is kind of a Resource-Oriented Programming language. The resource is represented by struct in Move, aka object in other programming language. By the way, the resource in Move is the struct which cannot be copied and cannot be dropped.
+Distinct from other programming language, objects are stored in memory, resource in Move can store to the chain&amp;rsquo;s global storage.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220618163155-move/&#34;&gt;Move&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;bedrock-object-capability-model&#34;&gt;Bedrock &amp;ndash; Object-capability model&lt;/h2&gt;
 &lt;p&gt;In my words, Move is kind of a Resource-Oriented Programming language.
-The resource is represented by struct in Move, aka object in other programming language.&lt;/p&gt;
+The resource is represented by struct in Move, aka object in other programming language.
+By the way, the resource in Move is the struct which cannot be copied and cannot be dropped.&lt;/p&gt;
+&lt;p&gt;Distinct from other programming language, objects are stored in memory,
+resource in Move can store to the chain&amp;rsquo;s global storage.&lt;/p&gt;
 &lt;p&gt;Move also provides &lt;code&gt;public&lt;/code&gt; modifier for functions, and without that the function is private,
 which means that function only allow be invoked in the module.&lt;/p&gt;
-&lt;p&gt;But a &lt;code&gt;public&lt;/code&gt; function doesn&amp;rsquo;t mean we want everybody to call it. According object-capability model,
-we can define a &lt;code&gt;witness&lt;/code&gt; parameter which is a specific object.
+&lt;p&gt;But a &lt;code&gt;public&lt;/code&gt; function doesn&amp;rsquo;t mean we want everybody to call it, especially in blockchain system.
+According object-capability model, we can define a &lt;code&gt;witness&lt;/code&gt; parameter which is a specific object.
 Then the function can be invoked only if somebody have that resource.&lt;/p&gt;
-&lt;h3 id=&#34;signer&#34;&gt;Signer&lt;/h3&gt;
-&lt;h3 id=&#34;struct-can-only-be-created-in-the-module-it-belongs&#34;&gt;Struct Can Only be Created in The Module It Belongs&lt;/h3&gt;
+&lt;p&gt;There are two rules in Move enhance this model:&lt;/p&gt;
+&lt;h3 id=&#34;struct-can-only-be-created-or-destroyed-in-the-module-it-belongs&#34;&gt;Struct Can Only be Created or Destroyed in The Module It Belongs&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Struct types can only be created or destroyed inside the odule that defines the struct.&lt;/li&gt;
+&lt;li&gt;The fields fo a struct are only accessable inside the module that defines the struct.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;module-can-only-be-invoked-by-script&#34;&gt;Module Can Only be Invoked by Script&lt;/h3&gt;
 &lt;h2 id=&#34;everybody-can-invoke&#34;&gt;Everybody Can Invoke&lt;/h2&gt;
 &lt;h2 id=&#34;nobody-can-invoke-except-the-resource-owner&#34;&gt;Nobody Can Invoke Except The Resource Owner&lt;/h2&gt;
 &lt;h2 id=&#34;nobody-can-invoke-except-who-initialized-the-resource&#34;&gt;Nobody Can Invoke Except Who Initialized The Resource&lt;/h2&gt;
+&lt;h2 id=&#34;nobody-can-invoke-except-whom-the-module-belongs-to&#34;&gt;Nobody Can Invoke Except Whom The Module Belongs to&lt;/h2&gt;
 </content>
     </item>
     

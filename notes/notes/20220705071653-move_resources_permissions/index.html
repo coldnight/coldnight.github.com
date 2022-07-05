@@ -6,9 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Move,Starcoin Web3 StarTrek  Bedrock &amp;ndash; Object-capability model In my words, Move is kind of a Resource-Oriented Programming language. The resource is represented by struct in Move, aka object in other programming language.
-Move also provides public modifier for functions, and without that the function is private, which means that function only allow be invoked in the module.
-But a public function doesn&amp;rsquo;t mean we want everybody to call it." />
+<meta name="description" content="tags: Move,Starcoin Web3 StarTrek  Bedrock &amp;ndash; Object-capability model In my words, Move is kind of a Resource-Oriented Programming language. The resource is represented by struct in Move, aka object in other programming language. By the way, the resource in Move is the struct which cannot be copied and cannot be dropped.
+Distinct from other programming language, objects are stored in memory, resource in Move can store to the chain&amp;rsquo;s global storage." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220705071653-move_resources_permissions/" />
@@ -36,9 +35,8 @@ But a public function doesn&amp;rsquo;t mean we want everybody to call it." />
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Move Resources Permissions">
-<meta property="og:description" content="tags: Move,Starcoin Web3 StarTrek  Bedrock &amp;ndash; Object-capability model In my words, Move is kind of a Resource-Oriented Programming language. The resource is represented by struct in Move, aka object in other programming language.
-Move also provides public modifier for functions, and without that the function is private, which means that function only allow be invoked in the module.
-But a public function doesn&amp;rsquo;t mean we want everybody to call it." />
+<meta property="og:description" content="tags: Move,Starcoin Web3 StarTrek  Bedrock &amp;ndash; Object-capability model In my words, Move is kind of a Resource-Oriented Programming language. The resource is represented by struct in Move, aka object in other programming language. By the way, the resource in Move is the struct which cannot be copied and cannot be dropped.
+Distinct from other programming language, objects are stored in memory, resource in Move can store to the chain&amp;rsquo;s global storage." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220705071653-move_resources_permissions/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -172,18 +170,26 @@ But a public function doesn&amp;rsquo;t mean we want everybody to call it." />
 </ul>
 <h2 id="bedrock-object-capability-model">Bedrock &ndash; Object-capability model<a href="#bedrock-object-capability-model" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>In my words, Move is kind of a Resource-Oriented Programming language.
-The resource is represented by struct in Move, aka object in other programming language.</p>
+The resource is represented by struct in Move, aka object in other programming language.
+By the way, the resource in Move is the struct which cannot be copied and cannot be dropped.</p>
+<p>Distinct from other programming language, objects are stored in memory,
+resource in Move can store to the chain&rsquo;s global storage.</p>
 <p>Move also provides <code>public</code> modifier for functions, and without that the function is private,
 which means that function only allow be invoked in the module.</p>
-<p>But a <code>public</code> function doesn&rsquo;t mean we want everybody to call it. According object-capability model,
-we can define a <code>witness</code> parameter which is a specific object.
+<p>But a <code>public</code> function doesn&rsquo;t mean we want everybody to call it, especially in blockchain system.
+According object-capability model, we can define a <code>witness</code> parameter which is a specific object.
 Then the function can be invoked only if somebody have that resource.</p>
-<h3 id="signer">Signer<a href="#signer" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<h3 id="struct-can-only-be-created-in-the-module-it-belongs">Struct Can Only be Created in The Module It Belongs<a href="#struct-can-only-be-created-in-the-module-it-belongs" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>There are two rules in Move enhance this model:</p>
+<h3 id="struct-can-only-be-created-or-destroyed-in-the-module-it-belongs">Struct Can Only be Created or Destroyed in The Module It Belongs<a href="#struct-can-only-be-created-or-destroyed-in-the-module-it-belongs" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>Struct types can only be created or destroyed inside the odule that defines the struct.</li>
+<li>The fields fo a struct are only accessable inside the module that defines the struct.</li>
+</ul>
 <h3 id="module-can-only-be-invoked-by-script">Module Can Only be Invoked by Script<a href="#module-can-only-be-invoked-by-script" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <h2 id="everybody-can-invoke">Everybody Can Invoke<a href="#everybody-can-invoke" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h2 id="nobody-can-invoke-except-the-resource-owner">Nobody Can Invoke Except The Resource Owner<a href="#nobody-can-invoke-except-the-resource-owner" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <h2 id="nobody-can-invoke-except-who-initialized-the-resource">Nobody Can Invoke Except Who Initialized The Resource<a href="#nobody-can-invoke-except-who-initialized-the-resource" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="nobody-can-invoke-except-whom-the-module-belongs-to">Nobody Can Invoke Except Whom The Module Belongs to<a href="#nobody-can-invoke-except-whom-the-module-belongs-to" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 
       </div></div>
 
