@@ -13,7 +13,7 @@
       <pubDate>Tue, 05 Jul 2022 07:16:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20220705071653-move_resources_permissions/</guid>
-      <description>tags: Move,Starcoin Web3 StarTrek  Bedrock &amp;ndash; Object-capability model In my words, Move is kind of a Resource-Oriented Programming language. The resource is represented by struct in Move, aka object in other programming language. By the way, the resource in Move is the struct which cannot be copied and cannot be dropped.
+      <description>tags: Move,Starcoin Web3 StarTrek  Bedrock &amp;ndash; Object-capability model In my words, Move is kind of a Resource-Oriented Programming language. The resource is represented by struct in Move, aka object in other programming language. By the way, the resource in Move is the struct which cannot be copied and cannot be dropped1.
 Distinct from other programming language, objects are stored in memory, resource in Move can store to the chain&amp;rsquo;s global storage.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220618163155-move/&#34;&gt;Move&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220531104515-starcoin_web3_startrek/&#34;&gt;Starcoin Web3 StarTrek&lt;/a&gt;&lt;/li&gt;
@@ -21,7 +21,7 @@ Distinct from other programming language, objects are stored in memory, resource
 &lt;h2 id=&#34;bedrock-object-capability-model&#34;&gt;Bedrock &amp;ndash; Object-capability model&lt;/h2&gt;
 &lt;p&gt;In my words, Move is kind of a Resource-Oriented Programming language.
 The resource is represented by struct in Move, aka object in other programming language.
-By the way, the resource in Move is the struct which cannot be copied and cannot be dropped.&lt;/p&gt;
+By the way, the resource in Move is the struct which cannot be copied and cannot be dropped&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;p&gt;Distinct from other programming language, objects are stored in memory,
 resource in Move can store to the chain&amp;rsquo;s global storage.&lt;/p&gt;
 &lt;p&gt;Move also provides &lt;code&gt;public&lt;/code&gt; modifier for functions, and without that the function is private,
@@ -40,6 +40,14 @@ Then the function can be invoked only if somebody have that resource.&lt;/p&gt;
 &lt;h2 id=&#34;nobody-can-invoke-except-the-resource-owner&#34;&gt;Nobody Can Invoke Except The Resource Owner&lt;/h2&gt;
 &lt;h2 id=&#34;nobody-can-invoke-except-who-initialized-the-resource&#34;&gt;Nobody Can Invoke Except Who Initialized The Resource&lt;/h2&gt;
 &lt;h2 id=&#34;nobody-can-invoke-except-whom-the-module-belongs-to&#34;&gt;Nobody Can Invoke Except Whom The Module Belongs to&lt;/h2&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;Only structs with the &lt;code&gt;key&lt;/code&gt; ability can be saved directly in persistent global storage. All Values stored within those &lt;code&gt;key&lt;/code&gt; structs must have the &lt;code&gt;store&lt;/code&gt; abilities. See &lt;a href=&#34;https://move-language.github.io/move/abilities.html&#34;&gt;Type Abilities&lt;/a&gt;.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
 </content>
     </item>
     
