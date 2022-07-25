@@ -6,7 +6,67 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 15 Jul 2022 14:04:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 25 Jul 2022 08:33:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flutter</title>
+      <link>https://www.linuxzen.com/notes/notes/20220725083304-flutter/</link>
+      <pubDate>Mon, 25 Jul 2022 08:33:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220725083304-flutter/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>iOS</title>
+      <link>https://www.linuxzen.com/notes/notes/20220725083317-ios/</link>
+      <pubDate>Mon, 25 Jul 2022 08:33:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220725083317-ios/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Flutter FFI won&#39;t be Invoked in Release Mode</title>
+      <link>https://www.linuxzen.com/notes/notes/20220725081335-flutter_ffi_won_t_be_invoked_in_release_mode/</link>
+      <pubDate>Mon, 25 Jul 2022 08:13:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220725081335-flutter_ffi_won_t_be_invoked_in_release_mode/</guid>
+      <description>tags: Rust,Flutter,iOS  Recently, I met a problem that the iOS app won&amp;rsquo;t work properly in release mode. After a little searching, I found it&amp;rsquo;s a Flutter app and invoked a Rust function by FFI. The inital call were not invoked during app startup, and it should be.
+I finally resolved the problem follow:
+ https://github.com/fzyzcjy/flutter_rust_bridge/issues/496 http://cjycode.com/flutter_rust_bridge/integrate/ios_headers.html  In short:
+ Xcode will strip the unused symbols in release mode, and won&amp;rsquo;t realize the FFI invocation; So we need add some dummy invocations to the AppDelegate.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200307191429_rust/&#34;&gt;Rust&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220725083304-flutter/&#34;&gt;Flutter&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220725083317-ios/&#34;&gt;iOS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Recently, I met a problem that the iOS app won&amp;rsquo;t work properly in release mode.
+After a little searching, I found it&amp;rsquo;s a Flutter app and invoked a Rust function by FFI.
+The inital call were not invoked during app startup, and it should be.&lt;/p&gt;
+&lt;p&gt;I finally resolved the problem follow:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fzyzcjy/flutter_rust_bridge/issues/496&#34;&gt;https://github.com/fzyzcjy/flutter_rust_bridge/issues/496&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://cjycode.com/flutter_rust_bridge/integrate/ios_headers.html&#34;&gt;http://cjycode.com/flutter_rust_bridge/integrate/ios_headers.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In short:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Xcode will strip the unused symbols in release mode, and won&amp;rsquo;t realize the FFI invocation;&lt;/li&gt;
+&lt;li&gt;So we need add some dummy invocations to the &lt;code&gt;AppDelegate.swift&lt;/code&gt; to make sure it have been used.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Next, add this line to &lt;code&gt;ios/Runner/Runner-Bridging-Header.h&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-nil&#34; data-lang=&#34;nil&#34;&gt;+#import &amp;#34;bridge_generated.h&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;and in &lt;code&gt;ios/Runner/AppDelegate.swift&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;application&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt; application: UIApplication,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; ) -&amp;gt; Bool {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; dummy = dummy_method_to_enforce_bundling()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;    print(dummy)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     ..
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>openssl</title>
       <link>https://www.linuxzen.com/notes/notes/20220715140459-openssl/</link>
