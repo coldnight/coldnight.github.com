@@ -147,6 +147,40 @@
     
       <div class="post on-list">
         <h1 class="post-title">
+          <a href="https://www.linuxzen.com/notes/notes/20220802181223-solana_account/">Solana Account</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-08-02
+          </span>
+          
+            <span class="post-author">:: [Gray King]</span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          tags: Solana  Accounts Only Store Bytes Unlike other blockchain system, Solana didn&rsquo;t provide data (de)serialization. So data in accounts are just raw bytes without any structure information, check the code in break:
+entrypoint!(process_instruction); fn process_instruction&lt;&#39;a&gt;(  _program_id: &amp;Pubkey,  accounts: &amp;&#39;a [AccountInfo&lt;&#39;a&gt;],  instruction_data: &amp;[u8], ) -&gt; ProgramResult {  // Assume a writable account is at index 0  let mut account_data = accounts[0].try_borrow_mut_data()?;   // xor with the account data using byte and bit from ix data  let index = u16::from_be_bytes([instruction_data[0], instruction_data[1]]);  let byte = index &gt;&gt; 3;  let bit = (index &amp; 0x7) as u8;  account_data[byte as usize] ^= 1 &lt;&lt; (7 - bit);   Ok(()) } Let&rsquo;s check the signature of AccountInfo:
+          
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/notes/notes/20220802181223-solana_account/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
           <a href="https://www.linuxzen.com/notes/notes/20220802174748-solana_program/">Solana Program</a>
         </h1>
         <div class="post-meta">
