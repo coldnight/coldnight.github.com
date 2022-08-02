@@ -6,7 +6,37 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 28 Jul 2022 07:19:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Aug 2022 10:41:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust Opaque Types: Static Dispatch vs. Dynamic Dispatch</title>
+      <link>https://www.linuxzen.com/notes/notes/20220802104148-rust_opaque_types_static_dispatch_vs_dynamic_dispatch/</link>
+      <pubDate>Tue, 02 Aug 2022 10:41:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220802104148-rust_opaque_types_static_dispatch_vs_dynamic_dispatch/</guid>
+      <description> tags: Rust source: Johnston, Dylan R. “Formally Verifying Rust’s Opaque Types,” August 1, 2022. https://dylanj.xyz/posts/rust-coq-opaque-types/.  Prelude trait ToString {  fn to_string(&amp;amp;self) -&amp;gt; String; } Static Dispatch fn yell&amp;lt;S: ToString&amp;gt;(stringable: S) {  println!(stringable.to_string().to_uppercase()) } Dynamic Dispatch fn yell(stringable: &amp;amp;dyn ToString) {  println!(stringable.to_string().to_uppercase()) } impl Trait fn yell(stringable: impl ToString) {  println!(stringable.to_string().to_uppercase()) } </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200307191429_rust/&#34;&gt;Rust&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: Johnston, Dylan R. “Formally Verifying Rust’s Opaque Types,” August 1, 2022. &lt;a href=&#34;https://dylanj.xyz/posts/rust-coq-opaque-types/&#34;&gt;https://dylanj.xyz/posts/rust-coq-opaque-types/&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;prelude&#34;&gt;Prelude&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;trait&lt;/span&gt; ToString {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;to_string&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;self) -&amp;gt; String;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;static-dispatch&#34;&gt;Static Dispatch&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;yell&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;S: ToString&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(stringable: &lt;span style=&#34;color:#a6e22e&#34;&gt;S&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  println!(stringable.to_string().to_uppercase())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;dynamic-dispatch&#34;&gt;Dynamic Dispatch&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;yell&lt;/span&gt;(stringable: &lt;span style=&#34;color:#66d9ef&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;dyn&lt;/span&gt; ToString) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  println!(stringable.to_string().to_uppercase())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;impl-trait&#34;&gt;&lt;code&gt;impl Trait&lt;/code&gt;&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;yell&lt;/span&gt;(stringable: &lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt; ToString) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  println!(stringable.to_string().to_uppercase())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
     <item>
       <title>error: is only available in macOS 10.15 or newer</title>
       <link>https://www.linuxzen.com/notes/notes/20220728071920-error_is_only_available_in_macos_10_15_or_newer/</link>
