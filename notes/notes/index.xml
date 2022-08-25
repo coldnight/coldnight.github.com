@@ -6,7 +6,139 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 23 Aug 2022 10:59:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Aug 2022 16:05:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DeFi from Scratch</title>
+      <link>https://www.linuxzen.com/notes/notes/20220825160507-defi_from_scartch/</link>
+      <pubDate>Thu, 25 Aug 2022 16:05:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220825160507-defi_from_scartch/</guid>
+      <description>tags: DeFi, Blockchain, Uniswap, Uniswap V3  I need derive price from decentralized exchanges, and I have finished some research about Uniswap v3.
+It&amp;rsquo;s brand new for me, and after that I want to share some ideas about DeFi, and I think it would be helpful for you to understand Uniswap and some other decentralized exchanges.
+DeFi from Scratch We exchange stuffs very often, and we can exchange tokens in a centralized exchange.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220825151036-defi/&#34;&gt;DeFi&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210804115349-%E5%8C%BA%E5%9D%97%E9%93%BE/&#34;&gt;Blockchain&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220825151023-uniswap/&#34;&gt;Uniswap&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220825151116-uniswap_v3/&#34;&gt;Uniswap V3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I need derive price from decentralized exchanges, and I have finished some research about Uniswap v3.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s brand new for me, and after that I want to share some ideas about DeFi, and I think it would be
+helpful for you to understand Uniswap and some other decentralized exchanges.&lt;/p&gt;
+&lt;h2 id=&#34;defi-from-scratch&#34;&gt;DeFi from Scratch&lt;/h2&gt;
+&lt;p&gt;We exchange stuffs very often, and we can exchange tokens in a centralized exchange.&lt;/p&gt;
+&lt;p&gt;For example, Alice owns some ETH, and Bob owns some DAI. Now, Alice want to swap some ETH for DAI,
+and Bob want to swap some DAI for ETH. How could they do?&lt;/p&gt;
+&lt;h3 id=&#34;a-centralized-exchange&#34;&gt;A Centralized Exchange&lt;/h3&gt;
+&lt;p&gt;Both Alice and Bob can goto a centralized exchange, like Binance.com, they can swap their tokens
+which they owned to the tokens which they want.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s very convenient. But how could they do if they don&amp;rsquo;t trust the centralized exchanges?&lt;/p&gt;
+&lt;h3 id=&#34;on-chain-swap-directly&#34;&gt;On-chain Swap Directly&lt;/h3&gt;
+&lt;p&gt;They can swap directly, you may say so. Yes, they can communicate with each other,
+and consider a price, then they can do it. Now Alice send the ETH to Bob, and wait Bob to
+send DAI back. But now Bob don&amp;rsquo;t want to send DAI back, what can Alice do?&lt;/p&gt;
+&lt;p&gt;Nothing! Alice loss her ETH!&lt;/p&gt;
+&lt;h3 id=&#34;swap-via-smart-contract&#34;&gt;Swap via Smart Contract&lt;/h3&gt;
+&lt;p&gt;Both Alice and Bob don&amp;rsquo;t want to meet such above situation. So they can use a smart contract:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Alice send the proper ETH to the smart contract and mark it&amp;rsquo;s to Bob;&lt;/li&gt;
+&lt;li&gt;Then Bob send the proper DAI to the smart contract and mark it&amp;rsquo;s to Alice;&lt;/li&gt;
+&lt;li&gt;The smart contract determined that the condition is satisfied, then the smart contract:
+&lt;ol&gt;
+&lt;li&gt;Send proper DAI to Alice;&lt;/li&gt;
+&lt;li&gt;Send proper ETH to Bob;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;Otherwise, if Bob didn&amp;rsquo;t send the proper DAI to the smart contract, after some blocks(like timeout), the smart contract will send Alice&amp;rsquo;s ETH back,
+or both Alice and Bob can withdraw their tokens from the smart contract in any time.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;That was a perfectly progress, both Alice and Bob are trust in the smart contract.&lt;/p&gt;
+&lt;h3 id=&#34;liquidity-boost-decentralized-exchange&#34;&gt;Liquidity Boost Decentralized Exchange&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s admit that it&amp;rsquo;s difficult to find people who want to exchange with you. The smart contract can do more,
+like Uniswap:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Someone could be a liquidity provider:
+&lt;ol&gt;
+&lt;li&gt;Put some tokens for exchanging into liquidity pool, Let&amp;rsquo;s say you privode both ETH and DAI as liquidity;&lt;/li&gt;
+&lt;li&gt;The Uniswap will give you a NFT to represent the position you hold(&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220823105929-non_fungible_tokens_vs_fungible_tokens/&#34;&gt;Non-Fungible Tokens vs. Fungible Tokens&lt;/a&gt;).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;Then someone else can swap tokens from liquidity, for example, Bob want to swap DAI for ETH:
+&lt;ol&gt;
+&lt;li&gt;Bob will send DAI to the liquidity pool which hold by the smart contract;&lt;/li&gt;
+&lt;li&gt;The smart contract then send back ETH from liquidity pool;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now you don&amp;rsquo;t need to find someone to swap, you can swap when the liquidity is satisfied, to do so,
+the liquidity will charge some fee from your operations, that engage people who owns tokens to be the liquidity providers.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Uniswap V3 Tick</title>
+      <link>https://www.linuxzen.com/notes/notes/20220825151409-uniswap_v3_tick/</link>
+      <pubDate>Thu, 25 Aug 2022 15:14:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220825151409-uniswap_v3_tick/</guid>
+      <description> tags: Uniswap V3 source: Shao, 田少谷. “Uniswap v3 Features Explained in Depth.” Taipei Ethereum Meetup (blog), July 20, 2021. https://medium.com/taipei-ethereum-meetup/uniswap-v3-features-explained-in-depth-178cfe45f223.  Tick is a price range Each tick is a price range with upper bound and lower bound.
+Tick price from index: \(p(i) = 1.0001 ^ i\)
+1.0001 ** 138162 # 999_998 Tick index from price: \(log_{1.0001}p\)
+import math  math.log(1000_000, base=1.0001) # 138162.01321981344 </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220825151116-uniswap_v3/&#34;&gt;Uniswap V3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: Shao, 田少谷. “Uniswap v3 Features Explained in Depth.” Taipei Ethereum Meetup (blog), July 20, 2021. &lt;a href=&#34;https://medium.com/taipei-ethereum-meetup/uniswap-v3-features-explained-in-depth-178cfe45f223&#34;&gt;https://medium.com/taipei-ethereum-meetup/uniswap-v3-features-explained-in-depth-178cfe45f223&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;tick-is-a-price-range&#34;&gt;Tick is a price range&lt;/h2&gt;
+&lt;p&gt;Each tick is a price range with upper bound and lower bound.&lt;/p&gt;
+&lt;h3 id=&#34;tick-price-from-index&#34;&gt;Tick price from index:&lt;/h3&gt;
+&lt;p&gt;\(p(i) = 1.0001 ^ i\)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1.0001&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;138162&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# 999_998&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;tick-index-from-price&#34;&gt;Tick index from price:&lt;/h3&gt;
+&lt;p&gt;\(log_{1.0001}p\)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; math
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;math&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color:#ae81ff&#34;&gt;1000_000&lt;/span&gt;, base&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1.0001&lt;/span&gt;)  &lt;span style=&#34;color:#75715e&#34;&gt;# 138162.01321981344&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Uniswap V3</title>
+      <link>https://www.linuxzen.com/notes/notes/20220825151116-uniswap_v3/</link>
+      <pubDate>Thu, 25 Aug 2022 15:11:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220825151116-uniswap_v3/</guid>
+      <description> tags: Uniswap The Graph: Uniswap V3 Subgraph  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220825151023-uniswap/&#34;&gt;Uniswap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The Graph: &lt;a href=&#34;https://thegraph.com/hosted-service/subgraph/uniswap/uniswap-v3&#34;&gt;Uniswap V3 Subgraph&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>DeFi</title>
+      <link>https://www.linuxzen.com/notes/notes/20220825151036-defi/</link>
+      <pubDate>Thu, 25 Aug 2022 15:10:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220825151036-defi/</guid>
+      <description> tags: Blockchain  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210804115349-%E5%8C%BA%E5%9D%97%E9%93%BE/&#34;&gt;Blockchain&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Uniswap</title>
+      <link>https://www.linuxzen.com/notes/notes/20220825151023-uniswap/</link>
+      <pubDate>Thu, 25 Aug 2022 15:10:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20220825151023-uniswap/</guid>
+      <description> tags: Blockchain,Ethereum,DeFi  </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20210804115349-%E5%8C%BA%E5%9D%97%E9%93%BE/&#34;&gt;Blockchain&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104070947-ethereum/&#34;&gt;Ethereum&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220825151036-defi/&#34;&gt;DeFi&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Non-Fungible Tokens vs. Fungible Tokens</title>
       <link>https://www.linuxzen.com/notes/notes/20220823105929-non_fungible_tokens_vs_fungible_tokens/</link>
