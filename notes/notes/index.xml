@@ -6,7 +6,67 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 14 Sep 2022 09:38:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Oct 2022 11:26:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python lambda generate bitmap</title>
+      <link>https://www.linuxzen.com/notes/notes/20221024112631-python_lambda_generate_bitmap/</link>
+      <pubDate>Mon, 24 Oct 2022 11:26:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20221024112631-python_lambda_generate_bitmap/</guid>
+      <description>tags: Python  _ = (  255,  lambda  V ,B,c  :c and Y(V*V+B,B, c  -1)if(abs(V)&amp;lt;6)else  ( 2+c-4*abs(V)**-0.4)/i  ) ;v, x=1500,1000;C=range(v*x  );import struct;P=struct.pack;M,\  j =&amp;#39;&amp;lt;QIIHHHH&amp;#39;,open(&amp;#39;M.bmp&amp;#39;,&amp;#39;wb&amp;#39;).write for X in j(&amp;#39;BM&amp;#39;+P(M,v*x*3+26,26,12,v,x,1,24))or C:  i ,Y=_;j(P(&amp;#39;BBB&amp;#39;,*(lambda T:(T*80+T**9  *i-950*T **99,T*70-880*T**18+701*  T **9 ,T*i**(1-T**45*2)))(sum(  [ Y(0,(A%3/3.+X%v+(X/v+  A/3/3.-x/2)/1j)*2.5  /x -2.7,i)**2 for \  A in C  [:9]])  /9)  ) ) It generates a Mandelbrot like the code likes:</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/topics/20200628133616-python/&#34;&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;_                                      &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;   (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                        &lt;span style=&#34;color:#ae81ff&#34;&gt;255&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                      &lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                               V       ,B,c
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                             :c   &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; Y(V&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;B,B,  c
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                               &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(abs(V)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;)&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;               (              &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;c&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;abs(V)&lt;span style=&#34;color:#f92672&#34;&gt;**-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0.4&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;i
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 )  ;v,      x&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1500&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;;C&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;range(v&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  );&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt;  struct;P&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;struct&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pack;M,\
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            j  &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;QIIHHHH&amp;#39;&lt;/span&gt;,open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;M.bmp&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;wb&amp;#39;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;write
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; X &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; j(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;BM&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;P(M,v&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;,v,x,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;24&lt;/span&gt;))&lt;span style=&#34;color:#f92672&#34;&gt;or&lt;/span&gt; C:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            i  ,Y&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;_;j(P(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;BBB&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; T:(T&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;T&lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;950&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;T  &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;99&lt;/span&gt;,T&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;70&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;880&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;T&lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;701&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 T  &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;     ,T&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;T&lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;45&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)))(sum(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;               [              Y(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,(A&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3.&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;X&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;(X&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                               A&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3.&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;j)&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2.5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                             &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;x   &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2.7&lt;/span&gt;,i)&lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;  \
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                               A       &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; C
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                      [:&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;]])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                        &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                       )   )
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It generates a Mandelbrot like the code likes:&lt;/p&gt;
+
+  &lt;figure class=&#34;left&#34; &gt;
+    &lt;img src=&#34;https://www.linuxzen.com/notes/notes/ox-hugo/2022-10-24_11-28-37_M.jpg&#34;   /&gt;
+    
+  &lt;/figure&gt;
+
+
+</content>
+    </item>
+    
+    <item>
+      <title>GTK Debug Mode</title>
+      <link>https://www.linuxzen.com/notes/notes/20221024111901-gtk_debug_mode/</link>
+      <pubDate>Mon, 24 Oct 2022 11:19:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20221024111901-gtk_debug_mode/</guid>
+      <description>  tags: GTK
+GTK_DEBUG=interactive my-gtk-app   </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220209130912-gtk/&#34;&gt;GTK&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GTK_DEBUG&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;interactive my-gtk-app
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>macOS Cheatsheet</title>
       <link>https://www.linuxzen.com/notes/notes/20220914093806-macos_cheatsheet/</link>
