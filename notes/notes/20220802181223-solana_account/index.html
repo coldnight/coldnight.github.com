@@ -6,8 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Solana  Accounts Only Store Bytes Unlike other blockchain system, Solana didn&amp;rsquo;t provide data (de)serialization. So data in accounts are just raw bytes without any structure information, check the code in break:
-entrypoint!(process_instruction); fn process_instruction&amp;lt;&amp;#39;a&amp;gt;(  _program_id: &amp;amp;Pubkey,  accounts: &amp;amp;&amp;#39;a [AccountInfo&amp;lt;&amp;#39;a&amp;gt;],  instruction_data: &amp;amp;[u8], ) -&amp;gt; ProgramResult {  // Assume a writable account is at index 0  let mut account_data = accounts[0].try_borrow_mut_data()?;   // xor with the account data using byte and bit from ix data  let index = u16::from_be_bytes([instruction_data[0], instruction_data[1]]);  let byte = index &amp;gt;&amp;gt; 3;  let bit = (index &amp;amp; 0x7) as u8;  account_data[byte as usize] ^= 1 &amp;lt;&amp;lt; (7 - bit);   Ok(()) } Let&amp;rsquo;s check the signature of AccountInfo:" />
+<meta name="description" content="tags: Solana, Solana 101: Prelude  Account: a Memory region The solana term for a memory region is &amp;ldquo;account&amp;rdquo;. Some programs own thousands of independent accounts.
+Programs own accounts, aka the owner of accounts.
+Transactions and Accounts You can make a program read and write data by sending transactions. Programs provide endpoints that can be called via transactions (In reality it&amp;rsquo;s a bit more complex than that but frameworks like Anchor abstract away this complexity)." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220802181223-solana_account/" />
@@ -35,8 +36,9 @@ entrypoint!(process_instruction); fn process_instruction&amp;lt;&amp;#39;a&amp;g
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Solana Account">
-<meta property="og:description" content="tags: Solana  Accounts Only Store Bytes Unlike other blockchain system, Solana didn&amp;rsquo;t provide data (de)serialization. So data in accounts are just raw bytes without any structure information, check the code in break:
-entrypoint!(process_instruction); fn process_instruction&amp;lt;&amp;#39;a&amp;gt;(  _program_id: &amp;amp;Pubkey,  accounts: &amp;amp;&amp;#39;a [AccountInfo&amp;lt;&amp;#39;a&amp;gt;],  instruction_data: &amp;amp;[u8], ) -&amp;gt; ProgramResult {  // Assume a writable account is at index 0  let mut account_data = accounts[0].try_borrow_mut_data()?;   // xor with the account data using byte and bit from ix data  let index = u16::from_be_bytes([instruction_data[0], instruction_data[1]]);  let byte = index &amp;gt;&amp;gt; 3;  let bit = (index &amp;amp; 0x7) as u8;  account_data[byte as usize] ^= 1 &amp;lt;&amp;lt; (7 - bit);   Ok(()) } Let&amp;rsquo;s check the signature of AccountInfo:" />
+<meta property="og:description" content="tags: Solana, Solana 101: Prelude  Account: a Memory region The solana term for a memory region is &amp;ldquo;account&amp;rdquo;. Some programs own thousands of independent accounts.
+Programs own accounts, aka the owner of accounts.
+Transactions and Accounts You can make a program read and write data by sending transactions. Programs provide endpoints that can be called via transactions (In reality it&amp;rsquo;s a bit more complex than that but frameworks like Anchor abstract away this complexity)." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220802181223-solana_account/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -166,8 +168,18 @@ entrypoint!(process_instruction); fn process_instruction&amp;lt;&amp;#39;a&amp;g
 
   <div class="post-content"><div>
         <ul>
-<li>tags: <a href="/notes/projects/20220104070432-solana/">Solana</a></li>
+<li>tags: <a href="/notes/projects/20220104070432-solana/">Solana</a>, <a href="/notes/notes/20221121160749-solana_101_prelude/">Solana 101: Prelude</a></li>
 </ul>
+<h2 id="account-a-memory-region">Account: a Memory region<a href="#account-a-memory-region" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>The solana term for a memory region is &ldquo;account&rdquo;. Some programs own thousands of independent accounts.</p>
+<p>Programs own accounts, aka the owner of accounts.</p>
+<h2 id="transactions-and-accounts">Transactions and Accounts<a href="#transactions-and-accounts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>You can make a program read and write data by sending transactions. Programs provide endpoints that can be called via transactions (In reality it&rsquo;s a bit more complex than that but frameworks like Anchor abstract away this complexity). A function signature usually takes the following arguments:</p>
+<ul>
+<li>the accounts that the program may read from and write to during this transaction.</li>
+<li>additional data specific to the function</li>
+</ul>
+<p>The first point means that even if in theory the program may read and write to a large part of the global heap, in the context of a transaction, it may only read from and write to the specific regions specified in the arguments of the transaction.</p>
 <h2 id="accounts-only-store-bytes">Accounts Only Store Bytes<a href="#accounts-only-store-bytes" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Unlike other blockchain system, Solana didn&rsquo;t provide data (de)serialization.
 So data in accounts are just raw bytes without any structure information, check the code in <code>break</code>:</p>
@@ -208,6 +220,20 @@ So data in accounts are just raw bytes without any structure information, check 
 
   
 
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
 
    
 
