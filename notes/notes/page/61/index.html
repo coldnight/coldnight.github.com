@@ -320,6 +320,9 @@
         <div class="post-content">
           
           
+          tags: Solana 101: Create an Escrow dApp 聊聊区块链 一个完整的区块链系统生态：
+主币：进行 gas 费结算：BitCoin / ETH / TRX 等等 节点服务(JSONRPC 2.0)：提供数据查询、广播交易，交易广播（P2P -&gt; 挖矿节点）； 交易验证：挣取 gas 费，出块奖励（挖矿）； PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce + body) -&gt; sha256 import hashlib dificulty = 5 raw_block = b&#39;bytes&#39; def proof_my_work(dificulty, raw_block): nonce = 1 while True: body = bytes(nonce) + raw_block h = hashlib.sha256(body) hex_value = h.hexdigest() if hex_value[:dificulty] == &#39;0&#39; * dificulty: return hex_value nonce += 1 proof_my_work(dificulty, raw_block) PoS（Proof of Stake）：通过质押主币提供交易验证，一旦被发现作弊则扣除质押的主币； 链浏览器：通过 Web UI 进行链上数据查询； 钱包 == 私钥：资产证明，交易授权，公钥导出地址，私钥则是证明拥有该地址； 智能合约（Smart Contract）：对资产进行编程； 代币（Tokens）：基于智能合约实现，Fungible Tokens（ERC20 / TRC20） 和 Non-Fungible Tokens （ERC721） dApp：通过桥接钱包和链上智能合约实现一定的链上操作； 从智能合约来看各个区块链生态之间的区别 主要是虚拟机的区别，为了执行智能合约，区块链系统需要虚拟机来执行代码，目前主流的虚拟机包括：
+          
           
         </div>
 

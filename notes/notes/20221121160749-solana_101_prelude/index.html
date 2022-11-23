@@ -6,9 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Solana 101: Create an Escrow dApp 聊聊区块链 一个完整的区块链系统生态：
-主币：进行 gas 费结算：BitCoin / ETH / TRX 等等 节点服务(JSONRPC 2.0)：提供数据查询、广播交易，交易广播（P2P -&amp;gt; 挖矿节点）； 交易验证：挣取 gas 费（挖矿）； PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce &#43; body) -&amp;gt; sha256 PoS（Proof of Stake）：通过质押主币提供交易验证，一旦被发现作弊则扣除质押的主币； 链浏览器：通过 Web UI 进行链上数据查询； 钱包 == 私钥：资产证明，交易授权，公钥导出地址，私钥则是证明拥有该地址； 智能合约（Smart Contract）：对资产进行编程； 代币（Tokens）：基于智能合约实现，Fungible Tokens（ERC20 / TRC20） 和 Non-Fungible Tokens （ERC721） dApp：通过桥接钱包和链上智能合约实现一定的链上操作； 从智能合约来看各个区块链生态之间的区别 主要是虚拟机的区别，为了执行智能合约，区块链系统需要虚拟机来执行代码，目前主流的虚拟机包括：
-无智能合约：UTXO（bUnspent transaction output），Bitcoin / DogeCoin / LiteCoin WASM（Soldity）: EVM(Ethereum / Binance Smart Chain / OKX Chain), Tron Move：由 Facebook 之前推出的 Libra 现在改名 Diem 推出，Aptos / Starcoin / Sui LLVM(ELF / BPF)：Solana Solana 特点：PoS / 快 / Rust / gas 费低 " />
+<meta name="description" content="tags: Solana 101: Create an Escrow dApp 聊聊区块链 一个完整的区块链系统生态：
+主币：进行 gas 费结算：BitCoin / ETH / TRX 等等 节点服务(JSONRPC 2.0)：提供数据查询、广播交易，交易广播（P2P -&amp;gt; 挖矿节点）； 交易验证：挣取 gas 费，出块奖励（挖矿）； PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce &#43; body) -&amp;gt; sha256 import hashlib dificulty = 5 raw_block = b&amp;#39;bytes&amp;#39; def proof_my_work(dificulty, raw_block): nonce = 1 while True: body = bytes(nonce) &#43; raw_block h = hashlib.sha256(body) hex_value = h.hexdigest() if hex_value[:dificulty] == &amp;#39;0&amp;#39; * dificulty: return hex_value nonce &#43;= 1 proof_my_work(dificulty, raw_block) PoS（Proof of Stake）：通过质押主币提供交易验证，一旦被发现作弊则扣除质押的主币； 链浏览器：通过 Web UI 进行链上数据查询； 钱包 == 私钥：资产证明，交易授权，公钥导出地址，私钥则是证明拥有该地址； 智能合约（Smart Contract）：对资产进行编程； 代币（Tokens）：基于智能合约实现，Fungible Tokens（ERC20 / TRC20） 和 Non-Fungible Tokens （ERC721） dApp：通过桥接钱包和链上智能合约实现一定的链上操作； 从智能合约来看各个区块链生态之间的区别 主要是虚拟机的区别，为了执行智能合约，区块链系统需要虚拟机来执行代码，目前主流的虚拟机包括：" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20221121160749-solana_101_prelude/" />
@@ -36,9 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Solana 101: 0. Prelude">
-<meta property="og:description" content=" tags: Solana 101: Create an Escrow dApp 聊聊区块链 一个完整的区块链系统生态：
-主币：进行 gas 费结算：BitCoin / ETH / TRX 等等 节点服务(JSONRPC 2.0)：提供数据查询、广播交易，交易广播（P2P -&amp;gt; 挖矿节点）； 交易验证：挣取 gas 费（挖矿）； PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce &#43; body) -&amp;gt; sha256 PoS（Proof of Stake）：通过质押主币提供交易验证，一旦被发现作弊则扣除质押的主币； 链浏览器：通过 Web UI 进行链上数据查询； 钱包 == 私钥：资产证明，交易授权，公钥导出地址，私钥则是证明拥有该地址； 智能合约（Smart Contract）：对资产进行编程； 代币（Tokens）：基于智能合约实现，Fungible Tokens（ERC20 / TRC20） 和 Non-Fungible Tokens （ERC721） dApp：通过桥接钱包和链上智能合约实现一定的链上操作； 从智能合约来看各个区块链生态之间的区别 主要是虚拟机的区别，为了执行智能合约，区块链系统需要虚拟机来执行代码，目前主流的虚拟机包括：
-无智能合约：UTXO（bUnspent transaction output），Bitcoin / DogeCoin / LiteCoin WASM（Soldity）: EVM(Ethereum / Binance Smart Chain / OKX Chain), Tron Move：由 Facebook 之前推出的 Libra 现在改名 Diem 推出，Aptos / Starcoin / Sui LLVM(ELF / BPF)：Solana Solana 特点：PoS / 快 / Rust / gas 费低 " />
+<meta property="og:description" content="tags: Solana 101: Create an Escrow dApp 聊聊区块链 一个完整的区块链系统生态：
+主币：进行 gas 费结算：BitCoin / ETH / TRX 等等 节点服务(JSONRPC 2.0)：提供数据查询、广播交易，交易广播（P2P -&amp;gt; 挖矿节点）； 交易验证：挣取 gas 费，出块奖励（挖矿）； PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce &#43; body) -&amp;gt; sha256 import hashlib dificulty = 5 raw_block = b&amp;#39;bytes&amp;#39; def proof_my_work(dificulty, raw_block): nonce = 1 while True: body = bytes(nonce) &#43; raw_block h = hashlib.sha256(body) hex_value = h.hexdigest() if hex_value[:dificulty] == &amp;#39;0&amp;#39; * dificulty: return hex_value nonce &#43;= 1 proof_my_work(dificulty, raw_block) PoS（Proof of Stake）：通过质押主币提供交易验证，一旦被发现作弊则扣除质押的主币； 链浏览器：通过 Web UI 进行链上数据查询； 钱包 == 私钥：资产证明，交易授权，公钥导出地址，私钥则是证明拥有该地址； 智能合约（Smart Contract）：对资产进行编程； 代币（Tokens）：基于智能合约实现，Fungible Tokens（ERC20 / TRC20） 和 Non-Fungible Tokens （ERC721） dApp：通过桥接钱包和链上智能合约实现一定的链上操作； 从智能合约来看各个区块链生态之间的区别 主要是虚拟机的区别，为了执行智能合约，区块链系统需要虚拟机来执行代码，目前主流的虚拟机包括：" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20221121160749-solana_101_prelude/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -175,9 +173,28 @@
 <ul>
 <li>主币：进行 gas 费结算：BitCoin / ETH / TRX 等等</li>
 <li>节点服务(JSONRPC 2.0)：提供数据查询、广播交易，交易广播（P2P -&gt; 挖矿节点）；</li>
-<li>交易验证：挣取 gas 费（挖矿）；
+<li>交易验证：挣取 gas 费，出块奖励（挖矿）；
 <ul>
-<li>PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce + body) -&gt; sha256</li>
+<li>PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce + body) -&gt; sha256
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> hashlib
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dificulty <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>raw_block <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;bytes&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">proof_my_work</span>(dificulty, raw_block):
+</span></span><span style="display:flex;"><span>    nonce <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>        body <span style="color:#f92672">=</span> bytes(nonce) <span style="color:#f92672">+</span> raw_block
+</span></span><span style="display:flex;"><span>        h <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>sha256(body)
+</span></span><span style="display:flex;"><span>        hex_value <span style="color:#f92672">=</span> h<span style="color:#f92672">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> hex_value[:dificulty] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#f92672">*</span> dificulty:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> hex_value
+</span></span><span style="display:flex;"><span>        nonce <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>proof_my_work(dificulty, raw_block)
+</span></span></code></pre></div></li>
 <li>PoS（Proof of Stake）：通过质押主币提供交易验证，一旦被发现作弊则扣除质押的主币；</li>
 </ul>
 </li>
