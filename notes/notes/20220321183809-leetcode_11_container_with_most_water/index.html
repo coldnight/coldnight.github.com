@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Two Pointers,Tricky,LeetCode101  The key ideas are:
- We start from two edges and move to the middle with two pointers. Move the pointer to the middle which side is smaller.  class Solution { public: 	int maxArea(vector&amp;lt;int&amp;gt;&amp;amp; height) { 	int i = 0, j = height.size() - 1; 	int water = 0; 	while (i &amp;lt; j) { 	water = max(water, (j - i) * min(height[i], height[j])); 	if (height[i] &amp;gt; height[j]) { 	--j; 	} else { 	&#43;&#43;i; 	} 	} 	return water; 	} }; " />
+<meta name="description" content=" tags: Two Pointers,Tricky,LeetCode101 The key ideas are:
+We start from two edges and move to the middle with two pointers. Move the pointer to the middle which side is smaller. class Solution { public: int maxArea(vector&amp;lt;int&amp;gt;&amp;amp; height) { int i = 0, j = height.size() - 1; int water = 0; while (i &amp;lt; j) { water = max(water, (j - i) * min(height[i], height[j])); if (height[i] &amp;gt; height[j]) { --j; } else { &#43;&#43;i; } } return water; } }; " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220321183809-leetcode_11_container_with_most_water/" />
@@ -35,8 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 11. Container With Most Water">
-<meta property="og:description" content=" tags: Two Pointers,Tricky,LeetCode101  The key ideas are:
- We start from two edges and move to the middle with two pointers. Move the pointer to the middle which side is smaller.  class Solution { public: 	int maxArea(vector&amp;lt;int&amp;gt;&amp;amp; height) { 	int i = 0, j = height.size() - 1; 	int water = 0; 	while (i &amp;lt; j) { 	water = max(water, (j - i) * min(height[i], height[j])); 	if (height[i] &amp;gt; height[j]) { 	--j; 	} else { 	&#43;&#43;i; 	} 	} 	return water; 	} }; " />
+<meta property="og:description" content=" tags: Two Pointers,Tricky,LeetCode101 The key ideas are:
+We start from two edges and move to the middle with two pointers. Move the pointer to the middle which side is smaller. class Solution { public: int maxArea(vector&amp;lt;int&amp;gt;&amp;amp; height) { int i = 0, j = height.size() - 1; int water = 0; while (i &amp;lt; j) { water = max(water, (j - i) * min(height[i], height[j])); if (height[i] &amp;gt; height[j]) { --j; } else { &#43;&#43;i; } } return water; } }; " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220321183809-leetcode_11_container_with_most_water/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

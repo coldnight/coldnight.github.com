@@ -6,12 +6,12 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Translate,Incomplete,Python  Python 幕后 #2: CPython 编译器如何工作 今天的主题（Today&amp;rsquo;s subject） 在本系列的第一篇文章中我们研究了 Python 虚拟机。我们学了解到它通过执行一系列叫做字节码（bytecode）的指令。 我们也看到 Python 字节码没有完全描述代码片段的行为。这也是为什么存在一个代码对象（code object）的概念。 执行诸如函数或模块的代码块也就是执行对应的代码对象。代码对象包含了代码块的字节码，包含代码中使用的常量和变量名， 还有代码块的一些属性。
+<meta name="description" content="tags: Translate,Incomplete,Python Python 幕后 #2: CPython 编译器如何工作 今天的主题（Today&amp;rsquo;s subject） 在本系列的第一篇文章中我们研究了 Python 虚拟机。我们学了解到它通过执行一系列叫做字节码（bytecode）的指令。 我们也看到 Python 字节码没有完全描述代码片段的行为。这也是为什么存在一个代码对象（code object）的概念。 执行诸如函数或模块的代码块也就是执行对应的代码对象。代码对象包含了代码块的字节码，包含代码中使用的常量和变量名， 还有代码块的一些属性。
 通常，一个 Python 程序员不用编写字节码，并且也不用创建代码对象，而是编写正常的 Python 代码。所有 CPython 必须 能够将源代码转换成代码对象。CPython 编译器就负责这部分工作。我们将通过这部分内容探索它是如何工作的。
 Note: 本文参考 CPython 3.9。一些实现细节将必然会随着 CPython 的演进而改变。 我将会尝试关注一些重要的改变并添加更新备注。
 什么是 CPython 编译器（What CPython compiler is） 我们已经了解了 CPython 编译器的职责，但是在我们进入到它是如何实现的之前，让我们首先来搞清楚为什么我们称之为编译器？
 在通常情况加，编译器是一个将一个程序语言翻译到另一个与之等价的程序语言的程序。编译器有许多种类，但是通常情况下我们 讨论的都是静态编译：将一个高级语言的程序翻译成机器码。CPython 编译器也是这样吗？要回答这个问题，我们先看一下静态编 译器的传统三阶段设计（three-stage design）。
- 编译器前端（frontend）将源代码转换成一种中间语言（IR,intermediate representation）。然后优化器（optimzer）拿到中间语言 对其进行优化并把优化过的中间语言传递给编译器后端生成机器码。如果我们选择一种源语言和目标机器无关的中间语言，我们就 得到了三阶段设计的关键益处：对于一个编译器来说，支持一种新的源语言仅仅需要新增一个对应的编译器前端，支持一种新的目标机器 仅仅需要新增一个对应的编译器后端。
+编译器前端（frontend）将源代码转换成一种中间语言（IR,intermediate representation）。然后优化器（optimzer）拿到中间语言 对其进行优化并把优化过的中间语言传递给编译器后端生成机器码。如果我们选择一种源语言和目标机器无关的中间语言，我们就 得到了三阶段设计的关键益处：对于一个编译器来说，支持一种新的源语言仅仅需要新增一个对应的编译器前端，支持一种新的目标机器 仅仅需要新增一个对应的编译器后端。
 LLVM 工具集（toolchain）就是这个模型的一个很好的成功的例子。有很多编译器前端如 C、Rust、Swift 等其他很多编程语言基于 LLVM 提供给编译器更加复杂的部分。LLVM 的创建者 Chris Latter 提供了一个很好的 LLVM 架构概览。
 CPython 尽管不需要支持多个源语言和目标机器，尔仅仅需要支持 Python 代码和 CPython 虚拟机。不过，CPython 同样实现了三阶段设计。 如果想知道为什么，我们需要更加详细的解释编译器的三阶段的每个阶段。" />
 <meta name="keywords" content="" />
@@ -41,12 +41,12 @@ CPython 尽管不需要支持多个源语言和目标机器，尔仅仅需要支
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Python behind the scenes #2: how the CPython compiler works">
-<meta property="og:description" content="tags: Translate,Incomplete,Python  Python 幕后 #2: CPython 编译器如何工作 今天的主题（Today&amp;rsquo;s subject） 在本系列的第一篇文章中我们研究了 Python 虚拟机。我们学了解到它通过执行一系列叫做字节码（bytecode）的指令。 我们也看到 Python 字节码没有完全描述代码片段的行为。这也是为什么存在一个代码对象（code object）的概念。 执行诸如函数或模块的代码块也就是执行对应的代码对象。代码对象包含了代码块的字节码，包含代码中使用的常量和变量名， 还有代码块的一些属性。
+<meta property="og:description" content="tags: Translate,Incomplete,Python Python 幕后 #2: CPython 编译器如何工作 今天的主题（Today&amp;rsquo;s subject） 在本系列的第一篇文章中我们研究了 Python 虚拟机。我们学了解到它通过执行一系列叫做字节码（bytecode）的指令。 我们也看到 Python 字节码没有完全描述代码片段的行为。这也是为什么存在一个代码对象（code object）的概念。 执行诸如函数或模块的代码块也就是执行对应的代码对象。代码对象包含了代码块的字节码，包含代码中使用的常量和变量名， 还有代码块的一些属性。
 通常，一个 Python 程序员不用编写字节码，并且也不用创建代码对象，而是编写正常的 Python 代码。所有 CPython 必须 能够将源代码转换成代码对象。CPython 编译器就负责这部分工作。我们将通过这部分内容探索它是如何工作的。
 Note: 本文参考 CPython 3.9。一些实现细节将必然会随着 CPython 的演进而改变。 我将会尝试关注一些重要的改变并添加更新备注。
 什么是 CPython 编译器（What CPython compiler is） 我们已经了解了 CPython 编译器的职责，但是在我们进入到它是如何实现的之前，让我们首先来搞清楚为什么我们称之为编译器？
 在通常情况加，编译器是一个将一个程序语言翻译到另一个与之等价的程序语言的程序。编译器有许多种类，但是通常情况下我们 讨论的都是静态编译：将一个高级语言的程序翻译成机器码。CPython 编译器也是这样吗？要回答这个问题，我们先看一下静态编 译器的传统三阶段设计（three-stage design）。
- 编译器前端（frontend）将源代码转换成一种中间语言（IR,intermediate representation）。然后优化器（optimzer）拿到中间语言 对其进行优化并把优化过的中间语言传递给编译器后端生成机器码。如果我们选择一种源语言和目标机器无关的中间语言，我们就 得到了三阶段设计的关键益处：对于一个编译器来说，支持一种新的源语言仅仅需要新增一个对应的编译器前端，支持一种新的目标机器 仅仅需要新增一个对应的编译器后端。
+编译器前端（frontend）将源代码转换成一种中间语言（IR,intermediate representation）。然后优化器（optimzer）拿到中间语言 对其进行优化并把优化过的中间语言传递给编译器后端生成机器码。如果我们选择一种源语言和目标机器无关的中间语言，我们就 得到了三阶段设计的关键益处：对于一个编译器来说，支持一种新的源语言仅仅需要新增一个对应的编译器前端，支持一种新的目标机器 仅仅需要新增一个对应的编译器后端。
 LLVM 工具集（toolchain）就是这个模型的一个很好的成功的例子。有很多编译器前端如 C、Rust、Swift 等其他很多编程语言基于 LLVM 提供给编译器更加复杂的部分。LLVM 的创建者 Chris Latter 提供了一个很好的 LLVM 架构概览。
 CPython 尽管不需要支持多个源语言和目标机器，尔仅仅需要支持 Python 代码和 CPython 虚拟机。不过，CPython 同样实现了三阶段设计。 如果想知道为什么，我们需要更加详细的解释编译器的三阶段的每个阶段。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20201015182827-python_behind_the_scenes_2_how_the_cpython_compiler_works/" />

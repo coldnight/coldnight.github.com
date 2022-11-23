@@ -6,12 +6,12 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="规则  每个值都有一个变量叫做所有者（owner） 同一时间只能有一个所有者 当所有者超出作用域则值被销毁  变量作用域  作用域是一个变量有效的范围 当变量超出作用域范围自动调用对象的 drop 方法进行内存归还操作  变量相互作用：所有权转移（Move） 对于所有在栈上分配的值（固定大小），在进行赋值操作时都对值进行拷贝：
+<meta name="description" content="规则 每个值都有一个变量叫做所有者（owner） 同一时间只能有一个所有者 当所有者超出作用域则值被销毁 变量作用域 作用域是一个变量有效的范围 当变量超出作用域范围自动调用对象的 drop 方法进行内存归还操作 变量相互作用：所有权转移（Move） 对于所有在栈上分配的值（固定大小），在进行赋值操作时都对值进行拷贝：
 let x = 5; ley y = x; // copy 5 to y 但是对于在堆上分配的，变量保存的是指向内存的指针，所以在赋值时拷贝的也是指向该内存的指针：
 let s1 = String::from(&amp;#34;hello&amp;#34;); let s2 = s1; 为了保证内存安全，防止 s1 和 s2 超出作用域范围调用两次 drop 造成重复的内存回收，Rust 会让 s1 不再有效，来避免对 s1 进行回收。继续使用 s1 会导致编译错误。这种情况叫做所有权转移（move）。
 变量相互作用：克隆（Clone） 克隆用于深度拷贝变量：
 let s1 = String::from(&amp;#34;hello&amp;#34;); let s2 = s1.clone(); println!(s1); 变量项目作用：拷贝（Copy） 如果数据类型的大小在编译期能够确定都将存储在栈上，这种情况下能够进行快速的拷贝。
- Copy 特性（trait）注解用于将值存贮在栈栈上 Copy 特性注解不能和 Drop 特性注解混用 Copy 特性注解使用规则如下  所有的数字类型 所有的布尔型 所有的浮点型 字符类型 所有元素都实现了 Copy 特性注解的元祖    所有权和函数 函数传递实参的规则和变量类似，传递变量到一个函数将为发生所有权转移或者拷贝。" />
+Copy 特性（trait）注解用于将值存贮在栈栈上 Copy 特性注解不能和 Drop 特性注解混用 Copy 特性注解使用规则如下 所有的数字类型 所有的布尔型 所有的浮点型 字符类型 所有元素都实现了 Copy 特性注解的元祖 所有权和函数 函数传递实参的规则和变量类似，传递变量到一个函数将为发生所有权转移或者拷贝。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629174911-%E6%89%80%E6%9C%89%E6%9D%83/" />
@@ -39,12 +39,12 @@ let s1 = String::from(&amp;#34;hello&amp;#34;); let s2 = s1.clone(); println!(s1
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="所有权">
-<meta property="og:description" content="规则  每个值都有一个变量叫做所有者（owner） 同一时间只能有一个所有者 当所有者超出作用域则值被销毁  变量作用域  作用域是一个变量有效的范围 当变量超出作用域范围自动调用对象的 drop 方法进行内存归还操作  变量相互作用：所有权转移（Move） 对于所有在栈上分配的值（固定大小），在进行赋值操作时都对值进行拷贝：
+<meta property="og:description" content="规则 每个值都有一个变量叫做所有者（owner） 同一时间只能有一个所有者 当所有者超出作用域则值被销毁 变量作用域 作用域是一个变量有效的范围 当变量超出作用域范围自动调用对象的 drop 方法进行内存归还操作 变量相互作用：所有权转移（Move） 对于所有在栈上分配的值（固定大小），在进行赋值操作时都对值进行拷贝：
 let x = 5; ley y = x; // copy 5 to y 但是对于在堆上分配的，变量保存的是指向内存的指针，所以在赋值时拷贝的也是指向该内存的指针：
 let s1 = String::from(&amp;#34;hello&amp;#34;); let s2 = s1; 为了保证内存安全，防止 s1 和 s2 超出作用域范围调用两次 drop 造成重复的内存回收，Rust 会让 s1 不再有效，来避免对 s1 进行回收。继续使用 s1 会导致编译错误。这种情况叫做所有权转移（move）。
 变量相互作用：克隆（Clone） 克隆用于深度拷贝变量：
 let s1 = String::from(&amp;#34;hello&amp;#34;); let s2 = s1.clone(); println!(s1); 变量项目作用：拷贝（Copy） 如果数据类型的大小在编译期能够确定都将存储在栈上，这种情况下能够进行快速的拷贝。
- Copy 特性（trait）注解用于将值存贮在栈栈上 Copy 特性注解不能和 Drop 特性注解混用 Copy 特性注解使用规则如下  所有的数字类型 所有的布尔型 所有的浮点型 字符类型 所有元素都实现了 Copy 特性注解的元祖    所有权和函数 函数传递实参的规则和变量类似，传递变量到一个函数将为发生所有权转移或者拷贝。" />
+Copy 特性（trait）注解用于将值存贮在栈栈上 Copy 特性注解不能和 Drop 特性注解混用 Copy 特性注解使用规则如下 所有的数字类型 所有的布尔型 所有的浮点型 字符类型 所有元素都实现了 Copy 特性注解的元祖 所有权和函数 函数传递实参的规则和变量类似，传递变量到一个函数将为发生所有权转移或者拷贝。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629174911-%E6%89%80%E6%9C%89%E6%9D%83/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

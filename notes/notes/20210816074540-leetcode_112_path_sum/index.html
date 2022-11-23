@@ -6,9 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode  https://leetcode.com/problems/path-sum/
+<meta name="description" content="tags: LeetCode https://leetcode.com/problems/path-sum/
 递归版
-/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: 	bool hasPathSum(TreeNode* root, int targetSum) { 	if (root == nullptr) { 	return false; 	} 	return pathSum(root, 0, targetSum); 	}  	bool pathSum(TreeNode* node, int sum, int targetSum) { 	sum &#43;= node-&amp;gt;val; 	if (node-&amp;gt;left == nullptr &amp;amp;&amp;amp; node-&amp;gt;right == nullptr) { 	if (sum == targetSum) { 	return true; 	} 	} 	if (node-&amp;gt;left !" />
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: bool hasPathSum(TreeNode* root, int targetSum) { if (root == nullptr) { return false; } return pathSum(root, 0, targetSum); } bool pathSum(TreeNode* node, int sum, int targetSum) { sum &#43;= node-&amp;gt;val; if (node-&amp;gt;left == nullptr &amp;amp;&amp;amp; node-&amp;gt;right == nullptr) { if (sum == targetSum) { return true; } } if (node-&amp;gt;left !" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210816074540-leetcode_112_path_sum/" />
@@ -36,9 +36,9 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 112. Path Sum">
-<meta property="og:description" content="tags: LeetCode  https://leetcode.com/problems/path-sum/
+<meta property="og:description" content="tags: LeetCode https://leetcode.com/problems/path-sum/
 递归版
-/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: 	bool hasPathSum(TreeNode* root, int targetSum) { 	if (root == nullptr) { 	return false; 	} 	return pathSum(root, 0, targetSum); 	}  	bool pathSum(TreeNode* node, int sum, int targetSum) { 	sum &#43;= node-&amp;gt;val; 	if (node-&amp;gt;left == nullptr &amp;amp;&amp;amp; node-&amp;gt;right == nullptr) { 	if (sum == targetSum) { 	return true; 	} 	} 	if (node-&amp;gt;left !" />
+/** * Definition for a binary tree node. * struct TreeNode { * int val; * TreeNode *left; * TreeNode *right; * TreeNode() : val(0), left(nullptr), right(nullptr) {} * TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {} * }; */ class Solution { public: bool hasPathSum(TreeNode* root, int targetSum) { if (root == nullptr) { return false; } return pathSum(root, 0, targetSum); } bool pathSum(TreeNode* node, int sum, int targetSum) { sum &#43;= node-&amp;gt;val; if (node-&amp;gt;left == nullptr &amp;amp;&amp;amp; node-&amp;gt;right == nullptr) { if (sum == targetSum) { return true; } } if (node-&amp;gt;left !" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210816074540-leetcode_112_path_sum/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

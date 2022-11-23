@@ -8,9 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="读事务遇到并发写会出现脏读（读-提交和可重复读可以解决），写事务并发会带来一些冲突，最值得关注的就是更新丢失问题。 应用程序从数据库读取某些值，然后应用逻辑做出修改，然后写回新值。
 原子写操作 UPDATE counters SET value=value&#43;1 WHERE key = &amp;#39;foo&amp;#39;; 原子操作通常采用方式：
- 对读取对象加独占加锁，这种技术有时被称为「游标稳定性」。 强制所有原子操作都在单线程上执行。  显式枷锁 BEGIN TRANSACTION; SELECT * FROM figures  WHERE name = &amp;#39;robot&amp;#39; AND game_id = 222  FOR UPDATE; -- 指示数据库对返回的所有结果行要加锁。 缺点：侵入应用逻辑、容易引发死锁（竞争冲突）。
+对读取对象加独占加锁，这种技术有时被称为「游标稳定性」。 强制所有原子操作都在单线程上执行。 显式枷锁 BEGIN TRANSACTION; SELECT * FROM figures WHERE name = &amp;#39;robot&amp;#39; AND game_id = 222 FOR UPDATE; -- 指示数据库对返回的所有结果行要加锁。 缺点：侵入应用逻辑、容易引发死锁（竞争冲突）。
 自动检测更新丢失 数据库（Oracle 的串形化和 SQL Server 的快照级别隔离）可以自动检测何时发生了更新丢失，然后终止违规的那个事务。
-原子比较和设置 UPDATE wiki_pages SET content = &amp;#39;new_content&amp;#39;  WHERE id = 1234 AND conetnt = &amp;#39;old_content&amp;#39;; 冲突解决与复制  最后写入者获胜  " />
+原子比较和设置 UPDATE wiki_pages SET content = &amp;#39;new_content&amp;#39; WHERE id = 1234 AND conetnt = &amp;#39;old_content&amp;#39;; 冲突解决与复制 最后写入者获胜 " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210716070457-%E9%98%B2%E6%AD%A2%E6%9B%B4%E6%96%B0%E4%B8%A2%E5%A4%B1/" />
@@ -40,9 +40,9 @@
 <meta property="og:title" content="防止更新丢失">
 <meta property="og:description" content="读事务遇到并发写会出现脏读（读-提交和可重复读可以解决），写事务并发会带来一些冲突，最值得关注的就是更新丢失问题。 应用程序从数据库读取某些值，然后应用逻辑做出修改，然后写回新值。
 原子写操作 UPDATE counters SET value=value&#43;1 WHERE key = &amp;#39;foo&amp;#39;; 原子操作通常采用方式：
- 对读取对象加独占加锁，这种技术有时被称为「游标稳定性」。 强制所有原子操作都在单线程上执行。  显式枷锁 BEGIN TRANSACTION; SELECT * FROM figures  WHERE name = &amp;#39;robot&amp;#39; AND game_id = 222  FOR UPDATE; -- 指示数据库对返回的所有结果行要加锁。 缺点：侵入应用逻辑、容易引发死锁（竞争冲突）。
+对读取对象加独占加锁，这种技术有时被称为「游标稳定性」。 强制所有原子操作都在单线程上执行。 显式枷锁 BEGIN TRANSACTION; SELECT * FROM figures WHERE name = &amp;#39;robot&amp;#39; AND game_id = 222 FOR UPDATE; -- 指示数据库对返回的所有结果行要加锁。 缺点：侵入应用逻辑、容易引发死锁（竞争冲突）。
 自动检测更新丢失 数据库（Oracle 的串形化和 SQL Server 的快照级别隔离）可以自动检测何时发生了更新丢失，然后终止违规的那个事务。
-原子比较和设置 UPDATE wiki_pages SET content = &amp;#39;new_content&amp;#39;  WHERE id = 1234 AND conetnt = &amp;#39;old_content&amp;#39;; 冲突解决与复制  最后写入者获胜  " />
+原子比较和设置 UPDATE wiki_pages SET content = &amp;#39;new_content&amp;#39; WHERE id = 1234 AND conetnt = &amp;#39;old_content&amp;#39;; 冲突解决与复制 最后写入者获胜 " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210716070457-%E9%98%B2%E6%AD%A2%E6%9B%B4%E6%96%B0%E4%B8%A2%E5%A4%B1/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

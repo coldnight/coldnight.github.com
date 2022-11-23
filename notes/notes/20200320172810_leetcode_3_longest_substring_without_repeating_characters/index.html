@@ -6,14 +6,15 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode  准备 动态规划
+<meta name="description" content="tags: LeetCode 准备 动态规划
 实践 字符串 &amp;ldquo;abcabcbb&amp;rdquo;
 根据索引有如下关系
-   a b c a b c b b     0 1 2 3 4 5 6 7     \(f(0,1)=f(0,0) &#43; 1\) \(f(0,2)=f(0,1) &#43; 2\)  在所有字符都不重复的情况下有如下公式
+a b c a b c b b 0 1 2 3 4 5 6 7 \(f(0,1)=f(0,0) &#43; 1\) \(f(0,2)=f(0,1) &#43; 2\) 在所有字符都不重复的情况下有如下公式
 \(f(s,e)=f(s,e-1) &#43; e\)
 若遇到重复的情况则，3 索引于当前字串 的 0 重复则表明当前字串已经到头，需要记录并偏移 s，s=1：
- \(f(1,3)=f(1,2)&#43;3\)  假设：
- s - 开始字符索引 e - 结束字符索引  若遇到当前字符于前面 r 字符重复则： \[ f(r,e)=f(s,e - 1) &#43; e; s=r \]" />
+\(f(1,3)=f(1,2)&#43;3\) 假设：
+s - 开始字符索引 e - 结束字符索引 若遇到当前字符于前面 r 字符重复则： \[ f(r,e)=f(s,e - 1) &#43; e; s=r \]
+解法 func lengthOfLongestSubstring(s string) int { if len(s) == 0 { return 0 } appearedIndexes := [256]int{} for i := 0; i &amp;lt; 256; i&#43;&#43;{ appearedIndexes[i] = -1 } longest, start, end := 0, 0, 0 b := []byte(s) for cIndex, c := range b { index := int(c) appearedIndex := appearedIndexes[index] end = cIndex // 出现过需要截断 if appearedIndex !" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320172810_leetcode_3_longest_substring_without_repeating_characters/" />
@@ -41,14 +42,15 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 3.Longest Substring Without Repeating Characters">
-<meta property="og:description" content="tags: LeetCode  准备 动态规划
+<meta property="og:description" content="tags: LeetCode 准备 动态规划
 实践 字符串 &amp;ldquo;abcabcbb&amp;rdquo;
 根据索引有如下关系
-   a b c a b c b b     0 1 2 3 4 5 6 7     \(f(0,1)=f(0,0) &#43; 1\) \(f(0,2)=f(0,1) &#43; 2\)  在所有字符都不重复的情况下有如下公式
+a b c a b c b b 0 1 2 3 4 5 6 7 \(f(0,1)=f(0,0) &#43; 1\) \(f(0,2)=f(0,1) &#43; 2\) 在所有字符都不重复的情况下有如下公式
 \(f(s,e)=f(s,e-1) &#43; e\)
 若遇到重复的情况则，3 索引于当前字串 的 0 重复则表明当前字串已经到头，需要记录并偏移 s，s=1：
- \(f(1,3)=f(1,2)&#43;3\)  假设：
- s - 开始字符索引 e - 结束字符索引  若遇到当前字符于前面 r 字符重复则： \[ f(r,e)=f(s,e - 1) &#43; e; s=r \]" />
+\(f(1,3)=f(1,2)&#43;3\) 假设：
+s - 开始字符索引 e - 结束字符索引 若遇到当前字符于前面 r 字符重复则： \[ f(r,e)=f(s,e - 1) &#43; e; s=r \]
+解法 func lengthOfLongestSubstring(s string) int { if len(s) == 0 { return 0 } appearedIndexes := [256]int{} for i := 0; i &amp;lt; 256; i&#43;&#43;{ appearedIndexes[i] = -1 } longest, start, end := 0, 0, 0 b := []byte(s) for cIndex, c := range b { index := int(c) appearedIndex := appearedIndexes[index] end = cIndex // 出现过需要截断 if appearedIndex !" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320172810_leetcode_3_longest_substring_without_repeating_characters/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

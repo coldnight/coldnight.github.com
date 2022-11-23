@@ -6,8 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="enum Result&amp;lt;T, E&amp;gt; { 	Ok(T), 	Err(E), } ? 操作符 对比
-use std::io; use std::io::Read; use std::fs::File;  fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { 	let f = File::open(&amp;#34;hello.txt&amp;#34;);  	let mut f = match f { 	Ok(file) =&amp;gt; file, 	Err(e) =&amp;gt; return Err(e), 	};  	let mut s = String::new();  	match f.read_to_string(&amp;amp;mut s) { 	Ok(_) =&amp;gt; Ok(s), 	Err(e) =&amp;gt; Err(e), 	} } 和" />
+<meta name="description" content="enum Result&amp;lt;T, E&amp;gt; { Ok(T), Err(E), } ? 操作符 对比
+use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let f = File::open(&amp;#34;hello.txt&amp;#34;); let mut f = match f { Ok(file) =&amp;gt; file, Err(e) =&amp;gt; return Err(e), }; let mut s = String::new(); match f.read_to_string(&amp;amp;mut s) { Ok(_) =&amp;gt; Ok(s), Err(e) =&amp;gt; Err(e), } } 和
+use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let mut f = File::open(&amp;#34;hello." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" />
@@ -35,8 +36,9 @@ use std::io; use std::io::Read; use std::fs::File;  fn read_username_from_file()
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="错误处理">
-<meta property="og:description" content="enum Result&amp;lt;T, E&amp;gt; { 	Ok(T), 	Err(E), } ? 操作符 对比
-use std::io; use std::io::Read; use std::fs::File;  fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { 	let f = File::open(&amp;#34;hello.txt&amp;#34;);  	let mut f = match f { 	Ok(file) =&amp;gt; file, 	Err(e) =&amp;gt; return Err(e), 	};  	let mut s = String::new();  	match f.read_to_string(&amp;amp;mut s) { 	Ok(_) =&amp;gt; Ok(s), 	Err(e) =&amp;gt; Err(e), 	} } 和" />
+<meta property="og:description" content="enum Result&amp;lt;T, E&amp;gt; { Ok(T), Err(E), } ? 操作符 对比
+use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let f = File::open(&amp;#34;hello.txt&amp;#34;); let mut f = match f { Ok(file) =&amp;gt; file, Err(e) =&amp;gt; return Err(e), }; let mut s = String::new(); match f.read_to_string(&amp;amp;mut s) { Ok(_) =&amp;gt; Ok(s), Err(e) =&amp;gt; Err(e), } } 和
+use std::io; use std::io::Read; use std::fs::File; fn read_username_from_file() -&amp;gt; Result&amp;lt;String, io::Error&amp;gt; { let mut f = File::open(&amp;#34;hello." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180301-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

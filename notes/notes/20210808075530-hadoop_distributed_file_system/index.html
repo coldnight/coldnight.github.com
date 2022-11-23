@@ -6,9 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Bigdata,分布式文件系统  与网络连接存储（NAS）和 存储区域网络（SAN）架构相比，HDFS 基于无共享原则，无需定制硬件和特殊网络基础设施（光纤）。
+<meta name="description" content="tags: Bigdata,分布式文件系统 与网络连接存储（NAS）和 存储区域网络（SAN）架构相比，HDFS 基于无共享原则，无需定制硬件和特殊网络基础设施（光纤）。
 HDFS 创建了一个庞大的文件系统，来充分利用每个守护进程机器上的磁盘资源。
- HDFS 包含一个在每台机器上运行的守护进程，并会开放一个网络服务以允许其他节点访问存储在该机器上的文件。 名为 NameNode 的中央服务器会跟踪哪个文件块存储在哪个服务器上。 考虑容错，文件快块复制到多台机器上，或者像 Reed-Solomon 代码中这样的纠删码方案（类似 RAID，但无需特殊硬件）。 提供很好的扩展性，配合商业硬件和开源软件，可以运行在上万台机器，容量达几百 PB。  计算靠近数据 只要有足够的空闲内存和 CPU 资源，MapReduce 调度器会尝试在输入文件的副本的某台机器上运行 mapper 任务。" />
+HDFS 包含一个在每台机器上运行的守护进程，并会开放一个网络服务以允许其他节点访问存储在该机器上的文件。 名为 NameNode 的中央服务器会跟踪哪个文件块存储在哪个服务器上。 考虑容错，文件快块复制到多台机器上，或者像 Reed-Solomon 代码中这样的纠删码方案（类似 RAID，但无需特殊硬件）。 提供很好的扩展性，配合商业硬件和开源软件，可以运行在上万台机器，容量达几百 PB。 计算靠近数据 只要有足够的空闲内存和 CPU 资源，MapReduce 调度器会尝试在输入文件的副本的某台机器上运行 mapper 任务。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210808075530-hadoop_distributed_file_system/" />
@@ -36,9 +36,9 @@ HDFS 创建了一个庞大的文件系统，来充分利用每个守护进程机
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Hadoop Distributed File System">
-<meta property="og:description" content="tags: Bigdata,分布式文件系统  与网络连接存储（NAS）和 存储区域网络（SAN）架构相比，HDFS 基于无共享原则，无需定制硬件和特殊网络基础设施（光纤）。
+<meta property="og:description" content="tags: Bigdata,分布式文件系统 与网络连接存储（NAS）和 存储区域网络（SAN）架构相比，HDFS 基于无共享原则，无需定制硬件和特殊网络基础设施（光纤）。
 HDFS 创建了一个庞大的文件系统，来充分利用每个守护进程机器上的磁盘资源。
- HDFS 包含一个在每台机器上运行的守护进程，并会开放一个网络服务以允许其他节点访问存储在该机器上的文件。 名为 NameNode 的中央服务器会跟踪哪个文件块存储在哪个服务器上。 考虑容错，文件快块复制到多台机器上，或者像 Reed-Solomon 代码中这样的纠删码方案（类似 RAID，但无需特殊硬件）。 提供很好的扩展性，配合商业硬件和开源软件，可以运行在上万台机器，容量达几百 PB。  计算靠近数据 只要有足够的空闲内存和 CPU 资源，MapReduce 调度器会尝试在输入文件的副本的某台机器上运行 mapper 任务。" />
+HDFS 包含一个在每台机器上运行的守护进程，并会开放一个网络服务以允许其他节点访问存储在该机器上的文件。 名为 NameNode 的中央服务器会跟踪哪个文件块存储在哪个服务器上。 考虑容错，文件快块复制到多台机器上，或者像 Reed-Solomon 代码中这样的纠删码方案（类似 RAID，但无需特殊硬件）。 提供很好的扩展性，配合商业硬件和开源软件，可以运行在上万台机器，容量达几百 PB。 计算靠近数据 只要有足够的空闲内存和 CPU 资源，MapReduce 调度器会尝试在输入文件的副本的某台机器上运行 mapper 任务。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210808075530-hadoop_distributed_file_system/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

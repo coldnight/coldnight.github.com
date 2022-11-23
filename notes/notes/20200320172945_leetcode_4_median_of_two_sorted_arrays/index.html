@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode  思路 归并排序
-代码 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 { 	nums := mergeSort(nums1, nums2) 	length := len(nums) 	if length % 2 != 0 { 	return float64(nums[(length - 1) / 2]) 	} 	i := length / 2 	return (float64(nums[i]) &#43; float64(nums[i - 1])) / 2 }   func mergeSort(nums1 []int, nums2 []int) []int { 	l1 := len(nums1) 	l2 := len(nums2) 	result := make([]int, 0, l1 &#43; l2)  	i, j := 0, 0  	for i &amp;lt; l1 &amp;amp;&amp;amp; j &amp;lt; l2 { 	if nums1[i] &amp;lt; nums2[j] { 	result = append(result, nums1[i]) 	i&#43;&#43; 	} else { 	result = append(result, nums2[j]) 	j&#43;&#43; 	} 	} 	result = append(result, nums1[i:]." />
+<meta name="description" content="tags: LeetCode 思路 归并排序
+代码 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 { nums := mergeSort(nums1, nums2) length := len(nums) if length % 2 != 0 { return float64(nums[(length - 1) / 2]) } i := length / 2 return (float64(nums[i]) &#43; float64(nums[i - 1])) / 2 } func mergeSort(nums1 []int, nums2 []int) []int { l1 := len(nums1) l2 := len(nums2) result := make([]int, 0, l1 &#43; l2) i, j := 0, 0 for i &amp;lt; l1 &amp;amp;&amp;amp; j &amp;lt; l2 { if nums1[i] &amp;lt; nums2[j] { result = append(result, nums1[i]) i&#43;&#43; } else { result = append(result, nums2[j]) j&#43;&#43; } } result = append(result, nums1[i:]." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320172945_leetcode_4_median_of_two_sorted_arrays/" />
@@ -35,8 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 4.Median of Two Sorted Arrays">
-<meta property="og:description" content="tags: LeetCode  思路 归并排序
-代码 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 { 	nums := mergeSort(nums1, nums2) 	length := len(nums) 	if length % 2 != 0 { 	return float64(nums[(length - 1) / 2]) 	} 	i := length / 2 	return (float64(nums[i]) &#43; float64(nums[i - 1])) / 2 }   func mergeSort(nums1 []int, nums2 []int) []int { 	l1 := len(nums1) 	l2 := len(nums2) 	result := make([]int, 0, l1 &#43; l2)  	i, j := 0, 0  	for i &amp;lt; l1 &amp;amp;&amp;amp; j &amp;lt; l2 { 	if nums1[i] &amp;lt; nums2[j] { 	result = append(result, nums1[i]) 	i&#43;&#43; 	} else { 	result = append(result, nums2[j]) 	j&#43;&#43; 	} 	} 	result = append(result, nums1[i:]." />
+<meta property="og:description" content="tags: LeetCode 思路 归并排序
+代码 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 { nums := mergeSort(nums1, nums2) length := len(nums) if length % 2 != 0 { return float64(nums[(length - 1) / 2]) } i := length / 2 return (float64(nums[i]) &#43; float64(nums[i - 1])) / 2 } func mergeSort(nums1 []int, nums2 []int) []int { l1 := len(nums1) l2 := len(nums2) result := make([]int, 0, l1 &#43; l2) i, j := 0, 0 for i &amp;lt; l1 &amp;amp;&amp;amp; j &amp;lt; l2 { if nums1[i] &amp;lt; nums2[j] { result = append(result, nums1[i]) i&#43;&#43; } else { result = append(result, nums2[j]) j&#43;&#43; } } result = append(result, nums1[i:]." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320172945_leetcode_4_median_of_two_sorted_arrays/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Computer Systems,《深入理解计算机系统》读书笔记  程序编码 $ gcc -Og -S mstore.c # outputs mstore.s $ gcc -Og -c mstore.c # outptus mstore.o $ objdump -d mstore.o 所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。
-数据格式    C 声明 Intel 数据类型 汇编代码后缀 大小（字节）     char 字节 b 1   short 字 w 2   int 双字 l 4   long 四字 q 8   char* 四字 q 8   float 单精度 l 4   double 双精度 q 8    访问信息 寄存器 一个 x86-64 的中央处理单元（CPU）包含一组 16 个存储 64 位值的 通用目的寄存器 。" />
+<meta name="description" content="tags: Computer Systems,《深入理解计算机系统》读书笔记 程序编码 $ gcc -Og -S mstore.c # outputs mstore.s $ gcc -Og -c mstore.c # outptus mstore.o $ objdump -d mstore.o 所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。
+数据格式 C 声明 Intel 数据类型 汇编代码后缀 大小（字节） char 字节 b 1 short 字 w 2 int 双字 l 4 long 四字 q 8 char* 四字 q 8 float 单精度 l 4 double 双精度 q 8 访问信息 寄存器 一个 x86-64 的中央处理单元（CPU）包含一组 16 个存储 64 位值的 通用目的寄存器 。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/" />
@@ -35,8 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="汇编">
-<meta property="og:description" content="tags: Computer Systems,《深入理解计算机系统》读书笔记  程序编码 $ gcc -Og -S mstore.c # outputs mstore.s $ gcc -Og -c mstore.c # outptus mstore.o $ objdump -d mstore.o 所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。
-数据格式    C 声明 Intel 数据类型 汇编代码后缀 大小（字节）     char 字节 b 1   short 字 w 2   int 双字 l 4   long 四字 q 8   char* 四字 q 8   float 单精度 l 4   double 双精度 q 8    访问信息 寄存器 一个 x86-64 的中央处理单元（CPU）包含一组 16 个存储 64 位值的 通用目的寄存器 。" />
+<meta property="og:description" content="tags: Computer Systems,《深入理解计算机系统》读书笔记 程序编码 $ gcc -Og -S mstore.c # outputs mstore.s $ gcc -Og -c mstore.c # outptus mstore.o $ objdump -d mstore.o 所有以 ‘.’ 开头额行都是指导汇编器和链接器工作额伪指令。
+数据格式 C 声明 Intel 数据类型 汇编代码后缀 大小（字节） char 字节 b 1 short 字 w 2 int 双字 l 4 long 四字 q 8 char* 四字 q 8 float 单精度 l 4 double 双精度 q 8 访问信息 寄存器 一个 x86-64 的中央处理单元（CPU）包含一组 16 个存储 64 位值的 通用目的寄存器 。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200802155053-%E6%B1%87%E7%BC%96/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -683,8 +683,8 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span>scale:
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">leaq</span> (%rdi,%rsi,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; x + 4*y
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">leaq</span> (%rdx,%rdx,<span style="color:#ae81ff">2</span>), %rdx   <span style="color:#75715e">; z + 2*z = 3 * z
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">leaq</span> (%rax,%rdx,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; (x + 4*y) + 4*(3*z) = x + 4*y + 12*z
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">leaq</span> (%rdx,%rdx,<span style="color:#ae81ff">2</span>), %rdx   <span style="color:#75715e">; z + 2*z = 3 * z
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">leaq</span> (%rax,%rdx,<span style="color:#ae81ff">4</span>), %rax   <span style="color:#75715e">; (x + 4*y) + 4*(3*z) = x + 4*y + 12*z
 </span></span></span></code></pre></div><h2 id="控制">控制<a href="#控制" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>测试数据值，然后根据测试的结果来改变控制流或者数据流。jump 指令可以指定控制应该被传递到程序的某个其他部分。</p>
 <h3 id="条件码">条件码<a href="#条件码" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>

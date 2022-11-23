@@ -6,9 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="三种宏  自定义 #[derive] 属性行为（attribute-like）宏，Rust 属性宏解析 函数行为（function-like）宏  宏 实现元编程，代码生成代码，必须带入当前命名空间内才能使用（不能使用 mod::sub::macro! 这种方式调用）。
-#[macro_export] macro_rules! vec { 	( $($x:expr), *) =&amp;gt; { // $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次 	{ 	let mut temp_vec = Vec::new(); 	${ 	temp_vec.push($x); 	}* 	temp_vec 	} 	}; } 调用宏用于从属性生成代码 有点像编译期的装饰器：
-use proc_macro;  #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt; TokenStream { 	// --snip-- } " />
+<meta name="description" content="三种宏 自定义 #[derive] 属性行为（attribute-like）宏，Rust 属性宏解析 函数行为（function-like）宏 宏 实现元编程，代码生成代码，必须带入当前命名空间内才能使用（不能使用 mod::sub::macro! 这种方式调用）。
+#[macro_export] macro_rules! vec { ( $($x:expr), *) =&amp;gt; { // $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次 { let mut temp_vec = Vec::new(); ${ temp_vec.push($x); }* temp_vec } }; } 调用宏用于从属性生成代码 有点像编译期的装饰器：
+use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt; TokenStream { // --snip-- } " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180623-rust_%E5%AE%8F/" />
@@ -36,9 +36,9 @@ use proc_macro;  #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust 宏">
-<meta property="og:description" content="三种宏  自定义 #[derive] 属性行为（attribute-like）宏，Rust 属性宏解析 函数行为（function-like）宏  宏 实现元编程，代码生成代码，必须带入当前命名空间内才能使用（不能使用 mod::sub::macro! 这种方式调用）。
-#[macro_export] macro_rules! vec { 	( $($x:expr), *) =&amp;gt; { // $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次 	{ 	let mut temp_vec = Vec::new(); 	${ 	temp_vec.push($x); 	}* 	temp_vec 	} 	}; } 调用宏用于从属性生成代码 有点像编译期的装饰器：
-use proc_macro;  #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt; TokenStream { 	// --snip-- } " />
+<meta property="og:description" content="三种宏 自定义 #[derive] 属性行为（attribute-like）宏，Rust 属性宏解析 函数行为（function-like）宏 宏 实现元编程，代码生成代码，必须带入当前命名空间内才能使用（不能使用 mod::sub::macro! 这种方式调用）。
+#[macro_export] macro_rules! vec { ( $($x:expr), *) =&amp;gt; { // $() 用于捕捉值，$x:expr 匹配 Rust 表达式并绑定到 $x，逗号（,）表明一个逗号可能出现在表达式后面，* 表明表达式匹配一次或多次 { let mut temp_vec = Vec::new(); ${ temp_vec.push($x); }* temp_vec } }; } 调用宏用于从属性生成代码 有点像编译期的装饰器：
+use proc_macro; #[some_attribute] pub fn some_name(input: TokenStream) -&amp;gt; TokenStream { // --snip-- } " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180623-rust_%E5%AE%8F/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

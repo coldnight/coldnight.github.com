@@ -6,12 +6,13 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="存储引擎 哈希索引 日志结构存储引擎：LSM-Tree 面向页的存储引擎：B-trees 对比 LSM-Tree 和 B-trees    项目 LSM-Tree B-trees 备注     性能 写入更快，吞吐更高 读取更快 具体场景上需要进行基准测试   存储 可变大小的段，通常 nMB 固定大小的页，传统 4KB    写入 追加，写入更多不利于 SSD 新的数据覆盖磁盘上旧的页    并发控制 后台合并进行原子替换 锁存器     其他索引结构   在索引中存储值
-  多列索引
-  全文索引和模糊索引
-  在内存中保存所有内容
+<meta name="description" content="存储引擎 哈希索引 日志结构存储引擎：LSM-Tree 面向页的存储引擎：B-trees 对比 LSM-Tree 和 B-trees 项目 LSM-Tree B-trees 备注 性能 写入更快，吞吐更高 读取更快 具体场景上需要进行基准测试 存储 可变大小的段，通常 nMB 固定大小的页，传统 4KB 写入 追加，写入更多不利于 SSD 新的数据覆盖磁盘上旧的页 并发控制 后台合并进行原子替换 锁存器 其他索引结构 在索引中存储值
+多列索引
+全文索引和模糊索引
+在内存中保存所有内容
 优点：可以支持更复杂的数据结构，而无需考虑数据存储结构。
-  事务处理与分析处理 事务处理：OLTP 分析处理：OLAP 对比    属性 OLTP OLAP     主要读属性 基于键，每次查询返回少量记录 对于大量记录进行汇总   主要写属性 随机访问，低延迟写入用户的输入 批量导入（ETL）或事件流   典型使用场景 终端用户，通过网络应用程序 内部分析师，为决策提供支持   数据表征 最新的数据状态（当前时间点） 随着事件而变化的所有事件历史   数据规模 GB 到 TB TB 到 PB    数据仓库 星型与雪花型分析模式 星型模型也称为维度建模。" />
+事务处理与分析处理 事务处理：OLTP 分析处理：OLAP 对比 属性 OLTP OLAP 主要读属性 基于键，每次查询返回少量记录 对于大量记录进行汇总 主要写属性 随机访问，低延迟写入用户的输入 批量导入（ETL）或事件流 典型使用场景 终端用户，通过网络应用程序 内部分析师，为决策提供支持 数据表征 最新的数据状态（当前时间点） 随着事件而变化的所有事件历史 数据规模 GB 到 TB TB 到 PB 数据仓库 星型与雪花型分析模式 星型模型也称为维度建模。
+列式存储 列压缩 " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210606095514-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E4%B8%8E%E6%A3%80%E7%B4%A2/" />
@@ -39,12 +40,13 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="数据存储与检索">
-<meta property="og:description" content="存储引擎 哈希索引 日志结构存储引擎：LSM-Tree 面向页的存储引擎：B-trees 对比 LSM-Tree 和 B-trees    项目 LSM-Tree B-trees 备注     性能 写入更快，吞吐更高 读取更快 具体场景上需要进行基准测试   存储 可变大小的段，通常 nMB 固定大小的页，传统 4KB    写入 追加，写入更多不利于 SSD 新的数据覆盖磁盘上旧的页    并发控制 后台合并进行原子替换 锁存器     其他索引结构   在索引中存储值
-  多列索引
-  全文索引和模糊索引
-  在内存中保存所有内容
+<meta property="og:description" content="存储引擎 哈希索引 日志结构存储引擎：LSM-Tree 面向页的存储引擎：B-trees 对比 LSM-Tree 和 B-trees 项目 LSM-Tree B-trees 备注 性能 写入更快，吞吐更高 读取更快 具体场景上需要进行基准测试 存储 可变大小的段，通常 nMB 固定大小的页，传统 4KB 写入 追加，写入更多不利于 SSD 新的数据覆盖磁盘上旧的页 并发控制 后台合并进行原子替换 锁存器 其他索引结构 在索引中存储值
+多列索引
+全文索引和模糊索引
+在内存中保存所有内容
 优点：可以支持更复杂的数据结构，而无需考虑数据存储结构。
-  事务处理与分析处理 事务处理：OLTP 分析处理：OLAP 对比    属性 OLTP OLAP     主要读属性 基于键，每次查询返回少量记录 对于大量记录进行汇总   主要写属性 随机访问，低延迟写入用户的输入 批量导入（ETL）或事件流   典型使用场景 终端用户，通过网络应用程序 内部分析师，为决策提供支持   数据表征 最新的数据状态（当前时间点） 随着事件而变化的所有事件历史   数据规模 GB 到 TB TB 到 PB    数据仓库 星型与雪花型分析模式 星型模型也称为维度建模。" />
+事务处理与分析处理 事务处理：OLTP 分析处理：OLAP 对比 属性 OLTP OLAP 主要读属性 基于键，每次查询返回少量记录 对于大量记录进行汇总 主要写属性 随机访问，低延迟写入用户的输入 批量导入（ETL）或事件流 典型使用场景 终端用户，通过网络应用程序 内部分析师，为决策提供支持 数据表征 最新的数据状态（当前时间点） 随着事件而变化的所有事件历史 数据规模 GB 到 TB TB 到 PB 数据仓库 星型与雪花型分析模式 星型模型也称为维度建模。
+列式存储 列压缩 " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210606095514-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E4%B8%8E%E6%A3%80%E7%B4%A2/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="每个字段一个标记号码，字段名可以随意调整因为编码信息中只有标记号码，没有字段名称，但是标记号码不能随意调整，基于此可以实现：
- 向前兼容 旧代码忽略不能识别的标记号码，并根据类型的注释来通知解析器跳过特定的字节数。 向后兼容 标记号码不变的情况下新的代码总是能够解析旧代码序列化的数据，但是新添加的字段不能标记为 required，不然会触发运行时错误。  同时为了保证前后兼容，删除字段也不能删除设置为 required 的字段，同时再次新添字段标记号码不能被再次使用。
+向前兼容 旧代码忽略不能识别的标记号码，并根据类型的注释来通知解析器跳过特定的字节数。 向后兼容 标记号码不变的情况下新的代码总是能够解析旧代码序列化的数据，但是新添加的字段不能标记为 required，不然会触发运行时错误。 同时为了保证前后兼容，删除字段也不能删除设置为 required 的字段，同时再次新添字段标记号码不能被再次使用。
 改变类型同时也会导致前后兼容问题。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -37,7 +37,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Thrift 与 Protocol Buffers">
 <meta property="og:description" content="每个字段一个标记号码，字段名可以随意调整因为编码信息中只有标记号码，没有字段名称，但是标记号码不能随意调整，基于此可以实现：
- 向前兼容 旧代码忽略不能识别的标记号码，并根据类型的注释来通知解析器跳过特定的字节数。 向后兼容 标记号码不变的情况下新的代码总是能够解析旧代码序列化的数据，但是新添加的字段不能标记为 required，不然会触发运行时错误。  同时为了保证前后兼容，删除字段也不能删除设置为 required 的字段，同时再次新添字段标记号码不能被再次使用。
+向前兼容 旧代码忽略不能识别的标记号码，并根据类型的注释来通知解析器跳过特定的字节数。 向后兼容 标记号码不变的情况下新的代码总是能够解析旧代码序列化的数据，但是新添加的字段不能标记为 required，不然会触发运行时错误。 同时为了保证前后兼容，删除字段也不能删除设置为 required 的字段，同时再次新添字段标记号码不能被再次使用。
 改变类型同时也会导致前后兼容问题。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210610222754-thrift_%E4%B8%8E_protocol_buffers/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />

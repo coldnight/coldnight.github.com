@@ -6,19 +6,21 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: 正在读的书,读书笔记,DDD  前言和目录 好的软件需要控制复杂性，好的领域模型可以帮助控制复杂性。
+<meta name="description" content="tags: 正在读的书,读书笔记,DDD 前言和目录 好的软件需要控制复杂性，好的领域模型可以帮助控制复杂性。
 什么样的项目需要 DDD？尝试型的小型项目应该不需要 DDD，但是一旦上了规模考虑后续迭代则需要 DDD。
 本书组织方式：
 领域建模 领域建模的过程就是消化知识的过程，这个过程应该贯穿整个开发过程，需要持续学习。
-  模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。
-  模型是一种简化，是对实现的解释：把与解决问题密切相关的方面抽象出来，而忽略无关的细节。
+模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。
+模型是一种简化，是对实现的解释：把与解决问题密切相关的方面抽象出来，而忽略无关的细节。
 软件问题建模的区域就是软件的领域
- 物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。  领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
-  领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
-  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式 领域模式 实践 MODEL-DRIVEN DESIGN 隔离领域：引入应用层 应用 LAYERED ARCHITECTURE 把领域层划分出来，通过应用层类来处理应用程序功能。应用层类是协调者，负责提问，领域层负责回答。
+物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。 领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
+领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
+模型表示 关联 规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联 表示方式 领域模式 实践 MODEL-DRIVEN DESIGN 隔离领域：引入应用层 应用 LAYERED ARCHITECTURE 把领域层划分出来，通过应用层类来处理应用程序功能。应用层类是协调者，负责提问，领域层负责回答。
 将 ENTITY 和 VALUE OBJECT 区分开 依次考虑对象是必须跟踪的 ENTITY 还是表示一个 VALUE OBJECT。
 AGGREGATE 边界 识别模型中的 AGGREGATE 根和对应的边界。
-选择 REPOSITORY 为 AGGREGATE 根对象建立 REPOSITORY。" />
+选择 REPOSITORY 为 AGGREGATE 根对象建立 REPOSITORY。
+场景走查 根据应用程序特性复核建模，进行场景走查，确保能够有效地解决应用问题。可以走查一些正常和异常业务场景进行复核。
+对象创建 如果对象复杂则创建单独的 FACTORY 类进行对象创建，简单对象可以直接在 AGGREGATE 根上通过 FACTORY METHOD 进行创建。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" />
@@ -46,19 +48,21 @@ AGGREGATE 边界 识别模型中的 AGGREGATE 根和对应的边界。
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="《领域驱动设计》读书笔记">
-<meta property="og:description" content="tags: 正在读的书,读书笔记,DDD  前言和目录 好的软件需要控制复杂性，好的领域模型可以帮助控制复杂性。
+<meta property="og:description" content="tags: 正在读的书,读书笔记,DDD 前言和目录 好的软件需要控制复杂性，好的领域模型可以帮助控制复杂性。
 什么样的项目需要 DDD？尝试型的小型项目应该不需要 DDD，但是一旦上了规模考虑后续迭代则需要 DDD。
 本书组织方式：
 领域建模 领域建模的过程就是消化知识的过程，这个过程应该贯穿整个开发过程，需要持续学习。
-  模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。
-  模型是一种简化，是对实现的解释：把与解决问题密切相关的方面抽象出来，而忽略无关的细节。
+模型用来描绘人们所关注的实现或想法的某个方面，比如地图就是模型。
+模型是一种简化，是对实现的解释：把与解决问题密切相关的方面抽象出来，而忽略无关的细节。
 软件问题建模的区域就是软件的领域
- 物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。  领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
-  领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
-  模型表示 关联  规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联  表示方式 领域模式 实践 MODEL-DRIVEN DESIGN 隔离领域：引入应用层 应用 LAYERED ARCHITECTURE 把领域层划分出来，通过应用层类来处理应用程序功能。应用层类是协调者，负责提问，领域层负责回答。
+物质世界的领域：机票预订程序涉及的飞机乘客。 无形的领域：会计程序的金融领域。 领域涉及知识信息超载的问题，模型这种知识对知识进行了选择性的简化和有意的结构化。
+领域模型将领域专家头脑中的支持严格的组织且有选择的抽象，并不是尽可能建立一个符合“现实”的模型。
+模型表示 关联 规定一个遍历方向：存在双向联结时（地址 -&amp;gt; 人 或 人 -&amp;gt; 地址）尽量只用一种，并避免互相关联 添加一个限定符，以便有效减少多重关联 消除不必要的关联 表示方式 领域模式 实践 MODEL-DRIVEN DESIGN 隔离领域：引入应用层 应用 LAYERED ARCHITECTURE 把领域层划分出来，通过应用层类来处理应用程序功能。应用层类是协调者，负责提问，领域层负责回答。
 将 ENTITY 和 VALUE OBJECT 区分开 依次考虑对象是必须跟踪的 ENTITY 还是表示一个 VALUE OBJECT。
 AGGREGATE 边界 识别模型中的 AGGREGATE 根和对应的边界。
-选择 REPOSITORY 为 AGGREGATE 根对象建立 REPOSITORY。" />
+选择 REPOSITORY 为 AGGREGATE 根对象建立 REPOSITORY。
+场景走查 根据应用程序特性复核建模，进行场景走查，确保能够有效地解决应用问题。可以走查一些正常和异常业务场景进行复核。
+对象创建 如果对象复杂则创建单独的 FACTORY 类进行对象创建，简单对象可以直接在 AGGREGATE 根上通过 FACTORY METHOD 进行创建。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320171301_%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

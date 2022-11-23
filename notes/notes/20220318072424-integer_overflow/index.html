@@ -6,9 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: C/C&#43;&#43;  In some problems, we need to detect is our result overflow in a 32-bit integer. The key ideas is check our value before it becomes bigger.
+<meta name="description" content="tags: C/C&#43;&#43; In some problems, we need to detect is our result overflow in a 32-bit integer. The key ideas is check our value before it becomes bigger.
 For example:
- // INT_MAX 2147483647 // INT_MIN -2147483648  // INT_MAX&amp;#39;s suffix is 7 if (res &amp;gt; INT_MAX / 10 || (res == INT_MAX / 10 &amp;amp;&amp;amp; pop &amp;gt; 7)) { 	return 0; } // INT_MIN&amp;#39;s suffix is -8 if (res &amp;lt; INT_MIN / 10 || (res == INT_MIN / 10 &amp;amp;&amp;amp; pop &amp;lt; -8)) { 	return 0; } res = res * 10 &#43; pop; Our final result need a 10 times current value and plus a value, then we check:" />
+// INT_MAX 2147483647 // INT_MIN -2147483648 // INT_MAX&amp;#39;s suffix is 7 if (res &amp;gt; INT_MAX / 10 || (res == INT_MAX / 10 &amp;amp;&amp;amp; pop &amp;gt; 7)) { return 0; } // INT_MIN&amp;#39;s suffix is -8 if (res &amp;lt; INT_MIN / 10 || (res == INT_MIN / 10 &amp;amp;&amp;amp; pop &amp;lt; -8)) { return 0; } res = res * 10 &#43; pop; Our final result need a 10 times current value and plus a value, then we check:" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220318072424-integer_overflow/" />
@@ -36,9 +36,9 @@ For example:
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Integer Overflow">
-<meta property="og:description" content="tags: C/C&#43;&#43;  In some problems, we need to detect is our result overflow in a 32-bit integer. The key ideas is check our value before it becomes bigger.
+<meta property="og:description" content="tags: C/C&#43;&#43; In some problems, we need to detect is our result overflow in a 32-bit integer. The key ideas is check our value before it becomes bigger.
 For example:
- // INT_MAX 2147483647 // INT_MIN -2147483648  // INT_MAX&amp;#39;s suffix is 7 if (res &amp;gt; INT_MAX / 10 || (res == INT_MAX / 10 &amp;amp;&amp;amp; pop &amp;gt; 7)) { 	return 0; } // INT_MIN&amp;#39;s suffix is -8 if (res &amp;lt; INT_MIN / 10 || (res == INT_MIN / 10 &amp;amp;&amp;amp; pop &amp;lt; -8)) { 	return 0; } res = res * 10 &#43; pop; Our final result need a 10 times current value and plus a value, then we check:" />
+// INT_MAX 2147483647 // INT_MIN -2147483648 // INT_MAX&amp;#39;s suffix is 7 if (res &amp;gt; INT_MAX / 10 || (res == INT_MAX / 10 &amp;amp;&amp;amp; pop &amp;gt; 7)) { return 0; } // INT_MIN&amp;#39;s suffix is -8 if (res &amp;lt; INT_MIN / 10 || (res == INT_MIN / 10 &amp;amp;&amp;amp; pop &amp;lt; -8)) { return 0; } res = res * 10 &#43; pop; Our final result need a 10 times current value and plus a value, then we check:" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220318072424-integer_overflow/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

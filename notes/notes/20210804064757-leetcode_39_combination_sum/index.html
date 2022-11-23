@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum/  class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { 	backtracking(candidates, 0, target); 	return res; 	}  private: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track;  	void backtracking(vector&amp;lt;int&amp;gt; &amp;amp; candidates, int n, int target) { 	if (n == target) { 	res.push_back(track); 	return; 	} 	// this is new 	if (n &amp;gt; target) { 	return; 	} 	for (auto c : candidates) { 	track." />
+<meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum/ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { backtracking(candidates, 0, target); return res; } private: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; void backtracking(vector&amp;lt;int&amp;gt; &amp;amp; candidates, int n, int target) { if (n == target) { res.push_back(track); return; } // this is new if (n &amp;gt; target) { return; } for (auto c : candidates) { track.push_back(c); backtracking(candidates, n &#43; c, target); track.pop_back(); } } }; 问题：会有不同顺序但是元素相同的数组，如何快速高效的进行过滤？" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210804064757-leetcode_39_combination_sum/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 39. Combination Sum">
-<meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum/  class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { 	backtracking(candidates, 0, target); 	return res; 	}  private: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track;  	void backtracking(vector&amp;lt;int&amp;gt; &amp;amp; candidates, int n, int target) { 	if (n == target) { 	res.push_back(track); 	return; 	} 	// this is new 	if (n &amp;gt; target) { 	return; 	} 	for (auto c : candidates) { 	track." />
+<meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum/ class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { backtracking(candidates, 0, target); return res; } private: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; void backtracking(vector&amp;lt;int&amp;gt; &amp;amp; candidates, int n, int target) { if (n == target) { res.push_back(track); return; } // this is new if (n &amp;gt; target) { return; } for (auto c : candidates) { track.push_back(c); backtracking(candidates, n &#43; c, target); track.pop_back(); } } }; 问题：会有不同顺序但是元素相同的数组，如何快速高效的进行过滤？" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210804064757-leetcode_39_combination_sum/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

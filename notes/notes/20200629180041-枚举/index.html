@@ -7,8 +7,8 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="多种类型的集合体，一个类型的变量可以存储多种类型的值，枚举的每一项都是该枚举类型的变体：
-enum IpAddrKind { 	V4, 	V6, }  fn main() { 	route(IpAddrKind::V4); 	route(IpAddrkind::V6); }  fn route(kind: IpAddrKind) { 	// ... }   枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
-struct Ipv4Addr { 	// --snip-- }  enum IpAddr { 	V4(Ipv4Addr), 	V6(String), }  let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&amp;#34;::1&amp;#34;));  struct Message { 	Quit, 	Move{ x: i32, y: i32 }, // anonymous struct 	Write(String), 	ChangeColor(i32, i32, i32), // three i32 values }   枚举也可以通过 impl 实现方法" />
+enum IpAddrKind { V4, V6, } fn main() { route(IpAddrKind::V4); route(IpAddrkind::V6); } fn route(kind: IpAddrKind) { // ... } 枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
+struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&amp;#34;::1&amp;#34;)); struct Message { Quit, Move{ x: i32, y: i32 }, // anonymous struct Write(String), ChangeColor(i32, i32, i32), // three i32 values } 枚举也可以通过 impl 实现方法" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/" />
@@ -37,8 +37,8 @@ struct Ipv4Addr { 	// --snip-- }  enum IpAddr { 	V4(Ipv4Addr), 	V6(String), }  l
 <meta property="og:type" content="article" />
 <meta property="og:title" content="枚举">
 <meta property="og:description" content="多种类型的集合体，一个类型的变量可以存储多种类型的值，枚举的每一项都是该枚举类型的变体：
-enum IpAddrKind { 	V4, 	V6, }  fn main() { 	route(IpAddrKind::V4); 	route(IpAddrkind::V6); }  fn route(kind: IpAddrKind) { 	// ... }   枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
-struct Ipv4Addr { 	// --snip-- }  enum IpAddr { 	V4(Ipv4Addr), 	V6(String), }  let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&amp;#34;::1&amp;#34;));  struct Message { 	Quit, 	Move{ x: i32, y: i32 }, // anonymous struct 	Write(String), 	ChangeColor(i32, i32, i32), // three i32 values }   枚举也可以通过 impl 实现方法" />
+enum IpAddrKind { V4, V6, } fn main() { route(IpAddrKind::V4); route(IpAddrkind::V6); } fn route(kind: IpAddrKind) { // ... } 枚举的每一个变体都可以直接包含数据，并且每一个变体可以包含不同的数据类型和不同的数量，甚至可以直接放结构体（也可以是匿名的）。
+struct Ipv4Addr { // --snip-- } enum IpAddr { V4(Ipv4Addr), V6(String), } let home = IpAddr::V4(127, 0, 0, 1); let loopback = IpAddr::V6(String::from(&amp;#34;::1&amp;#34;)); struct Message { Quit, Move{ x: i32, y: i32 }, // anonymous struct Write(String), ChangeColor(i32, i32, i32), // three i32 values } 枚举也可以通过 impl 实现方法" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180041-%E6%9E%9A%E4%B8%BE/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

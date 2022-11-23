@@ -7,11 +7,11 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="并发 std::marker::Send 允许跨线程转移所有权 Send 标记特性用于标识实现该特性的类型的所有权可以在线程中间转移，几乎所有 Rust 类型都实现了 Send ，但是也有一些例外如：
- Rc&amp;lt;T&amp;gt; ，如果克隆后在多个线程中转移所有权可能会多个线程同时增加计数器，可以使用 Arc&amp;lt;T&amp;gt; 替代  如果一个新的类型组合的类型都实现了 Send 那么该类型也自动实现了 Send ，几乎所有原始类型都实现了 Send .
+Rc&amp;lt;T&amp;gt; ，如果克隆后在多个线程中转移所有权可能会多个线程同时增加计数器，可以使用 Arc&amp;lt;T&amp;gt; 替代 如果一个新的类型组合的类型都实现了 Send 那么该类型也自动实现了 Send ，几乎所有原始类型都实现了 Send .
 std::marker::Sync 允许多个线程同时访问 Sync 标记特性用于标识实现该特性的类型可以在多个线程中引用，任何类型 T 是 Sync 并且 T 的引用 &amp;amp;T 是 Send 则意味着引用可以安全的发送给其他线程。
 同 Send 类似，几乎所有原始类型都实现了 Sync ，组合了所有类型都是 Sync 的类型自动实现 Sync 。
 以下只能指针没有实现 Sync
- Rc&amp;lt;T&amp;gt; 同样没有实现 Sync RcCell&amp;lt;T&amp;gt; 和 Cell&amp;lt;T&amp;gt;  自己实现 Sync 和 Send 是不安全的 " />
+Rc&amp;lt;T&amp;gt; 同样没有实现 Sync RcCell&amp;lt;T&amp;gt; 和 Cell&amp;lt;T&amp;gt; 自己实现 Sync 和 Send 是不安全的 " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/" />
@@ -40,11 +40,11 @@ std::marker::Sync 允许多个线程同时访问 Sync 标记特性用于标识�
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust 并发">
 <meta property="og:description" content="并发 std::marker::Send 允许跨线程转移所有权 Send 标记特性用于标识实现该特性的类型的所有权可以在线程中间转移，几乎所有 Rust 类型都实现了 Send ，但是也有一些例外如：
- Rc&amp;lt;T&amp;gt; ，如果克隆后在多个线程中转移所有权可能会多个线程同时增加计数器，可以使用 Arc&amp;lt;T&amp;gt; 替代  如果一个新的类型组合的类型都实现了 Send 那么该类型也自动实现了 Send ，几乎所有原始类型都实现了 Send .
+Rc&amp;lt;T&amp;gt; ，如果克隆后在多个线程中转移所有权可能会多个线程同时增加计数器，可以使用 Arc&amp;lt;T&amp;gt; 替代 如果一个新的类型组合的类型都实现了 Send 那么该类型也自动实现了 Send ，几乎所有原始类型都实现了 Send .
 std::marker::Sync 允许多个线程同时访问 Sync 标记特性用于标识实现该特性的类型可以在多个线程中引用，任何类型 T 是 Sync 并且 T 的引用 &amp;amp;T 是 Send 则意味着引用可以安全的发送给其他线程。
 同 Send 类似，几乎所有原始类型都实现了 Sync ，组合了所有类型都是 Sync 的类型自动实现 Sync 。
 以下只能指针没有实现 Sync
- Rc&amp;lt;T&amp;gt; 同样没有实现 Sync RcCell&amp;lt;T&amp;gt; 和 Cell&amp;lt;T&amp;gt;  自己实现 Sync 和 Send 是不安全的 " />
+Rc&amp;lt;T&amp;gt; 同样没有实现 Sync RcCell&amp;lt;T&amp;gt; 和 Cell&amp;lt;T&amp;gt; 自己实现 Sync 和 Send 是不安全的 " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180709-rust_%E5%B9%B6%E5%8F%91/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

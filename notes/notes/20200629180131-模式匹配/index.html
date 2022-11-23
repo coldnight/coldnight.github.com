@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="#[derive(Debug)] enum UsState { 	Alabama, 	Alaska, }  enum Coin { 	Penny, 	Nickel, 	Dime, 	Quarter(UsState), }  fn value_cents(coin: Coin) -&amp;gt; u8 {  	match coin { 	Coin::Peny =&amp;gt; { 	println!(&amp;#34;Lucy penny!&amp;#34;); 	1 	}, 	Coin::Nickel =&amp;gt; 5, 	Coin::Dime =&amp;gt; 10, 	Coin::Quarter(state) =&amp;gt; { 	println!(&amp;#34;State quarter from {:?}!&amp;#34;, state); 	25 	}, 	} }  // Option fn plus_one(x: Option&amp;lt;i32&amp;gt;) -&amp;gt; Option&amp;lt;i32&amp;gt; { 	match x { 	None =&amp;gt; None, 	Some(i) =&amp;gt; Some(i &#43; 1), 	} }  let five = Some(5); let six = plus_one(five); let none = plus_one(None); 编译器会检查 match 覆盖所有情况， _ 可以用于所有未覆盖的情况。" />
+<meta name="description" content="#[derive(Debug)] enum UsState { Alabama, Alaska, } enum Coin { Penny, Nickel, Dime, Quarter(UsState), } fn value_cents(coin: Coin) -&amp;gt; u8 { match coin { Coin::Peny =&amp;gt; { println!(&amp;#34;Lucy penny!&amp;#34;); 1 }, Coin::Nickel =&amp;gt; 5, Coin::Dime =&amp;gt; 10, Coin::Quarter(state) =&amp;gt; { println!(&amp;#34;State quarter from {:?}!&amp;#34;, state); 25 }, } } // Option fn plus_one(x: Option&amp;lt;i32&amp;gt;) -&amp;gt; Option&amp;lt;i32&amp;gt; { match x { None =&amp;gt; None, Some(i) =&amp;gt; Some(i &#43; 1), } } let five = Some(5); let six = plus_one(five); let none = plus_one(None); 编译器会检查 match 覆盖所有情况， _ 可以用于所有未覆盖的情况。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="模式匹配">
-<meta property="og:description" content="#[derive(Debug)] enum UsState { 	Alabama, 	Alaska, }  enum Coin { 	Penny, 	Nickel, 	Dime, 	Quarter(UsState), }  fn value_cents(coin: Coin) -&amp;gt; u8 {  	match coin { 	Coin::Peny =&amp;gt; { 	println!(&amp;#34;Lucy penny!&amp;#34;); 	1 	}, 	Coin::Nickel =&amp;gt; 5, 	Coin::Dime =&amp;gt; 10, 	Coin::Quarter(state) =&amp;gt; { 	println!(&amp;#34;State quarter from {:?}!&amp;#34;, state); 	25 	}, 	} }  // Option fn plus_one(x: Option&amp;lt;i32&amp;gt;) -&amp;gt; Option&amp;lt;i32&amp;gt; { 	match x { 	None =&amp;gt; None, 	Some(i) =&amp;gt; Some(i &#43; 1), 	} }  let five = Some(5); let six = plus_one(five); let none = plus_one(None); 编译器会检查 match 覆盖所有情况， _ 可以用于所有未覆盖的情况。" />
+<meta property="og:description" content="#[derive(Debug)] enum UsState { Alabama, Alaska, } enum Coin { Penny, Nickel, Dime, Quarter(UsState), } fn value_cents(coin: Coin) -&amp;gt; u8 { match coin { Coin::Peny =&amp;gt; { println!(&amp;#34;Lucy penny!&amp;#34;); 1 }, Coin::Nickel =&amp;gt; 5, Coin::Dime =&amp;gt; 10, Coin::Quarter(state) =&amp;gt; { println!(&amp;#34;State quarter from {:?}!&amp;#34;, state); 25 }, } } // Option fn plus_one(x: Option&amp;lt;i32&amp;gt;) -&amp;gt; Option&amp;lt;i32&amp;gt; { match x { None =&amp;gt; None, Some(i) =&amp;gt; Some(i &#43; 1), } } let five = Some(5); let six = plus_one(five); let none = plus_one(None); 编译器会检查 match 覆盖所有情况， _ 可以用于所有未覆盖的情况。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180131-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

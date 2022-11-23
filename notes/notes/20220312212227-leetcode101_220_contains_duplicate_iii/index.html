@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Sliding Window,OrderedSet  Use HashSet to attempt to meet the requirements in the window class Solution { public: 	bool containsNearbyAlmostDuplicate(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k, int t) { 	auto left = 0; 	auto K = 0; 	set&amp;lt;long&amp;gt; hset; // set in cpp is an sorted set 	for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { 	K = right - left; 	if (K &amp;gt; k) { 	hset." />
+<meta name="description" content="tags: Sliding Window,OrderedSet Use HashSet to attempt to meet the requirements in the window class Solution { public: bool containsNearbyAlmostDuplicate(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k, int t) { auto left = 0; auto K = 0; set&amp;lt;long&amp;gt; hset; // set in cpp is an sorted set for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { K = right - left; if (K &amp;gt; k) { hset.erase(nums[left]); left&#43;&#43;; } hset.insert(nums[right]); // some numbers are the same." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220312212227-leetcode101_220_contains_duplicate_iii/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 220. Contains Duplicate III">
-<meta property="og:description" content="tags: Sliding Window,OrderedSet  Use HashSet to attempt to meet the requirements in the window class Solution { public: 	bool containsNearbyAlmostDuplicate(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k, int t) { 	auto left = 0; 	auto K = 0; 	set&amp;lt;long&amp;gt; hset; // set in cpp is an sorted set 	for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { 	K = right - left; 	if (K &amp;gt; k) { 	hset." />
+<meta property="og:description" content="tags: Sliding Window,OrderedSet Use HashSet to attempt to meet the requirements in the window class Solution { public: bool containsNearbyAlmostDuplicate(vector&amp;lt;int&amp;gt;&amp;amp; nums, int k, int t) { auto left = 0; auto K = 0; set&amp;lt;long&amp;gt; hset; // set in cpp is an sorted set for (auto right = 0; right &amp;lt; nums.size(); right&#43;&#43;) { K = right - left; if (K &amp;gt; k) { hset.erase(nums[left]); left&#43;&#43;; } hset.insert(nums[right]); // some numbers are the same." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220312212227-leetcode101_220_contains_duplicate_iii/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

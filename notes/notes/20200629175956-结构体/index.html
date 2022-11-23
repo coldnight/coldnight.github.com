@@ -7,14 +7,15 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="结构体 元组结构体（tuple struct） 用于命名元组并和其他元组进行区分：
-struct Color(i32, i32, i32); struct Point(i32, i32, i32);  let black = Color(0, 0, 0); let origin = Point(0, 0, 0); 由于定义了元组结构体所有 black 和 origin 是两个不同的类型。
+struct Color(i32, i32, i32); struct Point(i32, i32, i32); let black = Color(0, 0, 0); let origin = Point(0, 0, 0); 由于定义了元组结构体所有 black 和 origin 是两个不同的类型。
 没有字段的结构体：类单元（Unit-Like）结构体 没有任何字段的结构体和单元类型 () 类似，用于实现一些特性（trait）但是没有任何数据。
-方法语法   self 占有所有权
-  &amp;amp;self 不可变借用
-  &amp;amp;mut self 可变借用
-  自动引用和解引用
+方法语法 self 占有所有权
+&amp;amp;self 不可变借用
+&amp;amp;mut self 可变借用
+自动引用和解引用
 在 Rust 中进行方法调用，如 object.something ，Rust 会自动添加 &amp;amp; &amp;amp;mut 或者 * , 用以自动匹配方法签名。以下是等价的：
-  p1.distance(&amp;amp;p2); (&amp;amp;p1).distance(&amp;amp;p2); 方法如果不声明 self 行参则是一个关联方法（静态方法），通过 :: 调用" />
+p1.distance(&amp;amp;p2); (&amp;amp;p1).distance(&amp;amp;p2); 方法如果不声明 self 行参则是一个关联方法（静态方法），通过 :: 调用
+struct Rectangle { width: u32, height: u32, } impl Rectangle { fn square(size: u32) -&amp;gt; Rectangle { Rectangle{ width: size, height: size } } } let r = Rectangle::square(10); 每一个结构体可以有多个 impl 块。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/" />
@@ -43,14 +44,15 @@ struct Color(i32, i32, i32); struct Point(i32, i32, i32);  let black = Color(0, 
 <meta property="og:type" content="article" />
 <meta property="og:title" content="结构体">
 <meta property="og:description" content="结构体 元组结构体（tuple struct） 用于命名元组并和其他元组进行区分：
-struct Color(i32, i32, i32); struct Point(i32, i32, i32);  let black = Color(0, 0, 0); let origin = Point(0, 0, 0); 由于定义了元组结构体所有 black 和 origin 是两个不同的类型。
+struct Color(i32, i32, i32); struct Point(i32, i32, i32); let black = Color(0, 0, 0); let origin = Point(0, 0, 0); 由于定义了元组结构体所有 black 和 origin 是两个不同的类型。
 没有字段的结构体：类单元（Unit-Like）结构体 没有任何字段的结构体和单元类型 () 类似，用于实现一些特性（trait）但是没有任何数据。
-方法语法   self 占有所有权
-  &amp;amp;self 不可变借用
-  &amp;amp;mut self 可变借用
-  自动引用和解引用
+方法语法 self 占有所有权
+&amp;amp;self 不可变借用
+&amp;amp;mut self 可变借用
+自动引用和解引用
 在 Rust 中进行方法调用，如 object.something ，Rust 会自动添加 &amp;amp; &amp;amp;mut 或者 * , 用以自动匹配方法签名。以下是等价的：
-  p1.distance(&amp;amp;p2); (&amp;amp;p1).distance(&amp;amp;p2); 方法如果不声明 self 行参则是一个关联方法（静态方法），通过 :: 调用" />
+p1.distance(&amp;amp;p2); (&amp;amp;p1).distance(&amp;amp;p2); 方法如果不声明 self 行参则是一个关联方法（静态方法），通过 :: 调用
+struct Rectangle { width: u32, height: u32, } impl Rectangle { fn square(size: u32) -&amp;gt; Rectangle { Rectangle{ width: size, height: size } } } let r = Rectangle::square(10); 每一个结构体可以有多个 impl 块。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629175956-%E7%BB%93%E6%9E%84%E4%BD%93/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

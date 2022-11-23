@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: C&#43;&#43;11 内存模型,C/C&#43;&#43;  C&#43;&#43; 并没有仅仅停留在内存一致性（coherence）的C&#43;&#43; 弱同步原子（acquire/release atomic）。它还引入了非同步原子，称为 relaxed 原子（memory_order_relaxed）。这些原子根本没有同步效果——它们没有创建先发生的边——并且它们根本没有排序保证。事实上，宽松原子读_写和普通读_写没有区别，除了宽松原子上的竞争不被认为是竞争， 不能着火 。" />
+<meta name="description" content="tags: C&#43;&#43;11 内存模型,C/C&#43;&#43; C&#43;&#43; 并没有仅仅停留在内存一致性（coherence）的C&#43;&#43; 弱同步原子（acquire/release atomic）。它还引入了非同步原子，称为 relaxed 原子（memory_order_relaxed）。这些原子根本没有同步效果——它们没有创建先发生的边——并且它们根本没有排序保证。事实上，宽松原子读_写和普通读_写没有区别，除了宽松原子上的竞争不被认为是竞争， 不能着火 。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210716114242-c_%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_relaxed_atomic/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="C&#43;&#43; 非同步原子（Relaxed atomic）">
-<meta property="og:description" content="tags: C&#43;&#43;11 内存模型,C/C&#43;&#43;  C&#43;&#43; 并没有仅仅停留在内存一致性（coherence）的C&#43;&#43; 弱同步原子（acquire/release atomic）。它还引入了非同步原子，称为 relaxed 原子（memory_order_relaxed）。这些原子根本没有同步效果——它们没有创建先发生的边——并且它们根本没有排序保证。事实上，宽松原子读_写和普通读_写没有区别，除了宽松原子上的竞争不被认为是竞争， 不能着火 。" />
+<meta property="og:description" content="tags: C&#43;&#43;11 内存模型,C/C&#43;&#43; C&#43;&#43; 并没有仅仅停留在内存一致性（coherence）的C&#43;&#43; 弱同步原子（acquire/release atomic）。它还引入了非同步原子，称为 relaxed 原子（memory_order_relaxed）。这些原子根本没有同步效果——它们没有创建先发生的边——并且它们根本没有排序保证。事实上，宽松原子读_写和普通读_写没有区别，除了宽松原子上的竞争不被认为是竞争， 不能着火 。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210716114242-c_%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%8E%9F%E5%AD%90_relaxed_atomic/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

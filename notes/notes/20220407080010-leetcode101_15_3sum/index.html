@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode101,Sorting,Two Pointers,Three Pointers  Key ideas:
- Sort the nums first. Then, we travel the nums, pick current element as nums[i], and apply LeetCode101: 167. Two Sum II - Input Array Is Sorted to the remains. We skip the same numbers to avoid duplicate.  class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; threeSum(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	sort(nums.begin(), nums.end()); 	int l, r, sum, T; 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	for (int i = 0; i &amp;lt; nums." />
+<meta name="description" content="tags: LeetCode101,Sorting,Two Pointers,Three Pointers Key ideas:
+Sort the nums first. Then, we travel the nums, pick current element as nums[i], and apply LeetCode101: 167. Two Sum II - Input Array Is Sorted to the remains. We skip the same numbers to avoid duplicate. class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; threeSum(vector&amp;lt;int&amp;gt;&amp;amp; nums) { sort(nums.begin(), nums.end()); int l, r, sum, T; vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; for (int i = 0; i &amp;lt; nums.size(); i&#43;&#43;) { // Skip same numbers to avoid duplicate if(i &amp;gt; 0 &amp;amp;&amp;amp; nums[i] == nums[i-1]) { continue; } l = i &#43; 1; r = nums." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220407080010-leetcode101_15_3sum/" />
@@ -35,8 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 15. 3Sum">
-<meta property="og:description" content="tags: LeetCode101,Sorting,Two Pointers,Three Pointers  Key ideas:
- Sort the nums first. Then, we travel the nums, pick current element as nums[i], and apply LeetCode101: 167. Two Sum II - Input Array Is Sorted to the remains. We skip the same numbers to avoid duplicate.  class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; threeSum(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	sort(nums.begin(), nums.end()); 	int l, r, sum, T; 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	for (int i = 0; i &amp;lt; nums." />
+<meta property="og:description" content="tags: LeetCode101,Sorting,Two Pointers,Three Pointers Key ideas:
+Sort the nums first. Then, we travel the nums, pick current element as nums[i], and apply LeetCode101: 167. Two Sum II - Input Array Is Sorted to the remains. We skip the same numbers to avoid duplicate. class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; threeSum(vector&amp;lt;int&amp;gt;&amp;amp; nums) { sort(nums.begin(), nums.end()); int l, r, sum, T; vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; for (int i = 0; i &amp;lt; nums.size(); i&#43;&#43;) { // Skip same numbers to avoid duplicate if(i &amp;gt; 0 &amp;amp;&amp;amp; nums[i] == nums[i-1]) { continue; } l = i &#43; 1; r = nums." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220407080010-leetcode101_15_3sum/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

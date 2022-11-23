@@ -6,9 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode  &amp;gt; https://leetcode.com/problems/longest-palindromic-substring/description/
+<meta name="description" content="tags: LeetCode &amp;gt; https://leetcode.com/problems/longest-palindromic-substring/description/
 思路 直接暴力往两边搜索
-func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 	if length == 0 { 	return s 	}  	start, end := 0, 0  	for ci, _ := range buf { 	i, j := ci, ci  	// 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况 	for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { 	i-- 	j&#43;&#43; 	}  	// 考虑 &amp;#34;bba&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { 	i, j = ci-1, ci 	}  	// 考虑 &amp;#34;abb&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { 	i, j = ci, ci &#43; 1 	}  	if i !" />
+func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if length == 0 { return s } start, end := 0, 0 for ci, _ := range buf { i, j := ci, ci // 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况 for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { i-- j&#43;&#43; } // 考虑 &amp;#34;bba&amp;#34; 这种情况 if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { i, j = ci-1, ci } // 考虑 &amp;#34;abb&amp;#34; 这种情况 if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { i, j = ci, ci &#43; 1 } if i !" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/" />
@@ -36,9 +36,9 @@ func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 5.Longest Palindromic Substring">
-<meta property="og:description" content="tags: LeetCode  &amp;gt; https://leetcode.com/problems/longest-palindromic-substring/description/
+<meta property="og:description" content="tags: LeetCode &amp;gt; https://leetcode.com/problems/longest-palindromic-substring/description/
 思路 直接暴力往两边搜索
-func longestPalindrome(s string) string { 	buf := []byte(s) 	length := len(buf) 	if length == 0 { 	return s 	}  	start, end := 0, 0  	for ci, _ := range buf { 	i, j := ci, ci  	// 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况 	for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { 	i-- 	j&#43;&#43; 	}  	// 考虑 &amp;#34;bba&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { 	i, j = ci-1, ci 	}  	// 考虑 &amp;#34;abb&amp;#34; 这种情况 	if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { 	i, j = ci, ci &#43; 1 	}  	if i !" />
+func longestPalindrome(s string) string { buf := []byte(s) length := len(buf) if length == 0 { return s } start, end := 0, 0 for ci, _ := range buf { i, j := ci, ci // 无法处理 &amp;#34;aaaa&amp;#34; 和 &amp;#34;noon&amp;#34; 这种情况 for i &amp;gt; 0 &amp;amp;&amp;amp; j &amp;lt; length - 1 &amp;amp;&amp;amp; buf[i - 1] == buf[j &#43; 1] { i-- j&#43;&#43; } // 考虑 &amp;#34;bba&amp;#34; 这种情况 if i == j &amp;amp;&amp;amp; ci &amp;gt; 0 &amp;amp;&amp;amp; buf[ci] == buf[ci - 1] { i, j = ci-1, ci } // 考虑 &amp;#34;abb&amp;#34; 这种情况 if i == j &amp;amp;&amp;amp; ci &amp;lt; length - 1 &amp;amp;&amp;amp; buf[ci] == buf[ci &#43; 1] { i, j = ci, ci &#43; 1 } if i !" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320173438_leetcode_5_longest_palindromic_substring/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

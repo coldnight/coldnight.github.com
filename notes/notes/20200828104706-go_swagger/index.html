@@ -6,10 +6,11 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Go  目标 当跟随这篇文章完成后将产出如下内容：
- 代码 http://gitlab.17zuoye.net/vgo/go-swagger-example 文档 http://swagger.17zuoye.net/?url=http%3A%2F%2F10.200.242.61%3A9090%2Fswagger.json  准备  Go1.14 及以上版本 安装 go-swagger ：参见 官方文档。 接下来使用 gin 框架作为示例，如果之前没接触过可以先了解下该框架  创建一个项目 $ mkdir go-swagger-example $ cd go-swagger-example/ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example 开始使用 首先在你的 `main.go` 定义 go generate 像下面这样：
-//go:generate swagger generate spec -o ./swagger.yml package main  func main() { 	println(&amp;#34;Hello world!&amp;#34;); } 此时如果运行 go generate 在项目目录下就会生成一个 swagger.yml 文件：
-paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关定义 在之前实践的过程中发现，如果在多个包中定义了相同名称的结构体会到只一个结构体覆盖另外一个结构体的定义。 所以为了解决这个问题，我把所有 swagger 相关的定义都放在同一个包下来避免相同名字的结构体。" />
+<meta name="description" content="tags: Go 目标 当跟随这篇文章完成后将产出如下内容：
+代码 http://gitlab.17zuoye.net/vgo/go-swagger-example 文档 http://swagger.17zuoye.net/?url=http%3A%2F%2F10.200.242.61%3A9090%2Fswagger.json 准备 Go1.14 及以上版本 安装 go-swagger ：参见 官方文档。 接下来使用 gin 框架作为示例，如果之前没接触过可以先了解下该框架 创建一个项目 $ mkdir go-swagger-example $ cd go-swagger-example/ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example 开始使用 首先在你的 `main.go` 定义 go generate 像下面这样：
+//go:generate swagger generate spec -o ./swagger.yml package main func main() { println(&amp;#34;Hello world!&amp;#34;); } 此时如果运行 go generate 在项目目录下就会生成一个 swagger.yml 文件：
+paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关定义 在之前实践的过程中发现，如果在多个包中定义了相同名称的结构体会到只一个结构体覆盖另外一个结构体的定义。 所以为了解决这个问题，我把所有 swagger 相关的定义都放在同一个包下来避免相同名字的结构体。
+创建 swagger/swagger." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200828104706-go_swagger/" />
@@ -37,10 +38,11 @@ paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Go Swagger 实现代码即文档">
-<meta property="og:description" content="tags: Go  目标 当跟随这篇文章完成后将产出如下内容：
- 代码 http://gitlab.17zuoye.net/vgo/go-swagger-example 文档 http://swagger.17zuoye.net/?url=http%3A%2F%2F10.200.242.61%3A9090%2Fswagger.json  准备  Go1.14 及以上版本 安装 go-swagger ：参见 官方文档。 接下来使用 gin 框架作为示例，如果之前没接触过可以先了解下该框架  创建一个项目 $ mkdir go-swagger-example $ cd go-swagger-example/ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example 开始使用 首先在你的 `main.go` 定义 go generate 像下面这样：
-//go:generate swagger generate spec -o ./swagger.yml package main  func main() { 	println(&amp;#34;Hello world!&amp;#34;); } 此时如果运行 go generate 在项目目录下就会生成一个 swagger.yml 文件：
-paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关定义 在之前实践的过程中发现，如果在多个包中定义了相同名称的结构体会到只一个结构体覆盖另外一个结构体的定义。 所以为了解决这个问题，我把所有 swagger 相关的定义都放在同一个包下来避免相同名字的结构体。" />
+<meta property="og:description" content="tags: Go 目标 当跟随这篇文章完成后将产出如下内容：
+代码 http://gitlab.17zuoye.net/vgo/go-swagger-example 文档 http://swagger.17zuoye.net/?url=http%3A%2F%2F10.200.242.61%3A9090%2Fswagger.json 准备 Go1.14 及以上版本 安装 go-swagger ：参见 官方文档。 接下来使用 gin 框架作为示例，如果之前没接触过可以先了解下该框架 创建一个项目 $ mkdir go-swagger-example $ cd go-swagger-example/ $ go mod init gitlab.17zuoye.net/vgo/go-swagger-example 开始使用 首先在你的 `main.go` 定义 go generate 像下面这样：
+//go:generate swagger generate spec -o ./swagger.yml package main func main() { println(&amp;#34;Hello world!&amp;#34;); } 此时如果运行 go generate 在项目目录下就会生成一个 swagger.yml 文件：
+paths: {} swagger: &amp;#34;2.0&amp;#34; 使用单独的包托管 swagger 相关定义 在之前实践的过程中发现，如果在多个包中定义了相同名称的结构体会到只一个结构体覆盖另外一个结构体的定义。 所以为了解决这个问题，我把所有 swagger 相关的定义都放在同一个包下来避免相同名字的结构体。
+创建 swagger/swagger." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200828104706-go_swagger/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

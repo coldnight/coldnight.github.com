@@ -6,16 +6,16 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="SRP: Single Responsibility Principle   浅显的解释是软件模块只提供单一功能
-  更进一步任何一个软件模块都应该有且只有一个被修改的原因
-  再更进一步这个原则是关于人（Actor）的
+<meta name="description" content="SRP: Single Responsibility Principle 浅显的解释是软件模块只提供单一功能
+更进一步任何一个软件模块都应该有且只有一个被修改的原因
+再更进一步这个原则是关于人（Actor）的
 任何一个软件模块都应该只对一个用户或系统利益相关者负责。
-  最终就是任何一个软件模块都应该只对某一类行为负责
-  OCP：Open/Closed Principle 设计良好的软件应该易于扩展，同时抗拒修改。也就是说一个软件模块应该允许在不修改源码的情况下扩展它的行为。
+最终就是任何一个软件模块都应该只对某一类行为负责
+OCP：Open/Closed Principle 设计良好的软件应该易于扩展，同时抗拒修改。也就是说一个软件模块应该允许在不修改源码的情况下扩展它的行为。
 可以通过组合 SRP（代码分组）和调整依赖关系实现（DIP）。如果 A 组件不想被 B 组件上发生的修改所影响，那么就应该让 B 组件依赖于 A 组件。
 LSP：Liskov Substitution Principle 里氏替换原则：多态。
 每个类型是 S 的对象 o1 都存在一个类型为 T 的对象 o2，能使操作 T 类型的程序 P 在用 o2 替换 o1 时行为保持不变，我们就可以将 S 称为 T 的子类型。
-public class LiskovSub { 	public static main(String[] args) { 	T o1 = new S(); 	T o2 = new T();  	P(o1); // ok 	P(o2); // ok 	}  	public static P(T o) { 	o." />
+public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o2 = new T(); P(o1); // ok P(o2); // ok } public static P(T o) { o." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200323101418_solid/" />
@@ -43,16 +43,16 @@ public class LiskovSub { 	public static main(String[] args) { 	T o1 = new S(); 	
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="SOLID">
-<meta property="og:description" content="SRP: Single Responsibility Principle   浅显的解释是软件模块只提供单一功能
-  更进一步任何一个软件模块都应该有且只有一个被修改的原因
-  再更进一步这个原则是关于人（Actor）的
+<meta property="og:description" content="SRP: Single Responsibility Principle 浅显的解释是软件模块只提供单一功能
+更进一步任何一个软件模块都应该有且只有一个被修改的原因
+再更进一步这个原则是关于人（Actor）的
 任何一个软件模块都应该只对一个用户或系统利益相关者负责。
-  最终就是任何一个软件模块都应该只对某一类行为负责
-  OCP：Open/Closed Principle 设计良好的软件应该易于扩展，同时抗拒修改。也就是说一个软件模块应该允许在不修改源码的情况下扩展它的行为。
+最终就是任何一个软件模块都应该只对某一类行为负责
+OCP：Open/Closed Principle 设计良好的软件应该易于扩展，同时抗拒修改。也就是说一个软件模块应该允许在不修改源码的情况下扩展它的行为。
 可以通过组合 SRP（代码分组）和调整依赖关系实现（DIP）。如果 A 组件不想被 B 组件上发生的修改所影响，那么就应该让 B 组件依赖于 A 组件。
 LSP：Liskov Substitution Principle 里氏替换原则：多态。
 每个类型是 S 的对象 o1 都存在一个类型为 T 的对象 o2，能使操作 T 类型的程序 P 在用 o2 替换 o1 时行为保持不变，我们就可以将 S 称为 T 的子类型。
-public class LiskovSub { 	public static main(String[] args) { 	T o1 = new S(); 	T o2 = new T();  	P(o1); // ok 	P(o2); // ok 	}  	public static P(T o) { 	o." />
+public class LiskovSub { public static main(String[] args) { T o1 = new S(); T o2 = new T(); P(o1); // ok P(o2); // ok } public static P(T o) { o." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200323101418_solid/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

@@ -6,11 +6,11 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode,backtracking source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线都不再允许放置。我们按行进行遍历，所以我们需要跟踪以下位置是否已经放置 Queue：
- 纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag  纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
+<meta name="description" content="tags: LeetCode,backtracking source: https://leetcode.com/problems/n-queens/ 一旦一个 Queue 被放置，那么横轴、纵轴、对角线都不再允许放置。我们按行进行遍历，所以我们需要跟踪以下位置是否已经放置 Queue：
+纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag 纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
 r - c 在正对角线是一致的：
- 斜对角线 r &#43; c 是一致的:
- class Solution { public: 	vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; solveNQueens(int n) { 	for (int r = 0; r &amp;lt; n; r&#43;&#43;) { 	string col = string(n, &amp;#39;.&amp;#39;); 	track.push_back(col); 	} 	backtracking(0, n); 	return res; 	} private: 	set&amp;lt;int&amp;gt; cols; // c 	set&amp;lt;int&amp;gt; posDiag; // r - c 	set&amp;lt;int&amp;gt; negDiag; // r &#43; c 	vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; 	vector&amp;lt;string&amp;gt; track;  	void backtracking(int r, int n) { 	if (r == n) { 	res." />
+斜对角线 r &#43; c 是一致的:
+class Solution { public: vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; solveNQueens(int n) { for (int r = 0; r &amp;lt; n; r&#43;&#43;) { string col = string(n, &amp;#39;.&amp;#39;); track.push_back(col); } backtracking(0, n); return res; } private: set&amp;lt;int&amp;gt; cols; // c set&amp;lt;int&amp;gt; posDiag; // r - c set&amp;lt;int&amp;gt; negDiag; // r &#43; c vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; vector&amp;lt;string&amp;gt; track; void backtracking(int r, int n) { if (r == n) { res." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210802073234-leetcode_51_n_queues/" />
@@ -38,11 +38,11 @@ r - c 在正对角线是一致的：
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 51. N-Queens">
-<meta property="og:description" content="tags: LeetCode,backtracking source: https://leetcode.com/problems/n-queens/  一旦一个 Queue 被放置，那么横轴、纵轴、对角线都不再允许放置。我们按行进行遍历，所以我们需要跟踪以下位置是否已经放置 Queue：
- 纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag  纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
+<meta property="og:description" content="tags: LeetCode,backtracking source: https://leetcode.com/problems/n-queens/ 一旦一个 Queue 被放置，那么横轴、纵轴、对角线都不再允许放置。我们按行进行遍历，所以我们需要跟踪以下位置是否已经放置 Queue：
+纵轴（Column）：cols 主对角线（Positive Diagonal）：posDiag 次对角线（Negative Diagonal）：negDiag 纵轴很好记录，但是对角线比较困难，我们先来看一下对角线的特征，假设横轴为 r 纵轴为 c ，
 r - c 在正对角线是一致的：
- 斜对角线 r &#43; c 是一致的:
- class Solution { public: 	vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; solveNQueens(int n) { 	for (int r = 0; r &amp;lt; n; r&#43;&#43;) { 	string col = string(n, &amp;#39;.&amp;#39;); 	track.push_back(col); 	} 	backtracking(0, n); 	return res; 	} private: 	set&amp;lt;int&amp;gt; cols; // c 	set&amp;lt;int&amp;gt; posDiag; // r - c 	set&amp;lt;int&amp;gt; negDiag; // r &#43; c 	vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; 	vector&amp;lt;string&amp;gt; track;  	void backtracking(int r, int n) { 	if (r == n) { 	res." />
+斜对角线 r &#43; c 是一致的:
+class Solution { public: vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; solveNQueens(int n) { for (int r = 0; r &amp;lt; n; r&#43;&#43;) { string col = string(n, &amp;#39;.&amp;#39;); track.push_back(col); } backtracking(0, n); return res; } private: set&amp;lt;int&amp;gt; cols; // c set&amp;lt;int&amp;gt; posDiag; // r - c set&amp;lt;int&amp;gt; negDiag; // r &#43; c vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; vector&amp;lt;string&amp;gt; track; void backtracking(int r, int n) { if (r == n) { res." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210802073234-leetcode_51_n_queues/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

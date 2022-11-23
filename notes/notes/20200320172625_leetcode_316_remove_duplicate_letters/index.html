@@ -6,11 +6,11 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode  移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。
+<meta name="description" content="tags: LeetCode 移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。
 Example 1
- Input: &amp;ldquo;bcabc&amp;rdquo; Output: &amp;ldquo;abc&amp;rdquo;  Example 2
- Input: &amp;ldquo;cbacdcbc&amp;rdquo; Output: &amp;ldquo;acdb&amp;rdquo;   解法之一:
- 通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母  func removeDuplicateLetters(s string) string { 	var countOfEachLetter [26]int 	var visited [26]bool 	stack := make([]byte, 0) 	stackBottom := 0  	bytesArr := []byte(s)  	for _, c := range bytesArr { 	countOfEachLetter[getIndex(c)]&#43;&#43; 	}  	for _, c := range bytesArr { 	index := getIndex(c) 	countOfEachLetter[index]-- 	if visited[index] { 	continue 	}  	// countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 后面还有该字符 	for len(stack[stackBottom:]) &amp;gt; 0 &amp;amp;&amp;amp; stack[stackBottom] &amp;gt; c &amp;amp;&amp;amp; countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 { 	// 标记为未访问用于后面的字符加入结果 	visited[getIndex(stack[stackBottom])] = false  	// 移动栈底 	stackBottom&#43;&#43; 	}  	// 加入到结果栈 	stack = append(stack, c) 	visited[index] = true 	} 	return string(stack[stackBottom:])  }  func getIndex(b byte) int { 	return int(b - &amp;#39;a&amp;#39;) } 通过上面解法遇到如下错误：" />
+Input: &amp;ldquo;bcabc&amp;rdquo; Output: &amp;ldquo;abc&amp;rdquo; Example 2
+Input: &amp;ldquo;cbacdcbc&amp;rdquo; Output: &amp;ldquo;acdb&amp;rdquo; 解法之一:
+通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母 func removeDuplicateLetters(s string) string { var countOfEachLetter [26]int var visited [26]bool stack := make([]byte, 0) stackBottom := 0 bytesArr := []byte(s) for _, c := range bytesArr { countOfEachLetter[getIndex(c)]&#43;&#43; } for _, c := range bytesArr { index := getIndex(c) countOfEachLetter[index]-- if visited[index] { continue } // countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 后面还有该字符 for len(stack[stackBottom:]) &amp;gt; 0 &amp;amp;&amp;amp; stack[stackBottom] &amp;gt; c &amp;amp;&amp;amp; countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 { // 标记为未访问用于后面的字符加入结果 visited[getIndex(stack[stackBottom])] = false // 移动栈底 stackBottom&#43;&#43; } // 加入到结果栈 stack = append(stack, c) visited[index] = true } return string(stack[stackBottom:]) } func getIndex(b byte) int { return int(b - &amp;#39;a&amp;#39;) } 通过上面解法遇到如下错误：" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/" />
@@ -38,11 +38,11 @@ Example 1
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 316.Remove Duplicate Letters">
-<meta property="og:description" content="tags: LeetCode  移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。
+<meta property="og:description" content="tags: LeetCode 移除小写字母中重复的字母，让所有字母都只出现一次，并且结果是所有结果中按照字典序排序最小的那个。
 Example 1
- Input: &amp;ldquo;bcabc&amp;rdquo; Output: &amp;ldquo;abc&amp;rdquo;  Example 2
- Input: &amp;ldquo;cbacdcbc&amp;rdquo; Output: &amp;ldquo;acdb&amp;rdquo;   解法之一:
- 通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母  func removeDuplicateLetters(s string) string { 	var countOfEachLetter [26]int 	var visited [26]bool 	stack := make([]byte, 0) 	stackBottom := 0  	bytesArr := []byte(s)  	for _, c := range bytesArr { 	countOfEachLetter[getIndex(c)]&#43;&#43; 	}  	for _, c := range bytesArr { 	index := getIndex(c) 	countOfEachLetter[index]-- 	if visited[index] { 	continue 	}  	// countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 后面还有该字符 	for len(stack[stackBottom:]) &amp;gt; 0 &amp;amp;&amp;amp; stack[stackBottom] &amp;gt; c &amp;amp;&amp;amp; countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 { 	// 标记为未访问用于后面的字符加入结果 	visited[getIndex(stack[stackBottom])] = false  	// 移动栈底 	stackBottom&#43;&#43; 	}  	// 加入到结果栈 	stack = append(stack, c) 	visited[index] = true 	} 	return string(stack[stackBottom:])  }  func getIndex(b byte) int { 	return int(b - &amp;#39;a&amp;#39;) } 通过上面解法遇到如下错误：" />
+Input: &amp;ldquo;bcabc&amp;rdquo; Output: &amp;ldquo;abc&amp;rdquo; Example 2
+Input: &amp;ldquo;cbacdcbc&amp;rdquo; Output: &amp;ldquo;acdb&amp;rdquo; 解法之一:
+通过一个数组对每一个出现的字母进行计数 遍历每一个字母放入栈，并将该字母的计数减 1 查看栈底的字母有没有比当前字母大且该字母的计数不为 0 的（有比当前更小的字典序），从栈底弹出该字母 func removeDuplicateLetters(s string) string { var countOfEachLetter [26]int var visited [26]bool stack := make([]byte, 0) stackBottom := 0 bytesArr := []byte(s) for _, c := range bytesArr { countOfEachLetter[getIndex(c)]&#43;&#43; } for _, c := range bytesArr { index := getIndex(c) countOfEachLetter[index]-- if visited[index] { continue } // countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 后面还有该字符 for len(stack[stackBottom:]) &amp;gt; 0 &amp;amp;&amp;amp; stack[stackBottom] &amp;gt; c &amp;amp;&amp;amp; countOfEachLetter[getIndex(stack[stackBottom])] &amp;gt; 0 { // 标记为未访问用于后面的字符加入结果 visited[getIndex(stack[stackBottom])] = false // 移动栈底 stackBottom&#43;&#43; } // 加入到结果栈 stack = append(stack, c) visited[index] = true } return string(stack[stackBottom:]) } func getIndex(b byte) int { return int(b - &amp;#39;a&amp;#39;) } 通过上面解法遇到如下错误：" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320172625_leetcode_316_remove_duplicate_letters/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

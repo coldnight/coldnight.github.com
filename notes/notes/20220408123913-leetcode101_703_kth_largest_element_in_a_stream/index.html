@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Priority Queue,LeetCode101  Using a min heap to keep k elements, top is the Kth largest element.
-class KthLargest { private: 	// min heap 	priority_queue&amp;lt;int, vector&amp;lt;int&amp;gt;, std::greater&amp;lt;int&amp;gt;&amp;gt; pq; 	int K; public: 	KthLargest(int k, vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	K = k; 	for (auto n: nums) { 	add(n); 	} 	}  	int add(int val) { 	pq.push(val); 	while (pq.size() &amp;gt; K) { 	pq." />
+<meta name="description" content=" tags: Priority Queue,LeetCode101 Using a min heap to keep k elements, top is the Kth largest element.
+class KthLargest { private: // min heap priority_queue&amp;lt;int, vector&amp;lt;int&amp;gt;, std::greater&amp;lt;int&amp;gt;&amp;gt; pq; int K; public: KthLargest(int k, vector&amp;lt;int&amp;gt;&amp;amp; nums) { K = k; for (auto n: nums) { add(n); } } int add(int val) { pq.push(val); while (pq.size() &amp;gt; K) { pq.pop(); } return pq.top(); } }; /** * Your KthLargest object will be instantiated and called as such: * KthLargest* obj = new KthLargest(k, nums); * int param_1 = obj-&amp;gt;add(val); */ " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220408123913-leetcode101_703_kth_largest_element_in_a_stream/" />
@@ -35,8 +35,8 @@ class KthLargest { private: 	// min heap 	priority_queue&amp;lt;int, vector&amp;
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 703. Kth Largest Element in a Stream">
-<meta property="og:description" content="tags: Priority Queue,LeetCode101  Using a min heap to keep k elements, top is the Kth largest element.
-class KthLargest { private: 	// min heap 	priority_queue&amp;lt;int, vector&amp;lt;int&amp;gt;, std::greater&amp;lt;int&amp;gt;&amp;gt; pq; 	int K; public: 	KthLargest(int k, vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	K = k; 	for (auto n: nums) { 	add(n); 	} 	}  	int add(int val) { 	pq.push(val); 	while (pq.size() &amp;gt; K) { 	pq." />
+<meta property="og:description" content=" tags: Priority Queue,LeetCode101 Using a min heap to keep k elements, top is the Kth largest element.
+class KthLargest { private: // min heap priority_queue&amp;lt;int, vector&amp;lt;int&amp;gt;, std::greater&amp;lt;int&amp;gt;&amp;gt; pq; int K; public: KthLargest(int k, vector&amp;lt;int&amp;gt;&amp;amp; nums) { K = k; for (auto n: nums) { add(n); } } int add(int val) { pq.push(val); while (pq.size() &amp;gt; K) { pq.pop(); } return pq.top(); } }; /** * Your KthLargest object will be instantiated and called as such: * KthLargest* obj = new KthLargest(k, nums); * int param_1 = obj-&amp;gt;add(val); */ " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220408123913-leetcode101_703_kth_largest_element_in_a_stream/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

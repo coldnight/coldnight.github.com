@@ -6,9 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Network,UDP,High Performance,iptables,ethtool,netstat,NUMA source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.  Keys:
-  Make sure traffic won&amp;rsquo;t be interfered with by the iptables
-	iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT 	iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK 	#&#43;end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]  2. The first bottleneck ​	&#43; All packets are received by a signal RX queue, checked out with =ethtool -S=." />
+<meta name="description" content="tags: Network,UDP,High Performance,iptables,ethtool,netstat,NUMA source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/. Keys:
+Make sure traffic won&amp;rsquo;t be interfered with by the iptables
+iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK #&#43;end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]] 2. The first bottleneck ​	&#43; All packets are received by a signal RX queue, checked out with =ethtool -S=." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220414185003-how_to_receive_a_million_packets_per_second/" />
@@ -36,9 +36,9 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="How to receive a million packets per second">
-<meta property="og:description" content="tags: Network,UDP,High Performance,iptables,ethtool,netstat,NUMA source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/.  Keys:
-  Make sure traffic won&amp;rsquo;t be interfered with by the iptables
-	iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT 	iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK 	#&#43;end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]]  2. The first bottleneck ​	&#43; All packets are received by a signal RX queue, checked out with =ethtool -S=." />
+<meta property="og:description" content="tags: Network,UDP,High Performance,iptables,ethtool,netstat,NUMA source: The Cloudflare Blog. “How to Receive a Million Packets per Second,” June 16, 2015. http://blog.cloudflare.com/how-to-receive-a-million-packets/. Keys:
+Make sure traffic won&amp;rsquo;t be interfered with by the iptables
+iptables -I INPUT 1 -p udp --dport 4321 -j ACCEPT iptables -t raw -I PREROUTING 1 -p udp --dport 4321 -j NOTRACK #&#43;end_src[[id:C471A6FF-7F4E-4E23-B070-14CE146BFA14][Multi-queue NICs]] 2. The first bottleneck ​	&#43; All packets are received by a signal RX queue, checked out with =ethtool -S=." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220414185003-how_to_receive_a_million_packets_per_second/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

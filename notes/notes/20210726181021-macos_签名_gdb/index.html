@@ -6,11 +6,11 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: GDB,macOS  macOS 下通过 GDB 调试程序会出现：
-Unable to find Mach task port for process-id 1375: (os/kern) failure (0x5). (please check gdb is codesigned - see taskgated(8))   需要通过 Keychain Access Application 创建证书： code-sign-cert
-  需要对 gdb 进行签名，首先创建 gdb-entitlement.xml ：
-&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; 	&amp;lt;key&amp;gt;com.apple.security.cs.debugger&amp;lt;/key&amp;gt; 	&amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt;   运行签名
-codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   See also: PermissionsDarwin。" />
+<meta name="description" content="tags: GDB,macOS macOS 下通过 GDB 调试程序会出现：
+Unable to find Mach task port for process-id 1375: (os/kern) failure (0x5). (please check gdb is codesigned - see taskgated(8)) 需要通过 Keychain Access Application 创建证书： code-sign-cert
+需要对 gdb 进行签名，首先创建 gdb-entitlement.xml ：
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; &amp;lt;key&amp;gt;com.apple.security.cs.debugger&amp;lt;/key&amp;gt; &amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt; 运行签名
+codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb) See also: PermissionsDarwin。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210726181021-macos_%E7%AD%BE%E5%90%8D_gdb/" />
@@ -38,11 +38,11 @@ codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   Se
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="macOS 签名 GDB">
-<meta property="og:description" content="tags: GDB,macOS  macOS 下通过 GDB 调试程序会出现：
-Unable to find Mach task port for process-id 1375: (os/kern) failure (0x5). (please check gdb is codesigned - see taskgated(8))   需要通过 Keychain Access Application 创建证书： code-sign-cert
-  需要对 gdb 进行签名，首先创建 gdb-entitlement.xml ：
-&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; 	&amp;lt;key&amp;gt;com.apple.security.cs.debugger&amp;lt;/key&amp;gt; 	&amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt;   运行签名
-codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb)   See also: PermissionsDarwin。" />
+<meta property="og:description" content="tags: GDB,macOS macOS 下通过 GDB 调试程序会出现：
+Unable to find Mach task port for process-id 1375: (os/kern) failure (0x5). (please check gdb is codesigned - see taskgated(8)) 需要通过 Keychain Access Application 创建证书： code-sign-cert
+需要对 gdb 进行签名，首先创建 gdb-entitlement.xml ：
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; &amp;lt;key&amp;gt;com.apple.security.cs.debugger&amp;lt;/key&amp;gt; &amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt; 运行签名
+codesign --entitlements gdb-entitlement.xml -fs code-sign-cert $(which gdb) See also: PermissionsDarwin。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210726181021-macos_%E7%AD%BE%E5%90%8D_gdb/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

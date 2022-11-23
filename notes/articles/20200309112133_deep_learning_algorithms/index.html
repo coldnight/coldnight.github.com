@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Translate,Deep Learning,AI,Incomplete  原文链接：Deep Learning Algorithms : The Complete Guide。
+<meta name="description" content="tags: Translate,Deep Learning,AI,Incomplete 原文链接：Deep Learning Algorithms : The Complete Guide。
 深度学习正在影响整个世界。
 深度学习的炒作始于 2012 年：一个神经网络（Neural Network）在图片识别任务上表现出超人的性能，并且只有少数人能预测将会发生什么。
 在过去 10 年，越来越多的算法落地到我们生活中。越来越多的公司开始将其加入到日常业务中。
@@ -15,17 +15,20 @@
 我的主要目标是给你一个当前领域通用的思路去帮助你理解每一种情况应该使用什么算法。 因我知道它看起来会对一些从零开始的人造成一定程度的混乱。
 但是通过阅读这份指南，我有信心你会认识到什么是什么并且你可以准备好去立即使用他们。
 所以如果你正在寻找一份深度学习真正的完整指南，那就让我们开始吧。
-Contents   但是什么是深度学习?
-  神经网络
-  前馈神经网络（FNN）
-  卷积神经网络（CNN）
-  循环神经网络（RNN）
-  递归神经网络（Recurisive Neural Network）
-  自编码器（AutoEncoders）
-  深度信念网络 (Deep belief network)和受限玻尔兹曼机 (Restricted Boltzmann machine)
-  生成对抗网络（GAN）
-  Transformers
-  图神经网络（GNN）" />
+Contents 但是什么是深度学习?
+神经网络
+前馈神经网络（FNN）
+卷积神经网络（CNN）
+循环神经网络（RNN）
+递归神经网络（Recurisive Neural Network）
+自编码器（AutoEncoders）
+深度信念网络 (Deep belief network)和受限玻尔兹曼机 (Restricted Boltzmann machine)
+生成对抗网络（GAN）
+Transformers
+图神经网络（GNN）
+自然语言处理中的深度学习
+词嵌入 (Word embedding) 序列建模（Sequence Modeling） 计算机视觉中的机器学习
+本地化和物体识别 单发探测器（Single shot detectors） 语义分割（Semantic Segmentation） 姿势估计（Pose Estimation） 深度学习在科学和企业界取得了疯狂的人气。从 2012，卷积神经网络（CNN）在图像识别竞赛（ ImageNet Large Scale Visual Recognition Challenge）中获得了惊人的准确性，每年都出现了越来越多的研究论文并且越来越多的企业将神经网络收录到他们的业务中。据估计，深度学习目前的市场规模为 25 亿，预计到 2023 年将达到 181." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/articles/20200309112133_deep_learning_algorithms/" />
@@ -53,7 +56,7 @@ Contents   但是什么是深度学习?
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="译：深度学习算法：完整指南">
-<meta property="og:description" content="tags: Translate,Deep Learning,AI,Incomplete  原文链接：Deep Learning Algorithms : The Complete Guide。
+<meta property="og:description" content="tags: Translate,Deep Learning,AI,Incomplete 原文链接：Deep Learning Algorithms : The Complete Guide。
 深度学习正在影响整个世界。
 深度学习的炒作始于 2012 年：一个神经网络（Neural Network）在图片识别任务上表现出超人的性能，并且只有少数人能预测将会发生什么。
 在过去 10 年，越来越多的算法落地到我们生活中。越来越多的公司开始将其加入到日常业务中。
@@ -62,17 +65,20 @@ Contents   但是什么是深度学习?
 我的主要目标是给你一个当前领域通用的思路去帮助你理解每一种情况应该使用什么算法。 因我知道它看起来会对一些从零开始的人造成一定程度的混乱。
 但是通过阅读这份指南，我有信心你会认识到什么是什么并且你可以准备好去立即使用他们。
 所以如果你正在寻找一份深度学习真正的完整指南，那就让我们开始吧。
-Contents   但是什么是深度学习?
-  神经网络
-  前馈神经网络（FNN）
-  卷积神经网络（CNN）
-  循环神经网络（RNN）
-  递归神经网络（Recurisive Neural Network）
-  自编码器（AutoEncoders）
-  深度信念网络 (Deep belief network)和受限玻尔兹曼机 (Restricted Boltzmann machine)
-  生成对抗网络（GAN）
-  Transformers
-  图神经网络（GNN）" />
+Contents 但是什么是深度学习?
+神经网络
+前馈神经网络（FNN）
+卷积神经网络（CNN）
+循环神经网络（RNN）
+递归神经网络（Recurisive Neural Network）
+自编码器（AutoEncoders）
+深度信念网络 (Deep belief network)和受限玻尔兹曼机 (Restricted Boltzmann machine)
+生成对抗网络（GAN）
+Transformers
+图神经网络（GNN）
+自然语言处理中的深度学习
+词嵌入 (Word embedding) 序列建模（Sequence Modeling） 计算机视觉中的机器学习
+本地化和物体识别 单发探测器（Single shot detectors） 语义分割（Semantic Segmentation） 姿势估计（Pose Estimation） 深度学习在科学和企业界取得了疯狂的人气。从 2012，卷积神经网络（CNN）在图像识别竞赛（ ImageNet Large Scale Visual Recognition Challenge）中获得了惊人的准确性，每年都出现了越来越多的研究论文并且越来越多的企业将神经网络收录到他们的业务中。据估计，深度学习目前的市场规模为 25 亿，预计到 2023 年将达到 181." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/articles/20200309112133_deep_learning_algorithms/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

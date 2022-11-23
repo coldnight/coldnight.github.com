@@ -6,8 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="let add_one = | num | { 	num &#43; 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
-let add_one = | num: i32 | { 	num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u32 { x &#43; 1 } let add_one_v2 = |x: u32| -&amp;gt; u32 { x &#43; 1 }; let add_one_v3 = |x| { x &#43; 1 }; let add_one_v4 = |x| x &#43; 1 ; 使用 Fn 存储闭包类型" />
+<meta name="description" content="let add_one = | num | { num &#43; 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
+let add_one = | num: i32 | { num &#43; 1 }; fn add_one_v1 (x: u32) -&amp;gt; u32 { x &#43; 1 } let add_one_v2 = |x: u32| -&amp;gt; u32 { x &#43; 1 }; let add_one_v3 = |x| { x &#43; 1 }; let add_one_v4 = |x| x &#43; 1 ; 使用 Fn 存储闭包类型
+struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, value: Option&amp;lt;u32&amp;gt;, } impl Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { fn new(calculation: T) -&amp;gt; Cacher&amp;lt;T&amp;gt; { Cacher { calculation, value: None, } } fn value(&amp;amp;mut self, arg: u32) -&amp;gt; u32 { if let Some(value) = self." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/" />
@@ -35,8 +36,9 @@ let add_one = | num: i32 | { 	num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="闭包">
-<meta property="og:description" content="let add_one = | num | { 	num &#43; 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
-let add_one = | num: i32 | { 	num &#43; 1 };  fn add_one_v1 (x: u32) -&amp;gt; u32 { x &#43; 1 } let add_one_v2 = |x: u32| -&amp;gt; u32 { x &#43; 1 }; let add_one_v3 = |x| { x &#43; 1 }; let add_one_v4 = |x| x &#43; 1 ; 使用 Fn 存储闭包类型" />
+<meta property="og:description" content="let add_one = | num | { num &#43; 1 }; 由于闭包和当前上下文相关联，所以 Rust 可以进行类型推导，类型注解也就不是必要的，但是依然可以自己添加：
+let add_one = | num: i32 | { num &#43; 1 }; fn add_one_v1 (x: u32) -&amp;gt; u32 { x &#43; 1 } let add_one_v2 = |x: u32| -&amp;gt; u32 { x &#43; 1 }; let add_one_v3 = |x| { x &#43; 1 }; let add_one_v4 = |x| x &#43; 1 ; 使用 Fn 存储闭包类型
+struct Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { calculation: T, value: Option&amp;lt;u32&amp;gt;, } impl Cacher&amp;lt;T&amp;gt; where T: Fn(u32) -&amp;gt; u32 { fn new(calculation: T) -&amp;gt; Cacher&amp;lt;T&amp;gt; { Cacher { calculation, value: None, } } fn value(&amp;amp;mut self, arg: u32) -&amp;gt; u32 { if let Some(value) = self." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180436-%E9%97%AD%E5%8C%85/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

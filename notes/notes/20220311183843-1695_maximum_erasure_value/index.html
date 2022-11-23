@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Sliding Window,LeetCode101,Hash Set  Use HashMap to store indices See also: 3. Longest Substring Without Repeating Characters
-class Solution { public: 	int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	int maximum = 0; 	int left = 0, right = 0; 	unordered_map&amp;lt;int, int&amp;gt; indices;  	for (; right &amp;lt; nums.size(); right&#43;&#43;) { 	int n = nums[right]; 	if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] &#43; 1 &amp;gt; left) { 	left = indices[n] &#43; 1; 	} 	maximum = max(maximum, std::accumulate(nums." />
+<meta name="description" content="tags: Sliding Window,LeetCode101,Hash Set Use HashMap to store indices See also: 3. Longest Substring Without Repeating Characters
+class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int maximum = 0; int left = 0, right = 0; unordered_map&amp;lt;int, int&amp;gt; indices; for (; right &amp;lt; nums.size(); right&#43;&#43;) { int n = nums[right]; if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] &#43; 1 &amp;gt; left) { left = indices[n] &#43; 1; } maximum = max(maximum, std::accumulate(nums." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220311183843-1695_maximum_erasure_value/" />
@@ -35,8 +35,8 @@ class Solution { public: 	int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&am
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 1695. Maximum Erasure Value">
-<meta property="og:description" content="tags: Sliding Window,LeetCode101,Hash Set  Use HashMap to store indices See also: 3. Longest Substring Without Repeating Characters
-class Solution { public: 	int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { 	int maximum = 0; 	int left = 0, right = 0; 	unordered_map&amp;lt;int, int&amp;gt; indices;  	for (; right &amp;lt; nums.size(); right&#43;&#43;) { 	int n = nums[right]; 	if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] &#43; 1 &amp;gt; left) { 	left = indices[n] &#43; 1; 	} 	maximum = max(maximum, std::accumulate(nums." />
+<meta property="og:description" content="tags: Sliding Window,LeetCode101,Hash Set Use HashMap to store indices See also: 3. Longest Substring Without Repeating Characters
+class Solution { public: int maximumUniqueSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int maximum = 0; int left = 0, right = 0; unordered_map&amp;lt;int, int&amp;gt; indices; for (; right &amp;lt; nums.size(); right&#43;&#43;) { int n = nums[right]; if (indices.find(n) != indices.end() &amp;amp;&amp;amp; indices[n] &#43; 1 &amp;gt; left) { left = indices[n] &#43; 1; } maximum = max(maximum, std::accumulate(nums." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220311183843-1695_maximum_erasure_value/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

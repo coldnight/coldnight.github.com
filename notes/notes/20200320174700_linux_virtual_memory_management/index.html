@@ -6,13 +6,13 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Linux 原文连接：Linux Virtual Memory Management  Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架构的方式描述内存 — 更好的支持多平台
-  本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
-  VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
-  大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 DMA 设备卡。
-  这里的每组（bank）内存被称为节点（node）并且这个概念在 Linux 中通过 struct pglist_data（typedef pg_data_t) 表示，即使在 UMA 架构下也是如此。每一个节点是一个由 NULL 结尾的链表，通过 pg_data_t-&amp;gt;next_node 指向下一个节点。
-  每一个节点都被分割成多个块（block）称为分区（zone）用于表示内存中的范围。分区使用 struct zone_struct(typedef zone_t) 结构体描述，每一个分区都是以下三种类型的一种
- ZONE_DMA 开始 16MB 内存，供 ISA 设备使用 ZONE_NORMAL 16MB - 896MB，由内核直接映射到线性地址空间的上部区域（将在第四章讨论） ZONE_HIGHMEM 896MB - END，剩余不由内核直接映射的系统可用内存， 大部分内核操作都只能使用这种类型的分区，所以这里也是这里也是最关键的性能区域（most performance critical zone）    每一个物理页帧（physical page frame）都使用结构体 struct page 表示，所有的结构体都保存在全局数组 mem_map 中，mem_map 通常存储在 ZONE_NORMAL 的开始处；" />
+<meta name="description" content="tags: Linux 原文连接：Linux Virtual Memory Management Chapter 2 Describing Physical Memory：描述物理内存 独立于平台架构的方式描述内存 — 更好的支持多平台
+本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
+VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
+大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 DMA 设备卡。
+这里的每组（bank）内存被称为节点（node）并且这个概念在 Linux 中通过 struct pglist_data（typedef pg_data_t) 表示，即使在 UMA 架构下也是如此。每一个节点是一个由 NULL 结尾的链表，通过 pg_data_t-&amp;gt;next_node 指向下一个节点。
+每一个节点都被分割成多个块（block）称为分区（zone）用于表示内存中的范围。分区使用 struct zone_struct(typedef zone_t) 结构体描述，每一个分区都是以下三种类型的一种
+ZONE_DMA 开始 16MB 内存，供 ISA 设备使用 ZONE_NORMAL 16MB - 896MB，由内核直接映射到线性地址空间的上部区域（将在第四章讨论） ZONE_HIGHMEM 896MB - END，剩余不由内核直接映射的系统可用内存， 大部分内核操作都只能使用这种类型的分区，所以这里也是这里也是最关键的性能区域（most performance critical zone） 每一个物理页帧（physical page frame）都使用结构体 struct page 表示，所有的结构体都保存在全局数组 mem_map 中，mem_map 通常存储在 ZONE_NORMAL 的开始处；" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/" />
@@ -40,13 +40,13 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Linux Virtual Memory Management">
-<meta property="og:description" content="tags: Linux 原文连接：Linux Virtual Memory Management  Chapter 2 Describing Physical Memory：描述物理内存   独立于平台架构的方式描述内存 — 更好的支持多平台
-  本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
-  VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
-  大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 DMA 设备卡。
-  这里的每组（bank）内存被称为节点（node）并且这个概念在 Linux 中通过 struct pglist_data（typedef pg_data_t) 表示，即使在 UMA 架构下也是如此。每一个节点是一个由 NULL 结尾的链表，通过 pg_data_t-&amp;gt;next_node 指向下一个节点。
-  每一个节点都被分割成多个块（block）称为分区（zone）用于表示内存中的范围。分区使用 struct zone_struct(typedef zone_t) 结构体描述，每一个分区都是以下三种类型的一种
- ZONE_DMA 开始 16MB 内存，供 ISA 设备使用 ZONE_NORMAL 16MB - 896MB，由内核直接映射到线性地址空间的上部区域（将在第四章讨论） ZONE_HIGHMEM 896MB - END，剩余不由内核直接映射的系统可用内存， 大部分内核操作都只能使用这种类型的分区，所以这里也是这里也是最关键的性能区域（most performance critical zone）    每一个物理页帧（physical page frame）都使用结构体 struct page 表示，所有的结构体都保存在全局数组 mem_map 中，mem_map 通常存储在 ZONE_NORMAL 的开始处；" />
+<meta property="og:description" content="tags: Linux 原文连接：Linux Virtual Memory Management Chapter 2 Describing Physical Memory：描述物理内存 独立于平台架构的方式描述内存 — 更好的支持多平台
+本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
+VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
+大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 DMA 设备卡。
+这里的每组（bank）内存被称为节点（node）并且这个概念在 Linux 中通过 struct pglist_data（typedef pg_data_t) 表示，即使在 UMA 架构下也是如此。每一个节点是一个由 NULL 结尾的链表，通过 pg_data_t-&amp;gt;next_node 指向下一个节点。
+每一个节点都被分割成多个块（block）称为分区（zone）用于表示内存中的范围。分区使用 struct zone_struct(typedef zone_t) 结构体描述，每一个分区都是以下三种类型的一种
+ZONE_DMA 开始 16MB 内存，供 ISA 设备使用 ZONE_NORMAL 16MB - 896MB，由内核直接映射到线性地址空间的上部区域（将在第四章讨论） ZONE_HIGHMEM 896MB - END，剩余不由内核直接映射的系统可用内存， 大部分内核操作都只能使用这种类型的分区，所以这里也是这里也是最关键的性能区域（most performance critical zone） 每一个物理页帧（physical page frame）都使用结构体 struct page 表示，所有的结构体都保存在全局数组 mem_map 中，mem_map 通常存储在 ZONE_NORMAL 的开始处；" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -210,11 +210,11 @@
 <li>
 <p>结构体之间的关系</p>
 
-  <figure class="left" >
-    <img src="/images/linux-vm-2/1554100733254_3.jpeg"   />
+      <figure class="left" >
+        <img src="/images/linux-vm-2/1554100733254_3.jpeg"   />
+        
+      </figure>
     
-  </figure>
-
 
 </li>
 </ul>

@@ -6,16 +6,16 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Translate,Rust,Rust Wrapper Types  原文链接：Rust Means Never Having to Close a Socket
+<meta name="description" content="tags: Translate,Rust,Rust Wrapper Types 原文链接：Rust Means Never Having to Close a Socket
 Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时在仍能保持安全（没有段错误）和高性能。
 这是因为 Rust 是一门与众不同地编程语言，要理解我说的可能有点困难，让我来更近一步说明：
- Rust 就像带垃圾回收的编程语言，你无需手动释放内存 Rust 不同于其他带垃圾回收的编程语言，你无需1手动关闭或者释放像文件、套接字和锁这样的资源 Rust 达到以上这些特性不附带任何运行时开销（垃圾回收或者引用计数），并且不牺牲安全性。  如果你曾经造成过一个套接字或者文件泄漏，或者使用过一些抽象方法造成了这些资源的泄漏，那么你就会知道这有多重要。
+Rust 就像带垃圾回收的编程语言，你无需手动释放内存 Rust 不同于其他带垃圾回收的编程语言，你无需1手动关闭或者释放像文件、套接字和锁这样的资源 Rust 达到以上这些特性不附带任何运行时开销（垃圾回收或者引用计数），并且不牺牲安全性。 如果你曾经造成过一个套接字或者文件泄漏，或者使用过一些抽象方法造成了这些资源的泄漏，那么你就会知道这有多重要。
 你可能已经期望通过“使用后释放”来避免内存问题，而与此同时你并没有考虑到没有明确地关闭套接字可能出现类似的错误。我在这里告诉你，还有更好地办法。
 如果你使用的是带垃圾回收的编程语言，则应密切关注本文提到的资源管理方面的内容。如果你使用的是像 C/C&#43;&#43; 这样底层编程语言，你可能会对安全方面更加感兴趣。
- Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。 实际上，这种编程语言层面的保证让这些特性更加实用。
- 所有权系统（The Ownership System） 让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。
+Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。 实际上，这种编程语言层面的保证让这些特性更加实用。
+所有权系统（The Ownership System） 让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。
 让我们通过一个例子来进一步说明：我们定义一个函数，函数拷贝输入文件到临时文件去处理它，然后拷贝输入文件到输出文件。
-fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { 	// creates a new tempdir with the specified suffix 	let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;));  	// open the input file 	let mut from_file = try!" />
+fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { // creates a new tempdir with the specified suffix let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;)); // open the input file let mut from_file = try!" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/" />
@@ -43,16 +43,16 @@ fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust Means Never Having to Close a Socket">
-<meta property="og:description" content="tags: Translate,Rust,Rust Wrapper Types  原文链接：Rust Means Never Having to Close a Socket
+<meta property="og:description" content="tags: Translate,Rust,Rust Wrapper Types 原文链接：Rust Means Never Having to Close a Socket
 Rust 最酷的特性之一就是它可以自动地帮助你管理资源，同时在仍能保持安全（没有段错误）和高性能。
 这是因为 Rust 是一门与众不同地编程语言，要理解我说的可能有点困难，让我来更近一步说明：
- Rust 就像带垃圾回收的编程语言，你无需手动释放内存 Rust 不同于其他带垃圾回收的编程语言，你无需1手动关闭或者释放像文件、套接字和锁这样的资源 Rust 达到以上这些特性不附带任何运行时开销（垃圾回收或者引用计数），并且不牺牲安全性。  如果你曾经造成过一个套接字或者文件泄漏，或者使用过一些抽象方法造成了这些资源的泄漏，那么你就会知道这有多重要。
+Rust 就像带垃圾回收的编程语言，你无需手动释放内存 Rust 不同于其他带垃圾回收的编程语言，你无需1手动关闭或者释放像文件、套接字和锁这样的资源 Rust 达到以上这些特性不附带任何运行时开销（垃圾回收或者引用计数），并且不牺牲安全性。 如果你曾经造成过一个套接字或者文件泄漏，或者使用过一些抽象方法造成了这些资源的泄漏，那么你就会知道这有多重要。
 你可能已经期望通过“使用后释放”来避免内存问题，而与此同时你并没有考虑到没有明确地关闭套接字可能出现类似的错误。我在这里告诉你，还有更好地办法。
 如果你使用的是带垃圾回收的编程语言，则应密切关注本文提到的资源管理方面的内容。如果你使用的是像 C/C&#43;&#43; 这样底层编程语言，你可能会对安全方面更加感兴趣。
- Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。 实际上，这种编程语言层面的保证让这些特性更加实用。
- 所有权系统（The Ownership System） 让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。
+Rust 的许多特性都是从其他语言借鉴而来。Rust 之所以变得有趣是因为它把所有的这些特性放在了一起，并且在编程语言层面实现了更严格地保证。 实际上，这种编程语言层面的保证让这些特性更加实用。
+所有权系统（The Ownership System） 让这种保证工作的方式是通过 Rust 的「所有权（ownership）」系统。不管任何时候你创建一个新的对象，都被创建它的「作用域（scope）」所拥有。
 让我们通过一个例子来进一步说明：我们定义一个函数，函数拷贝输入文件到临时文件去处理它，然后拷贝输入文件到输出文件。
-fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { 	// creates a new tempdir with the specified suffix 	let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;));  	// open the input file 	let mut from_file = try!" />
+fn process(from: &amp;amp;Path, to: &amp;amp;Path) -&amp;gt; IoResult&amp;lt;()&amp;gt; { // creates a new tempdir with the specified suffix let tempdir = try!(TempDir::new(&amp;#34;skylight&amp;#34;)); // open the input file let mut from_file = try!" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629181735-rust_means_never_having_to_close_a_socket/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

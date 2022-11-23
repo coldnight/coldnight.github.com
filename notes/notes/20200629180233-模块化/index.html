@@ -6,17 +6,19 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="包、crate 和模块   Cargo.toml 表示一个包
- 包含 0 个或 1 个库 crate（ src/lib.rs ） 包含 0 个或多个可执行 crate （ src/main.rs src/bin/*.rs ） 可以同时包含以上两种    模块化系统
-  模块，一种组织代码和控制路径隐私的方法
- 所有的项（函数，方法，结构体，枚举，模块和常量）默认私有 不允许使用私有的子模块的代码 可以使用父模块和同级模块的代码    路径，一种命名项的方法
-  use , 一个将路径带到当前作用域的关键字
-  pub ，一个将项公开的关键字
-  as ，一个将带到当前作用域项重命名的关键字
-  super , 一个相当于文件系统里 .. 作用的关键字
-  * ，通配符用于使用制定路径下的所有项
-  pub use 用于重新暴露可以访问的模块
-  模块可以放在一个文件，也可以按照一定规则拆分到不同文件下" />
+<meta name="description" content="包、crate 和模块 Cargo.toml 表示一个包
+包含 0 个或 1 个库 crate（ src/lib.rs ） 包含 0 个或多个可执行 crate （ src/main.rs src/bin/*.rs ） 可以同时包含以上两种 模块化系统
+模块，一种组织代码和控制路径隐私的方法
+所有的项（函数，方法，结构体，枚举，模块和常量）默认私有 不允许使用私有的子模块的代码 可以使用父模块和同级模块的代码 路径，一种命名项的方法
+use , 一个将路径带到当前作用域的关键字
+pub ，一个将项公开的关键字
+as ，一个将带到当前作用域项重命名的关键字
+super , 一个相当于文件系统里 .. 作用的关键字
+* ，通配符用于使用制定路径下的所有项
+pub use 用于重新暴露可以访问的模块
+模块可以放在一个文件，也可以按照一定规则拆分到不同文件下
+使用同一个 use 清理嵌套的 use
+use std::cmp::Ordering; use std::io; use std::{cmp::Ordering, io}; use std::io; use std::io::Write; use std::{self, Write}; mod sound { pub mod instrument { pub mod woodwind { pub fn clarinet() { super::breathe_in(); } } fn breathe_in() { } } mod voice { } } fn main() { // 绝对路径以 crate 开始，crate 表示根 crate::sound::instrument::woodwind::clarinet(); // 相对路径 sound::instrument::woodwind::clarinet(); } 上面例子 sound 模块并非公开，但是由于 main 和 sound 定义在同一模块下，所以允许在 main 中引用 sound 。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/" />
@@ -44,17 +46,19 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="模块化">
-<meta property="og:description" content="包、crate 和模块   Cargo.toml 表示一个包
- 包含 0 个或 1 个库 crate（ src/lib.rs ） 包含 0 个或多个可执行 crate （ src/main.rs src/bin/*.rs ） 可以同时包含以上两种    模块化系统
-  模块，一种组织代码和控制路径隐私的方法
- 所有的项（函数，方法，结构体，枚举，模块和常量）默认私有 不允许使用私有的子模块的代码 可以使用父模块和同级模块的代码    路径，一种命名项的方法
-  use , 一个将路径带到当前作用域的关键字
-  pub ，一个将项公开的关键字
-  as ，一个将带到当前作用域项重命名的关键字
-  super , 一个相当于文件系统里 .. 作用的关键字
-  * ，通配符用于使用制定路径下的所有项
-  pub use 用于重新暴露可以访问的模块
-  模块可以放在一个文件，也可以按照一定规则拆分到不同文件下" />
+<meta property="og:description" content="包、crate 和模块 Cargo.toml 表示一个包
+包含 0 个或 1 个库 crate（ src/lib.rs ） 包含 0 个或多个可执行 crate （ src/main.rs src/bin/*.rs ） 可以同时包含以上两种 模块化系统
+模块，一种组织代码和控制路径隐私的方法
+所有的项（函数，方法，结构体，枚举，模块和常量）默认私有 不允许使用私有的子模块的代码 可以使用父模块和同级模块的代码 路径，一种命名项的方法
+use , 一个将路径带到当前作用域的关键字
+pub ，一个将项公开的关键字
+as ，一个将带到当前作用域项重命名的关键字
+super , 一个相当于文件系统里 .. 作用的关键字
+* ，通配符用于使用制定路径下的所有项
+pub use 用于重新暴露可以访问的模块
+模块可以放在一个文件，也可以按照一定规则拆分到不同文件下
+使用同一个 use 清理嵌套的 use
+use std::cmp::Ordering; use std::io; use std::{cmp::Ordering, io}; use std::io; use std::io::Write; use std::{self, Write}; mod sound { pub mod instrument { pub mod woodwind { pub fn clarinet() { super::breathe_in(); } } fn breathe_in() { } } mod voice { } } fn main() { // 绝对路径以 crate 开始，crate 表示根 crate::sound::instrument::woodwind::clarinet(); // 相对路径 sound::instrument::woodwind::clarinet(); } 上面例子 sound 模块并非公开，但是由于 main 和 sound 定义在同一模块下，所以允许在 main 中引用 sound 。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180233-%E6%A8%A1%E5%9D%97%E5%8C%96/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

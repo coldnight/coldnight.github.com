@@ -6,11 +6,11 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: MySQL https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/  来自《高性能 MySQL》：
+<meta name="description" content="tags: MySQL https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/ 来自《高性能 MySQL》：
 InnoDB 在每一行都隐式的多存储两个字段：
- 事务更新版本 事务删除版本  当事务开始时记录这两个版本，在读取的时候根据 Undo Log 和 Redo Log 来实现隔离级别的控制。序列化隔离级别下只能通过行锁来保证。
+事务更新版本 事务删除版本 当事务开始时记录这两个版本，在读取的时候根据 Undo Log 和 Redo Log 来实现隔离级别的控制。序列化隔离级别下只能通过行锁来保证。
 在可重复读隔离级别下：
- 首先判断事务更新版本是否大于事务开始前的版本 如果大于则根据 Undo Log 进行回退实现可重复读，这样在同一事务下不管读多少遍读取到的内容都是一样的。  可重复读隔离即便下无法避免幻读：即一开始没有读取到，随着其他插入事务的提交在同一事务里执行查询又能读取到的情况。" />
+首先判断事务更新版本是否大于事务开始前的版本 如果大于则根据 Undo Log 进行回退实现可重复读，这样在同一事务下不管读多少遍读取到的内容都是一样的。 可重复读隔离即便下无法避免幻读：即一开始没有读取到，随着其他插入事务的提交在同一事务里执行查询又能读取到的情况。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200827195823-mvcc/" />
@@ -38,11 +38,11 @@ InnoDB 在每一行都隐式的多存储两个字段：
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="MVCC">
-<meta property="og:description" content="tags: MySQL https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/  来自《高性能 MySQL》：
+<meta property="og:description" content="tags: MySQL https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/ 来自《高性能 MySQL》：
 InnoDB 在每一行都隐式的多存储两个字段：
- 事务更新版本 事务删除版本  当事务开始时记录这两个版本，在读取的时候根据 Undo Log 和 Redo Log 来实现隔离级别的控制。序列化隔离级别下只能通过行锁来保证。
+事务更新版本 事务删除版本 当事务开始时记录这两个版本，在读取的时候根据 Undo Log 和 Redo Log 来实现隔离级别的控制。序列化隔离级别下只能通过行锁来保证。
 在可重复读隔离级别下：
- 首先判断事务更新版本是否大于事务开始前的版本 如果大于则根据 Undo Log 进行回退实现可重复读，这样在同一事务下不管读多少遍读取到的内容都是一样的。  可重复读隔离即便下无法避免幻读：即一开始没有读取到，随着其他插入事务的提交在同一事务里执行查询又能读取到的情况。" />
+首先判断事务更新版本是否大于事务开始前的版本 如果大于则根据 Undo Log 进行回退实现可重复读，这样在同一事务下不管读多少遍读取到的内容都是一样的。 可重复读隔离即便下无法避免幻读：即一开始没有读取到，随着其他插入事务的提交在同一事务里执行查询又能读取到的情况。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200827195823-mvcc/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

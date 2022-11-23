@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Emacs  生成 terminfo
-$ cat &amp;lt;&amp;lt;EOF &amp;gt; terminfo-24bits.src # Use semicolon separators. xterm-24bits|xterm with 24-bit direct color mode, use=xterm-256color, Tc, setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm, setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm,]] EOF  $ tic -x -o ~/.terminfo terminfo-24bits.src 通过 xterm-24bits 启动 Emacs
+<meta name="description" content="tags: Emacs 生成 terminfo
+$ cat &amp;lt;&amp;lt;EOF &amp;gt; terminfo-24bits.src # Use semicolon separators. xterm-24bits|xterm with 24-bit direct color mode, use=xterm-256color, Tc, setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm, setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm,]] EOF $ tic -x -o ~/.terminfo terminfo-24bits.src 通过 xterm-24bits 启动 Emacs
 $ env TERM=xterm-24bits emacs Emacs 通过 list-color-display 查看效果。" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
@@ -36,8 +36,8 @@ $ env TERM=xterm-24bits emacs Emacs 通过 list-color-display 查看效果。" /
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Emacs Tmux 256 colors">
-<meta property="og:description" content="tags: Emacs  生成 terminfo
-$ cat &amp;lt;&amp;lt;EOF &amp;gt; terminfo-24bits.src # Use semicolon separators. xterm-24bits|xterm with 24-bit direct color mode, use=xterm-256color, Tc, setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm, setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm,]] EOF  $ tic -x -o ~/.terminfo terminfo-24bits.src 通过 xterm-24bits 启动 Emacs
+<meta property="og:description" content="tags: Emacs 生成 terminfo
+$ cat &amp;lt;&amp;lt;EOF &amp;gt; terminfo-24bits.src # Use semicolon separators. xterm-24bits|xterm with 24-bit direct color mode, use=xterm-256color, Tc, setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm, setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&amp;amp;%d;%p1%{255}%&amp;amp;%dm,]] EOF $ tic -x -o ~/.terminfo terminfo-24bits.src 通过 xterm-24bits 启动 Emacs
 $ env TERM=xterm-24bits emacs Emacs 通过 list-color-display 查看效果。" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200603103943_tmux_256_colors/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />

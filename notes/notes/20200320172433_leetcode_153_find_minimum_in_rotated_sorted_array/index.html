@@ -6,9 +6,9 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode  解法 1 找到中间节点依次往左右扩散：
- 向左边扩散，如果左边的大于当前元素，那么当前元素即为最小值 向右边扩散，如果右边的小于当前元素，那么右边元素即为最小值  如果以上不成立则第一个元素为最小元素（未旋转），以下是代码
-func findMin(nums []int) int { 	length := len(nums) 	if length == 1 { 	return nums[0] 	}  	// 从中间开始确定方向 	mid := length / 2 - 1  	left, right := mid, mid  	for left - 1 &amp;gt;= 0 || right &#43; 1 &amp;lt; length { 	if left - 1 &amp;gt;= 0 { 	if nums[left - 1] &amp;gt; nums[left] { 	return nums[left]; 	} 	left-- 	}  	if right &#43; 1 &amp;lt; length { 	if nums[right] &amp;gt; nums[right &#43; 1] { 	return nums[right &#43; 1] 	}  	right&#43;&#43; 	} 	} 	return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：" />
+<meta name="description" content="tags: LeetCode 解法 1 找到中间节点依次往左右扩散：
+向左边扩散，如果左边的大于当前元素，那么当前元素即为最小值 向右边扩散，如果右边的小于当前元素，那么右边元素即为最小值 如果以上不成立则第一个元素为最小元素（未旋转），以下是代码
+func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[0] } // 从中间开始确定方向 mid := length / 2 - 1 left, right := mid, mid for left - 1 &amp;gt;= 0 || right &#43; 1 &amp;lt; length { if left - 1 &amp;gt;= 0 { if nums[left - 1] &amp;gt; nums[left] { return nums[left]; } left-- } if right &#43; 1 &amp;lt; length { if nums[right] &amp;gt; nums[right &#43; 1] { return nums[right &#43; 1] } right&#43;&#43; } } return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320172433_leetcode_153_find_minimum_in_rotated_sorted_array/" />
@@ -36,9 +36,9 @@ func findMin(nums []int) int { 	length := len(nums) 	if length == 1 { 	return nu
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 153.Find Minimum in Rotated Sorted Array">
-<meta property="og:description" content="tags: LeetCode  解法 1 找到中间节点依次往左右扩散：
- 向左边扩散，如果左边的大于当前元素，那么当前元素即为最小值 向右边扩散，如果右边的小于当前元素，那么右边元素即为最小值  如果以上不成立则第一个元素为最小元素（未旋转），以下是代码
-func findMin(nums []int) int { 	length := len(nums) 	if length == 1 { 	return nums[0] 	}  	// 从中间开始确定方向 	mid := length / 2 - 1  	left, right := mid, mid  	for left - 1 &amp;gt;= 0 || right &#43; 1 &amp;lt; length { 	if left - 1 &amp;gt;= 0 { 	if nums[left - 1] &amp;gt; nums[left] { 	return nums[left]; 	} 	left-- 	}  	if right &#43; 1 &amp;lt; length { 	if nums[right] &amp;gt; nums[right &#43; 1] { 	return nums[right &#43; 1] 	}  	right&#43;&#43; 	} 	} 	return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：" />
+<meta property="og:description" content="tags: LeetCode 解法 1 找到中间节点依次往左右扩散：
+向左边扩散，如果左边的大于当前元素，那么当前元素即为最小值 向右边扩散，如果右边的小于当前元素，那么右边元素即为最小值 如果以上不成立则第一个元素为最小元素（未旋转），以下是代码
+func findMin(nums []int) int { length := len(nums) if length == 1 { return nums[0] } // 从中间开始确定方向 mid := length / 2 - 1 left, right := mid, mid for left - 1 &amp;gt;= 0 || right &#43; 1 &amp;lt; length { if left - 1 &amp;gt;= 0 { if nums[left - 1] &amp;gt; nums[left] { return nums[left]; } left-- } if right &#43; 1 &amp;lt; length { if nums[right] &amp;gt; nums[right &#43; 1] { return nums[right &#43; 1] } right&#43;&#43; } } return nums[0] } 优化 参考答案后可通过二分查找做如下优化，首先判断是否被旋转：" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320172433_leetcode_153_find_minimum_in_rotated_sorted_array/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

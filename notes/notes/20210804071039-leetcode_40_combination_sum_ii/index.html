@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum-ii/  LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。对结果进行排序然后通过 set 对结果进行去重：
-class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum2(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { 	sort(candidates.begin(), candidates.end()); 	backtracking(candidates, 0, 0, target); 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; 	for (auto t : res) { 	r.push_back(t); 	} 	return r; 	} private: 	set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track; 	map&amp;lt;int, bool&amp;gt; visited;  	void backtracking(vector&amp;lt;int&amp;gt;&amp;amp; condidates, int start, int n, int target) { 	if (n == target) { 	res." />
+<meta name="description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum-ii/ LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。对结果进行排序然后通过 set 对结果进行去重：
+class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum2(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { sort(candidates.begin(), candidates.end()); backtracking(candidates, 0, 0, target); vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; for (auto t : res) { r.push_back(t); } return r; } private: set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; map&amp;lt;int, bool&amp;gt; visited; void backtracking(vector&amp;lt;int&amp;gt;&amp;amp; condidates, int start, int n, int target) { if (n == target) { res.insert(track); return; } if (n &amp;gt; target) { return; } int c = 0; int sz = condidates." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210804071039-leetcode_40_combination_sum_ii/" />
@@ -35,8 +35,8 @@ class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combin
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode: 40. Combination Sum II">
-<meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum-ii/  LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。对结果进行排序然后通过 set 对结果进行去重：
-class Solution { public: 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum2(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { 	sort(candidates.begin(), candidates.end()); 	backtracking(candidates, 0, 0, target); 	vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; 	for (auto t : res) { 	r.push_back(t); 	} 	return r; 	} private: 	set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; 	vector&amp;lt;int&amp;gt; track; 	map&amp;lt;int, bool&amp;gt; visited;  	void backtracking(vector&amp;lt;int&amp;gt;&amp;amp; condidates, int start, int n, int target) { 	if (n == target) { 	res." />
+<meta property="og:description" content="tags: LeetCode source: https://leetcode.com/problems/combination-sum-ii/ LeetCode: 39. Combination Sum 的进阶。元素不在唯一且每一个元素只能出现一次。对结果进行排序然后通过 set 对结果进行去重：
+class Solution { public: vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; combinationSum2(vector&amp;lt;int&amp;gt;&amp;amp; candidates, int target) { sort(candidates.begin(), candidates.end()); backtracking(candidates, 0, 0, target); vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; r; for (auto t : res) { r.push_back(t); } return r; } private: set&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res; vector&amp;lt;int&amp;gt; track; map&amp;lt;int, bool&amp;gt; visited; void backtracking(vector&amp;lt;int&amp;gt;&amp;amp; condidates, int start, int n, int target) { if (n == target) { res.insert(track); return; } if (n &amp;gt; target) { return; } int c = 0; int sz = condidates." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210804071039-leetcode_40_combination_sum_ii/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

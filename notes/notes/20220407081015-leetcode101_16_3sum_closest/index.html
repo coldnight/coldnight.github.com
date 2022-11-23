@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: LeetCode101,Sorting,Two Pointers,Three Pointers  Key ideas see LeetCode101: 15. 3Sum
-class Solution { public: 	int threeSumClosest(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { 	sort(nums.begin(), nums.end()); 	int closest = INT_MAX, l, r, sum, T, res;  	for (int i = 0; i &amp;lt; nums.size(); i&#43;&#43;) { 	l = i &#43; 1; 	r = nums.size() - 1; 	T = target - nums[i]; 	while (l &amp;lt; r) { 	sum = nums[l] &#43; nums[r]; 	if (abs(sum - T) &amp;lt; closest) { 	res = sum &#43; nums[i]; 	closest = abs(sum - T); 	} 	if (sum == T) { 	return target; 	} if (sum &amp;lt; T) { 	l&#43;&#43;; 	} else { 	r--; 	} 	} 	} 	return res; 	} }; " />
+<meta name="description" content=" tags: LeetCode101,Sorting,Two Pointers,Three Pointers Key ideas see LeetCode101: 15. 3Sum
+class Solution { public: int threeSumClosest(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { sort(nums.begin(), nums.end()); int closest = INT_MAX, l, r, sum, T, res; for (int i = 0; i &amp;lt; nums.size(); i&#43;&#43;) { l = i &#43; 1; r = nums.size() - 1; T = target - nums[i]; while (l &amp;lt; r) { sum = nums[l] &#43; nums[r]; if (abs(sum - T) &amp;lt; closest) { res = sum &#43; nums[i]; closest = abs(sum - T); } if (sum == T) { return target; } if (sum &amp;lt; T) { l&#43;&#43;; } else { r--; } } } return res; } }; " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220407081015-leetcode101_16_3sum_closest/" />
@@ -35,8 +35,8 @@ class Solution { public: 	int threeSumClosest(vector&amp;lt;int&amp;gt;&amp;amp;
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 16. 3Sum Closest">
-<meta property="og:description" content=" tags: LeetCode101,Sorting,Two Pointers,Three Pointers  Key ideas see LeetCode101: 15. 3Sum
-class Solution { public: 	int threeSumClosest(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { 	sort(nums.begin(), nums.end()); 	int closest = INT_MAX, l, r, sum, T, res;  	for (int i = 0; i &amp;lt; nums.size(); i&#43;&#43;) { 	l = i &#43; 1; 	r = nums.size() - 1; 	T = target - nums[i]; 	while (l &amp;lt; r) { 	sum = nums[l] &#43; nums[r]; 	if (abs(sum - T) &amp;lt; closest) { 	res = sum &#43; nums[i]; 	closest = abs(sum - T); 	} 	if (sum == T) { 	return target; 	} if (sum &amp;lt; T) { 	l&#43;&#43;; 	} else { 	r--; 	} 	} 	} 	return res; 	} }; " />
+<meta property="og:description" content=" tags: LeetCode101,Sorting,Two Pointers,Three Pointers Key ideas see LeetCode101: 15. 3Sum
+class Solution { public: int threeSumClosest(vector&amp;lt;int&amp;gt;&amp;amp; nums, int target) { sort(nums.begin(), nums.end()); int closest = INT_MAX, l, r, sum, T, res; for (int i = 0; i &amp;lt; nums.size(); i&#43;&#43;) { l = i &#43; 1; r = nums.size() - 1; T = target - nums[i]; while (l &amp;lt; r) { sum = nums[l] &#43; nums[r]; if (abs(sum - T) &amp;lt; closest) { res = sum &#43; nums[i]; closest = abs(sum - T); } if (sum == T) { return target; } if (sum &amp;lt; T) { l&#43;&#43;; } else { r--; } } } return res; } }; " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220407081015-leetcode101_16_3sum_closest/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

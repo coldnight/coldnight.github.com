@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="案例 Airflow powers AI。
 Airflow SSO 接入 公司 SSO 系统不是基于开源标准，而是一套自定义的方式，目前网上没有成熟的解决方案，通过查看 Flask-AppBuilder 和 Airflow 的代码发现可以扩展 flask_appbuilder.security.views.AuthRemoteUserView 并通过自定义的 SecurityManager 指定 authremoteuserview 来实现，去掉具体 SSO 逻辑后的代码如下：
-from urllib.parse import urlencode from urllib.parse import urljoin  import requests  from flask import flash from flask import redirect from flask import request from flask_appbuilder.baseviews import expose from flask_appbuilder.security.views import AuthRemoteUserView  try: 	from airflow.www.security import AirflowSecurityManager except ImportError: 	AirflowSecurityManager = None  __version__ = &amp;#34;0." />
+from urllib.parse import urlencode from urllib.parse import urljoin import requests from flask import flash from flask import redirect from flask import request from flask_appbuilder.baseviews import expose from flask_appbuilder.security.views import AuthRemoteUserView try: from airflow.www.security import AirflowSecurityManager except ImportError: AirflowSecurityManager = None __version__ = &amp;#34;0.1.0&amp;#34; AUTHORIZE_URL = &amp;#34;https://example.com/sso/login&amp;#34; ACCESS_TOKEN_URL = &amp;#34;https://example." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20210902153221-airflow/" />
@@ -38,7 +38,7 @@ from urllib.parse import urlencode from urllib.parse import urljoin  import requ
 <meta property="og:title" content="Airflow">
 <meta property="og:description" content="案例 Airflow powers AI。
 Airflow SSO 接入 公司 SSO 系统不是基于开源标准，而是一套自定义的方式，目前网上没有成熟的解决方案，通过查看 Flask-AppBuilder 和 Airflow 的代码发现可以扩展 flask_appbuilder.security.views.AuthRemoteUserView 并通过自定义的 SecurityManager 指定 authremoteuserview 来实现，去掉具体 SSO 逻辑后的代码如下：
-from urllib.parse import urlencode from urllib.parse import urljoin  import requests  from flask import flash from flask import redirect from flask import request from flask_appbuilder.baseviews import expose from flask_appbuilder.security.views import AuthRemoteUserView  try: 	from airflow.www.security import AirflowSecurityManager except ImportError: 	AirflowSecurityManager = None  __version__ = &amp;#34;0." />
+from urllib.parse import urlencode from urllib.parse import urljoin import requests from flask import flash from flask import redirect from flask import request from flask_appbuilder.baseviews import expose from flask_appbuilder.security.views import AuthRemoteUserView try: from airflow.www.security import AirflowSecurityManager except ImportError: AirflowSecurityManager = None __version__ = &amp;#34;0.1.0&amp;#34; AUTHORIZE_URL = &amp;#34;https://example.com/sso/login&amp;#34; ACCESS_TOKEN_URL = &amp;#34;https://example." />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20210902153221-airflow/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

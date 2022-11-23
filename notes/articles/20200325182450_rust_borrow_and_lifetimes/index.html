@@ -6,13 +6,14 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Rust,Translate,Rust Wrapper Types  原文链接：Rust Borrow and Lifetimes。
+<meta name="description" content="tags: Rust,Translate,Rust Wrapper Types 原文链接：Rust Borrow and Lifetimes。
 Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布，目前最新稳定版本 1.42）。 我必须再写一篇关于我为什么觉得 Rust 牛逼的新博客，但是今天我将关注在它的借用（borrow） 和生命周期（lifetimes）系统，这也是常常让包括我在内的 Rust 新手陷入困境的地方。这篇文章假设 你基本了解 Rust，如果还没推荐你先阅读指南和指针指南。
 资源所有权和借用 Rust 通过一个难缠的（sophisticated）借用系统在不用 GC 的情况下达到内存安全。对于任何资源 （栈内存、堆内存、文件句柄等），他们都对应一个唯一的所有者（owner）在需要的情况下处理资源回收。 你可以通过 &amp;amp; 或者 &amp;amp;mut 创建一个新的绑定指向该资源，这被称之为借用或可变借用。编译器确保 所有的所有者（owners）和借用者（borrowers）行为正确。
 拷贝和转移（Copy and move） 在我们开始进入借用系统之前，我们需要知道 Rust 如何处理拷贝和转移。这个 StackOverflow 答案非常值得一读。 基本上，在赋值和函数调用上：
- 如果值是可拷贝的（copyable）（仅涉及原始（primitive）类型，不涉及如内存或文件句柄的资源），编译器默认进行拷贝。 其他情况，编译器转移（moves）所有权（ownership）并使原来的绑定无效。  简而言之，POD（Plan Old Data） =&amp;gt; 拷贝，Non-POD（线性类型（linear types））=&amp;gt; 转移。
+如果值是可拷贝的（copyable）（仅涉及原始（primitive）类型，不涉及如内存或文件句柄的资源），编译器默认进行拷贝。 其他情况，编译器转移（moves）所有权（ownership）并使原来的绑定无效。 简而言之，POD（Plan Old Data） =&amp;gt; 拷贝，Non-POD（线性类型（linear types））=&amp;gt; 转移。
 以下是一些额外的注释供你参考：
- Rust 拷贝像 C。每一个按值（by-value）使用一个值都是字节拷贝（通过 memcpy 浅拷贝），而不是语义上的拷贝或克隆。 如果想要让一个 POD 结构体变成不可拷贝的，你可以使用一个 NoCopy 标记，或者实现 Drop 特性（trait）。  转移之后，所有权就转移到了下一个所有者那。" />
+Rust 拷贝像 C。每一个按值（by-value）使用一个值都是字节拷贝（通过 memcpy 浅拷贝），而不是语义上的拷贝或克隆。 如果想要让一个 POD 结构体变成不可拷贝的，你可以使用一个 NoCopy 标记，或者实现 Drop 特性（trait）。 转移之后，所有权就转移到了下一个所有者那。
+资源回收 Rust 会在任何资源的所有权消失后立刻释放该资源，就这些，当：" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/articles/20200325182450_rust_borrow_and_lifetimes/" />
@@ -40,13 +41,14 @@ Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust Borrow and Lifetimes">
-<meta property="og:description" content="tags: Rust,Translate,Rust Wrapper Types  原文链接：Rust Borrow and Lifetimes。
+<meta property="og:description" content="tags: Rust,Translate,Rust Wrapper Types 原文链接：Rust Borrow and Lifetimes。
 Rust 是一门处于往 1.0 活跃开发的新语言（译注：1.0 早已发布，目前最新稳定版本 1.42）。 我必须再写一篇关于我为什么觉得 Rust 牛逼的新博客，但是今天我将关注在它的借用（borrow） 和生命周期（lifetimes）系统，这也是常常让包括我在内的 Rust 新手陷入困境的地方。这篇文章假设 你基本了解 Rust，如果还没推荐你先阅读指南和指针指南。
 资源所有权和借用 Rust 通过一个难缠的（sophisticated）借用系统在不用 GC 的情况下达到内存安全。对于任何资源 （栈内存、堆内存、文件句柄等），他们都对应一个唯一的所有者（owner）在需要的情况下处理资源回收。 你可以通过 &amp;amp; 或者 &amp;amp;mut 创建一个新的绑定指向该资源，这被称之为借用或可变借用。编译器确保 所有的所有者（owners）和借用者（borrowers）行为正确。
 拷贝和转移（Copy and move） 在我们开始进入借用系统之前，我们需要知道 Rust 如何处理拷贝和转移。这个 StackOverflow 答案非常值得一读。 基本上，在赋值和函数调用上：
- 如果值是可拷贝的（copyable）（仅涉及原始（primitive）类型，不涉及如内存或文件句柄的资源），编译器默认进行拷贝。 其他情况，编译器转移（moves）所有权（ownership）并使原来的绑定无效。  简而言之，POD（Plan Old Data） =&amp;gt; 拷贝，Non-POD（线性类型（linear types））=&amp;gt; 转移。
+如果值是可拷贝的（copyable）（仅涉及原始（primitive）类型，不涉及如内存或文件句柄的资源），编译器默认进行拷贝。 其他情况，编译器转移（moves）所有权（ownership）并使原来的绑定无效。 简而言之，POD（Plan Old Data） =&amp;gt; 拷贝，Non-POD（线性类型（linear types））=&amp;gt; 转移。
 以下是一些额外的注释供你参考：
- Rust 拷贝像 C。每一个按值（by-value）使用一个值都是字节拷贝（通过 memcpy 浅拷贝），而不是语义上的拷贝或克隆。 如果想要让一个 POD 结构体变成不可拷贝的，你可以使用一个 NoCopy 标记，或者实现 Drop 特性（trait）。  转移之后，所有权就转移到了下一个所有者那。" />
+Rust 拷贝像 C。每一个按值（by-value）使用一个值都是字节拷贝（通过 memcpy 浅拷贝），而不是语义上的拷贝或克隆。 如果想要让一个 POD 结构体变成不可拷贝的，你可以使用一个 NoCopy 标记，或者实现 Drop 特性（trait）。 转移之后，所有权就转移到了下一个所有者那。
+资源回收 Rust 会在任何资源的所有权消失后立刻释放该资源，就这些，当：" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/articles/20200325182450_rust_borrow_and_lifetimes/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

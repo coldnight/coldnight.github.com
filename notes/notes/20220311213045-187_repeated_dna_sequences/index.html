@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="tags: Sliding Window,LeetCode101,Hash Set  Key:
- Fixed size window, right should start from 9  class Solution { public: 	vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { 	int left = 0; 	unordered_set&amp;lt;string&amp;gt; results; 	unordered_set&amp;lt;string&amp;gt; hset;  	for (auto right = 9; right &amp;lt; s.size(); right&#43;&#43;) { 	string sub(s, left, 10); 	if (hset.find(sub) != hset.end()) { 	results.insert(sub); 	} 	hset.insert(sub); 	left&#43;&#43;; 	}  	return vector&amp;lt;string&amp;gt;(results." />
+<meta name="description" content=" tags: Sliding Window,LeetCode101,Hash Set Key:
+Fixed size window, right should start from 9 class Solution { public: vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { int left = 0; unordered_set&amp;lt;string&amp;gt; results; unordered_set&amp;lt;string&amp;gt; hset; for (auto right = 9; right &amp;lt; s.size(); right&#43;&#43;) { string sub(s, left, 10); if (hset.find(sub) != hset.end()) { results.insert(sub); } hset.insert(sub); left&#43;&#43;; } return vector&amp;lt;string&amp;gt;(results.begin(), results.end()); } }; " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220311213045-187_repeated_dna_sequences/" />
@@ -35,8 +35,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="LeetCode101: 187. Repeated DNA Sequences">
-<meta property="og:description" content="tags: Sliding Window,LeetCode101,Hash Set  Key:
- Fixed size window, right should start from 9  class Solution { public: 	vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { 	int left = 0; 	unordered_set&amp;lt;string&amp;gt; results; 	unordered_set&amp;lt;string&amp;gt; hset;  	for (auto right = 9; right &amp;lt; s.size(); right&#43;&#43;) { 	string sub(s, left, 10); 	if (hset.find(sub) != hset.end()) { 	results.insert(sub); 	} 	hset.insert(sub); 	left&#43;&#43;; 	}  	return vector&amp;lt;string&amp;gt;(results." />
+<meta property="og:description" content=" tags: Sliding Window,LeetCode101,Hash Set Key:
+Fixed size window, right should start from 9 class Solution { public: vector&amp;lt;string&amp;gt; findRepeatedDnaSequences(string s) { int left = 0; unordered_set&amp;lt;string&amp;gt; results; unordered_set&amp;lt;string&amp;gt; hset; for (auto right = 9; right &amp;lt; s.size(); right&#43;&#43;) { string sub(s, left, 10); if (hset.find(sub) != hset.end()) { results.insert(sub); } hset.insert(sub); left&#43;&#43;; } return vector&amp;lt;string&amp;gt;(results.begin(), results.end()); } }; " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220311213045-187_repeated_dna_sequences/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

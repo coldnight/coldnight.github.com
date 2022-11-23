@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Rust source: Johnston, Dylan R. “Formally Verifying Rust’s Opaque Types,” August 1, 2022. https://dylanj.xyz/posts/rust-coq-opaque-types/.  Prelude trait ToString {  fn to_string(&amp;amp;self) -&amp;gt; String; } Static Dispatch fn yell&amp;lt;S: ToString&amp;gt;(stringable: S) {  println!(stringable.to_string().to_uppercase()) } Dynamic Dispatch fn yell(stringable: &amp;amp;dyn ToString) {  println!(stringable.to_string().to_uppercase()) } impl Trait fn yell(stringable: impl ToString) {  println!(stringable.to_string().to_uppercase()) } " />
+<meta name="description" content=" tags: Rust source: Johnston, Dylan R. “Formally Verifying Rust’s Opaque Types,” August 1, 2022. https://dylanj.xyz/posts/rust-coq-opaque-types/. Prelude trait ToString { fn to_string(&amp;amp;self) -&amp;gt; String; } Static Dispatch fn yell&amp;lt;S: ToString&amp;gt;(stringable: S) { println!(stringable.to_string().to_uppercase()) } Dynamic Dispatch fn yell(stringable: &amp;amp;dyn ToString) { println!(stringable.to_string().to_uppercase()) } impl Trait fn yell(stringable: impl ToString) { println!(stringable.to_string().to_uppercase()) } " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20220802104148-rust_opaque_types_static_dispatch_vs_dynamic_dispatch/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Rust Opaque Types: Static Dispatch vs. Dynamic Dispatch">
-<meta property="og:description" content=" tags: Rust source: Johnston, Dylan R. “Formally Verifying Rust’s Opaque Types,” August 1, 2022. https://dylanj.xyz/posts/rust-coq-opaque-types/.  Prelude trait ToString {  fn to_string(&amp;amp;self) -&amp;gt; String; } Static Dispatch fn yell&amp;lt;S: ToString&amp;gt;(stringable: S) {  println!(stringable.to_string().to_uppercase()) } Dynamic Dispatch fn yell(stringable: &amp;amp;dyn ToString) {  println!(stringable.to_string().to_uppercase()) } impl Trait fn yell(stringable: impl ToString) {  println!(stringable.to_string().to_uppercase()) } " />
+<meta property="og:description" content=" tags: Rust source: Johnston, Dylan R. “Formally Verifying Rust’s Opaque Types,” August 1, 2022. https://dylanj.xyz/posts/rust-coq-opaque-types/. Prelude trait ToString { fn to_string(&amp;amp;self) -&amp;gt; String; } Static Dispatch fn yell&amp;lt;S: ToString&amp;gt;(stringable: S) { println!(stringable.to_string().to_uppercase()) } Dynamic Dispatch fn yell(stringable: &amp;amp;dyn ToString) { println!(stringable.to_string().to_uppercase()) } impl Trait fn yell(stringable: impl ToString) { println!(stringable.to_string().to_uppercase()) } " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20220802104148-rust_opaque_types_static_dispatch_vs_dynamic_dispatch/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 

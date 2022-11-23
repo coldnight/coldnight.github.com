@@ -6,12 +6,16 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="智能指针   表现的像一个指针，拥有数据并允许在对数据进行维护。
-  通常通过 struct 实现并实现两个特性 Deref 和 Drop
- Deref 允许智能指针实例行为像一个引用，让代码可以同时处理引用和智能指针 Drop 允许自定义智能指针超出作用域的行为。    标准库常见的智能指针
- Box&amp;lt;T&amp;gt; 用于在堆分配值 Rc&amp;lt;T&amp;gt; 引用计数类型，允许多个拥有者 Ref&amp;lt;T&amp;gt; 和 RefMut&amp;lt;T&amp;gt; 和通过 RefCell&amp;lt;T&amp;gt; 访问，运行时取代编译期强制检查借用规则    Box&amp;lt;T&amp;gt; 场景：
-  编译期未知大小的类型（递归类型（自己包含自己类型的类型，如链表）编译期无法确定大小）
-// 递归类型 enum List { 	Cons(i32, Box&amp;lt;List&amp;gt;), 	Nil, }  fn main() { 	let b = Box::new(5); 	println!(&amp;#34;b = {}&amp;#34;, b);  	let list = Cons(1, 	Box::new(Cons(2, 	Box::new(Cons(3, 	Box::new(Nil)))))); }   避免大量数据转移所有权时发生拷贝" />
+<meta name="description" content="智能指针 表现的像一个指针，拥有数据并允许在对数据进行维护。
+通常通过 struct 实现并实现两个特性 Deref 和 Drop
+Deref 允许智能指针实例行为像一个引用，让代码可以同时处理引用和智能指针 Drop 允许自定义智能指针超出作用域的行为。 标准库常见的智能指针
+Box&amp;lt;T&amp;gt; 用于在堆分配值 Rc&amp;lt;T&amp;gt; 引用计数类型，允许多个拥有者 Ref&amp;lt;T&amp;gt; 和 RefMut&amp;lt;T&amp;gt; 和通过 RefCell&amp;lt;T&amp;gt; 访问，运行时取代编译期强制检查借用规则 Box&amp;lt;T&amp;gt; 场景：
+编译期未知大小的类型（递归类型（自己包含自己类型的类型，如链表）编译期无法确定大小）
+// 递归类型 enum List { Cons(i32, Box&amp;lt;List&amp;gt;), Nil, } fn main() { let b = Box::new(5); println!(&amp;#34;b = {}&amp;#34;, b); let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil)))))); } 避免大量数据转移所有权时发生拷贝
+拥有一个实现特定特性的值（不关心具体类型）的所有权
+Deref 用于自定义解引用操作符（ * ） 的行为，智能指针通过实现该特性来模拟普通引用的行为。
+对比
+fn main() { let x = 5; let y = &amp;amp;x; assert_eq!" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200629180545-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" />
@@ -39,12 +43,16 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="智能指针">
-<meta property="og:description" content="智能指针   表现的像一个指针，拥有数据并允许在对数据进行维护。
-  通常通过 struct 实现并实现两个特性 Deref 和 Drop
- Deref 允许智能指针实例行为像一个引用，让代码可以同时处理引用和智能指针 Drop 允许自定义智能指针超出作用域的行为。    标准库常见的智能指针
- Box&amp;lt;T&amp;gt; 用于在堆分配值 Rc&amp;lt;T&amp;gt; 引用计数类型，允许多个拥有者 Ref&amp;lt;T&amp;gt; 和 RefMut&amp;lt;T&amp;gt; 和通过 RefCell&amp;lt;T&amp;gt; 访问，运行时取代编译期强制检查借用规则    Box&amp;lt;T&amp;gt; 场景：
-  编译期未知大小的类型（递归类型（自己包含自己类型的类型，如链表）编译期无法确定大小）
-// 递归类型 enum List { 	Cons(i32, Box&amp;lt;List&amp;gt;), 	Nil, }  fn main() { 	let b = Box::new(5); 	println!(&amp;#34;b = {}&amp;#34;, b);  	let list = Cons(1, 	Box::new(Cons(2, 	Box::new(Cons(3, 	Box::new(Nil)))))); }   避免大量数据转移所有权时发生拷贝" />
+<meta property="og:description" content="智能指针 表现的像一个指针，拥有数据并允许在对数据进行维护。
+通常通过 struct 实现并实现两个特性 Deref 和 Drop
+Deref 允许智能指针实例行为像一个引用，让代码可以同时处理引用和智能指针 Drop 允许自定义智能指针超出作用域的行为。 标准库常见的智能指针
+Box&amp;lt;T&amp;gt; 用于在堆分配值 Rc&amp;lt;T&amp;gt; 引用计数类型，允许多个拥有者 Ref&amp;lt;T&amp;gt; 和 RefMut&amp;lt;T&amp;gt; 和通过 RefCell&amp;lt;T&amp;gt; 访问，运行时取代编译期强制检查借用规则 Box&amp;lt;T&amp;gt; 场景：
+编译期未知大小的类型（递归类型（自己包含自己类型的类型，如链表）编译期无法确定大小）
+// 递归类型 enum List { Cons(i32, Box&amp;lt;List&amp;gt;), Nil, } fn main() { let b = Box::new(5); println!(&amp;#34;b = {}&amp;#34;, b); let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil)))))); } 避免大量数据转移所有权时发生拷贝
+拥有一个实现特定特性的值（不关心具体类型）的所有权
+Deref 用于自定义解引用操作符（ * ） 的行为，智能指针通过实现该特性来模拟普通引用的行为。
+对比
+fn main() { let x = 5; let y = &amp;amp;x; assert_eq!" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200629180545-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
