@@ -109,7 +109,7 @@ q&lt;/p&gt;
       
       <guid>https://www.linuxzen.com/notes/notes/20221121160749-solana_101_prelude/</guid>
       <description>tags: Solana 101: Create an Escrow dApp 聊聊区块链 一个完整的区块链系统生态：
-主币：进行 gas 费结算：BitCoin / ETH / TRX 等等 节点服务(JSONRPC 2.0)：提供数据查询、广播交易，交易广播（P2P -&amp;gt; 挖矿节点）； 交易验证：挣取 gas 费，出块奖励（挖矿）； PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce + body) -&amp;gt; sha256 import hashlib dificulty = 5 raw_block = b&amp;#39;bytes&amp;#39; def proof_my_work(dificulty, raw_block): nonce = 1 while True: body = bytes(nonce) + raw_block h = hashlib.sha256(body) hex_value = h.hexdigest() if hex_value[:dificulty] == &amp;#39;0&amp;#39; * dificulty: return hex_value nonce += 1 proof_my_work(dificulty, raw_block) PoS（Proof of Stake）：通过质押主币提供交易验证，一旦被发现作弊则扣除质押的主币； 链浏览器：通过 Web UI 进行链上数据查询； 钱包 == 私钥：资产证明，交易授权，公钥导出地址，私钥则是证明拥有该地址； 智能合约（Smart Contract）：对资产进行编程； 代币（Tokens）：基于智能合约实现，Fungible Tokens（ERC20 / TRC20） 和 Non-Fungible Tokens （ERC721） dApp：通过桥接钱包和链上智能合约实现一定的链上操作； 从智能合约来看各个区块链生态之间的区别 主要是虚拟机的区别，为了执行智能合约，区块链系统需要虚拟机来执行代码，目前主流的虚拟机包括：</description>
+主币：进行 gas 费结算：BitCoin / ETH / TRX 等等 节点服务(JSONRPC 2.0)：提供数据查询、广播交易，交易广播（P2P -&amp;gt; 挖矿节点）； 交易验证：挣取 gas 费，出块奖励（挖矿）； PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce + body) -&amp;gt; sha256 import hashlib from typing import Tuple raw_block = b&amp;#39;block data&amp;#39; dificulty = 5 def proof_my_work(dificulty, raw_block) -&amp;gt; Tuple[int, str]: nonce = 1 while True: body = bytes(nonce) + raw_block h = hashlib.sha256(body) hex_value = h.hexdigest() if hex_value[:dificulty] == &amp;#39;0&amp;#39; * dificulty: return nonce, hex_value nonce += 1 proof_my_work(dificulty, raw_block) PoS（Proof of Stake）：通过质押主币提供交易验证，一旦被发现作弊则扣除质押的主币； 链浏览器：通过 Web UI 进行链上数据查询； 钱包 == 私钥：资产证明，交易授权，公钥导出地址，私钥则是证明拥有该地址； 智能合约（Smart Contract）：对资产进行编程； 代币（Tokens）：基于智能合约实现，Fungible Tokens（ERC20 / TRC20） 和 Non-Fungible Tokens （ERC721） dApp：通过桥接钱包和链上智能合约实现一定的链上操作； 从智能合约来看各个区块链生态之间的区别 主要是虚拟机的区别，为了执行智能合约，区块链系统需要虚拟机来执行代码，目前主流的虚拟机包括：</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/&#34;&gt;Solana 101: Create an Escrow dApp&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -123,18 +123,20 @@ q&lt;/p&gt;
 &lt;li&gt;PoW（Proof of Work）：通过算力证明提供交易验证（出块）；sha256(nonce + body) -&amp;gt; sha256
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; hashlib
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; typing &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Tuple
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;raw_block &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;block data&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dificulty &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;raw_block &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bytes&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;proof_my_work&lt;/span&gt;(dificulty, raw_block):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;proof_my_work&lt;/span&gt;(dificulty, raw_block) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; Tuple[int, str]:
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nonce &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        body &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; bytes(nonce) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; raw_block
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        h &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hashlib&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sha256(body)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        hex_value &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; h&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hexdigest()
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; hex_value[:dificulty] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;0&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; dificulty:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; hex_value
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; nonce, hex_value
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nonce &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
@@ -152,8 +154,8 @@ q&lt;/p&gt;
 &lt;h2 id=&#34;从智能合约来看各个区块链生态之间的区别&#34;&gt;从智能合约来看各个区块链生态之间的区别&lt;/h2&gt;
 &lt;p&gt;主要是虚拟机的区别，为了执行智能合约，区块链系统需要虚拟机来执行代码，目前主流的虚拟机包括：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;无智能合约：UTXO（bUnspent transaction output），Bitcoin / DogeCoin / LiteCoin&lt;/li&gt;
-&lt;li&gt;WASM（Soldity）: EVM(Ethereum / Binance Smart Chain / OKX Chain), Tron&lt;/li&gt;
+&lt;li&gt;无智能合约：UTXO（Unspent transaction output），Bitcoin / DogeCoin / LiteCoin&lt;/li&gt;
+&lt;li&gt;WASM（Soldity）: EVM(Ethereum / Binance Smart Chain / OKX Chain), TVM(Tron)&lt;/li&gt;
 &lt;li&gt;Move：由 Facebook 之前推出的 Libra 现在改名 Diem 推出，Aptos / Starcoin / Sui&lt;/li&gt;
 &lt;li&gt;LLVM(ELF / BPF)：Solana&lt;/li&gt;
 &lt;/ul&gt;
