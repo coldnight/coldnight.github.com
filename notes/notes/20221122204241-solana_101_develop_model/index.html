@@ -6,7 +6,13 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="So&#43; tags: Solana 101: Create an Escrow dApp q" />
+<meta name="description" content="tags: Solana 101: Create an Escrow dApp Account Model UTXO Unspend Transaction Output.
+EVM Accounts1 EOA(Externally-owned acount) - 用户用私钥控制的账户； 合约账户（Contract account） - 代码控制的账户，用于部署智能合约代码。 账户模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）； 这样只要将链上转账或者智能合约产生的结果或副作用存储在账户下面即可。
+Solana Account Model Accounts2 账户用于提供给智能合约（Program）跨交易存储状态，类似文件系统； 包含元数据（metadata）说明谁有权限访问这些状态； Solana 独特的创新：账户伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账户，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收； 一笔交易里可以参与的账号类型有：
+Signers 一笔交易可以包含一个或多个签名者，表示授权此笔交易（多签机制）； Read-only 交易里对该账户只读； Executable 其账号可以作为智能合约进行调用（将其账号对应的公钥地址作为 program id）； Programs or Smart Contract3 账号被标记为 Executable 可以部署代码（Program）作为智能合约。两种类型的智能合约：
+Native Programs &amp;ndash; 区块链系统提供的标准库； On Chain Programs &amp;ndash; 用户开发部署到链上的智能合约。 同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。
+搭建开发环境 命令行钱包 命令行钱包 连接到测试节点 通过水龙头（Faucet）领取测试币 编写部署第一个智能合约 **
+Rust 简介 调用智能合约 ETHEREUM ACCOUNTS&amp;#160;&amp;#x21a9;&amp;#xfe0e;" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20221122204241-solana_101_develop_model/" />
@@ -34,7 +40,13 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Solana 101: 1. Develop Model">
-<meta property="og:description" content="So&#43; tags: Solana 101: Create an Escrow dApp q" />
+<meta property="og:description" content="tags: Solana 101: Create an Escrow dApp Account Model UTXO Unspend Transaction Output.
+EVM Accounts1 EOA(Externally-owned acount) - 用户用私钥控制的账户； 合约账户（Contract account） - 代码控制的账户，用于部署智能合约代码。 账户模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）； 这样只要将链上转账或者智能合约产生的结果或副作用存储在账户下面即可。
+Solana Account Model Accounts2 账户用于提供给智能合约（Program）跨交易存储状态，类似文件系统； 包含元数据（metadata）说明谁有权限访问这些状态； Solana 独特的创新：账户伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账户，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收； 一笔交易里可以参与的账号类型有：
+Signers 一笔交易可以包含一个或多个签名者，表示授权此笔交易（多签机制）； Read-only 交易里对该账户只读； Executable 其账号可以作为智能合约进行调用（将其账号对应的公钥地址作为 program id）； Programs or Smart Contract3 账号被标记为 Executable 可以部署代码（Program）作为智能合约。两种类型的智能合约：
+Native Programs &amp;ndash; 区块链系统提供的标准库； On Chain Programs &amp;ndash; 用户开发部署到链上的智能合约。 同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。
+搭建开发环境 命令行钱包 命令行钱包 连接到测试节点 通过水龙头（Faucet）领取测试币 编写部署第一个智能合约 **
+Rust 简介 调用智能合约 ETHEREUM ACCOUNTS&amp;#160;&amp;#x21a9;&amp;#xfe0e;" />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20221122204241-solana_101_develop_model/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -163,8 +175,62 @@
   
 
   <div class="post-content"><div>
-        <p>So+ tags: <a href="/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/">Solana 101: Create an Escrow dApp</a>
-q</p>
+        <ul>
+<li>tags: <a href="/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/">Solana 101: Create an Escrow dApp</a></li>
+</ul>
+<h2 id="account-model">Account Model<a href="#account-model" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="utxo">UTXO<a href="#utxo" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Unspend Transaction Output.</p>
+<h3 id="evm-accounts">EVM Accounts<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><a href="#evm-accounts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>EOA(Externally-owned acount) - 用户用私钥控制的账户；</li>
+<li>合约账户（Contract account） - 代码控制的账户，用于部署智能合约代码。</li>
+</ul>
+<p>账户模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）；
+这样只要将链上转账或者智能合约产生的结果或副作用存储在账户下面即可。</p>
+<h3 id="solana-account-model">Solana Account Model<a href="#solana-account-model" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="accounts">Accounts<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><a href="#accounts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<ul>
+<li>账户用于提供给智能合约（Program）跨交易存储状态，类似文件系统；</li>
+<li>包含元数据（metadata）说明谁有权限访问这些状态；</li>
+<li>Solana 独特的创新：账户伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账户，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收；</li>
+</ul>
+<p>一笔交易里可以参与的账号类型有：</p>
+<ul>
+<li><em>Signers</em> 一笔交易可以包含一个或多个签名者，表示授权此笔交易（多签机制）；</li>
+<li><em>Read-only</em> 交易里对该账户只读；</li>
+<li><em>Executable</em> 其账号可以作为智能合约进行调用（将其账号对应的公钥地址作为 program id）；</li>
+</ul>
+<h4 id="programs-or-smart-contract">Programs or Smart Contract<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><a href="#programs-or-smart-contract" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>账号被标记为 <em>Executable</em> 可以部署代码（Program）作为智能合约。两种类型的智能合约：</p>
+<ul>
+<li><a href="https://docs.solana.com/developing/intro/programs#native-programs">Native Programs</a> &ndash; 区块链系统提供的标准库；</li>
+<li><a href="https://docs.solana.com/developing/intro/programs#on-chain-programs">On Chain Programs</a> &ndash; 用户开发部署到链上的智能合约。</li>
+</ul>
+<p>同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。</p>
+<h2 id="搭建开发环境">搭建开发环境<a href="#搭建开发环境" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="命令行钱包">命令行钱包<a href="#命令行钱包" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="命令行钱包">命令行钱包<a href="#命令行钱包" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="连接到测试节点">连接到测试节点<a href="#连接到测试节点" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="通过水龙头-faucet-领取测试币">通过水龙头（Faucet）领取测试币<a href="#通过水龙头-faucet-领取测试币" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="编写部署第一个智能合约">编写部署第一个智能合约<a href="#编写部署第一个智能合约" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>**</p>
+<h3 id="rust-简介">Rust 简介<a href="#rust-简介" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="调用智能合约">调用智能合约<a href="#调用智能合约" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://ethereum.org/en/developers/docs/accounts/">ETHEREUM ACCOUNTS</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://docs.solana.com/developing/programming-model/accounts">Accounts</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://docs.solana.com/developing/intro/programs">Programs</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
       </div></div>
 
@@ -228,7 +294,11 @@ q</p>
    
 
    
+      
+   
 
+   
+      
    
 
    
@@ -1569,7 +1639,16 @@ q</p>
 <hr>
 
   <div class="bl-section">
-    <h4>No notes link to this note</h4>
+    <h4>Links to this note</h4>
+    <div class="backlinks">
+      <ul>
+       
+          <li><a href="/notes/notes/20220802181223-solana_account/">Solana Account</a></li>
+       
+          <li><a href="/notes/notes/20220802174748-solana_program/">Solana Program</a></li>
+       
+     </ul>
+    </div>
   </div>
 
 
