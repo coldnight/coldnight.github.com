@@ -101,8 +101,7 @@ EVM Accounts1 EOA(Externally-owned acount) - 用户用私钥控制的账户； �
 Solana Account Model Accounts2 账户用于提供给智能合约（Program）跨交易存储状态，类似文件系统； 包含元数据（metadata）说明谁有权限访问这些状态； Solana 独特的创新：账户伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账户，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收； 一笔交易里可以参与的账号类型有：
 Signers 一笔交易可以包含一个或多个签名者，表示授权此笔交易（多签机制）； Read-only 交易里对该账户只读； Executable 其账号可以作为智能合约进行调用（将其账号对应的公钥地址作为 program id）； Programs or Smart Contract3 账号被标记为 Executable 可以部署代码（Program）作为智能合约。两种类型的智能合约：
 Native Programs &amp;ndash; 区块链系统提供的标准库； On Chain Programs &amp;ndash; 用户开发部署到链上的智能合约。 同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。
-搭建开发环境 命令行钱包 命令行钱包 连接到测试节点 通过水龙头（Faucet）领取测试币 编写部署第一个智能合约 **
-Rust 简介 调用智能合约 ETHEREUM ACCOUNTS&amp;#160;&amp;#x21a9;&amp;#xfe0e;</description>
+搭建开发环境 命令行钱包 sh -c &amp;#34;$(curl -sSfL https://release.solana.com/stable/install)&amp;#34; 连接到开发节点 通过水龙头（Faucet）领取测试币4 Rust 安装和简介 curl --proto &amp;#39;=https&amp;#39; --tlsv1.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/&#34;&gt;Solana 101: Create an Escrow dApp&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -138,13 +137,23 @@ Rust 简介 调用智能合约 ETHEREUM ACCOUNTS&amp;#160;&amp;#x21a9;&amp;#xfe0
 &lt;p&gt;同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。&lt;/p&gt;
 &lt;h2 id=&#34;搭建开发环境&#34;&gt;搭建开发环境&lt;/h2&gt;
 &lt;h3 id=&#34;命令行钱包&#34;&gt;命令行钱包&lt;/h3&gt;
-&lt;h3 id=&#34;命令行钱包&#34;&gt;命令行钱包&lt;/h3&gt;
-&lt;h3 id=&#34;连接到测试节点&#34;&gt;连接到测试节点&lt;/h3&gt;
-&lt;h3 id=&#34;通过水龙头-faucet-领取测试币&#34;&gt;通过水龙头（Faucet）领取测试币&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sh -c &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;curl -sSfL https://release.solana.com/stable/install&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;连接到开发节点&#34;&gt;连接到开发节点&lt;/h3&gt;
+&lt;h3 id=&#34;通过水龙头-faucet-领取测试币&#34;&gt;通过水龙头（Faucet）领取测试币&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+&lt;h3 id=&#34;rust-安装和简介&#34;&gt;Rust 安装和简介&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl --proto &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;=https&amp;#39;&lt;/span&gt; --tlsv1.2 -sSf https://sh.rustup.rs | sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内存安全&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;设置&#34;&gt;设置&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;设置国内源&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;编写部署第一个智能合约&#34;&gt;编写部署第一个智能合约&lt;/h3&gt;
 &lt;p&gt;**&lt;/p&gt;
-&lt;h3 id=&#34;rust-简介&#34;&gt;Rust 简介&lt;/h3&gt;
 &lt;h3 id=&#34;调用智能合约&#34;&gt;调用智能合约&lt;/h3&gt;
+&lt;h3 id=&#34;升级智能合约&#34;&gt;升级智能合约&lt;/h3&gt;
 &lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
@@ -156,6 +165,12 @@ Rust 简介 调用智能合约 ETHEREUM ACCOUNTS&amp;#160;&amp;#x21a9;&amp;#xfe0
 &lt;/li&gt;
 &lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://docs.solana.com/developing/intro/programs&#34;&gt;Programs&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://solfaucet.com/&#34;&gt;Sol Faucet&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.solidot.org/story?sid=73540&#34;&gt;Android 13 的内存安全漏洞大幅减少&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;

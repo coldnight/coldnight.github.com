@@ -325,8 +325,7 @@ EVM Accounts1 EOA(Externally-owned acount) - 用户用私钥控制的账户； �
 Solana Account Model Accounts2 账户用于提供给智能合约（Program）跨交易存储状态，类似文件系统； 包含元数据（metadata）说明谁有权限访问这些状态； Solana 独特的创新：账户伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账户，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收； 一笔交易里可以参与的账号类型有：
 Signers 一笔交易可以包含一个或多个签名者，表示授权此笔交易（多签机制）； Read-only 交易里对该账户只读； Executable 其账号可以作为智能合约进行调用（将其账号对应的公钥地址作为 program id）； Programs or Smart Contract3 账号被标记为 Executable 可以部署代码（Program）作为智能合约。两种类型的智能合约：
 Native Programs &ndash; 区块链系统提供的标准库； On Chain Programs &ndash; 用户开发部署到链上的智能合约。 同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。
-搭建开发环境 命令行钱包 命令行钱包 连接到测试节点 通过水龙头（Faucet）领取测试币 编写部署第一个智能合约 **
-Rust 简介 调用智能合约 ETHEREUM ACCOUNTS&#160;&#x21a9;&#xfe0e;
+搭建开发环境 命令行钱包 sh -c &#34;$(curl -sSfL https://release.solana.com/stable/install)&#34; 连接到开发节点 通过水龙头（Faucet）领取测试币4 Rust 安装和简介 curl --proto &#39;=https&#39; --tlsv1.
           
           
         </div>
