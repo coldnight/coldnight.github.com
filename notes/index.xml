@@ -97,11 +97,12 @@
       
       <guid>https://www.linuxzen.com/notes/notes/20221122204241-solana_101_develop_model/</guid>
       <description>tags: Solana 101: Create an Escrow dApp Account Model UTXO Unspend Transaction Output.
-EVM Accounts1 EOA(Externally-owned acount) - 用户用私钥控制的账户； 合约账户（Contract account） - 代码控制的账户，用于部署智能合约代码。 账户模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）； 这样只要将链上转账或者智能合约产生的结果或副作用存储在账户下面即可。
+EVM Accounts1 EOA(Externally-owned acount) - 用户用私钥控制的账户； 合约账户（Contract account） - 代码控制的账户，用于部署智能合约代码。 账户模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用公私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）； 这样只要将链上转账或者智能合约产生的结果或副作用存储在账户下面即可。
 Solana Account Model Accounts2 账户用于提供给智能合约（Program）跨交易存储状态，类似文件系统； 包含元数据（metadata）说明谁有权限访问这些状态； Solana 独特的创新：账户伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账户，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收； 一笔交易里可以参与的账号类型有：
 Signers 一笔交易可以包含一个或多个签名者，表示授权此笔交易（多签机制）； Read-only 交易里对该账户只读； Executable 其账号可以作为智能合约进行调用（将其账号对应的公钥地址作为 program id）； Programs or Smart Contract3 账号被标记为 Executable 可以部署代码（Program）作为智能合约。两种类型的智能合约：
 Native Programs &amp;ndash; 区块链系统提供的标准库； On Chain Programs &amp;ndash; 用户开发部署到链上的智能合约。 同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。
-搭建开发环境 命令行钱包 sh -c &amp;#34;$(curl -sSfL https://release.solana.com/stable/install)&amp;#34; 连接到开发节点 通过水龙头（Faucet）领取测试币4 Rust 安装和简介 curl --proto &amp;#39;=https&amp;#39; --tlsv1.</description>
+Solana 的 Program 可以被更新。
+搭建开发环境 命令行钱包 sh -c &amp;#34;$(curl -sSfL https://release.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/&#34;&gt;Solana 101: Create an Escrow dApp&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -113,7 +114,7 @@ Native Programs &amp;ndash; 区块链系统提供的标准库； On Chain Progra
 &lt;li&gt;EOA(Externally-owned acount) - 用户用私钥控制的账户；&lt;/li&gt;
 &lt;li&gt;合约账户（Contract account） - 代码控制的账户，用于部署智能合约代码。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;账户模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）；
+&lt;p&gt;账户模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用公私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）；
 这样只要将链上转账或者智能合约产生的结果或副作用存储在账户下面即可。&lt;/p&gt;
 &lt;h3 id=&#34;solana-account-model&#34;&gt;Solana Account Model&lt;/h3&gt;
 &lt;h4 id=&#34;accounts&#34;&gt;Accounts&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h4&gt;
@@ -135,23 +136,39 @@ Native Programs &amp;ndash; 区块链系统提供的标准库； On Chain Progra
 &lt;li&gt;&lt;a href=&#34;https://docs.solana.com/developing/intro/programs#on-chain-programs&#34;&gt;On Chain Programs&lt;/a&gt; &amp;ndash; 用户开发部署到链上的智能合约。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Solana 的 Program 可以被更新。&lt;/strong&gt;&lt;/p&gt;
 &lt;h2 id=&#34;搭建开发环境&#34;&gt;搭建开发环境&lt;/h2&gt;
 &lt;h3 id=&#34;命令行钱包&#34;&gt;命令行钱包&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sh -c &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;curl -sSfL https://release.solana.com/stable/install&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;连接到开发节点&#34;&gt;连接到开发节点&lt;/h3&gt;
-&lt;h3 id=&#34;通过水龙头-faucet-领取测试币&#34;&gt;通过水龙头（Faucet）领取测试币&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;连接到测试节点&#34;&gt;连接到测试节点&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;solana config set --url https://api.testnet.solana.com
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;官方文档是连接到本地节点，这里不太推荐，因为使用测试节点可以结合链浏览器比较直观的观测结果。&lt;/p&gt;
+&lt;p&gt;注意 Solana 命令最好和集群匹配，不然可能会有一些难以定位的问题，通过一下两个命令确认&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ solana cluster-version
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ solana --version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;通过水龙头-faucet-领取测试币&#34;&gt;通过水龙头（Faucet）领取测试币&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
 &lt;h3 id=&#34;rust-安装和简介&#34;&gt;Rust 安装和简介&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl --proto &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;=https&amp;#39;&lt;/span&gt; --tlsv1.2 -sSf https://sh.rustup.rs | sh
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;特点：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;内存安全&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;内存安全&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;系统级的编程语言，C/C++。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;设置&#34;&gt;设置&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;设置国内源&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;设置国内源，将以下内容放在 &lt;code&gt;~/.cargo/config&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;source&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;crates-io&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;registry&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://github.com/rust-lang/crates.io-index&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;replace-with&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ustc&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;source&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ustc&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;registry&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;git://mirrors.ustc.edu.cn/crates.io-index&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;开发智能合约&#34;&gt;开发智能合约&lt;/h2&gt;
 &lt;h3 id=&#34;编写部署第一个智能合约&#34;&gt;编写部署第一个智能合约&lt;/h3&gt;
-&lt;p&gt;**&lt;/p&gt;
+&lt;p&gt;三个参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;program_id&lt;/code&gt; 当前智能合约的 ProgramId，可以做一些硬编码检查；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;accounts&lt;/code&gt; 参与调用的账号列表；&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;instruction_data&lt;/code&gt; 客户端传过来的参数。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;调用智能合约&#34;&gt;调用智能合约&lt;/h3&gt;
 &lt;h3 id=&#34;升级智能合约&#34;&gt;升级智能合约&lt;/h3&gt;
 &lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
@@ -167,10 +184,16 @@ Native Programs &amp;ndash; 区块链系统提供的标准库； On Chain Progra
 &lt;p&gt;&lt;a href=&#34;https://docs.solana.com/developing/intro/programs&#34;&gt;Programs&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:4&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://solfaucet.com/&#34;&gt;Sol Faucet&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://solana.stackexchange.com/a/4384&#34;&gt;https://solana.stackexchange.com/a/4384&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:5&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.solidot.org/story?sid=73540&#34;&gt;Android 13 的内存安全漏洞大幅减少&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://solfaucet.com/&#34;&gt;Sol Faucet&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.solidot.org/story?sid=73540&#34;&gt;Android 13 的内存安全漏洞大幅减少&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/solana-labs/solana/blob/d9b0fc0e3eec67dfe4a97d9298b15969b2804fab/sdk/program/src/account_info.rs#L12&#34;&gt;AccountInfo&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
