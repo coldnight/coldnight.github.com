@@ -83,10 +83,12 @@
       <pubDate>Tue, 22 Nov 2022 20:44:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20221122204442-solana_101_2_anchor/</guid>
-      <description> tags: Solana 101: Create an Escrow dApp </description>
+      <description> tags: Solana 101: Create an Escrow dApp 链上数据存储 使用 Anchor </description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/&#34;&gt;Solana 101: Create an Escrow dApp&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;链上数据存储&#34;&gt;链上数据存储&lt;/h2&gt;
+&lt;h2 id=&#34;使用-anchor&#34;&gt;使用 Anchor&lt;/h2&gt;
 </content>
     </item>
     
@@ -96,37 +98,37 @@
       <pubDate>Tue, 22 Nov 2022 20:42:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20221122204241-solana_101_develop_model/</guid>
-      <description>tags: Solana 101: Create an Escrow dApp Account Model UTXO Unspend Transaction Output.
-EVM Accounts1 EOA(Externally-owned acount) - 用户用私钥控制的账户； 合约账户（Contract account） - 代码控制的账户，用于部署智能合约代码。 账户模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用公私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）； 这样只要将链上转账或者智能合约产生的结果或副作用存储在账户下面即可。
-Solana Account Model Accounts2 账户用于提供给智能合约（Program）跨交易存储状态，类似文件系统； 包含元数据（metadata）说明谁有权限访问这些状态； Solana 独特的创新：账户伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账户，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收； 一笔交易里可以参与的账号类型有：
-Signers 一笔交易可以包含一个或多个签名者，表示授权此笔交易（多签机制）； Read-only 交易里对该账户只读； Executable 其账号可以作为智能合约进行调用（将其账号对应的公钥地址作为 program id）； Programs or Smart Contract3 账号被标记为 Executable 可以部署代码（Program）作为智能合约。两种类型的智能合约：
-Native Programs &amp;ndash; 区块链系统提供的标准库； On Chain Programs &amp;ndash; 用户开发部署到链上的智能合约。 同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。
+      <description>tags: Solana 101: Create an Escrow dApp Account UTXO Unspend Transaction Output.
+EVM Accounts1 EOA(Externally-owned acount) - 用户用私钥控制的账号； 合约账号（Contract account） - 代码控制的账号，用于部署智能合约代码。 账号模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用公私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）； 这样只要将链上转账或者智能合约产生的结果或副作用存储在账号下面即可。
+Solana Account Model Accounts2 账号用于提供给智能合约（Program）跨交易存储状态，类似文件系统； 包含元数据（metadata）说明谁有权限访问这些状态； Solana 独特的创新：账号伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账号，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收； 一笔交易里可以参与的账号类型有：
+Signers 一笔交易可以包含一个或多个签名者，表示授权此笔交易（多签机制）； Read-only 交易里对该账号只读； Executable 其账号可以作为智能合约进行调用（将其账号对应的公钥地址作为 program id）； Programs or Smart Contract3 账号被标记为 Executable 可以部署代码（Program）作为智能合约。两种类型的智能合约：
+Native Programs &amp;ndash; 区块链系统提供的标准库； On Chain Programs &amp;ndash; 用户开发部署到链上的智能合约。 同时智能合约可以控制多个其他账号，并且只能修改它所拥有的账号数据，但是可以读取其他账号的数据。
 Solana 的 Program 可以被更新。
-搭建开发环境 命令行钱包 sh -c &amp;#34;$(curl -sSfL https://release.</description>
+搭建开发环境 命令行钱包 sh -c &amp;#34;$(curl -sSfL https://release.solana.com/stable/install)&amp;#34; 连接到测试节点 solana config set --url https://api.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/&#34;&gt;Solana 101: Create an Escrow dApp&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;account-model&#34;&gt;Account Model&lt;/h2&gt;
+&lt;h2 id=&#34;account&#34;&gt;Account&lt;/h2&gt;
 &lt;h3 id=&#34;utxo&#34;&gt;UTXO&lt;/h3&gt;
 &lt;p&gt;Unspend Transaction Output.&lt;/p&gt;
 &lt;h3 id=&#34;evm-accounts&#34;&gt;EVM Accounts&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;EOA(Externally-owned acount) - 用户用私钥控制的账户；&lt;/li&gt;
-&lt;li&gt;合约账户（Contract account） - 代码控制的账户，用于部署智能合约代码。&lt;/li&gt;
+&lt;li&gt;EOA(Externally-owned acount) - 用户用私钥控制的账号；&lt;/li&gt;
+&lt;li&gt;合约账号（Contract account） - 代码控制的账号，用于部署智能合约代码。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;账户模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用公私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）；
-这样只要将链上转账或者智能合约产生的结果或副作用存储在账户下面即可。&lt;/p&gt;
+&lt;p&gt;账号模型通过用户地址为用户开辟一块单独的存储，简单的理解就是用公私钥导出的唯一地址作为主键存储在节点的存储系统里（RocksDB）；
+这样只要将链上转账或者智能合约产生的结果或副作用存储在账号下面即可。&lt;/p&gt;
 &lt;h3 id=&#34;solana-account-model&#34;&gt;Solana Account Model&lt;/h3&gt;
 &lt;h4 id=&#34;accounts&#34;&gt;Accounts&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h4&gt;
 &lt;ul&gt;
-&lt;li&gt;账户用于提供给智能合约（Program）跨交易存储状态，类似文件系统；&lt;/li&gt;
+&lt;li&gt;账号用于提供给智能合约（Program）跨交易存储状态，类似文件系统；&lt;/li&gt;
 &lt;li&gt;包含元数据（metadata）说明谁有权限访问这些状态；&lt;/li&gt;
-&lt;li&gt;Solana 独特的创新：账户伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账户，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收；&lt;/li&gt;
+&lt;li&gt;Solana 独特的创新：账号伴有生命周期，也就是对应的私钥并不完全拥有一个账号，而是从链上租借（rent）了一个账号，并支付对应的租金，当租借过期且没有足够的余额（lamports）支付租金的情况下，账号下的数据将被链回收；&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;一笔交易里可以参与的账号类型有：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;em&gt;Signers&lt;/em&gt; 一笔交易可以包含一个或多个签名者，表示授权此笔交易（多签机制）；&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Read-only&lt;/em&gt; 交易里对该账户只读；&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Read-only&lt;/em&gt; 交易里对该账号只读；&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Executable&lt;/em&gt; 其账号可以作为智能合约进行调用（将其账号对应的公钥地址作为 program id）；&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;programs-or-smart-contract&#34;&gt;Programs or Smart Contract&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h4&gt;
@@ -135,7 +137,7 @@ Solana 的 Program 可以被更新。
 &lt;li&gt;&lt;a href=&#34;https://docs.solana.com/developing/intro/programs#native-programs&#34;&gt;Native Programs&lt;/a&gt; &amp;ndash; 区块链系统提供的标准库；&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://docs.solana.com/developing/intro/programs#on-chain-programs&#34;&gt;On Chain Programs&lt;/a&gt; &amp;ndash; 用户开发部署到链上的智能合约。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;同时智能合约可以控制多个其他账户，并且只能修改它所拥有的账户数据，但是可以读取其他账户的数据。&lt;/p&gt;
+&lt;p&gt;同时智能合约可以控制多个其他账号，并且只能修改它所拥有的账号数据，但是可以读取其他账号的数据。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Solana 的 Program 可以被更新。&lt;/strong&gt;&lt;/p&gt;
 &lt;h2 id=&#34;搭建开发环境&#34;&gt;搭建开发环境&lt;/h2&gt;
 &lt;h3 id=&#34;命令行钱包&#34;&gt;命令行钱包&lt;/h3&gt;
@@ -147,6 +149,7 @@ Solana 的 Program 可以被更新。
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ solana cluster-version
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ solana --version
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;通过水龙头-faucet-领取测试币&#34;&gt;通过水龙头（Faucet）领取测试币&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+&lt;p&gt;TODO&lt;/p&gt;
 &lt;h3 id=&#34;rust-安装和简介&#34;&gt;Rust 安装和简介&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl --proto &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;=https&amp;#39;&lt;/span&gt; --tlsv1.2 -sSf https://sh.rustup.rs | sh
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;特点：&lt;/p&gt;
