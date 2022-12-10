@@ -83,11 +83,12 @@
       <pubDate>Tue, 22 Nov 2022 20:44:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20221122204442-solana_101_2_anchor/</guid>
-      <description> tags: Solana 101: Create an Escrow dApp 链上数据存储 使用 Anchor </description>
+      <description> tags: Solana 101: Create an Escrow dApp 链上数据存储 AccountInfo 使用 Anchor </description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/&#34;&gt;Solana 101: Create an Escrow dApp&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;链上数据存储&#34;&gt;链上数据存储&lt;/h2&gt;
+&lt;h3 id=&#34;accountinfo&#34;&gt;AccountInfo&lt;/h3&gt;
 &lt;h2 id=&#34;使用-anchor&#34;&gt;使用 Anchor&lt;/h2&gt;
 </content>
     </item>
@@ -164,16 +165,15 @@ Solana 的 Program 可以被更新。
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;replace-with&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ustc&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;source&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ustc&lt;/span&gt;]
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;registry&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;git://mirrors.ustc.edu.cn/crates.io-index&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;开发智能合约&#34;&gt;开发智能合约&lt;/h2&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;开发智能合约&#34;&gt;开发智能合约&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;编写部署第一个智能合约&#34;&gt;编写部署第一个智能合约&lt;/h3&gt;
 &lt;p&gt;三个参数：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;program_id&lt;/code&gt; 当前智能合约的 ProgramId，可以做一些硬编码检查；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;accounts&lt;/code&gt; 参与调用的账号列表；&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;accounts&lt;/code&gt; 参与调用的账号列表；&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;instruction_data&lt;/code&gt; 客户端传过来的参数。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;调用智能合约&#34;&gt;调用智能合约&lt;/h3&gt;
-&lt;h3 id=&#34;升级智能合约&#34;&gt;升级智能合约&lt;/h3&gt;
 &lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
@@ -196,7 +196,10 @@ Solana 的 Program 可以被更新。
 &lt;p&gt;&lt;a href=&#34;https://www.solidot.org/story?sid=73540&#34;&gt;Android 13 的内存安全漏洞大幅减少&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:7&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/solana-labs/solana/blob/d9b0fc0e3eec67dfe4a97d9298b15969b2804fab/sdk/program/src/account_info.rs#L12&#34;&gt;AccountInfo&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/coldnight/sol101&#34;&gt;https://github.com/coldnight/sol101&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:8&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/solana-labs/solana/blob/d9b0fc0e3eec67dfe4a97d9298b15969b2804fab/sdk/program/src/account_info.rs#L12&#34;&gt;AccountInfo&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
