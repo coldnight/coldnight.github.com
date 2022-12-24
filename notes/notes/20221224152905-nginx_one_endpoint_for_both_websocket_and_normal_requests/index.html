@@ -6,7 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" tags: Nginx source: https://serverfault.com/a/923254 server { # ... location / { try_files /nonexistent @$http_upgrade; } location @websocket { # websocket related stuff } location @ { # web related stuff } } " />
+<meta name="description" content=" tags: Nginx source: https://serverfault.com/a/923254 server { # ... location / { # If &amp;#34;Websocket&amp;#34; is in Upgrade header, then @websocket will take effect, # otherwise @ will take effect. try_files /nonexistent @$http_upgrade; } location @websocket { # websocket related stuff } location @ { # web related stuff } } " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://www.linuxzen.com/notes/notes/20221224152905-nginx_one_endpoint_for_both_websocket_and_normal_requests/" />
@@ -34,7 +34,7 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Nginx One Endpoint for Both WebSocket and Normal Requests">
-<meta property="og:description" content=" tags: Nginx source: https://serverfault.com/a/923254 server { # ... location / { try_files /nonexistent @$http_upgrade; } location @websocket { # websocket related stuff } location @ { # web related stuff } } " />
+<meta property="og:description" content=" tags: Nginx source: https://serverfault.com/a/923254 server { # ... location / { # If &amp;#34;Websocket&amp;#34; is in Upgrade header, then @websocket will take effect, # otherwise @ will take effect. try_files /nonexistent @$http_upgrade; } location @websocket { # websocket related stuff } location @ { # web related stuff } } " />
 <meta property="og:url" content="https://www.linuxzen.com/notes/notes/20221224152905-nginx_one_endpoint_for_both_websocket_and_normal_requests/" />
 <meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
 
@@ -172,6 +172,8 @@
   # ...
 
   location / {
+    # If &#34;Websocket&#34; is in Upgrade header, then @websocket will take effect,
+    # otherwise @ will take effect.
     try_files /nonexistent @$http_upgrade;
   }
 
