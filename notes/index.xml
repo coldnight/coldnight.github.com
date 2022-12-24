@@ -6,7 +6,100 @@
     <description>Recent content on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 23 Dec 2022 10:08:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 24 Dec 2022 15:30:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reverse Proxy to bypass Network Issue of Solana RPC Node</title>
+      <link>https://www.linuxzen.com/notes/notes/20221224153042-reverse_proxy_to_bypass_network_issue_of_solana_rpc_node/</link>
+      <pubDate>Sat, 24 Dec 2022 15:30:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20221224153042-reverse_proxy_to_bypass_network_issue_of_solana_rpc_node/</guid>
+      <description>tags: Nginx One Endpoint for Both WebSocket and Normal Requests,Solana,Solana 101: Create an Escrow dApp I met a lot network issues about connecting to RPC node of Solana, so I&amp;rsquo;m using a nginx server as a reverse proxy to bypass this problem:
+location / { # https://serverfault.com/a/923254 try_files /nonexistent @$http_upgrade; } location @ { proxy_pass https://api.testnet.solana.com; proxy_read_timeout 300s; proxy_send_timeout 300s; proxy_set_header Host &amp;#34;api.testnet.solana.com&amp;#34;; } location @websocket { proxy_redirect off; proxy_pass https://api.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221224152905-nginx_one_endpoint_for_both_websocket_and_normal_requests/&#34;&gt;Nginx One Endpoint for Both WebSocket and Normal Requests&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104070432-solana/&#34;&gt;Solana&lt;/a&gt;,&lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/&#34;&gt;Solana 101: Create an Escrow dApp&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I met a lot network issues about connecting to RPC node of Solana, so I&amp;rsquo;m using a nginx server as a reverse proxy to bypass
+this problem:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-fundamental&#34; data-lang=&#34;fundamental&#34;&gt;location / {
+        # https://serverfault.com/a/923254
+        try_files /nonexistent @$http_upgrade;
+}
+
+location @ {
+        proxy_pass https://api.testnet.solana.com;
+        proxy_read_timeout 300s;
+        proxy_send_timeout 300s;
+        proxy_set_header Host &amp;#34;api.testnet.solana.com&amp;#34;;
+}
+
+location @websocket {
+        proxy_redirect  off;
+        proxy_pass https://api.testnet.solana.com;
+        proxy_http_version 1.1;
+        proxy_read_timeout 300s;
+        proxy_send_timeout 300s;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &amp;#34;Upgrade&amp;#34;;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    </item>
+    
+    <item>
+      <title>Nginx</title>
+      <link>https://www.linuxzen.com/notes/notes/20221224152920-nginx/</link>
+      <pubDate>Sat, 24 Dec 2022 15:29:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20221224152920-nginx/</guid>
+      <description> tags: Linux </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20220104103936-linux/&#34;&gt;Linux&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Nginx One Endpoint for Both WebSocket and Normal Requests</title>
+      <link>https://www.linuxzen.com/notes/notes/20221224152905-nginx_one_endpoint_for_both_websocket_and_normal_requests/</link>
+      <pubDate>Sat, 24 Dec 2022 15:29:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20221224152905-nginx_one_endpoint_for_both_websocket_and_normal_requests/</guid>
+      <description> tags: Nginx source: https://serverfault.com/a/923254 server { # ... location / { try_files /nonexistent @$http_upgrade; } location @websocket { # websocket related stuff } location @ { # web related stuff } } </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221224152920-nginx/&#34;&gt;Nginx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;source: &lt;a href=&#34;https://serverfault.com/a/923254&#34;&gt;https://serverfault.com/a/923254&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-fundamental&#34; data-lang=&#34;fundamental&#34;&gt;server {
+  # ...
+
+  location / {
+    try_files /nonexistent @$http_upgrade;
+  }
+
+  location @websocket {
+    # websocket related stuff
+  }
+
+  location @ {
+    # web related stuff
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    </item>
+    
+    <item>
+      <title>Decoration</title>
+      <link>https://www.linuxzen.com/notes/notes/20221224110813-decoration/</link>
+      <pubDate>Sat, 24 Dec 2022 11:08:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20221224110813-decoration/</guid>
+      <description> https://github.com/RobbieXie/2020DecorationNote </description>
+      <content>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/RobbieXie/2020DecorationNote&#34;&gt;https://github.com/RobbieXie/2020DecorationNote&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
     <item>
       <title>Ethereum Layer 2</title>
       <link>https://www.linuxzen.com/notes/notes/20221223100819-ethereum_layer_2/</link>
