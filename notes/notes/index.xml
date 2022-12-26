@@ -6,7 +6,63 @@
     <description>Recent content in Notes on Taking Smart Notes With Org-mode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 24 Dec 2022 15:30:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Dec 2022 15:46:00 +0800</lastBuildDate><atom:link href="https://www.linuxzen.com/notes/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Solana PDA</title>
+      <link>https://www.linuxzen.com/notes/notes/20221226154617-solana_pda/</link>
+      <pubDate>Mon, 26 Dec 2022 15:46:00 +0800</pubDate>
+      
+      <guid>https://www.linuxzen.com/notes/notes/20221226154617-solana_pda/</guid>
+      <description>tags: Solana, Solana 101: 2. Anchor What is Program Derived Address(PDA)?1 A Program Derived Address is simply an account owned by the program, but has no private key. Instead it&amp;rsquo;s signature is obtained by a set of seeds and a bump (a nonce which makes sure it&amp;rsquo;s off curve). &amp;ldquo;Generating&amp;rdquo; a Program Address is different from &amp;ldquo;creating&amp;rdquo; it.
+Generating One can generate a PDA using Pubkey::find_program_address in Rust or PublicKey.</description>
+      <content>&lt;ul&gt;
+&lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/projects/20220104070432-solana/&#34;&gt;Solana&lt;/a&gt;, &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221122204442-solana_101_2_anchor/&#34;&gt;Solana 101: 2. Anchor&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;what-is-program-derived-address--pda&#34;&gt;What is Program Derived Address(PDA)?&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
+&lt;p&gt;A Program Derived Address is simply an account owned by the program, but has no private key. Instead it&amp;rsquo;s signature is obtained by a set of seeds and a bump (a nonce which makes sure it&amp;rsquo;s off curve). &amp;ldquo;Generating&amp;rdquo; a Program Address is different from &amp;ldquo;creating&amp;rdquo; it.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Generating&lt;/strong&gt; One can generate a PDA using &lt;code&gt;Pubkey::find_program_address&lt;/code&gt; in Rust or &lt;code&gt;PublicKey.findProgramAddressSync&lt;/code&gt; in JavaScript;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Creating&lt;/strong&gt; a PDA essentially means to initialize the address with space and set the state to it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;#+end_quote&lt;/p&gt;
+&lt;h2 id=&#34;how-to-generate-a-pda&#34;&gt;How to Generate a PDA?&lt;/h2&gt;
+&lt;p&gt;In frontend by using &lt;code&gt;@solana/web3.js&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;web3&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@solana/web3.js&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;keypair&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;connectWallet&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;programId&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Cj9VjDrohXuz914FNbaTMmEqYXkLkJKZn9FCq4UGGGwr&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; [&lt;span style=&#34;color:#a6e22e&#34;&gt;pda&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;dump&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;web3&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PublicKey&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;findProgramAddressSync&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TextEncoder&lt;/span&gt;().&lt;span style=&#34;color:#a6e22e&#34;&gt;encode&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;seed1&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;keypair&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;publicKey&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  ],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;web3&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PublicKey&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;programId&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Summary:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Seeds can be used to distinguish different purpose of PDA for one program;&lt;/li&gt;
+&lt;li&gt;Multipe items of &lt;code&gt;bump&lt;/code&gt; shall be returned, but the first &lt;code&gt;dump&lt;/code&gt; is called &amp;ldquo;canonical bump&amp;rdquo;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;how-the-pda-be-created-by-a-program&#34;&gt;How the PDA be Created By a Program?&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Change the owner of PDA to the specific program by &lt;a href=&#34;https://docs.rs/solana-program/latest/solana_program/account_info/struct.AccountInfo.html#method.assign&#34;&gt;AccountInfo.assign&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;Transfer some lamports from funding account to the PDA to pay the rent;&lt;/li&gt;
+&lt;li&gt;Allocate data space by &lt;a href=&#34;https://docs.rs/solana-program/latest/solana_program/account_info/struct.AccountInfo.html#method.realloc&#34;&gt;AccountInfo.realloc&lt;/a&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://solanacookbook.com/core-concepts/pdas.html&#34;&gt;Program Derived Addresses (PDAs)&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://solanacookbook.com/references/programs.html#how-to-create-a-pda&#34;&gt;How to create a PDA&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+    </item>
+    
     <item>
       <title>Reverse Proxy to bypass Network Issue of Solana RPC Node</title>
       <link>https://www.linuxzen.com/notes/notes/20221224153042-reverse_proxy_to_bypass_network_issue_of_solana_rpc_node/</link>
