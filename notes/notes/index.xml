@@ -224,33 +224,32 @@ Many Ethereum applications display estimated fees to users by multiplying the ga
       <pubDate>Tue, 22 Nov 2022 20:44:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20221122204442-solana_101_2_anchor/</guid>
-      <description>tags: Solana 101: Create an Escrow dApp 链上数据存储 账号所有权 账号可以通过 Metadata 指定一个 Program 作为拥有者； Program 作为拥有者可以： 修改账号数据； 使用该账号签名。 PDA(Program Derived Address) 1 PDA 只有一个类似公钥的地址，但是没有对应的私钥； 可以通过 getProgramAccounts 获取一个 Program 的 PDA。 使用 PDA 进行合约链上存储：
-通过 SystemProgram.createAccount 进行创建2； 把指定 Program 作为新账号的 Owner； 将 PDA 传递给 Program 进行操作。 创建一个计数器 部署智能合约； 创建一个 PDA 并进行初始化； 增加计数器； 其他账号获取 PDA，并增加计数器； 使用 Anchor 重写计数器 Understanding Program Derived Addresses&amp;#160;&amp;#x21a9;&amp;#xfe0e;
-https://stackoverflow.com/a/72060971&amp;#160;&amp;#x21a9;&amp;#xfe0e;</description>
+      <description>tags: Solana 101: Create an Escrow dApp 链上数据存储 账号所有权 账号可以通过 Metadata 指定一个 Program 作为拥有者（Owner）； Program 作为拥有者可以： 修改账号数据； 如果账号是 PDA 则可以使用该账号签名。 PDA(Program Derived Address) 1 PDA 只有一个类似公钥的地址，但是没有对应的私钥； 通过智能合约 SystemProgram.createAccount 进行创建2； 可以通过 JSONRPC 接口 getProgramAccounts 获取一个 Program 的 PDA。 使用 PDA 进行合约链上存储：
+通过 PublicKey.findProgramAddress 创建 PDA，seeds 用于生成多个 PDA； 将 PDA 作为账号传递给 Program 进行操作。 创建一个计数器 部署智能合约； 创建一个 PDA 并进行初始化； 增加计数器； 其他账号获取 PDA，并增加计数器； 使用 Anchor 重写计数器 安装 Anchor 安装 Yarn 安装 avm cargo install --git https://github.</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/&#34;&gt;Solana 101: Create an Escrow dApp&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;链上数据存储&#34;&gt;链上数据存储&lt;/h2&gt;
 &lt;h3 id=&#34;账号所有权&#34;&gt;账号所有权&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;账号可以通过 Metadata 指定一个 Program 作为拥有者；&lt;/li&gt;
+&lt;li&gt;账号可以通过 Metadata 指定一个 Program 作为拥有者（Owner）；&lt;/li&gt;
 &lt;li&gt;Program 作为拥有者可以：
 &lt;ol&gt;
 &lt;li&gt;修改账号数据；&lt;/li&gt;
-&lt;li&gt;使用该账号签名。&lt;/li&gt;
+&lt;li&gt;如果账号是 PDA 则可以使用该账号签名。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;pda--program-derived-address&#34;&gt;PDA(Program Derived Address) &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;PDA 只有一个类似公钥的地址，但是没有对应的私钥；&lt;/li&gt;
-&lt;li&gt;可以通过 &lt;code&gt;getProgramAccounts&lt;/code&gt; 获取一个 Program 的 PDA。&lt;/li&gt;
+&lt;li&gt;通过智能合约 &lt;code&gt;SystemProgram.createAccount&lt;/code&gt; 进行创建&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;；&lt;/li&gt;
+&lt;li&gt;可以通过 JSONRPC 接口 &lt;code&gt;getProgramAccounts&lt;/code&gt; 获取一个 Program 的 PDA。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;使用 PDA 进行合约链上存储：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;通过 &lt;code&gt;SystemProgram.createAccount&lt;/code&gt; 进行创建&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;；&lt;/li&gt;
-&lt;li&gt;把指定 Program 作为新账号的 Owner；&lt;/li&gt;
-&lt;li&gt;将 PDA 传递给 Program 进行操作。&lt;/li&gt;
+&lt;li&gt;通过 &lt;a href=&#34;https://solana-labs.github.io/solana-web3.js/classes/PublicKey.html#findProgramAddress&#34;&gt;PublicKey.findProgramAddress&lt;/a&gt; 创建 PDA，seeds 用于生成多个 PDA；&lt;/li&gt;
+&lt;li&gt;将 PDA 作为账号传递给 Program 进行操作。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;创建一个计数器&#34;&gt;创建一个计数器&lt;/h3&gt;
 &lt;ol&gt;
@@ -260,6 +259,18 @@ https://stackoverflow.com/a/72060971&amp;#160;&amp;#x21a9;&amp;#xfe0e;</descript
 &lt;li&gt;其他账号获取 PDA，并增加计数器；&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;使用-anchor-重写计数器&#34;&gt;使用 Anchor 重写计数器&lt;/h2&gt;
+&lt;h3 id=&#34;安装-anchor&#34;&gt;安装 Anchor&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://yarnpkg.com/getting-started/install/&#34;&gt;安装 Yarn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;安装 &lt;code&gt;avm&lt;/code&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cargo install --git https://github.com/project-serum/anchor avm --locked --force
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;avm&lt;/code&gt; 安装 &lt;code&gt;anchor&lt;/code&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;avm install latest
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;avm use latest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;创建-anchor-项目&#34;&gt;创建 anchor 项目&lt;/h3&gt;
 &lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
