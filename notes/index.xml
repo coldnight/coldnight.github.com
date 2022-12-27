@@ -329,8 +329,8 @@ Many Ethereum applications display estimated fees to users by multiplying the ga
       <pubDate>Tue, 22 Nov 2022 20:44:00 +0800</pubDate>
       
       <guid>https://www.linuxzen.com/notes/notes/20221122204442-solana_101_2_anchor/</guid>
-      <description>tags: Solana 101: Create an Escrow dApp 链上数据存储 账号所有权 账号可以通过 Metadata 指定一个 Program 作为拥有者（Owner）； Program 作为拥有者可以： 修改账号数据； 如果账号是 PDA 则可以使用该账号签名。 PDA(Program Derived Address) 1 使用 PDA 进行合约状态链上存储。
-PDA 只有一个类似公钥的地址，但是没有对应的私钥； 链下生成：通过 PublicKey.findProgramAddress 生成 PDA，seeds 用于生成多个 PDA； 链上创建：将 PDA 作为账号传递给 Program 进行链上创建：填充足够的 lamports 用于支付租金、开辟空间、指定 program 作为 Owner。 创建一个计数器 部署智能合约； 生成一个 PDA 并进行链上创建； 增加计数器； 其他账号获取 PDA，并增加计数器； 使用 Anchor 重写计数器 安装 Anchor 安装 Yarn 安装 avm cargo install --git https://github.com/project-serum/anchor avm --locked --force 使用 avm 安装 anchor avm install latest avm use latest 创建 anchor 项目 Understanding Program Derived Addresses&amp;#160;&amp;#x21a9;&amp;#xfe0e;</description>
+      <description>tags: Solana 101: Create an Escrow dApp 链上数据存储 账号所有权 账号可以通过 Metadata 指定一个 Program 作为拥有者（Owner）； Program 作为拥有者可以： 修改账号数据； 可以使用该 PDA 进行签名。 PDA(Program Derived Address) 1 使用 PDA 进行合约状态链上存储。
+PDA 只有一个类似公钥的地址，但是没有对应的私钥； 链下生成：通过 PublicKey.findProgramAddress 生成 PDA，seeds 用于生成多个 PDA； 链上创建：将 PDA 作为账号传递给 Program 进行链上创建：填充足够的 lamports 用于支付租金、开辟空间、指定 program 作为 Owner。 创建一个计数器 部署智能合约； 生成一个 PDA 并进行链上创建； 增加计数器； 其他账号获取 PDA，并增加计数器； 使用 Anchor 重写计数器 安装 Anchor 安装 Yarn 安装 avm cargo install --git https://github.com/project-serum/anchor avm --locked --force 使用 avm 安装 anchor avm install latest avm use latest 创建 anchor 项目 anchor init hello-anchor anchor 项目结构 Understanding Program Derived Addresses&amp;#160;&amp;#x21a9;&amp;#xfe0e;</description>
       <content>&lt;ul&gt;
 &lt;li&gt;tags: &lt;a href=&#34;https://www.linuxzen.com/notes/notes/notes/20221119104334-solana_101_create_a_escrow_dapp/&#34;&gt;Solana 101: Create an Escrow dApp&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -341,7 +341,7 @@ PDA 只有一个类似公钥的地址，但是没有对应的私钥； 链下生
 &lt;li&gt;Program 作为拥有者可以：
 &lt;ol&gt;
 &lt;li&gt;修改账号数据；&lt;/li&gt;
-&lt;li&gt;如果账号是 PDA 则可以使用该账号签名。&lt;/li&gt;
+&lt;li&gt;可以使用该 PDA 进行签名。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -372,6 +372,8 @@ PDA 只有一个类似公钥的地址，但是没有对应的私钥； 链下生
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;创建-anchor-项目&#34;&gt;创建 anchor 项目&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;anchor init hello-anchor
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;anchor-项目结构&#34;&gt;anchor 项目结构&lt;/h3&gt;
 &lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
