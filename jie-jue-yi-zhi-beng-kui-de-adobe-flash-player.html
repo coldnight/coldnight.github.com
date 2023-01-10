@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>解决一直崩溃的 Adobe Flash Player</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="1月份的时候决定从 Ubuntu 换到 Archlinux, 换完之后 Flash Player 就一直没正常过. 一打开视屏就 crash. 从那之后就一直用手机看视屏, 很别扭, 放着大屏不用一直盯 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="archlinux">
+    <meta name="tags" content="flash player">
+    <meta name="tags" content="crash">
+    <meta name="tags" content="解决">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="解决一直崩溃的 Adobe Flash Player"/>
+<meta property="og:description" content="1月份的时候决定从 Ubuntu 换到 Archlinux, 换完之后 Flash Player 就一直没正常过. 一打开视屏就 crash. 从那之后就一直用手机看视屏, 很别扭, 放着大屏不用一直盯 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-03-12 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="archlinux"/>
+<meta property="article:tag" content="flash player"/>
+<meta property="article:tag" content="crash"/>
+<meta property="article:tag" content="解决"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="解决一直崩溃的 Adobe Flash Player">
+    <meta name="twitter:url" content="https://www.linuxzen.com/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="1月份的时候决定从 Ubuntu 换到 Archlinux, 换完之后 Flash Player 就一直没正常过. 一打开视屏就 crash. 从那之后就一直用手机看视屏, 很别扭, 放着大屏不用一直盯 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "解决一直崩溃的 Adobe Flash Player",
+  "headline": "解决一直崩溃的 Adobe Flash Player",
+  "datePublished": "2014-03-12 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html",
+  "description": "1月份的时候决定从 Ubuntu 换到 Archlinux, 换完之后 Flash Player 就一直没正常过. 一打开视屏就 crash. 从那之后就一直用手机看视屏, 很别扭, 放着大屏不用一直盯 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">解决一直崩溃的 Adobe Flash Player</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Wed 12 March 2014">Wed 12 March 2014</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>1月份的时候决定从 Ubuntu 换到 Archlinux, 换完之后 Flash Player 就一直没正常过.
+一打开视屏就 crash.  从那之后就一直用手机看视屏, 很别扭, 放着大屏不用一直盯着手机看看.
+今天下定决心找找原因. google 了一阵也没有啥结果, 所以我决定卸载现有的, 手动安装一个试试.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>pacman<span class="w"> </span>-R<span class="w"> </span>flashplugin
+</code></pre></div>
+
+<p>结果卸载的时候输出段信息:</p>
+<div class="highlight"><pre><span></span><code>warning: /etc/adobe/mms.cfg saved as /etc/adobe/mms.cfg.pacsave
+</code></pre></div>
+
+<p>然后我看了下文件内容</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>cat<span class="w"> </span>/etc/adobe/mms.cfg.pacsave
+<span class="c1">#Hardware video decoding</span>
+<span class="nv">EnableLinuxHWVideoDecode</span><span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+
+<p>瞬间觉得可能是这个选项引起的, 所以我又装上了 flashplugin</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>flashplugin
+</code></pre></div>
+
+<p>同样看到一段信息</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span>
+<span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">NVIDIA</span><span class="w"> </span><span class="n">card</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">supports</span><span class="w"> </span><span class="n">libvdpau</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">Broadcom</span><span class="w"> </span><span class="n">Crystal</span><span class="w"> </span><span class="n">HD</span><span class="w"> </span><span class="n">chips</span><span class="p">,</span>
+<span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">uncomment</span><span class="w"> </span><span class="n">EnableLinuxHWVideoDecode</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">adobe</span><span class="o">/</span><span class="n">mms</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span>
+<span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">problems</span><span class="p">,</span><span class="w"> </span><span class="n">please</span><span class="w"> </span><span class="n">contact</span><span class="w"> </span><span class="n">nVidia</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">Broadcom</span><span class="w"> </span><span class="n">along</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="k">system</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">driver</span><span class="w"> </span><span class="n">version</span><span class="p">.</span>
+<span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span>
+<span class="n">Optional</span><span class="w"> </span><span class="n">dependencies</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">flashplugin</span>
+<span class="w">    </span><span class="nl">libvdpau</span><span class="p">:</span><span class="w"> </span><span class="n">GPU</span><span class="w"> </span><span class="n">acceleration</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">Nvidia</span><span class="w"> </span><span class="n">card</span><span class="w"> </span><span class="o">[</span><span class="n">installed</span><span class="o">]</span>
+</code></pre></div>
+
+<p>然后我就知道了为什么会出现那个选项打开的情况了, 一开始安装 Archlinux 的时候我误以为我的显卡是 NVIDIA 的,
+然后就安装了 NVIDIA 的驱动, 后来仔细一看原来是集成的 Intel 显卡XD, 估计在一开始安装 flashplugin
+的时候自动开启了. 然后换了显卡驱动我也不清楚.现在看新的配置文件 EnableLinuxHWVIdeoDecode=1 是注释掉的.</p>
+<p>接下来就是验证喽, 打开一个视屏, 果然不 crash 了.</p>
+<p>然后开启这个选项, 果然预料中的接着 crash.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=解决一直崩溃的 Adobe Flash Player&amp;url=https://www.linuxzen.com/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/archlinux.html">archlinux</a><a href="https://www.linuxzen.com/tag/flash-player.html">flash player</a><a href="https://www.linuxzen.com/tag/crash.html">crash</a><a href="https://www.linuxzen.com/tag/jie-jue.html">解决</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html';
+                    var disqus_url = 'https://www.linuxzen.com/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/jie-jue-yi-zhi-beng-kui-de-adobe-flash-player.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

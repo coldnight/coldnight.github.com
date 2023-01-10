@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>【译文】什么是幂等</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/what-is-idempotence.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="原文：WHAT IS IDEMPOTENCE （原文是一个视频的文字记录版，有兴趣的可以看原文和原文中的视频，本文只翻译文字并结合自己的一些理 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="Idempotence">
+    <meta name="tags" content="幂等">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="【译文】什么是幂等"/>
+<meta property="og:description" content="原文：WHAT IS IDEMPOTENCE （原文是一个视频的文字记录版，有兴趣的可以看原文和原文中的视频，本文只翻译文字并结合自己的一些理 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/what-is-idempotence.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-05-05 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Tech"/>
+<meta property="article:tag" content="Idempotence"/>
+<meta property="article:tag" content="幂等"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="【译文】什么是幂等">
+    <meta name="twitter:url" content="https://www.linuxzen.com/what-is-idempotence.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="原文：WHAT IS IDEMPOTENCE （原文是一个视频的文字记录版，有兴趣的可以看原文和原文中的视频，本文只翻译文字并结合自己的一些理 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "【译文】什么是幂等",
+  "headline": "【译文】什么是幂等",
+  "datePublished": "2019-05-05 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/what-is-idempotence.html",
+  "description": "原文：WHAT IS IDEMPOTENCE （原文是一个视频的文字记录版，有兴趣的可以看原文和原文中的视频，本文只翻译文字并结合自己的一些理 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li class="nav-tech active" role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">【译文】什么是幂等</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Sun 05 May 2019">Sun 05 May 2019</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>原文：<a href="https://lispcast.com/what-is-idempotence/">WHAT IS IDEMPOTENCE</a></p>
+<p>（原文是一个视频的文字记录版，有兴趣的可以看原文和原文中的视频，本文只翻译文字并结合自己的一些理解做一些整理。）</p>
+<h3 id="_1">引子</h3>
+<p>幂等意味着可以重复，也就是说你可以安全的重试一个操作不会产生任何问题。经典的例子是电梯按钮：你按两次并不会叫来两辆电梯。同时我们来探索为什么在一个 Email 服务中需要这个特性。</p>
+<p>什么是幂等？为什么幂等对于分布式编程非常有用？通过这篇文章，你将知道如何在你自己的系统中实现幂等。</p>
+<p>幂等之所以重要是因为它抓住了安全重试的本质。没有安全重试也就没有办法实现一个安全的分布式协议。</p>
+<h3 id="_2">什么是幂等？</h3>
+<p>幂等的本质就是你可以请求两次（或多次），但是和请求一次的所产生的副作用一致。经典的例子是电梯按钮。假设你来到一组电梯面前按下按钮，按钮亮起并呼叫电梯。然后另一个人同样来到这组电梯面前，按钮已经点亮但他依然按下相同的按钮。</p>
+<p>我们都知道这样做不会产生任何效果（副作用），但是由于某些原因我们依然想这么做，仅仅为了以防万一。也许他是对的，也许一开始信号并没有传递给电梯。由于这样做没有任何坏处，所以为什么不呢？这就是我们想在我们的分布式系统中贯彻的理念。</p>
+<p>技术上讲，这是一个属于代数的概念。当我们讨论按下按钮时，我们对现实的世界产生了一个有效的副作用。而在代数中，幂等是纯函数和数学函数的属性。幂等意味着你将字符串中的字母转换成大写两次对其结果没有任何影响，因为第一次操作就可以了。技术上来说，如果将函数 $F$ 应用到一个值上，如 $F(x)$ ，与将 $F(x)$ 应用到 $F$ 是相同的（ $F(x)=F(F(x))$ ）。</p>
+<p>我们应用了两次函数 $F$ 和应用一次所产生的副作用是一致的，也就是说重复无关。我按下按钮，第二次按下不会产生任何副作用和问题。如果我应用两次函数，第二次不会产生任何副作用。第一次有副作用，那么接下来第二次、第三次、第四次等等都不会产生副作用。</p>
+<h3 id="_3">为什么幂等很重要？</h3>
+<p>在一个分布式系统，特别是分布式系统，我们会面临消息通过一个不可靠的网络传输。基本上，如果你发送了一个消息，消息可能没有送达并且你无法感知。也就是说你无法确定消息是否到达。</p>
+<p>有时，你得到连接中断的消息，你会知道消息没有到达。但有时超时导致你无法获得反馈。是消息已经到达但是由于 ACK 超时没有收到反馈，还是消息压根就没有到达？其他系统崩溃？系统崩溃发生在消息发送之前还是之后？由于系统已经崩溃，你无法得知。</p>
+<p>Email 实际上十一个很好的例子，因为同一封邮件你不想发送两次。让我们假设我们有一个邮件服务并且通过它发送一个消息：“请将这封邮件发送给我的客户”。你没有得到任何反馈，你将会怎么做？发生了什么？你会尝试重新发送吗？如果邮件已经发送了呢？再发一次相同的邮件？如果不重新发送客户将无法收到收件。</p>
+<p>这是一个真实存在的商业问题。幂等将可以解决此问题：如果我重新发送邮件，但不会破坏任何事情（不会产生第二次副作用）。就像前面说的电梯按钮一样，我可以一直重复发送这封邮件。我可以重复发送一百次，但这封邮件只会被投递一次。</p>
+<p>幂等实现了请求次数和实际产生副作用的次数的解偶。我可以请求一百次，但是只产生一次副作用。这是有些时候你真正想实现的：通过限制的消息能够进行安全的重试。</p>
+<p>“我不知道这是否行得通，但是我将会再试一次。”这将是你系统中非常好的属性。</p>
+<h3 id="_4">如何实现幂等？</h3>
+<p>假设基于邮件服务，最简单的方法是需要通过一些方法去识别一封邮件的唯一性（ID）。比如：“这是这封邮件的 ID，如果你使用同一个 ID 发送同一封邮件多次，仅投递一次。”</p>
+<p>邮件服务为了实现完备的幂等性将会记住所有发送过的邮件 ID。但是通常这是不切实际的。因为当数量达到上百万时你无法记住每一个 ID。</p>
+<p>由于可能会追溯到许多年以前，并且一个请求不可能需要以年记才能到达。所以实际上，你可能需要一个窗口，如：“我们只保留 3 天的 ID”。也就是说你可以通过相同的 ID 重复的发送三天以内的邮件，并且不会产生第二次投递。在实际场景中，你需要平衡内存的需求和你系统所实现的安全重试机制来探索实际的限制。</p>
+<p>注意，唯一性的识别（ID）非常重要。如果没有唯一性识别（ID）的概念，那么怎么实现同一个消息再次发送？如果想给一个人发送两封邮件，我需要能发送两封邮件给他。我需要一种方法标志两封邮件不相同。如果我想重试，我需要一种方法标志这封邮件和那封邮件是同一个。</p>
+<p>你的请求需要一些 ID。参照电梯按钮，可能 ID 就在电梯服务的电子系统内部，它知道我按的哪个按钮：是三楼向上还是四楼向下。按钮的 ID 可以首先让按钮亮起，并且保持到不再需要后再关闭。</p>
+<p>ID 可能用在多个地方。用在一个请求上：“我们需要电梯向上到三层因为我们知道那个按钮和它的意义”。也可以是：“我已经发送过了到三层电梯的信号，我不需要再次发送。”。</p>
+<p>一旦确定了 ID，你可以使用一个已经是幂等的数据结构的操作，比如集合（set）。如果你用一个数字集合存储每个邮件的唯一数字 ID。当邮件服务发送完邮件，通过将数字 ID 添加到集合用以记录。如果你添加到该集合两次，你实际上已经获得到幂等性。</p>
+<p>同电梯一样，如果你有一个按钮包含来字符串 ID，比如 <code>third-floor-up</code> 、 <code>third-floor-down</code> 、 <code>fourth-floor-up</code> 、 <code>fourth-floor-down</code> , 通过将这些 ID 存放到集合内表示对应的按钮被请求而激活。这也就意味着你可以按下多次，第二次将不会产生任何效果（副作用）。</p>
+<p>当然，现在没有考虑按下按钮将电梯送到某一层的实际的实现。但是和邮件相同，现在的确考虑了发送还是不发送邮件。</p>
+<p>要想得知你是否想要发送它其实很简单。在添加某一项 ID 到集合中之前，询问集合：“你是否包含这个 ID ？”。如果已经包含则结束操作，如果不包含则发送邮件并将 ID 添加到集合内。除了集合还有一些其他的数据结构是幂等的，比如哈希表。</p>
+<p>前面提到的将字符串中的字母转换为大写，这是一种幂等的操作。</p>
+<h3 id="_5">总结</h3>
+<p>让我们来概括一下。幂等意味着重复无关。他是一种代数中函数和操作的属性，但是我们将之扩展到现实世界中的一些行为。在分布式操作系统中我们之所以需要它因为我们需要在分布式系统中安全的重试。幂等让我们从请求次数和请求完成解偶出来。你可以很容易通过一些数据结构和对应的操作来实现。为了实现幂等需要每一个消息都有一个 ID。</p>
+<hr>
+<p>忽略以下和主题无关的翻译：</p>
+<p>Do yourselves a favor and look for some services that need to happen exactly once. Could be something like sending an email. Could be writing a message to a log. Could be some user setting in your user-panel, and wrap them in something like a data structure that makes them idempotent.</p>
+<p>Do me a favor please and share this with friends. If you found it valuable, they might find it valuable, too. Also, if you found it valuable, you probably want to subscribe. That way you’ll get all of the other new episodes as they come out. You won’t miss that value that you have already discovered.</p>
+<p>I like to be in deep discussions with smart people. Please email me. I’m eric@lispcast.com or get in a discussion on Twitter. I try to use Twitter as a discussion medium. I’m @ericnormand with a D there.</p>
+<p>Also, you can find me on LinkedIn. I’m trying to get better at LinkedIn. It’s a little hard for me. If that’s where you like to connect, let’s connect and start having a conversation.</p>
+<p>All right. See you later.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=【译文】什么是幂等&amp;url=https://www.linuxzen.com/what-is-idempotence.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/what-is-idempotence.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/what-is-idempotence.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/idempotence.html">Idempotence</a><a href="https://www.linuxzen.com/tag/mi-deng.html">幂等</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/what-is-idempotence.html';
+                    var disqus_url = 'https://www.linuxzen.com/what-is-idempotence.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/what-is-idempotence.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

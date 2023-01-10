@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Linux一些比较实用的小技巧</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="在Linux中各种各样的小技巧可以帮助我们更好更快的完成我们的工作,下面就介绍一些我所知道的小技巧 文件查找 找出最近修改的文件: find / -ctime 1 # 找出根下最近24小时修改过inode信息的文件(更改权限) find / -mtime 1 # 找出根 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="命令">
+    <meta name="tags" content="sz">
+    <meta name="tags" content="ssh上传下载">
+    <meta name="tags" content="shell">
+    <meta name="tags" content="sed">
+    <meta name="tags" content="rz">
+    <meta name="tags" content="lrzsz">
+    <meta name="tags" content="Linux">
+    <meta name="tags" content="find">
+    <meta name="tags" content="awk">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Linux一些比较实用的小技巧"/>
+<meta property="og:description" content="在Linux中各种各样的小技巧可以帮助我们更好更快的完成我们的工作,下面就介绍一些我所知道的小技巧 文件查找 找出最近修改的文件: find / -ctime 1 # 找出根下最近24小时修改过inode信息的文件(更改权限) find / -mtime 1 # 找出根 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-02-20 11:30:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="命令"/>
+<meta property="article:tag" content="sz"/>
+<meta property="article:tag" content="ssh上传下载"/>
+<meta property="article:tag" content="shell"/>
+<meta property="article:tag" content="sed"/>
+<meta property="article:tag" content="rz"/>
+<meta property="article:tag" content="lrzsz"/>
+<meta property="article:tag" content="Linux"/>
+<meta property="article:tag" content="find"/>
+<meta property="article:tag" content="awk"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Linux一些比较实用的小技巧">
+    <meta name="twitter:url" content="https://www.linuxzen.com/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="在Linux中各种各样的小技巧可以帮助我们更好更快的完成我们的工作,下面就介绍一些我所知道的小技巧 文件查找 找出最近修改的文件: find / -ctime 1 # 找出根下最近24小时修改过inode信息的文件(更改权限) find / -mtime 1 # 找出根 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Linux一些比较实用的小技巧",
+  "headline": "Linux一些比较实用的小技巧",
+  "datePublished": "2012-02-20 11:30:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html",
+  "description": "在Linux中各种各样的小技巧可以帮助我们更好更快的完成我们的工作,下面就介绍一些我所知道的小技巧 文件查找 找出最近修改的文件: find / -ctime 1 # 找出根下最近24小时修改过inode信息的文件(更改权限) find / -mtime 1 # 找出根 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Linux一些比较实用的小技巧</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Mon 20 February 2012">Mon 20 February 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>在Linux中各种各样的小技巧可以帮助我们更好更快的完成我们的工作,下面就介绍一些我所知道的小技巧</p>
+<h2 id="_1">文件查找</h2>
+<p>找出最近修改的文件:</p>
+<div class="highlight"><pre><span></span><code>find<span class="w"> </span>/<span class="w"> </span>-ctime<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="c1"># 找出根下最近24小时修改过inode信息的文件(更改权限)</span>
+find<span class="w"> </span>/<span class="w"> </span>-mtime<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="c1"># 找出根下最近24小时修改过的文件(内容)</span>
+find<span class="w"> </span>/<span class="w"> </span>-atime<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="c1"># 找出根下最近24小时访问过的文件</span>
+</code></pre></div>
+
+<p>使用通配符查找文件</p>
+<div class="highlight"><pre><span></span><code>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span><span class="w"> </span><span class="c1"># 找出根下以log为后缀的文件,这里必须要加双引号,不然会报错,因为找的是多个文件,需要用双引号引起来</span>
+</code></pre></div>
+
+<h2 id="_2">文本替换</h2>
+<div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;2s/ext3/ext4/&#39;</span><span class="w"> </span>/etc/fstab<span class="w"> </span><span class="c1"># 将第二行的ext3改成ext4</span>
+</code></pre></div>
+
+<h2 id="_3">显示指定行</h2>
+<div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;3p&quot;</span><span class="w"> </span>/etc/fstab<span class="w">         </span><span class="c1"># 显示第3行</span>
+sed<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;3,5p&quot;</span><span class="w"> </span>/etc/gfstab<span class="w">  </span><span class="c1"># 显示第3到5行</span>
+sed<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;3p;5p&quot;</span><span class="w"> </span>/etc/fstab<span class="w">    </span><span class="c1"># 显示第3行和第5行</span>
+awk<span class="w"> </span><span class="s1">&#39;NR==3&#39;</span><span class="w"> </span>/etc/fstab<span class="w">     </span><span class="c1"># 显示第3行</span>
+</code></pre></div>
+
+<h2 id="_4">在行首或行尾添加:</h2>
+<div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s/^/hello&#39;</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="c1"># 在test文件的行首添加hello</span>
+sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s/$/hello&#39;</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="c1"># 在test文件的行尾添加hello</span>
+sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;3s/^/hello&#39;</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="c1"># 在test文件的第3行行首添加hello</span>
+</code></pre></div>
+
+<h2 id="vi">在vi里执行命令:</h2>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/etc/sysconfig/networ-scripts/ifcfg-eth0
+<span class="c1"># 打开vi,在末行模式下(ESC-&amp;gt;:)</span>
+
+:r!cat<span class="w"> </span>/mnt/ip.txt<span class="w">           </span><span class="c1"># 在当前行的下面输入ip.txt的内容,r代表命令输出放到下一行,!后面是要执行的命令</span>
+:.!cat<span class="w"> </span>/mnt/ip.txt<span class="w">           </span><span class="c1"># 在当前行输入ip.txt的内容,.代表将命令输出放到当前航</span>
+</code></pre></div>
+
+<h2 id="_5">执行上一条命令:</h2>
+<p>如果刚执行了一条server network restart,如果又做了一些操作,需要再次执行,按上键调处可以,还有更快捷的就是:</p>
+<div class="highlight"><pre><span></span><code>!ser
+</code></pre></div>
+
+<p>!会在命令历史找与!后面匹配的最近一条命令.</p>
+<h2 id="ssh">通过ssh连接服务器上传下载文件:</h2>
+<p>当你通过ssh连接你的Linux的时候你想下载一个文件到本地,或者像把本地文件上传到远端,你想到用ftp吗?out了,当你通过ssh连接的时候Linux提供了两个命令 rz/sz,命令依赖于包lrzsz.rz命令可以将本地文件通过ssh上传到Linux上,sz pkg 可以将远端的pkg下载到本地.</p>
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>lrzsz<span class="w">           </span><span class="c1"># 安装</span>
+</code></pre></div>
+
+<p>然后就可以通过rz/sz来上传下载文件,省去了文件服务器,也可更方便更快捷的管理你的服务器</p>
+<h2 id="windowslinux">windows文件转换为Linux格式的文件</h2>
+<p>windows的文件格式比Linux格式的文件多了一个回车符\r,可以通过命令来实现转换:
+直接转换,dos2unix依赖于包dos2unix:</p>
+<div class="highlight"><pre><span></span><code>dos2unix<span class="w"> </span>file.txt<span class="w">     </span><span class="c1"># 需要安装dos2unix包</span>
+</code></pre></div>
+
+<p>通过删除\r来实现转换:</p>
+<div class="highlight"><pre><span></span><code>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;\r&#39;</span><span class="w"> </span>file.txt<span class="w"> </span><span class="p">&amp;</span>gt<span class="p">;&amp;</span>gt<span class="p">;</span><span class="w"> </span>file1.txt<span class="w">   </span><span class="c1"># 通过tr命令删除\r字符,并重定向追加到file1.txt</span>
+</code></pre></div>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Linux一些比较实用的小技巧&amp;url=https://www.linuxzen.com/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/ming-ling.html">命令</a><a href="https://www.linuxzen.com/tag/sz.html">sz</a><a href="https://www.linuxzen.com/tag/sshshang-chuan-xia-zai.html">ssh上传下载</a><a href="https://www.linuxzen.com/tag/shell.html">shell</a><a href="https://www.linuxzen.com/tag/sed.html">sed</a><a href="https://www.linuxzen.com/tag/rz.html">rz</a><a href="https://www.linuxzen.com/tag/lrzsz.html">lrzsz</a><a href="https://www.linuxzen.com/tag/linux.html">Linux</a><a href="https://www.linuxzen.com/tag/find.html">find</a><a href="https://www.linuxzen.com/tag/awk.html">awk</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html';
+                    var disqus_url = 'https://www.linuxzen.com/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/linuxyi-xie-bi-jiao-shi-yong-de-xiao-ji-qiao.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

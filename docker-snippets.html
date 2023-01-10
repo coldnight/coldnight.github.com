@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Docker Snippets</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/docker-snippets.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="分享关于 Docker 的一些坑">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="docker">
+    <meta name="tags" content="snippets">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Docker Snippets"/>
+<meta property="og:description" content="分享关于 Docker 的一些坑"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/docker-snippets.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-02-11 17:30:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="docker"/>
+<meta property="article:tag" content="snippets"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Docker Snippets">
+    <meta name="twitter:url" content="https://www.linuxzen.com/docker-snippets.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="分享关于 Docker 的一些坑">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Docker Snippets",
+  "headline": "Docker Snippets",
+  "datePublished": "2019-02-11 17:30:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/docker-snippets.html",
+  "description": "分享关于 Docker 的一些坑"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Docker Snippets</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Mon 11 February 2019">Mon 11 February 2019</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <div class="section" id="docker-iptables">
+<h2>Docker 和 iptables</h2>
+<p>如果你用 Docker 启动了一个服务暴露了一个端口，同时你又想通过 iptables 限制该端口的访问，这时候你按照经验往 <tt class="docutils literal">INPUT</tt> 链插入一条规则发现并没有卵用，你应该看看 Docker 的官方文档 <a class="reference external" href="https://docs.docker.com/network/iptables/#add-iptables-policies-before-dockers-rules">Docker and iptables</a> 。这是因为 Docker 使用 iptables 提供网络隔离，只有在 <tt class="docutils literal">DOCKER</tt> 和 <tt class="docutils literal"><span class="pre">DOCKER-USER</span></tt> 链上的规则才对容器暴露的端口生效，官方推荐用户在 <tt class="docutils literal"><span class="pre">DOCKER-USER</span></tt> 链上新增自定义规则。</p>
+</div>
+<div class="section" id="docker">
+<h2>使用 Docker 多阶段构建</h2>
+<p>自 Docker 17.05 Docker 开始支持多阶段构建，使用 Docker 多阶段构建有两个好处：</p>
+<ol class="arabic simple">
+<li>优化镜像大小</li>
+<li>在镜像中排除源代码</li>
+</ol>
+<p>比如一个典型的 Go 应用如果想要在镜像构建过程中编译，但是又不想镜像中包含源代码可以按照如下方式编写 <tt class="docutils literal">Dockerfile</tt></p>
+<div class="highlight"><pre><span></span><span class="k">FROM</span><span class="w"> </span><span class="s">golang:1.10</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s">intermediate</span>
+
+<span class="k">ENV</span><span class="w"> </span>PROJECT_PATH<span class="w"> </span><span class="nv">$GOPATH</span>/src/github.com/coldnight/foobar
+<span class="k">ADD</span><span class="w"> </span>.<span class="w"> </span><span class="nv">$PROJECT_PATH</span>/
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">$PROJECT_PATH</span>
+<span class="k">RUN</span><span class="w"> </span>go<span class="w"> </span>install
+
+<span class="k">FROM</span><span class="w"> </span><span class="s">alpine:latest</span>
+
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>intermediate<span class="w"> </span>/go/bin/foobar<span class="w"> </span>/go/bin/foobar
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/go/bin/foobar&quot;</span><span class="p">]</span>
+</pre></div>
+<p>具体使用方式参见官方文档 <a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/">Use multi-stage builds</a> 。</p>
+</div>
+<div class="section" id="cmd-vs-entrypoint">
+<h2>CMD vs ENTRYPOINT</h2>
+<p>我在一开始使用 Docker 时无法确定该使用 CMD 和 ENTRYPOINT 中的哪一个，其实很简单 CMD 可以在 <tt class="docutils literal">docker run</tt> 时被覆盖，而 ENTRYPOINT 不可以，比如如下 <tt class="docutils literal">Dockerfile</tt>:</p>
+<div class="highlight"><pre><span></span><span class="k">FROM</span><span class="w"> </span><span class="s">alpine:latest</span>
+
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="err">&#39;/bi</span><span class="kc">n</span><span class="err">/sh&#39;</span><span class="p">]</span>
+</pre></div>
+<p>假设通过如下命令构建镜像:</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>.<span class="w"> </span>-t<span class="w"> </span>demo
+</pre></div>
+<p>如果通过如下命令运行容器则默认启动 <tt class="docutils literal">/bin/sh</tt>:</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>demo
+</pre></div>
+<p>但如果想覆盖则可以通过如下方式运行容器:</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>demo<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;hello, world&#39;</span>
+</pre></div>
+<p>如果将 Dockerfile 中 CMD 替换为 ENTRYPOINT 则无法通过上述方式覆盖默认的启动命令。</p>
+</div>
+<div class="section" id="docker-web">
+<h2>Docker Web 管理系统</h2>
+<p>觉得手动敲命令管理本地 Docker 麻烦？可以试试本地安装一个 <a class="reference external" href="https://github.com/portainer/portainer">portainer</a> ，通过 Web 界面管理本地 Docker。</p>
+</div>
+
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Docker Snippets&amp;url=https://www.linuxzen.com/docker-snippets.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/docker-snippets.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/docker-snippets.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/docker.html">docker</a><a href="https://www.linuxzen.com/tag/snippets.html">snippets</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/docker-snippets.html';
+                    var disqus_url = 'https://www.linuxzen.com/docker-snippets.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/docker-snippets.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

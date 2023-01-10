@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Python behind the scenes #2: how the CPython compiler works :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="tags: Translate,Incomplete,Python Python 幕后 #2: CPython 编译器如何工作 今天的主题（Today&amp;rsquo;s subject） 在本系列的第一篇文章中我们研究了 Python 虚拟机。我们学了解到它通过执行一系列叫做字节码（bytecode）的指令。 我们也看到 Python 字节码没有完全描述代码片段的行为。这也是为什么存在一个代码对象（code object）的概念。 执行诸如函数或模块的代码块也就是执行对应的代码对象。代码对象包含了代码块的字节码，包含代码中使用的常量和变量名， 还有代码块的一些属性。
+通常，一个 Python 程序员不用编写字节码，并且也不用创建代码对象，而是编写正常的 Python 代码。所有 CPython 必须 能够将源代码转换成代码对象。CPython 编译器就负责这部分工作。我们将通过这部分内容探索它是如何工作的。
+Note: 本文参考 CPython 3.9。一些实现细节将必然会随着 CPython 的演进而改变。 我将会尝试关注一些重要的改变并添加更新备注。
+什么是 CPython 编译器（What CPython compiler is） 我们已经了解了 CPython 编译器的职责，但是在我们进入到它是如何实现的之前，让我们首先来搞清楚为什么我们称之为编译器？
+在通常情况加，编译器是一个将一个程序语言翻译到另一个与之等价的程序语言的程序。编译器有许多种类，但是通常情况下我们 讨论的都是静态编译：将一个高级语言的程序翻译成机器码。CPython 编译器也是这样吗？要回答这个问题，我们先看一下静态编 译器的传统三阶段设计（three-stage design）。
+编译器前端（frontend）将源代码转换成一种中间语言（IR,intermediate representation）。然后优化器（optimzer）拿到中间语言 对其进行优化并把优化过的中间语言传递给编译器后端生成机器码。如果我们选择一种源语言和目标机器无关的中间语言，我们就 得到了三阶段设计的关键益处：对于一个编译器来说，支持一种新的源语言仅仅需要新增一个对应的编译器前端，支持一种新的目标机器 仅仅需要新增一个对应的编译器后端。
+LLVM 工具集（toolchain）就是这个模型的一个很好的成功的例子。有很多编译器前端如 C、Rust、Swift 等其他很多编程语言基于 LLVM 提供给编译器更加复杂的部分。LLVM 的创建者 Chris Latter 提供了一个很好的 LLVM 架构概览。
+CPython 尽管不需要支持多个源语言和目标机器，尔仅仅需要支持 Python 代码和 CPython 虚拟机。不过，CPython 同样实现了三阶段设计。 如果想知道为什么，我们需要更加详细的解释编译器的三阶段的每个阶段。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20201015182827-python_behind_the_scenes_2_how_the_cpython_compiler_works/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Python behind the scenes #2: how the CPython compiler works">
+<meta property="og:description" content="tags: Translate,Incomplete,Python Python 幕后 #2: CPython 编译器如何工作 今天的主题（Today&amp;rsquo;s subject） 在本系列的第一篇文章中我们研究了 Python 虚拟机。我们学了解到它通过执行一系列叫做字节码（bytecode）的指令。 我们也看到 Python 字节码没有完全描述代码片段的行为。这也是为什么存在一个代码对象（code object）的概念。 执行诸如函数或模块的代码块也就是执行对应的代码对象。代码对象包含了代码块的字节码，包含代码中使用的常量和变量名， 还有代码块的一些属性。
+通常，一个 Python 程序员不用编写字节码，并且也不用创建代码对象，而是编写正常的 Python 代码。所有 CPython 必须 能够将源代码转换成代码对象。CPython 编译器就负责这部分工作。我们将通过这部分内容探索它是如何工作的。
+Note: 本文参考 CPython 3.9。一些实现细节将必然会随着 CPython 的演进而改变。 我将会尝试关注一些重要的改变并添加更新备注。
+什么是 CPython 编译器（What CPython compiler is） 我们已经了解了 CPython 编译器的职责，但是在我们进入到它是如何实现的之前，让我们首先来搞清楚为什么我们称之为编译器？
+在通常情况加，编译器是一个将一个程序语言翻译到另一个与之等价的程序语言的程序。编译器有许多种类，但是通常情况下我们 讨论的都是静态编译：将一个高级语言的程序翻译成机器码。CPython 编译器也是这样吗？要回答这个问题，我们先看一下静态编 译器的传统三阶段设计（three-stage design）。
+编译器前端（frontend）将源代码转换成一种中间语言（IR,intermediate representation）。然后优化器（optimzer）拿到中间语言 对其进行优化并把优化过的中间语言传递给编译器后端生成机器码。如果我们选择一种源语言和目标机器无关的中间语言，我们就 得到了三阶段设计的关键益处：对于一个编译器来说，支持一种新的源语言仅仅需要新增一个对应的编译器前端，支持一种新的目标机器 仅仅需要新增一个对应的编译器后端。
+LLVM 工具集（toolchain）就是这个模型的一个很好的成功的例子。有很多编译器前端如 C、Rust、Swift 等其他很多编程语言基于 LLVM 提供给编译器更加复杂的部分。LLVM 的创建者 Chris Latter 提供了一个很好的 LLVM 架构概览。
+CPython 尽管不需要支持多个源语言和目标机器，尔仅仅需要支持 Python 代码和 CPython 虚拟机。不过，CPython 同样实现了三阶段设计。 如果想知道为什么，我们需要更加详细的解释编译器的三阶段的每个阶段。" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20201015182827-python_behind_the_scenes_2_how_the_cpython_compiler_works/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-10-15 18:28:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/projects/"> Projects in Progress</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/flashcards/">Flashcards</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+        
+          <li><a href="/notes/topics/">Topics</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/projects/"> Projects in Progress</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/flashcards/">Flashcards</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+      
+        <li><a href="/notes/topics/">Topics</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20201015182827-python_behind_the_scenes_2_how_the_cpython_compiler_works/">Python behind the scenes #2: how the CPython compiler works</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-10-15 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <ul>
+<li>tags: <a href="/notes/topics/20200309112105_translate/">Translate</a>,<a href="/notes/topics/20211231172037-incomplete/">Incomplete</a>,<a href="/notes/topics/20200628133616-python/">Python</a></li>
+</ul>
+<h2 id="python-幕后-2-cpython-编译器如何工作">Python 幕后 #2: CPython 编译器如何工作<a href="#python-幕后-2-cpython-编译器如何工作" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="今天的主题-today-s-subject">今天的主题（Today&rsquo;s subject）<a href="#今天的主题-today-s-subject" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>在本系列的<a href="https://www.linuxzen.com/python-behind-the-scenes%5F1%5Fhow%5Fcpython%5Fvm%5Fworks.html">第一篇文章</a>中我们研究了 Python 虚拟机。我们学了解到它通过执行一系列叫做字节码（bytecode）的指令。
+我们也看到 Python 字节码没有完全描述代码片段的行为。这也是为什么存在一个代码对象（code object）的概念。
+执行诸如函数或模块的代码块也就是执行对应的代码对象。代码对象包含了代码块的字节码，包含代码中使用的常量和变量名，
+还有代码块的一些属性。</p>
+<p>通常，一个 Python 程序员不用编写字节码，并且也不用创建代码对象，而是编写正常的 Python 代码。所有 CPython 必须
+能够将源代码转换成代码对象。CPython 编译器就负责这部分工作。我们将通过这部分内容探索它是如何工作的。</p>
+<p><strong><strong>Note</strong></strong>: 本文参考 CPython 3.9。一些实现细节将必然会随着 CPython 的演进而改变。
+我将会尝试关注一些重要的改变并添加更新备注。</p>
+<h3 id="什么是-cpython-编译器-what-cpython-compiler-is">什么是 CPython 编译器（What CPython compiler is）<a href="#什么是-cpython-编译器-what-cpython-compiler-is" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>我们已经了解了 CPython 编译器的职责，但是在我们进入到它是如何实现的之前，让我们首先来搞清楚为什么我们称之为编译器？</p>
+<p>在通常情况加，编译器是一个将一个程序语言翻译到另一个与之等价的程序语言的程序。编译器有许多种类，但是通常情况下我们
+讨论的都是静态编译：将一个高级语言的程序翻译成机器码。CPython 编译器也是这样吗？要回答这个问题，我们先看一下静态编
+译器的传统三阶段设计（three-stage design）。</p>
+
+  <figure class="left" >
+    <img src="/images/python-bts-2/diagram1.png"   />
+    
+  </figure>
+
+
+<p>编译器前端（frontend）将源代码转换成一种中间语言（IR,intermediate representation）。然后优化器（optimzer）拿到中间语言
+对其进行优化并把优化过的中间语言传递给编译器后端生成机器码。如果我们选择一种源语言和目标机器无关的中间语言，我们就
+得到了三阶段设计的关键益处：对于一个编译器来说，支持一种新的源语言仅仅需要新增一个对应的编译器前端，支持一种新的目标机器
+仅仅需要新增一个对应的编译器后端。</p>
+<p>LLVM 工具集（toolchain）就是这个模型的一个很好的成功的例子。有很多编译器前端如 C、Rust、Swift 等其他很多编程语言基于
+LLVM 提供给编译器更加复杂的部分。LLVM 的创建者 Chris Latter 提供了一个很好的 <a href="http://aosabook.org/en/llvm.html">LLVM 架构概览</a>。</p>
+<p>CPython 尽管不需要支持多个源语言和目标机器，尔仅仅需要支持 Python 代码和 CPython 虚拟机。不过，CPython 同样实现了三阶段设计。
+如果想知道为什么，我们需要更加详细的解释编译器的三阶段的每个阶段。</p>
+
+  <figure class="left" >
+    <img src="/images/python-bts-2/diagram2.png"   />
+    
+  </figure>
+
+
+<p>上面图片表示了一个典型的编译器模型。现在将之与下面 CPython 编译器架构的图片进行对比。</p>
+
+  <figure class="left" >
+    <img src="/images/python-bts-2/diagram3.png"   />
+    
+  </figure>
+
+
+<p>是不是看起来很像？这里的关键点是任何之前学过编译器的人都应该熟悉 CPython 编译器的结构。如果你没有学过相关知识，著名的<a href="https://zh.wikipedia.org/wiki/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%5F(%E6%95%99%E6%9D%90)">龙书（Dragon Book）</a>
+是一个非常好的构建编译器的理论引导。这本书很长，但是即使阅读前几章你也会收获巨大。</p>
+<p>我们的对比需要一些进一步的解释。首先，从 CPython 3.9 默认使用了一个新的解析器直接输入 AST（抽象语法树，Abstract Syntax Tree），
+不再需要任何中间部署来构建解析树。因此 CPython 编译器模型得到进一步简化。其次，与静态编译器相比，CPython 的一些前置阶段工作很少
+也许会让人认为 CPython 编译器更加像一个编译器前端。我们不会采用硬核编译器编写者的这种观点。</p>
+<h3 id="编译器架构概述-overview-of-the-compiler-s-architecture">编译器架构概述（Overview of the compiler&rsquo;s architecture）<a href="#编译器架构概述-overview-of-the-compiler-s-architecture" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>上面的图很好，但是它们隐藏了很多细节会造成误导，所以让我们花费一些时间讨论 CPython 编译器的整体设计。</p>
+<p>CPython 编译器的两个主要部分是：</p>
+<ol>
+<li>编译器前端；和</li>
+<li>编译器后端</li>
+</ol>
+<p>编译器前端接受 Python 代码产生 AST。编译器后端接受 AST 产生代码对象。贯穿整个 Python 源代码，
+术语解析器（parser）和编译器分别代表编译器前端和后端。这里的编译器（compiler）代表另外一个意思。
+它应该被称为其他的名字比如代码对象生成器，但是我们依然坚持使用编译器，因为它似乎不会造成太多麻烦。</p>
+<p>解析器（parser）的职责是检查输入的 Python 代码语法是否正确。如果不正确，解析器会报告一个像下面这样的错误：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> y <span style="color:#f92672">=</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">^</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">SyntaxError</span>: invalid syntax
+</span></span></code></pre></div><p>如果输入正确，解析器会根据文法（grammar）规则对它进行组织。文法（grammar）定义了一个语言的语法（syntax）<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。
+我认为形式文法（formal grammar）的概念之于我们的讨论非常关键，我们需要需要稍微注意一下它的形式定义 <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。</p>
+<p>根据传统定义，一个公式是一个包含四个项目的元组：</p>
+<ul>
+<li>\(\sum\) - 有限的端点符号集，或简称端点（通常用小写字母表示）。</li>
+<li>\(N\) - 有限的非端点符号集，或简称非端点（通常用大写字母表示）。</li>
+<li>\(P\) - 有限的产生式规则集。在无文法上下文的情况（包括 Python 的文法），一个产生式的规则只是一个将一个非端点符号映射成
+无序的端点和非端点序列，就像 \(A \rightarrow aB\)</li>
+<li>\(S\) - 开始符号</li>
+</ul>
+<p>文法定义了语言，其中包含可以通过应用产生式规则生成的所有端点序列。要生成序列，以符号 \(S\) 开头，根据产生式规则将每个
+非端点递归替换为一个序列，直到整个序列由端点组成。使用已建立的符号约定，列出产生式规则以指定文法就够了。例如，
+这是一个简单的文法生成交替的 1 和 0 的序列：</p>
+<p>$S → 10S|10 $</p>
+<p>我们将会在解析器部分继续更深入的讨论文法。</p>
+<h3 id="抽象语法树-abstract-syntax-tree">抽象语法树（Abstract syntax tree）<a href="#抽象语法树-abstract-syntax-tree" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>解析器的最终目的是产生 AST。AST 是一个提供源代码高层抽象的树结构。下面是一段代码通过使用 <a href="https://docs.python.org/3/library/ast.html">ast</a> 标准库 dump 出来的对应的 AST：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">123</span>
+</span></span><span style="display:flex;"><span>f(x)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ python -m ast example.py
+</span></span><span style="display:flex;"><span>Module<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>   body<span style="color:#f92672">=[</span>
+</span></span><span style="display:flex;"><span>	  Assign<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>		 targets<span style="color:#f92672">=[</span>
+</span></span><span style="display:flex;"><span>			Name<span style="color:#f92672">(</span>id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x&#39;</span>, ctx<span style="color:#f92672">=</span>Store<span style="color:#f92672">())]</span>,
+</span></span><span style="display:flex;"><span>		 value<span style="color:#f92672">=</span>Constant<span style="color:#f92672">(</span>value<span style="color:#f92672">=</span>123<span style="color:#f92672">))</span>,
+</span></span><span style="display:flex;"><span>	  Expr<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>		 value<span style="color:#f92672">=</span>Call<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>			func<span style="color:#f92672">=</span>Name<span style="color:#f92672">(</span>id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;f&#39;</span>, ctx<span style="color:#f92672">=</span>Load<span style="color:#f92672">())</span>,
+</span></span><span style="display:flex;"><span>			args<span style="color:#f92672">=[</span>
+</span></span><span style="display:flex;"><span>			   Name<span style="color:#f92672">(</span>id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x&#39;</span>, ctx<span style="color:#f92672">=</span>Load<span style="color:#f92672">())]</span>,
+</span></span><span style="display:flex;"><span>			keywords<span style="color:#f92672">=[]))]</span>,
+</span></span><span style="display:flex;"><span>   type_ignores<span style="color:#f92672">=[])</span>
+</span></span></code></pre></div><p>AST 节点的类型使用<a href="https://www.cs.princeton.edu/research/techreps/TR-554-97">抽象语法描述语言</a>（ASDL）进行定义。ASDL 是一个简单的声明式语言用来描述中间语言（IRs），也就是 AST。
+这里是 <a href="https://github.com/python/cpython/blob/master/Parser/Python.asdl">Parser/Python.asdl</a> 中 <code>Assign</code> 和 <code>Expr</code> 节点的定义：</p>
+<pre tabindex="0"><code class="language-adsl" data-lang="adsl">stmt = ... | Assign(expr* targets, expr value, string? type_comment) | ...
+expr = ... | Call(expr func, expr* args, keyword* keywords) | ...
+</code></pre><p>ASDL 规范能够让我们快速的直观了解 Python AST。但是解析器需要使用 C 代码来表示 AST。幸好，通过 ASDL 的描述可以非常简单的生成 C 结构体。
+下面是 CPython 的实现，结果如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> _stmt {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">enum</span> _stmt_kind kind;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">union</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// ... other kinds of statements
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			asdl_seq <span style="color:#f92672">*</span>targets;
+</span></span><span style="display:flex;"><span>			expr_ty value;
+</span></span><span style="display:flex;"><span>			string type_comment;
+</span></span><span style="display:flex;"><span>		} Assign;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// ... other kinds of statements
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	} v;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> lineno;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> col_offset;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> end_lineno;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> end_col_offset;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> _expr {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">enum</span> _expr_kind kind;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">union</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// ... other kinds of expressions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			expr_ty func;
+</span></span><span style="display:flex;"><span>			asdl_seq <span style="color:#f92672">*</span>args;
+</span></span><span style="display:flex;"><span>			asdl_seq <span style="color:#f92672">*</span>keywords;
+</span></span><span style="display:flex;"><span>		} Call;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// ... other kinds of expressions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	} v;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ... same as in _stmt
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>AST 是一种易于使用的表示形式。它可以表示程序做了什么，隐藏一些不必要的信息，如缩进、标点和其他一些 Python 语法特性。</p>
+<p>AST 表示主要的受益者是编译器，编译器可以以一个相对简单的方式遍历 AST 然后生成字节码。除了编译器，还有其他很多 Python 工具
+使用 AST 来处理 Python 代码。比如，<a href="https://github.com/pytest-dev/pytest/">pytest</a> 在 <code>assert</code> 失败时会通过修改 AST 来提供一些有用的信息（当 <code>assert</code> 的表达式返回
+<code>False</code> 时<code>assert</code> 自身除了抛出 <code>AssertionError</code> 以外并没有多任何事情）。另外一个例子就是 <a href="https://github.com/PyCQA/bandit">bandit</a> 通过分析 AST 来发现 Python
+代码中的一些常见的安全问题。</p>
+<p>现在，我们已经学习了一点 Python AST 相关的支持，我们的目光现在可以转向解析器如何从源码构建它的了。</p>
+<h3 id="从源代码生成-ast-from-source-code-to-ast">从源代码生成 AST（From source code to AST）<a href="#从源代码生成-ast-from-source-code-to-ast" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>实际上，就像我前面提到的，从 CPython 3.9 开始 CPython 不在只有一个解析器，而是两个，新的解析器被默认使用。通过传递 <code>-X oldparser</code>
+选项依然可以使用就的解析器。但是在 CPython 3.10 中旧的解析器将会被彻底的移除。</p>
+<p>两个解析器区别很大。我们将会集中在新的解析器上，但是在这之前我们先来看看就的解析器。</p>
+<h4 id="旧解析器-old-parser">旧解析器（old parser）<a href="#旧解析器-old-parser" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>很长时间以来 Python 的语法是通过生成文法（generative grammar）来正式定义的。它是我们前面讨论过的文法中一种。它告诉我们如何
+生成属于该语言的序列。生成文法的问题是它不能直接对应与能够解析那些序列的解析算法。幸好，聪明的人能够区分生成文法的类型并建
+立相应的解析器。这些包括 <a href="https://en.wikipedia.org/wiki/Context-free%5Fgrammar">上下文无关(context free)</a>、<a href="https://en.wikipedia.org/wiki/LL%5Fgrammar">LL(k)</a>、<a href="https://en.wikipedia.org/wiki/LR%5Fparser">LR(k)</a>、<a href="https://en.wikipedia.org/wiki/LALR%5Fparser">LALR</a> 和其他许多类型的文法。Python 的文法是 LL(1)。它指定
+使用 <a href="https://zh.wikipedia.org/wiki/%E6%89%A9%E5%B1%95%E5%B7%B4%E7%A7%91%E6%96%AF%E8%8C%83%E5%BC%8F">扩展巴科斯范式（EBNF, Extended Backus–Naur Form）</a>。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>要想知道它如何描述 Python 语法的，让我们来看一下 <code>while</code> 语句的规则。</p>
+<pre tabindex="0"><code class="language-nil" data-lang="nil">file_input: (NEWLINE | stmt)* ENDMARKER
+stmt: simple_stmt | compound_stmt
+compound_stmt: ... | while_stmt | ...
+while_stmt: &#39;while&#39; namedexpr_test &#39;:&#39; suite [&#39;else&#39; &#39;:&#39; suite]
+suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
+...
+</code></pre><p>CPython 通过以下功能扩展了传统的符号：</p>
+<ul>
+<li>选择分组（grouping of alternatives）： <code>(a | b)</code></li>
+<li>可选部分： <code>[a]</code></li>
+<li>零个或多个和一个或多个重复： <code>a*</code> 和 <code>a+</code></li>
+</ul>
+<p>我们可以参见 <a href="https://www.blogger.com/profile/12821714508588242516">why Guido van Rossum chose to use regular expressions</a>。它们允许编程语言的语法表现的更加的自然（对一个程序员来说）。
+我们可以仅仅写 \(A \rightarrow a+\) 来代替 \(A \rightarrow aA|a\) 。这个选择是有代价的：CPython 需要开发一个方法支持扩展的符号。</p>
+<p>LL(1) 文法解析是一个已解决的问题。解决方案是<a href="https://zh.wikipedia.org/wiki/%E4%B8%8B%E6%8E%A8%E8%87%AA%E5%8A%A8%E6%9C%BA">下推自动机（PDA, Pushdown automaton）</a>作为自上而下的解析器。PDA 使用栈通过模拟生成来
+操作输入字符串。要解析一些输入，它在栈上以开始符号为起点。然后它从输入查找第一个符号，猜测应该对开始符号应用哪一个规则然后用规则
+右边的部分对它进行替换。如果栈顶的符号是一个端点匹配输入的下一个符号，PDA 将会从栈顶将之弹出并跳过已匹配的符号。如果栈顶符号是非
+端点，PDA 尝试猜测规则根据输入的中符号去替换它。这个过程一直重复，直到整个输入都被扫描或者 PDA 通过输入中的下一个符号在栈上无法
+匹配一个端点：导致错误。</p>
+<p>CPython 因为编写了产生式规则所以无法直接使用这个方法，所以需要开发新的方法。要支持扩展符号，旧的解析器通过<a href="https://zh.wikipedia.org/wiki/%E7%A1%AE%E5%AE%9A%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E8%87%AA%E5%8A%A8%E6%9C%BA">确定有限状态自动机（DFA, Deterministic Finite Automaton）</a>
+表示文法中的每一个规则，其以和正则表达式等效而闻名。解析器自身是一个像 PDA 一样的基于栈的自动机，但是不将符号压入栈，而是替代的压入 DFA 的状态。
+这里是旧解析器使用的关键的数据结构：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span>              s_state;       <span style="color:#75715e">/* State in current DFA */</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> dfa       <span style="color:#f92672">*</span>s_dfa;         <span style="color:#75715e">/* Current DFA */</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">struct</span> _node    <span style="color:#f92672">*</span>s_parent;      <span style="color:#75715e">/* Where to add next node */</span>
+</span></span><span style="display:flex;"><span>} stackentry;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	stackentry      <span style="color:#f92672">*</span>s_top;         <span style="color:#75715e">/* Top entry */</span>
+</span></span><span style="display:flex;"><span>	stackentry       s_base[MAXSTACK];<span style="color:#75715e">/* Array of stack entries */</span>
+</span></span><span style="display:flex;"><span>									<span style="color:#75715e">/* NB The stack grows down */</span>
+</span></span><span style="display:flex;"><span>} stack;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	stack           p_stack;        <span style="color:#75715e">/* Stack of parser states */</span>
+</span></span><span style="display:flex;"><span>	grammar         <span style="color:#f92672">*</span>p_grammar;     <span style="color:#75715e">/* Grammar to use */</span>
+</span></span><span style="display:flex;"><span>									<span style="color:#75715e">// basically, a collection of DFAs
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	node            <span style="color:#f92672">*</span>p_tree;        <span style="color:#75715e">/* Top of parse tree */</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} parser_state;
+</span></span></code></pre></div><p>还有 <a href="https://github.com/python/cpython/blob/3.9/Parser/parser.c">Parser/parser.c</a> 中的注释总结方法：</p>
+<blockquote>
+<p>A parsing rule is represented as a Deterministic Finite-state Automaton (DFA). A node in a DFA represents a stabte of the parser; an arc represents a transition. Transitions are either labeled with terminal symbols or with nonterminals. When the parser decides to follow an arc labeled with a nonterminal, it is invoked recursively with the DFA representing the parsing rule for that as its initial state; when that DFA accepts, the parser that invoked it continues. The parse tree constructed by the recursively called parser is inserted as a child in the current parse tree.</p>
+</blockquote>
+<!-- raw HTML omitted -->
+<blockquote>
+<p>DFA 代表解析规则。DFA 中节点代表解析器中的状态，arc 表示过渡。过渡用端点或非端点标记。当解析器决定跟随一个 arc 标记的非端点，它是以该解析规则的 DFA 作为它的初始状态递归调用；当 DFA 接受时，调用它的解析器将继续。通过递归的调用构建的解析树作为子树插入当前的解析树中。</p>
+</blockquote>
+<p>在解析输入的过程中，解析器构建了解析树，也被称作具体语法树（Concrete Syntax Tree，CST）。对比 AST，解析树直接对应输入时对应的规则。解析树的所有节点通过 <code>node</code> 结构体表示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _node {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">short</span>               n_type;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">char</span>                <span style="color:#f92672">*</span>n_str;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span>                 n_lineno;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span>                 n_col_offset;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span>                 n_nchildren;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">struct</span> _node        <span style="color:#f92672">*</span>n_child;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span>                 n_end_lineno;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span>                 n_end_col_offset;
+</span></span><span style="display:flex;"><span>} node;
+</span></span></code></pre></div><p>但是，解析树并不是编译器所需要的。它必须转换成 AST。这部分工作由 <a href="https://github.com/python/cpython/blob/3.9/Python/ast.c">Python/ast.c</a> 来完成。这部分算法递归的遍历解析树然后将解析树的节点翻译成 AST 的节点。
+几乎没人发现这几近 6000 的代码是多么令人兴奋啊。</p>
+<!-- raw HTML omitted -->
+<ul>
+<li>
+<p>标记器（tokenizer）</p>
+<p>从语法的角度来说 Python 并不是一门简单的语言。尽管 Python 的文法看起来很简单并且包含在注释在内也就 200 行。这是因为文法的符号都是标记而非单独的字符。
+一个标记通过类型表示，比如 <code>NUMBER</code> 、 <code>NAME</code> 、 <code>NEWLINE</code> ， 对应的值和位置在源码中。 CPython 在 <a href="https://github.com/python/cpython/blob/3.9/Grammar/Tokens">Grammar/Tokens</a> 中列出了 63 种不同类型的标记。
+我们可以使用标注库 <a href="https://docs.python.org/3/library/tokenize.html">tokenize</a> 来看一个标记过的程序：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">x_plus</span>(x):
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> x <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> x
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ python -m tokenize example2.py
+</span></span><span style="display:flex;"><span>0,0-0,0:            ENCODING       <span style="color:#e6db74">&#39;utf-8&#39;</span>
+</span></span><span style="display:flex;"><span>1,0-1,3:            NAME           <span style="color:#e6db74">&#39;def&#39;</span>
+</span></span><span style="display:flex;"><span>1,4-1,10:           NAME           <span style="color:#e6db74">&#39;x_plus&#39;</span>
+</span></span><span style="display:flex;"><span>1,10-1,11:          OP             <span style="color:#e6db74">&#39;(&#39;</span>
+</span></span><span style="display:flex;"><span>1,11-1,12:          NAME           <span style="color:#e6db74">&#39;x&#39;</span>
+</span></span><span style="display:flex;"><span>1,12-1,13:          OP             <span style="color:#e6db74">&#39;)&#39;</span>
+</span></span><span style="display:flex;"><span>1,13-1,14:          OP             <span style="color:#e6db74">&#39;:&#39;</span>
+</span></span><span style="display:flex;"><span>1,14-1,15:          NEWLINE        <span style="color:#e6db74">&#39;\n&#39;</span>
+</span></span><span style="display:flex;"><span>2,0-2,4:            INDENT         <span style="color:#e6db74">&#39;    &#39;</span>
+</span></span><span style="display:flex;"><span>2,4-2,6:            NAME           <span style="color:#e6db74">&#39;if&#39;</span>
+</span></span><span style="display:flex;"><span>2,7-2,8:            NAME           <span style="color:#e6db74">&#39;x&#39;</span>
+</span></span><span style="display:flex;"><span>2,9-2,11:           OP             <span style="color:#e6db74">&#39;&gt;=&#39;</span>
+</span></span><span style="display:flex;"><span>2,12-2,13:          NUMBER         <span style="color:#e6db74">&#39;0&#39;</span>
+</span></span><span style="display:flex;"><span>2,13-2,14:          OP             <span style="color:#e6db74">&#39;:&#39;</span>
+</span></span><span style="display:flex;"><span>2,14-2,15:          NEWLINE        <span style="color:#e6db74">&#39;\n&#39;</span>
+</span></span><span style="display:flex;"><span>3,0-3,8:            INDENT         <span style="color:#e6db74">&#39;        &#39;</span>
+</span></span><span style="display:flex;"><span>3,8-3,14:           NAME           <span style="color:#e6db74">&#39;return&#39;</span>
+</span></span><span style="display:flex;"><span>3,15-3,16:          NAME           <span style="color:#e6db74">&#39;x&#39;</span>
+</span></span><span style="display:flex;"><span>3,16-3,17:          NEWLINE        <span style="color:#e6db74">&#39;\n&#39;</span>
+</span></span><span style="display:flex;"><span>4,4-4,4:            DEDENT         <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>4,4-4,10:           NAME           <span style="color:#e6db74">&#39;return&#39;</span>
+</span></span><span style="display:flex;"><span>4,11-4,12:          NUMBER         <span style="color:#e6db74">&#39;0&#39;</span>
+</span></span><span style="display:flex;"><span>4,12-4,13:          NEWLINE        <span style="color:#e6db74">&#39;\n&#39;</span>
+</span></span><span style="display:flex;"><span>5,0-5,0:            DEDENT         <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>5,0-5,0:            ENDMARKER      <span style="color:#e6db74">&#39;&#39;</span>
+</span></span></code></pre></div><p>这就是解析器如何看待程序的。当解析器需要一个标记时，它将通过标记器来获得。标记器每次从缓冲区读取一个字符然后尝试进行前缀匹配一些类型的标记。
+标记器如何处理不同的编码？它是基于 <code>io</code> 模块。首先，标记器检测编码。如果没有指定编码则默认 <code>UTF-8</code> ，然后标记器通过等价于
+Python 的 <code>open(fd, mode='r', encoding=enc)</code> 的 C 调用打开文件 ，然后通过调用 <code>readline</code> 读取内容。这个函数返回 unicode 字符串。
+标记器读取的字符仅仅是该字符的 UTF-8 编码的字节码（或者 EOF）。</p>
+<p>我们可以在文法中直接定义数字或名称，尽管它会变得更加复杂。我们无法做的是在语法中表达缩进的重要性，而又不使上下文敏感，并因此不适合解析。
+标记器通过提供 <code>INDENT</code> 和 <code>DEDENT</code> 标记让解析器的工作更加简单。它们和像 C 语言中的大括号具有相同的意义。标记器足够强大去处理缩进是因为
+它有状态。当前缩进通过栈顶保存，并会随着层级增加而进行压栈，随着层级减少而出栈。</p>
+<p>旧的解析器是 CPython 代码中的重要部分。文法的 DFA 规则自动生成，但是解析器的其他部分则是手动实现。这与新解析器相反，新的解析器似乎是解决解析
+Python 代码问题的更优雅的方案。</p>
+</li>
+</ul>
+<h4 id="新解析器-new-parser">新解析器（new parser）<a href="#新解析器-new-parser" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>新解析器带来了新的文法。这个文法是<a href="https://zh.wikipedia.org/wiki/%E8%A7%A3%E6%9E%90%E8%A1%A8%E8%BE%BE%E6%96%87%E6%B3%95">解析表达文法</a>（Parsing Expression Grammar，PEG）。要理解 PEG 最重要是一点就是不仅仅是一组文法。它是另一种定义
+文法的方法。PEG 作为一个工具描述编程语言并基于描述生成解析器在 <a href="https://pdos.csail.mit.edu/~baford/packrat/popl04/">2004 年由布莱恩·福特（Bryan Ford）推出</a>。PEG 区别于传统形式文法的地方在于它的规则
+将非端点映射到解析表达式，而不仅仅是符号序列。这也是 CPython 的精神。解析表达式是归纳定义的。 如果 e，\(e_1\) 和 \(e_2\) 是解析表达式，那么：</p>
+<ol>
+<li>空字符串</li>
+<li>任意端点</li>
+<li>任意非端点</li>
+<li>\(e_{1}e_{2}\) ：序列</li>
+<li>$e_1 | e_2 $ ：优先选择</li>
+<li>\(e*\) ：零个或多个重复</li>
+<li>\(!e\) : 非</li>
+</ol>
+<p>PEG 是分析文法，也就是说它们被设计不仅仅生成语言同时也可以分析语言。</p>
+<h2 id="脚注">脚注<a href="#脚注" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>grammar 和 syntax 都有语法的意思，这里将 grammar 翻译成文法以区分。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>参见维基百科 <a href="https://en.wikipedia.org/wiki/Terminal%5Fand%5Fnonterminal%5Fsymbols">Terminal and nonterminal symbols</a> 、<a href="https://zh.wikipedia.org/wiki/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80">形式语言</a>和<a href="https://zh.wikipedia.org/wiki/%E5%BD%A2%E5%BC%8F%E6%96%87%E6%B3%95">形式文法</a>。&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://zhuanlan.zhihu.com/p/39728328">递归下降解析</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+      </div></div>
+
+  
+
+  
+
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+
+<hr>
+
+  <div class="bl-section">
+    <h4>No notes link to this note</h4>
+  </div>
+
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>

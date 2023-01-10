@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>根据CentOS定制自己的发行版</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="本文使用的环境为CentOS5.5 32位. 首先要做的是最小化安装CentOS,就是安装过程中选择要安装包的时候使用自定义,然后去除所有 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="定制">
+    <meta name="tags" content="mkisofs">
+    <meta name="tags" content="createrepo">
+    <meta name="tags" content="comps.xml">
+    <meta name="tags" content="CentOS">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="根据CentOS定制自己的发行版"/>
+<meta property="og:description" content="本文使用的环境为CentOS5.5 32位. 首先要做的是最小化安装CentOS,就是安装过程中选择要安装包的时候使用自定义,然后去除所有 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-01-18 11:13:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="定制"/>
+<meta property="article:tag" content="mkisofs"/>
+<meta property="article:tag" content="createrepo"/>
+<meta property="article:tag" content="comps.xml"/>
+<meta property="article:tag" content="CentOS"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="根据CentOS定制自己的发行版">
+    <meta name="twitter:url" content="https://www.linuxzen.com/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="本文使用的环境为CentOS5.5 32位. 首先要做的是最小化安装CentOS,就是安装过程中选择要安装包的时候使用自定义,然后去除所有 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "根据CentOS定制自己的发行版",
+  "headline": "根据CentOS定制自己的发行版",
+  "datePublished": "2012-01-18 11:13:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html",
+  "description": "本文使用的环境为CentOS5.5 32位. 首先要做的是最小化安装CentOS,就是安装过程中选择要安装包的时候使用自定义,然后去除所有 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">根据CentOS定制自己的发行版</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Wed 18 January 2012">Wed 18 January 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>本文使用的环境为CentOS5.5 32位.
+首先要做的是最小化安装CentOS,就是安装过程中选择要安装包的时候使用自定义,然后去除所有要安装的包,系统就会默认最小化安装系统.
+装完系统会再root的根目录下生成3个文件,我们用到两个:
+anaconda-ks.cfg : kisckstart脚本,记录安装过程的配置,包括选择语言,选择键盘,分区,root密码等等等等
+install.log            : 记录安装过程中所安装的包
+我们首先要做的就是建立我们的自己发行版的目录,在一个剩余大小大于4G的分区创建自己发行版的目录,比如我的发行版叫ColdOS,然后挂载DVD光盘,把光盘上的内容复制到自己发行版的目录:<!--more--></p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>/usr/cold<span class="w">                 </span><span class="c1"># 创建发行版目录</span>
+mount<span class="w"> </span>/dev/hdc<span class="w"> </span>/mnt<span class="w">             </span><span class="c1"># 挂载IDE光驱</span>
+<span class="c1"># 或</span>
+mount<span class="w"> </span>/dev/cdrom<span class="w"> </span>/mnt
+<span class="c1"># 如挂载本地ISO镜像使用下面命令</span>
+mount<span class="w"> </span>-o<span class="w"> </span>loop<span class="w"> </span>iso路径<span class="w"> </span>/mnt
+
+<span class="c1"># 然后使用 tar命令把光盘的内容复制到/usr/cold</span>
+<span class="c1"># 都说这个命令比cp快,在256内存的虚拟机测试也就快了几十秒,个人觉得最大的用处</span>
+<span class="c1"># 就是解决了cp无法复制隐藏文件的问题</span>
+<span class="o">(</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/mnt/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>tar<span class="w"> </span>-cf<span class="w"> </span>-<span class="w"> </span>.<span class="w"> </span><span class="o">)</span><span class="w"> </span>¦<span class="w"> </span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>/usr/cold<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>tar<span class="w"> </span>-xvfp<span class="w"> </span>-<span class="w"> </span><span class="o">)</span><span class="w">         </span><span class="c1"># tar -p选项是保留原有权限</span>
+</code></pre></div>
+
+<p>复制完成后发行版目录应该是:</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-la<span class="w"> </span>/usr/cold
+total<span class="w"> </span><span class="m">511</span>
+drwxr-xr-x<span class="w">  </span><span class="m">7</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">6144</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>.
+drwxr-xr-x<span class="w"> </span><span class="m">21</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">4096</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">18</span>:07<span class="w"> </span>..
+drwxrwxr-x<span class="w">  </span><span class="m">2</span><span class="w">  </span><span class="m">501</span><span class="w">  </span><span class="m">501</span><span class="w"> </span><span class="m">421888</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>CentOS
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">112</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>.discinfo
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">212</span><span class="w"> </span>Jun<span class="w"> </span><span class="m">15</span><span class="w">  </span><span class="m">2008</span><span class="w"> </span>EULA
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">18009</span><span class="w"> </span>Jun<span class="w"> </span><span class="m">15</span><span class="w">  </span><span class="m">2008</span><span class="w"> </span>GPL
+drwxr-xr-x<span class="w">  </span><span class="m">4</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">2048</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>images
+drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">2048</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>isolinux
+drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span><span class="m">22528</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>NOTES
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">655</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-cs
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1401</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-cs.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">839</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-de
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1571</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-de.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">694</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-en
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1367</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-en.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">694</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-en_US
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1367</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-en_US.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">788</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-es
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1619</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-es.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">852</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-fr
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1641</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-fr.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">766</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-ja
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1565</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-ja.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">706</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-nl
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1433</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-nl.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">752</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-pt_BR
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1480</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-pt_BR.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">801</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-ro
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1473</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">27</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>RELEASE-NOTES-ro.html
+drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">2048</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>repodata
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1512</span><span class="w"> </span>Jun<span class="w"> </span><span class="m">15</span><span class="w">  </span><span class="m">2008</span><span class="w"> </span>RPM-GPG-KEY-beta
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">1504</span><span class="w"> </span>Jun<span class="w"> </span><span class="m">15</span><span class="w">  </span><span class="m">2008</span><span class="w"> </span>RPM-GPG-KEY-CentOS-5
+-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">7048</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>TRANS.TBL
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">413</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>.treeinfo
+</code></pre></div>
+
+<p>现在对系统进行精简:</p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-f<span class="w"> </span>RELEASE-NOTES-*
+<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>NOTES/
+rm<span class="w"> </span>-f<span class="w"> </span>RPM-GPG-KEY-*
+rm<span class="w"> </span>-f<span class="w"> </span>EULA
+rm<span class="w"> </span>-f<span class="w"> </span>GPL
+rm<span class="w"> </span>-f<span class="w"> </span>CentOS/*<span class="w">                          </span><span class="c1"># 删除所有rpm包,等会根据install.log复制过来,保证系统最小化</span>
+</code></pre></div>
+
+<p>精简完后应该是这样子的:</p>
+<div class="highlight"><pre><span></span><code>s<span class="w"> </span>-la<span class="w"> </span>/usr/cold/
+total<span class="w"> </span><span class="m">20</span>
+drwxr-xr-x<span class="w">  </span><span class="m">6</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">4096</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">19</span>:39<span class="w"> </span>.
+drwxr-xr-x<span class="w"> </span><span class="m">16</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">4096</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">23</span>:14<span class="w"> </span>..
+drwxrwxr-x<span class="w">  </span><span class="m">3</span><span class="w">  </span><span class="m">501</span><span class="w">  </span><span class="m">501</span><span class="w"> </span><span class="m">172032</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">02</span>:23<span class="w"> </span>CentOS
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">112</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>.discinfo
+drwxr-xr-x<span class="w">  </span><span class="m">4</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">4096</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>images
+drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">4096</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">00</span>:36<span class="w"> </span>isolinux
+drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">4096</span><span class="w"> </span>Dec<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">01</span>:42<span class="w"> </span>repodata
+-r--r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">7048</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>TRANS.TBL
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">    </span><span class="m">413</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">30</span><span class="w">  </span><span class="m">2010</span><span class="w"> </span>.treeinfo
+</code></pre></div>
+
+<p>现在根据install.log创建packages.list,用来安装所需要的rpm包:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 根据install.log,提取其中的rpm包名,</span>
+cat<span class="w"> </span>install.log<span class="w"> </span>¦<span class="w"> </span>grep<span class="w"> </span>Installing<span class="w"> </span>¦<span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span>¦<span class="w"> </span>awk<span class="w"> </span>-F<span class="s1">&#39;:&#39;</span><span class="w"> </span><span class="s1">&#39;{ if (NF==2){ print $2} else {print $1}}&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>packages.list
+<span class="c1"># 如果仅仅最小化安装就失去了定制自己的发行版的意义</span>
+<span class="c1"># 向packages.list添加几个常用的工具,需要先用yum安装一遍记住包的依赖关系</span>
+<span class="c1"># 把依赖关系的包也放入packages.list</span>
+<span class="c1"># 比如man依赖bzip2 groff</span>
+vi<span class="w"> </span>packages.list
+<span class="c1"># 末尾添加如下内容:</span>
+setuptool
+lszrz<span class="w"> </span>wget
+kernel-devel
+kernel-headers
+libgomp
+cpp
+glibc-headers
+glibc-devel
+gcc
+make
+which
+bzip2
+groff
+man
+<span class="c1"># 根据packages.list进行复制</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="sb">`</span>cat<span class="w"> </span>packages.list<span class="w"> </span><span class="sb">`</span><span class="p">;</span><span class="k">do</span><span class="w">  </span>cp<span class="w"> </span>-p<span class="w"> </span>-f<span class="w">  </span>/mnt/CentOS/<span class="s2">&quot;</span><span class="nv">$i</span><span class="s2">&quot;</span>*<span class="w"> </span>/usr/cold/CentOS/<span class="p">;</span><span class="k">done</span>
+</code></pre></div>
+
+<p>复制完所需的RPM包之后我们如何来让系统安装的时候安装我们自定义添加的包呢?
+首先我们需要编辑repodata/comps.xml,但是comps.xml文件内容太杂,大概 2万多行,所以我们需要对comps.xml进行一个预处理:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># comps.xml包含最多的是各国语言</span>
+<span class="c1"># 我们先去除不需要的语言,这里我只需要英文,</span>
+sed<span class="w"> </span>-ri<span class="w"> </span><span class="s1">&#39;/xml:lang/ {/en_GB/!d}&#39;</span><span class="w"> </span>comps.xml<span class="w">  </span><span class="c1"># 如果需要保留其他语言比如中文,在en_GB后添加&quot;¦zh_CN&quot;</span>
+</code></pre></div>
+
+<p>去除了各国语言的comps.xml大概包含2000多行,现在我们要进一步处理,删除除了id为core的group的其他节点,删除完后comps.xml大概只剩下73行.现在我们要把我们自己添加的包顶一个group节点,在紧跟id为core的group节点(也就是<code>&lt;/group&gt;</code>后面)添加如下内容:</p>
+<div class="highlight"><pre><span></span><code>&lt;group&gt;
+<span class="w">    </span>&lt;id&gt;useful&lt;/id&gt;
+<span class="w">    </span>&lt;name&gt;Useful&lt;/name&gt;
+<span class="w">    </span>&lt;name<span class="w"> </span>xml:lang<span class="o">=</span><span class="s2">&quot;en_GB&quot;</span>&gt;Useful&lt;/name&gt;
+<span class="w">    </span>&lt;description&gt;Useful<span class="w"> </span>tools<span class="w"> </span><span class="k">for</span><span class="w"> </span>administartor<span class="w"> </span>&lt;/description&gt;
+<span class="w">    </span>&lt;description<span class="w"> </span>xml:lang<span class="o">=</span><span class="s2">&quot;en_GB&quot;</span>&gt;Useful<span class="w"> </span>tools<span class="w"> </span><span class="k">for</span><span class="w"> </span>administartor&lt;/description&gt;
+<span class="w">    </span>&lt;default&gt;true&lt;/default&gt;
+<span class="w">    </span>&lt;uservisible&gt;false&lt;/uservisible&gt;
+<span class="w">    </span>&lt;packagelist&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;setuptool&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;lszrz&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;wget&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;kernel-headers&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;libgomp&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;cpp&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;glibc-headers&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;glibc-devel&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;gcc&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;make&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;which&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;bzip2&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;groff&lt;/packagereq&gt;
+<span class="w">      </span>&lt;packagereq<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>&gt;man&lt;/packagereq&gt;
+<span class="w">    </span>&lt;/packagelist&gt;
+<span class="w">  </span>&lt;/group&gt;
+</code></pre></div>
+
+<p>上面添加了一个id为useful的group节点,下面把这两个节点放到一个类别里:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span>&lt;category&gt;
+<span class="w">    </span>&lt;id&gt;cold&lt;/id&gt;
+<span class="w">    </span>&lt;name&gt;Cold&lt;/name&gt;
+<span class="w">    </span>&lt;name<span class="w"> </span>xml:lang<span class="o">=</span><span class="s2">&quot;en_GB&quot;</span>&gt;Cold&lt;/name&gt;
+<span class="w">    </span>&lt;description&gt;Cold<span class="w"> </span>Linux&lt;/description&gt;
+<span class="w">    </span>&lt;description<span class="w"> </span>xml:lang<span class="o">=</span><span class="s2">&quot;en_GB&quot;</span>&gt;Cold<span class="w"> </span>Linux&lt;/description&gt;
+<span class="w">    </span>&lt;display_order&gt;92&lt;/display_order&gt;
+<span class="w">    </span>&lt;grouplist&gt;
+<span class="w">      </span>&lt;groupid&gt;core&lt;/groupid&gt;
+<span class="w">      </span>&lt;groupid&gt;useful&lt;/groupid&gt;
+<span class="w">     </span>&lt;/grouplist&gt;
+<span class="w">  </span>&lt;/category&gt;
+</code></pre></div>
+
+<p>然后根据我们的comps.xml创建源:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 安装所需要的工具</span>
+yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>createrepo<span class="w"> </span>anaconda<span class="w"> </span>anaconda-runtime
+<span class="c1"># 创建源</span>
+createrepo<span class="w"> </span>-g<span class="w"> </span>/usr/cold/repodata/comps.xml<span class="w"> </span>/usr/cold/CentOS
+<span class="c1"># 完成后会有如下提示:</span>
+<span class="m">224</span>/224<span class="w"> </span>-<span class="w"> </span>kudzu-1.2.57.1.24-1.el5.centos.i386.rpm
+Saving<span class="w"> </span>Primary<span class="w"> </span>metadata
+Saving<span class="w"> </span>file<span class="w"> </span>lists<span class="w"> </span>metadata
+Saving<span class="w"> </span>other<span class="w"> </span>metadata
+</code></pre></div>
+
+<p>由于我们编辑了comps.xml,所以comps.xml的sha值会改变,这样就会导致跟repomd.xml中所记录的不同,安装的时候会报错:An error occurred umounting the CD. Please make sure you'are not accessing  /mnt/source from the shell on tty2 an the click OK retry.
+所以我们更改完comps.xml要计算comps.xml的sha值</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 计算comps.xml的sha值</span>
+sha1sum<span class="w"> </span>repodata/comps.xml
+c1d304cae50f969370a72d95e3cd2f71087fc73a<span class="w">  </span>repodata/comps.xml
+</code></pre></div>
+
+<p>然后更新到repomd.xml中编辑repodata/repomd.xml找到location href="repodata/comps.xml"/的一个data节点把sha值更新为刚刚计算的</p>
+<div class="highlight"><pre><span></span><code>&lt;data<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;group&quot;</span>&gt;
+<span class="w">    </span>&lt;location<span class="w"> </span><span class="nv">href</span><span class="o">=</span><span class="s2">&quot;repodata/comps.xml&quot;</span>/&gt;
+<span class="w">    </span>&lt;checksum<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="s2">&quot;sha&quot;</span>&gt;c1d304cae50f969370a72d95e3cd2f71087fc73a&lt;/checksum&gt;
+<span class="w">    </span>&lt;timestamp&gt;1272586365&lt;/timestamp&gt;
+<span class="w">  </span>&lt;/data&gt;
+</code></pre></div>
+
+<p>comps.xml里新加了一个咱们的useful 组,怎么使系统安装我们定义的包呢?怎么自定义安装过程呢?下面将讲解根据anaconda-ks.cfg文件定义安装过程:
+首先复制anaconda-ks.cfg到我们的发行版目录:</p>
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>~/anaconda-ks.cfg<span class="w"> </span>/usr/cold/isolinux/ks.cfg<span class="w">         </span><span class="c1"># 复制到isolinux下并命名为ks.cfg</span>
+<span class="nb">cd</span><span class="w"> </span>/usr/cold
+<span class="c1"># 编辑kickstart脚本</span>
+vi<span class="w"> </span>isolinux/ks.cfg
+install<span class="w">                            </span><span class="c1"># 定义安装</span>
+cdrom<span class="w">                              </span><span class="c1"># 从光盘安装</span>
+lang<span class="w"> </span>en_US.UTF-8<span class="w">                   </span><span class="c1"># 安装语言为英文</span>
+keyboard<span class="w"> </span>us<span class="w">                        </span><span class="c1"># 定义键盘布局</span>
+rootpw<span class="w"> </span>--iscrypted<span class="w"> </span><span class="nv">$1$OKNHES6P$tPdz9HxIp6</span>.QUvulqxNwa.<span class="w">           </span><span class="c1"># 定义root密码(你安装的时候提供的密码)</span>
+firewall<span class="w"> </span>--disable<span class="w">                                                                                    </span><span class="c1"># 禁用防火墙</span>
+authconfig<span class="w"> </span>--enableshadow<span class="w"> </span>--enablemd5<span class="w">                                              </span><span class="c1"># 使用md5加密</span>
+selinux<span class="w"> </span>--disabled<span class="w">                                                                                   </span><span class="c1"># 禁用selinux</span>
+timezone<span class="w"> </span>--utc<span class="w"> </span>Asia/Chongqing<span class="w">                                                              </span><span class="c1"># 定义时区</span>
+bootloader<span class="w"> </span>--location<span class="o">=</span>mbr<span class="w"> </span>--driveorder<span class="o">=</span>sda<span class="w">                                           </span><span class="c1"># 在一块硬盘上安装mbr</span>
+<span class="c1"># The following is the partition information you requested</span>
+<span class="c1"># Note that any partitions you deleted are not expressed</span>
+<span class="c1"># here so unless you clear all partitions first, this is</span>
+<span class="c1"># not guaranteed to work</span>
+<span class="c1"># 如果想安装过程中手动分区就把下面几行注释掉</span>
+clearpart<span class="w"> </span>--linux<span class="w"> </span>--drives<span class="o">=</span>sda<span class="w">                       </span><span class="c1"># 格式化sda</span>
+part<span class="w"> </span>/<span class="w"> </span>--fstype<span class="w"> </span>ext3<span class="w"> </span>--size<span class="o">=</span><span class="m">1</span><span class="w"> </span>--grow<span class="w"> </span>--maxsize<span class="o">=</span><span class="m">4096</span><span class="w">  </span><span class="c1"># 创建/分区大小为4个G</span>
+part<span class="w"> </span>/usr<span class="w"> </span>--fstype<span class="w"> </span>ext3<span class="w"> </span>--size<span class="o">=</span><span class="m">1</span><span class="w"> </span>--grow<span class="w">              </span><span class="c1"># 创建/usr分区,大小为剩余空间</span>
+part<span class="w"> </span>swap<span class="w"> </span>--size<span class="o">=</span><span class="m">1</span><span class="w"> </span>--grow<span class="w"> </span>--maxsize<span class="o">=</span><span class="m">512</span><span class="w">              </span><span class="c1"># 创建swap大小为512M</span>
+
+%packages<span class="w">                                            </span><span class="c1"># 定义安装时安装的包</span>
+@core<span class="w">                                                </span><span class="c1"># 最小化安装的包</span>
+@useful<span class="w">                                              </span><span class="c1"># 自定义的包</span>
+</code></pre></div>
+
+<p>然后就要修改配置文件使安装时使用ks.cfg的配置来安装,修改isolinux.cfg:</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>isolinux/isolinux.cfg
+default<span class="w"> </span>linux<span class="w">                                 </span><span class="c1"># 默认启动的label</span>
+prompt<span class="w"> </span><span class="m">1</span>
+timeout<span class="w"> </span><span class="m">10</span><span class="w">                                    </span><span class="c1"># 等待时间为1秒钟</span>
+display<span class="w"> </span>boot.msg
+F1<span class="w"> </span>boot.msg
+F2<span class="w"> </span>options.msg
+F3<span class="w"> </span>general.msg
+F4<span class="w"> </span>param.msg
+F5<span class="w"> </span>rescue.msg
+label<span class="w"> </span>linux
+<span class="w">  </span>kernel<span class="w"> </span>vmlinuz
+<span class="w">  </span>append<span class="w"> </span><span class="nv">ks</span><span class="o">=</span>cdrom:/isolinux/ks.cfg<span class="w"> </span><span class="nv">initrd</span><span class="o">=</span>initrd.img<span class="w"> </span>text<span class="w">           </span><span class="c1">#修改默认linux的label,ks使用自定义的ks,并文本启动</span>
+label<span class="w"> </span>text
+<span class="w">  </span>kernel<span class="w"> </span>vmlinuz
+<span class="w">  </span>append<span class="w"> </span><span class="nv">initrd</span><span class="o">=</span>initrd.img<span class="w"> </span>text
+label<span class="w"> </span>ks
+<span class="w">  </span>kernel<span class="w"> </span>vmlinuz
+<span class="w">  </span>append<span class="w"> </span>ks<span class="w"> </span><span class="nv">initrd</span><span class="o">=</span>initrd.img
+label<span class="w"> </span><span class="nb">local</span>
+<span class="w">  </span>localboot<span class="w"> </span><span class="m">1</span>
+label<span class="w"> </span>memtest86
+<span class="w">  </span>kernel<span class="w"> </span>memtest
+<span class="w">  </span>append<span class="w"> </span>-
+</code></pre></div>
+
+<p>到这里配置就基本完成,下面就是制作iso镜像进行安装测试:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 首先安装工具</span>
+yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>mkisofs
+<span class="c1"># 创建iso镜像:</span>
+<span class="nb">cd</span><span class="w"> </span>/usr/cold
+mkisofs<span class="w"> </span>-R<span class="w"> </span>-J<span class="w"> </span>-T<span class="w"> </span>-r<span class="w"> </span>-l<span class="w"> </span>-d<span class="w"> </span>-allow-multidot<span class="w"> </span>-allow-leading-dots<span class="w"> </span>-no-bak<span class="w"> </span>-o<span class="w"> </span>/usr/ColdOS-0.1-i386.iso<span class="w"> </span>-b<span class="w"> </span>isolinux/isolinux.bin<span class="w">  </span>-c<span class="w"> </span>isolinux/boot.cat<span class="w"> </span>-no-emul-boot<span class="w"> </span>-boot-load-size<span class="w"> </span><span class="m">4</span><span class="w"> </span>-boot-info-table<span class="w"> </span>.
+</code></pre></div>
+
+<p>然后就可以把镜像下载下来进行安装测试了...下一篇就会介绍如何把之前一篇文章介绍的cfengine集成到自己的发行版</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=根据CentOS定制自己的发行版&amp;url=https://www.linuxzen.com/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/ding-zhi.html">定制</a><a href="https://www.linuxzen.com/tag/mkisofs.html">mkisofs</a><a href="https://www.linuxzen.com/tag/createrepo.html">createrepo</a><a href="https://www.linuxzen.com/tag/compsxml.html">comps.xml</a><a href="https://www.linuxzen.com/tag/centos.html">CentOS</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html';
+                    var disqus_url = 'https://www.linuxzen.com/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/gen-ju-centosding-zhi-zi-ji-de-fa-xing-ban.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

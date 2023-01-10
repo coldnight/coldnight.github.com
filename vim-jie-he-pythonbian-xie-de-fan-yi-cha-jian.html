@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Vim 结合Python编写的翻译插件</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="最近重写了一下之前用Python写的一个终端翻译工具,想着Vim7.3 支持Python于是想将这个功能写为一个插件让Vim也支持翻译功能,现在英汉翻译比较完善, t会翻译光标下单词,选中的翻译还不完善,仅仅是个半成品,在此抛砖引 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="翻译">
+    <meta name="tags" content="插件">
+    <meta name="tags" content="vim">
+    <meta name="tags" content="python">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Vim 结合Python编写的翻译插件"/>
+<meta property="og:description" content="最近重写了一下之前用Python写的一个终端翻译工具,想着Vim7.3 支持Python于是想将这个功能写为一个插件让Vim也支持翻译功能,现在英汉翻译比较完善, t会翻译光标下单词,选中的翻译还不完善,仅仅是个半成品,在此抛砖引 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-01-04 17:58:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Vim"/>
+<meta property="article:tag" content="翻译"/>
+<meta property="article:tag" content="插件"/>
+<meta property="article:tag" content="vim"/>
+<meta property="article:tag" content="python"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Vim 结合Python编写的翻译插件">
+    <meta name="twitter:url" content="https://www.linuxzen.com/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="最近重写了一下之前用Python写的一个终端翻译工具,想着Vim7.3 支持Python于是想将这个功能写为一个插件让Vim也支持翻译功能,现在英汉翻译比较完善, t会翻译光标下单词,选中的翻译还不完善,仅仅是个半成品,在此抛砖引 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Vim 结合Python编写的翻译插件",
+  "headline": "Vim 结合Python编写的翻译插件",
+  "datePublished": "2013-01-04 17:58:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html",
+  "description": "最近重写了一下之前用Python写的一个终端翻译工具,想着Vim7.3 支持Python于是想将这个功能写为一个插件让Vim也支持翻译功能,现在英汉翻译比较完善, t会翻译光标下单词,选中的翻译还不完善,仅仅是个半成品,在此抛砖引 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li class="nav-vim active" role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Vim 结合Python编写的翻译插件</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Fri 04 January 2013">Fri 04 January 2013</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>最近重写了一下之前用Python写的一个终端翻译工具,想着Vim7.3 支持Python于是想将这个功能写为一个插件让Vim也支持翻译功能,现在英汉翻译比较完善, <Leader>t会翻译光标下单词,选中的翻译还不完善,仅仅是个半成品,在此抛砖引玉.将下面代码复制保存为translate.vim 放到~/.vim/plugin目录下即可,代码如下:</p>
+<div class="highlight"><pre><span></span><code><span class="c">&quot;   Author  :   cold</span>
+<span class="c">&quot;   E-mail  :   wh_linux@126.com</span>
+<span class="c">&quot;   Date    :   2012/12/20 16:23</span>
+<span class="c">&quot;   Desc    :   英汉/汉英翻译插件</span>
+<span class="c">&quot;   Useage  :</span>
+<span class="c">&quot;                  &lt;Leader&gt; t 翻译当前光标下内容 //XXX 中文不行</span>
+<span class="c">&quot;                  &lt;Leader&gt; lt 翻译当前行</span>
+<span class="c">&quot;                  &lt;Leader&gt; vt 翻译选中的内容</span>
+
+<span class="k">function</span> GetCursorWord<span class="p">()</span>
+    <span class="k">let</span> column <span class="p">=</span> get<span class="p">(</span>getpos<span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">),</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">)</span> <span class="p">-</span> <span class="m">1</span>
+    <span class="k">let</span> line <span class="p">=</span> getline<span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">let</span> word <span class="p">=</span> strpart<span class="p">(</span>line<span class="p">,</span> column<span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+    <span class="k">let</span> <span class="k">start</span> <span class="p">=</span> <span class="m">1</span>
+    <span class="k">while</span> <span class="m">1</span>
+        <span class="k">let</span> tmp <span class="p">=</span> strpart<span class="p">(</span>line<span class="p">,</span> column <span class="p">+</span> <span class="k">start</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+        <span class="k">if</span> tmp <span class="p">=~</span> <span class="s2">&quot;[a-zA-Z]&quot;</span>
+            <span class="k">let</span> word <span class="p">=</span> word . tmp
+        <span class="k">else</span>
+            <span class="k">break</span>
+        <span class="k">endif</span>
+        <span class="k">let</span> <span class="k">start</span> <span class="p">=</span> <span class="k">start</span> <span class="p">+</span> <span class="m">1</span>
+    <span class="k">endwhile</span>
+    <span class="k">let</span> <span class="k">start</span> <span class="p">=</span> <span class="m">1</span>
+    <span class="k">while</span> <span class="m">1</span>
+        <span class="k">let</span> tmp <span class="p">=</span> strpart<span class="p">(</span>line<span class="p">,</span> column <span class="p">-</span> <span class="k">start</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+        <span class="k">if</span> tmp <span class="p">=~</span> <span class="s1">&#39;[a-zA-Z]&#39;</span>
+            <span class="k">let</span> word <span class="p">=</span> tmp . word
+        <span class="k">else</span>
+            <span class="k">break</span>
+        <span class="k">endif</span>
+        <span class="k">let</span> <span class="k">start</span> <span class="p">=</span> <span class="k">start</span> <span class="p">+</span> <span class="m">1</span>
+    <span class="k">endwhile</span>
+    <span class="k">return</span> word
+endfunc
+
+<span class="k">function</span> Translate<span class="p">(</span><span class="k">m</span><span class="p">)</span>
+<span class="c">    &quot; m 1 -&gt; 翻译当前行</span>
+<span class="c">    &quot; m 2 -&gt; 翻译选中</span>
+    <span class="k">if</span> <span class="k">mode</span><span class="p">()</span> <span class="p">==</span> <span class="s1">&#39;n&#39;</span>
+        <span class="k">let</span> word <span class="p">=</span> GetCursorWord<span class="p">()</span> <span class="c">&quot; 如果是命令模式则取当前字符下单词</span>
+    <span class="k">endif</span>
+<span class="c">    &quot;XXX Visual 模式mode()命令返回n</span>
+    <span class="k">if</span> <span class="k">a</span>:<span class="k">m</span> <span class="p">==</span> <span class="m">2</span>
+        <span class="k">let</span> word <span class="p">=</span> getreg<span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>     <span class="c">&quot; 如果是选择模式获取选择块</span>
+
+    <span class="k">endif</span>
+    <span class="k">if</span> <span class="k">a</span>:<span class="k">m</span> <span class="p">==</span> <span class="m">1</span>
+        <span class="k">let</span> word <span class="p">=</span> getline<span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">endif</span>
+<span class="k">python</span> <span class="o">&lt;&lt;</span> EOF
+
+<span class="kn">import</span> <span class="nn">vim</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+
+<span class="k">class</span> <span class="nc">Translate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; 使用google进行英-&gt;汉, 汉-&gt;英的翻译 &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s1">&#39;zh-CN&#39;</span><span class="p">,</span> <span class="n">dst</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://translate.google.cn/translate_a/t&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">client</span> <span class="o">=</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+                           <span class="n">hl</span> <span class="o">=</span> <span class="s1">&#39;zh-CN&#39;</span><span class="p">,</span> <span class="n">tl</span> <span class="o">=</span> <span class="n">dst</span><span class="p">,</span>
+                           <span class="n">multires</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">prev</span> <span class="o">=</span> <span class="s1">&#39;btn&#39;</span><span class="p">,</span>
+                           <span class="n">ssel</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="n">sc</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">src</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hl&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sl</span> <span class="o">=</span> <span class="n">src</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; 加载翻译结果 &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="s1">&#39;,,&#39;</span> <span class="ow">in</span> <span class="n">content</span> <span class="ow">or</span> <span class="s1">&#39;[,&#39;</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,,&#39;</span><span class="p">,</span> <span class="s1">&#39;,&quot;&quot;,&#39;</span><span class="p">)</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;[,&#39;</span><span class="p">,</span> <span class="s1">&#39;[&quot;&quot;,&#39;</span><span class="p">)</span>
+            <span class="c1">#content = content.replace(&#39;,]&#39;, &#39;&quot;&quot;,]&#39;)</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">desc</span> <span class="o">=</span> <span class="n">content</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">pinyin</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">else</span> <span class="n">result</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">others</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">desc</span><span class="p">:</span>
+            <span class="n">others</span> <span class="o">+=</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">others</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{0}</span><span class="se">\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+                        <span class="n">others</span> <span class="o">+=</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">pinyin</span> <span class="o">=</span> <span class="n">pinyin</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span>
+
+    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; 调用google翻译 &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">req</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;Mozilla/5.0+(compatible;+Googlebot/2.1;&quot;</span>
+                       <span class="s2">&quot;++http://www.google.com/bot.html)&quot;</span><span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span>  <span class="n">res</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">auto_translate</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; 自动检测当前语言进行翻译 &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="sa">u</span><span class="s1">&#39;z&#39;</span><span class="p">:</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="s1">&#39;zh-CN&#39;</span>
+        <span class="n">dst</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+        <span class="n">dst</span> <span class="o">=</span> <span class="s1">&#39;zh-CN&#39;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">Translate</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">translate</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">word</span> <span class="o">=</span> <span class="n">vim</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">auto_translate</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+<span class="n">vim</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;echo &quot;源词: &#39;</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+<span class="n">vim</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;echo &quot;结果: &#39;</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+<span class="n">vim</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;echo &quot;拼音: &#39;</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pinyin&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;others&#39;</span><span class="p">):</span>
+    <span class="n">vim</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;echo &quot;其他释义: &quot;&#39;</span><span class="p">)</span>
+    <span class="n">vim</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;echo &quot;&#39;</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;others&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+
+EOF
+
+endfunc
+nmap <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">t</span> :<span class="k">call</span> Translate<span class="p">(</span><span class="m">0</span><span class="p">)&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+nmap <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">lt</span> :<span class="k">call</span> Translate<span class="p">(</span><span class="m">1</span><span class="p">)&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+<span class="c">&quot;XXX 无法判断当前模式,使用映射替代</span>
+map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">ts</span> :<span class="k">call</span> Translate<span class="p">(</span><span class="m">2</span><span class="p">)&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+</code></pre></div>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Vim 结合Python编写的翻译插件&amp;url=https://www.linuxzen.com/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/fan-yi.html">翻译</a><a href="https://www.linuxzen.com/tag/cha-jian.html">插件</a><a href="https://www.linuxzen.com/tag/vim.html">vim</a><a href="https://www.linuxzen.com/tag/python.html">python</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html';
+                    var disqus_url = 'https://www.linuxzen.com/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

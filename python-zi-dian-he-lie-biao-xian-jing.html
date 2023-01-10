@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Python 字典和列表陷阱</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Python 中有三个非常好用的数据结构,列表,元组和字典, 元组是不可变的,列表可以保存任意类型的Python对象,并可以随意扩展没有大 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="陷阱">
+    <meta name="tags" content="引用">
+    <meta name="tags" content="字典">
+    <meta name="tags" content="列表">
+    <meta name="tags" content="python">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Python 字典和列表陷阱"/>
+<meta property="og:description" content="Python 中有三个非常好用的数据结构,列表,元组和字典, 元组是不可变的,列表可以保存任意类型的Python对象,并可以随意扩展没有大 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-09-17 10:22:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="陷阱"/>
+<meta property="article:tag" content="引用"/>
+<meta property="article:tag" content="字典"/>
+<meta property="article:tag" content="列表"/>
+<meta property="article:tag" content="python"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Python 字典和列表陷阱">
+    <meta name="twitter:url" content="https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Python 中有三个非常好用的数据结构,列表,元组和字典, 元组是不可变的,列表可以保存任意类型的Python对象,并可以随意扩展没有大 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Python 字典和列表陷阱",
+  "headline": "Python 字典和列表陷阱",
+  "datePublished": "2012-09-17 10:22:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html",
+  "description": "Python 中有三个非常好用的数据结构,列表,元组和字典, 元组是不可变的,列表可以保存任意类型的Python对象,并可以随意扩展没有大 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Python 字典和列表陷阱</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Mon 17 September 2012">Mon 17 September 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Python 中有三个非常好用的数据结构,列表,元组和字典,
+元组是不可变的,列表可以保存任意类型的Python对象,并可以随意扩展没有大小限制,
+字典是一个key-value的键值映射的类型,可以存放任何Python对象,可以嵌套字典,
+值可以是字典元组或者字典</p>
+<p>这里说是Python 字典和列表的陷阱不如说是Python的一些特性,如果不了解这些特性
+就会引发一些难以寻找的bug</p>
+<p>下面我们来介绍这些特性</p>
+<p>Python中所有对列表和字典的使用仅仅是对原来对象的引用而不是创建一个新的对象
+如下面代码:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">info</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="n">blog</span><span class="o">=</span><span class="s1">&#39;www.linuxzen.com&#39;</span><span class="p">)</span> <span class="c1"># 创建字典{&#39;name&#39;:&#39;cold&#39;, &#39;blog&#39;:&#39;www.linuxzen.com&#39;}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info2</span> <span class="o">=</span> <span class="n">info</span>     <span class="c1"># 赋值给info2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info2</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cold night&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info2</span>
+<span class="p">{</span><span class="s1">&#39;blog&#39;</span><span class="p">:</span> <span class="s1">&#39;www.linuxzen.com&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;cold night&#39;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info</span>
+<span class="p">{</span><span class="s1">&#39;blog&#39;</span><span class="p">:</span> <span class="s1">&#39;www.linuxzen.com&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;cold night&#39;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;linuxzen&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names2</span> <span class="o">=</span> <span class="n">names</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;cold night&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names</span>
+<span class="p">[</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;linuxzen&#39;</span><span class="p">,</span> <span class="s1">&#39;cold night&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names2</span>
+<span class="p">[</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;linuxzen&#39;</span><span class="p">,</span> <span class="s1">&#39;cold night&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<p>大家看到如果将列表或者字典重新赋值给另外一个变量并没有达到预想的效果,
+我们更改一个的同时另外一个也在同时更改,如果我们想保留一个快照,很明显我们
+没有达到我们想要的效果,另外还有一种常见的使用,因为我们知道普通变量传递给
+函数,函数在内部更改是不会影响到外部变量的,那么列表和字典呢?
+我们来看如下代码,我们创建一个函数,是字典就添加一个键和值,是列表就在尾部添加一个元素</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">add_something</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+<span class="o">...</span>     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="o">...</span>             <span class="n">info</span><span class="p">[</span><span class="s1">&#39;msg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Hello,&#39;</span><span class="o">+</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+<span class="o">...</span>     <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+<span class="o">...</span>             <span class="n">info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;add to the list&#39;</span><span class="p">)</span>
+<span class="o">...</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;blog&#39;</span><span class="p">:</span><span class="s1">&#39;www.linuxzen.com&#39;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">add_something</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info</span>
+<span class="p">{</span><span class="s1">&#39;blog&#39;</span><span class="p">:</span> <span class="s1">&#39;www.linuxzen.com&#39;</span><span class="p">,</span> <span class="s1">&#39;msg&#39;</span><span class="p">:</span> <span class="s1">&#39;Hello,cold&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;cold&#39;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;linuxzen.com&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">add_something</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names</span>
+<span class="p">[</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;linuxzen.com&#39;</span><span class="p">,</span> <span class="s1">&#39;add to the list&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<p>如上代码明显不是我们想要的结果,如果这个列表/字典仅仅用在一个地方可能不会发生什么
+如果我们其他地方需要同样的列表进行处理,如果你不知道这个特性就会产生很难寻找的bug
+当上面并不是我们想要的我们该如何避免上面呢,我们可以对列表/字典做一个拷贝,而不是
+简单的引用</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;linuxzen.com&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names2</span> <span class="o">=</span> <span class="n">names</span><span class="p">[:]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;cold night&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names</span>
+<span class="p">[</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;linuxzen.com&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">names2</span>
+<span class="p">[</span><span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;linuxzen.com&#39;</span><span class="p">,</span> <span class="s1">&#39;cold night&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;cold night&#39;</span><span class="p">,</span> <span class="s1">&#39;blog&#39;</span><span class="p">:</span><span class="s1">&#39;www.linuxzen.com&#39;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info2</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info2</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cold&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info</span>
+<span class="p">{</span><span class="s1">&#39;blog&#39;</span><span class="p">:</span> <span class="s1">&#39;www.linuxzen.com&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;cold night&#39;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info2</span>
+<span class="p">{</span><span class="s1">&#39;blog&#39;</span><span class="p">:</span> <span class="s1">&#39;www.linuxzen.com&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;cold&#39;</span><span class="p">}</span>
+</code></pre></div>
+
+<p>上面代码列表使用[:]可以创建一个列表的副本而不是引用
+字典的copy方法同样可以创建一个字典的副本而不是引用
+这样就可以避免之前所说的引用的情况</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Python 字典和列表陷阱&amp;url=https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/xian-jing.html">陷阱</a><a href="https://www.linuxzen.com/tag/yin-yong.html">引用</a><a href="https://www.linuxzen.com/tag/zi-dian.html">字典</a><a href="https://www.linuxzen.com/tag/lie-biao.html">列表</a><a href="https://www.linuxzen.com/tag/python.html">python</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/python-zi-dian-he-lie-biao-xian-jing.html';
+                    var disqus_url = 'https://www.linuxzen.com/python-zi-dian-he-lie-biao-xian-jing.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/python-zi-dian-he-lie-biao-xian-jing.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

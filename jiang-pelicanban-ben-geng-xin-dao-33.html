@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>将Pelican版本更新到3.3</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="记录升级Pelican到3.3的过程和一些吐槽,">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="pelican3.3">
+    <meta name="tags" content="升级">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="将Pelican版本更新到3.3"/>
+<meta property="og:description" content="记录升级Pelican到3.3的过程和一些吐槽,"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-12-24 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="pelican3.3"/>
+<meta property="article:tag" content="升级"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="将Pelican版本更新到3.3">
+    <meta name="twitter:url" content="https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="记录升级Pelican到3.3的过程和一些吐槽,">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "将Pelican版本更新到3.3",
+  "headline": "将Pelican版本更新到3.3",
+  "datePublished": "2013-12-24 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html",
+  "description": "记录升级Pelican到3.3的过程和一些吐槽,"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">将Pelican版本更新到3.3</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Tue 24 December 2013">Tue 24 December 2013</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>用Pelican有一段时间了, 由于重装了系统, 所以安装<code>Pelican</code>的最新版本,最新版本为 <code>3.3</code>, 顺便也升级模板和插件.</p>
+<p><code>Pelican</code>特别喜欢更改配置文件,  而且错误提示非常烂, 完全不知道在说什么, 而且没有安装markdown包的话根本不提示, 仅仅就错误退出, 下面就这次升级越到的问题做个记录.</p>
+<h2 id="makefile">Makefile</h2>
+<p>Pelican升级后会有很多莫名奇妙的问题, 首先之前的<code>Makefile</code>不能使用, 所以需要重新生成一份:</p>
+<div class="highlight"><pre><span></span><code>pelican-quickstart .
+</code></pre></div>
+
+<p>当然上面操作会更改配置文件, 我用git管理, 所以很方便的<code>checkout</code>, 如果你的不是, 先备份下配置文件吧.</p>
+<h2 id="atom-feed">ATOM Feed</h2>
+<p>然后<code>make html</code>的时候失败提示</p>
+<div class="highlight"><pre><span></span><code><span class="n">File /path/to/project/output/feeds/all.atom.xml is to be overwritten!</span>
+</code></pre></div>
+
+<p>看了 <a href="https://github.com/getpelican/pelican">pelican</a>上的<code>issue</code> 原来是更改了<code>FEED_ATOM</code>的配置项, 使用了 <code>FEED_ALL_ATOM</code>配置项, 将<code>FEED_ATOM</code>配置项改为<code>FEED_ALL_ATOM</code>配置即可</p>
+<p>但是改完之后页面的ATOM FEED链接没有指向正确的地址, 查看模板文件, 发现模板还在引用<code>FEED_ATOM</code>, 改成<code>FEED_ALL_ATOM</code>即可.</p>
+<h2 id="markdown">Markdown</h2>
+<p>如果莫名奇妙的错误, 没有错误信息, 也没有输出HTML, 那么可能就是<code>markdown</code>包没装, <code>Pelican</code>的错误提示真心无语.</p>
+<div class="highlight"><pre><span></span><code>easy_install -U markdown
+</code></pre></div>
+
+<h3 id="markdown_1">Markdown 代码高亮</h3>
+<p>Markdown 是通过指定 MD_EXTENSIONS 选项类配置代码高亮的之前配置这样就可以</p>
+<div class="highlight"><pre><span></span><code><span class="n">MD_EXTENSIONS</span> <span class="o">=</span>  <span class="p">([</span><span class="s1">&#39;codehilite&#39;</span><span class="p">,</span> <span class="s1">&#39;extra&#39;</span><span class="p">,</span> <span class="s1">&#39;fenced_code&#39;</span><span class="p">,</span> <span class="s1">&#39;tables&#39;</span><span class="p">,</span> <span class="s1">&#39;sane_lists&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<p>但是发现现在无法高亮代码, 查看了源码原来要手动指定高亮 css, 不然css会设置成
+ codhilite 
+ <code>python
+MD_EXTENSIONS =  (['codehilite(css_class=highlight)', 'extra',
+                   'fenced_code', 'tables', 'sane_lists'])</code></p>
+<h2 id="_1">静态文件</h2>
+<p><code>Pelican</code>去掉了<code>FILE\_TO\_COPY</code>项, 所以之前拷贝<code>robots.txt</code>之类的文件, 就会失效, 使用<code>STATIC_PATHS</code>即可</p>
+<div class="highlight"><pre><span></span><code><span class="n">STATIC_PATHS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="sa">u</span><span class="s2">&quot;upload&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;extra/robots.txt&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;extra/404.html&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="p">]</span>
+</code></pre></div>
+
+<p>如果想指定静态文件位置, 可以使用<code>STATIC_SAVE_AS</code>, 会将静态文件存到另外一个目录,
+而且对所有<code>STATIC_PATHS</code>项生效</p>
+<div class="highlight"><pre><span></span><code>STATIC_SAVE_AS = &quot;static/&quot;
+</code></pre></div>
+
+<p>也可以使用 <code>EXTRA_PATH_METADATA</code>来为每一项指定路径</p>
+<div class="highlight"><pre><span></span><code>EXTRA_PATH_METADATA = {
+    &quot;extra/robots.txt&quot;:{&quot;path&quot;:&quot;robots.txt&quot;},
+    &quot;extra/404.html&quot;: {&quot;path&quot;:&quot;404.html&quot;},
+}
+</code></pre></div>
+
+<p>至此, <code>Pelican</code>升级完毕</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=将Pelican版本更新到3.3&amp;url=https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/pelican33.html">pelican3.3</a><a href="https://www.linuxzen.com/tag/sheng-ji.html">升级</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/jiang-pelicanban-ben-geng-xin-dao-33.html';
+                    var disqus_url = 'https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/jiang-pelicanban-ben-geng-xin-dao-33.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

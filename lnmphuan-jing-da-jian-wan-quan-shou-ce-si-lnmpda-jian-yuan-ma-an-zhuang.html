@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>lnmp环境搭建完全手册(四)——lnmp搭建(源码安装)</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="上面3篇我们主要对系统进行了安装和配置,并且配置了yum包管理器,安装了几个常用的工具,这篇我们就来介绍如何来搭建lnmp环境.这里的LNMP环境是指Linux下搭建Nginx+MySQL+PHP.Nginx是一个高性能的 HTTP 和 反向代理 服务器，也 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="源码包">
+    <meta name="tags" content="安装">
+    <meta name="tags" content="php">
+    <meta name="tags" content="nginx">
+    <meta name="tags" content="MySQL">
+    <meta name="tags" content="Linux">
+    <meta name="tags" content="CentOS">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="lnmp环境搭建完全手册(四)——lnmp搭建(源码安装)"/>
+<meta property="og:description" content="上面3篇我们主要对系统进行了安装和配置,并且配置了yum包管理器,安装了几个常用的工具,这篇我们就来介绍如何来搭建lnmp环境.这里的LNMP环境是指Linux下搭建Nginx+MySQL+PHP.Nginx是一个高性能的 HTTP 和 反向代理 服务器，也 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-03-13 13:13:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="源码包"/>
+<meta property="article:tag" content="安装"/>
+<meta property="article:tag" content="php"/>
+<meta property="article:tag" content="nginx"/>
+<meta property="article:tag" content="MySQL"/>
+<meta property="article:tag" content="Linux"/>
+<meta property="article:tag" content="CentOS"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="lnmp环境搭建完全手册(四)——lnmp搭建(源码安装)">
+    <meta name="twitter:url" content="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="上面3篇我们主要对系统进行了安装和配置,并且配置了yum包管理器,安装了几个常用的工具,这篇我们就来介绍如何来搭建lnmp环境.这里的LNMP环境是指Linux下搭建Nginx+MySQL+PHP.Nginx是一个高性能的 HTTP 和 反向代理 服务器，也 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "lnmp环境搭建完全手册(四)——lnmp搭建(源码安装)",
+  "headline": "lnmp环境搭建完全手册(四)——lnmp搭建(源码安装)",
+  "datePublished": "2012-03-13 13:13:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html",
+  "description": "上面3篇我们主要对系统进行了安装和配置,并且配置了yum包管理器,安装了几个常用的工具,这篇我们就来介绍如何来搭建lnmp环境.这里的LNMP环境是指Linux下搭建Nginx+MySQL+PHP.Nginx是一个高性能的 HTTP 和 反向代理 服务器，也 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">lnmp环境搭建完全手册(四)——lnmp搭建(源码安装)</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Tue 13 March 2012">Tue 13 March 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>上面3篇我们主要对系统进行了安装和配置,并且配置了yum包管理器,安装了几个常用的工具,这篇我们就来介绍如何来搭建lnmp环境.这里的LNMP环境是指Linux下搭建Nginx+MySQL+PHP.Nginx是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。Nginx不仅可以作为web服务器,也可以作为负载均衡器,之前也有文章介绍,大家可以看一下.</p>
+<p>MySQL是一款开源免费的数据软件,MySQL是一个小型关系型数据库管理系统，其体积小、速度快、总体拥有成本低，尤其是开放源码这一特点，许多中小型网站为了降低网站总体拥有成本而选择了MySQL作为网站数据库.</p>
+<p>PHP，是英文超级文本预处理语言Hypertext Preprocessor的缩写。PHP 是一种 HTML 内嵌式的语言，是一种在服务器端执行的嵌入HTML文档的脚本语言，语言的风格有类似于C语言，被广泛的运用。</p>
+<p>nginx当前最新稳定版是nginx-1.0.13
+首先我们下载nginx,在Linux下执行下面命令:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/usr/src<span class="w">                                           </span><span class="c1"># 一般软件源码放在这个目录下</span>
+wget<span class="w"> </span>http://nginx.org/download/nginx-1.0.13.tar.gz<span class="w">    </span><span class="c1"># 下载</span>
+nginx会有几个依赖包,我们首先安装依赖,不要安装过程中会报错:
+yum<span class="w">  </span>-y<span class="w"> </span>install<span class="w"> </span>zlib-devel<span class="w"> </span>pcre-devel<span class="w"> </span>openssl-devel
+</code></pre></div>
+
+<p>一般源代码安装分4个步骤(有人也会省去第一个步骤),<code>解压</code>(tar命令)<code>预编译</code>(执行源码包下的configure),<code>编译</code>(make),<code>编译安装</code>(make install)
+首先我们解压源码包:</p>
+<div class="highlight"><pre><span></span><code>tar -zxvf nginx-1.0.13.tar.gz
+</code></pre></div>
+
+<p>这里解释下加压参数,z代表gzip(也就是后面的.gz文件)x代表加压,v表示显示详细信息,-f使用档案文件或设备(必选参数)</p>
+<p>然后我们进行预编译,一般预编译会带上一些参数,已达到我们想要安装的效果,比如启用某个功能,禁用某个功能:</p>
+<p>进入源码包目录进行预编译:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>nginx-1.0.13
+<span class="w"> </span>./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/nginx<span class="se">\ </span><span class="w">  </span><span class="c1"># 指定安装目录为/usr/local/nginx</span>
+--with-openssl<span class="o">=</span>/usr/include/openssl<span class="se">\ </span><span class="w"> </span><span class="c1"># 启用ssl</span>
+--with-pcre<span class="se">\ </span><span class="w">                         </span><span class="c1"># 启用正规表达式</span>
+--with-http_stub_status_module<span class="w">        </span><span class="c1"># 安装可以查看nginx状态的程序</span>
+</code></pre></div>
+
+<p>其中./configure指执行当前目录下的<code>configure</code>文件</p>
+<p>预编译完成后我们就可以进行编译和安装:</p>
+<div class="highlight"><pre><span></span><code>make           #编译
+</code></pre></div>
+
+<p>执行后make后会有大量输出,等待输出完成后如果没有报错就可以进行安装执行:</p>
+<div class="highlight"><pre><span></span><code>make install   #安装
+</code></pre></div>
+
+<p>安装完成后我们可以到相应的目录查看安装的文件:</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/usr/local/nginx/
+conf<span class="w">  </span>html<span class="w">  </span>logs<span class="w">  </span>sbin
+</code></pre></div>
+
+<p>好了,下面我们启动nginx:</p>
+<div class="highlight"><pre><span></span><code>/usr/local/nginx/sbin/nginx
+</code></pre></div>
+
+<p>通过查看端口看nginx是否启动成功,nginx占用TCP的80端口,执行下面命令:</p>
+<div class="highlight"><pre><span></span><code> netstat -antlp ¦ grep 80
+tcp        0      0 0.0.0.0:80                  0.0.0.0:*                   LISTEN      5946/nginx
+</code></pre></div>
+
+<p>我们查看80端口是开放的</p>
+<p>然后打开浏览器访问http://192.168.3.120,我们会看到Welcome to nginx(之前的版本是 It's Work):</p>
+<p>nginx安装完毕后我们来安装MySQL ,我们使用MySQl-5.0.95版首先下载:</p>
+<div class="highlight"><pre><span></span><code><span class="n">wget</span><span class="w"> </span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">dev</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">get</span><span class="o">/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">MySQL</span><span class="o">-</span><span class="mf">5.0</span><span class="o">/</span><span class="n">mysql</span><span class="o">-</span><span class="mf">5.0</span><span class="o">.</span><span class="mf">95.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span><span class="o">/</span><span class="n">from</span><span class="o">/</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">mysql</span><span class="o">.</span><span class="n">cdpa</span><span class="o">.</span><span class="n">nsysu</span><span class="o">.</span><span class="n">edu</span><span class="o">.</span><span class="n">tw</span><span class="o">/</span>
+</code></pre></div>
+
+<p>安装之前我们先做一些准备工作,</p>
+<p>安装依赖:</p>
+<div class="highlight"><pre><span></span><code>yum -y install ncurses-devel
+</code></pre></div>
+
+<p>创建MySQL用户:</p>
+<div class="highlight"><pre><span></span><code>useradd<span class="w"> </span>-M<span class="w"> </span>-s<span class="w"> </span>/sbin/nologin<span class="w"> </span>mysql<span class="w">  </span><span class="c1"># -M不创建home目录,-s指定shell为不登录</span>
+</code></pre></div>
+
+<p>然后进行安装:</p>
+<div class="highlight"><pre><span></span><code>tar<span class="w"> </span>-zxvf<span class="w"> </span>mysql-5.0.95.tar.gz
+<span class="nb">cd</span><span class="w"> </span>mysql-5.0.95
+./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/mysql<span class="w"> </span><span class="se">\</span>
+--without-debug<span class="w"> </span><span class="se">\ </span><span class="w">                                </span><span class="c1"># 取消调试模式提高性能</span>
+--with-extra-charsets<span class="o">=</span>utf8,gbk<span class="w"> </span><span class="se">\ </span><span class="w">                 </span><span class="c1"># 仅仅指定需要的默认字符集提高性能</span>
+--enable-assembler<span class="w"> </span><span class="se">\ </span><span class="w">                             </span><span class="c1"># 使用汇编模式提高性能</span>
+--with-mysqld-ldflags<span class="o">=</span>-all-static<span class="w"> </span><span class="se">\ </span><span class="w">              </span><span class="c1"># 以静态方式编译提高性能</span>
+--with-client-ldflags<span class="o">=</span>-all-static<span class="w"> </span><span class="se">\</span>
+--with-unix-socket-path<span class="o">=</span>/tmp/mysql.sock<span class="w"> </span><span class="se">\ </span><span class="w">        </span><span class="c1"># 使用unix socket提高性能</span>
+--with-ssl
+make
+make<span class="w"> </span>install
+</code></pre></div>
+
+<p>安装完成后复制配置文件和启动脚本:</p>
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>support-files/my-medium.cnf<span class="w"> </span>/etc/my.cnf<span class="w">         </span><span class="c1"># 复制配置文件</span>
+cp<span class="w"> </span>support-files/mysql.server<span class="w"> </span>/etc/init.d/mysqld<span class="w">   </span><span class="c1"># 复制启动脚本</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>/etc/init.d/mysqld<span class="w">         </span><span class="c1"># 给启动脚本执行权限</span>
+</code></pre></div>
+
+<p>为了以后方便我们为所有的二进制可执行文件和动态链接库文件做一个软连接:</p>
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/mysql/bin/*<span class="w"> </span>/usr/local/bin/<span class="w">              </span><span class="c1"># 为可执行的二进制文件做软连接</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/mysql/lib/mysql/lib*<span class="w"> </span>/usr/lib/<span class="w">  </span><span class="c1"># 为动态链接库做一个软连接</span>
+</code></pre></div>
+
+<p>然后我们初始化数据库:</p>
+<div class="highlight"><pre><span></span><code>mysql_install_db<span class="w"> </span>--user<span class="o">=</span>mysql<span class="w">  </span><span class="c1"># 用MySQL用户安装数据库</span>
+</code></pre></div>
+
+<p>为了MySQL能正常使用我们需要更改一下MySQL安装目录和MySQL的数据库目录的属主和属组:</p>
+<div class="highlight"><pre><span></span><code>chown<span class="w"> </span>-R<span class="w"> </span>root.mysql<span class="w"> </span>/usr/local/mysql/<span class="w">           </span><span class="c1"># 更改安装目录属主为root,属组为mysql</span>
+chown<span class="w"> </span>-R<span class="w"> </span>mysql.mysql<span class="w"> </span>/usr/local/mysql/var/<span class="w">      </span><span class="c1"># 更改数据库目录属主和属组都为mysql</span>
+</code></pre></div>
+
+<p>这里的<code>-R</code>参数用来应用到所有子目录和文件</p>
+<p>配置完毕后我们启动mysql:</p>
+<div class="highlight"><pre><span></span><code>service mysqld start
+</code></pre></div>
+
+<p>现在我们查看MySQL是否启动成功,MySQL占用TCP的3306端口,我们查看端口是否被占用:</p>
+<div class="highlight"><pre><span></span><code>netstat -antlp ¦ grep 3306
+tcp        0      0 0.0.0.0:3306                0.0.0.0:*                   LISTEN      32143/mysqld
+</code></pre></div>
+
+<p>然后我们通过mysql命令来连接mysql:</p>
+<div class="highlight"><pre><span></span><code>mysql
+</code></pre></div>
+
+<p>会显示如下内容表示已经成功启动MySQL并已经连接上</p>
+<div class="highlight"><pre><span></span><code><span class="n">Welcome</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">MySQL</span><span class="w"> </span><span class="n">monitor</span><span class="p">.</span><span class="w">  </span><span class="n">Commands</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">\g.</span>
+<span class="n">Your</span><span class="w"> </span><span class="n">MySQL</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="mh">1</span>
+<span class="n">Server</span><span class="w"> </span><span class="nl">version:</span><span class="w"> </span><span class="mf">5.0.95</span><span class="o">-</span><span class="n">log</span><span class="w"> </span><span class="n">Source</span><span class="w"> </span><span class="n">distribution</span>
+
+<span class="n">Copyright</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="mh">2000</span><span class="p">,</span><span class="w"> </span><span class="mh">2011</span><span class="p">,</span><span class="w"> </span><span class="n">Oracle</span><span class="w"> </span><span class="k">and</span><span class="o">/</span><span class="k">or</span><span class="w"> </span><span class="n">its</span><span class="w"> </span><span class="n">affiliates</span><span class="p">.</span><span class="w"> </span><span class="n">All</span><span class="w"> </span><span class="n">rights</span><span class="w"> </span><span class="n">reserved</span><span class="p">.</span>
+
+<span class="n">Oracle</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">registered</span><span class="w"> </span><span class="n">trademark</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Oracle</span><span class="w"> </span><span class="n">Corporation</span><span class="w"> </span><span class="k">and</span><span class="o">/</span><span class="k">or</span><span class="w"> </span><span class="n">its</span>
+<span class="n">affiliates</span><span class="p">.</span><span class="w"> </span><span class="n">Other</span><span class="w"> </span><span class="n">names</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">trademarks</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">their</span><span class="w"> </span><span class="n">respective</span>
+<span class="n">owners</span><span class="p">.</span>
+
+<span class="n">Type</span><span class="w"> </span><span class="mh">&#39;he</span><span class="n">lp</span><span class="p">;&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="sc">&#39;\h&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">help</span><span class="p">.</span><span class="w"> </span><span class="n">Type</span><span class="w"> </span><span class="sc">&#39;\c&#39;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">clear</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="k">input</span><span class="w"> </span><span class="n">statement</span><span class="p">.</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p>MySQL安装完毕下面我们就来安装PHP,安装PHP前首先要安装几个源码包依赖:<code>libmcrypt</code> <code>mhash</code> <code>mcrypt</code></p>
+<p>首先来安装几个源码包依赖:</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.bz2/download
+tar<span class="w"> </span>-jxvf<span class="w"> </span>libmcrypt-2.5.8.tar.bz2<span class="w">   </span><span class="c1"># 这个包是bz2的  使用-j参数解压</span>
+<span class="nb">cd</span><span class="w"> </span>libmcrypt-2.5.8
+./configure
+make
+make<span class="w"> </span>install
+<span class="c1">####################################################</span>
+wget<span class="w"> </span>http://sourceforge.net/projects/mhash/files/mhash/0.9.9.9/mhash-0.9.9.9.tar.bz2/download
+tar<span class="w"> </span>-jxvf<span class="w"> </span>mhash-0.9.9.9.tar.bz2
+<span class="nb">cd</span><span class="w"> </span>mhash-0.9.9.9
+./configure
+make
+make<span class="w"> </span>install
+<span class="c1"># 这两个包安装完成后要把动态链接库做一个软连接到/usr/lib,以为接下来的mcrypt依赖于这两个包</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/lib/libmcrypt*<span class="w"> </span>/usr/lib
+ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/lib/libmhash.*<span class="w"> </span>/usr/lib/
+ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/bin/libmcrypt-config<span class="w"> </span>/usr/bin/libmcrypt-config
+<span class="c1">###########################################################</span>
+wget<span class="w"> </span>http://sourceforge.net/projects/mcrypt/files/MCrypt/2.6.8/mcrypt-2.6.8.tar.gz/download
+tar<span class="w"> </span>-zxvf<span class="w"> </span>mcrypt-2.6.8.tar.gz
+<span class="nb">cd</span><span class="w"> </span>mcrypt-2.6.8
+./configure
+make
+make<span class="w"> </span>install
+</code></pre></div>
+
+<p>然后下载php:</p>
+<div class="highlight"><pre><span></span><code>wget http://cn2.php.net/get/php-5.4.0.tar.bz2/from/this/mirror
+</code></pre></div>
+
+<p>安装依赖:</p>
+<div class="highlight"><pre><span></span><code>yum –y install libxml2-devel curl-devel libpng-devel openldap-devel
+</code></pre></div>
+
+<p>我们使用nginx调用php的时候使用fpm的方式,在php 5.4中加入了对php-fpm的支持,所以就不需要打补丁了.安装PHP:</p>
+<div class="highlight"><pre><span></span><code>tar -jxvf php-5.4.0.tar.bz2
+cd php-5.4.0
+./configure --prefix=/usr/local/php --with-mysql=/usr/local/mysql/ --with-zlib --enable-xml --disable-rpath --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem --with-curl --with-curlwrappers --enable-fpm --enable-fastcgi --with-mcrypt --with-gd --with-openssl --with-mhash --enable-sockets --with-ldap --with-ldap-sasl --with-xmlrpc -enable-zip --enable-soap
+make
+make install
+</code></pre></div>
+
+<p>到这里整个LNMP已经安装完成.下面我们就配置php和nginx能运行php网站:
+首先为php创建配置文件:</p>
+<div class="highlight"><pre><span></span><code>cp php.ini-production /usr/local/php/php.ini # 如果是开发就复制php.ini-development
+cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf
+ln -s /usr/local/php/bin/php /usr/bin/
+</code></pre></div>
+
+<p>配置php-fpm,编辑php-fpm.conf</p>
+<div class="highlight"><pre><span></span><code>vi /usr/local/php/etc/php-fpm.conf
+</code></pre></div>
+
+<p>找到listen那一行,修改成如下内容:</p>
+<div class="highlight"><pre><span></span><code><span class="n">listen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">php</span><span class="o">-</span><span class="n">fpm</span><span class="o">/</span><span class="n">php</span><span class="o">-</span><span class="n">fpm</span><span class="o">.</span><span class="n">sock</span><span class="w">   </span><span class="c1"># 使用unix socket</span>
+</code></pre></div>
+
+<p>启动php-fpm</p>
+<div class="highlight"><pre><span></span><code><span class="n">mkdir</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">php</span><span class="o">-</span><span class="n">fpm</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">php</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">php</span><span class="o">-</span><span class="n">fpm</span>
+</code></pre></div>
+
+<p>然后配置nginx,编辑nginx配置文件</p>
+<div class="highlight"><pre><span></span><code>vi /usr/local/nginx/conf/nginx.conf
+</code></pre></div>
+
+<p>修改nginx配置文件支持php:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">listen</span><span class="w">       </span><span class="mi">80</span><span class="p">;</span>
+<span class="w">        </span><span class="n">server_name</span><span class="w">  </span><span class="n">localhost</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">#charset koi8-r;</span>
+
+<span class="w">        </span><span class="c1">#access_log  logs/host.access.log  main;</span>
+
+<span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">root</span><span class="w">   </span><span class="n">html</span><span class="p">;</span>
+<span class="w">            </span><span class="n">index</span><span class="w">  </span><span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="w"> </span><span class="n">index</span><span class="o">.</span><span class="n">html</span><span class="w"> </span><span class="n">index</span><span class="o">.</span><span class="n">htm</span><span class="p">;</span><span class="w">         </span><span class="c1"># 添加index.php的首页文件</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1"># 添加下面内容</span>
+<span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">~</span><span class="w"> </span>\<span class="o">.</span><span class="n">php</span><span class="o">$</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">fastcgi_pass</span><span class="w">        </span><span class="n">unix</span><span class="p">:</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">php</span><span class="o">-</span><span class="n">fpm</span><span class="o">/</span><span class="n">php</span><span class="o">-</span><span class="n">fpm</span><span class="o">.</span><span class="n">sock</span><span class="p">;</span>
+<span class="w">            </span><span class="n">fastcgi_index</span><span class="w">       </span><span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="p">;</span>
+<span class="w">            </span><span class="n">fastcgi_param</span><span class="w"> </span><span class="n">SCRIPT_FILENAME</span><span class="w"> </span><span class="o">$</span><span class="n">document_root</span><span class="o">/$</span><span class="n">fastcgi_script_name</span><span class="p">;</span>
+<span class="w">            </span><span class="n">include</span><span class="w"> </span><span class="n">fastcgi_params</span><span class="p">;</span>
+<span class="w">            </span><span class="n">include</span><span class="w"> </span><span class="n">fastcgi</span><span class="o">.</span><span class="n">conf</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+</code></pre></div>
+
+<p>修改完毕后保存退出重启nginx:</p>
+<div class="highlight"><pre><span></span><code>pkill -9 nignx
+/usr/local/nginx/sbin/nginx
+</code></pre></div>
+
+<p>然后在/usr/local/nginx/html下创建index.php,</p>
+<div class="highlight"><pre><span></span><code>vi /usr/local/nginx/html/index.php
+</code></pre></div>
+
+<p>添加下面内容:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="nb">phpinfo</span><span class="p">();</span>
+<span class="cp">?&gt;</span>
+</code></pre></div>
+
+<p>保存退出后访问<a href="">http://192.168.3.120/index.php</a>,看到下面页面表示已经安装配置成功:</p>
+<p><img alt="linuxzen.com" src="/upload/QQ截图20120313133251.jpg">
+到这里我们的LNMP环境就完全搭建成功,运行你的网站或者学习你的PHP吧.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=lnmp环境搭建完全手册(四)——lnmp搭建(源码安装)&amp;url=https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/yuan-ma-bao.html">源码包</a><a href="https://www.linuxzen.com/tag/an-zhuang.html">安装</a><a href="https://www.linuxzen.com/tag/php.html">php</a><a href="https://www.linuxzen.com/tag/nginx.html">nginx</a><a href="https://www.linuxzen.com/tag/mysql.html">MySQL</a><a href="https://www.linuxzen.com/tag/linux.html">Linux</a><a href="https://www.linuxzen.com/tag/centos.html">CentOS</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html';
+                    var disqus_url = 'https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

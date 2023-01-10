@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>【译文】理解布隆过滤器</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/understanding-bloom-filter.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="原文：Understanding Bloom filters with Pharo Smalltalk。 本文通过 HTML 转录了 PharoPDS 库及其扩展附带的交互式教程，以探索和理解布隆过滤器。 因此，如果您想在真实 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="Bloom">
+    <meta name="tags" content="Filter">
+    <meta name="tags" content="布隆过滤器">
+    <meta name="tags" content="Bloom Filter">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="【译文】理解布隆过滤器"/>
+<meta property="og:description" content="原文：Understanding Bloom filters with Pharo Smalltalk。 本文通过 HTML 转录了 PharoPDS 库及其扩展附带的交互式教程，以探索和理解布隆过滤器。 因此，如果您想在真实 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/understanding-bloom-filter.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-05-10 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Tech"/>
+<meta property="article:tag" content="Bloom"/>
+<meta property="article:tag" content="Filter"/>
+<meta property="article:tag" content="布隆过滤器"/>
+<meta property="article:tag" content="Bloom Filter"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="【译文】理解布隆过滤器">
+    <meta name="twitter:url" content="https://www.linuxzen.com/understanding-bloom-filter.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="原文：Understanding Bloom filters with Pharo Smalltalk。 本文通过 HTML 转录了 PharoPDS 库及其扩展附带的交互式教程，以探索和理解布隆过滤器。 因此，如果您想在真实 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "【译文】理解布隆过滤器",
+  "headline": "【译文】理解布隆过滤器",
+  "datePublished": "2019-05-10 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/understanding-bloom-filter.html",
+  "description": "原文：Understanding Bloom filters with Pharo Smalltalk。 本文通过 HTML 转录了 PharoPDS 库及其扩展附带的交互式教程，以探索和理解布隆过滤器。 因此，如果您想在真实 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li class="nav-tech active" role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">【译文】理解布隆过滤器</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Fri 10 May 2019">Fri 10 May 2019</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>原文：<a href="https://osoco.es/thoughts/2019/05/understanding-bloom-filters-with-pharo-smalltalk/">Understanding Bloom filters with Pharo Smalltalk</a>。</p>
+<p>本文通过 HTML 转录了 <a href="https://github.com/osoco/PharoPDS">PharoPDS</a> 库及其扩展附带的交互式教程，以探索和理解布隆过滤器。</p>
+<p>因此，如果您想在真实的环境中修改这些数据结构，请尝试在 <a href="https://pharo.org/">Pharo</a> 镜像中<a href="https://github.com/osoco/PharoPDS#install-pharopds">安装这个库</a>，并按照交互式教程并使用提供的自定义工具进行操作。</p>
+<h2 id="_1">理解布隆过滤器</h2>
+<p>布隆过滤器是一个非常节省空间的数据结构，由 Burton Howard Bloom 于 1970 年所提出（<a href="http://crystal.uta.edu/~mcguigan/cse6350/papers/Bloom.pdf">Space/Time Trade-offs in Hash Coding with Allowable Errors</a>），布隆过滤器用于测试一个元素是否是集合的成员之一。</p>
+<p>常规的哈希搜索通过将一系列值存储在哈希表上，不管是基于链表还是开放寻址（<a href="https://en.wikipedia.org/wiki/Open_addressing">open addressing</a>)，随着越来越多的元素添加到哈希表中，定位元素的期望时间都会从初始的常量的 O(1) 退化或增加到线性的 O(N)。</p>
+<p>布隆过滤器提供了一个替代的数据结构，可以实现在添加元素或检查元素是否是成员上，不管在空间和时间上都可以保证常量级的性能，并且和已经添加到过滤器中的元素数量是无关的。</p>
+<p>为了达到如此高效的表现所需要付出的代价是：布隆过滤器是一个概率性的数据结构。Bloom 他在开创性的论文中解释如下：</p>
+<blockquote>
+<p>新的方法打算比传统相关的方法减少一定量哈希码所需要的空间。通过利用某些应用可以容忍少量的误差来减少空间的使用，特别是那些拥有大量的数据参与无法通过传统的方法保留核心哈希区域的应用。</p>
+</blockquote>
+<h2 id="_2">背景</h2>
+<p>Donald Knuth 在他著名的 <a href="https://www-cs-faculty.stanford.edu/~knuth/taocp.html">The Art of Computer Programming</a> 中写下了如下对布隆过滤器的描述：</p>
+<blockquote>
+<p>想象一个拥有非常大量的数据且如果搜索没有成功则无需完成任何计算的搜索应用。比如，我们可能想检查一些人的信用评级或者护照编号，如果文档中没有该人的任何记录我们就无需做任何调查。类似地，在计算机排版应用程序中，我们可能有一个简单算法可以正确地连接大多数单词，但该算法会对大约 5W 个异常单词无效; 如果我们在异常文件中找不到该单词，就可以放心的使用该简单算法。</p>
+</blockquote>
+<p>同时 Andrei Broder 和 Michael Mitzenmacher 在著名的布隆过滤器原理（The Bloom Filter Principle(<a href="https://www.eecs.harvard.edu/~michaelm/postscripts/im2005b.pdf">Internet Mathematics Vol. 1, No. 4: 485-509Network Applications ofBloom Filters: A Survey</a>)）中提出：</p>
+<blockquote>
+<p>在一个空间宝贵的情况下要使用列表或集合并且可以接受误报，则可以考虑使用布隆过滤器。</p>
+</blockquote>
+<h2 id="_3">真实世界的例子</h2>
+<ul>
+<li>Medium 使用布隆过滤器避免推荐给用户已经读过的文章。</li>
+<li>Google Chrome 使用布隆过滤器识别恶意 URL。</li>
+<li>Google BigTable，Apache HBbase 和 Apache Cassandra 使用布隆过滤器减少对不存在的行和列的查找。</li>
+<li>Squid Web 代理使用布隆过滤器处理缓存摘要。</li>
+</ul>
+<h2 id="_4">基本理解</h2>
+<p>布隆过滤器可以通过舍弃元素的特征来高效的存储大规模集合，比如它仅将通过算法对每一个元素应用哈希函数得到的数字存储到一系列位上进行关联。</p>
+<p>事实上，布隆过滤器通过一个长度（m）和不同哈希函数的数量（k）的比特数组（bit arrary）来表示。</p>
+<p>该数据结构仅支持两种操作：</p>
+<ul>
+<li>添加一个元素到集合中来，</li>
+<li>测试一个元素是否集合的成员。</li>
+</ul>
+<p>布隆过滤器的数据结构是一个初始比特位都为 0 的比特数组，代表布隆过滤器为空。</p>
+<p>举个例子，考虑如下示例中创建的布隆过滤器表示一个包含 10 个元素的集合并且误报率（FPP, False Positive Probability）为  <code>0.1</code> （10%）。</p>
+<p>一个空的布隆过滤器将通过一个长度为 <code>m=48</code> (storageSize) 和 4 个哈希函数的比特数组用以支持生产范围在 <code>{1, 2, ..., m}</code> 的值。表示如下：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">emptyBloomFilter</span>
+  <span class="err">&lt;</span><span class="nv">gtExample</span><span class="nf">&gt;</span>
+  <span class="o">|</span><span class="nv"> bloom </span><span class="o">|</span>
+  <span class="nv">bloom</span> <span class="o">:=</span> <span class="nc">PDSBloomFilter</span> <span class="nf">new:</span> <span class="m">10</span> <span class="nf">fpp:</span> <span class="m">0.1</span><span class="p">.</span>
+  <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">size</span> <span class="nf">eqauls:</span> <span class="m">0</span><span class="p">.</span>
+  <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">hashes</span> <span class="nf">equals:</span> <span class="m">4</span><span class="p">.</span>
+  <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bllom</span> <span class="nf">storageSize</span> <span class="nf">equals:</span> <span class="m">48</span><span class="p">.</span>
+  <span class="o">^</span> <span class="nv">bloom</span>
+</code></pre></div>
+
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/empty-bloom-filter.png"></p>
+<p>要插入一个元素 <code>x</code> 到布隆过滤器中，需要对元素 <code>x</code> 应用到每一个哈希函数 $h_i$ 上并计算它的值为 $j=h_i(x)$ ，然后将布隆过滤器中 <code>j</code> 对应的位设置为 1 。</p>
+<p>作为一个例子，我们将在上面的过滤器中插入一些城市的名字。让我们通过 <code>'Madrid'</code> 开始：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">withMadridBloomFilter</span>
+  <span class="err">&lt;</span><span class="nv">gtExample</span><span class="nf">&gt;</span>
+  <span class="o">|</span><span class="nv"> bloom </span><span class="o">|</span>
+  <span class="nv">bloom</span> <span class="o">:=</span> <span class="bp">self</span> <span class="nf">emptyBloomfilter</span><span class="p">.</span>
+  <span class="nv">bloom</span> <span class="nf">add:</span> <span class="s">&#39;Madrid&#39;</span> <span class="nf">asByteArray</span><span class="p">.</span>
+  <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">size</span> <span class="nf">equals:</span> <span class="m">1</span><span class="p">.</span>
+  <span class="o">^</span> <span class="nv">bloom</span>
+</code></pre></div>
+
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/withMadrid-bloom-filter.png"></p>
+<p>布隆过滤器计算出了 4 个哈希值用以在集合中找到关联 <code>'Madrid'</code> 的比特位。如上图所展示，布隆过滤器设置了 9, 18, 39 和 48 。</p>
+<p>不同的元素可能共享一个比特位，比如现在我们添加另一个城市 <code>'Barcelona'</code> 到上面相同的布隆过滤器中：</p>
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/withMadridAndBarcelona-bloom-filter.png"></p>
+<p>如你所见，在添加 <code>'Barcelona'</code> 到上面布隆过滤器之后只有 30, 36 和 42 所对应的比特位被设置，也就意味着元素 <code>'Madrid'</code> 和 <code>'Barcelona'</code> 共享了一个比特位。</p>
+<p>要想测试给定的元素 <code>x</code> 是否在布隆过滤器之中，只需要检查所有的哈希函数 <code>k</code> 计算出的对应的比特位。如果所有位都被设置来，则表示元素 <code>x</code> 可能在布隆过滤器中，否则元素 <code>x</code> 一定不在其中。</p>
+<p>元素存在不确定性是由于一些比特位可能是被之前添加的其他不同的元素所设置。</p>
+<p>考虑前面的例子，在已经添加了元素 <code>'Madrid'</code> 和 <code>'Barcelona'</code> 的情况下，我们来测试元素 <code>'Barcelona'</code> 是否是该过滤器的成员，布隆过滤器计算出该元素的 4 个哈希值并且检查对应的比特位是否被设置，结果显示字符串 <code>'Barcelona'</code> 可能存在于过滤器之中，然后 <code>contains: 'Barcelona'</code> 返回 <code>true</code> ：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">withMadridAndBarcelonaCheckBarcelonaBloomFilter</span>
+  <span class="err">&lt;</span><span class="nv">gtExample</span><span class="nf">&gt;</span>
+  <span class="o">|</span><span class="nv"> bloom </span><span class="o">|</span>
+  <span class="nv">bloom</span> <span class="o">:=</span> <span class="bp">self</span> <span class="nf">withMadridBloomFilter</span><span class="p">.</span>
+  <span class="nv">bloom</span> <span class="nf">add:</span> <span class="s">&#39;Barcelona&#39;</span> <span class="nf">asByteArray</span><span class="p">.</span>
+  <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">size</span> <span class="nf">equals:</span> <span class="m">2</span><span class="p">.</span>
+  <span class="bp">self</span> <span class="nf">assert:</span> (<span class="nv">bloom</span> <span class="nf">contains:</span> <span class="s">&#39;Barcelona&#39;</span> <span class="nf">asByteArray</span>)<span class="p">.</span>
+  <span class="o">^</span> <span class="nv">bloom</span>
+</code></pre></div>
+
+<p>现在如果我们检查元素 <code>'Berlin'</code> ，布隆过滤器为了找到对应的比特位会通过如下方式计算它的哈希值：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">withBerlinBloomFilter</span>
+  <span class="err">&lt;</span><span class="nv">gtExample</span><span class="nf">&gt;</span>
+    <span class="o">|</span><span class="nv"> bloom </span><span class="o">|</span>
+    <span class="nv">bloom</span> <span class="o">:=</span> <span class="bp">self</span> <span class="nf">emptyBloomFilter</span><span class="p">.</span>
+    <span class="nv">bloom</span> <span class="nf">add:</span> <span class="s">&#39;Berlin&#39;</span> <span class="nf">asByteArray</span><span class="p">.</span>
+    <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">size</span> <span class="nf">equals:</span> <span class="m">1</span><span class="p">.</span>
+    <span class="o">^</span> <span class="nv">bloom</span>
+</code></pre></div>
+
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/withBerlin-bloom-filter.png"></p>
+<p>我们看到比特位 27 和 33 没有被设置，所以元素 <code>'Berlin'</code> 一定不存在于布隆过滤器中，所以 <code>contains:</code> 方法返回 <code>false</code> ：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">withMadridAndBarcelonaCheckBerlinBloomFilter</span>
+  <span class="err">&lt;</span><span class="nv">gtExample</span><span class="nf">&gt;</span>
+  <span class="o">|</span><span class="nv"> bloom </span><span class="o">|</span>
+  <span class="nv">bloom</span> <span class="o">:=</span> <span class="bp">self</span> <span class="nf">withMadridBloomFilter</span><span class="p">.</span>
+  <span class="nv">bloom</span> <span class="nf">add:</span> <span class="s">&#39;Barcelona&#39;</span> <span class="nf">asByteArray</span><span class="p">.</span>
+  <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">size</span> <span class="nf">equals:</span> <span class="m">2</span><span class="p">.</span>
+  <span class="bp">self</span> <span class="nf">assert:</span> (<span class="nv">bloom</span> <span class="nf">contains:</span> <span class="s">&#39;Berlin&#39;</span> <span class="nf">asByteArray</span>) <span class="nf">not</span><span class="p">.</span>
+  <span class="o">^</span> <span class="nv">bloom</span>
+</code></pre></div>
+
+<p>布隆过滤器的结果也可能是错误的。例如，考虑元素 <code>'Roma'</code> 的 4 个哈希值 36 由于碰撞已经在我们的示例过滤器中设置，所以 <code>contains:</code> 方法认为该元素可能已经存在于过滤器中。</p>
+<div class="highlight"><pre><span></span><code><span class="nf">withMadridAndBarcelonaCheckRomaBloomFilter</span>
+  <span class="err">&lt;</span><span class="nv">gtExample</span><span class="nf">&gt;</span>
+    <span class="o">|</span><span class="nv"> bloom </span><span class="o">|</span>
+    <span class="nv">bloom</span> <span class="o">:=</span> <span class="bp">self</span> <span class="nf">withMadridBloomFilter</span><span class="p">.</span>
+    <span class="nv">bloom</span> <span class="nf">add:</span> <span class="s">&#39;Barcelona&#39;</span> <span class="nf">asByteArray</span><span class="p">.</span>
+    <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">size</span> <span class="nf">equals:</span> <span class="m">2</span><span class="p">.</span>
+    <span class="bp">self</span> <span class="nf">assert:</span> (<span class="nv">bloom</span> <span class="nf">contains:</span> <span class="s">&#39;Roma&#39;</span> <span class="nf">asByteArray</span>)<span class="p">.</span>
+    <span class="o">^</span> <span class="nv">bloom</span>
+</code></pre></div>
+
+<p>就像我们所了解到的，我们并没有添加过该元素到布隆过滤器中，所以这是一个误报的例子。在这个特别的案例中，比特位 <code>36</code> 已经被前面的元素 <code>'Barcelona'</code> 所设置。</p>
+<h2 id="_5">特性</h2>
+<h3 id="_6">误报</h3>
+<p>如我们前面所展示，布隆过滤器会对一些不是集合中的成员的元素返回 <code>true</code> 。这种情况被成为误报（false positive），产生于哈希碰撞导致的巧合而将不同的元素存储在相同的比特位上。在测试操作中无法得知我们对比的特定的位是否被相同的哈希函数所设置。</p>
+<p>幸运的是，布隆过滤器有一个可预测的误报率（FPP）：</p>
+<p>$$P_fp\approx\left(1-e^{-\frac{kn}{m}}\right)^k$$</p>
+<ul>
+<li><code>n</code> 是已经添加元素的数量；</li>
+<li><code>k</code> 哈希的次数；</li>
+<li><code>m</code> 布隆过滤器的长度（如比特数组的大小）。</li>
+</ul>
+<p>极端情况下，当布隆过滤器没有空闲空间时（满），每一次查询都会返回 <code>true</code> 。这也就意味着 <code>m</code> 的选择取决于期望预计添加元素的数量 <code>n</code> ，并且 <code>m</code> 需要远远大于 <code>n</code> 。</p>
+<p>实际情况中，布隆过滤器的长度 <code>m</code> 可以根据给定的误报率（FFP）的和期望添加的元素个数 <code>n</code> 的通过如下公式计算：</p>
+<p>$$m=-\frac{n\ln{P_{fp}}}{(\ln2)^2}$$</p>
+<p>对于 $\frac{m}{n}$ 比率表示每一个元素需要分配的比特位的数量，也就是哈希函数 <code>k</code> 的数量可以调整误报率。通过如下公式来选择最佳的 <code>k</code> 可以减少误报率（FPP）：</p>
+<p>$$k=\frac{m}{n}\ln2$$</p>
+<p>我们实现的 <code>PDSBloomFilter</code> 建立在指定预计添加元素的数量（ <code>n</code> ）和误报率（ <code>FPP</code> ）之上，然后使用上面的公式去计算最优的哈希次数和比特数组的长度。</p>
+<p>比如，要处理 10 亿个元素并且保持 2% 左右的误报率我们需要如下布隆过滤器：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">oneBillionBloomFilter</span>
+    <span class="err">&lt;</span><span class="nv">gtExample</span><span class="nf">&gt;</span>
+      <span class="o">|</span><span class="nv"> bloom </span><span class="o">|</span>
+      <span class="nv">bloom</span> <span class="o">:=</span> <span class="nc">PDSBloomFilter</span> <span class="nf">new:</span> <span class="m">1000000000</span> <span class="nf">fpp:</span> <span class="m">0.02</span><span class="p">.</span>
+      <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">size</span> <span class="nf">equals:</span> <span class="m">0</span><span class="p">.</span>
+      <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">hashes</span> <span class="nf">equals:</span> <span class="m">6</span><span class="p">.</span>
+      <span class="bp">self</span> <span class="nf">assert:</span> <span class="nv">bloom</span> <span class="nf">storageSize</span> <span class="nf">equals:</span> <span class="m">8142363337</span><span class="p">.</span>
+      <span class="o">^</span> <span class="nv">bloom</span>
+</code></pre></div>
+
+<p>如你所见，最优的哈希次数是 6 并且过滤器的长度是 $8.14 x 10^9$ 个比特位，大约占用 1 GB 内存。</p>
+<h3 id="_7">非误报</h3>
+<p>如果布隆过滤器返回特定的元素不是成员之一，那么该元素就绝对不在集合之中。</p>
+<h3 id="_8">无法删除</h3>
+<p>要想从过滤器中删除一个元素需要在比特数组中取消设置相应数量（ <code>k</code> ）的比特位。不幸的是，由于哈希碰撞导致多个元素会共享比特位导致了一个比特位可能关联了多个元素。</p>
+<h2 id="_9">分析</h2>
+<p>前面计算误报率（FPP）的公式为了容易计算从而假设了哈希函数 <code>k</code> 的随机是均匀分布的。</p>
+<p>换句话说，一旦将期望的 <code>n</code> 个元素添加到数据结构中， <code>fpp</code> 在 <code>PDSBloomFilter</code> 初始化时指定的值应该解释为期望的 <code>fpp</code> 的值。</p>
+<p>例如，对于一个刚刚创建依然保持为空的布隆过滤器的 <code>fpp</code> 值为 0，如下图所见：</p>
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/empty-filter-fpp-curve.png"></p>
+<p><code>fpp</code> 的值会随着不断的向过滤器中添加元素而增长，并随着布隆过滤器中的元素数量达到期望值而最终达到目标 <code>fpp</code> ，我们通过如下填充布隆过滤器：</p>
+<div class="highlight"><pre><span></span><code><span class="nf">fullBloomFilter</span>
+    <span class="err">&lt;</span><span class="nv">gtExample</span><span class="nf">&gt;</span>
+    <span class="o">|</span><span class="nv"> bloom </span><span class="o">|</span>
+    <span class="nv">bloom</span> <span class="o">:=</span> <span class="bp">self</span> <span class="nf">emptyBloomFilter</span><span class="p">.</span>
+    <span class="m">1</span> <span class="nf">to:</span> <span class="nv">bloom</span> <span class="nf">targetElements</span>
+        <span class="nf">do:</span> [ <span class="o">:</span><span class="nv">each</span> <span class="o">|</span> <span class="nv">bloom</span> <span class="nf">add:</span> <span class="nv">each</span> <span class="nf">asString</span> <span class="nf">asByteArray</span> ]<span class="p">.</span>
+    <span class="o">^</span> <span class="nv">bloom</span>
+</code></pre></div>
+
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/full-filter-fpp-curve.png"></p>
+<p>不过，你应该知道上面的 FPP 曲线是一个理论值并且实际观测到的 FPP 将会取决于特定的数据集和所使用的哈希函数。为了实验检查我们的实现的优点，我们进行了如下分析：</p>
+<ol>
+<li>随机生成一个包含邮件地址的列表并插入到布隆过滤器。</li>
+<li>随机生成一个包含邮件地址的列表不插入到该过滤器中。</li>
+<li>统计在该过滤器中搜索缺失地址的误报情况。</li>
+</ol>
+<p>我们运行的实验值在该过滤器期望元素个数的 10 到 1.5 倍（步长 10）。对于每种实验的元素数量运行 10 次。该分析通过一个图像展示了该过滤器的如下指标：</p>
+<ul>
+<li>理论的 FPP 曲线（蓝色）。</li>
+<li>每次实验测量到的平均 FPP 值（灰色十字）。</li>
+<li>实际的 FPP 曲线（红色）</li>
+<li>和标准差（红色阴影）</li>
+</ul>
+<p>例如，如下代码运行上面的实验分析并且通过一个图展示一个包含 100 个元素和 3% 的 FPP 的布隆过滤器结果：</p>
+<div class="highlight"><pre><span></span><code><span class="nc">PDSBloomFilterAnalysis</span> <span class="nf">openFor:</span> (<span class="nc">PDSBloomFilter</span> <span class="nf">new:</span> <span class="m">100</span> <span class="nf">fpp:</span> <span class="m">0.03</span>)
+</code></pre></div>
+
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/analysis-fpp.png"></p>
+<h2 id="_10">压测</h2>
+<p>一个布隆过滤器每次操作只需要固定次数的探测（ <code>k</code> ），所以在每次插入和查找的处理只需要 <code>O(k)</code> 的时间复杂度，也就是常量级的。</p>
+<p>例如，如下代码将基于在前面被填充了 10 个元素的布隆过滤器上执行查找操作来运行一个微型压测并且展示每秒钟运行查找操作的次数：</p>
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/bloom-benchmark-little.png"></p>
+<p>由于时间复杂度是常量级的，那么一个前面添加了 100W 个元素的布隆过滤器的查找结果应该和上面类似：
+<img alt="" src="/static/upload/trans-understanding-bloom-filter/bloom-benchmark-million.png"></p>
+<p>一个基于 <code>Collection</code> 数据结构的简单实现将是线性的 <code>O(n)</code> 的时间复杂度，一个有序集合的最优情况将会是 <code>O(log n)</code> 的时间复杂度。你可以通过观察下面压测使用一个长度为 <code>n</code> 的 <code>OrderedCollection</code> 集合的降级行为来检验：</p>
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/collection-benchmark-little.png"></p>
+<p>VS</p>
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/collection-benchmark-million.png"></p>
+<h2 id="_11">试玩</h2>
+<p>PharoPDS 提供了一个简单的工具让你可以探索和尝试布隆过滤器。</p>
+<p><code>PDSBloomFilterPlayground</code> 允许你创建一个布隆过滤器尝试一些操作并且进行可视化。甚至你可以基于 UI 运行压测和调优。</p>
+<p>可以通过如下代码运行：</p>
+<div class="highlight"><pre><span></span><code><span class="nc">PDSBloomFilterPlayground</span> <span class="nf">open</span>
+</code></pre></div>
+
+<p><img alt="" src="/static/upload/trans-understanding-bloom-filter/bloom-filter-playground.png"></p>
+<h2 id="_12">引用</h2>
+<ul>
+<li>
+<p>On Probabilistic Data Structures:</p>
+<ul>
+<li>Burton H. Bloom. <a href="http://crystal.uta.edu/~mcguigan/cse6350/papers/Bloom.pdf">Space/Time Trace-offs in Hash Coding with Allowable Errors</a> (1970).</li>
+<li>Donald E. Knuth. <a href="https://www-cs-faculty.stanford.edu/~knuth/taocp.html">The Art of Computer Programming</a> Volume 3: Sorting and Searching.</li>
+<li><a href="http://llimllib.github.io/bloomfilter-tutorial/">Bloom Filters by Example</a>.</li>
+<li>Andrii Gakhov, <a href="https://www.gakhov.com/books/pdsa.html">Probabilistic Data Structures and Algorithms for Big Data Applications</a>.</li>
+</ul>
+</li>
+<li>
+<p>On Moldable Development:</p>
+<ul>
+<li>Andrei Chis’s PhD, “Moldable Tools” (2016). Available at <a href="http://scg.unibe.ch/archive/phd/chis-phd.pdf">http://scg.unibe.ch/archive/phd/chis-phd.pdf</a>.</li>
+<li>Andrei Chis, “Playing with Face Detection in Pharo” (2018). Available at <a href="https://medium.com/@Chis_Andrei/playing-with-face-detection-in-pharo-e6dd297e0ca3">https://medium.com/@Chis_Andrei/playing-with-face-detection-in-pharo-e6dd297e0ca3</a>.</li>
+<li>Tudor Girba, “Moldable Development” (2018). Available at <a href="https://www.youtube.com/watch?v=IcwHaF5aRTM">https://www.youtube.com/watch?v=IcwHaF5aRTM</a>.</li>
+</ul>
+</li>
+</ul>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=【译文】理解布隆过滤器&amp;url=https://www.linuxzen.com/understanding-bloom-filter.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/understanding-bloom-filter.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/understanding-bloom-filter.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/bloom.html">Bloom</a><a href="https://www.linuxzen.com/tag/filter.html">Filter</a><a href="https://www.linuxzen.com/tag/bu-long-guo-lu-qi.html">布隆过滤器</a><a href="https://www.linuxzen.com/tag/bloom-filter.html">Bloom Filter</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/understanding-bloom-filter.html';
+                    var disqus_url = 'https://www.linuxzen.com/understanding-bloom-filter.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/understanding-bloom-filter.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

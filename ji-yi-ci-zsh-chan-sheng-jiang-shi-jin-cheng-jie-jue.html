@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>记一次 zsh 产生僵尸进程解决</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="问题描述 今天使用 vmplayer 运行了 xp 系统, 关闭后在 zsh 里继续敲命令就阻塞了, 然后就关闭了终端重新打开, 还是阻塞, 重复几次 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="zsh">
+    <meta name="tags" content="进程">
+    <meta name="tags" content="阻塞">
+    <meta name="tags" content="命令">
+    <meta name="tags" content="D">
+    <meta name="tags" content="僵尸">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="记一次 zsh 产生僵尸进程解决"/>
+<meta property="og:description" content="问题描述 今天使用 vmplayer 运行了 xp 系统, 关闭后在 zsh 里继续敲命令就阻塞了, 然后就关闭了终端重新打开, 还是阻塞, 重复几次 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-03-21 10:47:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="zsh"/>
+<meta property="article:tag" content="进程"/>
+<meta property="article:tag" content="阻塞"/>
+<meta property="article:tag" content="命令"/>
+<meta property="article:tag" content="D"/>
+<meta property="article:tag" content="僵尸"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="记一次 zsh 产生僵尸进程解决">
+    <meta name="twitter:url" content="https://www.linuxzen.com/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="问题描述 今天使用 vmplayer 运行了 xp 系统, 关闭后在 zsh 里继续敲命令就阻塞了, 然后就关闭了终端重新打开, 还是阻塞, 重复几次 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "记一次 zsh 产生僵尸进程解决",
+  "headline": "记一次 zsh 产生僵尸进程解决",
+  "datePublished": "2014-03-21 10:47:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html",
+  "description": "问题描述 今天使用 vmplayer 运行了 xp 系统, 关闭后在 zsh 里继续敲命令就阻塞了, 然后就关闭了终端重新打开, 还是阻塞, 重复几次 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">记一次 zsh 产生僵尸进程解决</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Fri 21 March 2014">Fri 21 March 2014</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <h2 id="_1">问题描述</h2>
+<p>今天使用 vmplayer 运行了 xp 系统, 关闭后在 zsh 里继续敲命令就阻塞了,
+然后就关闭了终端重新打开, 还是阻塞, 重复几次依然如此. 然后使用 gVim
+将 shell 切换到 bash, 终端可以正常打开, 然后运行</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>zsh
+wh<span class="w">       </span><span class="m">27552</span><span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.1<span class="w">  </span><span class="m">47244</span><span class="w">  </span><span class="m">5164</span><span class="w"> </span>?<span class="w">        </span>Ss<span class="w">   </span><span class="m">09</span>:38<span class="w">   </span><span class="m">0</span>:00<span class="w"> </span>zsh
+wh<span class="w">       </span><span class="m">27553</span><span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.1<span class="w">  </span><span class="m">47244</span><span class="w">  </span><span class="m">5156</span><span class="w"> </span>?<span class="w">        </span>Ss<span class="w">   </span><span class="m">09</span>:38<span class="w">   </span><span class="m">0</span>:00<span class="w"> </span>zsh
+wh<span class="w">       </span><span class="m">27600</span><span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">47348</span><span class="w">  </span><span class="m">3492</span><span class="w"> </span>?<span class="w">        </span>D<span class="w">    </span><span class="m">09</span>:38<span class="w">   </span><span class="m">0</span>:00<span class="w"> </span>zsh
+wh<span class="w">       </span><span class="m">27609</span><span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">47348</span><span class="w">  </span><span class="m">3488</span><span class="w"> </span>?<span class="w">        </span>D<span class="w">    </span><span class="m">09</span>:38<span class="w">   </span><span class="m">0</span>:00<span class="w"> </span>zsh
+wh<span class="w">       </span><span class="m">27614</span><span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">47348</span><span class="w">  </span><span class="m">3484</span><span class="w"> </span>?<span class="w">        </span>D<span class="w">    </span><span class="m">09</span>:38<span class="w">   </span><span class="m">0</span>:00<span class="w"> </span>zsh
+wh<span class="w">       </span><span class="m">27697</span><span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.1<span class="w">  </span><span class="m">47248</span><span class="w">  </span><span class="m">5172</span><span class="w"> </span>?<span class="w">        </span>Ss<span class="w">   </span><span class="m">09</span>:39<span class="w">   </span><span class="m">0</span>:00<span class="w"> </span>-/bin/zsh
+wh<span class="w">       </span><span class="m">27718</span><span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">47356</span><span class="w">  </span><span class="m">3496</span><span class="w"> </span>?<span class="w">        </span>D<span class="w">    </span><span class="m">09</span>:39<span class="w">   </span><span class="m">0</span>:00<span class="w"> </span>-/bin/zsh
+root<span class="w">     </span><span class="m">28040</span><span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">36640</span><span class="w">  </span><span class="m">2812</span><span class="w"> </span>tty2<span class="w">     </span>Ss+<span class="w">  </span><span class="m">09</span>:40<span class="w">   </span><span class="m">0</span>:00<span class="w"> </span>-zsh
+wh<span class="w">       </span><span class="m">28628</span><span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">47356</span><span class="w">  </span><span class="m">3492</span><span class="w"> </span>?<span class="w">        </span>D<span class="w">    </span><span class="m">09</span>:42<span class="w">   </span><span class="m">0</span>:00<span class="w"> </span>-/bin/zsh
+</code></pre></div>
+
+<p><s>发现好多僵尸进程, 而且都 kill 不掉.</s>
+发现好多 D 状态的进程, 查看 <code>ps</code> 的手册, D 状态的解释是</p>
+<div class="highlight"><pre><span></span><code>D    uninterruptible sleep (usually io)
+</code></pre></div>
+
+<p>进程可能是由 I/O 引起的不可间断的等待.</p>
+<h2 id="_2">解决</h2>
+<p>首先当然是 <code>strace</code> 登场</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>strace<span class="w"> </span>zsh
+...
+pipe<span class="o">([</span><span class="m">3</span>,<span class="w"> </span><span class="m">4</span><span class="o">])</span><span class="w">                            </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+fcntl<span class="o">(</span><span class="m">3</span>,<span class="w"> </span>F_DUPFD,<span class="w"> </span><span class="m">10</span><span class="o">)</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span><span class="m">11</span>
+close<span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w">                                </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+fcntl<span class="o">(</span><span class="m">4</span>,<span class="w"> </span>F_DUPFD,<span class="w"> </span><span class="m">10</span><span class="o">)</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span><span class="m">12</span>
+close<span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w">                                </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigprocmask<span class="o">(</span>SIG_BLOCK,<span class="w"> </span><span class="o">[</span>CHLD<span class="o">]</span>,<span class="w"> </span><span class="o">[</span>CHLD<span class="w"> </span>WINCH<span class="o">]</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+clone<span class="o">(</span><span class="nv">child_stack</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">flags</span><span class="o">=</span>CLONE_CHILD_CLEARTID<span class="p">|</span>CLONE_CHILD_SETTID<span class="p">|</span>SIGCHLD,<span class="w"> </span><span class="nv">child_tidptr</span><span class="o">=</span>0x7fd94caef9d0<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8750</span>
+close<span class="o">(</span><span class="m">12</span><span class="o">)</span><span class="w">                               </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+fcntl<span class="o">(</span><span class="m">11</span>,<span class="w"> </span>F_GETFL<span class="o">)</span><span class="w">                      </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">(</span>flags<span class="w"> </span>O_RDONLY<span class="o">)</span>
+fstat<span class="o">(</span><span class="m">11</span>,<span class="w"> </span><span class="o">{</span><span class="nv">st_mode</span><span class="o">=</span>S_IFIFO<span class="p">|</span><span class="m">0600</span>,<span class="w"> </span><span class="nv">st_size</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span>...<span class="o">})</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+mmap<span class="o">(</span>NULL,<span class="w"> </span><span class="m">4096</span>,<span class="w"> </span>PROT_READ<span class="p">|</span>PROT_WRITE,<span class="w"> </span>MAP_PRIVATE<span class="p">|</span>MAP_ANONYMOUS,<span class="w"> </span>-1,<span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>0x7fd94caf3000
+lseek<span class="o">(</span><span class="m">11</span>,<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>SEEK_CUR<span class="o">)</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span>-1<span class="w"> </span>ESPIPE<span class="w"> </span><span class="o">(</span>Illegal<span class="w"> </span>seek<span class="o">)</span>
+read<span class="o">(</span><span class="m">11</span>,
+</code></pre></div>
+
+<p>从上面可以看出, zsh 打开了一个 pipe, 但是读取的时候阻塞了.</p>
+<p>现在调用 <code>strace -f</code> 查看管道另一头的在做些什么</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>strace<span class="w"> </span>-f<span class="w"> </span>zsh
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>chdir<span class="o">(</span><span class="s2">&quot;..&quot;</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>stat<span class="o">(</span><span class="s2">&quot;..&quot;</span>,<span class="w"> </span><span class="o">{</span><span class="nv">st_mode</span><span class="o">=</span>S_IFDIR<span class="p">|</span><span class="m">0755</span>,<span class="w"> </span><span class="nv">st_size</span><span class="o">=</span><span class="m">4096</span>,<span class="w"> </span>...<span class="o">})</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>openat<span class="o">(</span>AT_FDCWD,<span class="w"> </span><span class="s2">&quot;..&quot;</span>,<span class="w"> </span>O_RDONLY<span class="p">|</span>O_NONBLOCK<span class="p">|</span>O_DIRECTORY<span class="p">|</span>O_CLOEXEC<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>getdents<span class="o">(</span><span class="m">3</span>,<span class="w"> </span>/*<span class="w"> </span><span class="m">12</span><span class="w"> </span>entries<span class="w"> </span>*/,<span class="w"> </span><span class="m">32768</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">344</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>lstat<span class="o">(</span><span class="s2">&quot;../home&quot;</span>,<span class="w"> </span><span class="o">{</span><span class="nv">st_mode</span><span class="o">=</span>S_IFDIR<span class="p">|</span><span class="m">0755</span>,<span class="w"> </span><span class="nv">st_size</span><span class="o">=</span><span class="m">4096</span>,<span class="w"> </span>...<span class="o">})</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>close<span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>chdir<span class="o">(</span><span class="s2">&quot;..&quot;</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>stat<span class="o">(</span><span class="s2">&quot;..&quot;</span>,<span class="w"> </span><span class="o">{</span><span class="nv">st_mode</span><span class="o">=</span>S_IFDIR<span class="p">|</span><span class="m">0755</span>,<span class="w"> </span><span class="nv">st_size</span><span class="o">=</span><span class="m">4096</span>,<span class="w"> </span>...<span class="o">})</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>openat<span class="o">(</span>AT_FDCWD,<span class="w"> </span><span class="s2">&quot;..&quot;</span>,<span class="w"> </span>O_RDONLY<span class="p">|</span>O_NONBLOCK<span class="p">|</span>O_DIRECTORY<span class="p">|</span>O_CLOEXEC<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>getdents<span class="o">(</span><span class="m">3</span>,<span class="w"> </span>/*<span class="w"> </span><span class="m">26</span><span class="w"> </span>entries<span class="w"> </span>*/,<span class="w"> </span><span class="m">32768</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">672</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>lstat<span class="o">(</span><span class="s2">&quot;../lib&quot;</span>,<span class="w"> </span><span class="o">{</span><span class="nv">st_mode</span><span class="o">=</span>S_IFLNK<span class="p">|</span><span class="m">0777</span>,<span class="w"> </span><span class="nv">st_size</span><span class="o">=</span><span class="m">7</span>,<span class="w"> </span>...<span class="o">})</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="o">[</span>pid<span class="w"> </span><span class="m">28429</span><span class="o">]</span><span class="w"> </span>lstat<span class="o">(</span><span class="s2">&quot;../mnt&quot;</span>,
+</code></pre></div>
+
+<p>上面可以看到 zsh 在 <code>lstat("../mnt")</code> 的时候产生了等待</p>
+<p>/mnt 一般挂载一些东西, 运行 <code>df -h</code> 查看一下, 发现也很慢, 当然 strace 下 它</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>strace<span class="w"> </span>df<span class="w"> </span>-h
+...
+stat<span class="o">(</span><span class="s2">&quot;/mnt&quot;</span>,
+</code></pre></div>
+
+<p>发现它同样卡在了读取 <code>/mnt</code>. 尝试 <code>umount</code> 它:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>umount<span class="w"> </span>/mnt
+umount:<span class="w"> </span>/mnt:<span class="w"> </span>target<span class="w"> </span>is<span class="w"> </span>busy
+<span class="w">        </span><span class="o">(</span>In<span class="w"> </span>some<span class="w"> </span>cases<span class="w"> </span>useful<span class="w"> </span>info<span class="w"> </span>about<span class="w"> </span>processes<span class="w"> </span>that
+<span class="w">         </span>use<span class="w"> </span>the<span class="w"> </span>device<span class="w"> </span>is<span class="w"> </span>found<span class="w"> </span>by<span class="w"> </span>lsof<span class="o">(</span><span class="m">8</span><span class="o">)</span><span class="w"> </span>or<span class="w"> </span>fuser<span class="o">(</span><span class="m">1</span><span class="o">)</span>.<span class="o">)</span>
+</code></pre></div>
+
+<p>说是被某个程序使用, 现在该 <code>lsof</code> 登场了</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>lsof<span class="w"> </span>/mnt
+lsof<span class="w"> </span>/mnt
+lsof:<span class="w"> </span>WARNING:<span class="w"> </span>can<span class="err">&#39;</span>t<span class="w"> </span>stat<span class="o">()</span><span class="w"> </span>cifs<span class="w"> </span>file<span class="w"> </span>system<span class="w"> </span>/mnt
+<span class="w">      </span>Output<span class="w"> </span>information<span class="w"> </span>may<span class="w"> </span>be<span class="w"> </span>incomplete.
+lsof:<span class="w"> </span>status<span class="w"> </span>error<span class="w"> </span>on<span class="w"> </span>/mnt:<span class="w"> </span>Host<span class="w"> </span>is<span class="w"> </span>down
+</code></pre></div>
+
+<p>好吧, 看到这里我就想明白了, 因为开虚拟机的时候我挂载了虚拟机里的一个共享目录</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>mount<span class="w"> </span>-t<span class="w"> </span>cifs<span class="w"> </span>-o<span class="w"> </span>guest<span class="w"> </span>//ip.of.host/share<span class="w"> </span>/mnt
+</code></pre></div>
+
+<p>在虚拟机关闭之后没有卸载, 导致在对这个目录 <code>stat</code> 的时候会有一个网络超时时间.</p>
+<p>然后就卸载它</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>umount<span class="w"> </span>-a<span class="w"> </span>-t<span class="w"> </span>cifs<span class="w"> </span>-l<span class="w"> </span>/mnt
+</code></pre></div>
+
+<h2 id="_3">结果</h2>
+<p>现在打开 zsh 也不阻塞了, <code>df -h</code> 也同样不阻塞了. 上面 Ss 的进程可以用 -9 杀掉,
+但是 D 状态进程无法杀掉.</p>
+<h2 id="_4">参考</h2>
+<ul>
+<li>lsof: <a href="http://www.ibm.com/developerworks/cn/aix/library/au-lsof.html">http://stackoverflow.com/questions/74626/how-do-you-force-a-cifs-connection-to-unmount</a></li>
+<li>卸载 cifs: <a href="http://stackoverflow.com/questions/74626/how-do-you-force-a-cifs-connection-to-unmount">http://stackoverflow.com/questions/74626/how-do-you-force-a-cifs-connection-to-unmount</a></li>
+</ul>
+<h2 id="_5">更新</h2>
+<p>经过 <a href="http://lilydjwg.is-programmer.com/">依云</a> 和 <a href="http://eleveni386.7axu.com">eleven</a>
+的指正对文章做了一些修改, 感谢两位.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=记一次 zsh 产生僵尸进程解决&amp;url=https://www.linuxzen.com/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/zsh.html">zsh</a><a href="https://www.linuxzen.com/tag/jin-cheng.html">进程</a><a href="https://www.linuxzen.com/tag/zu-sai.html">阻塞</a><a href="https://www.linuxzen.com/tag/ming-ling.html">命令</a><a href="https://www.linuxzen.com/tag/d.html">D</a><a href="https://www.linuxzen.com/tag/jiang-shi.html">僵尸</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html';
+                    var disqus_url = 'https://www.linuxzen.com/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/ji-yi-ci-zsh-chan-sheng-jiang-shi-jin-cheng-jie-jue.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

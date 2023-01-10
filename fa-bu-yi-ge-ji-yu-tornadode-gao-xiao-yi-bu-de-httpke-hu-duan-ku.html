@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>发布一个基于Tornado的高效异步的HTTP客户端库</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="前面的博文提到过使用tornado进行网络异步编程, 也使用tornado实现了一个高效的WebQQ机器人, 由于tornado内置的AsyncHTTPClient功能过于单一, 所以自己写了一个基于Tornado的HTTP客户端库, 鉴于自己多处使用了这个库, 所以 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="tornado">
+    <meta name="tags" content="http">
+    <meta name="tags" content="client">
+    <meta name="tags" content="module">
+    <meta name="tags" content="Python">
+    <meta name="tags" content="高效">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="发布一个基于Tornado的高效异步的HTTP客户端库"/>
+<meta property="og:description" content="前面的博文提到过使用tornado进行网络异步编程, 也使用tornado实现了一个高效的WebQQ机器人, 由于tornado内置的AsyncHTTPClient功能过于单一, 所以自己写了一个基于Tornado的HTTP客户端库, 鉴于自己多处使用了这个库, 所以 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-08-01 10:46:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="tornado"/>
+<meta property="article:tag" content="http"/>
+<meta property="article:tag" content="client"/>
+<meta property="article:tag" content="module"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="高效"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="发布一个基于Tornado的高效异步的HTTP客户端库">
+    <meta name="twitter:url" content="https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="前面的博文提到过使用tornado进行网络异步编程, 也使用tornado实现了一个高效的WebQQ机器人, 由于tornado内置的AsyncHTTPClient功能过于单一, 所以自己写了一个基于Tornado的HTTP客户端库, 鉴于自己多处使用了这个库, 所以 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "发布一个基于Tornado的高效异步的HTTP客户端库",
+  "headline": "发布一个基于Tornado的高效异步的HTTP客户端库",
+  "datePublished": "2013-08-01 10:46:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html",
+  "description": "前面的博文提到过使用tornado进行网络异步编程, 也使用tornado实现了一个高效的WebQQ机器人, 由于tornado内置的AsyncHTTPClient功能过于单一, 所以自己写了一个基于Tornado的HTTP客户端库, 鉴于自己多处使用了这个库, 所以 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">发布一个基于Tornado的高效异步的HTTP客户端库</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Thu 01 August 2013">Thu 01 August 2013</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>前面的博文提到过<a href="/shi-yong-tornadojin-xing-wang-luo-yi-bu-bian-cheng.html">使用tornado进行网络异步编程</a>, 也<a href="/jie-yong-tornadoshi-xian-gao-xiao-de-webqqji-qi-ren.html">使用tornado实现了一个高效的WebQQ机器人</a>, 由于tornado内置的<code>AsyncHTTPClient</code>功能过于单一, 所以自己写了一个基于Tornado的HTTP客户端库, 鉴于自己多处使用了这个库, 所以从项目中提取出来, 写成一个单独库 <code>tornadohttpclient</code></p>
+<p><s>TornadoHTTPClient 是一个基于Tornado的高效的异步HTTP客户端库, 支持Cookie和代理, 目前仅在<code>Python2.7</code>平台上测试过, 不支持<code>Python3</code></s></p>
+<p>听取了仙子君的意见, 直接对<code>tornado.curl_httpclient.CurlAsyncHTTPClient</code>进行封装</p>
+<h2 id="_1">安装</h2>
+<p>首先从git clone 下代码</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/coldnight/tornadohttpclient.git
+</code></pre></div>
+
+<p>然后安装它</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>tornadohttpclient
+python<span class="w"> </span>setup.py<span class="w"> </span>install
+</code></pre></div>
+
+<h2 id="_2">教程</h2>
+<h3 id="get">GET</h3>
+<p>TornadoHTTPClient的get方法可以发起一个get请求</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tornadohttpclient</span> <span class="kn">import</span> <span class="n">TornadoHTTPClient</span>
+
+<span class="c1"># 实例化</span>
+<span class="n">http</span> <span class="o">=</span> <span class="n">TornadoHTTPClient</span><span class="p">()</span>
+
+<span class="c1"># 发出get请求</span>
+<span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.linuxzen.com&quot;</span><span class="p">)</span>
+
+<span class="c1"># 开始主事件循环</span>
+<span class="n">http</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="post">POST</h3>
+<p>TornadoHTTPClient的post方法可以发起一个post请求</p>
+<h3 id="_3">读取响应</h3>
+<p>上面仅仅发出了请求, 但是我们无法读取GET请求回来的数据, 我们可以使用一个回调来读取响应</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tornadohttpclient</span> <span class="kn">import</span> <span class="n">TornadoHTTPClient</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="n">TornadoHTTPClient</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span>
+    <span class="n">http</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.linuxzen.com&quot;</span><span class="p">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="p">)</span>
+<span class="n">http</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+
+<p>通过<code>callback</code>关键字参数我们可以传进一个回调函数, 当请求成功时会调用此函数, 并给此函数传递一个与<code>urllib2.urlopen</code>返回一样的reponse实例</p>
+<h3 id="_4">上传文件</h3>
+<p><code>upload</code>方法可以上传文件, 其接受一个url和文件的field和文件路径, 还有其他post参数</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tornadohttpclient</span> <span class="kn">import</span> <span class="n">TornadoHTTPClient</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="n">TornadoHTTPClient</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;打开图片链接&quot;</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">effective_url</span><span class="p">)</span>
+    <span class="n">http</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="n">http</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="s2">&quot;http://paste.linuxzen.com&quot;</span><span class="p">,</span> <span class="s2">&quot;img&quot;</span><span class="p">,</span> <span class="s2">&quot;img_test.png&quot;</span><span class="p">,</span>
+                    <span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="p">)</span>
+<span class="n">http</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="callback">给callback传递参数</h3>
+<p>有时候callback可能需要访问局部变量, 可以通过 <code>args</code>和<code>kwargs</code>关键字参数, 将<code>callback</code>的参数传递给<code>get</code>/<code>post</code>方法, <code>args</code>参数将会在<code>response</code>参数之后被传递,
+<code>args</code>参数类型应当是一个元组, <code>kwargs</code>参数类型应当是一个字典</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tornadohttpclient</span> <span class="kn">import</span> <span class="n">TornadoHTTPClient</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="n">TornadoHTTPClient</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span>
+    <span class="nb">print</span> <span class="n">times</span>
+
+    <span class="k">if</span> <span class="n">times</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">http</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.linuxzen.com&quot;</span><span class="p">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">))</span>
+
+<span class="n">http</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="_5">发送延迟请求</h3>
+<p>有时我们需要延迟几秒也发送请求或每隔几秒就发送一个请求, <code>get</code>/<code>post</code>方法的<code>delay</code>关键字参数可以解决, <code>delay</code>参数接受一个单位为秒的数字, 并延迟<code>delay</code>秒后发起请求</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tornadohttpclient</span> <span class="kn">import</span> <span class="n">TornadoHTTPClient</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="n">TornadoHTTPClient</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span>
+    <span class="k">if</span> <span class="n">times</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="c1"># 延迟10秒发送此请求</span>
+        <span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.linuxzen.com&quot;</span><span class="p">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">times</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">),</span> <span class="n">delay</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">http</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.linuxzen.com&quot;</span><span class="p">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">))</span>
+<span class="n">http</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="_6">给请求传递参数</h3>
+<p>TornadoHTTPClient 的 <code>get</code>/<code>post</code>方法的第二个参数<code>params</code>可以定义请求时传递的参数<code>params</code>的类型为字典或者<code>((key, value), )</code>类型的元组或列表,例如使用百度搜索<code>TornadoHTTPClient</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tornadohttpclient</span> <span class="kn">import</span> <span class="n">TornadoHTTPClient</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="n">TornadoHTTPClient</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span>
+    <span class="n">http</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.baidu.com/s&quot;</span><span class="p">,</span> <span class="p">((</span><span class="s2">&quot;wd&quot;</span><span class="p">,</span> <span class="s2">&quot;tornado&quot;</span><span class="p">),),</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="p">)</span>
+<span class="n">http</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+
+<p>以上也使用与POST方法, 比如登录网站</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tornadohttpclient</span> <span class="kn">import</span> <span class="n">TornadoHTTPClient</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="n">TornadoHTTPClient</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span>
+    <span class="n">http</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="n">http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;http://ip.or.domain/login&quot;</span><span class="p">,</span> <span class="p">((</span><span class="s2">&quot;username&quot;</span><span class="p">,</span> <span class="s2">&quot;cold&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="s2">&quot;pwd&quot;</span><span class="p">)),</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="p">)</span>
+
+<span class="n">http</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="http">指定HTTP头</h3>
+<p>TornadoHTTPClient 的<code>get</code>/<code>post</code>方法的 <code>headers</code>关键字参数可以自定额外的HTTP头信息, 参数类型为一个字典</p>
+<p>指定User-Agent头</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tornadohttpclient</span> <span class="kn">import</span> <span class="n">TornadoHTTPClient</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="n">TornadoHTTPClient</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span>
+    <span class="n">http</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64)&quot;</span>\
+                <span class="s2">&quot; AppleWebKit/537.11 (KHTML, like Gecko)&quot;</span>\
+                <span class="s2">&quot; Chrome/23.0.1271.97 Safari/537.11&quot;</span><span class="p">),</span> <span class="p">))</span>
+
+<span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.linuxzen.com&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="_7">使用代理</h3>
+<p>TornadoHTTPClient 的<code>set_proxy</code>方法可以设置代理, 其接受两个参数, 分别是代理的 主机名/ip 代理的端口, <code>unset_proxy</code>可以取消代理</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tornadohttpclient</span> <span class="kn">import</span> <span class="n">TornadoHTTPClient</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="n">TornadoHTTPClient</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span>
+    <span class="n">http</span><span class="o">.</span><span class="n">unset_proxy</span><span class="p">()</span>
+    <span class="n">http</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="n">http</span><span class="o">.</span><span class="n">set_proxy</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="mi">8087</span><span class="p">)</span>
+<span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://shell.appspot.com&quot;</span><span class="p">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="p">)</span>
+<span class="n">http</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="cookie">Cookie</h3>
+<p>TornadoHTTPClient会自动记录和装载Cookie, 可以通过 TornadoHTTPClient实例属性 cookie 获取Cookie</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=发布一个基于Tornado的高效异步的HTTP客户端库&amp;url=https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/tornado.html">tornado</a><a href="https://www.linuxzen.com/tag/http.html">http</a><a href="https://www.linuxzen.com/tag/client.html">client</a><a href="https://www.linuxzen.com/tag/module.html">module</a><a href="https://www.linuxzen.com/tag/python.html">Python</a><a href="https://www.linuxzen.com/tag/gao-xiao.html">高效</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html';
+                    var disqus_url = 'https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

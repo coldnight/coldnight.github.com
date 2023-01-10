@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>分享Vim两种好用的功能:状态行和空白字符可见</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="马上要放假了,没事折腾了一下Vim发现了两个非常棒的功能,一个是给Vim添加一个状态栏,一个是可以在编辑的时候显示空白, 我的状态栏显示了: 正在编辑的文件名 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="空白">
+    <meta name="tags" content="字符">
+    <meta name="tags" content="可见">
+    <meta name="tags" content="vim">
+    <meta name="tags" content="statusline">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="分享Vim两种好用的功能:状态行和空白字符可见"/>
+<meta property="og:description" content="马上要放假了,没事折腾了一下Vim发现了两个非常棒的功能,一个是给Vim添加一个状态栏,一个是可以在编辑的时候显示空白, 我的状态栏显示了: 正在编辑的文件名 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-09-29 17:30:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Vim"/>
+<meta property="article:tag" content="空白"/>
+<meta property="article:tag" content="字符"/>
+<meta property="article:tag" content="可见"/>
+<meta property="article:tag" content="vim"/>
+<meta property="article:tag" content="statusline"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="分享Vim两种好用的功能:状态行和空白字符可见">
+    <meta name="twitter:url" content="https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="马上要放假了,没事折腾了一下Vim发现了两个非常棒的功能,一个是给Vim添加一个状态栏,一个是可以在编辑的时候显示空白, 我的状态栏显示了: 正在编辑的文件名 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "分享Vim两种好用的功能:状态行和空白字符可见",
+  "headline": "分享Vim两种好用的功能:状态行和空白字符可见",
+  "datePublished": "2012-09-29 17:30:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html",
+  "description": "马上要放假了,没事折腾了一下Vim发现了两个非常棒的功能,一个是给Vim添加一个状态栏,一个是可以在编辑的时候显示空白, 我的状态栏显示了: 正在编辑的文件名 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li class="nav-vim active" role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">分享Vim两种好用的功能:状态行和空白字符可见</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Sat 29 September 2012">Sat 29 September 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>马上要放假了,没事折腾了一下Vim发现了两个非常棒的功能,一个是给Vim添加一个状态栏,一个是可以在编辑的时候显示空白,</p>
+<p>我的状态栏显示了:
+正在编辑的文件名,
+选项
+是Git显示git分支(需要fugitive插件)
+文件类型
+当前目录
+当前字符的ASCII和16进制码
+右边是当前光标所在行/列,文件的位置的百分比,和文件的长度
+fugitive 可以在git获得:</p>
+<div class="highlight"><pre><span></span><code>git clone http://github.com/tpope/vim-fugitive.git
+</code></pre></div>
+
+<p>将plugin目录下的fugitive.vim复制到~/.vim/plugin下
+在~/.vimrc添加如下内容</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> has<span class="p">(</span><span class="s1">&#39;statusline&#39;</span><span class="p">)</span>
+    <span class="k">set</span> <span class="nb">laststatus</span><span class="p">=</span><span class="m">2</span>
+    <span class="k">set</span> <span class="nb">statusline</span><span class="p">=</span>%<span class="p">&lt;</span>%<span class="k">f</span>\   <span class="c">&quot; 文件名</span>
+    <span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%<span class="k">w</span>%<span class="k">h</span>%<span class="k">m</span>%<span class="k">r</span> <span class="c">&quot; 选项</span>
+    <span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%{fugitive#<span class="nb">statusline</span><span class="p">()</span>} <span class="c">&quot;Git</span>
+    <span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>\ [%{&amp;<span class="nb">ff</span>}/%Y]            <span class="c">&quot; filetype</span>
+    <span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>\ [%{getcwd<span class="p">()</span>}]          <span class="c">&quot; current dir</span>
+    <span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>\ [A<span class="p">=</span>\%<span class="m">03</span>.<span class="m">3</span>b<span class="sr">/H=\%02.2B] &quot; ASCII /</span> Hexadecimal value of char
+    <span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%<span class="p">=</span>%<span class="m">-14</span>.<span class="p">(</span>%<span class="k">l</span><span class="p">,</span>%<span class="k">c</span>%V%<span class="p">)</span>\ %<span class="k">p</span>%%\ %L  <span class="c">&quot; Right aligned file nav info</span>
+<span class="k">endif</span>
+</code></pre></div>
+
+<p>要想在编辑时将空白可见可以在.vimrc中添加如下内容:</p>
+<div class="highlight"><pre><span></span><code><span class="k">set</span> <span class="nb">listchars</span><span class="p">=</span><span class="k">tab</span>:<span class="p">&gt;-,</span>trail:<span class="p">-,</span>extends:#<span class="p">,</span>nbsp:<span class="p">-</span>
+</code></pre></div>
+
+<p>即可tab显示为&gt;---,空格显示-,行尾的空白显示-,</p>
+<p>设置完后非常的cool,上图一张:
+<img alt="vim空白符" src="/upload/Screenshot-2012-09-29-173517.png"></p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=分享Vim两种好用的功能:状态行和空白字符可见&amp;url=https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/kong-bai.html">空白</a><a href="https://www.linuxzen.com/tag/zi-fu.html">字符</a><a href="https://www.linuxzen.com/tag/ke-jian.html">可见</a><a href="https://www.linuxzen.com/tag/vim.html">vim</a><a href="https://www.linuxzen.com/tag/statusline.html">statusline</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html';
+                    var disqus_url = 'https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

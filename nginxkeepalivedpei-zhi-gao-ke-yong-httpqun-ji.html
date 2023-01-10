@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>nginx+keepalived配置高可用HTTP群集</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Nginx不仅是一款优秀的WEB服务器,同时可以根据nginx的反代理可以配置成强大的负载均衡器.这里就介绍如何把nginx配置成负载均衡器,并结合keepalived配置高可用的集群. 一般集群主要架构为: 前端为负载均衡器两个:主/备,两种工作方式,一种 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="高可用">
+    <meta name="tags" content="负载均衡">
+    <meta name="tags" content="群集">
+    <meta name="tags" content="反向代理">
+    <meta name="tags" content="双机">
+    <meta name="tags" content="nginx">
+    <meta name="tags" content="keepalived">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="nginx+keepalived配置高可用HTTP群集"/>
+<meta property="og:description" content="Nginx不仅是一款优秀的WEB服务器,同时可以根据nginx的反代理可以配置成强大的负载均衡器.这里就介绍如何把nginx配置成负载均衡器,并结合keepalived配置高可用的集群. 一般集群主要架构为: 前端为负载均衡器两个:主/备,两种工作方式,一种 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-02-09 17:35:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="高可用"/>
+<meta property="article:tag" content="负载均衡"/>
+<meta property="article:tag" content="群集"/>
+<meta property="article:tag" content="反向代理"/>
+<meta property="article:tag" content="双机"/>
+<meta property="article:tag" content="nginx"/>
+<meta property="article:tag" content="keepalived"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="nginx+keepalived配置高可用HTTP群集">
+    <meta name="twitter:url" content="https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Nginx不仅是一款优秀的WEB服务器,同时可以根据nginx的反代理可以配置成强大的负载均衡器.这里就介绍如何把nginx配置成负载均衡器,并结合keepalived配置高可用的集群. 一般集群主要架构为: 前端为负载均衡器两个:主/备,两种工作方式,一种 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "nginx+keepalived配置高可用HTTP群集",
+  "headline": "nginx+keepalived配置高可用HTTP群集",
+  "datePublished": "2012-02-09 17:35:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html",
+  "description": "Nginx不仅是一款优秀的WEB服务器,同时可以根据nginx的反代理可以配置成强大的负载均衡器.这里就介绍如何把nginx配置成负载均衡器,并结合keepalived配置高可用的集群. 一般集群主要架构为: 前端为负载均衡器两个:主/备,两种工作方式,一种 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">nginx+keepalived配置高可用HTTP群集</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Thu 09 February 2012">Thu 09 February 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Nginx不仅是一款优秀的WEB服务器,同时可以根据nginx的反代理可以配置成强大的负载均衡器.这里就介绍如何把nginx配置成负载均衡器,并结合keepalived配置高可用的集群.
+一般集群主要架构为:</p>
+<p>前端为负载均衡器两个:主/备,两种工作方式,一种是备机待机状态,主机故障时备机接管主机工作实现故障庄毅,在主机故障恢复完成时备机继续仅需待机状态,第二种是主备同时工作,一台宕机另外一台自动接管另一台的工作实现故障转移.
+第一种方式可以通过将域名解析到一个虚拟ip(vip)上,主负载均衡器绑定虚拟ip,当主负载均衡器出现故障时,通过keepalived自动将vip绑定到备用负载均衡器上同时arping网关刷新MAC地址.,避免单点故障.
+第二种方式主备同时绑定一个vip,把域名通过DNS轮询的方式解析到这两个服务器上,主机出现故障,备机就将主机绑定vip绑定到备机上,同时arping网关刷新MAC地址.实现故障转移.</p>
+<p>中间为WEB服务器作为real server,处理请求.
+后端为数据库和分布式文件系统.数据库一般为主从两台.分布式文件系统有效解决WEB服务器之间的数据同步.有的还会将图片服务器单独分离出来放在后端.</p>
+<p>本文使用环境:</p>
+<ul>
+<li>CentOS 5.5 32位</li>
+<li>nginx:nginx-1.0.11</li>
+<li>keepalived：keepalived-1.1.19.tar.gz</li>
+<li>主调度器:192.168.3.1</li>
+<li>备调度器:192.168.3.2</li>
+<li>real server:192.168.3.4/5/6</li>
+</ul>
+<p>本文采用第一种方式来进行vip为:192.168.3.253</p>
+<h2 id="nginx">一、在主备服务器上部署nginx</h2>
+<h3 id="1">1.下载</h3>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>http://nginx.org/download/nginx-1.0.11.tar.gz
+</code></pre></div>
+
+<h3 id="2">2.安装</h3>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>yum<span class="w">  </span>-y<span class="w"> </span>install<span class="w"> </span>zlib-devel<span class="w"> </span>pcre-devel<span class="w"> </span>openssl-devel<span class="w">  </span><span class="c1"># 安装依赖</span>
+tar<span class="w"> </span>-zxvf<span class="w"> </span>nginx-1.0.11.tar.gz
+<span class="nb">cd</span><span class="w"> </span>nginx-1.0.11
+./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/nginx<span class="w"> </span>--with-http_ssl_module<span class="w"> </span>--with-http_flv_module<span class="w"> </span>--with-http_gzip_static_module
+make<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+
+<p>3.配置</p>
+<p>配置主调度器的nginx,编辑nginx.conf</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/usr/local/nginx/conf/nginx.conf
+
+http<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>include<span class="w">       </span>mime.types<span class="p">;</span>
+<span class="w">    </span>default_type<span class="w">  </span>application/octet-stream<span class="p">;</span>
+
+<span class="w">    </span><span class="c1">#log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span>
+<span class="w">    </span><span class="c1">#                  &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;</span>
+<span class="w">    </span><span class="c1">#                  &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span>
+
+<span class="w">    </span><span class="c1">#access_log  logs/access.log  main;</span>
+
+<span class="w">    </span>sendfile<span class="w">        </span>on<span class="p">;</span>
+<span class="w">    </span><span class="c1">#tcp_nopush     on;</span>
+
+<span class="w">    </span><span class="c1">#keepalive_timeout  0;</span>
+<span class="w">    </span>keepalive_timeout<span class="w">  </span><span class="m">65</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">#gzip  on;</span>
+
+<span class="w">    </span><span class="c1"># 添加一组真实的服务器地址池</span>
+<span class="w">    </span><span class="c1"># 供proxy_pass和fastcgi_pass指令中使用的代理服务器</span>
+<span class="w">    </span>upstream<span class="w"> </span>real_server_pool<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="c1"># 后台如果有动态应用的时候,ip_hash指令可以通过hash算法</span>
+<span class="w">      </span><span class="c1"># 将客户端请求定位到同一台后端服务器上,解决session共享,</span>
+<span class="w">      </span><span class="c1"># 但建议用动态应用做session共享</span>
+<span class="w">      </span><span class="c1"># ip_hash;</span>
+
+<span class="w">      </span><span class="c1"># server用于指定一个后端服务器的名称和参数</span>
+<span class="w">      </span><span class="c1"># weight代表权,重默认为1,权重越高被分配的客户端越多</span>
+<span class="w">      </span><span class="c1"># max_fails 指定时间内对后端请求失败的次数</span>
+<span class="w">      </span><span class="c1"># fail_timeout 达到max_fails指定的失败次数后暂停的时间</span>
+<span class="w">      </span>server<span class="w">  </span><span class="m">192</span>.168.3.4:80<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">max_fails</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">fail_timeout</span><span class="o">=</span>30s<span class="p">;</span>
+<span class="w">      </span><span class="c1"># down参数用来标记为离线,不参与负载均衡.在ip_hash下使用</span>
+<span class="w">      </span><span class="c1"># 在此做演示,后面测试会去掉</span>
+<span class="w">      </span>server<span class="w">  </span><span class="m">192</span>.168.3.5:80<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">max_fails</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">fail_timeout</span><span class="o">=</span>30s<span class="w"> </span>down<span class="p">;</span>
+<span class="w">      </span><span class="c1"># backup仅仅在非backup服务器宕机或繁忙的时候使用</span>
+<span class="w">      </span><span class="c1"># (在此做演示,后面测试会去掉)</span>
+<span class="w">      </span>server<span class="w">  </span><span class="m">192</span>.168.3.6:80<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">max_fails</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">fail_timeout</span><span class="o">=</span>30s<span class="w"> </span>backup<span class="p">;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">    </span>server<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>listen<span class="w">       </span><span class="m">192</span>.168.3.1:80<span class="p">;</span>
+<span class="w">        </span>server_name<span class="w">  </span>localhost<span class="p">;</span>
+
+<span class="w">        </span><span class="c1">#charset koi8-r;</span>
+
+<span class="w">        </span><span class="c1">#access_log  logs/host.access.log  main;</span>
+
+<span class="w">        </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span><span class="c1">#root   html;</span>
+<span class="w">            </span><span class="c1">#index  index.html index.htm;</span>
+<span class="w">            </span><span class="c1"># 使用upstream设置的一组代理服务器</span>
+<span class="w">            </span><span class="c1"># 如果后端服务器出现502或504等执行错误时,</span>
+<span class="w">            </span><span class="c1"># 将自动将请求转发给负载均衡池中的另一台服务器.</span>
+<span class="w">            </span>proxy_next_upstream<span class="w"> </span>http_502<span class="w"> </span>http_504<span class="w"> </span>error<span class="w"> </span>timeout<span class="w"> </span>invalid_header<span class="p">;</span>
+<span class="w">            </span>proxy_pass<span class="w"> </span>http://real_server_pool<span class="p">;</span>
+<span class="w">            </span>proxy_set_header<span class="w"> </span>Host<span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+<span class="w">            </span>proxy_set_header<span class="w"> </span>X-Forwarded-For<span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>(<code>注意:</code>配置文件中注释ip_hash,以为ip_hash这个功能将保证这个客户端请求总是被转发到一台服务器上,所以如果启用了ip_hash指令,将不能再使用weight(权重参数),配置文件中加入为解释ip_hash指令)
+配置备用nginx,将监听ip改为备用调度器的ip</p>
+<div class="highlight"><pre><span></span><code>http<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>include<span class="w">       </span>mime.types<span class="p">;</span>
+<span class="w">    </span>default_type<span class="w">  </span>application/octet-stream<span class="p">;</span>
+
+<span class="w">    </span><span class="c1">#log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span>
+<span class="w">    </span><span class="c1">#                  &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;</span>
+<span class="w">    </span><span class="c1">#                  &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span>
+
+<span class="w">    </span><span class="c1">#access_log  logs/access.log  main;</span>
+
+<span class="w">    </span>sendfile<span class="w">        </span>on<span class="p">;</span>
+<span class="w">    </span><span class="c1">#tcp_nopush     on;</span>
+
+<span class="w">    </span><span class="c1">#keepalive_timeout  0;</span>
+<span class="w">    </span>keepalive_timeout<span class="w">  </span><span class="m">65</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">#gzip  on;</span>
+
+<span class="w">    </span>upstream<span class="w"> </span>real_server_pool<span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="c1">#ip_hash;</span>
+<span class="w">      </span>server<span class="w">  </span><span class="m">192</span>.168.3.4:80<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">max_fails</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">fail_timeout</span><span class="o">=</span>30s<span class="p">;</span>
+<span class="w">      </span>server<span class="w">  </span><span class="m">192</span>.168.3.5:80<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">max_fails</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">fail_timeout</span><span class="o">=</span>30s<span class="p">;</span>
+<span class="w">      </span>server<span class="w">  </span><span class="m">192</span>.168.3.6:80<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">max_fails</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">fail_timeout</span><span class="o">=</span>30s<span class="p">;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">    </span>server<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>listen<span class="w">       </span><span class="m">192</span>.168.3.2:80<span class="p">;</span><span class="w">             </span><span class="c1"># 监听ip改为本地ip</span>
+<span class="w">        </span>server_name<span class="w">  </span>localhost<span class="p">;</span>
+
+<span class="w">        </span><span class="c1">#charset koi8-r;</span>
+
+<span class="w">        </span><span class="c1">#access_log  logs/host.access.log  main;</span>
+
+<span class="w">        </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span><span class="c1">#root   html;</span>
+<span class="w">            </span><span class="c1">#index  index.html index.htm;</span>
+<span class="w">            </span>proxy_next_upstream<span class="w"> </span>http_502<span class="w"> </span>http_504<span class="w"> </span>error<span class="w"> </span>timeout<span class="w"> </span>invalid_header<span class="p">;</span>
+<span class="w">            </span>proxy_pass<span class="w"> </span>http://real_server_pool<span class="p">;</span>
+<span class="w">            </span>proxy_set_header<span class="w"> </span>Host<span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+<span class="w">            </span>proxy_set_header<span class="w"> </span>X-Forwarded-For<span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+<span class="w">        </span><span class="o">}</span>
+</code></pre></div>
+
+<p>然后启动主备nginx:</p>
+<div class="highlight"><pre><span></span><code>/usr/local/nginx/sbin/nginx
+</code></pre></div>
+
+<h2 id="keepalived">二、在主备服务器上部署keepalived</h2>
+<p>安装
+安装依赖:</p>
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>kernel-devel<span class="w">              </span><span class="c1"># 安装依赖</span>
+</code></pre></div>
+
+<p>开启路由转发:</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/etc/sysctl.conf
+net.ipv4.ip_forward<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="c1"># 此参数改为1</span>
+sysctl<span class="w"> </span>-p<span class="w"> </span><span class="c1"># 使修改生效</span>
+</code></pre></div>
+
+<p>首先安装ipvs:</p>
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>/usr/src/kernels/2.6.18-194.el5-i686/<span class="w"> </span>/usr/src/linux<span class="w">  </span><span class="c1"># ipvs需要内核文件,做一个软连接</span>
+<span class="c1"># 下载</span>
+wget<span class="w"> </span>http://www.linuxvirtualserver.org/software/kernel-2.6/ipvsadm-1.24.tar.gz
+tar<span class="w"> </span>-zxvf<span class="w"> </span>ipvsadm-1.24.tar.gz
+<span class="nb">cd</span><span class="w"> </span>ipvsadm-1.24
+make
+make<span class="w"> </span>install
+</code></pre></div>
+
+<p>然后安装keepalived</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 下载</span>
+wget<span class="w"> </span>http://www.keepalived.org/software/keepalived-1.1.19.tar.gz
+tar<span class="w"> </span>-zxvf<span class="w"> </span>keepalived-1.1.19.tar.gz
+<span class="nb">cd</span><span class="w"> </span>keepalived-1.1.19
+./configure<span class="w"> </span>--prefix<span class="o">=</span>/<span class="w"> </span><span class="se">\ </span><span class="w">           </span><span class="c1"># 安装在默认位置(配置文件,二进制文件,启动脚本放到默认位置)</span>
+--mandir<span class="o">=</span>/usr/local/share/man/<span class="w"> </span><span class="se">\</span>
+--with-kernel-dir<span class="o">=</span>/usr/src/kernels/2.6.18-194.el5-i686/<span class="w">    </span><span class="c1"># 需要内核的头文件</span>
+make<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+
+<h3 id="keepalived_1">配置keepalived</h3>
+<p>编辑主调度器配置文件/etc/keepalived/keepalived.conf ###</p>
+<div class="highlight"><pre><span></span><code>global_defs<span class="w"> </span><span class="o">{</span>
+<span class="w">   </span>notification_email<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>cold_night@linuxzen.com<span class="w">             </span><span class="c1"># 定义通知邮箱,有多个可以换行添加</span>
+<span class="o">}</span>
+<span class="w">   </span>notification_email_from<span class="w"> </span>root@linuxzen.com#<span class="w"> </span>定义发送邮件的邮箱
+<span class="w">   </span>smtp_server<span class="w"> </span>www.linuxzen.com<span class="w">             </span><span class="c1"># 定义发件服务器</span>
+<span class="w">   </span>smtp_connect_timeout<span class="w"> </span><span class="m">30</span><span class="w">                  </span><span class="c1"># 定义连接smtp服务器超时时间</span>
+<span class="w">   </span>router_id<span class="w"> </span>LVS_DEVEL
+<span class="o">}</span>
+
+vrrp_instance<span class="w"> </span>VI_1<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>state<span class="w"> </span>MASTER<span class="w">                   </span><span class="c1"># 标示主备,备机上改为BACKUP</span>
+<span class="w">    </span>interface<span class="w"> </span>eth0<span class="w">                 </span><span class="c1"># HA监测的端口</span>
+<span class="w">    </span>virtual_router_id<span class="w"> </span><span class="m">51</span><span class="w">           </span><span class="c1"># 主备的virtual_router_id的值必须相同</span>
+<span class="w">    </span>priority<span class="w"> </span><span class="m">100</span><span class="w">                   </span><span class="c1"># 优先级,通常主要比备稍大</span>
+<span class="w">    </span>advert_int<span class="w"> </span><span class="m">1</span><span class="w">                   </span><span class="c1"># VRRP Multicast 广播周期秒数</span>
+<span class="w">    </span>authentication<span class="w"> </span><span class="o">{</span><span class="w">               </span><span class="c1"># 定义认证</span>
+<span class="w">        </span>auth_type<span class="w"> </span>PASS<span class="w">             </span><span class="c1"># 认证方式</span>
+<span class="w">        </span>auth_pass<span class="w"> </span><span class="m">1111</span><span class="w">             </span><span class="c1"># 认证口令字</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">    </span>virtual_ipaddress<span class="w"> </span><span class="o">{</span><span class="w">            </span><span class="c1"># 定义vip</span>
+<span class="w">        </span><span class="m">192</span>.168.3.253<span class="w">              </span><span class="c1"># 多个可换行添加,一行一个</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+
+virtual_server<span class="w"> </span><span class="m">192</span>.168.3.253<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>delay_loop<span class="w"> </span><span class="m">6</span><span class="w">             </span><span class="c1"># 每隔 6 秒查询 realserver 状态</span>
+<span class="w">    </span>lb_algo<span class="w"> </span>rr
+<span class="w">    </span>lb_kind<span class="w"> </span>NAT
+<span class="w">    </span>nat_mask<span class="w"> </span><span class="m">255</span>.255.255.0
+<span class="w">    </span>persistence_timeout<span class="w"> </span><span class="m">50</span><span class="w">   </span><span class="c1"># 同一IP 的连接50秒内被分配到同一台realserver</span>
+<span class="w">    </span>protocol<span class="w"> </span>TCP<span class="w">             </span><span class="c1"># 用TCP监测realserver的状态</span>
+
+<span class="w">    </span>real_server<span class="w"> </span><span class="m">192</span>.168.3.1<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>weight<span class="w"> </span><span class="m">3</span><span class="w">                </span><span class="c1"># 权重</span>
+<span class="w">        </span>TCP_CHECK<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>connect_timeout<span class="w"> </span><span class="m">10</span><span class="w">  </span><span class="c1"># 10秒无响应超时</span>
+<span class="w">            </span>nb_get_retry<span class="w"> </span><span class="m">3</span>
+<span class="w">            </span>delay_before_retry<span class="w"> </span><span class="m">3</span>
+<span class="w">            </span>connect_port<span class="w"> </span><span class="m">80</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+
+<span class="w">    </span>real_server<span class="w"> </span><span class="m">192</span>.168.3.2<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>weight<span class="w"> </span><span class="m">3</span>
+<span class="w">        </span>TCP_CHECK<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>connect_timeout<span class="w"> </span><span class="m">3</span>
+<span class="w">            </span>delay_before_retry<span class="w"> </span><span class="m">3</span>
+<span class="w">            </span>connect_port<span class="w"> </span><span class="m">80</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>配置备用调度器的keepalived,只需要将state MASTER 改为state BACKUP,降低priority 100 的值:</p>
+<div class="highlight"><pre><span></span><code>global_defs<span class="w"> </span><span class="o">{</span>
+<span class="w">   </span>notification_email<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>cold_night@linuxzen.com
+<span class="o">}</span>
+<span class="w">   </span>notification_email_from<span class="w"> </span>root@linuxzen.com
+<span class="w">   </span>smtp_server<span class="w"> </span>www.linuxzen.com
+<span class="w">   </span>smtp_connect_timeout<span class="w"> </span><span class="m">30</span>
+<span class="w">   </span>router_id<span class="w"> </span>LVS_DEVEL
+<span class="o">}</span>
+
+vrrp_instance<span class="w"> </span>VI_1<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>state<span class="w"> </span>BACKUP<span class="w">                   </span><span class="c1"># 备机上改为BACKUP</span>
+<span class="w">    </span>interface<span class="w"> </span>eth0
+<span class="w">    </span>virtual_router_id<span class="w"> </span><span class="m">51</span><span class="w">           </span><span class="c1"># 主备的virtual_router_id的值必须相同</span>
+<span class="w">    </span>priority<span class="w"> </span><span class="m">99</span><span class="w">                    </span><span class="c1"># 备用优先级小于主调度器</span>
+<span class="w">    </span>advert_int<span class="w"> </span><span class="m">1</span>
+<span class="w">    </span>authentication<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>auth_type<span class="w"> </span>PASS
+<span class="w">        </span>auth_pass<span class="w"> </span><span class="m">1111</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">    </span>virtual_ipaddress<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="m">192</span>.168.3.253
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+
+virtual_server<span class="w"> </span><span class="m">192</span>.168.3.253<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>delay_loop<span class="w"> </span><span class="m">6</span>
+<span class="w">   </span>lb_algo<span class="w"> </span>rr
+<span class="w">    </span>lb_kind<span class="w"> </span>NAT
+<span class="w">    </span>nat_mask<span class="w"> </span><span class="m">255</span>.255.255.0
+<span class="w">    </span>persistence_timeout<span class="w"> </span><span class="m">50</span>
+<span class="w">    </span>protocol<span class="w"> </span>TCP<span class="w">        </span>
+
+<span class="w">    </span>real_server<span class="w"> </span><span class="m">192</span>.168.3.1<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>weight<span class="w"> </span><span class="m">3</span>
+<span class="w">        </span>TCP_CHECK<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>connect_timeout<span class="w"> </span><span class="m">10</span>
+<span class="w">            </span>nb_get_retry<span class="w"> </span><span class="m">3</span>
+<span class="w">            </span>delay_before_retry<span class="w"> </span><span class="m">3</span>
+<span class="w">            </span>connect_port<span class="w"> </span><span class="m">80</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+
+<span class="w">    </span>real_server<span class="w"> </span><span class="m">192</span>.168.3.2<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>weight<span class="w"> </span><span class="m">3</span>
+<span class="w">        </span>TCP_CHECK<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>connect_timeout<span class="w"> </span><span class="m">3</span>
+<span class="w">            </span>delay_before_retry<span class="w"> </span><span class="m">3</span>
+<span class="w">            </span>connect_port<span class="w"> </span><span class="m">80</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>主备上启动keepalived:</p>
+<div class="highlight"><pre><span></span><code>service<span class="w"> </span>keepalived<span class="w"> </span>start
+</code></pre></div>
+
+<h2 id="-">三、测试-----部署后端服务器</h2>
+<p>在后端服务器安装nginx,这里仅部署一台然后创建3个基于ip的虚拟主机供测试:
+绑定ip:</p>
+<div class="highlight"><pre><span></span><code>ifconfig<span class="w"> </span>eth0:1<span class="w"> </span><span class="m">192</span>.168.3.4/24
+ifconfig<span class="w"> </span>eth0:2<span class="w"> </span><span class="m">192</span>.168.3.5/24
+ifconfig<span class="w"> </span>eth0:3<span class="w"> </span><span class="m">192</span>.168.3.6/24
+</code></pre></div>
+
+<p>安装nginx后编辑配置文件,在http块里添加:</p>
+<div class="highlight"><pre><span></span><code>http<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>server<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>listen<span class="w">  </span><span class="m">192</span>.168.3.4:80<span class="p">;</span>
+<span class="w">        </span>server_name<span class="w">     </span><span class="m">192</span>.168.3.4<span class="p">;</span>
+
+<span class="w">        </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+<span class="w">             </span>root<span class="w"> </span>html/s1<span class="p">;</span>
+<span class="w">             </span>index<span class="w"> </span>index.html<span class="w"> </span>index.htm<span class="p">;</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+
+<span class="w">    </span>server<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>listen<span class="w">  </span><span class="m">192</span>.168.3.5:80<span class="p">;</span>
+<span class="w">        </span>server_name<span class="w">     </span><span class="m">192</span>.168.3.5<span class="p">;</span>
+
+<span class="w">        </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>root<span class="w"> </span>html/s2<span class="p">;</span>
+<span class="w">            </span>index<span class="w"> </span>index.html<span class="w"> </span>index.htm<span class="p">;</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+
+<span class="w">    </span>server<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>listen<span class="w"> </span><span class="m">192</span>.168.3.6:80<span class="p">;</span>
+<span class="w">        </span>server_name<span class="w">     </span><span class="m">192</span>.168.3.5<span class="p">;</span>
+
+<span class="w">        </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>root<span class="w"> </span>html/s3<span class="p">;</span>
+<span class="w">            </span>index<span class="w"> </span>index.html<span class="w"> </span>index.htm<span class="p">;</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>创建虚拟主机根目录,并创建不通的首页文档:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/usr/local/nginx/html/
+mkdir<span class="w"> </span>s1<span class="w"> </span>s2<span class="w"> </span>s3
+<span class="nb">echo</span><span class="w"> </span>server1<span class="w"> </span><span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>s1/index.html
+<span class="nb">echo</span><span class="w"> </span>server2<span class="w"> </span><span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>s2/index.html
+<span class="nb">echo</span><span class="w"> </span>server3<span class="w"> </span><span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>s3/index.html
+</code></pre></div>
+
+<p>启动nginx:</p>
+<div class="highlight"><pre><span></span><code>/usr/local/nginx/sbin/nginx
+</code></pre></div>
+
+<p>打开浏览器访问<code>http://192.168.3.253</code></p>
+<p>刷新会看到显示不同的内容:server1,server2,server3(生产中的服务器应该是一样的)
+[gallery link="file" order="DESC"]
+现在停掉主调度器的keepalived</p>
+<div class="highlight"><pre><span></span><code>pkill<span class="w"> </span>keepalived
+</code></pre></div>
+
+<p>查看备调度器的日志:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/var/log/messages
+Feb<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">16</span>:36:27<span class="w"> </span>cfhost<span class="w"> </span>Keepalived_vrrp:<span class="w"> </span>VRRP_Instance<span class="o">(</span>VI_1<span class="o">)</span><span class="w"> </span>Transition<span class="w"> </span>to<span class="w"> </span>MASTER<span class="w"> </span>STATE
+Feb<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">16</span>:36:28<span class="w"> </span>cfhost<span class="w"> </span>Keepalived_vrrp:<span class="w"> </span>VRRP_Instance<span class="o">(</span>VI_1<span class="o">)</span><span class="w"> </span>Entering<span class="w"> </span>MASTER<span class="w"> </span>STATE
+Feb<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">16</span>:36:28<span class="w"> </span>cfhost<span class="w"> </span>Keepalived_vrrp:<span class="w"> </span>VRRP_Instance<span class="o">(</span>VI_1<span class="o">)</span><span class="w"> </span>setting<span class="w"> </span>protocol<span class="w"> </span>VIPs.
+Feb<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">16</span>:36:28<span class="w"> </span>cfhost<span class="w"> </span>Keepalived_vrrp:<span class="w"> </span>VRRP_Instance<span class="o">(</span>VI_1<span class="o">)</span><span class="w"> </span>Sending<span class="w"> </span>gratuitous<span class="w"> </span>ARPs<span class="w"> </span>on<span class="w"> </span>eth0<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.253
+Feb<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">16</span>:36:28<span class="w"> </span>cfhost<span class="w"> </span>Keepalived_vrrp:<span class="w"> </span>Netlink<span class="w"> </span>reflector<span class="w"> </span>reports<span class="w"> </span>IP<span class="w"> </span><span class="m">192</span>.168.3.253<span class="w"> </span>added
+Feb<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">16</span>:36:28<span class="w"> </span>cfhost<span class="w"> </span>Keepalived_healthcheckers:<span class="w"> </span>Netlink<span class="w"> </span>reflector<span class="w"> </span>reports<span class="w"> </span>IP<span class="w"> </span><span class="m">192</span>.168.3.253<span class="w"> </span>added
+Feb<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">16</span>:36:33<span class="w"> </span>cfhost<span class="w"> </span>Keepalived_vrrp:<span class="w"> </span>VRRP_Instance<span class="o">(</span>VI_1<span class="o">)</span><span class="w"> </span>Sending<span class="w"> </span>gratuitous<span class="w"> </span>ARPs<span class="w"> </span>on<span class="w"> </span>eth0<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.253
+</code></pre></div>
+
+<p>&nbsp;</p>
+<p>现在访问<code>http://192.168.3.253</code>依然可以访问.
+大家也看到了备机keepalived只有检测主机的keepalived停止的时候才会切换vip,而不是检测一台real server的某一服务(比如检测80端口的HTTP)切换vip,所以在nginx进程停止的时候,如果服务器没有宕机这时候就无法实现故障转移,所以我们编写一个检测nginx状态的脚本结合keepalived实现故障转移:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">#filename:nsc.sh</span>
+ps<span class="w"> </span>aux<span class="w"> </span>¦<span class="w"> </span>grep<span class="w"> </span>nginx<span class="w"> </span>¦<span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>grep<span class="w"> </span><span class="m">2</span><span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>/dev/null<span class="w"> </span><span class="m">1</span><span class="p">&amp;</span>gt<span class="p">;&amp;</span>amp<span class="p">;</span><span class="m">2</span><span class="w">   </span><span class="c1"># 过滤nginx进程</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="w">               </span><span class="c1"># 如果过滤有nginx进程会返回0则认为nginx存活</span>
+<span class="k">then</span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">5</span><span class="w">                     </span><span class="c1"># 使脚本进入休眠</span>
+<span class="k">else</span>
+<span class="c1"># 如果nginx没有存活尝试启动nginx,如果失败则杀死keepalived的进程</span>
+<span class="w">    </span>/usr/local/nginx/sbin/nginx
+<span class="w">    </span>ps<span class="w"> </span>aux<span class="w"> </span>¦<span class="w"> </span>grep<span class="w"> </span>nginx<span class="w"> </span>¦<span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>grep<span class="w"> </span><span class="m">2</span><span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>/dev/null<span class="w"> </span><span class="m">1</span><span class="p">&amp;</span>gt<span class="p">;&amp;</span>amp<span class="p">;</span><span class="m">2</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">        </span>pkill<span class="w"> </span>keepalived
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">fi</span>
+</code></pre></div>
+
+<p>然后后台运行此脚本:</p>
+<div class="highlight"><pre><span></span><code>nohup<span class="w"> </span>sh<span class="w"> </span>nsc.sh<span class="w"> </span><span class="p">&amp;</span>
+</code></pre></div>
+
+<p>这样就实现了群集的高可靠和高可用.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=nginx+keepalived配置高可用HTTP群集&amp;url=https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/gao-ke-yong.html">高可用</a><a href="https://www.linuxzen.com/tag/fu-zai-jun-heng.html">负载均衡</a><a href="https://www.linuxzen.com/tag/qun-ji.html">群集</a><a href="https://www.linuxzen.com/tag/fan-xiang-dai-li.html">反向代理</a><a href="https://www.linuxzen.com/tag/shuang-ji.html">双机</a><a href="https://www.linuxzen.com/tag/nginx.html">nginx</a><a href="https://www.linuxzen.com/tag/keepalived.html">keepalived</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html';
+                    var disqus_url = 'https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

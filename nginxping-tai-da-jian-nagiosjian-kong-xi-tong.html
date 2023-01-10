@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>nginx平台搭建nagios监控系统</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Nagios是一款开源的免费网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="配置">
+    <meta name="tags" content="监控">
+    <meta name="tags" content="rewrite">
+    <meta name="tags" content="nginx认证">
+    <meta name="tags" content="nginx支持cgi">
+    <meta name="tags" content="nginx">
+    <meta name="tags" content="nagios">
+    <meta name="tags" content="Linux">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="nginx平台搭建nagios监控系统"/>
+<meta property="og:description" content="Nagios是一款开源的免费网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-02-26 10:48:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="配置"/>
+<meta property="article:tag" content="监控"/>
+<meta property="article:tag" content="rewrite"/>
+<meta property="article:tag" content="nginx认证"/>
+<meta property="article:tag" content="nginx支持cgi"/>
+<meta property="article:tag" content="nginx"/>
+<meta property="article:tag" content="nagios"/>
+<meta property="article:tag" content="Linux"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="nginx平台搭建nagios监控系统">
+    <meta name="twitter:url" content="https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Nagios是一款开源的免费网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "nginx平台搭建nagios监控系统",
+  "headline": "nginx平台搭建nagios监控系统",
+  "datePublished": "2012-02-26 10:48:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html",
+  "description": "Nagios是一款开源的免费网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">nginx平台搭建nagios监控系统</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Sun 26 February 2012">Sun 26 February 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Nagios是一款开源的免费网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。</p>
+<p>Nagios 功能:</p>
+<ul>
+<li>监视网络服务 (SMTP, POP3, HTTP, NNTP, PING等)</li>
+<li>监视主机资源 (进程, 磁盘等)</li>
+<li>简单的插件设计可以轻松扩展Nagios的监视功能</li>
+<li>服务等监视的并发处理</li>
+<li>错误通知功能 (通过email, pager, 或其他用户自定义方法)</li>
+<li>可指定自定义的事件处理控制器</li>
+<li>可选的基于浏览器的WEB界面以方便系统管理人员查看网络状态，各种系统问题，以及日志等等</li>
+<li>可以通过手机查看系统监控信息</li>
+</ul>
+<p>本文环境:</p>
+<ul>
+<li>系统:CentOS 5.5 32bit</li>
+<li>ip:192.168.3.3</li>
+<li>nagios core:nagios-3.3.1.tar.gz</li>
+<li>web:nginx(nginx-1.0.5.tar.gz)</li>
+</ul>
+<h2 id="_1">安装:</h2>
+<h3 id="_2">安装准备</h3>
+<p>创建nagios系统用户:</p>
+<div class="highlight"><pre><span></span><code>useradd<span class="w">  </span>nagios
+</code></pre></div>
+
+<p>安装依赖:</p>
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>gd-devel<span class="w"> </span>libpng-devel<span class="w"> </span>libtool-ltdl-devel
+</code></pre></div>
+
+<p>下载nagios内核:</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.3.1.tar.gz
+</code></pre></div>
+
+<h3 id="nagios">安装nagios内核:</h3>
+<div class="highlight"><pre><span></span><code>tar<span class="w"> </span>-zxvf<span class="w"> </span>nagios-3.3.1.tar.gz
+<span class="nb">cd</span><span class="w"> </span>nagios
+./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/nagios
+make<span class="w"> </span>all
+make<span class="w"> </span>install<span class="w">               </span><span class="c1"># 安装主要程序,CGI和HTML</span>
+make<span class="w"> </span>install-commandmode<span class="w">   </span><span class="c1"># 使外部命令有访问nagios配置文件的权限</span>
+make<span class="w"> </span>install-config<span class="w">        </span><span class="c1"># 安装配置文件</span>
+make<span class="w"> </span>install-init<span class="w">          </span><span class="c1"># 安装nagios启动脚本</span>
+</code></pre></div>
+
+<h3 id="_3">安装插件:</h3>
+<p>nagios没有什么都做不了的,插件极大的扩展了nagios功能,除了安装官方常用插件外,也可以根据自己需求编写插件.</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz
+tar<span class="w"> </span>-zxvf<span class="w"> </span>nagios-plugins-1.4.15.tar.gz
+<span class="nb">cd</span><span class="w"> </span>nagios-plugins-1.4.15
+./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/nagios
+make<span class="w">  </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+
+<h3 id="web">安装WEB服务器</h3>
+<p>web服务器不是nagios所必须的,但是如果你无法忍受通过日志文件来监控各个主机状态,那么web服务器就至关重要,所以我们还是花上一点时间为之后的节省更多的时间.</p>
+<p>这里web服务器使用当前主流的nginx:</p>
+<p>安装nginx</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>http://nginx.org/download/nginx-1.0.11.tar.gz
+<span class="p">&amp;</span>amp<span class="p">;</span>nbsp<span class="p">;</span>yum<span class="p">&amp;</span>amp<span class="p">;</span>nbsp<span class="p">;&amp;</span>amp<span class="p">;</span>nbsp<span class="p">;</span>-y<span class="p">&amp;</span>amp<span class="p">;</span>nbsp<span class="p">;</span>install<span class="p">&amp;</span>amp<span class="p">;</span>nbsp<span class="p">;</span>zlib-devel<span class="p">&amp;</span>amp<span class="p">;</span>nbsp<span class="p">;</span>pcre-devel<span class="p">&amp;</span>amp<span class="p">;</span>nbsp<span class="p">;</span>openssl-devel<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;</span>nbsp<span class="p">;</span><span class="c1"># 安装依赖</span>
+tar<span class="w"> </span>-zxvf<span class="w"> </span>nginx-1.0.11.tar.gz
+<span class="nb">cd</span><span class="w"> </span>nginx-1.0.11
+./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/nginx<span class="w"> </span>--with-http_ssl_module<span class="w"> </span>--with-http_flv_module<span class="w"> </span>--with-http_gzip_static_module
+make<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+
+<p>配置nginx支持cgi:</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>http://www.cpan.org/modules/by-module/FCGI/FCGI-0.67.tar.gz
+tar<span class="w"> </span>-zxvf<span class="w"> </span>FCGI-0.67.tar.gz
+<span class="nb">cd</span><span class="w"> </span>FCGI-0.67
+perl<span class="w"> </span>Makefile.PL
+make<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>make<span class="w"> </span>install
+<span class="nb">cd</span><span class="w"> </span>..
+wget<span class="w"> </span>http://cpan.wenzk.com/authors/id/G/GB/GBJK/FCGI-ProcManager-0.19.tar.gz
+tar<span class="w"> </span>-zxvf<span class="w"> </span>FCGI-ProcManager-0.19.tar.gz
+<span class="nb">cd</span><span class="w"> </span>FCGI-ProcManager-0.19
+perl<span class="w"> </span>Makefile.PL
+make<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>make<span class="w"> </span>install
+<span class="nb">cd</span><span class="w"> </span>..
+wget<span class="w"> </span>http://search.cpan.org/CPAN/authors/id/I/IN/INGY/IO-All-0.39.tar.gz
+tar<span class="w"> </span>zxvf<span class="w"> </span>IO-All-0.39.tar.gz
+<span class="nb">cd</span><span class="w"> </span>IO-All-0.39
+perl<span class="w"> </span>Makefile.PL
+make<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+
+<p>创建cgiwarp-fcgi.pl(内容参照<a href="http://wiki.nginx.org/NginxSimpleCGI">这里</a>),将cgiwarp-fcgi.pl放到/usr/local/bin下给执行权限,并执行:</p>
+<div class="highlight"><pre><span></span><code>chmod<span class="w"> </span>+x<span class="w"> </span>/usr/local/bin/cgiwarp-fcgi.pl
+mkdir<span class="w"> </span>-p<span class="w"> </span>/var/run/nginx/
+perl<span class="w"> </span>/usr/local/bin/cgiwarp-fcgi.pl
+chown<span class="w"> </span>nobody.nobody<span class="w"> </span>/var/run/nginx/cgiwrap-dispatch.sock<span class="w">  </span><span class="c1"># 改变属主为nobody,是nginx正常使用</span>
+</code></pre></div>
+
+<p>配置nginx支持身份验证</p>
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>httpd
+chkconfig<span class="w"> </span>--del<span class="w"> </span>httpd
+mkdir<span class="w"> </span>/usr/local/nginx/conf/htpasswd
+htpasswd<span class="w"> </span>-c<span class="w"> </span>/usr/local/nginx/conf/htpasswd/nagios<span class="w"> </span>nagiosadmin<span class="w">   </span><span class="c1"># 添加nagiosadmin用户</span>
+</code></pre></div>
+
+<p>还需要配置nginx支持php,这里使用php-fpm的方式,这里就不介绍.</p>
+<h2 id="_4">配置</h2>
+<p>首先配置nginx:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span>server<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>listen<span class="w">  </span><span class="m">192</span>.168.3.3:80<span class="p">;</span>
+<span class="w">        </span>server_name<span class="w"> </span><span class="m">192</span>.168.3.3<span class="p">;</span>
+<span class="w">        </span>auth_basic<span class="w"> </span><span class="s2">&quot;Nagios&quot;</span><span class="p">;</span>
+<span class="w">        </span>auth_basic_user_file<span class="w"> </span>/usr/local/nginx/conf/htpasswd/nagios<span class="p">;</span>
+
+<span class="w">        </span><span class="c1"># 为了正常使用css和显示图片做一个url重写</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">$request_filename</span><span class="w"> </span>~<span class="w"> </span><span class="se">\.</span><span class="o">(</span>gif¦png¦jpg¦jpeg¦ico<span class="o">)</span><span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>rewrite<span class="w"> </span>^/nagios/<span class="o">(</span>images/.*<span class="o">)</span><span class="w"> </span>/<span class="nv">$1</span><span class="w"> </span>break<span class="p">;</span>
+<span class="w">        </span><span class="o">}</span><span class="w">   </span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">$request_filename</span><span class="w"> </span>~<span class="w"> </span><span class="se">\.</span><span class="o">(</span>css<span class="o">)</span><span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>rewrite<span class="w"> </span>^/nagios/<span class="o">(</span>stylesheets/.*<span class="o">)</span><span class="w"> </span>/<span class="nv">$1</span><span class="w"> </span>break<span class="p">;</span>
+<span class="w">        </span><span class="o">}</span><span class="w">   </span>
+
+<span class="w">        </span><span class="c1"># 支持php的配置</span>
+<span class="w">        </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>root<span class="w"> </span>/usr/local/nagios/share/<span class="p">;</span>
+<span class="w">            </span>index<span class="w"> </span>index.php<span class="p">;</span>
+<span class="w">            </span>fastcgi_pass<span class="w"> </span>unix:/var/run/php/php-fpm.sock<span class="p">;</span>
+<span class="w">            </span>fastcgi_index<span class="w"> </span>index.php<span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>SCRIPT_FILENAME<span class="w"> </span><span class="nv">$document_root</span>/<span class="nv">$fastcgi_script_name</span><span class="p">;</span>
+<span class="w">            </span>include<span class="w"> </span>fastcgi_params<span class="p">;</span>
+<span class="w">            </span>include<span class="w"> </span>fastcgi.conf<span class="p">;</span>
+<span class="w">        </span><span class="o">}</span>
+
+<span class="w">        </span><span class="c1"># 支持cgi的配置</span>
+<span class="w">        </span>location<span class="w"> </span>~<span class="w"> </span><span class="se">\.</span>cgi$<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span>root<span class="w"> </span>/usr/local/nagios/sbin/<span class="p">;</span>
+<span class="w">            </span>rewrite<span class="w"> </span>^/nagios/cgi-bin/<span class="o">(</span>.*<span class="o">)</span><span class="se">\.</span>cgi<span class="o">(</span>.*<span class="o">)</span><span class="w"> </span>/<span class="nv">$1</span>.cgi<span class="nv">$2</span><span class="w"> </span>break<span class="p">;</span>
+<span class="w">            </span>fastcgi_pass<span class="w"> </span>unix:/var/run/nginx/cgiwrap-dispatch.sock<span class="p">;</span>
+<span class="w">            </span>fastcgi_index<span class="w">   </span>index.cgi<span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>SCRIPT_FILENAME<span class="w">  </span><span class="nv">$document_root</span>/<span class="nv">$fastcgi_script_name</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>QUERY_STRING<span class="w">     </span><span class="nv">$query_string</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>REQUEST_METHOD<span class="w">   </span><span class="nv">$request_method</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>CONTENT_TYPE<span class="w">     </span><span class="nv">$content_type</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>CONTENT_LENGTH<span class="w">   </span><span class="nv">$content_length</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>GATEWAY_INTERFACE<span class="w">  </span>CGI/1.1<span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>SERVER_SOFTWARE<span class="w">    </span>nginx<span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>SCRIPT_NAME<span class="w">        </span><span class="nv">$fastcgi_script_name</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>REQUEST_URI<span class="w">        </span><span class="nv">$request_uri</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>DOCUMENT_URI<span class="w">       </span><span class="nv">$document_uri</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>DOCUMENT_ROOT<span class="w">      </span><span class="nv">$document_root</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>SERVER_PROTOCOL<span class="w">    </span><span class="nv">$server_protocol</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>REMOTE_ADDR<span class="w">        </span><span class="nv">$remote_addr</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>REMOTE_PORT<span class="w">        </span><span class="nv">$remote_port</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>SERVER_ADDR<span class="w">        </span><span class="nv">$server_addr</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>SERVER_PORT<span class="w">        </span><span class="nv">$server_port</span><span class="p">;</span>
+<span class="w">            </span>fastcgi_param<span class="w"> </span>SERVER_NAME<span class="w">        </span><span class="nv">$server_name</span><span class="p">;</span>
+<span class="w">        </span><span class="o">}</span>
+
+<span class="w">    </span><span class="o">}</span>
+</code></pre></div>
+
+<p>修改nagios主配文件,修改nagios运行账户:</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/usr/local/nagios/etc/nagios.cfg
+
+<span class="c1"># 编辑下面选项:</span>
+<span class="nv">nagios_user</span><span class="o">=</span>nobody
+</code></pre></div>
+
+<p>修改cgi.cfg配置文件
+修改默认认证cgi用户的为刚才用htpasswd创建的nagiosadmin,或用htpasswd新建一个用户用来认证cgi文件(不然nagios报错:<code>It appears as though you do not have permission to view information for any of the hosts you requested...</code>)</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/usr/local/nagios/etc/cgi.cfg
+<span class="nv">default_user_name</span><span class="o">=</span>nagiosadmin
+</code></pre></div>
+
+<p>修改localhost.cfg添加一个新的监控主机:</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/usr/local/nagios/etc/objects/localhost.cfg
+
+<span class="c1">#  通过定义host添加一个主机</span>
+<span class="c1">#  添加一个ip为192.168.3.102的监控主机</span>
+define<span class="w"> </span>host<span class="o">{</span>
+<span class="w">        </span>use<span class="w">                     </span>linux-server
+<span class="w">        </span>host_name<span class="w">               </span>slave.org
+<span class="w">        </span><span class="nb">alias</span><span class="w">                   </span><span class="m">102</span>
+<span class="w">        </span>address<span class="w">                 </span><span class="m">192</span>.168.3.102
+<span class="w">        </span><span class="o">}</span>
+....
+<span class="c1"># 通过定义service定义监控的服务:</span>
+<span class="c1"># 通过ping来监控主机是否存活</span>
+define<span class="w"> </span>service<span class="o">{</span>
+<span class="w">        </span>use<span class="w">                             </span>local-service
+<span class="w">        </span>host_name<span class="w">                       </span>slave.org
+<span class="w">        </span>service_description<span class="w">             </span>PING
+<span class="w">        </span>check_command<span class="w">                   </span>check_ping!100.0,20%!500.0,%60
+<span class="w">        </span><span class="o">}</span>
+</code></pre></div>
+
+<p>修改nagios安装目录权限:</p>
+<div class="highlight"><pre><span></span><code>chown<span class="w"> </span>-R<span class="w"> </span>nobody.nagios<span class="w"> </span>/usr/local/nagios
+chmod<span class="w"> </span>-R<span class="w"> </span><span class="m">775</span><span class="w"> </span>/usr/local/nagios/
+</code></pre></div>
+
+<p>检查nagios配置文件:</p>
+<div class="highlight"><pre><span></span><code>/usr/local/nagios/bin/nagios<span class="w"> </span>-v<span class="w"> </span>/usr/local/nagios/etc/nagios.cfg
+</code></pre></div>
+
+<p>在最后看到如下则表示成功:</p>
+<p>Total Warnings: 0
+Total Errors:   0
+Things look okay - No serious problems were detected during the pre-flight check</p>
+<p>启动nagios:</p>
+<div class="highlight"><pre><span></span><code>service<span class="w"> </span>nagios<span class="w"> </span>start
+Starting<span class="w"> </span>nagios:<span class="w"> </span><span class="k">done</span>.
+</code></pre></div>
+
+<p>这时候在浏览器里输入<code>http://ip/</code>查看状态,现在能看到所有监控主机的的状态了.</p>
+<p><img alt="www.linuxzen.com" src="/upload/blog001.jpg"></p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=nginx平台搭建nagios监控系统&amp;url=https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/pei-zhi.html">配置</a><a href="https://www.linuxzen.com/tag/jian-kong.html">监控</a><a href="https://www.linuxzen.com/tag/rewrite.html">rewrite</a><a href="https://www.linuxzen.com/tag/nginxren-zheng.html">nginx认证</a><a href="https://www.linuxzen.com/tag/nginxzhi-chi-cgi.html">nginx支持cgi</a><a href="https://www.linuxzen.com/tag/nginx.html">nginx</a><a href="https://www.linuxzen.com/tag/nagios.html">nagios</a><a href="https://www.linuxzen.com/tag/linux.html">Linux</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html';
+                    var disqus_url = 'https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

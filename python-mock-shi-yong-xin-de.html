@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Python mock 使用心得</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/python-mock-shi-yong-xin-de.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="好久没有更新博客, 趁着清明节小长假和我儿子正在睡觉更新一篇刷刷存在感. 近来变化很多, 儿子也有了, 工作上也有很 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="mock">
+    <meta name="tags" content="unittest">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Python mock 使用心得"/>
+<meta property="og:description" content="好久没有更新博客, 趁着清明节小长假和我儿子正在睡觉更新一篇刷刷存在感. 近来变化很多, 儿子也有了, 工作上也有很 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/python-mock-shi-yong-xin-de.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-04-03 11:42:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="mock"/>
+<meta property="article:tag" content="unittest"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Python mock 使用心得">
+    <meta name="twitter:url" content="https://www.linuxzen.com/python-mock-shi-yong-xin-de.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="好久没有更新博客, 趁着清明节小长假和我儿子正在睡觉更新一篇刷刷存在感. 近来变化很多, 儿子也有了, 工作上也有很 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Python mock 使用心得",
+  "headline": "Python mock 使用心得",
+  "datePublished": "2016-04-03 11:42:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/python-mock-shi-yong-xin-de.html",
+  "description": "好久没有更新博客, 趁着清明节小长假和我儿子正在睡觉更新一篇刷刷存在感. 近来变化很多, 儿子也有了, 工作上也有很 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Python mock 使用心得</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Sun 03 April 2016">Sun 03 April 2016</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>好久没有更新博客, 趁着清明节小长假和我儿子正在睡觉更新一篇刷刷存在感.
+近来变化很多, 儿子也有了, 工作上也有很多收获. 这篇博客就分享一下关于 <code>mock</code> 的使用的心得体会.</p>
+<p>很长一段时间以来写单元测试都类似写执行脚本, 运行一下然后看一下结果. 
+这里面有一部分原因是因为无法规避外部的依赖组件, 比如:</p>
+<ul>
+<li>数据库操作</li>
+<li>外部接口调用</li>
+<li>外部其他不可控因素</li>
+</ul>
+<p>这样写测试只关心当前测试的结果, 而不去管其他测试是否 <code>passed</code>.</p>
+<p>后面随着团队开始进新人, 由于团队里每个人的标准和水平不同, 
+开始不得不重视整体项目的质量, 发现没有好的测试就没有统一的标准来衡量提交代码的质量,
+当然说到代码质量还有另外一个和测试放在一起的标准就是代码风格, 这不是本文的主题所里这里就暂且不提.</p>
+<p>为了能写好测试就不得不面对现实项目的复杂性, 诸如外部接口数据库操作等. 
+这时开始将目光转向 <code>mock</code>, 因为之前有听过类似概念, 但是还是有误解, 
+以为把要测的东西都模拟掉了还测试什么呢? 但是真正的了解 <code>mock</code> 之后才完整的理解了单元测试.</p>
+<p><strong>单元测试应该只针对当前单元进行测试, 所有的外部依赖应该是稳定的, 在别处进行测试过的.</strong>
+使用 <code>mock</code> 就可以对外部依赖组件实现进行模拟并且替换掉, 从而隐藏外部组件的实现,
+使得单元测试将焦点只放在当前的逻辑(当前单元),</p>
+<h2 id="_1">安装</h2>
+<p><code>mock</code> 在 Python3 中是内置的, 直接 <code>import unittest.mock</code> 即可, 
+但是在 Python2 中是需要额外安装的, 安装完 <code>import mock</code> 即可</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>mock
+</code></pre></div>
+
+<h2 id="_2">技巧</h2>
+<p>在本文不详细介绍如何使用, 具体请参见<a href="https://docs.python.org/3/library/unittest.mock.html">官方文档</a>.
+这里分享几个技巧.</p>
+<p>安装官方文档给的示例一开始像下面这么使用 mock</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">DemoTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="nd">@mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;pkg.mod.dep_mod.func&quot;</span><span class="p">,</span> <span class="n">autospec</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_demo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_mock</span><span class="p">):</span>
+        <span class="n">func_mock</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># real test code</span>
+        <span class="n">func_mock</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>但是当整个测试都依赖这个组件时上面的使用方式就会产生大量的相同的初始化代码, 
+所以定义了一个装饰器向下面这样</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="kn">import</span> <span class="nn">mock</span>
+
+<span class="k">def</span> <span class="nf">_mock_wrapper</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="nd">@mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;pkg.mod.dep_mod.func&quot;</span><span class="p">,</span> <span class="n">autospec</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_mock</span><span class="p">)</span>
+        <span class="n">func_mock</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_mock</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="k">class</span> <span class="nc">DemoTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="nd">@_mock_wrapper</span>
+    <span class="k">def</span> <span class="nf">test_demo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_mock</span><span class="p">):</span>
+        <span class="c1"># real test code</span>
+        <span class="n">func_mock</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>上面操作是很方便, 但是有几个缺点:</p>
+<ul>
+<li>代码不够清晰</li>
+<li>如果增加 mock 组件则需要修改每一个被装饰函数接收的参数</li>
+</ul>
+<p>所以在仔细阅读官方文档后发现, <code>mock.patch</code> 返回一个对象, 可以通过 <code>start</code>/<code>stop</code> 方法来应用.
+所以产生了下面的代码.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">DemoTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DemoTestCase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_patcher</span> <span class="o">=</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;pkg.mod.dep_mod.func&quot;</span><span class="p">,</span> <span class="n">autospec</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_func_mock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patcher</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_func_mock</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DemoTestCase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">tearDown</span><span class="p">()</span>
+        <span class="c1"># cleanup</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_patcher</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_demo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># real test code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_func_mock</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>当然如果有多个依赖组件需要 <code>mock</code> 可以将 <code>patcher</code> 存在一个列表里在 <code>tearDown</code> 方法里统一清理.</p>
+<p><strong>不要忘记清理, 因为当前 <code>mock</code> 的组件应当仅在当前测试里生效, 如果忘记了清理可能会影响到其他测试.</strong></p>
+<p>如果当前单元测试仅有部分测试依赖该组件也可以通过上下文管理的方式进行管理, 更加灵活.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">contextlib</span>
+
+<span class="k">class</span> <span class="nc">DemoTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanger</span>
+    <span class="k">def</span> <span class="nf">_mock_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">patcher</span> <span class="o">=</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;pkg.mod.dep_mod.func&quot;</span><span class="p">,</span> <span class="n">autospec</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">func_mock</span> <span class="o">=</span> <span class="n">patcher</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+            <span class="n">func_mock</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">yield</span> <span class="n">func_mock</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">patcher</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_demo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mock_context</span><span class="p">()</span> <span class="k">as</span> <span class="n">func_mock</span><span class="p">:</span>
+            <span class="c1"># real test code</span>
+            <span class="n">func_mock</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="_3">写在后面的话</h2>
+<p>测试对一个项目很重要, 特别是对上了规模的项目, 上了 <code>mock</code> 之后我花了很长时间将已有项目的测试整理完毕, 
+使测试有效并且可以全部 <code>passed</code>. 
+有了良好的基础之后接下来就很方便的使用了一些集成工具来限制不规范的代码提交到长期分支, 
+这部分内容将放在下一篇去分享.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Python mock 使用心得&amp;url=https://www.linuxzen.com/python-mock-shi-yong-xin-de.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/python-mock-shi-yong-xin-de.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/python-mock-shi-yong-xin-de.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/python.html">Python</a><a href="https://www.linuxzen.com/tag/mock.html">mock</a><a href="https://www.linuxzen.com/tag/unittest.html">unittest</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/python-mock-shi-yong-xin-de.html';
+                    var disqus_url = 'https://www.linuxzen.com/python-mock-shi-yong-xin-de.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/python-mock-shi-yong-xin-de.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Vim 代码补全和检查: YouCompleteMe & syntastic</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Vim 7.4 发布, 最近升级了Vim, 并安装了YouCompleteMe和Syntastic插件, 这里记录下过程 升级Vim YouCompleteMe 需要Vim 7.3.584+的支持, 并且开启 +python , 可以通过:version查看 升级 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="Vim">
+    <meta name="tags" content="补全">
+    <meta name="tags" content="7.4">
+    <meta name="tags" content="升级">
+    <meta name="tags" content="检查">
+    <meta name="tags" content="C语言">
+    <meta name="tags" content="YouCompleteMe">
+    <meta name="tags" content="syntastic">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Vim 代码补全和检查: YouCompleteMe & syntastic"/>
+<meta property="og:description" content="Vim 7.4 发布, 最近升级了Vim, 并安装了YouCompleteMe和Syntastic插件, 这里记录下过程 升级Vim YouCompleteMe 需要Vim 7.3.584+的支持, 并且开启 +python , 可以通过:version查看 升级 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-08-14 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Vim"/>
+<meta property="article:tag" content="Vim"/>
+<meta property="article:tag" content="补全"/>
+<meta property="article:tag" content="7.4"/>
+<meta property="article:tag" content="升级"/>
+<meta property="article:tag" content="检查"/>
+<meta property="article:tag" content="C语言"/>
+<meta property="article:tag" content="YouCompleteMe"/>
+<meta property="article:tag" content="syntastic"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Vim 代码补全和检查: YouCompleteMe & syntastic">
+    <meta name="twitter:url" content="https://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Vim 7.4 发布, 最近升级了Vim, 并安装了YouCompleteMe和Syntastic插件, 这里记录下过程 升级Vim YouCompleteMe 需要Vim 7.3.584+的支持, 并且开启 +python , 可以通过:version查看 升级 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Vim 代码补全和检查: YouCompleteMe & syntastic",
+  "headline": "Vim 代码补全和检查: YouCompleteMe & syntastic",
+  "datePublished": "2013-08-14 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html",
+  "description": "Vim 7.4 发布, 最近升级了Vim, 并安装了YouCompleteMe和Syntastic插件, 这里记录下过程 升级Vim YouCompleteMe 需要Vim 7.3.584+的支持, 并且开启 +python , 可以通过:version查看 升级 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li class="nav-vim active" role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Vim 代码补全和检查: YouCompleteMe & syntastic</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Wed 14 August 2013">Wed 14 August 2013</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Vim 7.4 发布, 最近升级了Vim, 并安装了YouCompleteMe和Syntastic插件, 这里记录下过程</p>
+<h2 id="vim">升级Vim</h2>
+<p>YouCompleteMe 需要Vim 7.3.584+的支持, 并且开启 +python , 可以通过<code>:version</code>查看
+升级Vim需要先卸载原有的Vim</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>remove<span class="w"> </span>vim<span class="w"> </span>vim-tiny<span class="w"> </span>vim-common<span class="w"> </span>vim-runtime<span class="w"> </span>gvim<span class="w"> </span>vim-gui-common
+</code></pre></div>
+
+<p>并安装以下依赖</p>
+<div class="highlight"><pre><span></span><code>sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev \
+    libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
+    libcairo2-dev libx11-dev libxpm-dev libxt-dev \
+    python-dev ruby-dev mercurial checkinstall
+</code></pre></div>
+
+<p>下载最新的Vim源码, 这里从代码仓库获取(需要<code>hg</code>没有自行安装)</p>
+<div class="highlight"><pre><span></span><code>hg<span class="w"> </span>clone<span class="w"> </span>https://vim.googlecode.com/hg/<span class="w"> </span>vim
+</code></pre></div>
+
+<p>然后进入目录编译安装Vim</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>vim
+./configure<span class="w"> </span>--with-features<span class="o">=</span>huge<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--enable-rubyinterp<span class="o">=</span>yes<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--enable-pythoninterp<span class="o">=</span>yes<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--enable-python3interp<span class="o">=</span>yes<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--enable-perlinterp<span class="o">=</span>yes<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--enable-luainterp<span class="w"> </span><span class="o">=</span><span class="w"> </span>yes<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--enable-gui<span class="o">=</span>gtk2<span class="w"> </span>--enable-cscope<span class="w"> </span>--prefix<span class="o">=</span>/usr
+make<span class="w"> </span><span class="nv">VIMRUNTIMEDIR</span><span class="o">=</span>/usr/share/vim/vim74
+sudo<span class="w"> </span>checkinstall
+</code></pre></div>
+
+<h2 id="llvm">安装llvm</h2>
+<p>如果想是想C系语言的补全, 需要libclang 3.2以上的版本, Ubuntu 12.10 自带的是3.0, 所以先安装LLVM, 可以下载二进制文件/编译安装</p>
+<h4 id="_1">下载二进制</h4>
+<p>到<a href="http://llvm.org/releases/download.html#3.3">llvm.org</a>上下载相应的版本解压到~/ycm_temp</p>
+<h4 id="_2">编译</h4>
+<p>下载<a href="http://llvm.org/releases/3.3/cfe-3.3.src.tar.gz">clang</a>和<a href="http://llvm.org/releases/3.3/llvm-3.3.src.tar.gz">llvm</a>, 解压llvm</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>~/ycm_temp
+<span class="nb">cd</span><span class="w"> </span>~/ycm_temp
+tar<span class="w"> </span>-zxvf<span class="w"> </span>llvm-3.3.src.tar.gz<span class="w"> </span>-C<span class="w"> </span>llvm.src
+</code></pre></div>
+
+<p>解压 clang到llvm.src/tools</p>
+<div class="highlight"><pre><span></span><code>tar<span class="w"> </span>-zxvf<span class="w"> </span>cfe-3.3.src.tar.gz<span class="w"> </span>-C<span class="w"> </span>~/ycm_temp/llvm.src/tools/
+mv<span class="w"> </span>~/ycm_temp/llvm.src/tools/cfe-3.3.src<span class="w"> </span>~/ycm_temp/llvm/tools/clang
+</code></pre></div>
+
+<p>编译llvm会自动编译clang</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/ycm_temp
+mkdir<span class="w"> </span>llvm_build
+<span class="nb">cd</span><span class="w"> </span>llvm_build
+cmake<span class="w"> </span>../llvm.src/CMakeList.txt<span class="w"> </span>../llvm.src
+make
+</code></pre></div>
+
+<h2 id="youcompleteme">安装YouCompleteMe</h2>
+<p>使用Vundle安装YouComplete(猛击<a href="/vimpei-zhi-xi-lie-cha-jian-guan-li.html">这里</a>了解Vundle)</p>
+<h3 id="ycm_core">编译ycm_core</h3>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>~/ycm_build
+<span class="nb">cd</span><span class="w"> </span>~/ycm_build
+cmake<span class="w"> </span>-G<span class="w"> </span><span class="s2">&quot;Unix Makefiles&quot;</span><span class="w">  </span>~/.vim/bundle/YouCompleteMe/cpp<span class="w"> </span>-DEXTERNAL_LIBCLANG_PATH<span class="o">=</span>~/ycm_temp/llvm.src/lib/libclang.so<span class="w"> </span>
+make<span class="w"> </span>ycm_core
+</code></pre></div>
+
+<p>下载llvm二进制的可以参考</p>
+<div class="highlight"><pre><span></span><code>cmake<span class="w"> </span>-G<span class="w"> </span><span class="s2">&quot;Unix Makefiles&quot;</span><span class="w">  </span>~/.vim/bundle/YouCompleteMe/cpp<span class="w"> </span>-DEXTERNAL_LIBCLANG_PATH<span class="o">=</span>~/ycm_temp/llvm_root_path/lib/libclang.so
+</code></pre></div>
+
+<h3 id="_3">配置</h3>
+<p>YouCompleteMe 需要一个配置文件来补全, 可以参考<a href="https://github.com/Valloric/YouCompleteMe/blob/master/cpp/ycm/.ycm_extra_conf.py">官方配置文件</a>, 可以将配置文件至于项目根目录或者上级目录, YouCompleteMe 会自动检测加载, 也可以通过指定<code>g:ycm_global_ycm_extra_conf</code>指定一个全局的配置文件</p>
+<p>YouCompleteMe 每次加载配置文件会有一个提示, 很烦人, 可以通过将<code>g:ycm_confirm_extra_conf</code>置为0关闭提示</p>
+<h3 id="python">补全Python</h3>
+<p>YouCompleteMe 通过 <code>jedi</code>插件来补全Python, 可以通过<code>Vundle</code>安装此插件,在.vimrc中添加</p>
+<div class="highlight"><pre><span></span><code>Bundle &quot;davidhalter/jedi&quot;
+</code></pre></div>
+
+<h2 id="_4">代码检查</h2>
+<p><code>syntastic</code>是一个代码检查的插件, 通过<code>Vundle</code>安装它, 在.vimrc中添加</p>
+<div class="highlight"><pre><span></span><code>Bundle &quot;scrooloose/syntastic&quot;
+</code></pre></div>
+
+<p>重新打开Vim, 执行</p>
+<div class="highlight"><pre><span></span><code>:BundleInstall
+</code></pre></div>
+
+<h3 id="_5">配置</h3>
+<p>因为Python已经有<code>pylint</code>来检查, 而且<code>syntastic</code>检查Python会在保存时有很长时间的卡顿, 所以禁用它对Python文件的检查</p>
+<div class="highlight"><pre><span></span><code>let g:syntastic_ignore_files=[&quot;.*\.py$&quot;]
+</code></pre></div>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Vim 代码补全和检查: YouCompleteMe & syntastic&amp;url=https://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/vim.html">Vim</a><a href="https://www.linuxzen.com/tag/bu-quan.html">补全</a><a href="https://www.linuxzen.com/tag/74.html">7.4</a><a href="https://www.linuxzen.com/tag/sheng-ji.html">升级</a><a href="https://www.linuxzen.com/tag/jian-cha.html">检查</a><a href="https://www.linuxzen.com/tag/cyu-yan.html">C语言</a><a href="https://www.linuxzen.com/tag/youcompleteme.html">YouCompleteMe</a><a href="https://www.linuxzen.com/tag/syntastic.html">syntastic</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html';
+                    var disqus_url = 'https://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

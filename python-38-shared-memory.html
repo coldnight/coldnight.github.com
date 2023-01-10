@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Python 3.8 新增 multiprocessing.SharedMemory 支持共享内存</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/python-38-shared-memory.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Python 在 2019-02-25 释出了 3.8 早期预览版 3.8.0a2，其中新增了 multiprocessing.SharedMemory 用以支持共享内存，大大提高多进程之间通信效率。简单看了一下 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="3.8">
+    <meta name="tags" content="multiprocessing">
+    <meta name="tags" content="共享">
+    <meta name="tags" content="内存">
+    <meta name="tags" content="shared">
+    <meta name="tags" content="memory">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Python 3.8 新增 multiprocessing.SharedMemory 支持共享内存"/>
+<meta property="og:description" content="Python 在 2019-02-25 释出了 3.8 早期预览版 3.8.0a2，其中新增了 multiprocessing.SharedMemory 用以支持共享内存，大大提高多进程之间通信效率。简单看了一下 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/python-38-shared-memory.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-02-28 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="3.8"/>
+<meta property="article:tag" content="multiprocessing"/>
+<meta property="article:tag" content="共享"/>
+<meta property="article:tag" content="内存"/>
+<meta property="article:tag" content="shared"/>
+<meta property="article:tag" content="memory"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Python 3.8 新增 multiprocessing.SharedMemory 支持共享内存">
+    <meta name="twitter:url" content="https://www.linuxzen.com/python-38-shared-memory.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Python 在 2019-02-25 释出了 3.8 早期预览版 3.8.0a2，其中新增了 multiprocessing.SharedMemory 用以支持共享内存，大大提高多进程之间通信效率。简单看了一下 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Python 3.8 新增 multiprocessing.SharedMemory 支持共享内存",
+  "headline": "Python 3.8 新增 multiprocessing.SharedMemory 支持共享内存",
+  "datePublished": "2019-02-28 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/python-38-shared-memory.html",
+  "description": "Python 在 2019-02-25 释出了 3.8 早期预览版 3.8.0a2，其中新增了 multiprocessing.SharedMemory 用以支持共享内存，大大提高多进程之间通信效率。简单看了一下 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Python 3.8 新增 multiprocessing.SharedMemory 支持共享内存</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Thu 28 February 2019">Thu 28 February 2019</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Python 在 2019-02-25 释出了 3.8 早期预览版 <a href="https://www.python.org/downloads/release/python-380a2/">3.8.0a2</a>，其中新增了 <a href="https://docs.python.org/3.8/library/multiprocessing.shared_memory.html">multiprocessing.SharedMemory</a> 用以支持共享内存，大大提高多进程之间通信效率。简单看了一下实现代码主要涉及如下 Python 模块</p>
+<ul>
+<li>内置类型 <a href="https://docs.python.org/3.8/library/stdtypes.html?highlight=memoryview#memoryview">memoryview</a></li>
+<li><a href="https://docs.python.org/3.8/library/mmap.html">mmap</a></li>
+</ul>
+<p>在 POSIX 平台下共享内存创建过程如下：</p>
+<ol>
+<li>基于 <code>tmpfs</code> 打开或创建具名（文件名）的共享内存，得到文件描述符</li>
+<li>通过 <code>mmap</code> 将文件描述符映射进程的内存地址空间</li>
+<li>通过 <code>memoryview</code> 直接访问经过 <code>mmap</code> 映射后的的内存地址空间</li>
+</ol>
+<h2 id="_1">锁的问题</h2>
+<p><code>memoryview</code> 通过如下方式使用：</p>
+<div class="highlight"><pre><span></span><code><span class="n">s</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;aaa&#39;</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">98</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>  <span class="c1"># outputs: bytearray(b&#39;baa&#39;)</span>
+</code></pre></div>
+
+<p>当上面代码执行 <code>m[0] = 98</code> 时实际上调用的是 C 代码 <a href="https://sourcegraph.com/github.com/python/cpython@23f4589b4b7c4a51950a87175ce7fb31b89c8532/-/blob/Objects/memoryobject.c#L2455:1">memory_ass_sub</a>，然后调用 <a href="https://sourcegraph.com/github.com/python/cpython@23f4589b4b7c4a51950a87175ce7fb31b89c8532/-/blob/Objects/memoryobject.c#L1743:9">PACK_SINGLE</a> 通过 <code>memcpy</code> 覆盖指针原有的值。</p>
+<p>所以直接操作 <code>multiprocessing.SharedMemory</code> 会产生数据竞争，不应该直接使用，应该使用 <a href="https://docs.python.org/3.8/library/multiprocessing.html#multiprocessing.Value">multiprocessing.Value</a> 和 <a href="https://docs.python.org/3.8/library/multiprocessing.html#multiprocessing.Array">multiprocessing.Array</a> 这种更高层的抽象，锁在这一层级实现。</p>
+<h2 id="_2">参见</h2>
+<p>更多关于共享内存参见：</p>
+<ul>
+<li><a href="http://hustcat.github.io/shared-memory-tmpfs/">浅谈 Linux 共享内存</a></li>
+<li><a href="http://man7.org/training/download/posix_shm_slides.pdf">POSIX Shared Memory</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-ipc/part5/index1.html">共享内存（上）</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-ipc/part5/index2.html">共享内存（下）</a></li>
+</ul>
+<hr>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Python 3.8 新增 multiprocessing.SharedMemory 支持共享内存&amp;url=https://www.linuxzen.com/python-38-shared-memory.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/python-38-shared-memory.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/python-38-shared-memory.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/python.html">Python</a><a href="https://www.linuxzen.com/tag/38.html">3.8</a><a href="https://www.linuxzen.com/tag/multiprocessing.html">multiprocessing</a><a href="https://www.linuxzen.com/tag/gong-xiang.html">共享</a><a href="https://www.linuxzen.com/tag/nei-cun.html">内存</a><a href="https://www.linuxzen.com/tag/shared.html">shared</a><a href="https://www.linuxzen.com/tag/memory.html">memory</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/python-38-shared-memory.html';
+                    var disqus_url = 'https://www.linuxzen.com/python-38-shared-memory.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/python-38-shared-memory.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

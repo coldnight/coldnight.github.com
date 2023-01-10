@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Linux Virtual Memory Management :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="tags: Linux 原文连接：Linux Virtual Memory Management Chapter 2 Describing Physical Memory：描述物理内存 独立于平台架构的方式描述内存 — 更好的支持多平台
+本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
+VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
+大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 DMA 设备卡。
+这里的每组（bank）内存被称为节点（node）并且这个概念在 Linux 中通过 struct pglist_data（typedef pg_data_t) 表示，即使在 UMA 架构下也是如此。每一个节点是一个由 NULL 结尾的链表，通过 pg_data_t-&amp;gt;next_node 指向下一个节点。
+每一个节点都被分割成多个块（block）称为分区（zone）用于表示内存中的范围。分区使用 struct zone_struct(typedef zone_t) 结构体描述，每一个分区都是以下三种类型的一种
+ZONE_DMA 开始 16MB 内存，供 ISA 设备使用 ZONE_NORMAL 16MB - 896MB，由内核直接映射到线性地址空间的上部区域（将在第四章讨论） ZONE_HIGHMEM 896MB - END，剩余不由内核直接映射的系统可用内存， 大部分内核操作都只能使用这种类型的分区，所以这里也是这里也是最关键的性能区域（most performance critical zone） 每一个物理页帧（physical page frame）都使用结构体 struct page 表示，所有的结构体都保存在全局数组 mem_map 中，mem_map 通常存储在 ZONE_NORMAL 的开始处；" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Linux Virtual Memory Management">
+<meta property="og:description" content="tags: Linux 原文连接：Linux Virtual Memory Management Chapter 2 Describing Physical Memory：描述物理内存 独立于平台架构的方式描述内存 — 更好的支持多平台
+本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）
+VM 中普遍（prevlent）认为第一重要（principal）的概念是 NUMA。
+大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 DMA 设备卡。
+这里的每组（bank）内存被称为节点（node）并且这个概念在 Linux 中通过 struct pglist_data（typedef pg_data_t) 表示，即使在 UMA 架构下也是如此。每一个节点是一个由 NULL 结尾的链表，通过 pg_data_t-&amp;gt;next_node 指向下一个节点。
+每一个节点都被分割成多个块（block）称为分区（zone）用于表示内存中的范围。分区使用 struct zone_struct(typedef zone_t) 结构体描述，每一个分区都是以下三种类型的一种
+ZONE_DMA 开始 16MB 内存，供 ISA 设备使用 ZONE_NORMAL 16MB - 896MB，由内核直接映射到线性地址空间的上部区域（将在第四章讨论） ZONE_HIGHMEM 896MB - END，剩余不由内核直接映射的系统可用内存， 大部分内核操作都只能使用这种类型的分区，所以这里也是这里也是最关键的性能区域（most performance critical zone） 每一个物理页帧（physical page frame）都使用结构体 struct page 表示，所有的结构体都保存在全局数组 mem_map 中，mem_map 通常存储在 ZONE_NORMAL 的开始处；" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-03-20 00:00:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/projects/"> Projects in Progress</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/flashcards/">Flashcards</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+        
+          <li><a href="/notes/topics/">Topics</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/projects/"> Projects in Progress</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/flashcards/">Flashcards</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+      
+        <li><a href="/notes/topics/">Topics</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20200320174700_linux_virtual_memory_management/">Linux Virtual Memory Management</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-03-20 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <ul>
+<li>tags: <a href="/notes/notes/20220104103936-linux/">Linux</a></li>
+<li>原文连接：<a href="https://tldp.org/LDP/tlk/tlk-toc.html">Linux Virtual Memory Management</a></li>
+</ul>
+<h2 id="chapter-2-describing-physical-memory-描述物理内存">Chapter 2 Describing Physical Memory：描述物理内存<a href="#chapter-2-describing-physical-memory-描述物理内存" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li>
+<p>独立于平台架构的方式描述内存 — 更好的支持多平台</p>
+</li>
+<li>
+<p>本章包含描述存储器、内存页的结构体（structures）和一些影响 VM 行为的标识位（flags）</p>
+</li>
+<li>
+<p>VM 中普遍（prevlent）认为第一重要（principal）的概念是 <a href="https://zh.wikipedia.org/wiki/%E9%9D%9E%E5%9D%87%E5%8C%80%E8%AE%BF%E5%AD%98%E6%A8%A1%E5%9E%8B">NUMA</a>。</p>
+</li>
+<li>
+<p>大型机器中内存访问速度取决于 CPU 到内存的距离。比如一组（bank）内存分配给每一个处理器或者一组内存非常适合靠近的 <a href="https://zh.wikipedia.org/zh/%E7%9B%B4%E6%8E%A5%E8%A8%98%E6%86%B6%E9%AB%94%E5%AD%98%E5%8F%96">DMA</a> 设备卡。</p>
+</li>
+<li>
+<p>这里的每组（bank）内存被称为节点（node）并且这个概念在     Linux 中通过 <strong><strong>struct pglist_data（typedef pg_data_t)</strong></strong> 表示，即使在 <a href="https://zh.wikipedia.org/wiki/%E5%9D%87%E5%8C%80%E8%AE%BF%E5%AD%98%E6%A8%A1%E5%9E%8B">UMA</a> 架构下也是如此。每一个节点是一个由 NULL 结尾的链表，通过 <strong><strong>pg_data_t-&gt;next_node</strong></strong> 指向下一个节点。</p>
+</li>
+<li>
+<p>每一个节点都被分割成多个块（block）称为分区（zone）用于表示内存中的范围。分区使用 <strong><strong>struct zone_struct(typedef zone_t)</strong></strong> 结构体描述，每一个分区都是以下三种类型的一种</p>
+<ul>
+<li>ZONE_DMA 开始 16MB 内存，供 <a href="https://zh.m.wikipedia.org/wiki/%E5%B7%A5%E4%B8%9A%E6%A0%87%E5%87%86%E7%BB%93%E6%9E%84">ISA</a> 设备使用</li>
+<li>ZONE_NORMAL 16MB - 896MB，由内核直接映射到线性地址空间的上部区域（将在第四章讨论）</li>
+<li>ZONE_HIGHMEM 896MB - END，剩余不由内核直接映射的系统可用内存， <strong><strong>大部分内核操作都只能使用这种类型的分区，所以这里也是这里也是最关键的性能区域（most performance critical zone）</strong></strong></li>
+</ul>
+</li>
+<li>
+<p>每一个物理页帧（physical page frame）都使用结构体 <strong><strong>struct page</strong></strong> 表示，所有的结构体都保存在全局数组 <strong><strong>mem_map</strong></strong> 中，mem_map 通常存储在 <strong><strong>ZONE_NORMAL</strong></strong> 的开始处；</p>
+</li>
+<li>
+<p>结构体之间的关系</p>
+
+      <figure class="left" >
+        <img src="/images/linux-vm-2/1554100733254_3.jpeg"   />
+        
+      </figure>
+    
+
+</li>
+</ul>
+<h4 id="内存节点">内存节点<a href="#内存节点" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>Linux 在分配内存页的时候采用 <strong>本地节点分配策略（node-local allocation policy）</strong> 通过最靠近当前运行 CPU 的节点去分配内存。同时进程也会趋向于采用同一 CPU 运行。</p>
+<p>节点的结构体定义在 <code>&lt;linux/memzone.h&gt;</code> 下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> pglist_data {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前节点包含的分区：ZONE_HIGHMEM,ZONE_NORMAL,ZONE_DMA
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		zone_t node_zones[MAX_NR_ZONES];
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 定义的顺序决定分配优先采用的分区
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		zonelist_t node_zonelists[GFP_ZONEMASK<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前节点包含的分区数量，1 到 3 之间，不一定全有，比如一个 CPU Bank 可能没有 ZONE_DMA
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> nr_zones;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 节点上每一个物理的帧的页数组的第一个元素（第一页），会在某个地方被全局 mem_map 数组替换
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>node_mem_map;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 位图（bitmap）表示节点中没有内存的“洞（holes）”，仅用在 Sparc 和 Sparc64 架构
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>valid_addr_bitmap;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 第五章关于启动内存分配器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> bootmem_data <span style="color:#f92672">*</span>bdata;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前节点的起始物理地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> node_start_paddr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 用于全局 mem_map 设置页偏移量，用于计算全局 mem_map 和当前节点（lmem_map）之间的页数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> node_start_mapnr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前分区的总页数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> node_size;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 从 0 开始的节点 id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> node_id;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 指向下一个节点，NULL 表示结尾
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> pglist_data <span style="color:#f92672">*</span>node_next;
+</span></span><span style="display:flex;"><span>} pg_data_t;
+</span></span></code></pre></div><p>系统中的所有节点都维护在 <strong><strong>pgdat_list</strong></strong> 中。</p>
+<h4 id="分区">分区<a href="#分区" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>用于跟踪信息，如</p>
+<ul>
+<li>页请用情况</li>
+<li>可用区域</li>
+<li>锁，等</li>
+</ul>
+<p>定义在 <code>&lt;linux/memzone.h&gt;</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> zone_struct {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 自旋锁用于保护并发访问
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		spinlock_t lock;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 全部可用页数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> free_pages;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 分区水印（watermarks）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> pages_min, pages_low, pages_high;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 标识位用于告知换页（pageout）守护 kswapd 平衡当前分区（当获取任意水印后则需要进行平衡）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> need_balance;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 可用区域位图用于其他分配器（buddy allocator）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		free_area_t free_area[MAX_ORDER];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 进程等待页被释放的 Hash table 实现的等待队列，
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		wait_queue_head_t <span style="color:#f92672">*</span> wait_table;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Hash 表中等待队列的数量（2的次方）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> wait_table_size;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 用 long 定义上面大小减去二进制对数位的数量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	 <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> wait_table_shift;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 指向父
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	 <span style="color:#66d9ef">struct</span> pglist_data <span style="color:#f92672">*</span>zone_pgdat;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	 <span style="color:#75715e">// 当前分区指向的全局 mem_map 的第一页
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	 <span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>zone_mem_map;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 同 node_start_paddr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> zone_start_paddr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 同 node_start_mapnr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> zone_start_mapnr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 字符串名字，如 “DMA”, “Norma” or “HighMem”
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前分区包含的页数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> size;
+</span></span><span style="display:flex;"><span>} zone_t;
+</span></span></code></pre></div><h4 id="分区水印">分区水印<a href="#分区水印" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>当系统可用内存非常少时会唤醒换页守护 kswapd 释放内存页。如果压力过大 kswapd 会进行同步释放内存，有时被称为直接回收（direct-reclaim）路径。</p>
+<p>每个分区有三个水印</p>
+<ul>
+<li>pages_low，当阈值达到这个值则唤醒 kswapd 释放内存页</li>
+<li>pages_min，通过 <strong><strong>free_area_init_core</strong></strong> 根据分区大小页数比（ZoneSizeInPages / 128）初始化，最小 20 页（x86 80K），最大 255 页（x86 1MB ），阈值达到这个值触发 kswapd 同步方式（fashion）工作</li>
+<li>pages_high，不会触发 kswapd 平衡内存页，并使 kswapd 陷入休眠</li>
+</ul>
+<h4 id="计算分区大小">计算分区大小<a href="#计算分区大小" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p><strong>PFN(Page Frame Number)</strong> 是一个包含物理内存映射的偏移量用于内存页计数，第一个 PFN被系统使用</p>
+<ul>
+<li><strong><strong>min\_low\_pfn</strong></strong> 用于定位第一页加载内核镜像的后的开始</li>
+<li><strong><strong>max_fpn</strong></strong> 指示系统中最后一个内存页帧</li>
+<li><strong><strong>max_low_pfn</strong></strong> 标记 ZONE_NORMAL 结尾，</li>
+<li>内存少的机器 <strong><strong>max_pfn</strong></strong> 和 <strong><strong>max_low_pfn</strong></strong> 一致</li>
+</ul>
+<p>通过上面三个值可以直接计算出高区内存的开始和结束。</p>
+<h4 id="分区等待队列表">分区等待队列表<a href="#分区等待队列表" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>当 IO 在一页内存上开始执行时（page-in or page-out）会进行锁定防止获取到不一致的数据。</p>
+<ol>
+<li>进程使用页时调用 <strong><strong>wait_on_page</strong></strong> 加入到一个等待队列</li>
+<li>IO 完成后调用 <strong><strong>UnlockPage</strong></strong> 解锁</li>
+<li>唤醒所有等待的进程</li>
+</ol>
+<p>每次换页都会有一个等待队列，且代价非常昂贵，通过分离许多队列进行优化，等待队列存在 <strong><strong>zone_t</strong></strong> 中。</p>
+<p>如果一个分区仅有一个等待队列就会产生<a href="https://zh.m.wikipedia.org/zh-cn/%E6%83%8A%E7%BE%A4%E9%97%AE%E9%A2%98">惊群效应（thundering herd）</a>。为了解决这个问题会有多个等待队列存储在哈希表 <strong><strong>zone_t-&gt;wait_table</strong></strong> 中（极少的哈希碰撞依然会导致不必要的进程被唤醒）。</p>
+<h4 id="分区初始化">分区初始化<a href="#分区初始化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>内核页完全初始化后（paging_init）后开始初始化分区，可以预见的是（perdictably）各个平台实现不一致，但是确定（determine）发送给 <code>free_area_init</code> 的参数的逻辑是一致的，支持以下参数</p>
+<ul>
+<li><strong><strong>nid</strong></strong> 分区所属节点的逻辑 ID</li>
+<li><strong><strong>pgdat</strong></strong> 初始化的所属节点的 <code>pg_data_t</code> ，UMA 下则为 <code>contig_page_data</code></li>
+<li><strong><strong>pmap</strong></strong> 指向分配给节点的本地数组 <code>lmem_map</code> 的开始，稍后由 <code>free_area_core</code> 初始化</li>
+<li><strong><strong>zones_sizes</strong></strong> 一个包含内存页中所有分区大小的数组</li>
+<li><strong><strong>zone_start_paddr</strong></strong> 第一个分区的起始物理地址</li>
+<li><strong>*zone_holes</strong> 包含分区内内存段（memory holes）总大小的数组</li>
+</ul>
+<p><code>free_area_init_core</code> 负责使用相应的信息填充 <code>zone_t</code> 并为节点分配 <code>mem_map</code> 数组。</p>
+<h4 id="初始化-mem-map">初始化 mem_map<a href="#初始化-mem-map" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p><strong><strong>me_map</strong></strong> 会在系统启动中以两种方式（fashions）之一进行创建</p>
+<ol>
+<li>NUMA：当作一个起始于 <strong><strong>PAGE_OFFSET</strong></strong> ，调用 <code>free_area_init_node</code> 初始化这个数组中分配的系统中每一个活跃的节点</li>
+<li>UMA： <code>free_area_init</code> 使用 <code>contig_page_data</code> 作为当前节点，使用全局 <code>mem_map</code> 作为当前节点的“本地” <code>mem_map</code></li>
+</ol>
+<p>两个函数的调用关系如下图所示</p>
+
+  <figure class="left" >
+    <img src="/images/linux-vm-2/1554100733194_2.jpeg"   />
+    
+  </figure>
+
+
+<h4 id="页">页<a href="#页" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>每页物理页帧在系统中都通过 <code>struct page</code> 关联，用于跟踪状态。</p>
+<p>声明在 <code>&lt;linux/mm.h&gt;</code> 中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> page {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 页可能归属于多个列表，此字段用于存放所属链表的表头（多个），也用于将多个（blocks）空闲的表连接在一起
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> list_head list;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 用于当文件或设备映射到内存后关联 inode
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 如果页属于文件则指向当前地址空间（address space）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 如果是匿名页但被设置则说明是 swap 地址空间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> address_space <span style="color:#f92672">*</span>mapping;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 意义取决于页的状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 1. 页是文件映射的一部分表示文件的偏移量（offset）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 2. 页是 swap 缓存的一部分表示 address_space 对 swap 地址空间的偏移量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> index;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 作为文件映射一部分的页的 inode 和偏移量的哈希，将共享同一个哈希桶（hash_bucket）的页连接在一起
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>next_hash;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 当前页的引用计数，变成 0 表示可能被释放，否则就被一个或多个进程使用或用于内核 IO 等待
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		atomic_t count;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 定义页的状态，见下表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> flags;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 用于页替换策略
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> list_head lru;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 配合 next_hash 实现类似双端链表的操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">**</span>pprev_hash;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 1. 块设备用于跟踪 buffer_head
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 2. 由进程映射的匿名页如果支持交换文件可能关联一个 buffer_head，如果页必须以底层文件系统定义的大小的块和支持的存储同步则有必要
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">struct</span> buffer_head <span style="color:#f92672">*</span> buffers;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">#if defined(CONFIG_HIGHMEM) || defined(WANT_PAGE_VIRTUAL)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// ZONE_HIGHMEM 的虚拟地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>virtual;
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">#endif </span><span style="color:#75715e">/* CONFIG_HIGMEM || WANT_PAGE_VIRTUAL */</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} mem_map_t;
+</span></span></code></pre></div><h4 id="映射页到分区">映射页到分区<a href="#映射页到分区" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<ul>
+<li><code>page-&gt;zone</code> 内核版本 2.4.18 之前 <code>struct page</code> 通过 <code>page-&gt;zone</code> 引用所属的分区</li>
+<li><code>page-&gt;flags</code> 内核版本 2.4.18 之后通过顶部 <code>ZONE_SHIFT</code> (8 in x86) 个位替代 <code>page-&gt;zone</code> 来计算页所属的分区。</li>
+</ul>
+<p>映射过程</p>
+<ol>
+<li>
+<p>在 <code>mm/page_alloc.c</code> 中初始化 <code>zone_table</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">33</span> zone_t <span style="color:#f92672">*</span>zone_table[MAX_NR_ZONES<span style="color:#f92672">*</span>MAX_NR_NODES];
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">34</span> <span style="color:#a6e22e">EXPORT_SYMBOL</span>(zone_table);
+</span></span></code></pre></div><ul>
+<li><code>MAX_NR_ZONE</code> 定义一个内存节点中的最大分区数量</li>
+<li><code>MAX_NR_NODES</code> 定义最大可存在的内存节点数量</li>
+<li><code>EXPORT_SYMBOL()</code> 使 <code>zone_table</code> 可被可加载模块（loadable modules）访问。</li>
+</ul>
+<p>这个表将被当作一个多维数组对待。</p>
+</li>
+<li>
+<p>在 <code>free_area_init_core</code> 中初始化内存节点中所有的页</p>
+<ol>
+<li>
+<p>设置分区表(zone table)的值</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ae81ff">733</span>           zone_table[nid <span style="color:#f92672">*</span> MAX_NR_ZONES <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> zone;
+</span></span></code></pre></div><ul>
+<li><code>nid</code> &ndash; 当前内存节点 ID</li>
+<li><code>j</code> &ndash; 分区（ <code>struct zone_t</code> ）索引</li>
+</ul>
+</li>
+<li>
+<p>调用 <code>set_page_zone</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ae81ff">788</span>           <span style="color:#a6e22e">set_page_zone</span>(page, nid <span style="color:#f92672">*</span> MAX_NR_ZONES <span style="color:#f92672">+</span> j);
+</span></span></code></pre></div><ul>
+<li><code>page</code> 分区内被初始的页，所以 <code>zone_table</code> 的索引存储在页中</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="high-memory">High Memory<a href="#high-memory" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>内核支持 High Memory 用于解决内核可使用的地址空间不足的情况（目前 64 位平台下基本上所有内存都可以映射到内核，所以基本不会存在这种情况）。</p>
+<p>32 位 x86 系统关于 High Memory 存在两个阈值</p>
+<ul>
+<li>4GiB：32 位物理地址最大可寻址大小，内核 通过 <code>kmap()</code> 临时将内存页从 High Memory 映射到 <code>ZONE_NORMAL</code> 用于访问 1GiB 到 4GiB 的内存</li>
+<li>64GiB：Intel 发明的 PAE（Physical Address Extension）允许 32 位系统下使用更多内存，通过增加额外的 4 位用于内存寻址最大可以支持 2 的 36 次方个字节（64GiB)的内存寻址</li>
+</ul>
+<p>缺陷</p>
+<ul>
+<li>理论上 PAE 允许处理器最大可寻址 64GiB，但是由于 Linux 的虚拟地址空间最大仅支持 4GiB，所以进程依然不能使用这么多内存。</li>
+<li>PAE 同时也不允许内核本身使用这么多内存：描述 1GiB 内存需要消耗 11MiB 内核内存（每个 <code>struct page</code> 需要在内核虚拟地址空间中（<code>ZONE_NORMAL</code>）消耗 44 字节），16GiB 需要 176MiB，这样会给 <code>ZONE_NORMAL</code> 造成很大的压力</li>
+</ul>
+<h4 id="2-dot-6-中的变更">2.6 中的变更<a href="#2-dot-6-中的变更" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<ol>
+<li>
+<p>描述内存节点的 <code>pg_data_t</code></p>
+<ul>
+<li><strong><strong>node_start_fpn</strong></strong> 替换了 <code>node_start_paddr</code>，用于适配 PAE 架构可以突破 32 位寻址解决通过旧字段无法访问 4GiB 之后的内存节点</li>
+<li><strong><strong>kswapd_wait</strong></strong> 用于 <strong><strong>kswapd</strong></strong> 的新的等待队列替换之前的全局等待队列。2.6 中每一个内存节点都有一个对应的 <strong><strong>kswapdN</strong></strong>（N 对应内存节点的 ID），同时每一个 <strong><strong>kswapd</strong></strong> 也通过此字段用于自己的等待队列</li>
+</ul>
+</li>
+<li>
+<p><code>node_size</code> 字段被以下两个字段替代，引入这一变化主要是认识到节点中可能有 “holes” 导致没有物理内存支持寻址这一事实。</p>
+<ul>
+<li><strong><strong>node_present_pages</strong></strong> 内存节点中存在的总物理页数</li>
+<li><strong><strong>node_spanned_pages</strong></strong> 被当前内存节点寻址的总区域，包括任意可能存在的 &ldquo;holes&rdquo;</li>
+</ul>
+</li>
+<li>
+<p><code>zone_t</code> 改为 <code>struct zone</code> ，同时 LRU 列表由全局改为存储再 <code>struct zone</code> 中（LRU 用于确定内存页释放或切出的顺序）</p>
+</li>
+</ol>
+<h4 id="相关链接">相关链接<a href="#相关链接" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+
+      </div></div>
+
+  
+
+  
+
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+      
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+
+<hr>
+
+  <div class="bl-section">
+    <h4>Links to this note</h4>
+    <div class="backlinks">
+      <ul>
+       
+          <li><a href="/notes/notes/20210907142848-linux_kernel/">Linux kernel</a></li>
+       
+     </ul>
+    </div>
+  </div>
+
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>

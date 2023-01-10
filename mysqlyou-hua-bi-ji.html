@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>MySQL优化笔记</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/mysqlyou-hua-bi-ji.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="之前安装时没注意MySQL的优化,先想对MySQL做一下优化.首先看一下没有优化之前各个参数: MySQL预编译参数: ./configure --prefix=/usr/local/mysql --with-ssl --with-readline...">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="编译参数">
+    <meta name="tags" content="优化">
+    <meta name="tags" content="mysql配置文件">
+    <meta name="tags" content="MySQL服务">
+    <meta name="tags" content="MySQL">
+    <meta name="tags" content="my.cnf">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="MySQL优化笔记"/>
+<meta property="og:description" content="之前安装时没注意MySQL的优化,先想对MySQL做一下优化.首先看一下没有优化之前各个参数: MySQL预编译参数: ./configure --prefix=/usr/local/mysql --with-ssl --with-readline..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/mysqlyou-hua-bi-ji.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-02-04 13:36:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="编译参数"/>
+<meta property="article:tag" content="优化"/>
+<meta property="article:tag" content="mysql配置文件"/>
+<meta property="article:tag" content="MySQL服务"/>
+<meta property="article:tag" content="MySQL"/>
+<meta property="article:tag" content="my.cnf"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="MySQL优化笔记">
+    <meta name="twitter:url" content="https://www.linuxzen.com/mysqlyou-hua-bi-ji.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="之前安装时没注意MySQL的优化,先想对MySQL做一下优化.首先看一下没有优化之前各个参数: MySQL预编译参数: ./configure --prefix=/usr/local/mysql --with-ssl --with-readline...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "MySQL优化笔记",
+  "headline": "MySQL优化笔记",
+  "datePublished": "2012-02-04 13:36:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/mysqlyou-hua-bi-ji.html",
+  "description": "之前安装时没注意MySQL的优化,先想对MySQL做一下优化.首先看一下没有优化之前各个参数: MySQL预编译参数: ./configure --prefix=/usr/local/mysql --with-ssl --with-readline..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">MySQL优化笔记</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Sat 04 February 2012">Sat 04 February 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>之前安装时没注意MySQL的优化,先想对MySQL做一下优化.首先看一下没有优化之前各个参数:
+MySQL预编译参数:</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>./configure<span class="w">  </span>--prefix<span class="o">=</span>/usr/local/mysql<span class="w"> </span>--with-ssl<span class="w"> </span>--with-readline<span class="w"> </span>--with-big-tables<span class="w"> </span>--enable-assembler
+</code></pre></div>
+
+<p>top</p>
+<div class="highlight"><pre><span></span><code><span class="m">32553</span><span class="w"> </span>mysql<span class="w">     </span><span class="m">20</span><span class="w">   </span><span class="m">0</span><span class="w">  </span>125m<span class="w">  </span>17m<span class="w"> </span><span class="m">4064</span><span class="w"> </span>S<span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">1</span>.7<span class="w">   </span><span class="m">5</span>:13.01<span class="w"> </span>mysqld
+</code></pre></div>
+
+<p>使用mysqlreport获取MySQL运行参数:<!--more--></p>
+<div class="highlight"><pre><span></span><code>MySQL<span class="w"> </span><span class="m">5</span>.0.40-log<span class="w">         </span>uptime<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">22</span>:1:21<span class="w">      </span>Sat<span class="w"> </span>Feb<span class="w">  </span><span class="m">4</span><span class="w"> </span><span class="m">10</span>:04:23<span class="w"> </span><span class="m">2012</span>
+
+__<span class="w"> </span>Key<span class="w"> </span>_________________________________________________________________
+Buffer<span class="w"> </span>used<span class="w">    </span><span class="m">62</span>.00k<span class="w"> </span>of<span class="w">  </span><span class="m">16</span>.00M<span class="w">  </span>%Used:<span class="w">   </span><span class="m">0</span>.38
+<span class="w">  </span>Current<span class="w">       </span><span class="m">1</span>.90M<span class="w">            </span>%Usage:<span class="w">  </span><span class="m">11</span>.89
+Write<span class="w"> </span>hit<span class="w">      </span><span class="m">22</span>.29%
+Read<span class="w"> </span>hit<span class="w">       </span><span class="m">99</span>.83%
+
+__<span class="w"> </span>Questions<span class="w"> </span>___________________________________________________________
+Total<span class="w">          </span><span class="m">85</span>.58k<span class="w">     </span><span class="m">0</span>.1/s
+<span class="w">  </span>DMS<span class="w">          </span><span class="m">77</span>.61k<span class="w">     </span><span class="m">0</span>.1/s<span class="w">  </span>%Total:<span class="w">  </span><span class="m">90</span>.69
+<span class="w">  </span>Com_<span class="w">          </span><span class="m">5</span>.37k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">6</span>.28
+<span class="w">  </span>COM_QUIT<span class="w">      </span><span class="m">2</span>.52k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">2</span>.95
+<span class="w">  </span>+Unknown<span class="w">         </span><span class="m">78</span><span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">0</span>.09
+Slow<span class="w"> </span><span class="m">10</span><span class="w"> </span>s<span class="w">           </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s<span class="w">            </span><span class="m">0</span>.00<span class="w">  </span>%DMS:<span class="w">   </span><span class="m">0</span>.00<span class="w">  </span>Log:<span class="w"> </span>OFF
+DMS<span class="w">            </span><span class="m">77</span>.61k<span class="w">     </span><span class="m">0</span>.1/s<span class="w">           </span><span class="m">90</span>.69
+<span class="w">  </span>SELECT<span class="w">       </span><span class="m">72</span>.77k<span class="w">     </span><span class="m">0</span>.1/s<span class="w">           </span><span class="m">85</span>.03<span class="w">         </span><span class="m">93</span>.76
+<span class="w">  </span>UPDATE<span class="w">        </span><span class="m">2</span>.68k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">3</span>.13<span class="w">          </span><span class="m">3</span>.45
+<span class="w">  </span>INSERT<span class="w">        </span><span class="m">1</span>.09k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">1</span>.27<span class="w">          </span><span class="m">1</span>.41
+<span class="w">  </span>DELETE<span class="w">        </span><span class="m">1</span>.07k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">1</span>.25<span class="w">          </span><span class="m">1</span>.38
+<span class="w">  </span>REPLACE<span class="w">           </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s<span class="w">            </span><span class="m">0</span>.00<span class="w">          </span><span class="m">0</span>.00
+Com_<span class="w">            </span><span class="m">5</span>.37k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">6</span>.28
+<span class="w">  </span>set_option<span class="w">    </span><span class="m">2</span>.60k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">3</span>.04
+<span class="w">  </span>change_db<span class="w">     </span><span class="m">2</span>.52k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">2</span>.94
+<span class="w">  </span>show_fields<span class="w">      </span><span class="m">77</span><span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">0</span>.09
+
+__<span class="w"> </span>SELECT<span class="w"> </span>and<span class="w"> </span>Sort<span class="w"> </span>_____________________________________________________
+Scan<span class="w">            </span><span class="m">5</span>.17k<span class="w">     </span><span class="m">0</span>.0/s<span class="w"> </span>%SELECT:<span class="w">   </span><span class="m">7</span>.10
+Range<span class="w">           </span><span class="m">2</span>.75k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">            </span><span class="m">3</span>.77
+Full<span class="w"> </span>join<span class="w">           </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s<span class="w">            </span><span class="m">0</span>.00
+Range<span class="w"> </span>check<span class="w">         </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s<span class="w">            </span><span class="m">0</span>.00
+Full<span class="w"> </span>rng<span class="w"> </span>join<span class="w">       </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s<span class="w">            </span><span class="m">0</span>.00
+Sort<span class="w"> </span>scan<span class="w">       </span><span class="m">5</span>.97k<span class="w">     </span><span class="m">0</span>.0/s
+Sort<span class="w"> </span>range<span class="w">      </span><span class="m">4</span>.30k<span class="w">     </span><span class="m">0</span>.0/s
+Sort<span class="w"> </span>mrg<span class="w"> </span>pass<span class="w">       </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+
+__<span class="w"> </span>Table<span class="w"> </span>Locks<span class="w"> </span>_________________________________________________________
+Waited<span class="w">             </span><span class="m">24</span><span class="w">     </span><span class="m">0</span>.0/s<span class="w">  </span>%Total:<span class="w">   </span><span class="m">0</span>.03
+Immediate<span class="w">      </span><span class="m">91</span>.00k<span class="w">     </span><span class="m">0</span>.1/s
+
+__<span class="w"> </span>Tables<span class="w"> </span>______________________________________________________________
+Open<span class="w">               </span><span class="m">36</span><span class="w"> </span>of<span class="w">   </span><span class="m">64</span><span class="w">    </span>%Cache:<span class="w">  </span><span class="m">56</span>.25
+Opened<span class="w">             </span><span class="m">42</span><span class="w">     </span><span class="m">0</span>.0/s
+
+__<span class="w"> </span>Connections<span class="w"> </span>_________________________________________________________
+Max<span class="w"> </span>used<span class="w">            </span><span class="m">5</span><span class="w"> </span>of<span class="w">  </span><span class="m">100</span><span class="w">      </span>%Max:<span class="w">   </span><span class="m">5</span>.00
+Total<span class="w">           </span><span class="m">2</span>.52k<span class="w">     </span><span class="m">0</span>.0/s
+
+__<span class="w"> </span>Created<span class="w"> </span>Temp<span class="w"> </span>________________________________________________________
+Disk<span class="w"> </span>table<span class="w">      </span><span class="m">4</span>.15k<span class="w">     </span><span class="m">0</span>.0/s
+Table<span class="w">           </span><span class="m">7</span>.11k<span class="w">     </span><span class="m">0</span>.0/s<span class="w">    </span>Size:<span class="w">  </span><span class="m">32</span>.0M
+File<span class="w">                </span><span class="m">5</span><span class="w">     </span><span class="m">0</span>.0/s
+
+__<span class="w"> </span>Threads<span class="w"> </span>_____________________________________________________________
+Running<span class="w">             </span><span class="m">1</span><span class="w"> </span>of<span class="w">    </span><span class="m">1</span>
+Cached<span class="w">              </span><span class="m">0</span><span class="w"> </span>of<span class="w">    </span><span class="m">0</span><span class="w">      </span>%Hit:<span class="w">   </span><span class="m">0</span>.04
+Created<span class="w">         </span><span class="m">2</span>.52k<span class="w">     </span><span class="m">0</span>.0/s
+Slow<span class="w">                </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+
+__<span class="w"> </span>Aborted<span class="w"> </span>_____________________________________________________________
+Clients<span class="w">             </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+Connects<span class="w">            </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+
+__<span class="w"> </span>Bytes<span class="w"> </span>_______________________________________________________________
+Sent<span class="w">          </span><span class="m">226</span>.71M<span class="w">   </span><span class="m">164</span>.8/s
+Received<span class="w">       </span><span class="m">12</span>.59M<span class="w">     </span><span class="m">9</span>.2/s
+
+__<span class="w"> </span>InnoDB<span class="w"> </span>Buffer<span class="w"> </span>Pool<span class="w"> </span>__________________________________________________
+Usage<span class="w">         </span><span class="m">304</span>.00k<span class="w"> </span>of<span class="w">   </span><span class="m">8</span>.00M<span class="w">  </span>%Used:<span class="w">   </span><span class="m">3</span>.71
+Read<span class="w"> </span>hit<span class="w">       </span><span class="m">84</span>.42%
+Pages
+<span class="w">  </span>Free<span class="w">            </span><span class="m">493</span><span class="w">            </span>%Total:<span class="w">  </span><span class="m">96</span>.29
+<span class="w">  </span>Data<span class="w">             </span><span class="m">19</span><span class="w">                      </span><span class="m">3</span>.71<span class="w"> </span>%Drty:<span class="w">   </span><span class="m">0</span>.00
+<span class="w">  </span>Misc<span class="w">              </span><span class="m">0</span><span class="w">                      </span><span class="m">0</span>.00
+<span class="w">  </span>Latched<span class="w">           </span><span class="m">0</span><span class="w">                      </span><span class="m">0</span>.00
+Reads<span class="w">              </span><span class="m">77</span><span class="w">     </span><span class="m">0</span>.0/s
+<span class="w">  </span>From<span class="w"> </span>file<span class="w">        </span><span class="m">12</span><span class="w">     </span><span class="m">0</span>.0/s<span class="w">           </span><span class="m">15</span>.58
+<span class="w">  </span>Ahead<span class="w"> </span>Rnd<span class="w">         </span><span class="m">1</span><span class="w">     </span><span class="m">0</span>.0/s
+<span class="w">  </span>Ahead<span class="w"> </span>Sql<span class="w">         </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+Writes<span class="w">              </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+Flushes<span class="w">             </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+Wait<span class="w"> </span>Free<span class="w">           </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+
+__<span class="w"> </span>InnoDB<span class="w"> </span>Lock<span class="w"> </span>_________________________________________________________
+Waits<span class="w">               </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+Current<span class="w">             </span><span class="m">0</span>
+Time<span class="w"> </span>acquiring
+<span class="w">  </span>Total<span class="w">             </span><span class="m">0</span><span class="w"> </span>ms
+<span class="w">  </span>Average<span class="w">           </span><span class="m">0</span><span class="w"> </span>ms
+<span class="w">  </span>Max<span class="w">               </span><span class="m">0</span><span class="w"> </span>ms
+
+__<span class="w"> </span>InnoDB<span class="w"> </span>Data,<span class="w"> </span>Pages,<span class="w"> </span>Rows<span class="w"> </span>____________________________________________
+Data
+<span class="w">  </span>Reads<span class="w">            </span><span class="m">25</span><span class="w">     </span><span class="m">0</span>.0/s
+<span class="w">  </span>Writes<span class="w">            </span><span class="m">3</span><span class="w">     </span><span class="m">0</span>.0/s
+<span class="w">  </span>fsync<span class="w">             </span><span class="m">3</span><span class="w">     </span><span class="m">0</span>.0/s
+<span class="w">  </span>Pending
+<span class="w">    </span>Reads<span class="w">           </span><span class="m">0</span>
+<span class="w">    </span>Writes<span class="w">          </span><span class="m">0</span>
+<span class="w">    </span>fsync<span class="w">           </span><span class="m">0</span>
+
+Pages
+<span class="w">  </span>Created<span class="w">           </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+<span class="w">  </span>Read<span class="w">             </span><span class="m">19</span><span class="w">     </span><span class="m">0</span>.0/s
+<span class="w">  </span>Written<span class="w">           </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+
+Rows
+<span class="w">  </span>Deleted<span class="w">           </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+<span class="w">  </span>Inserted<span class="w">          </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+<span class="w">  </span>Read<span class="w">              </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+<span class="w">  </span>Updated<span class="w">           </span><span class="m">0</span><span class="w">       </span><span class="m">0</span>/s
+</code></pre></div>
+
+<p>首先在预编译参数上进行优化</p>
+<div class="highlight"><pre><span></span><code>./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/mysql<span class="w"> </span><span class="se">\</span>
+--without-debug<span class="w"> </span><span class="se">\ </span><span class="w">                                </span><span class="c1"># 取消调试模式提高性能</span>
+--with-extra-charsets<span class="o">=</span>utf8,gbk<span class="w"> </span><span class="se">\ </span><span class="w">                 </span><span class="c1"># 仅仅指定需要的默认字符集提高性能</span>
+--enable-assembler<span class="w"> </span><span class="se">\ </span><span class="w">                             </span><span class="c1"># 使用汇编模式提高性能</span>
+--with-mysqld-ldflags<span class="o">=</span>-all-static<span class="w"> </span><span class="se">\ </span><span class="w">              </span><span class="c1"># 以静态方式编译提高性能</span>
+--with-client-ldflags<span class="o">=</span>-all-static<span class="w"> </span><span class="se">\</span>
+--with-unix-socket-path<span class="o">=</span>/tmp/mysql.sock<span class="w"> </span><span class="se">\ </span><span class="w">        </span><span class="c1"># 使用unix socket提高性能</span>
+--with-ssl
+</code></pre></div>
+
+<p>安装完成后进一步优化my.cnf:
+因为MySQL 只会 Cache 索引(*.MYI)，因此您只要将数据库中所有的 MYI 档案加总起来就是key buffer 的值,计算MYI档案的总大小:</p>
+<div class="highlight"><pre><span></span><code>du<span class="w"> </span>-hc<span class="w"> </span><span class="sb">`</span>find<span class="w"> </span>/usr/local/mysql/var/<span class="w"> </span>-name<span class="w"> </span>*.MYI<span class="sb">`</span>
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/myblog/wp_term_taxonomy.MYI
+<span class="m">8</span>.0K<span class="w">    </span>/usr/local/mysql/var/myblog/wp_posts.MYI
+<span class="m">8</span>.0K<span class="w">    </span>/usr/local/mysql/var/myblog/wp_usermeta.MYI
+<span class="m">8</span>.0K<span class="w">    </span>/usr/local/mysql/var/myblog/wp_commentmeta.MYI
+16K<span class="w">     </span>/usr/local/mysql/var/myblog/wp_options.MYI
+12K<span class="w">     </span>/usr/local/mysql/var/myblog/wp_postmeta.MYI
+<span class="m">8</span>.0K<span class="w">    </span>/usr/local/mysql/var/myblog/wp_comments.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/myblog/wp_links.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/myblog/wp_term_relationships.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/myblog/wp_users.MYI
+<span class="m">8</span>.0K<span class="w">    </span>/usr/local/mysql/var/myblog/wp_terms.MYI
+16K<span class="w">     </span>/usr/local/mysql/var/mysql/help_relation.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/time_zone_name.MYI
+16K<span class="w">     </span>/usr/local/mysql/var/mysql/help_keyword.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/func.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/time_zone.MYI
+20K<span class="w">     </span>/usr/local/mysql/var/mysql/help_topic.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/columns_priv.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/procs_priv.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/time_zone_leap_second.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/user.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/tables_priv.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/host.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/time_zone_transition_type.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/proc.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/help_category.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/db.MYI
+<span class="m">4</span>.0K<span class="w">    </span>/usr/local/mysql/var/mysql/time_zone_transition.MYI
+192K<span class="w">    </span>total
+</code></pre></div>
+
+<p>修改my.cnf参数大小:</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/etc/my.cnf
+<span class="c1"># 降低key_buffer的值</span>
+<span class="nv">key_buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>4M
+</code></pre></div>
+
+<p>重启MySQL执行top命令:</p>
+<div class="highlight"><pre><span></span><code><span class="m">18125</span><span class="w"> </span>mysql<span class="w">     </span><span class="m">20</span><span class="w">   </span><span class="m">0</span><span class="w">  </span>109m<span class="w">  </span>11m<span class="w"> </span><span class="m">2152</span><span class="w"> </span>S<span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">1</span>.1<span class="w">   </span><span class="m">0</span>:00.08<span class="w"> </span>mysqld
+</code></pre></div>
+
+<p>看到MySQL的内存利用率降低到1.1,这时候还不适宜执行mysqlreport查看等待启动一天后查看.由于现在访问量较低,所以参数适量调低,需要实时监控MySQL运行状况适当运行参数.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=MySQL优化笔记&amp;url=https://www.linuxzen.com/mysqlyou-hua-bi-ji.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/mysqlyou-hua-bi-ji.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/mysqlyou-hua-bi-ji.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/bian-yi-can-shu.html">编译参数</a><a href="https://www.linuxzen.com/tag/you-hua.html">优化</a><a href="https://www.linuxzen.com/tag/mysqlpei-zhi-wen-jian.html">mysql配置文件</a><a href="https://www.linuxzen.com/tag/mysqlfu-wu.html">MySQL服务</a><a href="https://www.linuxzen.com/tag/mysql.html">MySQL</a><a href="https://www.linuxzen.com/tag/mycnf.html">my.cnf</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/mysqlyou-hua-bi-ji.html';
+                    var disqus_url = 'https://www.linuxzen.com/mysqlyou-hua-bi-ji.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/mysqlyou-hua-bi-ji.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

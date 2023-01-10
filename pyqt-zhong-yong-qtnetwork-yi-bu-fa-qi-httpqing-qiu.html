@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>PyQt 中用 QtNetwork 异步发起HTTP请求</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="引子 最近有需求要在 PyQt 中请求一个链接, 因为比较简单直接用 urllib2 处理了, 但是 urllib2 在 有延时的时候会造成 GUI 界面卡死. 所以 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="PyQt">
+    <meta name="tags" content="QtNetwork">
+    <meta name="tags" content="QHttp">
+    <meta name="tags" content="QNetworkAccessManager">
+    <meta name="tags" content="HTTP">
+    <meta name="tags" content="网络">
+    <meta name="tags" content="异步">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="PyQt 中用 QtNetwork 异步发起HTTP请求"/>
+<meta property="og:description" content="引子 最近有需求要在 PyQt 中请求一个链接, 因为比较简单直接用 urllib2 处理了, 但是 urllib2 在 有延时的时候会造成 GUI 界面卡死. 所以 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-05-07 15:52:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="PyQt"/>
+<meta property="article:tag" content="PyQt"/>
+<meta property="article:tag" content="QtNetwork"/>
+<meta property="article:tag" content="QHttp"/>
+<meta property="article:tag" content="QNetworkAccessManager"/>
+<meta property="article:tag" content="HTTP"/>
+<meta property="article:tag" content="网络"/>
+<meta property="article:tag" content="异步"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="PyQt 中用 QtNetwork 异步发起HTTP请求">
+    <meta name="twitter:url" content="https://www.linuxzen.com/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="引子 最近有需求要在 PyQt 中请求一个链接, 因为比较简单直接用 urllib2 处理了, 但是 urllib2 在 有延时的时候会造成 GUI 界面卡死. 所以 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "PyQt 中用 QtNetwork 异步发起HTTP请求",
+  "headline": "PyQt 中用 QtNetwork 异步发起HTTP请求",
+  "datePublished": "2014-05-07 15:52:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html",
+  "description": "引子 最近有需求要在 PyQt 中请求一个链接, 因为比较简单直接用 urllib2 处理了, 但是 urllib2 在 有延时的时候会造成 GUI 界面卡死. 所以 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li class="nav-pyqt active" role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">PyQt 中用 QtNetwork 异步发起HTTP请求</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Wed 07 May 2014">Wed 07 May 2014</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <h2 id="_1">引子</h2>
+<p>最近有需求要在 PyQt 中请求一个链接, 因为比较简单直接用 urllib2 处理了, 但是 urllib2 在
+有延时的时候会造成 GUI 界面卡死. 所以今天研究研究 QtNetwork 模块.</p>
+<p>QtNetwork 中的请求在 PyQt 中都是异步的.</p>
+<h2 id="qhttp">简单的请求 QHttp</h2>
+<h3 id="get">发起一个GET请求</h3>
+<p><code>PyQt4.QtNetwork.QHttp</code> 可以发起一个简单请求, 需要注意的是这个对象需要通过调用
+<code>setHost</code> 设置请求主机, 然后 调用 <code>get</code>/<code>post</code> 传入 <code>path</code> 才能正常使用.</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">PyQt4</span> <span class="kn">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtNetwork</span>
+
+
+<span class="k">class</span> <span class="nc">MainWidget</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MainWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span> <span class="o">=</span> <span class="n">QtNetwork</span><span class="o">.</span><span class="n">QHttp</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># 绑定 done 信号</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_req_done</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QUrl</span><span class="p">(</span><span class="s2">&quot;http://linuxzen.com/&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 设置主机</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">setHost</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">port</span><span class="p">(</span><span class="mi">80</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">getId</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">on_req_done</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="s2">&quot;Success&quot;</span>
+            <span class="nb">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">readAll</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="s2">&quot;Error&quot;</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+    <span class="n">main</span> <span class="o">=</span> <span class="n">MainWidget</span><span class="p">()</span>
+    <span class="n">main</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="_2">保存文件</h3>
+<p>如果想要下载文件, 可以给 <code>get</code> 方法传一个 <code>QtCore.QFile</code> 对象, 会将请求内容保存
+到文件</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">PyQt4</span> <span class="kn">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtNetwork</span>
+
+
+<span class="k">class</span> <span class="nc">MainWidget</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MainWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span> <span class="o">=</span> <span class="n">QtNetwork</span><span class="o">.</span><span class="n">QHttp</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_req_done</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QUrl</span><span class="p">(</span><span class="s2">&quot;http://www.linuxzen.com/&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">setHost</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">port</span><span class="p">(</span><span class="mi">80</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QFile</span><span class="p">(</span><span class="s2">&quot;./test&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">getId</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">on_req_done</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+        <span class="c1"># print self.http.readAll(), error</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="s2">&quot;Success&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="s2">&quot;Error&quot;</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+    <span class="n">main</span> <span class="o">=</span> <span class="n">MainWidget</span><span class="p">()</span>
+    <span class="n">main</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+</code></pre></div>
+
+<p>上面代码将请求下来的内容保存到当前目录的 test 文件里.</p>
+<h3 id="_3">处理头部信息</h3>
+<p>现在有一个需求就是有一个链接会返回一个 301 或 302 的跳转, 但是 <code>PyQt4.QtNetwork.QHttp</code> 没有实现自动跳转, 需要我们自动判断头信息进行跳转.</p>
+<p>我们可以绑定<code>PyQt4.QtNetwork.QHttp.responseHeaderReceived</code>的信号来处理头部信息,
+这个信号将给槽传递一个 <code>PyQt4.QtNetwork.QHttpResponseHeader</code> 的实例.</p>
+<p>通过判断状态吗, 并抓取 <code>Location</code> 头实现跳转</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="kn">from</span> <span class="nn">PyQt4</span> <span class="kn">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtNetwork</span>
+
+
+<span class="k">class</span> <span class="nc">MainWidget</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MainWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span> <span class="o">=</span> <span class="n">QtNetwork</span><span class="o">.</span><span class="n">QHttp</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_req_done</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">responseHeaderReceived</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_response_header</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QUrl</span><span class="p">(</span><span class="s2">&quot;http://t.cn/zTocACq&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">setHost</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">port</span><span class="p">(</span><span class="mi">80</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QFile</span><span class="p">(</span><span class="s2">&quot;./test&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">getId</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">on_response_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response_header</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">response_header</span><span class="o">.</span><span class="n">statusCode</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">301</span><span class="p">,</span> <span class="mi">302</span><span class="p">]:</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="n">response_header</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;Location&quot;</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="s2">&quot;Redirect to: &quot;</span><span class="p">,</span> <span class="n">location</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getId</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">)</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QUrl</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">host</span><span class="p">()):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">tmp</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">setHost</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">port</span><span class="p">(</span><span class="mi">80</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">setPath</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">on_req_done</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="s2">&quot;Success&quot;</span>
+            <span class="nb">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">readAll</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="s2">&quot;Error&quot;</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+    <span class="n">main</span> <span class="o">=</span> <span class="n">MainWidget</span><span class="p">()</span>
+    <span class="n">main</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+</code></pre></div>
+
+<p>运行上面代码, 你将看到下面输出</p>
+<div class="highlight"><pre><span></span><code>Redirect to: http://www.linuxzen.com
+Success
+</code></pre></div>
+
+<h3 id="_4">处理参数</h3>
+<p>如果你的 GET 请求的 url 是带着参数传给 <code>QUrl</code> 的, 那么 <code>QUrl.path()</code> 将不会返回带参数的
+路径需要自己处理. 可以参见下面的处理函数</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_query_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">queryPairDelimiter</span><span class="p">()</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{0}{1}{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">queryValueDelimiter</span><span class="p">(),</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">queryItems</span><span class="p">()</span>
+        <span class="p">)</span>
+</code></pre></div>
+
+<p>请求的时候加上就行了</p>
+<div class="highlight"><pre><span></span><code>    <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_query_string</span><span class="p">())</span>
+</code></pre></div>
+
+<h2 id="cookie-qnetworkaccessmanager">处理 Cookie ---- QNetworkAccessManager</h2>
+<p>QHttp 是无法自动记录 Cookie 和设置 Cookie的, 如果有这个需求就需要 <code>PyQt4.QtNetwork.QNetworkAccessManager</code></p>
+<p><code>QNetworkAccessManager</code> 的请求方法不在是传入一个 QString, 而是需要传入一个 
+<code>PyQt4.QtNetwork.QNetworkRequest</code> 的实例.</p>
+<p><code>QNetworkAccessManager</code> 同样是异步的, 可以绑定 <code>QNetworkAccessManager.finished</code> 信号, 
+这个信号将会给槽传递一个 <code>PyQt4.QtNetwork.QNetworkReply</code> 的实例.</p>
+<p><code>QNetworkAccessManager.setCookieJar</code> 可以设置一个 <code>PyQt4.QtNetwork.QNetworkCookieJar</code> 对象来
+自动保存和设置 Cookie.</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="kn">from</span> <span class="nn">PyQt4</span> <span class="kn">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtNetwork</span>
+
+
+<span class="k">class</span> <span class="nc">MainWidget</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MainWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cookiejar</span> <span class="o">=</span> <span class="n">QtNetwork</span><span class="o">.</span><span class="n">QNetworkCookieJar</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">QtNetwork</span><span class="o">.</span><span class="n">QNetworkAccessManager</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">setCookieJar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cookiejar</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_reply</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">req</span> <span class="o">=</span> <span class="n">QtNetwork</span><span class="o">.</span><span class="n">QNetworkRequest</span><span class="p">(</span>
+            <span class="n">QtCore</span><span class="o">.</span><span class="n">QUrl</span><span class="p">(</span><span class="s2">&quot;http://www.google.com.hk&quot;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">req</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">on_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reply</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="n">reply</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cookiejar</span><span class="o">.</span><span class="n">allCookies</span><span class="p">()</span>
+        <span class="nb">print</span> <span class="n">reply</span><span class="o">.</span><span class="n">rawHeaderList</span><span class="p">()</span>
+        <span class="c1"># print reply.readAll()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+    <span class="n">widget</span> <span class="o">=</span> <span class="n">MainWidget</span><span class="p">()</span>
+    <span class="n">widget</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+</code></pre></div>
+
+<p>这样就可以携带 Cookie 去请求一些需要 Cookie 认证的请求.</p>
+<h2 id="_5">总结</h2>
+<p>还有很多内容就不一一介绍, 比如配合 <code>QProgressBar</code>, 添加头部信息, POST 请求, 等.</p>
+<p>这里只是简单介绍下 Qt 自己的网络请求处理方法. 在 PyQt 里用 urllib 等库明显不是好的
+解决办法, 因为会造成界面卡死. 但是 PyQt4 的方式也实在不是很优雅. 要来来回回的调很多
+东西. 但是最起码不会造成界面的卡死.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=PyQt 中用 QtNetwork 异步发起HTTP请求&amp;url=https://www.linuxzen.com/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/pyqt.html">PyQt</a><a href="https://www.linuxzen.com/tag/qtnetwork.html">QtNetwork</a><a href="https://www.linuxzen.com/tag/qhttp.html">QHttp</a><a href="https://www.linuxzen.com/tag/qnetworkaccessmanager.html">QNetworkAccessManager</a><a href="https://www.linuxzen.com/tag/http.html">HTTP</a><a href="https://www.linuxzen.com/tag/wang-luo.html">网络</a><a href="https://www.linuxzen.com/tag/yi-bu.html">异步</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html';
+                    var disqus_url = 'https://www.linuxzen.com/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/pyqt-zhong-yong-qtnetwork-yi-bu-fa-qi-httpqing-qiu.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

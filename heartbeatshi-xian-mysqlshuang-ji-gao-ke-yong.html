@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>heartbeat实现MySQL双机高可用</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="对于一个网站或一个企业最重要的无疑就是数据,那么数据库的数据安全无疑就更加重要,所以我们必须保证数据库的 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="高可用">
+    <meta name="tags" content="心跳">
+    <meta name="tags" content="双机">
+    <meta name="tags" content="vip">
+    <meta name="tags" content="MySQL">
+    <meta name="tags" content="heartbeat">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="heartbeat实现MySQL双机高可用"/>
+<meta property="og:description" content="对于一个网站或一个企业最重要的无疑就是数据,那么数据库的数据安全无疑就更加重要,所以我们必须保证数据库的 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-02-12 17:01:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="高可用"/>
+<meta property="article:tag" content="心跳"/>
+<meta property="article:tag" content="双机"/>
+<meta property="article:tag" content="vip"/>
+<meta property="article:tag" content="MySQL"/>
+<meta property="article:tag" content="heartbeat"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="heartbeat实现MySQL双机高可用">
+    <meta name="twitter:url" content="https://www.linuxzen.com/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="对于一个网站或一个企业最重要的无疑就是数据,那么数据库的数据安全无疑就更加重要,所以我们必须保证数据库的 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "heartbeat实现MySQL双机高可用",
+  "headline": "heartbeat实现MySQL双机高可用",
+  "datePublished": "2012-02-12 17:01:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html",
+  "description": "对于一个网站或一个企业最重要的无疑就是数据,那么数据库的数据安全无疑就更加重要,所以我们必须保证数据库的 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">heartbeat实现MySQL双机高可用</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Sun 12 February 2012">Sun 12 February 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>对于一个网站或一个企业最重要的无疑就是数据,那么数据库的数据安全无疑就更加重要,所以我们必须保证数据库的数据完整,这里就介绍使用heartbeat来实现MySQL双机高可用.</p>
+<p>当我们的MySQL数据库故障或MySQL数据库服务器出现故障的时候我们希望有一个备用能自动代替主MySQL数据来完成当前的任务,当主MySQL服务器恢复故障的时候备用的能切换到备用等待下一次故障出现.这里我们就结合故障检测HA来实现.</p>
+<p>HA会定时发送心跳包检测主备服务器的健康状态,当主服务器出现故障时会自动将vip切换到备用服务器,由备用服务器执行主服务器的任务,MySQL要实现这样的功能就必须保证主备服务器的数据一致.这就要用到MySQL主从双机.</p>
+<!--more-->
+<p>本文使用环境:
+系统:CentOS 5.5 32位
+主MySQL: ip 192.168.3.101/24 主机名:master.org
+备用MySQL:192.168.3.102/24   主机名:slave.org
+vip:192.168.3.103/24
+MySQL:mysql-5.0.95.tar.gz
+heartbeat:Heartbeat-3-0-7e3a82377fa8.tar.bz2</p>
+<h3 id="mysql">一、安装部署MySQL</h3>
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>ncurses-devel<span class="w"> </span>openssl-devel
+wget<span class="w"> </span>http://dev.mysql.com/get/Downloads/MySQL-5.0/mysql-5.0.95.tar.gz/from/http://mysql.cdpa.nsysu.edu.tw/
+useradd<span class="w"> </span>-M<span class="w"> </span>-s<span class="w"> </span>/sbin/nologin<span class="w"> </span>mysql
+tar<span class="w"> </span>-zxvf<span class="w"> </span>mysql-5.0.95.tar.gz
+<span class="nb">cd</span><span class="w"> </span>mysql-5.0.95
+./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/mysql<span class="w"> </span><span class="se">\</span>
+--without-debug<span class="w"> </span><span class="se">\</span>
+--with-extra-charsets<span class="o">=</span>utf8,gbk<span class="w"> </span><span class="se">\</span>
+--enable-assembler<span class="w"> </span><span class="se">\</span>
+--with-mysqld-ldflags<span class="o">=</span>-all-static<span class="w"> </span><span class="se">\</span>
+--with-client-ldflags<span class="o">=</span>-all-static<span class="w"> </span><span class="se">\</span>
+--with-unix-socket-path<span class="o">=</span>/tmp/mysql.sock<span class="w"> </span><span class="se">\</span>
+--with-ssl
+make<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>make<span class="w"> </span>install
+cp<span class="w"> </span>support-files/my-medium.cnf<span class="w"> </span>/etc/my.cnf<span class="w">          </span><span class="c1"># 创建配置文件</span>
+cp<span class="w"> </span>support-files/mysql.server<span class="w"> </span>/etc/init.d/mysqld<span class="w">     </span><span class="c1"># 创建启动脚本</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>/etc/init.d/mysqld
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;/usr/local/mysql/lib/mysql/&#39;</span><span class="w"> </span><span class="p">&amp;</span>gt<span class="p">;&amp;</span>gt<span class="p">;</span><span class="w"> </span>/etc/ld.so.conf
+ldconfig
+/usr/local/mysql/bin/mysql_install_db<span class="w"> </span>--user<span class="o">=</span>mysql<span class="w">   </span><span class="c1"># 初始化数据库</span>
+chown<span class="w"> </span>-R<span class="w"> </span>root.mysql<span class="w"> </span>/usr/local/mysql/
+chown<span class="w"> </span>-R<span class="w"> </span>mysql.mysql<span class="w"> </span>/usr/local/mysql/var/
+ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/mysql/bin/*<span class="w"> </span>/usr/local/bin/<span class="w"> </span><span class="c1"># 为二进制文件做一个软链接</span>
+</code></pre></div>
+
+<p>配置MySQl主从实现数据同步,在主从服务器上修改my.cnf(这里是新安装的数据库,如果是仅仅加从库,需要把主库的数据备份导入到从库,这里不再讲述)</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/etc/my.cnf
+<span class="c1"># [mysqld]里修改:</span>
+<span class="nv">log_bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/var/log/mysql/mysql-bin.log<span class="w">      </span><span class="c1"># 启动二进制文件</span>
+server-id<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1921683101</span><span class="w">                      </span><span class="c1"># 设置服务器id</span>
+</code></pre></div>
+
+<p>启动主库:</p>
+<div class="highlight"><pre><span></span><code>service<span class="w"> </span>mysqld<span class="w"> </span>start
+</code></pre></div>
+
+<p>在主库上创建一个用户授权给从库,用户为backup密码为backup:</p>
+<div class="highlight"><pre><span></span><code>mysql<span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>grant<span class="w"> </span>replication<span class="w"> </span>slave<span class="w"> </span>on<span class="w"> </span>*.*<span class="w"> </span>to<span class="w"> </span><span class="s1">&#39;backup&#39;</span>@<span class="s1">&#39;192.168.3.102&#39;</span><span class="w"> </span>identified<span class="w"> </span>by<span class="w"> </span><span class="s1">&#39;backup&#39;</span><span class="p">;</span>
+Query<span class="w"> </span>OK,<span class="w"> </span><span class="m">0</span><span class="w"> </span>rows<span class="w"> </span>affected<span class="w"> </span><span class="o">(</span><span class="m">0</span>.16<span class="w"> </span>sec<span class="o">)</span>
+</code></pre></div>
+
+<p>查看主库状态:</p>
+<div class="highlight"><pre><span></span><code>mysql<span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>show<span class="w"> </span>master<span class="w"> </span>status<span class="p">;</span>
++------------------+-----------+--------------+------------------+
+¦<span class="w"> </span>File<span class="w">             </span>¦<span class="w"> </span>Position<span class="w">  </span>¦<span class="w"> </span>Binlog_Do_DB<span class="w"> </span>¦<span class="w"> </span>Binlog_Ignore_DB<span class="w"> </span>¦
++------------------+-----------+--------------+------------------+
+¦<span class="w"> </span>mysql-bin.000003<span class="w"> </span>¦<span class="w">       </span><span class="m">236</span><span class="w"> </span>¦<span class="w">              </span>¦<span class="w">                  </span>¦
++------------------+-----------+--------------+------------------+
+<span class="m">1</span><span class="w"> </span>row<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="o">(</span><span class="m">0</span>.00<span class="w"> </span>sec<span class="o">)</span>
+</code></pre></div>
+
+<p>修改从库配置文件:</p>
+<div class="highlight"><pre><span></span><code>server-id<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1921683102</span><span class="w">                 </span><span class="c1"># server id必须保持唯一</span>
+<span class="nv">log_bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/var/log/mysql/mysql-bin.log<span class="w"> </span><span class="c1"># 启用二进制日志</span>
+master-host<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">192</span>.168.3.101<span class="w">       </span><span class="c1"># 主库ip</span>
+master-user<span class="w"> </span><span class="o">=</span><span class="w"> </span>backup<span class="w">                  </span><span class="c1"># 账号</span>
+master-pass<span class="w"> </span><span class="o">=</span><span class="w"> </span>backup<span class="w">                 </span><span class="c1"># 密码</span>
+master-port<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3306</span><span class="w">                      </span><span class="c1"># 连接主库的端口</span>
+master-connect-retry<span class="o">=</span><span class="m">60</span><span class="w">             </span><span class="c1"># 连接失败后进行重试等待的描述</span>
+</code></pre></div>
+
+<p>启动从库,并查看状态:</p>
+<div class="highlight"><pre><span></span><code>service<span class="w"> </span>mysqld<span class="w"> </span>start
+</code></pre></div>
+
+<p>在从库上执行下操作,指定主库的二进制文件名和偏移量(刚才在主库show master status;查看的参数):</p>
+<div class="highlight"><pre><span></span><code>mysql<span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>show<span class="w"> </span>slave<span class="w"> </span>status<span class="w"> </span><span class="se">\G</span><span class="p">;</span>
+***************************<span class="w"> </span><span class="m">1</span>.<span class="w"> </span>row<span class="w"> </span>***************************
+<span class="w">             </span>Slave_IO_State:<span class="w"> </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>master<span class="w"> </span>to<span class="w"> </span>send<span class="w"> </span>event
+<span class="w">                </span>Master_Host:<span class="w"> </span><span class="m">192</span>.168.3.101
+<span class="w">                </span>Master_User:<span class="w"> </span>backup
+<span class="w">                </span>Master_Port:<span class="w"> </span><span class="m">3306</span>
+<span class="w">              </span>Connect_Retry:<span class="w"> </span><span class="m">60</span>
+<span class="w">            </span>Master_Log_File:<span class="w"> </span>mysql-bin.000003
+<span class="w">        </span>Read_Master_Log_Pos:<span class="w"> </span><span class="m">236</span>
+<span class="w">             </span>Relay_Log_File:<span class="w"> </span>cfhost-relay-bin.000002
+<span class="w">              </span>Relay_Log_Pos:<span class="w"> </span><span class="m">235</span>
+<span class="w">      </span>Relay_Master_Log_File:<span class="w"> </span>mysql-bin.000003
+<span class="w">           </span>Slave_IO_Running:<span class="w"> </span>Yes
+<span class="w">          </span>Slave_SQL_Running:<span class="w"> </span>Yes
+<span class="w">            </span>Replicate_Do_DB:
+<span class="w">        </span>Replicate_Ignore_DB:
+<span class="w">         </span>Replicate_Do_Table:
+<span class="w">     </span>Replicate_Ignore_Table:
+<span class="w">    </span>Replicate_Wild_Do_Table:
+Replicate_Wild_Ignore_Table:
+<span class="w">                 </span>Last_Errno:<span class="w"> </span><span class="m">0</span>
+<span class="w">                 </span>Last_Error:
+<span class="w">               </span>Skip_Counter:<span class="w"> </span><span class="m">0</span>
+<span class="w">        </span>Exec_Master_Log_Pos:<span class="w"> </span><span class="m">236</span>
+<span class="w">            </span>Relay_Log_Space:<span class="w"> </span><span class="m">235</span>
+<span class="w">            </span>Until_Condition:<span class="w"> </span>None
+<span class="w">             </span>Until_Log_File:
+<span class="w">              </span>Until_Log_Pos:<span class="w"> </span><span class="m">0</span>
+<span class="w">         </span>Master_SSL_Allowed:<span class="w"> </span>No
+<span class="w">         </span>Master_SSL_CA_File:
+<span class="w">         </span>Master_SSL_CA_Path:
+<span class="w">            </span>Master_SSL_Cert:
+<span class="w">          </span>Master_SSL_Cipher:
+<span class="w">             </span>Master_SSL_Key:
+<span class="w">      </span>Seconds_Behind_Master:<span class="w"> </span><span class="m">0</span>
+<span class="m">1</span><span class="w"> </span>row<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="o">(</span><span class="m">0</span>.00<span class="w"> </span>sec<span class="o">)</span>
+
+ERROR:
+No<span class="w"> </span>query<span class="w"> </span>specified
+</code></pre></div>
+
+<p>如果show slave status \G;<span style="color: #ff0000;">Slave_SQL_Running: No</span><span style="color: #000000;">,则执在从库上执行下面命令(两个参数值通过在主库执行show master status; 命令查看获得):
+</span></p>
+<div class="highlight"><pre><span></span><code>mysql<span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>stop<span class="w"> </span>slave<span class="p">;</span>
+Query<span class="w"> </span>OK,<span class="w"> </span><span class="m">0</span><span class="w"> </span>rows<span class="w"> </span>affected<span class="w"> </span><span class="o">(</span><span class="m">0</span>.00<span class="w"> </span>sec<span class="o">)</span>
+
+mysql<span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>change<span class="w"> </span>master<span class="w"> </span>to<span class="w"> </span><span class="nv">master_log_file</span><span class="o">=</span><span class="s1">&#39;mysql-bin.000003&#39;</span>,master_log_pos<span class="o">=</span><span class="m">236</span><span class="p">;</span>
+Query<span class="w"> </span>OK,<span class="w"> </span><span class="m">0</span><span class="w"> </span>rows<span class="w"> </span>affected<span class="w"> </span><span class="o">(</span><span class="m">0</span>.01<span class="w"> </span>sec<span class="o">)</span>
+</code></pre></div>
+
+<p>&nbsp;</p>
+<p>在主库上创建一个数据库看看是否同步.</p>
+<h3 id="heartbeat">二、安装部署heartbeat实现双机热备份</h3>
+<h3 id="_1">安装依赖</h3>
+<div class="highlight"><pre><span></span><code>yum<span class="w">  </span>-y<span class="w"> </span>install<span class="w"> </span>pkgconfig<span class="w"> </span>glib2-devel<span class="w"> </span>python-devel<span class="w"> </span>pam-devel<span class="w"> </span>gnutls-devel<span class="w"> </span>swig
+</code></pre></div>
+
+<p>安装libnet</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>http://download.fedora.redhat.com/pub/epel/5/i386/libnet-1.1.5-1.el5.i386.rpm
+rpm<span class="w"> </span>-ivh<span class="w"> </span>libnet-1.1.5-1.el5.i386.rpm
+wget<span class="w"> </span>http://download.fedora.redhat.com/pub/epel/5/i386/libnet-devel-1.1.5-1.el5.i386.rpm
+rpm<span class="w"> </span>-ivh<span class="w"> </span>libnet-devel-1.1.5-1.el5.i386.rpm
+</code></pre></div>
+
+<h3 id="_2">安装:</h3>
+<div class="highlight"><pre><span></span><code>useradd<span class="w"> </span>-M<span class="w"> </span>-s<span class="w"> </span>/sbin/nologin<span class="w"> </span>hacluster
+useradd<span class="w"> </span>-M<span class="w"> </span>-s<span class="w"> </span>/sbin/nologin<span class="w"> </span>haclient
+wget<span class="w"> </span>http://www.ultramonkey.org/download/heartbeat/2.0.8/heartbeat-2.0.8.tar.gz
+tar<span class="w"> </span>-zxvf<span class="w"> </span>heartbeat-2.0.8.tar.gz
+<span class="nb">cd</span><span class="w"> </span>heartbeat-2.0.8
+./configure<span class="w"> </span>--sysconfdir<span class="o">=</span>/etc
+make<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+
+<p>创建配置文件:
+安装后要配置三个文件（如没有可手动建立）：ha.cf、haresources、authkeys。这三个配置文件需要在/etc/ha.d目录下面，但是默认是没有这三个文件的，可以到官网上下这三个文件，也可以在源码包里找这三个文件，在源码目录下的DOC子目录里。</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/usr/local/share/doc/heartbeat-2.0.8/ha.cf<span class="w"> </span><span class="p">|</span><span class="w"> </span>egrep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^#\W&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^#$&#39;</span><span class="w"> </span><span class="p">&amp;</span>gt<span class="p">;&amp;</span>gt<span class="p">;</span><span class="w"> </span>/etc/ha.d/ha.cf
+cat<span class="w"> </span>/usr/local/share/doc/heartbeat-2.0.8/haresources<span class="w">  </span><span class="p">|</span><span class="w"> </span>egrep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^#\W&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^#$&#39;</span><span class="w"> </span><span class="p">&amp;</span>gt<span class="p">;&amp;</span>gt<span class="p">;</span><span class="w"> </span>/etc/ha.d/haresources
+cat<span class="w"> </span>/usr/local/share/doc/heartbeat-2.0.8/authkeys<span class="w"> </span><span class="p">|</span><span class="w"> </span>egrep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^#\W&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;^#$&#39;</span><span class="w"> </span>-v<span class="w"> </span><span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>/etc/ha.d/authkeys
+</code></pre></div>
+
+<p>编辑配置文件:</p>
+<p>编辑ha.cf,该文件中包括为Heartbeat使用何种介质通路和如何配置他们的信息.</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>vi<span class="w"> </span>/etc/ha.d/ha.cf<span class="w"> </span>
+
+debugfile<span class="w"> </span>/var/log/ha-debug<span class="w">   </span><span class="c1"># 用于记录heartbeat的调试信息</span>
+logfile<span class="w"> </span>/var/log/ha-log<span class="w">       </span><span class="c1"># 用于记录heartbeat的日志信息</span>
+logfacility<span class="w">     </span>local0
+keepalive<span class="w"> </span><span class="m">2</span><span class="w">         </span><span class="c1"># 设置心跳间隔</span>
+watchdog<span class="w"> </span>/dev/watchdog
+deadtime<span class="w"> </span><span class="m">30</span><span class="w">              </span><span class="c1">#  在30秒后宣布节点死亡</span>
+warntime<span class="w"> </span><span class="m">10</span><span class="w">              </span><span class="c1"># 在日志中发出“late heartbeat“警告之前等待的时间，单位为秒</span>
+initdead<span class="w"> </span><span class="m">120</span><span class="w">             </span><span class="c1"># 网络启动时间</span>
+udpport<span class="w">        </span><span class="m">694</span><span class="w">       </span><span class="c1"># 广播/单播通讯使用的udp端口</span>
+<span class="c1">#baud   19200</span>
+<span class="c1">#serial  /dev/ttyS0      # 使用串口heartbeat</span>
+bcast<span class="w">   </span>eth0<span class="w">             </span><span class="c1"># 使用网卡heartbeat,并在eth0接口上使用广播heartbeat</span>
+auto_failback<span class="w"> </span>on<span class="w">         </span><span class="c1"># 当主节点从故障中恢复时,将自动切换到主节点</span>
+watchdog<span class="w"> </span>/dev/watchdog<span class="w">   </span><span class="c1"># 该指令是用于设置看门狗定时器，如果节点一分钟内都没有心跳，那么节点将重新启动</span>
+node<span class="w"> </span>master.org<span class="w">          </span><span class="c1"># 集群中机器的主机名，与“uname –n”的输出相同。</span>
+node<span class="w"> </span>slave.org
+ping<span class="w"> </span><span class="m">192</span>.168.3.254<span class="w">       </span><span class="c1"># ping网关来检测链路正常</span>
+respawn<span class="w"> </span>hacluster<span class="w"> </span>/usr/local/lib/heartbeat/ipfail<span class="w"> </span><span class="c1"># respawn调用/usr/lib/heartbeat/ipfail来主动进行切换</span>
+apiauth<span class="w"> </span>ipfail<span class="w"> </span><span class="nv">gid</span><span class="o">=</span>haclient<span class="w"> </span><span class="nv">uid</span><span class="o">=</span>hacluster<span class="w">   </span><span class="c1"># 设置启动ipfail的用户和组</span>
+</code></pre></div>
+
+<p>配置haresources ,该文件列出所有节点所提供的服务以及服务的默认所有者.所有节点上的该文件必须相同</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/etc/ha.d/haresources
+
+master.org<span class="w">    </span>IPaddr::192.168.3.103<span class="w"> </span>mysql<span class="w">  </span><span class="c1"># vip</span>
+</code></pre></div>
+
+<p><code>注意:!!</code>haresources最后一个字段是某个服务的心跳,如果mysql,如果主从库使用的是同一台盘阵或者一个分布式文件系统,这里一定要填写真实的启动脚本(/etc/init.d下),如果是主从同步的话请务必不填写真正的启动脚本,因为主库心跳存活的话heartbeat会自动停止从库的mysql,这样就无法同步,主库发生故障时转移故障就没有意义.</p>
+<p>配置authkeys, authkeys决定了您的认证密钥。共有三种认证方式：crc，md5，和sha1果您的Heartbeat运行于 安全 网络之上，如本例中的交叉线，可以使用crc，从资源的角度来看，这是代价最低的方法。如果网络并不 安全 ，但您也希望降低CPU使用，则使用md5。最后，如果您想得到最好的认证，而不考虑CPU使用情况，则使用sha1，它在三者之中最难破解。</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/etc/ha.d/authkeys
+
+auth<span class="w"> </span><span class="m">1</span>
+<span class="m">1</span><span class="w"> </span>crc
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/ha.d/authkeys
+</code></pre></div>
+
+<p>不论您在关键字auth后面指定的是什么索引值，在后面必须要作为键值再次出现。如果您指定“auth 4”，则在后面一定要有一行的内容为“4 ”。
+配置从库:</p>
+<div class="highlight"><pre><span></span><code>scp<span class="w"> </span>root@192.168.3.101:/etc/ha.d/ha.cf<span class="w"> </span>/etc/ha.d/
+scp<span class="w"> </span>root@192.168.3.101:/etc/ha.d/authkeys<span class="w"> </span>/etc/ha.d/
+scp<span class="w"> </span>root@192.168.3.101:/etc/ha.d/haresources<span class="w"> </span>/etc/ha.d/
+vi<span class="w"> </span>/etc/ha.d/ha.cf
+debugfile<span class="w"> </span>/var/log/ha-debug
+logfile<span class="w"> </span>/var/log/ha-log
+logfacility<span class="w">     </span>local0
+keepalive<span class="w"> </span><span class="m">2</span>
+deadtime<span class="w"> </span><span class="m">30</span>
+warntime<span class="w"> </span><span class="m">10</span>
+initdead<span class="w"> </span><span class="m">120</span>
+udpport<span class="w"> </span><span class="m">694</span>
+bcast<span class="w">   </span>eth0<span class="w">          </span>
+auto_failback<span class="w"> </span>on
+node<span class="w">    </span>master.org
+node<span class="w">    </span>slave.org
+ping<span class="w"> </span><span class="m">192</span>.168.3.254
+respawn<span class="w"> </span>hacluser<span class="w"> </span>/usr/local/lib/heartbeat/ipfail<span class="w"> </span><span class="c1"># respawn调用/usr/lib/heartbeat/ipfail来主动进行切换</span>
+apiauth<span class="w"> </span>ipfail<span class="w"> </span><span class="nv">gid</span><span class="o">=</span>haclient<span class="w"> </span><span class="nv">uid</span><span class="o">=</span>hacluster
+</code></pre></div>
+
+<p>启动主库heartbeat:</p>
+<div class="highlight"><pre><span></span><code>server<span class="w"> </span>heartbeat<span class="w"> </span>start
+</code></pre></div>
+
+<p>查看日志:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/var/log/ha-log
+
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:29<span class="w"> </span>info:<span class="w"> </span>Link<span class="w"> </span><span class="m">192</span>.168.3.254:192.168.3.254<span class="w"> </span>up.
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:29<span class="w"> </span>info:<span class="w"> </span>Status<span class="w"> </span>update<span class="w"> </span><span class="k">for</span><span class="w"> </span>node<span class="w"> </span><span class="m">192</span>.168.3.254:<span class="w"> </span>status<span class="w"> </span>ping
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:29<span class="w"> </span>info:<span class="w"> </span>Link<span class="w"> </span>master.org:eth0<span class="w"> </span>up.
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:41<span class="w"> </span>WARN:<span class="w"> </span>node<span class="w"> </span>slave.org:<span class="w"> </span>is<span class="w"> </span>dead
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:41<span class="w"> </span>info:<span class="w"> </span>Comm_now_up<span class="o">()</span>:<span class="w"> </span>updating<span class="w"> </span>status<span class="w"> </span>to<span class="w"> </span>active
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:41<span class="w"> </span>info:<span class="w"> </span>Local<span class="w"> </span>status<span class="w"> </span>now<span class="w"> </span><span class="nb">set</span><span class="w"> </span>to:<span class="w"> </span><span class="s1">&#39;active&#39;</span>
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:41<span class="w"> </span>info:<span class="w"> </span>Starting<span class="w"> </span>child<span class="w"> </span>client<span class="w"> </span><span class="s2">&quot;/usr/local/lib/heartbeat/ipfail&quot;</span><span class="w"> </span><span class="o">(</span><span class="m">503</span>,503<span class="o">)</span>
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:41<span class="w"> </span>WARN:<span class="w"> </span>No<span class="w"> </span>STONITH<span class="w"> </span>device<span class="w"> </span>configured.
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:41<span class="w"> </span>WARN:<span class="w"> </span>Shared<span class="w"> </span>disks<span class="w"> </span>are<span class="w"> </span>not<span class="w"> </span>protected.
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:41<span class="w"> </span>info:<span class="w"> </span>Resources<span class="w"> </span>being<span class="w"> </span>acquired<span class="w"> </span>from<span class="w"> </span>slave.org.
+heartbeat<span class="o">[</span><span class="m">32247</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:41<span class="w"> </span>info:<span class="w"> </span>Starting<span class="w"> </span><span class="s2">&quot;/usr/local/lib/heartbeat/ipfail&quot;</span><span class="w"> </span>as<span class="w"> </span>uid<span class="w"> </span><span class="m">503</span><span class="w">  </span>gid<span class="w"> </span><span class="m">503</span><span class="w"> </span><span class="o">(</span>pid<span class="w"> </span><span class="m">32247</span><span class="o">)</span>
+harc<span class="o">[</span><span class="m">32248</span><span class="o">]</span>:<span class="w">    </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/ha.d/rc.d/status<span class="w"> </span>status
+mach_down<span class="o">[</span><span class="m">32275</span><span class="o">]</span>:<span class="w">       </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>info:<span class="w"> </span>/usr/local/lib/heartbeat/mach_down:<span class="w"> </span>nice_failback:<span class="w"> </span>foreign<span class="w"> </span>resources<span class="w"> </span>acquired
+mach_down<span class="o">[</span><span class="m">32275</span><span class="o">]</span>:<span class="w">       </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>info:<span class="w"> </span>mach_down<span class="w"> </span>takeover<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>node<span class="w"> </span>slave.org.
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>info:<span class="w"> </span>mach_down<span class="w"> </span>takeover<span class="w"> </span>complete.
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>info:<span class="w"> </span>Initial<span class="w"> </span>resource<span class="w"> </span>acquisition<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="o">(</span>mach_down<span class="o">)</span>
+IPaddr<span class="o">[</span><span class="m">32300</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>INFO:<span class="w">  </span>Resource<span class="w"> </span>is<span class="w"> </span>stopped
+heartbeat<span class="o">[</span><span class="m">32249</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>info:<span class="w"> </span>Local<span class="w"> </span>Resource<span class="w"> </span>acquisition<span class="w"> </span>completed.
+harc<span class="o">[</span><span class="m">32338</span><span class="o">]</span>:<span class="w">    </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/ha.d/rc.d/ip-request-resp<span class="w"> </span>ip-request-resp
+ip-request-resp<span class="o">[</span><span class="m">32338</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>received<span class="w"> </span>ip-request-resp<span class="w"> </span>IPaddr::192.168.3.103<span class="w"> </span>OK<span class="w"> </span>yes
+ResourceManager<span class="o">[</span><span class="m">32353</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>info:<span class="w"> </span>Acquiring<span class="w"> </span>resource<span class="w"> </span>group:<span class="w"> </span>master.org<span class="w"> </span>IPaddr::192.168.3.103<span class="w"> </span>mysqld
+IPaddr<span class="o">[</span><span class="m">32377</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>INFO:<span class="w">  </span>Resource<span class="w"> </span>is<span class="w"> </span>stopped
+ResourceManager<span class="o">[</span><span class="m">32353</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/ha.d/resource.d/IPaddr<span class="w"> </span><span class="m">192</span>.168.3.103<span class="w"> </span>start
+IPaddr<span class="o">[</span><span class="m">32429</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>INFO:<span class="w"> </span>Using<span class="w"> </span>calculated<span class="w"> </span>nic<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.103:<span class="w"> </span>eth0
+IPaddr<span class="o">[</span><span class="m">32429</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>DEBUG:<span class="w"> </span>Using<span class="w"> </span>calculated<span class="w"> </span>netmask<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.103:<span class="w"> </span><span class="m">255</span>.255.255.0
+IPaddr<span class="o">[</span><span class="m">32429</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>DEBUG:<span class="w"> </span>Using<span class="w"> </span>calculated<span class="w"> </span>broadcast<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.103:<span class="w"> </span><span class="m">192</span>.168.3.255
+IPaddr<span class="o">[</span><span class="m">32429</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_13:45:42<span class="w"> </span>INFO:<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>/sbin/ifconfig<span class="w"> </span>eth0:0<span class="w"> </span><span class="m">192</span>.168.3.103<span class="w"> </span>netmask<span class="w"> </span><span class="m">255</span>.255.255.0<span class="w"> </span>broadcast<span class="w"> </span><span class="m">192</span>.168.3.255
+IPaddr<span class="o">[</span><span class="m">32429</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_13:45:43<span class="w"> </span>DEBUG:<span class="w"> </span>Sending<span class="w"> </span>Gratuitous<span class="w"> </span>Arp<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.103<span class="w"> </span>on<span class="w"> </span>eth0:0<span class="w"> </span><span class="o">[</span>eth0<span class="o">]</span>
+IPaddr<span class="o">[</span><span class="m">32420</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_13:45:43<span class="w"> </span>INFO:<span class="w">  </span>Success
+ResourceManager<span class="o">[</span><span class="m">32353</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:43<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/init.d/mysqld<span class="w">  </span>start
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:56<span class="w"> </span>info:<span class="w"> </span>Local<span class="w"> </span>Resource<span class="w"> </span>acquisition<span class="w"> </span>completed.<span class="w"> </span><span class="o">(</span>none<span class="o">)</span>
+heartbeat<span class="o">[</span><span class="m">32239</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_13:45:56<span class="w"> </span>info:<span class="w"> </span><span class="nb">local</span><span class="w"> </span>resource<span class="w"> </span>transition<span class="w"> </span>completed.
+</code></pre></div>
+
+<p>&nbsp;</p>
+<p>从日志中看出来slave.org没起来是死亡的,并添加192.168.3.103vip</p>
+<p>启动从库heartbeat</p>
+<div class="highlight"><pre><span></span><code>server<span class="w"> </span>heartbeat<span class="w"> </span>start
+</code></pre></div>
+
+<p>启动之后查看日志信息</p>
+<div class="highlight"><pre><span></span><code>Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:22<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Local<span class="w"> </span>status<span class="w"> </span>now<span class="w"> </span><span class="nb">set</span><span class="w"> </span>to:<span class="w"> </span><span class="s1">&#39;up&#39;</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:23<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Link<span class="w"> </span>master.org:eth0<span class="w"> </span>up.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:23<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Status<span class="w"> </span>update<span class="w"> </span><span class="k">for</span><span class="w"> </span>node<span class="w"> </span>master.org:<span class="w"> </span>status<span class="w"> </span>active
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:23<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Link<span class="w"> </span><span class="m">192</span>.168.3.254:192.168.3.254<span class="w"> </span>up.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:23<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Status<span class="w"> </span>update<span class="w"> </span><span class="k">for</span><span class="w"> </span>node<span class="w"> </span><span class="m">192</span>.168.3.254:<span class="w"> </span>status<span class="w"> </span>ping
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:23<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Link<span class="w"> </span>slave.org:eth0<span class="w"> </span>up.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:23<span class="w"> </span>slave<span class="w"> </span>harc<span class="o">[</span><span class="m">29171</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/ha.d/rc.d/status<span class="w"> </span>status
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:24<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Comm_now_up<span class="o">()</span>:<span class="w"> </span>updating<span class="w"> </span>status<span class="w"> </span>to<span class="w"> </span>active
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:24<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Local<span class="w"> </span>status<span class="w"> </span>now<span class="w"> </span><span class="nb">set</span><span class="w"> </span>to:<span class="w"> </span><span class="s1">&#39;active&#39;</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:24<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Starting<span class="w"> </span>child<span class="w"> </span>client<span class="w"> </span><span class="s2">&quot;/usr/local/lib/heartbeat/ipfail&quot;</span><span class="w"> </span><span class="o">(</span><span class="m">501</span>,501<span class="o">)</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:24<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>WARN:<span class="w"> </span>G_CH_dispatch_int:<span class="w"> </span>Dispatch<span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>child<span class="w"> </span>took<span class="w"> </span>too<span class="w"> </span>long<span class="w"> </span>to<span class="w"> </span>execute:<span class="w"> </span><span class="m">140</span><span class="w"> </span>ms<span class="w"> </span><span class="o">(</span><span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span><span class="m">50</span><span class="w"> </span>ms<span class="o">)</span><span class="w"> </span><span class="o">(</span>GSource:<span class="w"> </span>0x9b98448<span class="o">)</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:24<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29182</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Starting<span class="w"> </span><span class="s2">&quot;/usr/local/lib/heartbeat/ipfail&quot;</span><span class="w"> </span>as<span class="w"> </span>uid<span class="w"> </span><span class="m">501</span><span class="w">  </span>gid<span class="w"> </span><span class="m">501</span><span class="w"> </span><span class="o">(</span>pid<span class="w"> </span><span class="m">29182</span><span class="o">)</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:24<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>remote<span class="w"> </span>resource<span class="w"> </span>transition<span class="w"> </span>completed.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:24<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>remote<span class="w"> </span>resource<span class="w"> </span>transition<span class="w"> </span>completed.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:24<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Local<span class="w"> </span>Resource<span class="w"> </span>acquisition<span class="w"> </span>completed.<span class="w"> </span><span class="o">(</span>none<span class="o">)</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:25<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>master.org<span class="w"> </span>wants<span class="w"> </span>to<span class="w"> </span>go<span class="w"> </span>standby<span class="w"> </span><span class="o">[</span>foreign<span class="o">]</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:26<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>standby:<span class="w"> </span>acquire<span class="w"> </span><span class="o">[</span>foreign<span class="o">]</span><span class="w"> </span>resources<span class="w"> </span>from<span class="w"> </span>master.org
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:26<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29183</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>acquire<span class="w"> </span><span class="nb">local</span><span class="w"> </span>HA<span class="w"> </span>resources<span class="w"> </span><span class="o">(</span>standby<span class="o">)</span>.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:26<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29183</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span><span class="nb">local</span><span class="w"> </span>HA<span class="w"> </span>resource<span class="w"> </span>acquisition<span class="w"> </span>completed<span class="w"> </span><span class="o">(</span>standby<span class="o">)</span>.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:26<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Standby<span class="w"> </span>resource<span class="w"> </span>acquisition<span class="w"> </span><span class="k">done</span><span class="w"> </span><span class="o">[</span>foreign<span class="o">]</span>.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:26<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Initial<span class="w"> </span>resource<span class="w"> </span>acquisition<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="o">(</span>auto_failback<span class="o">)</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:27<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>remote<span class="w"> </span>resource<span class="w"> </span>transition<span class="w"> </span>completed.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:36<span class="w"> </span>slave<span class="w"> </span>ipfail:<span class="w"> </span><span class="o">[</span><span class="m">29182</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Ping<span class="w"> </span>node<span class="w"> </span>count<span class="w"> </span>is<span class="w"> </span>balanced.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:37<span class="w"> </span>slave<span class="w"> </span>ipfail:<span class="w"> </span><span class="o">[</span><span class="m">29182</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Giving<span class="w"> </span>up<span class="w"> </span>foreign<span class="w"> </span>resources<span class="w"> </span><span class="o">(</span>auto_failback<span class="o">)</span>.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:37<span class="w"> </span>slave<span class="w"> </span>ipfail:<span class="w"> </span><span class="o">[</span><span class="m">29182</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Delayed<span class="w"> </span>giveup<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:42<span class="w"> </span>slave<span class="w"> </span>ipfail:<span class="w"> </span><span class="o">[</span><span class="m">29182</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>giveup<span class="o">()</span><span class="w"> </span>called<span class="w"> </span><span class="o">(</span>timeout<span class="w"> </span>worked<span class="o">)</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:42<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>slave.org<span class="w"> </span>wants<span class="w"> </span>to<span class="w"> </span>go<span class="w"> </span>standby<span class="w"> </span><span class="o">[</span>foreign<span class="o">]</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:43<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>standby:<span class="w"> </span>master.org<span class="w"> </span>can<span class="w"> </span>take<span class="w"> </span>our<span class="w"> </span>foreign<span class="w"> </span>resources
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:43<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29194</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>give<span class="w"> </span>up<span class="w"> </span>foreign<span class="w"> </span>HA<span class="w"> </span>resources<span class="w"> </span><span class="o">(</span>standby<span class="o">)</span>.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:43<span class="w"> </span>slave<span class="w"> </span>ResourceManager<span class="o">[</span><span class="m">29204</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Releasing<span class="w"> </span>resource<span class="w"> </span>group:<span class="w"> </span>master.org<span class="w"> </span>IPaddr::192.168.3.103<span class="w"> </span>mysqld
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:43<span class="w"> </span>slave<span class="w"> </span>ResourceManager<span class="o">[</span><span class="m">29204</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/init.d/mysqld<span class="w">  </span>stop
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:45<span class="w"> </span>slave<span class="w"> </span>ResourceManager<span class="o">[</span><span class="m">29204</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/ha.d/resource.d/IPaddr<span class="w"> </span><span class="m">192</span>.168.3.103<span class="w"> </span>stop
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:45<span class="w"> </span>slave<span class="w"> </span>IPaddr<span class="o">[</span><span class="m">29279</span><span class="o">]</span>:<span class="w"> </span>INFO:<span class="w">  </span>Success
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:45<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29194</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>foreign<span class="w"> </span>HA<span class="w"> </span>resource<span class="w"> </span>release<span class="w"> </span>completed<span class="w"> </span><span class="o">(</span>standby<span class="o">)</span>.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:45<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Local<span class="w"> </span>standby<span class="w"> </span>process<span class="w"> </span>completed<span class="w"> </span><span class="o">[</span>foreign<span class="o">]</span>.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:46<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>WARN:<span class="w"> </span><span class="m">1</span><span class="w"> </span>lost<span class="w"> </span>packet<span class="o">(</span>s<span class="o">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="o">[</span>master.org<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">162</span>:164<span class="o">]</span>
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:46<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>remote<span class="w"> </span>resource<span class="w"> </span>transition<span class="w"> </span>completed.
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:46<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>No<span class="w"> </span>pkts<span class="w"> </span>missing<span class="w"> </span>from<span class="w"> </span>master.org!
+Feb<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">13</span>:50:46<span class="w"> </span>slave<span class="w"> </span>heartbeat:<span class="w"> </span><span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span>info:<span class="w"> </span>Other<span class="w"> </span>node<span class="w"> </span>completed<span class="w"> </span>standby<span class="w"> </span>takeover<span class="w"> </span>of<span class="w"> </span>foreign<span class="w"> </span>resources.
+</code></pre></div>
+
+<p>现在尝试停止主库的MySQL服务</p>
+<div class="highlight"><pre><span></span><code>pkill<span class="w"> </span>mysqld
+</code></pre></div>
+
+<p>查看日志并无变化,所以得出结论heartbeat只检测心跳也就是只检测设备是否宕机,不会检测MySQL服务,所以我们同样要有一个脚本来检测MySQL服务,如果mysql服务宕掉,则尝试启动服务,若启动服务失败则kill掉heartbeat进程实现故障转移(和上一遍nginx+keepalived原理一致),脚本内容如下:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># filename:mysqlsc.sh</span>
+ps<span class="w"> </span>aux<span class="w"> </span>¦<span class="w"> </span>grep<span class="w"> </span>mysqld<span class="w"> </span>¦<span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>grep<span class="w"> </span><span class="m">2</span><span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>/dev/null<span class="w"> </span><span class="m">1</span><span class="p">&amp;</span>gt<span class="p">;&amp;</span>amp<span class="p">;</span><span class="m">2</span><span class="w">   </span><span class="c1"># 过滤mysql进程</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="w">               </span><span class="c1"># 如果过滤有mysql进程会返回0则认为mysql存活</span>
+<span class="k">then</span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">5</span><span class="w">                     </span><span class="c1"># 使脚本进入休眠</span>
+<span class="k">else</span>
+<span class="c1"># 如果nginx没有存活尝试启动mysql,如果失败则杀死heartbeat的进程</span>
+<span class="w">    </span>/etc/init.d/mysqld<span class="w"> </span>start
+<span class="w">    </span>ps<span class="w"> </span>aux<span class="w"> </span>¦<span class="w"> </span>grep<span class="w"> </span>mysqld<span class="w"> </span>¦<span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>grep<span class="w"> </span><span class="m">2</span><span class="p">&amp;</span>gt<span class="p">;</span><span class="w"> </span>/dev/null<span class="w"> </span><span class="m">1</span><span class="p">&amp;</span>gt<span class="p">;&amp;</span>amp<span class="p">;</span><span class="m">2</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">        </span>pkill<span class="w"> </span>heartbeat
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">fi</span>
+</code></pre></div>
+
+<p>给这个脚本执行权限然后后台运行:</p>
+<div class="highlight"><pre><span></span><code>chmod<span class="w"> </span>+x<span class="w"> </span>mysqlsc.sh
+nohup<span class="w"> </span>sh<span class="w"> </span>mysqlsc.sh<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;</span><span class="w"> </span><span class="c1"># 后台运行</span>
+</code></pre></div>
+
+<p>下面来尝试停止主库的heartbeat:</p>
+<div class="highlight"><pre><span></span><code>service<span class="w"> </span>heartbeat<span class="w"> </span>stop
+</code></pre></div>
+
+<p>查看从库日志:</p>
+<div class="highlight"><pre><span></span><code>heartbeat<span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>info:<span class="w"> </span>Received<span class="w"> </span>shutdown<span class="w"> </span>notice<span class="w"> </span>from<span class="w"> </span><span class="s1">&#39;master.org&#39;</span>.
+heartbeat<span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>info:<span class="w"> </span>Resources<span class="w"> </span>being<span class="w"> </span>acquired<span class="w"> </span>from<span class="w"> </span>master.org.
+heartbeat<span class="o">[</span><span class="m">29308</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>info:<span class="w"> </span>acquire<span class="w"> </span><span class="nb">local</span><span class="w"> </span>HA<span class="w"> </span>resources<span class="w"> </span><span class="o">(</span>standby<span class="o">)</span>.
+heartbeat<span class="o">[</span><span class="m">29308</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>info:<span class="w"> </span><span class="nb">local</span><span class="w"> </span>HA<span class="w"> </span>resource<span class="w"> </span>acquisition<span class="w"> </span>completed<span class="w"> </span><span class="o">(</span>standby<span class="o">)</span>.
+heartbeat<span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>info:<span class="w"> </span>Standby<span class="w"> </span>resource<span class="w"> </span>acquisition<span class="w"> </span><span class="k">done</span><span class="w"> </span><span class="o">[</span>foreign<span class="o">]</span>.
+heartbeat<span class="o">[</span><span class="m">29309</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>info:<span class="w"> </span>No<span class="w"> </span><span class="nb">local</span><span class="w"> </span>resources<span class="w"> </span><span class="o">[</span>/usr/local/lib/heartbeat/ResourceManager<span class="w"> </span>listkeys<span class="w"> </span>slave.org<span class="o">]</span><span class="w"> </span>to<span class="w"> </span>acquire.
+harc<span class="o">[</span><span class="m">29328</span><span class="o">]</span>:<span class="w">    </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/ha.d/rc.d/status<span class="w"> </span>status
+mach_down<span class="o">[</span><span class="m">29338</span><span class="o">]</span>:<span class="w">       </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>info:<span class="w"> </span>Taking<span class="w"> </span>over<span class="w"> </span>resource<span class="w"> </span>group<span class="w"> </span>IPaddr::192.168.3.103
+ResourceManager<span class="o">[</span><span class="m">29358</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>info:<span class="w"> </span>Acquiring<span class="w"> </span>resource<span class="w"> </span>group:<span class="w"> </span>master.org<span class="w"> </span>IPaddr::192.168.3.103<span class="w"> </span>mysqld
+IPaddr<span class="o">[</span><span class="m">29382</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_14:03:05<span class="w"> </span>INFO:<span class="w">  </span>Resource<span class="w"> </span>is<span class="w"> </span>stopped
+ResourceManager<span class="o">[</span><span class="m">29358</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:06<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/ha.d/resource.d/IPaddr<span class="w"> </span><span class="m">192</span>.168.3.103<span class="w"> </span>start
+IPaddr<span class="o">[</span><span class="m">29434</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_14:03:06<span class="w"> </span>INFO:<span class="w"> </span>Using<span class="w"> </span>calculated<span class="w"> </span>nic<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.103:<span class="w"> </span>eth0
+IPaddr<span class="o">[</span><span class="m">29434</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_14:03:06<span class="w"> </span>DEBUG:<span class="w"> </span>Using<span class="w"> </span>calculated<span class="w"> </span>netmask<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.103:<span class="w"> </span><span class="m">255</span>.255.255.0
+IPaddr<span class="o">[</span><span class="m">29434</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_14:03:06<span class="w"> </span>DEBUG:<span class="w"> </span>Using<span class="w"> </span>calculated<span class="w"> </span>broadcast<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.103:<span class="w"> </span><span class="m">192</span>.168.3.255
+IPaddr<span class="o">[</span><span class="m">29434</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_14:03:06<span class="w"> </span>INFO:<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>/sbin/ifconfig<span class="w"> </span>eth0:0<span class="w"> </span><span class="m">192</span>.168.3.103<span class="w"> </span>netmask<span class="w"> </span><span class="m">255</span>.255.255.0<span class="w"> </span>broadcast<span class="w"> </span><span class="m">192</span>.168.3.255
+IPaddr<span class="o">[</span><span class="m">29434</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_14:03:06<span class="w"> </span>DEBUG:<span class="w"> </span>Sending<span class="w"> </span>Gratuitous<span class="w"> </span>Arp<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">192</span>.168.3.103<span class="w"> </span>on<span class="w"> </span>eth0:0<span class="w"> </span><span class="o">[</span>eth0<span class="o">]</span>
+IPaddr<span class="o">[</span><span class="m">29425</span><span class="o">]</span>:<span class="w">  </span><span class="m">2012</span>/02/19_14:03:06<span class="w"> </span>INFO:<span class="w">  </span>Success
+ResourceManager<span class="o">[</span><span class="m">29358</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:06<span class="w"> </span>info:<span class="w"> </span>Running<span class="w"> </span>/etc/init.d/mysqld<span class="w">  </span>start
+mach_down<span class="o">[</span><span class="m">29338</span><span class="o">]</span>:<span class="w">       </span><span class="m">2012</span>/02/19_14:03:07<span class="w"> </span>info:<span class="w"> </span>/usr/local/lib/heartbeat/mach_down:<span class="w"> </span>nice_failback:<span class="w"> </span>foreign<span class="w"> </span>resources<span class="w"> </span>acquired
+mach_down<span class="o">[</span><span class="m">29338</span><span class="o">]</span>:<span class="w">       </span><span class="m">2012</span>/02/19_14:03:07<span class="w"> </span>info:<span class="w"> </span>mach_down<span class="w"> </span>takeover<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>node<span class="w"> </span>master.org.
+heartbeat<span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:07<span class="w"> </span>info:<span class="w"> </span>mach_down<span class="w"> </span>takeover<span class="w"> </span>complete.
+heartbeat<span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:17<span class="w"> </span>WARN:<span class="w"> </span>node<span class="w"> </span>master.org:<span class="w"> </span>is<span class="w"> </span>dead
+heartbeat<span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:17<span class="w"> </span>info:<span class="w"> </span>Dead<span class="w"> </span>node<span class="w"> </span>master.org<span class="w"> </span>gave<span class="w"> </span>up<span class="w"> </span>resources.
+heartbeat<span class="o">[</span><span class="m">29159</span><span class="o">]</span>:<span class="w"> </span><span class="m">2012</span>/02/19_14:03:17<span class="w"> </span>info:<span class="w"> </span>Link<span class="w"> </span>master.org:eth0<span class="w"> </span>dead.
+</code></pre></div>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=heartbeat实现MySQL双机高可用&amp;url=https://www.linuxzen.com/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/gao-ke-yong.html">高可用</a><a href="https://www.linuxzen.com/tag/xin-tiao.html">心跳</a><a href="https://www.linuxzen.com/tag/shuang-ji.html">双机</a><a href="https://www.linuxzen.com/tag/vip.html">vip</a><a href="https://www.linuxzen.com/tag/mysql.html">MySQL</a><a href="https://www.linuxzen.com/tag/heartbeat.html">heartbeat</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html';
+                    var disqus_url = 'https://www.linuxzen.com/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/heartbeatshi-xian-mysqlshuang-ji-gao-ke-yong.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

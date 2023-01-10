@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>cold's world - Vim</title><link href="https://www.linuxzen.com/" rel="alternate"></link><link href="https://www.linuxzen.com/feeds/vim.atom.xml" rel="self"></link><id>https://www.linuxzen.com/</id><updated>2013-12-27T00:00:00+08:00</updated><subtitle>纸上得来终觉浅，绝知此事要躬行</subtitle><entry><title>使用 Pygments 对 Vimwiki 进行代码高亮</title><link href="https://www.linuxzen.com/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html" rel="alternate"></link><published>2013-12-27T00:00:00+08:00</published><updated>2013-12-27T00:00:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2013-12-27:/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html</id><summary type="html">&lt;p&gt;Vimwiki 推荐的代码高亮机制是通过一个 JavaScript 插件来完成的, 那样需要加载很多 js,
+所以不想使用, 比较倾向使用 Pygments 在 Vimwiki 生成 HTML 的 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Vimwiki 推荐的代码高亮机制是通过一个 JavaScript 插件来完成的, 那样需要加载很多 js,
+所以不想使用, 比较倾向使用 Pygments 在 Vimwiki 生成 HTML 的时候对代码进行高亮.&lt;/p&gt;
+&lt;h1 id="_1"&gt;尝试&lt;/h1&gt;
+&lt;h2 id="custom_wiki2html"&gt;使用 custom_wiki2html 选项&lt;/h2&gt;
+&lt;p&gt;仔细的看了 Vimwiki 的帮助文档, 发现有一个 custom_wiki2html 
+(&lt;code&gt;:h vimwiki-option-custom_wiki2html&lt;/code&gt;) 的选项可以指定自己
+的脚本来处理 wiki2html, 尝试了一下, 发现这个脚本是在生成 HTML 之前调用,
+而且如果对 wiki 文件处理之后无法替换回原来的内容(后来发现这个仅仅是对使用 Markdown
+语法作为 Wiki 语法设定的), 所以放弃了.&lt;/p&gt;
+&lt;h2 id="fork"&gt;Fork 仓库, 更改代码&lt;/h2&gt;
+&lt;p&gt;后来想想既然原生的没有解决办法, 所以就干脆在 github 上 fork 了仓库
+clone 到本地进行修改, 通过直接 hack 代码在 Vimwiki 处理之前对代码进行高亮.&lt;/p&gt;
+&lt;h3 id="_2"&gt;思路&lt;/h3&gt;
+&lt;p&gt;粗略的看了下代码, Vimwiki 是将文件读入, 然后逐行处理, 看来只能在文件读取之后
+对内容做一些操作.&lt;/p&gt;
+&lt;p&gt;Vimscript 的 readfile 返回一个列表, 每一个元素代表一行, 编写一个函数处理这个
+列表, 并返回, 在 autoload/vimwiki/html.vim 里的 第 1350 行找到
+&lt;code&gt;vimwiki#html#CustomWiki2HTML&lt;/code&gt; 函数, 并在其上面添加一个函数&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; s:highlight_code_with_pygments&lt;span class="p"&gt;(&lt;/span&gt;lsource&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c"&gt;&amp;quot;{{{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;has&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;a&lt;/span&gt;:lsource
+  &lt;span class="k"&gt;endif&lt;/span&gt;
+  &lt;span class="k"&gt;let&lt;/span&gt; s:lsource &lt;span class="p"&gt;=&lt;/span&gt; deepcopy&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;a&lt;/span&gt;:lsource&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;let&lt;/span&gt; s:content &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;python&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;EOF
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+  &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;vim&lt;/span&gt;
+
+  &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+  &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+
+  &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pygments&lt;/span&gt;
+  &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;echoerr &amp;#39;Cannot import pygments library, please install it.&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt;
+
+  &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pygments.lexers&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_lexer_by_name&lt;/span&gt;
+  &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pygments.formatters&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HtmlFormatter&lt;/span&gt;
+  &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pygments&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;highlight&lt;/span&gt;
+  &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pygments.util&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ClassNotFound&lt;/span&gt;
+
+  &lt;span class="n"&gt;CODE_RE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\n({{{(\w*?)\s(.*?)\s}}})&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+  &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;eval&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;s:lsource&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;False&lt;/span&gt;
+  &lt;span class="n"&gt;css_class&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;eval&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;VimwikiGet(&amp;#39;pygments_class&amp;#39;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lang_type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;CODE_RE&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findall&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;lang_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lang_type&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="n"&gt;lexer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_lexer_by_name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lang_type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="n"&gt;ClassNotFound&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="n"&gt;lexer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_lexer_by_name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;formatter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HtmlFormatter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;encoding&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;utf8&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cssclass&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;css_class&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                              &lt;span class="n"&gt;noclasses&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;default&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                              &lt;span class="n"&gt;linenos&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nowrap&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;hcode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;highlight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lexer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;formatter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hcode&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;
+
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;let s:content=&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+EOF
+
+  &lt;span class="k"&gt;if&lt;/span&gt; s:content &lt;span class="p"&gt;!=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; s:lsource &lt;span class="p"&gt;=&lt;/span&gt; split&lt;span class="p"&gt;(&lt;/span&gt;s:content&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;endif&lt;/span&gt;
+
+  &lt;span class="k"&gt;return&lt;/span&gt; s:lsource
+&lt;span class="k"&gt;endfunction&lt;/span&gt; &lt;span class="c"&gt;&amp;quot;}}}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后在 &lt;code&gt;vimwiki#html#Wiki2HTML&lt;/code&gt; 函数内读取文件的下面调用此函数&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;...
+    &lt;span class="k"&gt;let&lt;/span&gt; lsource &lt;span class="p"&gt;=&lt;/span&gt; readfile&lt;span class="p"&gt;(&lt;/span&gt;wikifile&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;let&lt;/span&gt; lsource &lt;span class="p"&gt;=&lt;/span&gt; s:highlight_code_with_pygments&lt;span class="p"&gt;(&lt;/span&gt;lsource&lt;span class="p"&gt;)&lt;/span&gt;
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;当然需要还需要拷贝 css 文件, 修改模板等, 这里不一一详述&lt;/p&gt;
+&lt;h3 id="_3"&gt;结果&lt;/h3&gt;
+&lt;p&gt;好吧, 确实工作了, 但是新的问题出来了, 高亮后替换成HTML的内容会被 Vimwiki 第二次处理
+所以 HTML 的格式全乱了,  CSS 样式也肯定不行了. 找了一下没有办法能避免 Vimwiki 不
+处理一段内容(为什么已经是 HTMl 了 Vimwiki 还要处理呢)&lt;/p&gt;
+&lt;p&gt;上述方法不行, 那只能再想想办法了&lt;/p&gt;
+&lt;h3 id="nowiki"&gt;使用特殊的注释: %nowiki&lt;/h3&gt;
+&lt;p&gt;为了解决上面重复处理已转化成 HTML 内容的问题, 我添加 %nowiki 语法,
+以 %nowiki 这个开头的行将不处理. 然后将高亮的代码替换成 %nowiki 开始的行,
+将上面 Python 相关代码加上如下内容:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;...&lt;/span&gt;
+&lt;span class="n"&gt;hcode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;highlight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lexer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;formatter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# 添加以下语句&lt;/span&gt;
+&lt;span class="n"&gt;hcode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;%nowiki&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;%nowiki&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hcode&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hcode&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;..&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后找到 &lt;code&gt;s:parse_line&lt;/code&gt; 函数, 在处理 toc 的下面添加&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;  &amp;quot; toc -- placeholder &amp;quot;{{{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;processed
+    &lt;span class="k"&gt;if&lt;/span&gt; line &lt;span class="p"&gt;=~&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;^\s*%toc&amp;#39;&lt;/span&gt;
+      &lt;span class="k"&gt;let&lt;/span&gt; processed &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+      &lt;span class="k"&gt;let&lt;/span&gt; param &lt;span class="p"&gt;=&lt;/span&gt; matchstr&lt;span class="p"&gt;(&lt;/span&gt;line&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;^\s*%toc\s\zs.*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="k"&gt;let&lt;/span&gt; state.placeholder &lt;span class="p"&gt;=&lt;/span&gt; [&lt;span class="s1"&gt;&amp;#39;toc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; param]
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="c"&gt;  &amp;quot;}}}&lt;/span&gt;
+
+&lt;span class="c"&gt;  &amp;quot; 添加处理 nowiki&lt;/span&gt;
+&lt;span class="c"&gt;  &amp;quot; nowiki &amp;quot;{{{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;processed
+    &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;=~&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;^\s*%nowiki&amp;#39;&lt;/span&gt;
+      &lt;span class="k"&gt;let&lt;/span&gt; processed &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+      &lt;span class="k"&gt;call&lt;/span&gt; add&lt;span class="p"&gt;(&lt;/span&gt;res_lines&lt;span class="p"&gt;,&lt;/span&gt; substitute&lt;span class="p"&gt;(&lt;/span&gt;line&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;^\s*%nowiki&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+  &lt;span class="k"&gt;endif&lt;/span&gt; &lt;span class="c"&gt;&amp;quot;}}}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后找到 &lt;code&gt;s:safe_html&lt;/code&gt; 函数, 添加如下语句&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; s:safe_html&lt;span class="p"&gt;(&lt;/span&gt;line&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c"&gt;&amp;quot;{{{&lt;/span&gt;
+&lt;span class="c"&gt;  &amp;quot; 不处理 %nowiki &lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;a&lt;/span&gt;:line&lt;span class="p"&gt;=~&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;^\s*%nowiki&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;a&lt;/span&gt;:line
+  &lt;span class="k"&gt;endif&lt;/span&gt;
+
+  ...
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;大功告成, 这样就可以正常的使用 pygments 进行高亮代码&lt;/p&gt;
+&lt;h1 id="_4"&gt;成果&lt;/h1&gt;
+&lt;p&gt;修改后的代码放在了 github 上, 在 &lt;a href="https://github.com/coldnight/vimwiki"&gt;这里&lt;/a&gt;, 
+有需要的可以安装, 但这个更改仅仅是对我个人使用, 可能不会跟随主线程版本的更新.&lt;/p&gt;
+&lt;p&gt;当然我添加了一些选项来开启/关闭使用pygments, 安装后在 Vim 中执行 &lt;code&gt;:h vimwiki-option-use_pygments&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;大家通过代码也看到了, 要使用改变之后的插件 Vim 需要编译 +python 并且需要安装 pygments Python 库.&lt;/p&gt;</content><category term="Vim"></category><category term="vim"></category><category term="vimwiki"></category><category term="pygments"></category><category term="python"></category><category term="highlight"></category></entry><entry><title>使用 Vimwiki + git 做知识管理</title><link href="https://www.linuxzen.com/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html" rel="alternate"></link><published>2013-12-26T00:00:00+08:00</published><updated>2013-12-26T00:00:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2013-12-26:/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html</id><summary type="html">&lt;p&gt;一直在找一个合适的知识管理工具, 用过 Evernote, 但是不支持 Markdown, 用了一段时间也放弃了.
+最近 python-cn 列表里也在讨论这个问题, 看到 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;一直在找一个合适的知识管理工具, 用过 Evernote, 但是不支持 Markdown, 用了一段时间也放弃了.
+最近 python-cn 列表里也在讨论这个问题, 看到有人使用 Vimwiki, 所以就尝试了一下.&lt;/p&gt;
+&lt;p&gt;安装后,试着写了点东西, 发现很方便做知识管理和记录笔记, 可以生成HTML, 可以定制模板,
+这里不讨论如何使用, Vimwiki 的文档介绍的很详细,&lt;/p&gt;
+&lt;p&gt;我使用&lt;a href="http://bootcss.com"&gt;bootstrap&lt;/a&gt;和 jquery 对模板进行了一些定制:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;添加导航&lt;/li&gt;
+&lt;li&gt;将toc移动到左侧&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面将介绍我是如何做的, 并在最后附上如何部署的&lt;/p&gt;
+&lt;h3 id="_1"&gt;指定模板&lt;/h3&gt;
+&lt;p&gt;首先需要更改默认模板&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:vimwiki_list &lt;span class="p"&gt;=&lt;/span&gt; [{&lt;span class="s1"&gt;&amp;#39;path&amp;#39;&lt;/span&gt;: &lt;span class="s1"&gt;&amp;#39;~/vimwiki&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    \    &lt;span class="s1"&gt;&amp;#39;path_html&amp;#39;&lt;/span&gt;: &lt;span class="s1"&gt;&amp;#39;~/vimwiki_html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    \    &lt;span class="s1"&gt;&amp;#39;template_path&amp;#39;&lt;/span&gt;: &lt;span class="s1"&gt;&amp;#39;~/vimwiki/template&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    \    &lt;span class="s1"&gt;&amp;#39;template_default&amp;#39;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;default.tpl&amp;quot;&lt;/span&gt;}]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;并将默认的模板作为模板进行修改&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;-p&lt;span class="w"&gt; &lt;/span&gt;~/vimwiki/template
+cp&lt;span class="w"&gt; &lt;/span&gt;~/.vim/bundle/vimwiki/autoload/vimwiki/default.tpl&lt;span class="w"&gt; &lt;/span&gt;~/vimwiki/template
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="_2"&gt;添加静态文件&lt;/h3&gt;
+&lt;p&gt;将jqeury和bootstrap的js和css文件放到 ~/vimwik_html目录下,&lt;/p&gt;
+&lt;p&gt;为了统一修改和发布 Wiki, 我将静态文件放在 ~/vimwiki 的 static 目录下, 
+并在 ~/vimwiki_html 创建一个软链链接到这个目录, 下面是我 static 目录的一个快照&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;tree&lt;span class="w"&gt; &lt;/span&gt;~/vimwiki/static&lt;span class="w"&gt; &lt;/span&gt;
+~/vimwiki/static
+├──&lt;span class="w"&gt; &lt;/span&gt;bootstrap
+│&lt;span class="w"&gt;   &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;css
+│&lt;span class="w"&gt;   &lt;/span&gt;│&lt;span class="w"&gt;   &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;bootstrap.min.css
+│&lt;span class="w"&gt;   &lt;/span&gt;│&lt;span class="w"&gt;   &lt;/span&gt;└──&lt;span class="w"&gt; &lt;/span&gt;bootstrap-theme.min.css
+│&lt;span class="w"&gt;   &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;fonts
+│&lt;span class="w"&gt;   &lt;/span&gt;│&lt;span class="w"&gt;   &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;glyphicons-halflings-regular.eot
+│&lt;span class="w"&gt;   &lt;/span&gt;│&lt;span class="w"&gt;   &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;glyphicons-halflings-regular.svg
+│&lt;span class="w"&gt;   &lt;/span&gt;│&lt;span class="w"&gt;   &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;glyphicons-halflings-regular.ttf
+│&lt;span class="w"&gt;   &lt;/span&gt;│&lt;span class="w"&gt;   &lt;/span&gt;└──&lt;span class="w"&gt; &lt;/span&gt;glyphicons-halflings-regular.woff
+│&lt;span class="w"&gt;   &lt;/span&gt;└──&lt;span class="w"&gt; &lt;/span&gt;js
+│&lt;span class="w"&gt;       &lt;/span&gt;└──&lt;span class="w"&gt; &lt;/span&gt;bootstrap.min.js
+├──&lt;span class="w"&gt; &lt;/span&gt;css
+│&lt;span class="w"&gt;   &lt;/span&gt;└──&lt;span class="w"&gt; &lt;/span&gt;wiki.css
+└──&lt;span class="w"&gt; &lt;/span&gt;js
+&lt;span class="w"&gt;    &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;jquery-1.8.3.min.js
+&lt;span class="w"&gt;    &lt;/span&gt;└──&lt;span class="w"&gt; &lt;/span&gt;wiki.js
+
+&lt;span class="m"&gt;6&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;directories,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;files
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;其中&lt;code&gt;wiki.js&lt;/code&gt;和&lt;code&gt;wiki.css&lt;/code&gt;分别是自定义的Javascript和CSS
+然后在~/vimwiki_html中创建链接&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;ln&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;~/vimwiki/static&lt;span class="w"&gt; &lt;/span&gt;~/vimwiki_html/static
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="_3"&gt;在模板中引用静态文件&lt;/h3&gt;
+&lt;p&gt;结合 &lt;code&gt;%root_path%&lt;/code&gt;模板变量引入静态文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;link&lt;/span&gt; &lt;span class="na"&gt;rel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%root_path%static/css/wiki.css&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;link&lt;/span&gt; &lt;span class="na"&gt;rel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%root_path%static/bootstrap/css/bootstrap.min.css&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%root_path%static/js/jquery-1.8.3.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%root_path%static/bootstrap/js/bootstrap.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%root_path%static/js/wiki.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="_4"&gt;创建导航&lt;/h3&gt;
+&lt;p&gt;根据 Boostrap 文档中的例子很容易就可以创建一个好看的导航&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;nav&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;navbar navbar-default navbar-inverse&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;role&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;navigation&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+ &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;container&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;navbar-header&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;button&lt;/span&gt; &lt;span class="na"&gt;data-target&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;.bs-navbar-collapse&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-toggle&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;collapse&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;button&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;navbar-toggle&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;sr-only&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;icon-bar&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;icon-bar&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;icon-bar&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;button&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;navbar-brand&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/index.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;cold&amp;#39;s wiki&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;collapse navbar-collapse&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nav navbar-nav&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%root_path%index.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;首页&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%root_path%diary/diary.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;日记&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%root_path%TODO.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;TODO&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+ &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;nav&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后将 content 变量放在 'contaniner' 中&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;container content-body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    %content%
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="toc"&gt;替换样式和将 toc 移动到左侧&lt;/h3&gt;
+&lt;p&gt;替换表格样式&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;addClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-bordered table-striped table-hover&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后将 &lt;code&gt;toc&lt;/code&gt; 移动到右侧, 并使用 &lt;code&gt;affix&lt;/code&gt; 效果&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// 生成左侧toc导航&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.toc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;trim&lt;/span&gt;&lt;span class="p"&gt;()){&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.content-body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;toc_html&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;div class=&amp;quot;toc&amp;quot;&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.toc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;/div&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;content&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;toc_html&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;div class=&amp;quot;col-md-3&amp;quot;&amp;gt;\n&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;toc_html&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\n&amp;lt;/div&amp;gt;\n&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;div class=&amp;quot;col-md-9&amp;quot;&amp;gt;\n&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;content&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\n&amp;lt;/div&amp;gt;\n&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sr"&gt;/blockquote/g&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pre&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.content-body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.toc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;addClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;bs-sidebar&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* $(&amp;quot;.toc&amp;quot;).attr(&amp;quot;role&amp;quot;, &amp;quot;complementary&amp;quot;); */&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.toc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;data-spy&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;affix&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* $(&amp;quot;.toc&amp;quot;).attr(&amp;quot;data-offset-top&amp;quot;, &amp;quot;200&amp;quot;) */&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;uls&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.toc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ul&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;uls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;length&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nx"&gt;ul&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;uls&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.toc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.toc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;hasClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;toc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;hasClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;toc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;addClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;nav bs-sidenav&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;addClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;nav&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;完整的&lt;a href="http://wiki.linuxzen.com/static/js/wiki.js"&gt;wiki.js&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="_5"&gt;自定义样式&lt;/h2&gt;
+&lt;p&gt;我同时还用 Vimwiki 做TODO管理, 原有的样式感觉挺不错的, 就拷贝了一份, 
+还有一点是从 bootcss.com 文档页面扒下来的,
+可以在&lt;a href="http://wiki.linuxzen.com/static/css/wiki.css"&gt;这里&lt;/a&gt;看到.&lt;/p&gt;
+&lt;h2 id="_6"&gt;部署&lt;/h2&gt;
+&lt;p&gt;我将我的vimwiki上传到了 &lt;a href="https://bitbucket.org"&gt;bitbucket&lt;/a&gt;, 然后添加了一个定义更新的脚本,
+下面是脚本内容:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class="nv"&gt;PWD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/home/yourusername/vimwiki&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$PWD&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;pull&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;grep&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Allready up-to-date.&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;/dev/null
+
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-ne&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;vim&lt;span class="w"&gt; &lt;/span&gt;+VimwikiIndex&lt;span class="w"&gt; &lt;/span&gt;+VimwikiAll2HTML&lt;span class="w"&gt; &lt;/span&gt;+qa
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;上面脚本命名为 &lt;code&gt;update.sh&lt;/code&gt; 保存在 &lt;code&gt;~/vimwiki&lt;/code&gt; 下, 通过 &lt;code&gt;crontab&lt;/code&gt; 进行定时调用&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;crontab&lt;span class="w"&gt; &lt;/span&gt;-l
+*/30&lt;span class="w"&gt; &lt;/span&gt;*&lt;span class="w"&gt; &lt;/span&gt;*&lt;span class="w"&gt; &lt;/span&gt;*&lt;span class="w"&gt; &lt;/span&gt;*&lt;span class="w"&gt; &lt;/span&gt;/bin/bash&lt;span class="w"&gt; &lt;/span&gt;/home/yourusername/vimwiki/update.sh&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;/dev/null
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="disqus"&gt;使用 Disqus 评论系统&lt;/h3&gt;
+&lt;p&gt;我在 &lt;code&gt;template/default.tpl&lt;/code&gt; 添加了代码来使用 &lt;code&gt;Disqus&lt;/code&gt; 评论系统, 这里不在详述&lt;/p&gt;
+&lt;h3 id="wiki"&gt;已经上线的Wiki&lt;/h3&gt;
+&lt;p&gt;当然现在我已经部署了自己的wiki, 猛击&lt;a href="http://wiki.linuxzen.com"&gt;这里&lt;/a&gt;进入&lt;/p&gt;
+&lt;h3 id="_7"&gt;接下来&lt;/h3&gt;
+&lt;p&gt;现在wiki还没有代码高亮, 我不想使用那个js的高亮, 想通过 &lt;code&gt;pygments&lt;/code&gt; 来做代码高亮,
+所以接下想通过 &lt;code&gt;pygments&lt;/code&gt; 对代码进行高亮&lt;/p&gt;
+&lt;h3 id="_8"&gt;参考&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.berlinix.com/vim/vimwiki_with_bootstrap_jquery.php"&gt;用jQuery和Bootstrap美化VimWiki输出&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Vim"></category><category term="vim"></category><category term="vimwiki"></category><category term="wiki"></category><category term="知识"></category><category term="管理"></category><category term="git"></category></entry><entry><title>推荐几款最近发现非常酷的Vim插件</title><link href="https://www.linuxzen.com/tui-jian-ji-kuan-zui-jin-fa-xian-fei-chang-ku-de-vimcha-jian.html" rel="alternate"></link><published>2013-10-18T13:14:00+08:00</published><updated>2013-10-18T13:14:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2013-10-18:/tui-jian-ji-kuan-zui-jin-fa-xian-fei-chang-ku-de-vimcha-jian.html</id><summary type="html">&lt;p&gt;最近看一个github上的Vim配置, 发现了几款非常酷而且非常有用的Vim插件:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;delimitMate
+用于补全括号和引号&lt;/li&gt;
+&lt;li&gt;vim-surround
+用于快速切换括号/引号或者标签&lt;/li&gt;
+&lt;li&gt;GitGutter
+实时 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;最近看一个github上的Vim配置, 发现了几款非常酷而且非常有用的Vim插件:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;delimitMate
+用于补全括号和引号&lt;/li&gt;
+&lt;li&gt;vim-surround
+用于快速切换括号/引号或者标签&lt;/li&gt;
+&lt;li&gt;GitGutter
+实时显示git更改&lt;/li&gt;
+&lt;li&gt;Gitv
+查看Git详细提交日志(类似gitk)&lt;/li&gt;
+&lt;li&gt;vim-commentary
+Vim批量注释工具, 可以注释多行和去除多行注释&lt;/li&gt;
+&lt;li&gt;indentLine
+更加美观的显示缩进对齐线&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;先放上录屏:&lt;/p&gt;
+&lt;div style="width:800; height: 500"&gt;
+    &lt;script type="text/javascript" src="http://asciinema.org/a/5981.js" id="asciicast-5981" async&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div class="section" id="section-1"&gt;
+&lt;h2&gt;安装&lt;/h2&gt;
+&lt;p&gt;上面插件可以通过 Vundle 来安装 (了解Vundle猛击 &lt;a class="reference external" href="http://www.linuxzen.com/vimpei-zhi-xi-lie-cha-jian-guan-li.html"&gt;这里&lt;/a&gt;), 下面是 &lt;tt class="docutils literal"&gt;.vimrc&lt;/tt&gt; 的配置&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Bundle &lt;span class="s2"&gt;&amp;quot;Yggdroot/indentLine&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;airblade/vim-gitgutter&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;gregsexton/gitv&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;tpope/vim-commentary&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;tpope/vim-surround&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;Raimondi/delimitMate&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;然后重新打开 Vim, 执行 &lt;tt class="docutils literal"&gt;:BundleIntall&lt;/tt&gt; 等待安装完成&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;配置使用&lt;/h2&gt;
+&lt;p&gt;delimitMate和GitGutter安装完成不用任何配置即可使用, 下面我们先介绍 &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;vim-surround&lt;/span&gt;&lt;/tt&gt; 插件的使用&lt;/p&gt;
+&lt;div class="section" id="vim-surround"&gt;
+&lt;h3&gt;vim-surround&lt;/h3&gt;
+&lt;p&gt;这个插件可以快速的为字符串包围/改变或去除引号/括号或者HTML标签&lt;/p&gt;
+&lt;div class="section" id="section-3"&gt;
+&lt;h4&gt;为单个单词包围&lt;/h4&gt;
+&lt;p&gt;在命令模式下, 使用 &lt;tt class="docutils literal"&gt;ysiw&lt;/tt&gt; + &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;'/&amp;quot;/(/[/{&lt;/span&gt;&lt;/tt&gt; 就可以为光标下的一个单词包围上 &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;'/&amp;quot;/(/[/{&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;比如 &lt;tt class="docutils literal"&gt;ysiw'&lt;/tt&gt; 为光标下的单词包围上单引号, &lt;tt class="docutils literal"&gt;ysiw&amp;quot;&lt;/tt&gt; 为光标下单词包围上双引号, 依此类推.&lt;/p&gt;
+&lt;p&gt;vim-surround 同时还支持包围html标签, 将光标放到某单词试试下面指令&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ysiw&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+ysiw&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;p&lt;/span&gt; class&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;meta&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-4"&gt;
+&lt;h4&gt;包围一行&lt;/h4&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;yssb&lt;/tt&gt; 可以快速为一行包围圆括号,  &lt;tt class="docutils literal"&gt;yss&lt;/tt&gt; + &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;'/&amp;quot;/(/[/{&lt;/span&gt;&lt;/tt&gt; 可以为正行快速包围相应的引号/括号&lt;/p&gt;
+&lt;p&gt;比如 &lt;tt class="docutils literal"&gt;yss&amp;quot;&lt;/tt&gt;  为一行包围双引号&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-5"&gt;
+&lt;h4&gt;更改包围&lt;/h4&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;cs&lt;/tt&gt; 指令可以更改包围, 比如 &lt;tt class="docutils literal"&gt;cs'&amp;quot;&lt;/tt&gt; 是将单引号变成双引号, &lt;tt class="docutils literal"&gt;cs&amp;quot;(&lt;/tt&gt; 是将双引号变成圆括号&lt;/p&gt;
+&lt;p&gt;vim-surround支持将括号或者引号变更为html标签, 试试下面命令&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;cs&lt;/span&gt;&amp;#39;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上面命令将单引号换成 &lt;tt class="docutils literal"&gt;&amp;lt;p&amp;gt;&lt;/tt&gt; 标签&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-6"&gt;
+&lt;h4&gt;去除包围&lt;/h4&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;ds&lt;/tt&gt; 指令可以取出包围, 后面需跟包围的内容, &lt;tt class="docutils literal"&gt;ds&amp;quot;&lt;/tt&gt; 是去除双引号包围, ``&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="indentline"&gt;
+&lt;h3&gt;indentLine&lt;/h3&gt;
+&lt;p&gt;这个插件安装成功后就会显示缩进对齐线, 我们仅仅在 &lt;tt class="docutils literal"&gt;.vimrc&lt;/tt&gt; 里加一行来切换是否显示&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;leader&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;il&lt;/span&gt; :IndentLinesToggle&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样我们就可以通过 &lt;tt class="docutils literal"&gt;&amp;lt;leader&amp;gt; il&lt;/tt&gt; (我的leader映射的,)来切换是否显示对齐线&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="gitv"&gt;
+&lt;h3&gt;Gitv&lt;/h3&gt;
+&lt;p&gt;Gitv 实现了可以用Vim来查看Git的详细提交信息, 只需要打开Vim 执行 &lt;tt class="docutils literal"&gt;:Gitv&lt;/tt&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="vim-commentary"&gt;
+&lt;h3&gt;vim-commentary&lt;/h3&gt;
+&lt;p&gt;这个插件可以快速注释与反注释多行内容, 但是它的注释符使用的是 &lt;tt class="docutils literal"&gt;commentstring&lt;/tt&gt;, 默认是 &lt;tt class="docutils literal"&gt;/* %s */&lt;/tt&gt;, 但这个值满足不了Python 和 Shell这样的语言,
+在 &lt;tt class="docutils literal"&gt;.vimrc&lt;/tt&gt; 添加如下内容&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;autocmd &lt;span class="nb"&gt;FileType&lt;/span&gt; python&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="k"&gt;shell&lt;/span&gt; &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;commentstring&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;#\ %s                 &lt;span class="c"&gt;&amp;quot; 设置Python注释字符&lt;/span&gt;
+autocmd &lt;span class="nb"&gt;FileType&lt;/span&gt; mako &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cms&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;##\ %s
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;Visual&lt;/tt&gt; 模式下 &lt;tt class="docutils literal"&gt;gc&lt;/tt&gt; 命令可以注释选中的行&lt;/p&gt;
+&lt;p&gt;普通模式下  &lt;tt class="docutils literal"&gt;gcc&lt;/tt&gt; 指令可以快速注释一行&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;gcu&lt;/tt&gt; 可以撤销注释&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="section-7"&gt;
+&lt;h2&gt;最后&lt;/h2&gt;
+&lt;p&gt;有什么没介绍到的大家可以看看帮助, 大家也可以围观这个强大Vim配置: &lt;a class="reference external" href="https://github.com/liangxianzhe/dotvim"&gt;https://github.com/liangxianzhe/dotvim&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Vim"></category><category term="Vim"></category><category term="插件"></category><category term="酷"></category><category term="缩进对齐线"></category><category term="Git"></category><category term="surround"></category><category term="delimitMate"></category></entry><entry><title>Vim 相对行号</title><link href="https://www.linuxzen.com/vim-xiang-dui-xing-hao.html" rel="alternate"></link><published>2013-10-09T14:50:00+08:00</published><updated>2013-10-09T14:50:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2013-10-09:/vim-xiang-dui-xing-hao.html</id><summary type="html">&lt;p class="first last"&gt;大家在用Vim时是否会遇到想复制多行或者想快速向下/向上移动多行时而不知道行数的情况, 相对行号将帮助你轻易的完成类似的任务&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;在使用用Vim时时常会遇到像复制多行或者想快速向下/向上移动多行时而不知道行数的情况, 今天发现一个Vim对此有帮助的特性: &lt;strong&gt;相对行号&lt;/strong&gt;.
+相对行号将会在每行前显示相对于光标所在行的行号, 相对行号你给出某些垂直移动命令时需要的计数值&lt;/p&gt;
+&lt;p&gt;在 &lt;tt class="docutils literal"&gt;Vim 7.4&lt;/tt&gt; 之前的版本, 启用相对行号当前行号将变为0, 无法显示正常的行号, 在 &lt;tt class="docutils literal"&gt;Vim 7.4&lt;/tt&gt; 中则可以正常的显示当前行号的同时来显示相对行号, 下面有两张图可以对比&lt;/p&gt;
+&lt;p&gt;Vim 7.3&lt;/p&gt;
+&lt;img alt="Vim 7.3" src="/static/upload/vim_rn_pre_74.png" /&gt;
+&lt;p&gt;Vim 7.4&lt;/p&gt;
+&lt;img alt="Vim 7.3" src="/static/upload/vim_rn_74.png" /&gt;
+&lt;p&gt;从上面的图片看来, 启用相对行号后可以很直观的看到当前行距离上面/下面某行的行数&lt;/p&gt;
+&lt;p&gt;可以使用以下指令启用这个特性&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;set relativenumber
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;启用相对行号后再也不用为了复制多行费力气的去数了, so easy!&lt;/p&gt;
+</content><category term="Vim"></category><category term="Vim"></category><category term="相对"></category><category term="行号"></category></entry><entry><title>Vim 代码补全和检查: YouCompleteMe &amp; syntastic</title><link href="https://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" rel="alternate"></link><published>2013-08-14T00:00:00+08:00</published><updated>2013-08-14T00:00:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2013-08-14:/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html</id><summary type="html">&lt;p&gt;Vim 7.4 发布, 最近升级了Vim, 并安装了YouCompleteMe和Syntastic插件, 这里记录下过程&lt;/p&gt;
+&lt;h2 id="vim"&gt;升级Vim&lt;/h2&gt;
+&lt;p&gt;YouCompleteMe 需要Vim 7.3.584+的支持, 并且开启 +python , 可以通过&lt;code&gt;:version&lt;/code&gt;查看
+升级 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Vim 7.4 发布, 最近升级了Vim, 并安装了YouCompleteMe和Syntastic插件, 这里记录下过程&lt;/p&gt;
+&lt;h2 id="vim"&gt;升级Vim&lt;/h2&gt;
+&lt;p&gt;YouCompleteMe 需要Vim 7.3.584+的支持, 并且开启 +python , 可以通过&lt;code&gt;:version&lt;/code&gt;查看
+升级Vim需要先卸载原有的Vim&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;remove&lt;span class="w"&gt; &lt;/span&gt;vim&lt;span class="w"&gt; &lt;/span&gt;vim-tiny&lt;span class="w"&gt; &lt;/span&gt;vim-common&lt;span class="w"&gt; &lt;/span&gt;vim-runtime&lt;span class="w"&gt; &lt;/span&gt;gvim&lt;span class="w"&gt; &lt;/span&gt;vim-gui-common
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;并安装以下依赖&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev \
+    libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
+    libcairo2-dev libx11-dev libxpm-dev libxt-dev \
+    python-dev ruby-dev mercurial checkinstall
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;下载最新的Vim源码, 这里从代码仓库获取(需要&lt;code&gt;hg&lt;/code&gt;没有自行安装)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;hg&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;https://vim.googlecode.com/hg/&lt;span class="w"&gt; &lt;/span&gt;vim
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后进入目录编译安装Vim&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;vim
+./configure&lt;span class="w"&gt; &lt;/span&gt;--with-features&lt;span class="o"&gt;=&lt;/span&gt;huge&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;--enable-rubyinterp&lt;span class="o"&gt;=&lt;/span&gt;yes&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;--enable-pythoninterp&lt;span class="o"&gt;=&lt;/span&gt;yes&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;--enable-python3interp&lt;span class="o"&gt;=&lt;/span&gt;yes&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;--enable-perlinterp&lt;span class="o"&gt;=&lt;/span&gt;yes&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;--enable-luainterp&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;yes&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;--enable-gui&lt;span class="o"&gt;=&lt;/span&gt;gtk2&lt;span class="w"&gt; &lt;/span&gt;--enable-cscope&lt;span class="w"&gt; &lt;/span&gt;--prefix&lt;span class="o"&gt;=&lt;/span&gt;/usr
+make&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;VIMRUNTIMEDIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/share/vim/vim74
+sudo&lt;span class="w"&gt; &lt;/span&gt;checkinstall
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id="llvm"&gt;安装llvm&lt;/h2&gt;
+&lt;p&gt;如果想是想C系语言的补全, 需要libclang 3.2以上的版本, Ubuntu 12.10 自带的是3.0, 所以先安装LLVM, 可以下载二进制文件/编译安装&lt;/p&gt;
+&lt;h4 id="_1"&gt;下载二进制&lt;/h4&gt;
+&lt;p&gt;到&lt;a href="http://llvm.org/releases/download.html#3.3"&gt;llvm.org&lt;/a&gt;上下载相应的版本解压到~/ycm_temp&lt;/p&gt;
+&lt;h4 id="_2"&gt;编译&lt;/h4&gt;
+&lt;p&gt;下载&lt;a href="http://llvm.org/releases/3.3/cfe-3.3.src.tar.gz"&gt;clang&lt;/a&gt;和&lt;a href="http://llvm.org/releases/3.3/llvm-3.3.src.tar.gz"&gt;llvm&lt;/a&gt;, 解压llvm&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;~/ycm_temp
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/ycm_temp
+tar&lt;span class="w"&gt; &lt;/span&gt;-zxvf&lt;span class="w"&gt; &lt;/span&gt;llvm-3.3.src.tar.gz&lt;span class="w"&gt; &lt;/span&gt;-C&lt;span class="w"&gt; &lt;/span&gt;llvm.src
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;解压 clang到llvm.src/tools&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;tar&lt;span class="w"&gt; &lt;/span&gt;-zxvf&lt;span class="w"&gt; &lt;/span&gt;cfe-3.3.src.tar.gz&lt;span class="w"&gt; &lt;/span&gt;-C&lt;span class="w"&gt; &lt;/span&gt;~/ycm_temp/llvm.src/tools/
+mv&lt;span class="w"&gt; &lt;/span&gt;~/ycm_temp/llvm.src/tools/cfe-3.3.src&lt;span class="w"&gt; &lt;/span&gt;~/ycm_temp/llvm/tools/clang
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;编译llvm会自动编译clang&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/ycm_temp
+mkdir&lt;span class="w"&gt; &lt;/span&gt;llvm_build
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;llvm_build
+cmake&lt;span class="w"&gt; &lt;/span&gt;../llvm.src/CMakeList.txt&lt;span class="w"&gt; &lt;/span&gt;../llvm.src
+make
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id="youcompleteme"&gt;安装YouCompleteMe&lt;/h2&gt;
+&lt;p&gt;使用Vundle安装YouComplete(猛击&lt;a href="/vimpei-zhi-xi-lie-cha-jian-guan-li.html"&gt;这里&lt;/a&gt;了解Vundle)&lt;/p&gt;
+&lt;h3 id="ycm_core"&gt;编译ycm_core&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;~/ycm_build
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/ycm_build
+cmake&lt;span class="w"&gt; &lt;/span&gt;-G&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Unix Makefiles&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;~/.vim/bundle/YouCompleteMe/cpp&lt;span class="w"&gt; &lt;/span&gt;-DEXTERNAL_LIBCLANG_PATH&lt;span class="o"&gt;=&lt;/span&gt;~/ycm_temp/llvm.src/lib/libclang.so&lt;span class="w"&gt; &lt;/span&gt;
+make&lt;span class="w"&gt; &lt;/span&gt;ycm_core
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;下载llvm二进制的可以参考&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cmake&lt;span class="w"&gt; &lt;/span&gt;-G&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Unix Makefiles&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;~/.vim/bundle/YouCompleteMe/cpp&lt;span class="w"&gt; &lt;/span&gt;-DEXTERNAL_LIBCLANG_PATH&lt;span class="o"&gt;=&lt;/span&gt;~/ycm_temp/llvm_root_path/lib/libclang.so
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="_3"&gt;配置&lt;/h3&gt;
+&lt;p&gt;YouCompleteMe 需要一个配置文件来补全, 可以参考&lt;a href="https://github.com/Valloric/YouCompleteMe/blob/master/cpp/ycm/.ycm_extra_conf.py"&gt;官方配置文件&lt;/a&gt;, 可以将配置文件至于项目根目录或者上级目录, YouCompleteMe 会自动检测加载, 也可以通过指定&lt;code&gt;g:ycm_global_ycm_extra_conf&lt;/code&gt;指定一个全局的配置文件&lt;/p&gt;
+&lt;p&gt;YouCompleteMe 每次加载配置文件会有一个提示, 很烦人, 可以通过将&lt;code&gt;g:ycm_confirm_extra_conf&lt;/code&gt;置为0关闭提示&lt;/p&gt;
+&lt;h3 id="python"&gt;补全Python&lt;/h3&gt;
+&lt;p&gt;YouCompleteMe 通过 &lt;code&gt;jedi&lt;/code&gt;插件来补全Python, 可以通过&lt;code&gt;Vundle&lt;/code&gt;安装此插件,在.vimrc中添加&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Bundle &amp;quot;davidhalter/jedi&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id="_4"&gt;代码检查&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;syntastic&lt;/code&gt;是一个代码检查的插件, 通过&lt;code&gt;Vundle&lt;/code&gt;安装它, 在.vimrc中添加&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Bundle &amp;quot;scrooloose/syntastic&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;重新打开Vim, 执行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;:BundleInstall
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="_5"&gt;配置&lt;/h3&gt;
+&lt;p&gt;因为Python已经有&lt;code&gt;pylint&lt;/code&gt;来检查, 而且&lt;code&gt;syntastic&lt;/code&gt;检查Python会在保存时有很长时间的卡顿, 所以禁用它对Python文件的检查&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;let g:syntastic_ignore_files=[&amp;quot;.*\.py$&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Vim"></category><category term="Vim"></category><category term="补全"></category><category term="7.4"></category><category term="升级"></category><category term="检查"></category><category term="C语言"></category><category term="YouCompleteMe"></category><category term="syntastic"></category></entry><entry><title>Vim配置系列(二) —- 好看的statusline</title><link href="https://www.linuxzen.com/vimpei-zhi-xi-lie-er-hao-kan-de-statusline.html" rel="alternate"></link><published>2013-01-05T15:01:00+08:00</published><updated>2013-01-05T15:01:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2013-01-05:/vimpei-zhi-xi-lie-er-hao-kan-de-statusline.html</id><summary type="html">&lt;p&gt;Vim是一款文本编辑器,但是这并不影响它有一个好看的外观,大家都知道Vim可以通过配色方案来改变Vim的外观,满足一些‘好色之徒’,之前大家可能也主意到截图中一个非常漂亮 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Vim是一款文本编辑器,但是这并不影响它有一个好看的外观,大家都知道Vim可以通过配色方案来改变Vim的外观,满足一些‘好色之徒’,之前大家可能也主意到截图中一个非常漂亮的statusline,这是通过Vim的一个Powerline的插件实现的.之前我们配置了Vundle的插件管理(传送门)我们可以用Vundle安装Powerline,在.vimrc(Windows可能是_vimrc)中添加:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Bundle &lt;span class="s2"&gt;&amp;quot;Lokaltog/vim-powerline&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后重新打开vim执行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;:&lt;/span&gt;BundleInstall
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;如果你和github畅通的话就会顺利安装插件,然后在.vimrc里添加&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;laststatus&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:Powerline_symbols&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;unicode&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;如果gvim打开需要使用/path/to/your/bundle/vim-powerline/fontpatcher/fontpatcher给当前gvim使用的字体打上补丁(依赖需要fontforge和python)&lt;/p&gt;
+&lt;p&gt;然后重新打开vim你就会发现一个漂亮的statusline&lt;/p&gt;
+&lt;p&gt;&lt;img alt="好看的statusline" src="/upload/VimPythonComment1.png"&gt;&lt;/p&gt;</content><category term="Vim"></category><category term="配置"></category><category term="系列"></category><category term="漂亮"></category><category term="插件"></category><category term="vim"></category><category term="statusline"></category><category term="Powerline"></category></entry><entry><title>Vim 结合Python编写的翻译插件</title><link href="https://www.linuxzen.com/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html" rel="alternate"></link><published>2013-01-04T17:58:00+08:00</published><updated>2013-01-04T17:58:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2013-01-04:/vim-jie-he-pythonbian-xie-de-fan-yi-cha-jian.html</id><summary type="html">&lt;p&gt;最近重写了一下之前用Python写的一个终端翻译工具,想着Vim7.3 支持Python于是想将这个功能写为一个插件让Vim也支持翻译功能,现在英汉翻译比较完善, &lt;Leader&gt;t会翻译光标下单词,选中的翻译还不完善,仅仅是个半成品,在此抛砖引 …&lt;/leader&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;最近重写了一下之前用Python写的一个终端翻译工具,想着Vim7.3 支持Python于是想将这个功能写为一个插件让Vim也支持翻译功能,现在英汉翻译比较完善, &lt;Leader&gt;t会翻译光标下单词,选中的翻译还不完善,仅仅是个半成品,在此抛砖引玉.将下面代码复制保存为translate.vim 放到~/.vim/plugin目录下即可,代码如下:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;&amp;quot;   Author  :   cold&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;   E-mail  :   wh_linux@126.com&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;   Date    :   2012/12/20 16:23&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;   Desc    :   英汉/汉英翻译插件&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;   Useage  :&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;                  &amp;lt;Leader&amp;gt; t 翻译当前光标下内容 //XXX 中文不行&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;                  &amp;lt;Leader&amp;gt; lt 翻译当前行&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;                  &amp;lt;Leader&amp;gt; vt 翻译选中的内容&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; GetCursorWord&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; column &lt;span class="p"&gt;=&lt;/span&gt; get&lt;span class="p"&gt;(&lt;/span&gt;getpos&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; line &lt;span class="p"&gt;=&lt;/span&gt; getline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; word &lt;span class="p"&gt;=&lt;/span&gt; strpart&lt;span class="p"&gt;(&lt;/span&gt;line&lt;span class="p"&gt;,&lt;/span&gt; column&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;start&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+        &lt;span class="k"&gt;let&lt;/span&gt; tmp &lt;span class="p"&gt;=&lt;/span&gt; strpart&lt;span class="p"&gt;(&lt;/span&gt;line&lt;span class="p"&gt;,&lt;/span&gt; column &lt;span class="p"&gt;+&lt;/span&gt; &lt;span class="k"&gt;start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; tmp &lt;span class="p"&gt;=~&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;[a-zA-Z]&amp;quot;&lt;/span&gt;
+            &lt;span class="k"&gt;let&lt;/span&gt; word &lt;span class="p"&gt;=&lt;/span&gt; word . tmp
+        &lt;span class="k"&gt;else&lt;/span&gt;
+            &lt;span class="k"&gt;break&lt;/span&gt;
+        &lt;span class="k"&gt;endif&lt;/span&gt;
+        &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;start&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="k"&gt;start&lt;/span&gt; &lt;span class="p"&gt;+&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;endwhile&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;start&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+        &lt;span class="k"&gt;let&lt;/span&gt; tmp &lt;span class="p"&gt;=&lt;/span&gt; strpart&lt;span class="p"&gt;(&lt;/span&gt;line&lt;span class="p"&gt;,&lt;/span&gt; column &lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="k"&gt;start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; tmp &lt;span class="p"&gt;=~&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;[a-zA-Z]&amp;#39;&lt;/span&gt;
+            &lt;span class="k"&gt;let&lt;/span&gt; word &lt;span class="p"&gt;=&lt;/span&gt; tmp . word
+        &lt;span class="k"&gt;else&lt;/span&gt;
+            &lt;span class="k"&gt;break&lt;/span&gt;
+        &lt;span class="k"&gt;endif&lt;/span&gt;
+        &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;start&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="k"&gt;start&lt;/span&gt; &lt;span class="p"&gt;+&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;endwhile&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; word
+endfunc
+
+&lt;span class="k"&gt;function&lt;/span&gt; Translate&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c"&gt;    &amp;quot; m 1 -&amp;gt; 翻译当前行&lt;/span&gt;
+&lt;span class="c"&gt;    &amp;quot; m 2 -&amp;gt; 翻译选中&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;n&amp;#39;&lt;/span&gt;
+        &lt;span class="k"&gt;let&lt;/span&gt; word &lt;span class="p"&gt;=&lt;/span&gt; GetCursorWord&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c"&gt;&amp;quot; 如果是命令模式则取当前字符下单词&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="c"&gt;    &amp;quot;XXX Visual 模式mode()命令返回n&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;a&lt;/span&gt;:&lt;span class="k"&gt;m&lt;/span&gt; &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;
+        &lt;span class="k"&gt;let&lt;/span&gt; word &lt;span class="p"&gt;=&lt;/span&gt; getreg&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; 如果是选择模式获取选择块&lt;/span&gt;
+
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;a&lt;/span&gt;:&lt;span class="k"&gt;m&lt;/span&gt; &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+        &lt;span class="k"&gt;let&lt;/span&gt; word &lt;span class="p"&gt;=&lt;/span&gt; getline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;python&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; EOF
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;vim&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;urllib&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;urllib2&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Translate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; 使用google进行英-&amp;gt;汉, 汉-&amp;gt;英的翻译 &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;zh-CN&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;en&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http://translate.google.cn/translate_a/t&amp;#39;&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;t&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                           &lt;span class="n"&gt;hl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;zh-CN&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                           &lt;span class="n"&gt;multires&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prev&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;btn&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                           &lt;span class="n"&gt;ssel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;hl&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; 加载翻译结果 &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;,,&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;[,&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;,,&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;,&amp;quot;&amp;quot;,&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;[,&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;[&amp;quot;&amp;quot;,&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="c1"&gt;#content = content.replace(&amp;#39;,]&amp;#39;, &amp;#39;&amp;quot;&amp;quot;,]&amp;#39;)&lt;/span&gt;
+        &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;desc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;pinyin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;others&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;desc&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;others&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+                &lt;span class="n"&gt;others&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="si"&gt;{0}&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+                    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                        &lt;span class="n"&gt;others&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;,&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;
+        &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+            &lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+            &lt;span class="n"&gt;pinyin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pinyin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;translate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; 调用google翻译 &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urllib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;urlencode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;req&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urllib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;req&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;User-Agent&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                       &lt;span class="s2"&gt;&amp;quot;Mozilla/5.0+(compatible;+Googlebot/2.1;&amp;quot;&lt;/span&gt;
+                       &lt;span class="s2"&gt;&amp;quot;++http://www.google.com/bot.html)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urllib2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;urlopen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;req&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;auto_translate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; 自动检测当前语言进行翻译 &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;z&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;zh-CN&amp;#39;&lt;/span&gt;
+        &lt;span class="n"&gt;dst&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;en&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;en&amp;#39;&lt;/span&gt;
+        &lt;span class="n"&gt;dst&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;zh-CN&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Translate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;translate&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;
+
+&lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;eval&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;word&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;auto_translate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;echo &amp;quot;源词: &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;source&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;echo &amp;quot;结果: &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;result&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;echo &amp;quot;拼音: &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pinyin&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;others&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;echo &amp;quot;其他释义: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;echo &amp;quot;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;others&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+EOF
+
+endfunc
+nmap &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;Leader&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;t&lt;/span&gt; :&lt;span class="k"&gt;call&lt;/span&gt; Translate&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;cr&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+nmap &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;Leader&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;lt&lt;/span&gt; :&lt;span class="k"&gt;call&lt;/span&gt; Translate&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;cr&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;XXX 无法判断当前模式,使用映射替代&lt;/span&gt;
+map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;Leader&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;ts&lt;/span&gt; :&lt;span class="k"&gt;call&lt;/span&gt; Translate&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;cr&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Vim"></category><category term="翻译"></category><category term="插件"></category><category term="vim"></category><category term="python"></category></entry><entry><title>Vim配置系列(一) ---- 插件管理</title><link href="https://www.linuxzen.com/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html" rel="alternate"></link><published>2012-12-14T08:57:00+08:00</published><updated>2012-12-14T08:57:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2012-12-14:/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html</id><summary type="html">&lt;p&gt;最近对Vim进行了一番较大的配置变动,所以就想写出一个系列来将配置过程分享下来,供需要的朋友参考.我们之前配置Vim插件是一大助力,可以帮助我们做一些比较 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;最近对Vim进行了一番较大的配置变动,所以就想写出一个系列来将配置过程分享下来,供需要的朋友参考.我们之前配置Vim插件是一大助力,可以帮助我们做一些比较cool或这比较实用的功能,但是我之前都是直接搜索插件然后下载下来,手动拷贝到相应的插件,这种感觉肯定是不爽,不管是Linux还是Python/Ruby都有一套自己的包管理器,可以比较智能的搜索/安装/升级/卸载包.Vim也有类似功能的插件Vundle,他是一款Vim插件管理器,依赖于git,git是一款非常棒的VCS这里不做介绍,有兴趣的可以了解一下.Vundle可以根据配置文件的github或其他git的路径自行安装/升级插件.下面我们来介绍如何安装:
+首先在你的~/.vim下或者$VIM/vimfiles($VIM是vim的安装路径)创建bundle目录&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;~/.vim/bundle
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后使用git克隆Vundle项目:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;https://github.com/gmarik/vundle.git&lt;span class="w"&gt; &lt;/span&gt;~/.vim/bundle/vundle
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后在你的.vimrc里添加下面内容:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;nocompatible&lt;/span&gt;
+&lt;span class="k"&gt;filetype&lt;/span&gt; off                              &lt;span class="c"&gt;&amp;quot; 先关闭文件类型&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;rtp&lt;/span&gt;&lt;span class="p"&gt;+=~&lt;/span&gt;&lt;span class="sr"&gt;/.vim/&lt;/span&gt;bundle/vundle             &lt;span class="c"&gt;&amp;quot; 将vundle路径添加到插件vim路径&lt;/span&gt;
+&lt;span class="k"&gt;call&lt;/span&gt; vundle#rc&lt;span class="p"&gt;()&lt;/span&gt;                          &lt;span class="c"&gt;&amp;quot; 执行Vundle初始化&lt;/span&gt;
+Bundle &lt;span class="s1"&gt;&amp;#39;gmarik/vundle&amp;#39;&lt;/span&gt;                    &lt;span class="c"&gt;&amp;quot; 将Vundle加入到bundle&lt;/span&gt;
+
+&lt;span class="k"&gt;filetype&lt;/span&gt; indent plugin &lt;span class="k"&gt;on&lt;/span&gt;                 &lt;span class="c"&gt;&amp;quot; 安装完后打开文件类型&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;如需加上插件则在Bundle 'gmarik/vundle'后加上相应的Bundle,如果是github则可以只输入后面的相对路径,如果是其他git则需输入全部url,下面给出一个完整的例子:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;nocompatible&lt;/span&gt;
+&lt;span class="k"&gt;filetype&lt;/span&gt; off
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;rtp&lt;/span&gt;&lt;span class="p"&gt;+=~&lt;/span&gt;&lt;span class="sr"&gt;/.vim/&lt;/span&gt;bundle/vundle
+&lt;span class="k"&gt;call&lt;/span&gt; vundle#rc&lt;span class="p"&gt;()&lt;/span&gt;
+Bundle &lt;span class="s1"&gt;&amp;#39;gmarik/vundle&amp;#39;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;Bundle &amp;quot;MarcWeber/vim-addon-mw-utils&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;Bundle &amp;quot;tomtom/tlib_vim&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;Bundle &amp;quot;honza/snipmate-snippets&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;Bundle &amp;quot;garbas/vim-snipmate&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;Shougo/neocomplcache&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;Lokaltog/vim-powerline&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;drakeguan/vim-vcscommand&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;scrooloose/nerdtree&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;pix/vim-taglist&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;nathanaelkane/vim-indent-guides&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;clones/vim-cecutil&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;tpope/vim-fugitive&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;Bundle &amp;quot;c9s/bufexplorer&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;jnwhiteh/vim-golang&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;kevinw/pyflakes-vim&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;mbriggs/mark.vim&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;Bundle &amp;quot;vim-scripts/TabBar&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;vim-scripts/DrawIt&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;vim-scripts/calendar.vim--Matsumoto&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;vim-scripts/Python-mode-klen&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot;Bundle &amp;quot;vim-scripts/pydoc.vim&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;vim-scripts/VOoM&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;vim-scripts/qiushibaike&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;vim-scripts/AuthorInfo&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;vim-scripts/javacomplete&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;vim-scripts/javaDoc.vim&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;drmingdrmer/xptemplate.git&amp;quot;&lt;/span&gt;
+Bundle &lt;span class="s2"&gt;&amp;quot;vim-scripts/Java-Syntax-and-Folding&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;filetype&lt;/span&gt; indent plugin &lt;span class="k"&gt;on&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;以上是我的Vundle配置,再后面的文章会对其中一些做出介绍:&lt;/p&gt;
+&lt;p&gt;配置完后保存使用Vim打开任意文档执行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;:&lt;/span&gt;BundleInstall
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;如果网络通畅Bundle会逐个安装每个插件.&lt;/p&gt;
+&lt;p&gt;同时还有:BundleSearch用于搜索插件,非常方便.&lt;/p&gt;</content><category term="Vim"></category><category term="配置"></category><category term="系列"></category><category term="管理"></category><category term="插件"></category><category term="Vundle"></category><category term="vim"></category><category term="Bundle"></category></entry><entry><title>Vim打开Python源码自动添加#!行和编码行 升级版</title><link href="https://www.linuxzen.com/vimda-kai-pythonyuan-ma-zi-dong-tian-jia-xing-he-bian-ma-xing-sheng-ji-ban.html" rel="alternate"></link><published>2012-12-13T14:31:00+08:00</published><updated>2012-12-13T14:31:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2012-12-13:/vimda-kai-pythonyuan-ma-zi-dong-tian-jia-xing-he-bian-ma-xing-sheng-ji-ban.html</id><summary type="html">&lt;p&gt;之前给大家分享过一个打开Python源代码时自动添加#!行和编码行来避免一些重复的工作,那个是因为需要大量编写时临时的解决方案,后来使 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;之前给大家分享过一个打开Python源代码时自动添加#!行和编码行来避免一些重复的工作,那个是因为需要大量编写时临时的解决方案,后来使用中会出现一些问题,比如查看别人源码时也会更改一些东西,从而造成git不必要的更新和手动删除的额外动作,所以又写了一个,只是在文件是新打开文件时或者空文件才自动添加的方法,同时再打开python源文件将这个方法绑定要F4上可以手动添加,并会判断是否有这两行,如果有则不执行动作,同时也添加了一些辅助性注释, 比如 作者/邮箱/创建日期和描述,代码实现如下:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;&amp;quot;Python 注释&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; InsertPythonComment&lt;span class="p"&gt;()&lt;/span&gt;
+    exe &lt;span class="s1"&gt;&amp;#39;normal&amp;#39;&lt;/span&gt;.&lt;span class="m"&gt;1&lt;/span&gt;.&lt;span class="s1"&gt;&amp;#39;G&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; line &lt;span class="p"&gt;=&lt;/span&gt; getline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; line &lt;span class="p"&gt;=~&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;^#!.*$&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;||&lt;/span&gt; line &lt;span class="p"&gt;=~&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;^#.*coding:.*$&amp;#39;&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+    normal O
+    &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;#!/usr/bin/env python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    normal &lt;span class="k"&gt;o&lt;/span&gt;
+    &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;# -*- coding:utf-8 -*-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    normal &lt;span class="k"&gt;o&lt;/span&gt;
+    &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;#&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    normal &lt;span class="k"&gt;o&lt;/span&gt;
+    &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;#   Author  :   &amp;#39;&lt;/span&gt;.&lt;span class="k"&gt;g&lt;/span&gt;:python_author&lt;span class="p"&gt;)&lt;/span&gt;
+    normal &lt;span class="k"&gt;o&lt;/span&gt;
+    &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;#   E-mail  :   &amp;#39;&lt;/span&gt;.&lt;span class="k"&gt;g&lt;/span&gt;:python_email&lt;span class="p"&gt;)&lt;/span&gt;
+    normal &lt;span class="k"&gt;o&lt;/span&gt;
+    &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;#   Date    :   &amp;#39;&lt;/span&gt;.strftime&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;%y/%m/%d %H:%M:%S&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    normal &lt;span class="k"&gt;o&lt;/span&gt;
+    &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;#   Desc    :   &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    normal &lt;span class="k"&gt;o&lt;/span&gt;
+    &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;#&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    normal &lt;span class="k"&gt;o&lt;/span&gt;
+    &lt;span class="k"&gt;call&lt;/span&gt; cursor&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;17&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; InsertCommentWhenOpen&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;a&lt;/span&gt;:lastline &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &amp;amp;&amp;amp; &lt;span class="p"&gt;!&lt;/span&gt;getline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;call&lt;/span&gt; InsertPythonComment&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+endfunc
+&lt;span class="k"&gt;au&lt;/span&gt; &lt;span class="nb"&gt;FileType&lt;/span&gt; python :%&lt;span class="k"&gt;call&lt;/span&gt; InsertCommentWhenOpen&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;au&lt;/span&gt; &lt;span class="nb"&gt;FileType&lt;/span&gt; python map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;F4&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; :&lt;span class="k"&gt;call&lt;/span&gt; InsertPythonComment&lt;span class="p"&gt;()&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;cr&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;将上面的代码放到你的vimrc中,同时在vimrc添加:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:python_author &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;cold&amp;#39;&lt;/span&gt;               # 姓名
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:python_email  &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;wh_linux@126.com&amp;#39;&lt;/span&gt;   # 邮箱
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这样在每次打开空的python源文件时就会添加这些注释信息,并可以在非空没有这些注释的情况下按F4添加,配置玩后,打开空的python源文件效果如下:
+&lt;img alt="好看的statusline" src="/upload/VimPythonComment1.png"&gt;&lt;/p&gt;</content><category term="Vim"></category><category term="自动"></category><category term="编码信息"></category><category term="添加"></category><category term="vim"></category><category term="shbang line"></category><category term="python"></category></entry><entry><title>用Vim为Python源码自动添加#!行和编码行</title><link href="https://www.linuxzen.com/yong-vimwei-pythonyuan-ma-zi-dong-tian-jia-xing-he-bian-ma-xing.html" rel="alternate"></link><published>2012-09-29T18:56:00+08:00</published><updated>2012-09-29T18:56:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2012-09-29:/yong-vimwei-pythonyuan-ma-zi-dong-tian-jia-xing-he-bian-ma-xing.html</id><summary type="html">&lt;p&gt;每次开始写Python打开文件第一件事就是写上&lt;code&gt;#!/usr/bin/env python和&lt;/code&gt;编码之类的东西,&lt;/p&gt;
+&lt;p&gt;太多了,写烦就,写了一个打开Python自动填充的函数,将下面内容添加到&lt;code&gt;~/.vimrc&lt;/code&gt;下即可每次打开如果没有 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;每次开始写Python打开文件第一件事就是写上&lt;code&gt;#!/usr/bin/env python和&lt;/code&gt;编码之类的东西,&lt;/p&gt;
+&lt;p&gt;太多了,写烦就,写了一个打开Python自动填充的函数,将下面内容添加到&lt;code&gt;~/.vimrc&lt;/code&gt;下即可每次打开如果没有上述行则会自动填充:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;function&lt;/span&gt; InsertPythonHeader&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; l1 &lt;span class="p"&gt;=&lt;/span&gt; getline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; l2 &lt;span class="p"&gt;=&lt;/span&gt; getline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;  &lt;span class="k"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\#!/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; l1&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+        exec &lt;span class="m"&gt;1&lt;/span&gt;
+        normal O
+        &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#!/usr/bin/env python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\#&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; l2&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt; &amp;amp;&amp;amp; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; l2&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="p"&gt;!=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt; ¦¦ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;code&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; l2&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;!=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        exec &lt;span class="m"&gt;2&lt;/span&gt;
+        normal O
+        &lt;span class="k"&gt;call&lt;/span&gt; setline&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#-*- coding:utf-8 -*-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+
+&lt;span class="k"&gt;au&lt;/span&gt; &lt;span class="nb"&gt;FileType&lt;/span&gt; python &lt;span class="k"&gt;call&lt;/span&gt; InsertPythonHeader&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Vim"></category><category term="自动"></category><category term="编码信息"></category><category term="添加"></category><category term="vim"></category><category term="shbang line"></category><category term="python"></category></entry><entry><title>分享Vim两种好用的功能:状态行和空白字符可见</title><link href="https://www.linuxzen.com/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html" rel="alternate"></link><published>2012-09-29T17:30:00+08:00</published><updated>2012-09-29T17:30:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2012-09-29:/fen-xiang-vimliang-chong-hao-yong-de-gong-neng-zhuang-tai-xing-he-kong-bai-zi-fu-ke-jian.html</id><summary type="html">&lt;p&gt;马上要放假了,没事折腾了一下Vim发现了两个非常棒的功能,一个是给Vim添加一个状态栏,一个是可以在编辑的时候显示空白,&lt;/p&gt;
+&lt;p&gt;我的状态栏显示了:
+正在编辑的文件名 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;马上要放假了,没事折腾了一下Vim发现了两个非常棒的功能,一个是给Vim添加一个状态栏,一个是可以在编辑的时候显示空白,&lt;/p&gt;
+&lt;p&gt;我的状态栏显示了:
+正在编辑的文件名,
+选项
+是Git显示git分支(需要fugitive插件)
+文件类型
+当前目录
+当前字符的ASCII和16进制码
+右边是当前光标所在行/列,文件的位置的百分比,和文件的长度
+fugitive 可以在git获得:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git clone http://github.com/tpope/vim-fugitive.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;将plugin目录下的fugitive.vim复制到~/.vim/plugin下
+在~/.vimrc添加如下内容&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;if&lt;/span&gt; has&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;statusline&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;laststatus&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;statusline&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;%&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;%&lt;span class="k"&gt;f&lt;/span&gt;\   &lt;span class="c"&gt;&amp;quot; 文件名&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;statusline&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;%&lt;span class="k"&gt;w&lt;/span&gt;%&lt;span class="k"&gt;h&lt;/span&gt;%&lt;span class="k"&gt;m&lt;/span&gt;%&lt;span class="k"&gt;r&lt;/span&gt; &lt;span class="c"&gt;&amp;quot; 选项&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;statusline&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;%{fugitive#&lt;span class="nb"&gt;statusline&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;} &lt;span class="c"&gt;&amp;quot;Git&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;statusline&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;\ [%{&amp;amp;&lt;span class="nb"&gt;ff&lt;/span&gt;}/%Y]            &lt;span class="c"&gt;&amp;quot; filetype&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;statusline&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;\ [%{getcwd&lt;span class="p"&gt;()&lt;/span&gt;}]          &lt;span class="c"&gt;&amp;quot; current dir&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;statusline&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;\ [A&lt;span class="p"&gt;=&lt;/span&gt;\%&lt;span class="m"&gt;03&lt;/span&gt;.&lt;span class="m"&gt;3&lt;/span&gt;b&lt;span class="sr"&gt;/H=\%02.2B] &amp;quot; ASCII /&lt;/span&gt; Hexadecimal value of char
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;statusline&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;%&lt;span class="p"&gt;=&lt;/span&gt;%&lt;span class="m"&gt;-14&lt;/span&gt;.&lt;span class="p"&gt;(&lt;/span&gt;%&lt;span class="k"&gt;l&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;%&lt;span class="k"&gt;c&lt;/span&gt;%V%&lt;span class="p"&gt;)&lt;/span&gt;\ %&lt;span class="k"&gt;p&lt;/span&gt;%%\ %L  &lt;span class="c"&gt;&amp;quot; Right aligned file nav info&lt;/span&gt;
+&lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;要想在编辑时将空白可见可以在.vimrc中添加如下内容:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;listchars&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;tab&lt;/span&gt;:&lt;span class="p"&gt;&amp;gt;-,&lt;/span&gt;trail:&lt;span class="p"&gt;-,&lt;/span&gt;extends:#&lt;span class="p"&gt;,&lt;/span&gt;nbsp:&lt;span class="p"&gt;-&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;即可tab显示为&amp;gt;---,空格显示-,行尾的空白显示-,&lt;/p&gt;
+&lt;p&gt;设置完后非常的cool,上图一张:
+&lt;img alt="vim空白符" src="/upload/Screenshot-2012-09-29-173517.png"&gt;&lt;/p&gt;</content><category term="Vim"></category><category term="空白"></category><category term="字符"></category><category term="可见"></category><category term="vim"></category><category term="statusline"></category></entry><entry><title>Linux下配置vim一键编译C/C++并执行</title><link href="https://www.linuxzen.com/linuxxia-pei-zhi-vimyi-jian-bian-yi-ccbing-zhi-xing.html" rel="alternate"></link><published>2012-04-05T12:07:00+08:00</published><updated>2012-04-05T12:07:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2012-04-05:/linuxxia-pei-zhi-vimyi-jian-bian-yi-ccbing-zhi-xing.html</id><summary type="html">&lt;p&gt;最近在学习C++,编辑器当然是vim,想在编辑的时候可以一键编译,于是自己写了一个小脚本配合vim来实现.由于刚开始学,所以对C …&lt;/p&gt;</summary><content type="html">&lt;p&gt;最近在学习C++,编辑器当然是vim,想在编辑的时候可以一键编译,于是自己写了一个小脚本配合vim来实现.由于刚开始学,所以对C/C++的扩展名不太了解,所以只对.cpp .cc .c进行处理.&lt;/p&gt;
+&lt;p&gt;首先在/usr/bin/下创建compile脚本:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;vi /usr/bin/compile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;添加如下内容:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="c1"&gt;# Filename : compile&lt;/span&gt;
+&lt;span class="c1"&gt;# Describe : To compile c/c++&lt;/span&gt;
+&lt;span class="c1"&gt;# Author   : cold night(www.linuxzen.com)&lt;/span&gt;
+&lt;span class="c1"&gt;# Version  : 0.2&lt;/span&gt;
+&lt;span class="c1"&gt;# Change   : 增加终端着色 &lt;/span&gt;
+
+clear
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$#&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-eq&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;filename&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;outname&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;%&lt;/span&gt;&lt;span class="se"&gt;\.&lt;/span&gt;&lt;span class="p"&gt;*&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;typename&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;#*&lt;/span&gt;&lt;span class="se"&gt;\.&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$typename&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;cpp&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$typename&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;cc&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Compiling...&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;g++&lt;span class="w"&gt; &lt;/span&gt;-o&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$outname&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$filename&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;/tmp/errinfo&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-eq&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;       \033[32;1mSuccess!!!\033[0m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\033[1;44mRunning...\033[0m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;./&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$outname&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;       \033[1;31mError!!!\033[0m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\033[1;44mError Info:\033[0m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/tmp/errinfo
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;elif&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$typename&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;c&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Compiling...&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;gcc&lt;span class="w"&gt; &lt;/span&gt;-o&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$outname&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$filename&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/tmp/errinfo&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-eq&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;       \033[32;1mSuccess!!!\033[0m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\033[1;44mRunning...\033[0m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;./&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$outname&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;       \033[1;31mError!!!\033[0m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\033[1;44mError Info:\033[0m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/tmp/errinfo
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;------------------------&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Error: No intput filename&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后给脚本赋予执行权限&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;chmod +x /usr/bin/compile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后编辑vim配置文件:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;vi ~/.vimrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后添加下面内容:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;&amp;quot; C++ complier&lt;/span&gt;
+autocmd &lt;span class="nb"&gt;FileType&lt;/span&gt; cpp map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;F8&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;Esc&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;:&lt;span class="k"&gt;w&lt;/span&gt;&lt;span class="p"&gt;!&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;:&lt;span class="p"&gt;!&lt;/span&gt;&lt;span class="k"&gt;compile&lt;/span&gt; %&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+autocmd &lt;span class="nb"&gt;FileType&lt;/span&gt; &lt;span class="k"&gt;cc&lt;/span&gt; map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;F8&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;Esc&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;:&lt;span class="k"&gt;w&lt;/span&gt;&lt;span class="p"&gt;!&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;:&lt;span class="p"&gt;!&lt;/span&gt;&lt;span class="k"&gt;compile&lt;/span&gt; %&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+autocmd &lt;span class="nb"&gt;FileType&lt;/span&gt; &lt;span class="k"&gt;c&lt;/span&gt; map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;F8&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;Esc&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;:&lt;span class="k"&gt;w&lt;/span&gt;&lt;span class="p"&gt;!&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;:&lt;span class="p"&gt;!&lt;/span&gt;&lt;span class="k"&gt;compile&lt;/span&gt; %&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;配置完毕我们就可以用vim编辑C/C++源文件的时候按F8就可以进行一键编译执行.&lt;/p&gt;</content><category term="Vim"></category><category term="编译"></category><category term="一键"></category><category term="vim"></category><category term="Linux"></category><category term="C/C++"></category></entry></feed>

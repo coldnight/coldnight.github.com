@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>动态规划 :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="tags: Algorithm 状态转移方程 无后效性 如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。
+一旦 \(f(n)\) 确定，“我们如何凑出 \(f(n)\) ”就再也用不着了：
+要求出 \(f(15)\)，只需要知道 \(f(14)\),\(f(10)\),\(f(4)\) 的值， 而 \(f(14)\),\(f(10)\),\(f(4)\) 是如何算出来的，对之后的问题没有影响。 “未来与过去无关”，这就是无后效性。
+最优子结构 大问题的最优解可以由小问题的最优解推出，这个性质叫做“最优子结构性质”：
+\(f(n)\) 的定义需要蕴含“最优”，利用 \(f(14)\),\(f(10)\),\(f(4)\) 的最优解，我们即可算出 \(f(15)\) 的最优解。
+能将大问题拆成几个小问题，且满足无后效性、最优子结构性质。 DP 思路 参见 LeetCode 讨论：
+先写出穷举的方法 找出不必要的重复计算 写出 DP 练习 0x00 硬币找零 描述 假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
+状态转移公式 公式 \(f(n)=min\{f(n-1),f(n-3),f(n-5)\} &#43; 1\)
+检查是否满足上面提到的两个特性：
+无后效性：对于 \(n\)，一旦 \(f(n)\) 确定，以后只关心 \(f(n)\) 的值，不关心怎么计算的； 最优子结构：对于 \(n\)，只要 \(n - 1\) \(n - 3\) \(n - 5\) 能是最优解，那么就能计算出 n; 推导过程 假设找零 15：" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="动态规划">
+<meta property="og:description" content="tags: Algorithm 状态转移方程 无后效性 如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。
+一旦 \(f(n)\) 确定，“我们如何凑出 \(f(n)\) ”就再也用不着了：
+要求出 \(f(15)\)，只需要知道 \(f(14)\),\(f(10)\),\(f(4)\) 的值， 而 \(f(14)\),\(f(10)\),\(f(4)\) 是如何算出来的，对之后的问题没有影响。 “未来与过去无关”，这就是无后效性。
+最优子结构 大问题的最优解可以由小问题的最优解推出，这个性质叫做“最优子结构性质”：
+\(f(n)\) 的定义需要蕴含“最优”，利用 \(f(14)\),\(f(10)\),\(f(4)\) 的最优解，我们即可算出 \(f(15)\) 的最优解。
+能将大问题拆成几个小问题，且满足无后效性、最优子结构性质。 DP 思路 参见 LeetCode 讨论：
+先写出穷举的方法 找出不必要的重复计算 写出 DP 练习 0x00 硬币找零 描述 假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
+状态转移公式 公式 \(f(n)=min\{f(n-1),f(n-3),f(n-5)\} &#43; 1\)
+检查是否满足上面提到的两个特性：
+无后效性：对于 \(n\)，一旦 \(f(n)\) 确定，以后只关心 \(f(n)\) 的值，不关心怎么计算的； 最优子结构：对于 \(n\)，只要 \(n - 1\) \(n - 3\) \(n - 5\) 能是最优解，那么就能计算出 n; 推导过程 假设找零 15：" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-03-20 00:00:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/projects/"> Projects in Progress</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/flashcards/">Flashcards</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+        
+          <li><a href="/notes/topics/">Topics</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/projects/"> Projects in Progress</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/flashcards/">Flashcards</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+      
+        <li><a href="/notes/topics/">Topics</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/notes/20200320171538_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-03-20 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <ul>
+<li>tags: <a href="/notes/projects/20220104182327-algorithm/">Algorithm</a></li>
+</ul>
+<h2 id="状态转移方程">状态转移方程<a href="#状态转移方程" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="无后效性">无后效性<a href="#无后效性" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<blockquote>
+<p>如果给定某一阶段的状态，则在这一阶段以后过程的发展不受这阶段以前各段状态的影响。</p>
+</blockquote>
+<p>一旦 \(f(n)\) 确定，“我们如何凑出 \(f(n)\) ”就再也用不着了：</p>
+<ul>
+<li>要求出 \(f(15)\)，只需要知道 \(f(14)\),\(f(10)\),\(f(4)\) 的值，</li>
+<li>而 \(f(14)\),\(f(10)\),\(f(4)\) 是如何算出来的，对之后的问题没有影响。</li>
+</ul>
+<p>“未来与过去无关”，这就是无后效性。</p>
+<h3 id="最优子结构">最优子结构<a href="#最优子结构" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<blockquote>
+<p>大问题的最优解可以由小问题的最优解推出，这个性质叫做“最优子结构性质”：</p>
+</blockquote>
+<p>\(f(n)\) 的定义需要蕴含“最优”，利用 \(f(14)\),\(f(10)\),\(f(4)\) 的最优解，我们即可算出 \(f(15)\) 的最优解。</p>
+<h3 id="能将大问题拆成几个小问题-且满足无后效性-最优子结构性质">能将大问题拆成几个小问题，且满足无后效性、最优子结构性质。<a href="#能将大问题拆成几个小问题-且满足无后效性-最优子结构性质" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h2 id="dp-思路">DP 思路<a href="#dp-思路" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>参见 <a href="https://leetcode.com/problems/unique-binary-search-trees/discuss/1565543/C%2B%2BPython-5-Easy-Solutions-w-Explanation-or-Optimization-from-Brute-Force-to-DP-to-Catalan-O(N)">LeetCode 讨论</a>：</p>
+<ol>
+<li>先写出穷举的方法</li>
+<li>找出不必要的重复计算</li>
+<li>写出 DP</li>
+</ol>
+<h2 id="练习">练习<a href="#练习" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="0x00-硬币找零">0x00 硬币找零<a href="#0x00-硬币找零" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="描述">描述<a href="#描述" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。</p>
+<h4 id="状态转移公式">状态转移公式<a href="#状态转移公式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>公式 \(f(n)=min\{f(n-1),f(n-3),f(n-5)\} + 1\)</p>
+<p>检查是否满足上面提到的两个特性：</p>
+<ul>
+<li>无后效性：对于 \(n\)，一旦 \(f(n)\) 确定，以后只关心 \(f(n)\) 的值，不关心怎么计算的；</li>
+<li>最优子结构：对于 \(n\)，只要 \(n - 1\) \(n - 3\)  \(n - 5\) 能是最优解，那么就能计算出 n;</li>
+</ul>
+<h4 id="推导过程">推导过程<a href="#推导过程" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+
+  <figure class="left" >
+    <img src="/notes/ox-hugo/dp-coin.png"   />
+    
+  </figure>
+
+
+<p>假设找零 15：</p>
+<ul>
+<li>
+<p>若优先使用 5 元硬币 \(cost = f(10) + 1 = 2 + 1 = 3\)</p>
+<ul>
+<li>
+<p>使用 5 元： \(f(10)=f(5) + 1\)</p>
+<ul>
+<li>\(f(5)=1\)</li>
+</ul>
+</li>
+<li>
+<p>使用 3 元： \(f(10)=f(7) + 1\)</p>
+<ul>
+<li>\(f(7)=f(4) + 1 = 2 + 1 = 3\)
+<ul>
+<li>\(f(4)= 1 + 1\)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>若优先使用 3 元硬币 \(cost = f(12) + 1 = 4 + 1 = 5\)</p>
+<ul>
+<li>\(f(12)=f(7) + 1\) &ndash; 上面已经算出 \(f(7)=3\)</li>
+</ul>
+</li>
+<li>
+<p>若优先使用 1 元硬币 \(cost = f(14) + 1\)</p>
+<ul>
+<li>\(f(14)=f(13)+1\)
+<ul>
+<li>\(f(13)=f(12) + 1 = 4 + 5\)     (上面已经算出 \(f(12)=4\)）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>将上述过程反过来就可以一步步推出结果。</p>
+<h4 id="实现">实现<a href="#实现" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">dp</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//　假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getCoinNumber</span>(<span style="color:#a6e22e">total</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">total</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>  <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">total</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上面算法实现有一个问题，就是每次计算时只优先考虑采用最大面值（类似贪心算法），无法应对某些情况，对比下面代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">dp</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;math&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">x</span> &lt; <span style="color:#a6e22e">y</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">y</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//　假设有几种硬币，如1、3、5，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getCoinNumber</span>(<span style="color:#a6e22e">total</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">total</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">total</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">cost</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">MaxInt32</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">cost</span> = <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">cost</span>, <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>  <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">cost</span> = <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">cost</span>, <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">cost</span> = <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">cost</span>, <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cost</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">MaxInt32</span> {
+</span></span><span style="display:flex;"><span>			panic(<span style="color:#e6db74">&#34;error&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">cost</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">f</span>[<span style="color:#a6e22e">total</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="0x01单路取苹果">0x01单路取苹果<a href="#0x01单路取苹果" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="描述">描述<a href="#描述" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>一个矩形区域被划分为 \(N*M\) 个小矩形格子，在格子(i,j)中有A[i][j]个苹果。现在从左上角的格子(1,1)出发，要求每次只能向右走一步或向下走一步，最后到达(N,M)，每经过一个格子就把其中的苹果全部拿走。请找出能拿到最多苹果数的路线。</p>
+<h4 id="思路">思路<a href="#思路" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<p>这题是 0x00 的扩展，格子 A[N][M] 的苹果数量为 \(max\{A[N-1][M],A[N][M-1]\}+A[N][M]\)</p>
+<h2 id="leetcode-真题">LeetCode 真题<a href="#leetcode-真题" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="see-also">See also<a href="#see-also" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li><a href="https://www.zhihu.com/question/23995189">https://www.zhihu.com/question/23995189</a></li>
+</ul>
+
+      </div></div>
+
+  
+
+  
+
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+      
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+
+<hr>
+
+  <div class="bl-section">
+    <h4>Links to this note</h4>
+    <div class="backlinks">
+      <ul>
+       
+          <li><a href="/notes/notes/20200320172810_leetcode_3_longest_substring_without_repeating_characters/">LeetCode: 3.Longest Substring Without Repeating Characters</a></li>
+       
+     </ul>
+    </div>
+  </div>
+
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>

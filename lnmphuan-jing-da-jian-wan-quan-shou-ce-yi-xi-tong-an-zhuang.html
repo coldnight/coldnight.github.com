@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>lnmp环境搭建完全手册(一)------系统安装</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="在之前的文章里也陆陆续续的介绍了nginx/mysql和php的安装和配置,这里做一个整合.也是一个详细的教程,可以让你0基础搭建lnmp环境. 首先选择一个发行版,个人 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="虚拟机">
+    <meta name="tags" content="操作系统">
+    <meta name="tags" content="安装">
+    <meta name="tags" content="VMware">
+    <meta name="tags" content="Linux">
+    <meta name="tags" content="CentOS">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="lnmp环境搭建完全手册(一)------系统安装"/>
+<meta property="og:description" content="在之前的文章里也陆陆续续的介绍了nginx/mysql和php的安装和配置,这里做一个整合.也是一个详细的教程,可以让你0基础搭建lnmp环境. 首先选择一个发行版,个人 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-03-08 12:05:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="虚拟机"/>
+<meta property="article:tag" content="操作系统"/>
+<meta property="article:tag" content="安装"/>
+<meta property="article:tag" content="VMware"/>
+<meta property="article:tag" content="Linux"/>
+<meta property="article:tag" content="CentOS"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="lnmp环境搭建完全手册(一)------系统安装">
+    <meta name="twitter:url" content="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="在之前的文章里也陆陆续续的介绍了nginx/mysql和php的安装和配置,这里做一个整合.也是一个详细的教程,可以让你0基础搭建lnmp环境. 首先选择一个发行版,个人 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "lnmp环境搭建完全手册(一)------系统安装",
+  "headline": "lnmp环境搭建完全手册(一)------系统安装",
+  "datePublished": "2012-03-08 12:05:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html",
+  "description": "在之前的文章里也陆陆续续的介绍了nginx/mysql和php的安装和配置,这里做一个整合.也是一个详细的教程,可以让你0基础搭建lnmp环境. 首先选择一个发行版,个人 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">lnmp环境搭建完全手册(一)------系统安装</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Thu 08 March 2012">Thu 08 March 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>在之前的文章里也陆陆续续的介绍了nginx/mysql和php的安装和配置,这里做一个整合.也是一个详细的教程,可以让你0基础搭建lnmp环境.
+首先选择一个发行版,个人比较喜欢CentOS,CentOS是Red Hat的再发行版,重新编译了Red Hat,修复n多错误,免费的yum库,这里使用CentOS5.5,虚拟机使用VMware Workstation 8.0.VMware是一个“虚拟PC”软件公司.它可以使你在一台机器上同时运行二个或更多Windows、DOS、LINUX系统。与“多启动”系统相比，VMWare采用了完全不同的概念。多启动系统在一个时刻只能运行一个系统，在系统切换时需要重新启动机器。VMWare是真正“同时”运行，多个操作系统在主系统的平台上，就象标准Windows应用程序那样切换.</p>
+<p>安装VMware这里就不介绍了,给出VMware Workstation 8.0的<a href="http://www.vmware.com/downloads/downloadBinary.do?downloadGroup=WKST-802-WIN&amp;vmware=downloadBinary&amp;file=VMware-workstation-full-8.0.2-591240.exe&amp;pot=1&amp;code=VMware-workstation-full-8.0.2-591240.exe&amp;hashKey=5d70214cc3ce52f8154f38b7cd52efbe&amp;tranId=70310191&amp;downloadURL&quot;">下载地址</a></p>
+<p>VMware不是免费软件,但是网上会有序列号,大家不想花钱就搜一下就ok了.
+我们还要准备CentOS5.5 的iso镜像用来安装系统.<a href="&quot;http://download.chinaunix.net/down.php?id=31679&amp;ResourceID=12271&amp;site=6">下载地址</a></p>
+<p>下面我们就来新建一个虚拟机安装CentOS
+打开虚拟机选择File-&gt;New Virtual Machine
+<img alt="www.linuxzen.com" src="/upload/1.jpg"></p>
+<p>在接下来的界面选择<code>Typical</code>,然后点<code>Next</code>:
+<img alt="www.linuxzen.com" src="/upload/2.jpg"></p>
+<p>然后点选<code>I will install the operating system later</code>,然后Next&gt;,选择操作系统,为Linux,Version选择为CentOS:
+<img alt="www.linuxzen.com" src="/upload/3.jpg"></p>
+<p>点击Next进给虚拟机命名,然后选择保存路径(最好选择一个空闲空间足够的分区)点击Next会让你选择硬盘大小,保持默认即可,点击Next&gt;在弹出的界面可以查看虚拟机的虚拟硬件可以点击"Customize Hardware"进行自定义硬件,建议删除软驱,USB等无用硬件.点击Finish完成虚拟机创建.</p>
+<p>创建完成后虚拟机界面的左边双击"CD/DVD(IDE)":
+<img alt="www.linuxzen.com" src="/upload/4.jpg">
+在弹出界面的右边选择<code>Use ISO image file</code>,点击"Browse.."选择下载好的CentOS5.5镜像,点击OK确定:</p>
+<p><img alt="www.linuxzen.com" src="/upload/QQ截图20120308101907.jpg"></p>
+<p>然后单击虚拟机界面的左上角的<code>Power on this virtual machine</code>启动虚拟机,第一次默认会认到光驱从光驱启动,启动后看到如下界面:</p>
+<p><img alt="www.linuxzen.com" src="/upload/QQ截图20120308102129.jpg"></p>
+<p>恭喜你,可以开始你的linux之旅了,我比较喜欢字符界面安装,节省资源,输入<code>linux text</code>,敲回车进入字符界面安装,想图形化安装直接回车即可:
+在接下来的界面下会弹出下面对话框,按Tab选择Skip跳过检测:
+<img alt="www.linuxzen.com" src="/upload/QQ截图20120308102415.jpg">
+然后会一次弹出语言,键盘选择框选择默认既可以,然后linux会再你的硬盘上检测不到分区表询问你是否格式化整个硬盘,选择Yes:
+<img alt="www.linuxzen.com" src="/upload/QQ截图20120308103037.jpg">
+然后就会跳到分区这一块,我们选择第四个自定义分区(Create Custom layout):
+<img alt="www.linuxzen.com" src="/upload/QQ截图20120308103159.jpg"></p>
+<p>接下来按F2即可建立分区,一般分区有各种各样的建议,Linux必须有一个/(根)分区,建议有一个swap分区是物理内存的两倍.</p>
+<p><img alt="www.linuxzen.com" src="/upload/QQ截图20120308103443.jpg"></p>
+<p>上图建立一个/大小为<code>4G</code>,<code>Mount Point</code>指定挂载点,这里为<code>/</code>,<code>File System Type</code>指定文件系统类型,这里为<code>ext3</code>.大小指定为<code>4G</code>.</p>
+<p>然后建议一个<code>swap</code>分区,同样按<code>F2</code>在<code>File System Type</code>里选择为<code>swap</code>:
+<img alt="www.linuxzen.com" src="/upload/QQ截图20120308103741.jpg">
+在根据第一步的方法创建一个/usr分区,在Size里选择"Fill all available space"把剩余的大小都给/usr
+<img alt="www.linuxzen.com" src="/upload/QQ截图20120308103957.jpg">
+创建完毕选择ok完成分区,跳出是否安装引导(Boot loader Configuration),一直选择默认继续.接下来询问是否配置网卡,选择No跳过.会让你填Gateway和DNS不用管直接ok就行,接下来会让输入主机名,输入你想要的主机名即可
+<img alt="www.linuxzen.com" src="/upload/QQ截图20120308104357.jpg"></p>
+<p>接下来选择时区,选择Asia/Chongqing.然后输入root密码,输入完毕后OK继续,下面就是选择要安装的包,想玩桌面的话就直接默认,这里选择Customize software selection,接下来的界面按空格去掉所有的包前面的*实现最小化安装,选择OK开始安装.完成后重启,linux系统就安装完成</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=lnmp环境搭建完全手册(一)------系统安装&amp;url=https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/xu-ni-ji.html">虚拟机</a><a href="https://www.linuxzen.com/tag/cao-zuo-xi-tong.html">操作系统</a><a href="https://www.linuxzen.com/tag/an-zhuang.html">安装</a><a href="https://www.linuxzen.com/tag/vmware.html">VMware</a><a href="https://www.linuxzen.com/tag/linux.html">Linux</a><a href="https://www.linuxzen.com/tag/centos.html">CentOS</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html';
+                    var disqus_url = 'https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/lnmphuan-jing-da-jian-wan-quan-shou-ce-yi-xi-tong-an-zhuang.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>迁移到 Python 3</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/qian-yi-dao-python-3.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="前段时间(2017-06-07)我开始决定将公司现有的项目逐渐的迁移到 Python 3. 主要原因有一下几点: Python 3.6 新增了一些新的特性我很喜 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="2to3">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="迁移到 Python 3"/>
+<meta property="og:description" content="前段时间(2017-06-07)我开始决定将公司现有的项目逐渐的迁移到 Python 3. 主要原因有一下几点: Python 3.6 新增了一些新的特性我很喜 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/qian-yi-dao-python-3.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2017-07-13 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="2to3"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="迁移到 Python 3">
+    <meta name="twitter:url" content="https://www.linuxzen.com/qian-yi-dao-python-3.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="前段时间(2017-06-07)我开始决定将公司现有的项目逐渐的迁移到 Python 3. 主要原因有一下几点: Python 3.6 新增了一些新的特性我很喜 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "迁移到 Python 3",
+  "headline": "迁移到 Python 3",
+  "datePublished": "2017-07-13 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/qian-yi-dao-python-3.html",
+  "description": "前段时间(2017-06-07)我开始决定将公司现有的项目逐渐的迁移到 Python 3. 主要原因有一下几点: Python 3.6 新增了一些新的特性我很喜 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">迁移到 Python 3</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Thu 13 July 2017">Thu 13 July 2017</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>前段时间(2017-06-07)我开始决定将公司现有的项目逐渐的迁移到 Python 3. 主要原因有一下几点:</p>
+<ul>
+<li>
+<p>Python 3.6 新增了一些新的特性我很喜欢</p>
+<p>包括:</p>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0484/">PEP484 类型注解</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0492/">PEP492 原生的协程异步: async and await</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0498/">PEP498 格式化字符串</a></li>
+<li>Python 3 的生态已经完善, 我们所使用的一些第三方库都已支持 Python 3(或有其他成熟的替代)</li>
+<li>Python 2 到 2020 年就不在维护</li>
+</ul>
+</li>
+</ul>
+<p><strong>促成我决定迁移到 Python 3 的主要原因是公司最大的项目的单元测试覆盖率经过一段时间的迭代终于达到了 80% 以上.</strong></p>
+<h2 id="_1">迁移方案</h2>
+<p>由于项目巨大任务艰巨无法短时间内就将项目迁移到 Python 3, 而且当前还有产品上的功能需要迭代.
+所以迁移方案是同时兼容 Python 2 和 3, 并在迁移完成之后移除对 Python 2 的支持.</p>
+<h2 id="ci">搭建 CI</h2>
+<p>由于之前本身就有持续集成服务(参见<a href="https://www.linuxzen.com/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html">上一篇</a>), 所以目前需要做的就是在现有的基础增加一套针对 Python 3 的持续集成服务.
+并且在没有完全兼容 Python 3 之前针对 Python 3 的持续集成不影响最终构建结果, 仅作为参考.
+这里根据不同的 CI 需要进行不同的操作不在本文讨论范围之内就不在深入.</p>
+<h2 id="_2">兼容库的选择</h2>
+<p>针对一些 Python 2 和 3 的差异我不打算自己封装, 所以找了一些成熟的第三方库, 我对比了目前比较流行的两个兼容库:</p>
+<ul>
+<li><a href="http://python-future.org/">future</a></li>
+<li><a href="https://pythonhosted.org/six/">six</a></li>
+</ul>
+<p>future 看起来使用比较多的黑魔法, 好多兼容都是侵入式的修改. 所以我选择了更加清晰的 six.</p>
+<h2 id="_3">兼容性问题及解决</h2>
+<p>可以从 <code>__future__</code> 导入如下特性来解决一些常见的不兼容:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span> 
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>   <span class="c1"># 解决除法行为不一致</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>   <span class="c1"># 字符串字面量默认为 Unicode</span>
+</code></pre></div>
+
+<h3 id="_4">标准库和内建函数不兼容</h3>
+<p>Python 3 中更改了一些标准库的名字和一些函数归属的模块, 同时也移除了一些关键字如 <code>round</code>.
+此种类型的问题可以通过 <code>six.moves</code> 来进行解决:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">six.moves.urllib_parse</span> <span class="k">as</span> <span class="n">urlparse</span>
+<span class="kn">from</span> <span class="nn">fix.moves.builtins</span> <span class="kn">import</span> <span class="nb">round</span>
+</code></pre></div>
+
+<h3 id="_5">字符串</h3>
+<p>以我的感受解决 Python 2 和 3 之间的兼容性字符串是难度最大的问题之一, 因为 Python 3 重新实现了字符串相关, 
+并增加了一些限制, 主要体现在:</p>
+<ol>
+<li>移除了 unicode 关键字</li>
+<li>原有的 str(bytes) 变成了 unicode</li>
+<li>bytes 不在支持 format/decode 等方法</li>
+<li>不支持 Unicode 和字节序直接拼接和对比(<code>in</code> 操作), 一些标准库也明确指定了接收的是字节序还是 Unicode.</li>
+<li>通过字符串格式化拼接 Unicode 和字节序会产生不符合预期的结果</li>
+</ol>
+<p>这里面第 <code>1</code> 条和第 <code>2</code> 条是比较容易, 可以通过批量的查找和替换来解决. 3-4 是比较难解决, 但是单元测试基本可以覆盖到.</p>
+<p>5 会产生一些非常难以发现的 Bug, 因为出现像下面这样的结果:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="s2">&quot;b&#39;test&#39;&quot;</span>       <span class="c1"># Python 2: &quot;test&quot;</span>
+</code></pre></div>
+
+<p>如果一些单元测试没覆盖到的或者本身逻辑就是被 mock 掉就更难排查.
+比如我们内部服务通信大量的使用了签名机制, 在进行单元测试时又对这部分逻辑进行了 mock, 
+所以在我们在测试环境用 Python 3 启动项目后主要就是解决此类问题.</p>
+<h3 id="_6">迭代器</h3>
+<p>Python 3 中除了字符串这一改动难以兼容, 还有一个就是之前返回列表的一些函数或方法改为返回迭代器, 如</p>
+<ul>
+<li>dict.keys/dict.values/dict.items</li>
+<li>map/filter/zip</li>
+</ul>
+<p>如果没有对一些迭代器进行展开而是当做列表使用就会产生异常, 或者对迭代器展开没有及时进行收集就会产生一些难以排查的 Bug,
+考虑如下代码:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">}</span>  <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}}</span>
+    <span class="n">digits</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">digits</span><span class="p">:</span>
+        <span class="n">item</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">digits</span>
+</code></pre></div>
+
+<p>上面代码在 Python 2 中可以达到预期的行为, 返回 <code>[{"n": 1}, {"n": 2}]</code>, 但在 Python 3 会返回一个消耗完的迭代器, 转换之后结果为 <code>[]</code>.</p>
+<p>下面代码在 Python2 是可以正常工作的, 但是 Python 3 下不行:</p>
+<div class="highlight"><pre><span></span><code><span class="n">digits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">digits</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">digits</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">digits</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+</code></pre></div>
+
+<p>主要是 Python 2 该方法返回一个列表是对字典 key 的一次拷贝, 所以在更改字典原有值就不会有问题,
+但是 Python 3 中该方法返回了一个迭代器, 是对字典 key 的引用. 如果这时候更新字典就会触发异常.</p>
+<h2 id="_7">工具</h2>
+<h3 id="pylint">pylint</h3>
+<p><code>pylint</code> 有一个选项 <code>--py3k</code> 选项可以打开检测一些不兼容 Python 3 的地方, 比如 <code>map/filter/zip</code> 没有展开等.</p>
+<h3 id="pre-commit">pre-commit</h3>
+<p>准确的说应该是 <code>pre-commit</code> 下有一些工具可以帮助我们自动修复一些 Python 3 的兼容性问题,
+并且可以方便的放在持续集成服务上运行监测, 这里列出一些我们用于帮助 Python 3 迁移的工具:</p>
+<ul>
+<li><a href="https://github.com/asottile/reorder_python_imports">reorder_python_imports</a> 主要可以通过 <code>--add-import</code> 为每次修改的文件增加从 <code>__future__</code> 模块引入一些特性.</li>
+<li><a href="https://github.com/asottile/pyupgrade">pyupgrade</a> 在提交时自动修正一些不兼容的地方</li>
+<li>我对 pylint 简单的包装<a href="https://github.com/coldnight/pre-commit-pylint">pre-commit-pylint</a></li>
+</ul>
+<p>最后贴上我们项目所使用的 <code>.pre-commit-config</code> 文件</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git@github.com:pre-commit/pre-commit-hooks.git</span>
+<span class="w">    </span><span class="nt">sha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.8.0</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flake8</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check-docstring-first</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug-statements</span>
+<span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/asottile/reorder_python_imports</span>
+<span class="w">    </span><span class="nt">sha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.3.5</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">reorder-python-imports</span>
+<span class="w">        </span><span class="nt">language_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python2.7</span>
+<span class="w">        </span><span class="nt">args</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--separate-relative</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--separate-from-import</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--add-import</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">from __future__ import absolute_import</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--add-import</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">from __future__ import division</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--add-import</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">from __future__ import print_function</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--add-import</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">from __future__ import unicode_literals</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--remove-import</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">from __future__ import with_statement</span>
+<span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/asottile/pyupgrade</span>
+<span class="w">    </span><span class="nt">sha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.1.1</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pyupgrade</span>
+<span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git@github.com:coldnight/pre-commit-pylint.git</span>
+<span class="w">    </span><span class="nt">sha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">630e2662aabf3236fc62460b163d613c4bd1cfbc</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint-py3k</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w">   </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint-score-limit</span>
+<span class="w">        </span><span class="nt">args</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--limit=8.5</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--rcfile=./.pylintrc</span>
+<span class="w">        </span><span class="nt">additional_dependencies</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enum34; python_version&lt;=&#39;3.4&#39;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mock</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coverage</span>
+</code></pre></div>
+
+<h2 id="_8">后记</h2>
+<p>目前我们已经完成了公司最大的一个项目的 Python 3 兼容, 并于今天在测试环境使用 Python 3 运行.</p>
+<h2 id="_9">参考</h2>
+<ul>
+<li><a href="https://docs.python.org/3/howto/pyporting.html">官方指南</a></li>
+<li><a href="http://www.zlovezl.cn/articles/instagram-pycon-2017/">Instagram 在 PyCon 2017 的演讲摘要</a></li>
+</ul>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=迁移到 Python 3&amp;url=https://www.linuxzen.com/qian-yi-dao-python-3.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/qian-yi-dao-python-3.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/qian-yi-dao-python-3.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/2to3.html">2to3</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/qian-yi-dao-python-3.html';
+                    var disqus_url = 'https://www.linuxzen.com/qian-yi-dao-python-3.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/qian-yi-dao-python-3.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

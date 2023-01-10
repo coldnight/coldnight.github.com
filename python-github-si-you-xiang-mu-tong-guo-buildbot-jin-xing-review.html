@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Python github 私有项目通过 buildbot 进行 Review</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="背景 随着公司开发团队的壮大, 团队中每个人的水平参差不齐, 为了保证项目质量我们打算对 提交的代码进行 review, 但是苦 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="github">
+    <meta name="tags" content="私有">
+    <meta name="tags" content="可持续集成">
+    <meta name="tags" content="homu">
+    <meta name="tags" content="buildbot">
+    <meta name="tags" content="review">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Python github 私有项目通过 buildbot 进行 Review"/>
+<meta property="og:description" content="背景 随着公司开发团队的壮大, 团队中每个人的水平参差不齐, 为了保证项目质量我们打算对 提交的代码进行 review, 但是苦 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-05-22 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="github"/>
+<meta property="article:tag" content="私有"/>
+<meta property="article:tag" content="可持续集成"/>
+<meta property="article:tag" content="homu"/>
+<meta property="article:tag" content="buildbot"/>
+<meta property="article:tag" content="review"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Python github 私有项目通过 buildbot 进行 Review">
+    <meta name="twitter:url" content="https://www.linuxzen.com/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="背景 随着公司开发团队的壮大, 团队中每个人的水平参差不齐, 为了保证项目质量我们打算对 提交的代码进行 review, 但是苦 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Python github 私有项目通过 buildbot 进行 Review",
+  "headline": "Python github 私有项目通过 buildbot 进行 Review",
+  "datePublished": "2016-05-22 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html",
+  "description": "背景 随着公司开发团队的壮大, 团队中每个人的水平参差不齐, 为了保证项目质量我们打算对 提交的代码进行 review, 但是苦 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Python github 私有项目通过 buildbot 进行 Review</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Sun 22 May 2016">Sun 22 May 2016</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <h2 id="_1">背景</h2>
+<p>随着公司开发团队的壮大, 团队中每个人的水平参差不齐, 为了保证项目质量我们打算对
+提交的代码进行 review, 但是苦于一直没有好的 review 机制. 前段时间我在逛 
+<a href="https://github.com/rust-lang/rust">Rust</a> 社区是发现了他们有一个 review 机器人 <a href="https://github.com/barosl/homu">Homu</a> 非常不错, 
+研究一下后我将其应用到我们当前 Python 项目中来配合 review, 我感觉非常棒, 
+今天抽空就分享给大家.</p>
+<h2 id="_2">技术栈</h2>
+<p>本文涉及的项目和技术有:</p>
+<ul>
+<li><a href="https://github.com/barosl/homu">Homu</a></li>
+<li><a href="https://github.com/buildbot/buildbot">buildbot</a></li>
+<li><a href="https://github.com/sebdah/git-pylint-commit-hook">git-pylint-commit-hook</a></li>
+<li><a href="https://www.docker.com">Docker</a></li>
+</ul>
+<h2 id="0-github-key">0. 隔离 Github 部署 Key</h2>
+<p>Github 可以添加部署 Key 来实现部署, 但是每个项目必须是不同的部署 key. 这就给
+多个私有项目的可持续集成带来一定的困难, 因为 buildbot 是通过轮询来获取 git 分支
+变更的, 并且 buildbot 不支持指定私钥. </p>
+<p>我们前期想到的是通过 <a href="https://www.docker.com">Docker</a> 来分别跑每个项目的 buildbot, 这样部署 key 就
+可以很容易进行隔离. 后面我们找到一种更好的方式来指定部署 Key: 通过 <code>ssh_config</code>
+来指定别名.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>cat<span class="w"> </span>~/.ssh/config
+Host<span class="w"> </span>github-project-a-alias
+<span class="w">    </span>Hostname<span class="w"> </span>github.com
+<span class="w">    </span>IdentityFile<span class="w"> </span><span class="s2">&quot;~/.ssh/project_a_deploy_key&quot;</span>
+
+Host<span class="w"> </span>github-project-b-alias
+<span class="w">    </span>Hostname<span class="w"> </span>github.com
+<span class="w">    </span>IdentityFile<span class="w"> </span><span class="s2">&quot;~/.ssh/project_b_deploy_key&quot;</span>
+</code></pre></div>
+
+<p>这样就可以将原有的项目地址做如下转换</p>
+<div class="highlight"><pre><span></span><code><span class="gd">- git@github.com:Owner/a</span>
+<span class="gi">+ git@github-project-a-alias:Owner/a</span>
+
+<span class="gd">- git@github.com:Owner/b</span>
+<span class="gi">+ git@github-project-b-alias:Owner/b</span>
+</code></pre></div>
+
+<h2 id="1-homu">1. 搭建 homu</h2>
+<p><a href="https://github.com/barosl/homu">Homu</a> 是一个构建在 Github 和 buildbot(或 Travis) 之上的工具, 它通过监听
+PR 里的评论来触发 buildbot 构建, 并监听构建结果, 如果构建成功则自动合并 PR</p>
+<p><a href="https://github.com/barosl/homu">Homu</a> 的搭建可以参见其项目地址有简单的介绍, 非常简单这里就不在赘述.</p>
+<p>Homu 是针对 Rust 开发, 并没有考虑私有项目, 所以其信息都是公开的, 为了减少
+暴漏信息带来的安全性问题, 我们将 Homu 搭建在内网并通过 ssh 端口转发将 Homu 的
+端口发送到一台公网服务器:</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-o<span class="w"> </span><span class="nv">TCPKeepAlive</span><span class="o">=</span>yes<span class="w"> </span>-CfNgR<span class="w"> </span><span class="m">127</span>.0.0.1:54856:127.0.0.1:54856<span class="w"> </span>user@remote.ip.address
+</code></pre></div>
+
+<p>然后通过以下 nginx 配置文件来仅暴漏供 Github webhook 调用的地址:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">upstream</span><span class="w"> </span><span class="nt">homu</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">server</span><span class="w"> </span><span class="err">127.0.0.1:54856</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="nt">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">listen</span><span class="w"> </span><span class="err">public.ip.</span><span class="n">address</span><span class="p">:</span><span class="mi">54856</span><span class="p">;</span>
+
+<span class="w">    </span><span class="err">location</span><span class="w"> </span><span class="err">/github</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="err">proxy_set_header</span><span class="w"> </span><span class="err">Host</span><span class="w"> </span><span class="err">$http_host</span><span class="p">;</span>
+<span class="w">        </span><span class="err">proxy_redirect</span><span class="w"> </span><span class="err">off</span><span class="p">;</span>
+<span class="w">        </span><span class="err">proxy_set_header</span><span class="w"> </span><span class="err">X-Real-IP</span><span class="w"> </span><span class="err">$remote_addr</span><span class="p">;</span>
+<span class="w">        </span><span class="err">proxy_set_header</span><span class="w"> </span><span class="err">X-Scheme</span><span class="w"> </span><span class="err">$scheme</span><span class="p">;</span>
+<span class="w">        </span><span class="err">proxy_pass</span><span class="w"> </span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">homu</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nt">location</span><span class="w"> </span><span class="o">~*</span><span class="w"> </span><span class="o">(?:^|/)</span><span class="err">\</span><span class="o">.</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="err">deny</span><span class="w"> </span><span class="err">all</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p>这样就可以隐藏 Homu 暴露的信息, 其他完整功能可以通过内网访问.</p>
+<h2 id="2-buildbot">2. 搭建 buildbot</h2>
+<p>buildbot 其官方文档也比较详细, 可以参考其官方文档进行搭建, 需要注意的是目前 
+<a href="https://github.com/barosl/homu">homu</a> 适配的 buildbot 是 0.8, 目前 buildbot-0.9 正在发布 beta, 和 0.8
+有很多地方都不兼容.</p>
+<p>这里着重说一下结合 pylint 做代码检查.</p>
+<h3 id="_3">代码检查</h3>
+<p>我们希望通过 buildbot 使用 pylint 来做代码检查, 但是考虑到历史遗留问题我们仅
+希望对当前提交的变更做检查. 综合一下几个方面 <a href="https://github.com/sebdah/git-pylint-commit-hook">git-pylint-commit-hook</a> 可
+以完美的满足需求:</p>
+<ul>
+<li><a href="https://github.com/sebdah/git-pylint-commit-hook">git-pylint-commit-hook</a> 配置成 pre-commit 可以对<code>将要被提交(git add 过)的文件</code>进行检查</li>
+<li>通过 <code>git reset HEAD^ --soft</code> 可以将上一次提交的文件变成<code>将要被提交的文件</code></li>
+<li><a href="https://github.com/barosl/homu">Homu</a> 在接受(r+)某一 PR 时会将变更通过 <code>--no-ff</code>(no fast-forward) 的方式合并到 <code>auto</code> 分支</li>
+<li>通过 no fast-forward 合并相当于将所涉及的提交打了一个节点, 在通过 <code>git reset HEAD^ --soft</code> 进行重置时会将所涉及的提交的文件都变成<code>将要被提交的文件</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature-test
+$<span class="w"> </span><span class="c1"># edit file a</span>
+$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>a<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Change file a&#39;</span>
+$<span class="w"> </span><span class="c1"># edit file b</span>
+$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>b<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Change file b&#39;</span>
+$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>master
+$<span class="w"> </span>git<span class="w"> </span>merge<span class="w"> </span>--no-ff<span class="w"> </span>feature-test
+$<span class="w"> </span>git<span class="w"> </span>reset<span class="w"> </span>HEAD^<span class="w"> </span>--soft
+$<span class="w"> </span>git<span class="w"> </span>status
+On<span class="w"> </span>branch<span class="w"> </span>master
+Changes<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>committed:
+<span class="w">  </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git reset HEAD &lt;file&gt;...&quot;</span><span class="w"> </span>to<span class="w"> </span>unstage<span class="o">)</span>
+
+<span class="w">        </span>modified:<span class="w">   </span>a
+<span class="w">        </span>modified:<span class="w">   </span>b
+</code></pre></div>
+
+<p>buildbot 配置文件片段如下:</p>
+<div class="highlight"><pre><span></span><code><span class="n">lint_factory</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">BuildFactory</span><span class="p">()</span>
+<span class="n">lint_factory</span><span class="o">.</span><span class="n">addStep</span><span class="p">(</span><span class="n">steps</span><span class="o">.</span><span class="n">Git</span><span class="p">(</span><span class="n">repourl</span><span class="o">=</span><span class="n">repo</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">lint_factory</span><span class="o">.</span><span class="n">addStep</span><span class="p">(</span><span class="n">steps</span><span class="o">.</span><span class="n">ShellCommand</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;-U&quot;</span><span class="p">,</span> <span class="s2">&quot;-r&quot;</span><span class="p">,</span> <span class="s2">&quot;requirements.txt&quot;</span><span class="p">]))</span>
+<span class="n">lint_factory</span><span class="o">.</span><span class="n">addStep</span><span class="p">(</span><span class="n">steps</span><span class="o">.</span><span class="n">ShellCommand</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;git&quot;</span><span class="p">,</span> <span class="s2">&quot;reset&quot;</span><span class="p">,</span> <span class="s2">&quot;HEAD^&quot;</span><span class="p">,</span> <span class="s2">&quot;--soft&quot;</span><span class="p">]))</span>
+<span class="n">lint_factory</span><span class="o">.</span><span class="n">addStep</span><span class="p">(</span><span class="n">steps</span><span class="o">.</span><span class="n">ShellCommand</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;git-pylint-commit-hook&quot;</span><span class="p">,</span> <span class="s2">&quot;--limit=8&quot;</span><span class="p">,</span> <span class="s2">&quot;--pylintrc=./.pylintrc&quot;</span><span class="p">]))</span>
+
+<span class="n">c</span><span class="p">[</span><span class="s1">&#39;builders&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="n">util</span><span class="o">.</span><span class="n">BuilderConfig</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;auto-lint&quot;</span><span class="p">,</span>
+      <span class="n">slavenames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;example-slave&quot;</span><span class="p">],</span>
+      <span class="n">factory</span><span class="o">=</span><span class="n">lint_factory</span><span class="p">))</span>
+</code></pre></div>
+
+<p>可根据自身需求做变更, 比如 <code>--limit=8</code> 来限制最低分数, 低于这个分数将导致构建
+失败.</p>
+<p>buildbot 可自定义性很强, homu 是可以支持多个 builder 的. 所以除了代码检查我们
+还有测试. Homu 在检测这两个 Builder 都构建成功后才会合并当前 PR.</p>
+<h2 id="3">3. 工作流</h2>
+<p>实现了如上功能之后我们对工作流进行了调整:</p>
+<ol>
+<li>通过主题分支开发并往长期分支提交 PR</li>
+<li>reviewer 在 <code>LGTM</code> 后提交评论 <code>r+</code> 并 @ Homu 账号(@homu r+)</li>
+<li>之后 Homu 会合并 PR 变更到 <code>auto</code> 分支</li>
+<li>buildbot 监听到 <code>auto</code> 分支的变更后就会运行相应构建并在完成后后通知 Homu</li>
+<li>Homu 在收到成功的通知后合并 PR 到长期分支</li>
+</ol>
+<h2 id="4">4. 已知问题</h2>
+<p>Homu 在将 <code>auto</code> 分支合并到长期分支时会采用 <code>fast-forward</code> 的方式进行合并, 
+所以不会产生新的 commit, buildbot 0.8 对同一提交(sha 相同) 仅触发一次 build.
+所以会导致其他一些比如自动部署的 builder 无法触发.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Python github 私有项目通过 buildbot 进行 Review&amp;url=https://www.linuxzen.com/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/python.html">Python</a><a href="https://www.linuxzen.com/tag/github.html">github</a><a href="https://www.linuxzen.com/tag/si-you.html">私有</a><a href="https://www.linuxzen.com/tag/ke-chi-xu-ji-cheng.html">可持续集成</a><a href="https://www.linuxzen.com/tag/homu.html">homu</a><a href="https://www.linuxzen.com/tag/buildbot.html">buildbot</a><a href="https://www.linuxzen.com/tag/review.html">review</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html';
+                    var disqus_url = 'https://www.linuxzen.com/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

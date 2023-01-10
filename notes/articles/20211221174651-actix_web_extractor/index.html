@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>actix-web extractors 支持提取任意长度的参数 :: Taking Smart Notes With Org-mode</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="tags: Rust 背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
+先来看一个在项目 README.md 中的例子：
+use actix_web::{get, web, App, HttpServer, Responder}; #[get(&amp;#34;/{id}/{name}/index.html&amp;#34;)] async fn index(web::Path((id, name)): web::Path&amp;lt;(u32, String)&amp;gt;) -&amp;gt; impl Responder { format!(&amp;#34;Hello {}! id:{}&amp;#34;, name, id) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| App::new().service(index)) .bind(&amp;#34;127.0.0.1:8080&amp;#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：
+use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&amp;gt; impl Responder { let name = req.match_info().get(&amp;#34;name&amp;#34;).unwrap_or(&amp;#34;World&amp;#34;); format!(&amp;#34;Hello {}!" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://www.linuxzen.com/notes/articles/20211221174651-actix_web_extractor/" />
+
+
+
+
+<link rel="stylesheet" href="https://www.linuxzen.com/notes/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://www.linuxzen.com/notes/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://www.linuxzen.com/notes/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="actix-web extractors 支持提取任意长度的参数">
+<meta property="og:description" content="tags: Rust 背景 今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。
+先来看一个在项目 README.md 中的例子：
+use actix_web::{get, web, App, HttpServer, Responder}; #[get(&amp;#34;/{id}/{name}/index.html&amp;#34;)] async fn index(web::Path((id, name)): web::Path&amp;lt;(u32, String)&amp;gt;) -&amp;gt; impl Responder { format!(&amp;#34;Hello {}! id:{}&amp;#34;, name, id) } #[actix_web::main] async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; { HttpServer::new(|| App::new().service(index)) .bind(&amp;#34;127.0.0.1:8080&amp;#34;)? .run() .await } 初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：
+use actix_web::{web, App, HttpRequest, HttpServer, Responder}; async fn greet(req: HttpRequest) -&amp;gt; impl Responder { let name = req.match_info().get(&amp;#34;name&amp;#34;).unwrap_or(&amp;#34;World&amp;#34;); format!(&amp;#34;Hello {}!" />
+<meta property="og:url" content="https://www.linuxzen.com/notes/articles/20211221174651-actix_web_extractor/" />
+<meta property="og:site_name" content="Taking Smart Notes With Org-mode" />
+
+  
+    <meta property="og:image" content="https://www.linuxzen.com/notes/img/favicon/orange.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-12-21 17:46:00 &#43;0800 &#43;0800" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://www.linuxzen.com/notes/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/notes/projects/"> Projects in Progress</a></li>
+        
+      
+        
+          <li><a href="/notes/articles/">Articles</a></li>
+        
+      
+        
+          <li><a href="/notes/flashcards/">Flashcards</a></li>
+        
+      
+        
+          <li><a href="/notes/notes/">Notes</a></li>
+        
+      
+        
+          <li><a href="/notes/topics/">Topics</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/notes/projects/"> Projects in Progress</a></li>
+      
+    
+      
+        <li><a href="/notes/articles/">Articles</a></li>
+      
+    
+      
+        <li><a href="/notes/flashcards/">Flashcards</a></li>
+      
+    
+      
+        <li><a href="/notes/notes/">Notes</a></li>
+      
+    
+      
+        <li><a href="/notes/topics/">Topics</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://www.linuxzen.com/notes/articles/20211221174651-actix_web_extractor/">actix-web extractors 支持提取任意长度的参数</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-12-21 
+      </span>
+    
+    
+    <span class="post-author">:: [Gray King]</span>
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <ul>
+<li>tags: <a href="/notes/topics/20200307191429_rust/">Rust</a></li>
+</ul>
+<h2 id="背景">背景<a href="#背景" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>今天看了一下 actix-web 发现该框架支持基于参数的 Extractor，可以非常方便地解析参数（包括 URI、Query、JSON 和 FormData）。</p>
+<p>先来看一个在项目 <code>README.md</code> 中的例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> actix_web::{get, web, App, HttpServer, Responder};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[get(</span><span style="color:#e6db74">&#34;/{id}/{name}/index.html&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">index</span>(web::Path((id, name)): <span style="color:#a6e22e">web</span>::Path<span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">u32</span>, String)<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">impl</span> Responder {
+</span></span><span style="display:flex;"><span>	format!(<span style="color:#e6db74">&#34;Hello {}! id:{}&#34;</span>, name, id)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[actix_web::main]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; <span style="color:#a6e22e">std</span>::io::Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>	HttpServer::new(<span style="color:#f92672">||</span> App::new().service(index))
+</span></span><span style="display:flex;"><span>		.bind(<span style="color:#e6db74">&#34;127.0.0.1:8080&#34;</span>)<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>		.run()
+</span></span><span style="display:flex;"><span>		.<span style="color:#66d9ef">await</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>初看之下觉得很神奇，但细想通过宏实现应该不是特别困难，然后发现其官网还有不是基于宏的运行时调用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> actix_web::{web, App, HttpRequest, HttpServer, Responder};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">greet</span>(req: <span style="color:#a6e22e">HttpRequest</span>) -&gt; <span style="color:#a6e22e">impl</span> Responder {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> name <span style="color:#f92672">=</span> req.match_info().get(<span style="color:#e6db74">&#34;name&#34;</span>).unwrap_or(<span style="color:#e6db74">&#34;World&#34;</span>);
+</span></span><span style="display:flex;"><span>	format!(<span style="color:#e6db74">&#34;Hello {}!&#34;</span>, <span style="color:#f92672">&amp;</span>name)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[actix_web::main]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() -&gt; <span style="color:#a6e22e">std</span>::io::Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>	HttpServer::new(<span style="color:#f92672">||</span> {
+</span></span><span style="display:flex;"><span>		App::new()
+</span></span><span style="display:flex;"><span>			.route(<span style="color:#e6db74">&#34;/&#34;</span>, web::get().to(greet))
+</span></span><span style="display:flex;"><span>			.route(<span style="color:#e6db74">&#34;/{name}&#34;</span>, web::get().to(greet))
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	.bind((<span style="color:#e6db74">&#34;127.0.0.1&#34;</span>, <span style="color:#ae81ff">8080</span>))<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>	.run()
+</span></span><span style="display:flex;"><span>	.<span style="color:#66d9ef">await</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>看下来方法 <code>to</code> 的签名，实现一个参数的提取也不困难：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">&lt;</span>F, T, R<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">mut</span> self, handler: <span style="color:#a6e22e">F</span>) -&gt; <span style="color:#a6e22e">Self</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">where</span>
+</span></span><span style="display:flex;"><span>	   F: <span style="color:#a6e22e">Handler</span><span style="color:#f92672">&lt;</span>T, R<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>	   T: <span style="color:#a6e22e">FromRequest</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
+</span></span><span style="display:flex;"><span>	   R: <span style="color:#a6e22e">Future</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
+</span></span><span style="display:flex;"><span>	   R::Output: <span style="color:#a6e22e">Responder</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
+</span></span><span style="display:flex;"><span>	   <span style="color:#f92672">&lt;</span>R::Output <span style="color:#66d9ef">as</span> Responder<span style="color:#f92672">&gt;</span>::Body: <span style="color:#a6e22e">MessageBody</span>,
+</span></span><span style="display:flex;"><span>	   <span style="color:#f92672">&lt;&lt;</span>R::Output <span style="color:#66d9ef">as</span> Responder<span style="color:#f92672">&gt;</span>::Body <span style="color:#66d9ef">as</span> MessageBody<span style="color:#f92672">&gt;</span>::Error: Into<span style="color:#f92672">&lt;</span>BoxError<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>	   self.service <span style="color:#f92672">=</span> handler_service(handler);
+</span></span><span style="display:flex;"><span>	   self
+</span></span><span style="display:flex;"><span>   }
+</span></span></code></pre></div><p>但是尝试之后发现 <code>to</code> 同样可以支持多个参数，基于宏实现对于多个参数的支持相对比较简单，但是对于不通过宏实现对多个参数的解析就很神奇了。</p>
+<h2 id="原理探究">原理探究<a href="#原理探究" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>经过深入了解之后发现底层原理大体如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">trait</span> Handler<span style="color:#f92672">&lt;</span>T, R<span style="color:#f92672">&gt;</span>: <span style="color:#f92672">&#39;</span>static {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">call</span>(<span style="color:#f92672">&amp;</span>self, t: <span style="color:#a6e22e">T</span>)  -&gt; <span style="color:#a6e22e">R</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">trait</span> FromRequest {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; <span style="color:#a6e22e">Self</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 支持空参数的函数当作 Handler 传递
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>F, R<span style="color:#f92672">&gt;</span> Handler<span style="color:#f92672">&lt;</span>(), R<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> F
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
+</span></span><span style="display:flex;"><span>	F: Fn() -&gt; <span style="color:#a6e22e">R</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">call</span>(<span style="color:#f92672">&amp;</span>self, (): ()) -&gt; <span style="color:#a6e22e">R</span> {
+</span></span><span style="display:flex;"><span>		(self)()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 支持一个参数的函数当作 Handler 传递
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>F, A, R<span style="color:#f92672">&gt;</span> Handler<span style="color:#f92672">&lt;</span>(A,), R<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> F
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
+</span></span><span style="display:flex;"><span>	F: Fn(A) -&gt; <span style="color:#a6e22e">R</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">call</span>(<span style="color:#f92672">&amp;</span>self, (A,): (A,)) -&gt; <span style="color:#a6e22e">R</span> {
+</span></span><span style="display:flex;"><span>		(self)(A)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 支持两个参数的函数作为 Handler 传递
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>F, A, B, R<span style="color:#f92672">&gt;</span> Handler<span style="color:#f92672">&lt;</span>(A, B), R<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">for</span> F
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
+</span></span><span style="display:flex;"><span>	F: Fn(A, B) -&gt; <span style="color:#a6e22e">R</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">call</span>(<span style="color:#f92672">&amp;</span>self, (A, B): (A, B)) -&gt; <span style="color:#a6e22e">R</span> {
+</span></span><span style="display:flex;"><span>		(self)(A, B)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 支持 0 参数变成 Tuple 后的 from_request 调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span> FromRequest <span style="color:#66d9ef">for</span> () {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; () {
+</span></span><span style="display:flex;"><span>		()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 支持一个参数变成 Tuple 后的 from_request 调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>A<span style="color:#f92672">&gt;</span> FromRequest <span style="color:#66d9ef">for</span> (A, )
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> A: <span style="color:#a6e22e">FromRequest</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; (A,) {
+</span></span><span style="display:flex;"><span>		(A::from_request(), )
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 支持两个参数变成 Tuple 后的 from_request 调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>A, B<span style="color:#f92672">&gt;</span> FromRequest <span style="color:#66d9ef">for</span> (A, B)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
+</span></span><span style="display:flex;"><span>	A: <span style="color:#a6e22e">FromRequest</span>,
+</span></span><span style="display:flex;"><span>	B: <span style="color:#a6e22e">FromRequest</span>,
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; (A, B) {
+</span></span><span style="display:flex;"><span>		(A::from_request(), B::from_request())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 委托调用函数，对被委托的函数参数进行解析后调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">handle</span><span style="color:#f92672">&lt;</span>T, R, F<span style="color:#f92672">&gt;</span>(handler: <span style="color:#a6e22e">F</span>) -&gt; <span style="color:#a6e22e">R</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
+</span></span><span style="display:flex;"><span>	F: <span style="color:#a6e22e">Handler</span><span style="color:#f92672">&lt;</span>T, R<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>	T: <span style="color:#a6e22e">FromRequest</span> <span style="color:#f92672">+</span> <span style="color:#f92672">&#39;</span>static,
+</span></span><span style="display:flex;"><span>	R: <span style="color:#f92672">&#39;</span>static,
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	handler.call(T::from_request())
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 对 i32 实现 FromRequest 支持参数提取
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span> FromRequest <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">i32</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_request</span>() -&gt; <span style="color:#66d9ef">i32</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">test0</span>() -&gt; <span style="color:#66d9ef">i32</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">test1</span>(v: <span style="color:#66d9ef">i32</span>) -&gt; <span style="color:#66d9ef">i32</span> {
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;{}&#34;</span>, v);
+</span></span><span style="display:flex;"><span>	v
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">test2</span>(v: <span style="color:#66d9ef">i32</span>, v2: <span style="color:#66d9ef">i32</span>) -&gt; <span style="color:#66d9ef">i32</span> {
+</span></span><span style="display:flex;"><span>	v <span style="color:#f92672">+</span> v
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	handle(test0);
+</span></span><span style="display:flex;"><span>	handle(test1);
+</span></span><span style="display:flex;"><span>	handle(test2);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>基本思路就是：</p>
+<ol>
+<li>通过一个委托调用的函数，接收一个 <code>trait Object Handler</code> 来抹掉变长参数；</li>
+<li>为不同长度的参数的函数类型全部实现 <code>Handler</code>，并将参数变成 Tuple单一参数（通过宏生成）；</li>
+<li><code>FromRequest</code> 实现不同长度 Tuple（通过宏生成），这样可以保证不同长度的参数变成 Tuple 后 <code>from_request</code> 可正常调用。</li>
+</ol>
+<h2 id="源码参见">源码参见<a href="#源码参见" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li><a href="https://github.com/actix/actix-web/blob/17f636a1839850b0141ac0b697e8a74129f8a512/src/extract.rs#L391-L400">使用宏实现 FromRequest 支持多参数</a></li>
+<li><a href="https://github.com/actix/actix-web/blob/17f636a1839850b0141ac0b697e8a74129f8a512/src/handler.rs#L78-L90">使用宏实现 Handler 支持多参数</a></li>
+</ul>
+
+      </div></div>
+
+  
+
+  
+
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+
+<hr>
+
+  <div class="bl-section">
+    <h4>No notes link to this note</h4>
+  </div>
+
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.linuxzen.com/notes/assets/main.js"></script>
+<script src="https://www.linuxzen.com/notes/assets/prism.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+  
+</div>
+
+</body>
+</html>

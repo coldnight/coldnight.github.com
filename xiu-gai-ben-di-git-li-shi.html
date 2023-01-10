@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>修改本地 Git 历史</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/xiu-gai-ben-di-git-li-shi.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="很早之前一篇发表在内部的文章，抽时间整理了一下发布出来。 以下操作会修改提交历史, 可能会造成一些不可恢复的问 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="Git">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="修改本地 Git 历史"/>
+<meta property="og:description" content="很早之前一篇发表在内部的文章，抽时间整理了一下发布出来。 以下操作会修改提交历史, 可能会造成一些不可恢复的问 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/xiu-gai-ben-di-git-li-shi.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-11-21 16:33:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Git"/>
+<meta property="article:tag" content="Git"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="修改本地 Git 历史">
+    <meta name="twitter:url" content="https://www.linuxzen.com/xiu-gai-ben-di-git-li-shi.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="很早之前一篇发表在内部的文章，抽时间整理了一下发布出来。 以下操作会修改提交历史, 可能会造成一些不可恢复的问 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "修改本地 Git 历史",
+  "headline": "修改本地 Git 历史",
+  "datePublished": "2018-11-21 16:33:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/xiu-gai-ben-di-git-li-shi.html",
+  "description": "很早之前一篇发表在内部的文章，抽时间整理了一下发布出来。 以下操作会修改提交历史, 可能会造成一些不可恢复的问 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li class="nav-git active" role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">修改本地 Git 历史</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Wed 21 November 2018">Wed 21 November 2018</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <blockquote>
+<p>很早之前一篇发表在内部的文章，抽时间整理了一下发布出来。</p>
+</blockquote>
+<p><strong>以下操作会修改提交历史, 可能会造成一些不可恢复的问题, <em>不是</em> 下面情况不要这么操作</strong></p>
+<ol>
+<li>基于 GitHub Fork -&gt; Pull Request 流程仅针对 Fork 后的仓库进行操作</li>
+<li>非第一种情况的前提是当前修改的提交还未提交到远端</li>
+</ol>
+<p><strong>操作下面命令前最好先备份</strong></p>
+<h2 id="_1">修改上一条提交的信息</h2>
+<p>有时候我们在用 Git 提交后发现提交信息(commit message)不是我们预期的内容(错别字或描述错误等), 这个时候我们可能想修改一下上一条提交的信息, 有两种方式可以进行:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>--amend
+</code></pre></div>
+
+<p>这条命令会直接打开你的终端编辑器让你可以修改提交信息, 也可以组合 <code>reset</code> 命令重新提交:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>reset<span class="w"> </span>HEAD^<span class="w"> </span>--soft
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;new message&#39;</span>
+</code></pre></div>
+
+<p>这条命令会撤销上一条提交, 并将上一条提交的内容放在工作区内(git add 之后的区域), 然后就可以通过 <code>git commit</code> 重新提交.</p>
+<h2 id="_2">合并多个提交</h2>
+<p>有时我们为什么了方便记录, 会频繁的创建一些 <strong>临时</strong> 提交, 我们在将提交推送到远端之前可以通过 <code>git rebase</code> 来对现有的多条提交进行合并和编辑:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>rebase<span class="w"> </span>-i<span class="w"> </span>origin/master<span class="w">   </span><span class="c1"># master 换成你要推送到远端得分支</span>
+<span class="w">                                </span><span class="c1"># 基于 Fork -&gt; PR 的流程可以将 origin/master 替换为上游所在的远端分支</span>
+</code></pre></div>
+
+<p>这条命令会打开你的终端编辑器, 并显示类似如下的内容:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">pick</span><span class="w"> </span><span class="nt">48c9e10</span><span class="w"> </span><span class="nt">tmp</span>
+<span class="nt">pick</span><span class="w"> </span><span class="nt">23354c6</span><span class="w"> </span><span class="nt">tmp</span>
+
+<span class="err">#</span><span class="w"> </span><span class="nt">Rebase</span><span class="w"> </span><span class="nt">3b92b89</span><span class="o">.</span><span class="p">.</span><span class="nc">23354c6</span><span class="w"> </span><span class="nt">onto</span><span class="w"> </span><span class="nt">3b92b89</span><span class="w"> </span><span class="o">(</span><span class="nt">2</span><span class="w"> </span><span class="nt">commands</span><span class="o">)</span>
+<span class="err">#</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">Commands</span><span class="o">:</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">p</span><span class="o">,</span><span class="w"> </span><span class="nt">pick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">use</span><span class="w"> </span><span class="nt">commit</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">r</span><span class="o">,</span><span class="w"> </span><span class="nt">reword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">use</span><span class="w"> </span><span class="nt">commit</span><span class="o">,</span><span class="w"> </span><span class="nt">but</span><span class="w"> </span><span class="nt">edit</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">commit</span><span class="w"> </span><span class="nt">message</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">e</span><span class="o">,</span><span class="w"> </span><span class="nt">edit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">use</span><span class="w"> </span><span class="nt">commit</span><span class="o">,</span><span class="w"> </span><span class="nt">but</span><span class="w"> </span><span class="nt">stop</span><span class="w"> </span><span class="nt">for</span><span class="w"> </span><span class="nt">amending</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">s</span><span class="o">,</span><span class="w"> </span><span class="nt">squash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">use</span><span class="w"> </span><span class="nt">commit</span><span class="o">,</span><span class="w"> </span><span class="nt">but</span><span class="w"> </span><span class="nt">meld</span><span class="w"> </span><span class="nt">into</span><span class="w"> </span><span class="nt">previous</span><span class="w"> </span><span class="nt">commit</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">f</span><span class="o">,</span><span class="w"> </span><span class="nt">fixup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">like</span><span class="w"> </span><span class="s2">&quot;squash&quot;</span><span class="o">,</span><span class="w"> </span><span class="nt">but</span><span class="w"> </span><span class="nt">discard</span><span class="w"> </span><span class="nt">this</span><span class="w"> </span><span class="nt">commit</span><span class="err">&#39;</span><span class="nt">s</span><span class="w"> </span><span class="nt">log</span><span class="w"> </span><span class="nt">message</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">x</span><span class="o">,</span><span class="w"> </span><span class="nt">exec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">run</span><span class="w"> </span><span class="nt">command</span><span class="w"> </span><span class="o">(</span><span class="nt">the</span><span class="w"> </span><span class="nt">rest</span><span class="w"> </span><span class="nt">of</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">line</span><span class="o">)</span><span class="w"> </span><span class="nt">using</span><span class="w"> </span><span class="nt">shell</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">d</span><span class="o">,</span><span class="w"> </span><span class="nt">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">remove</span><span class="w"> </span><span class="nt">commit</span>
+<span class="err">#</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">These</span><span class="w"> </span><span class="nt">lines</span><span class="w"> </span><span class="nt">can</span><span class="w"> </span><span class="nt">be</span><span class="w"> </span><span class="nt">re-ordered</span><span class="o">;</span><span class="w"> </span><span class="nt">they</span><span class="w"> </span><span class="nt">are</span><span class="w"> </span><span class="nt">executed</span><span class="w"> </span><span class="nt">from</span><span class="w"> </span><span class="nt">top</span><span class="w"> </span><span class="nt">to</span><span class="w"> </span><span class="nt">bottom</span><span class="o">.</span>
+<span class="err">#</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">If</span><span class="w"> </span><span class="nt">you</span><span class="w"> </span><span class="nt">remove</span><span class="w"> </span><span class="nt">a</span><span class="w"> </span><span class="nt">line</span><span class="w"> </span><span class="nt">here</span><span class="w"> </span><span class="nt">THAT</span><span class="w"> </span><span class="nt">COMMIT</span><span class="w"> </span><span class="nt">WILL</span><span class="w"> </span><span class="nt">BE</span><span class="w"> </span><span class="nt">LOST</span><span class="o">.</span>
+<span class="err">#</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">However</span><span class="o">,</span><span class="w"> </span><span class="nt">if</span><span class="w"> </span><span class="nt">you</span><span class="w"> </span><span class="nt">remove</span><span class="w"> </span><span class="nt">everything</span><span class="o">,</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">rebase</span><span class="w"> </span><span class="nt">will</span><span class="w"> </span><span class="nt">be</span><span class="w"> </span><span class="nt">aborted</span><span class="o">.</span>
+<span class="err">#</span>
+<span class="err">#</span><span class="w"> </span><span class="nt">Note</span><span class="w"> </span><span class="nt">that</span><span class="w"> </span><span class="nt">empty</span><span class="w"> </span><span class="nt">commits</span><span class="w"> </span><span class="nt">are</span><span class="w"> </span><span class="nt">commented</span><span class="w"> </span><span class="nt">out</span>
+</code></pre></div>
+
+<p>内容里面已经说的很明显了, 我们翻译一下关键信息:</p>
+<div class="highlight"><pre><span></span><code>#<span class="w"> </span><span class="nv">p</span>,<span class="w"> </span><span class="nv">pick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>使用此提交
+#<span class="w"> </span><span class="nv">r</span>,<span class="w"> </span><span class="nv">reword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>使用此提交,<span class="w"> </span>但编辑当前提交的提交信息
+#<span class="w"> </span><span class="nv">e</span>,<span class="w"> </span><span class="nv">edit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>使用此提交,<span class="w"> </span>但停止修改
+#<span class="w"> </span><span class="nv">s</span>,<span class="w"> </span><span class="nv">squash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>使用此提交,<span class="w"> </span>但将当前提交合并到上一条提交
+#<span class="w"> </span><span class="nv">f</span>,<span class="w"> </span><span class="nv">fixup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>和<span class="w"> </span><span class="nv">squash</span><span class="w"> </span>一样,<span class="w"> </span>但是忽略提交信息
+#<span class="w"> </span><span class="nv">x</span>,<span class="w"> </span><span class="k">exec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>使用<span class="w"> </span><span class="nv">shell</span><span class="w"> </span>运行当前行的命令
+#<span class="w"> </span><span class="nv">d</span>,<span class="w"> </span><span class="nv">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>移除当前提交
+</code></pre></div>
+
+<p>那么我想合并这两条提交并更改一下 <code>commit message</code> 内容如下:</p>
+<div class="highlight"><pre><span></span><code>r 48c9e10 一个有意义的提交信息
+s 23354c6 tmp  # 用 f 也行
+</code></pre></div>
+
+<h2 id="_3">总结</h2>
+<p>大家可以创建一个练习仓库也体验一下上面命令的不同点, 另外建议多看看 <a href="https://git-scm.com/book/en/v2">Pro Git Book</a>。</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=修改本地 Git 历史&amp;url=https://www.linuxzen.com/xiu-gai-ben-di-git-li-shi.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/xiu-gai-ben-di-git-li-shi.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/xiu-gai-ben-di-git-li-shi.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/git.html">Git</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/xiu-gai-ben-di-git-li-shi.html';
+                    var disqus_url = 'https://www.linuxzen.com/xiu-gai-ben-di-git-li-shi.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/xiu-gai-ben-di-git-li-shi.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

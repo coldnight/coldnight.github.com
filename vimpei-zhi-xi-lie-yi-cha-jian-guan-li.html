@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Vim配置系列(一) ---- 插件管理</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="最近对Vim进行了一番较大的配置变动,所以就想写出一个系列来将配置过程分享下来,供需要的朋友参考.我们之前配置Vim插件是一大助力,可以帮助我们做一些比较 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="配置">
+    <meta name="tags" content="系列">
+    <meta name="tags" content="管理">
+    <meta name="tags" content="插件">
+    <meta name="tags" content="Vundle">
+    <meta name="tags" content="vim">
+    <meta name="tags" content="Bundle">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Vim配置系列(一) ---- 插件管理"/>
+<meta property="og:description" content="最近对Vim进行了一番较大的配置变动,所以就想写出一个系列来将配置过程分享下来,供需要的朋友参考.我们之前配置Vim插件是一大助力,可以帮助我们做一些比较 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-12-14 08:57:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Vim"/>
+<meta property="article:tag" content="配置"/>
+<meta property="article:tag" content="系列"/>
+<meta property="article:tag" content="管理"/>
+<meta property="article:tag" content="插件"/>
+<meta property="article:tag" content="Vundle"/>
+<meta property="article:tag" content="vim"/>
+<meta property="article:tag" content="Bundle"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Vim配置系列(一) ---- 插件管理">
+    <meta name="twitter:url" content="https://www.linuxzen.com/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="最近对Vim进行了一番较大的配置变动,所以就想写出一个系列来将配置过程分享下来,供需要的朋友参考.我们之前配置Vim插件是一大助力,可以帮助我们做一些比较 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Vim配置系列(一) ---- 插件管理",
+  "headline": "Vim配置系列(一) ---- 插件管理",
+  "datePublished": "2012-12-14 08:57:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html",
+  "description": "最近对Vim进行了一番较大的配置变动,所以就想写出一个系列来将配置过程分享下来,供需要的朋友参考.我们之前配置Vim插件是一大助力,可以帮助我们做一些比较 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li class="nav-vim active" role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Vim配置系列(一) ---- 插件管理</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Fri 14 December 2012">Fri 14 December 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>最近对Vim进行了一番较大的配置变动,所以就想写出一个系列来将配置过程分享下来,供需要的朋友参考.我们之前配置Vim插件是一大助力,可以帮助我们做一些比较cool或这比较实用的功能,但是我之前都是直接搜索插件然后下载下来,手动拷贝到相应的插件,这种感觉肯定是不爽,不管是Linux还是Python/Ruby都有一套自己的包管理器,可以比较智能的搜索/安装/升级/卸载包.Vim也有类似功能的插件Vundle,他是一款Vim插件管理器,依赖于git,git是一款非常棒的VCS这里不做介绍,有兴趣的可以了解一下.Vundle可以根据配置文件的github或其他git的路径自行安装/升级插件.下面我们来介绍如何安装:
+首先在你的~/.vim下或者$VIM/vimfiles($VIM是vim的安装路径)创建bundle目录</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>~/.vim/bundle
+</code></pre></div>
+
+<p>然后使用git克隆Vundle项目:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/gmarik/vundle.git<span class="w"> </span>~/.vim/bundle/vundle
+</code></pre></div>
+
+<p>然后在你的.vimrc里添加下面内容:</p>
+<div class="highlight"><pre><span></span><code><span class="k">set</span> <span class="nb">nocompatible</span>
+<span class="k">filetype</span> off                              <span class="c">&quot; 先关闭文件类型</span>
+<span class="k">set</span> <span class="nb">rtp</span><span class="p">+=~</span><span class="sr">/.vim/</span>bundle/vundle             <span class="c">&quot; 将vundle路径添加到插件vim路径</span>
+<span class="k">call</span> vundle#rc<span class="p">()</span>                          <span class="c">&quot; 执行Vundle初始化</span>
+Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>                    <span class="c">&quot; 将Vundle加入到bundle</span>
+
+<span class="k">filetype</span> indent plugin <span class="k">on</span>                 <span class="c">&quot; 安装完后打开文件类型</span>
+</code></pre></div>
+
+<p>如需加上插件则在Bundle 'gmarik/vundle'后加上相应的Bundle,如果是github则可以只输入后面的相对路径,如果是其他git则需输入全部url,下面给出一个完整的例子:</p>
+<div class="highlight"><pre><span></span><code><span class="k">set</span> <span class="nb">nocompatible</span>
+<span class="k">filetype</span> off
+<span class="k">set</span> <span class="nb">rtp</span><span class="p">+=~</span><span class="sr">/.vim/</span>bundle/vundle
+<span class="k">call</span> vundle#rc<span class="p">()</span>
+Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>
+<span class="c">&quot;Bundle &quot;MarcWeber/vim-addon-mw-utils&quot;</span>
+<span class="c">&quot;Bundle &quot;tomtom/tlib_vim&quot;</span>
+<span class="c">&quot;Bundle &quot;honza/snipmate-snippets&quot;</span>
+<span class="c">&quot;Bundle &quot;garbas/vim-snipmate&quot;</span>
+Bundle <span class="s2">&quot;Shougo/neocomplcache&quot;</span>
+Bundle <span class="s2">&quot;Lokaltog/vim-powerline&quot;</span>
+Bundle <span class="s2">&quot;drakeguan/vim-vcscommand&quot;</span>
+Bundle <span class="s2">&quot;scrooloose/nerdtree&quot;</span>
+Bundle <span class="s2">&quot;pix/vim-taglist&quot;</span>
+Bundle <span class="s2">&quot;nathanaelkane/vim-indent-guides&quot;</span>
+Bundle <span class="s2">&quot;clones/vim-cecutil&quot;</span>
+Bundle <span class="s2">&quot;tpope/vim-fugitive&quot;</span>
+<span class="c">&quot;Bundle &quot;c9s/bufexplorer&quot;</span>
+Bundle <span class="s2">&quot;jnwhiteh/vim-golang&quot;</span>
+Bundle <span class="s2">&quot;kevinw/pyflakes-vim&quot;</span>
+Bundle <span class="s2">&quot;mbriggs/mark.vim&quot;</span>
+<span class="c">&quot;Bundle &quot;vim-scripts/TabBar&quot;</span>
+Bundle <span class="s2">&quot;vim-scripts/DrawIt&quot;</span>
+Bundle <span class="s2">&quot;vim-scripts/calendar.vim--Matsumoto&quot;</span>
+Bundle <span class="s2">&quot;vim-scripts/Python-mode-klen&quot;</span>
+<span class="c">&quot;Bundle &quot;vim-scripts/pydoc.vim&quot;</span>
+Bundle <span class="s2">&quot;vim-scripts/VOoM&quot;</span>
+Bundle <span class="s2">&quot;vim-scripts/qiushibaike&quot;</span>
+Bundle <span class="s2">&quot;vim-scripts/AuthorInfo&quot;</span>
+Bundle <span class="s2">&quot;vim-scripts/javacomplete&quot;</span>
+Bundle <span class="s2">&quot;vim-scripts/javaDoc.vim&quot;</span>
+Bundle <span class="s2">&quot;drmingdrmer/xptemplate.git&quot;</span>
+Bundle <span class="s2">&quot;vim-scripts/Java-Syntax-and-Folding&quot;</span>
+
+<span class="k">filetype</span> indent plugin <span class="k">on</span>
+</code></pre></div>
+
+<p>以上是我的Vundle配置,再后面的文章会对其中一些做出介绍:</p>
+<p>配置完后保存使用Vim打开任意文档执行</p>
+<div class="highlight"><pre><span></span><code><span class="p">:</span>BundleInstall
+</code></pre></div>
+
+<p>如果网络通畅Bundle会逐个安装每个插件.</p>
+<p>同时还有:BundleSearch用于搜索插件,非常方便.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Vim配置系列(一) ---- 插件管理&amp;url=https://www.linuxzen.com/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/pei-zhi.html">配置</a><a href="https://www.linuxzen.com/tag/xi-lie.html">系列</a><a href="https://www.linuxzen.com/tag/guan-li.html">管理</a><a href="https://www.linuxzen.com/tag/cha-jian.html">插件</a><a href="https://www.linuxzen.com/tag/vundle.html">Vundle</a><a href="https://www.linuxzen.com/tag/vim.html">vim</a><a href="https://www.linuxzen.com/tag/bundle.html">Bundle</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html';
+                    var disqus_url = 'https://www.linuxzen.com/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/vimpei-zhi-xi-lie-yi-cha-jian-guan-li.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

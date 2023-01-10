@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Go 1.5 内存清除汇编源码注释</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/golang-105-memclr-assembly-comment.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Go 为了实现内存复用会将已经回收到 cache 的内存清除，清除逻辑使用汇编实现，本文是基于自己的理解进行的注释。">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="golang">
+    <meta name="tags" content="go">
+    <meta name="tags" content="源码">
+    <meta name="tags" content="plan9 汇编">
+    <meta name="tags" content="内存清除">
+    <meta name="tags" content="memclr">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Go 1.5 内存清除汇编源码注释"/>
+<meta property="og:description" content="Go 为了实现内存复用会将已经回收到 cache 的内存清除，清除逻辑使用汇编实现，本文是基于自己的理解进行的注释。"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/golang-105-memclr-assembly-comment.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-02-11 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Go"/>
+<meta property="article:tag" content="golang"/>
+<meta property="article:tag" content="go"/>
+<meta property="article:tag" content="源码"/>
+<meta property="article:tag" content="plan9 汇编"/>
+<meta property="article:tag" content="内存清除"/>
+<meta property="article:tag" content="memclr"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Go 1.5 内存清除汇编源码注释">
+    <meta name="twitter:url" content="https://www.linuxzen.com/golang-105-memclr-assembly-comment.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Go 为了实现内存复用会将已经回收到 cache 的内存清除，清除逻辑使用汇编实现，本文是基于自己的理解进行的注释。">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Go 1.5 内存清除汇编源码注释",
+  "headline": "Go 1.5 内存清除汇编源码注释",
+  "datePublished": "2019-02-11 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/golang-105-memclr-assembly-comment.html",
+  "description": "Go 为了实现内存复用会将已经回收到 cache 的内存清除，清除逻辑使用汇编实现，本文是基于自己的理解进行的注释。"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li class="nav-go active" role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Go 1.5 内存清除汇编源码注释</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Mon 11 February 2019">Mon 11 February 2019</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>最近在阅读 Go1.5 的源码，发现源码中多处调用了了 <tt class="docutils literal">memclr</tt> ，进一步深入了解发现原来 Go 为了实现内存复用会将已经回收到 <tt class="docutils literal">cache</tt> 的内存清除，清除逻辑使用汇编实现，本文是基于自己的理解进行的注释。</p>
+<p><strong>注意</strong>:</p>
+<ol class="arabic simple">
+<li>最新版的 Go 中（1.11）该函数已经改名为 <tt class="docutils literal">memclrNoHeapPointers</tt></li>
+<li>我自己添加的注释以 <tt class="docutils literal">//#</tt> 开始</li>
+<li>Go 针对不同的平台实现了不同的内存清除，这里仅对 <tt class="docutils literal">amd64</tt> 平台下的实现进行注释：</li>
+</ol>
+<p>源文件: <a class="reference external" href="https://github.com/golang/go/blob/release-branch.go1.5/src/runtime/memclr_amd64.s">https://github.com/golang/go/blob/release-branch.go1.5/src/runtime/memclr_amd64.s</a></p>
+<div class="highlight"><pre><span></span>// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// +build !plan9
+
+#include &quot;textflag.h&quot;
+
+// NOTE: Windows externalthreadhandler expects memclr to preserve DX.
+
+// void runtime·memclr(void* ptr, uintptr n)
+
+//# - TEXT 在 Plan9 中用于声明函数
+//# - runtime·memclr 为函数名，中间的·不是普通的点在 Mac 下通过 Option+Shift+9 打出，· 前是包名后面是函数名
+//# - SB（伪寄存器）全局静态基指针，用来声明函数或全局变量（此处用来声明函数）
+//# - NOSPLIT 定义在 https://github.com/golang/go/blob/master/src/runtime/textflag.h
+//# - $0-16：
+//#   + $0 栈帧大小为0（局部变量+可能需要的额外调用函数的参数空间总大小，不包括调用其他函数时的 ret address 的大小）
+//#   + 16 参数基返回值的大小（16 表示两个双四字的参数）
+TEXT runtime·memclr(SB), NOSPLIT, $0-16
+     //# FP（伪寄存器）：通过 `symbol+offset(FP)` 的方式引用输入参数
+     //# symbol 没有任何用，只是增加可读性，但不能省略
+     //# FP 指向整个栈帧的底部的 BP 寄存器
+     MOVQ    ptr+0(FP), DI   //# 第一个参数移动到 DI 寄存器（DI 目标索引寄存器）
+     MOVQ    n+8(FP), BX     //# 第二个参数移动到 BX 寄存器（BX 为基址寄存器，用于内存寻址）
+     XORQ    AX, AX          //# 清零 AX 寄存器（AX 为累加寄存器）
+
+// MOVOU seems always faster than REP STOSQ.
+tail:
+     TESTQ   BX, BX          // set ZF to 1 if n is 0
+     JEQ     _0              // jump to _0 if ZF == 1(returns)
+     CMPQ    BX, $2
+     JBE     _1or2           // jump to _1or2 if n &lt;= 2
+     CMPQ    BX, $4
+     JBE     _3or4           // jump to _3or4 if n &gt; 2 and n &lt;= 4
+     CMPQ    BX, $8
+     // ...
+     JBE     _5through8
+     CMPQ    BX, $16
+     JBE     _9through16
+
+     //# 大于 16 开始使用 128 位寄存器 X0，
+     //# PXOR 将 X0 寄存器置为 0
+     PXOR    X0, X0
+     CMPQ    BX, $32
+     JBE     _17through32
+     CMPQ    BX, $64
+     JBE     _33through64
+     CMPQ    BX, $128
+     JBE     _65through128
+     CMPQ    BX, $256
+     JBE     _129through256
+     // TODO: use branch table and BSR to make this just a single dispatch
+     // TODO: for really big clears, use MOVNTDQ.
+
+//# 大于 256 则通过循环
+loop:
+     //# MOVOU 相当于 AT&amp;T/Intel 的 MOVDQU -- 移动非对齐的双四字
+     //# X0 相当与 AT&amp;T/Intel 的 SSE 新增的 %xmm0(128位元暂存器)
+     //# 参见 https://zh.wikipedia.org/wiki/SSE
+     MOVOU   X0, 0(DI)
+     MOVOU   X0, 16(DI)
+     MOVOU   X0, 32(DI)
+     MOVOU   X0, 48(DI)
+     MOVOU   X0, 64(DI)
+     MOVOU   X0, 80(DI)
+     MOVOU   X0, 96(DI)
+     MOVOU   X0, 112(DI)
+     MOVOU   X0, 128(DI)
+     MOVOU   X0, 144(DI)
+     MOVOU   X0, 160(DI)
+     MOVOU   X0, 176(DI)
+     MOVOU   X0, 192(DI)
+     MOVOU   X0, 208(DI)
+     MOVOU   X0, 224(DI)
+     MOVOU   X0, 240(DI)
+     SUBQ    $256, BX  //# 递减 BX
+     ADDQ    $256, DI  //# 递增 DI
+     CMPQ    BX, $256
+     JAE     loop      //# 如果 BX 依然大于 256 则继续循环
+     JMP     tail      //# 否则进入 tail
+
+_1or2:
+     MOVB    AX, (DI)
+     MOVB    AX, -1(DI)(BX*1)
+     RET
+_0:
+     RET
+_3or4:
+     MOVW    AX, (DI)
+     MOVW    AX, -2(DI)(BX*1)
+     RET
+_5through8:
+     MOVL    AX, (DI)
+     MOVL    AX, -4(DI)(BX*1)
+     RET
+_9through16:
+     MOVQ    AX, (DI)
+     MOVQ    AX, -8(DI)(BX*1)
+     RET
+_17through32:
+     MOVOU   X0, (DI)
+     MOVOU   X0, -16(DI)(BX*1)
+     RET
+_33through64:
+     MOVOU   X0, (DI)
+     MOVOU   X0, 16(DI)
+     MOVOU   X0, -32(DI)(BX*1)
+     MOVOU   X0, -16(DI)(BX*1)
+     RET
+_65through128:
+     MOVOU   X0, (DI)
+     MOVOU   X0, 16(DI)
+     MOVOU   X0, 32(DI)
+     MOVOU   X0, 48(DI)
+     MOVOU   X0, -64(DI)(BX*1)
+     MOVOU   X0, -48(DI)(BX*1)
+     MOVOU   X0, -32(DI)(BX*1)
+     MOVOU   X0, -16(DI)(BX*1)
+     RET
+_129through256:
+     MOVOU   X0, (DI)
+     MOVOU   X0, 16(DI)
+     MOVOU   X0, 32(DI)
+     MOVOU   X0, 48(DI)
+     MOVOU   X0, 64(DI)
+     MOVOU   X0, 80(DI)
+     MOVOU   X0, 96(DI)
+     MOVOU   X0, 112(DI)
+     MOVOU   X0, -128(DI)(BX*1)
+     MOVOU   X0, -112(DI)(BX*1)
+     MOVOU   X0, -96(DI)(BX*1)
+     MOVOU   X0, -80(DI)(BX*1)
+     MOVOU   X0, -64(DI)(BX*1)
+     MOVOU   X0, -48(DI)(BX*1)
+     MOVOU   X0, -32(DI)(BX*1)
+     MOVOU   X0, -16(DI)(BX*1)
+     RET
+</pre></div>
+<p>在此期间参阅了大量的资料，最大的坑就是 Go 使用的汇编是 Plan9而非常见的 x86 汇编，参考资料如下：</p>
+<ul class="simple">
+<li><a class="reference external" href="https://quasilyte.github.io/blog/post/go-asm-complementary-reference/">https://quasilyte.github.io/blog/post/go-asm-complementary-reference/</a></li>
+<li><a class="reference external" href="https://gocn.vip/article/733">https://gocn.vip/article/733</a></li>
+<li><a class="reference external" href="https://github.com/golang/arch/blob/master/x86/x86.csv">https://github.com/golang/arch/blob/master/x86/x86.csv</a></li>
+<li><a class="reference external" href="https://golang.org/doc/asm">https://golang.org/doc/asm</a></li>
+</ul>
+
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Go 1.5 内存清除汇编源码注释&amp;url=https://www.linuxzen.com/golang-105-memclr-assembly-comment.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/golang-105-memclr-assembly-comment.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/golang-105-memclr-assembly-comment.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/golang.html">golang</a><a href="https://www.linuxzen.com/tag/go.html">go</a><a href="https://www.linuxzen.com/tag/yuan-ma.html">源码</a><a href="https://www.linuxzen.com/tag/plan9-hui-bian.html">plan9 汇编</a><a href="https://www.linuxzen.com/tag/nei-cun-qing-chu.html">内存清除</a><a href="https://www.linuxzen.com/tag/memclr.html">memclr</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/golang-105-memclr-assembly-comment.html';
+                    var disqus_url = 'https://www.linuxzen.com/golang-105-memclr-assembly-comment.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/golang-105-memclr-assembly-comment.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

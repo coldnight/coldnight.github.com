@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>SQLAlchemy MySQL数据库乱码解决</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="今天对clubot进行了升级, 但是导入数据后中文乱码, 一开是找资料说是在创建引擎的时候添加编码信息: engine = create_engine("mysql://root:@localhost:3306/clubot?charset …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="sqlalchemy">
+    <meta name="tags" content="MySQL">
+    <meta name="tags" content="数据库">
+    <meta name="tags" content="乱码">
+    <meta name="tags" content="utf8">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="SQLAlchemy MySQL数据库乱码解决"/>
+<meta property="og:description" content="今天对clubot进行了升级, 但是导入数据后中文乱码, 一开是找资料说是在创建引擎的时候添加编码信息: engine = create_engine("mysql://root:@localhost:3306/clubot?charset …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-04-26 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="sqlalchemy"/>
+<meta property="article:tag" content="MySQL"/>
+<meta property="article:tag" content="数据库"/>
+<meta property="article:tag" content="乱码"/>
+<meta property="article:tag" content="utf8"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="SQLAlchemy MySQL数据库乱码解决">
+    <meta name="twitter:url" content="https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="今天对clubot进行了升级, 但是导入数据后中文乱码, 一开是找资料说是在创建引擎的时候添加编码信息: engine = create_engine("mysql://root:@localhost:3306/clubot?charset …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "SQLAlchemy MySQL数据库乱码解决",
+  "headline": "SQLAlchemy MySQL数据库乱码解决",
+  "datePublished": "2013-04-26 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html",
+  "description": "今天对clubot进行了升级, 但是导入数据后中文乱码, 一开是找资料说是在创建引擎的时候添加编码信息: engine = create_engine("mysql://root:@localhost:3306/clubot?charset …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">SQLAlchemy MySQL数据库乱码解决</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Fri 26 April 2013">Fri 26 April 2013</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>今天对<a href="/python-shi-yong-pyxmpp2bian-xie-gtalkqun.html">clubot</a>进行了<a href="/clubotgeng-xin-shi-yong-sqlalchemyzhong-xie-shu-ju-ku-bu-fen-he-gai-yong-tornado-mainloop.html">升级</a>, 但是导入数据后中文乱码, 一开是找资料说是在创建引擎的时候添加编码信息:</p>
+<div class="highlight"><pre><span></span><code><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s2">&quot;mysql://root:@localhost:3306/clubot?charset=utf8&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>但是这并不行, 然后查看表信息:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">clubot_members</span><span class="p">;</span>
+<span class="n">clubot_members</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n n-Quoted">`clubot_members`</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n n-Quoted">`id`</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="no">NULL</span><span class="w"> </span><span class="k">AUTO_INCREMENT</span><span class="p">,</span>
+<span class="w">  </span><span class="n n-Quoted">`email`</span><span class="w"> </span><span class="kt">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="no">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n n-Quoted">`nick`</span><span class="w"> </span><span class="kt">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="no">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n n-Quoted">`last_say`</span><span class="w"> </span><span class="kt">timestamp</span><span class="w"> </span><span class="no">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="no">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n n-Quoted">`last_change`</span><span class="w"> </span><span class="kt">timestamp</span><span class="w"> </span><span class="no">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="no">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n n-Quoted">`isonline`</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="no">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n n-Quoted">`join_date`</span><span class="w"> </span><span class="kt">timestamp</span><span class="w"> </span><span class="no">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="no">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n n-Quoted">`id`</span><span class="p">),</span>
+<span class="w">  </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n n-Quoted">`email`</span><span class="w"> </span><span class="p">(</span><span class="n n-Quoted">`email`</span><span class="p">),</span>
+<span class="w">  </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n n-Quoted">`nick`</span><span class="w"> </span><span class="p">(</span><span class="n n-Quoted">`nick`</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span><span class="w"> </span><span class="k">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CHARSET</span><span class="o">=</span><span class="n">latin1</span><span class="p">;</span>
+</code></pre></div>
+
+<p>发现原来创建表的时候用的<code>latin1</code>编码, 而老的表是用<code>utf-8</code>编码创建的, <code>SQLAlchemy</code>中并没有发现有创建表时指定指定编码的方法. 所以只能在<code>MySQL</code>本身来找:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="k">VARIABLES</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s2">&quot;character%%&quot;</span><span class="p">;</span>
+<span class="o">+--------------------------+-----------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">Variable_name</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="k">Value</span><span class="w">                       </span><span class="o">|</span>
+<span class="o">+--------------------------+-----------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">character_set_client</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">utf8</span><span class="w">                        </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">character_set_connection</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">utf8</span><span class="w">                        </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">character_set_database</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="n">latin1</span><span class="w">                      </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">character_set_filesystem</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kt">binary</span><span class="w">                      </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">character_set_results</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">utf8</span><span class="w">                        </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">character_set_server</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">latin1</span><span class="w">                      </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">character_set_system</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">utf8</span><span class="w">                        </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">character_sets_dir</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="k">share</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">charsets</span><span class="o">/</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+--------------------------+-----------------------------+</span>
+<span class="mi">8</span><span class="w"> </span><span class="k">rows</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">set</span><span class="w"> </span><span class="p">(</span><span class="mf">0.00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+
+<span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="k">create</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="n">clubot</span><span class="p">;</span>
+<span class="o">+----------+-------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="k">Database</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">Create</span><span class="w"> </span><span class="k">Database</span><span class="w">                                                   </span><span class="o">|</span>
+<span class="o">+----------+-------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">clubot</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n n-Quoted">`clubot`</span><span class="w"> </span><span class="cm">/*!40100 DEFAULT CHARACTER SET latin1 */</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+----------+-------------------------------------------------------------------+</span>
+<span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">set</span><span class="w"> </span><span class="p">(</span><span class="mf">0.00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+
+<p>发现 <code>MySQL</code>默认的和数据库都是<code>latin1</code>的编码, 所以更改数据库配置</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/etc/mysql/my.cnf<span class="w">      </span><span class="c1"># MySQL配置文件在Ubuntu上的位置, 其他系统可能有差异</span>
+</code></pre></div>
+
+<p>分别在<code>[client]</code> <code>[mysqld]</code>下添加</p>
+<div class="highlight"><pre><span></span><code>default-character-set = utf8
+</code></pre></div>
+
+<p>这时重启MySQL居然起不来, 说<code>default-character-set</code>是无效的变量, 查看<code>MySQL</code>版本发现是5.5, 找资料说5.5的服务端编码设置变量是<code>character-set-server</code>, 所以将<code>[mysqld]</code>上的<code>default-character-set = utf8</code>改为 <code>character-set-server = utf8</code>, 并重启<code>MySQL</code></p>
+<p>然后更改数据库编码:</p>
+<div class="highlight"><pre><span></span><code><span class="k">alter</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="n">clubot</span><span class="w"> </span><span class="k">character</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="n">utf8</span><span class="p">;</span>
+</code></pre></div>
+
+<p>删除新建的表, 并重新导入数据中文就正常了</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">clubot</span><span class="p">;</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="k">drop</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">clubot_status</span><span class="p">;</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="k">drop</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">clubot_infos</span><span class="p">;</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="k">drop</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">clubot_history</span><span class="p">;</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="k">drop</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">clubot_members</span><span class="p">;</span>
+</code></pre></div>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=SQLAlchemy MySQL数据库乱码解决&amp;url=https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/sqlalchemy.html">sqlalchemy</a><a href="https://www.linuxzen.com/tag/mysql.html">MySQL</a><a href="https://www.linuxzen.com/tag/shu-ju-ku.html">数据库</a><a href="https://www.linuxzen.com/tag/luan-ma.html">乱码</a><a href="https://www.linuxzen.com/tag/utf8.html">utf8</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html';
+                    var disqus_url = 'https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

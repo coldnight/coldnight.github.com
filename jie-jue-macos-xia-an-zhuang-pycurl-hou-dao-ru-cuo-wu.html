@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>解决 macOS 下安装 pycurl 后导入错误</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="在 macOS 下安装 PycURL 后 import curl 会提示: ImportError: pycurl: libcurl link-time version (7.43.0) is older than compile-time version...">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="pycurl">
+    <meta name="tags" content="macOS">
+    <meta name="tags" content="OSX">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="解决 macOS 下安装 pycurl 后导入错误"/>
+<meta property="og:description" content="在 macOS 下安装 PycURL 后 import curl 会提示: ImportError: pycurl: libcurl link-time version (7.43.0) is older than compile-time version..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-11-20 15:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="pycurl"/>
+<meta property="article:tag" content="macOS"/>
+<meta property="article:tag" content="OSX"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="解决 macOS 下安装 pycurl 后导入错误">
+    <meta name="twitter:url" content="https://www.linuxzen.com/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="在 macOS 下安装 PycURL 后 import curl 会提示: ImportError: pycurl: libcurl link-time version (7.43.0) is older than compile-time version...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "解决 macOS 下安装 pycurl 后导入错误",
+  "headline": "解决 macOS 下安装 pycurl 后导入错误",
+  "datePublished": "2018-11-20 15:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html",
+  "description": "在 macOS 下安装 PycURL 后 import curl 会提示: ImportError: pycurl: libcurl link-time version (7.43.0) is older than compile-time version..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">解决 macOS 下安装 pycurl 后导入错误</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Tue 20 November 2018">Tue 20 November 2018</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>在 macOS 下安装 PycURL 后 <code>import curl</code> 会提示:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ImportError</span><span class="o">:</span><span class="w"> </span><span class="n">pycurl</span><span class="o">:</span><span class="w"> </span><span class="n">libcurl</span><span class="w"> </span><span class="n">link</span><span class="o">-</span><span class="n">time</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">(</span><span class="mf">7.43</span><span class="o">.</span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">older</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="n">compile</span><span class="o">-</span><span class="n">time</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">(</span><span class="mf">7.49</span><span class="o">.</span><span class="mi">1</span><span class="o">)</span>
+</code></pre></div>
+
+<p>这是因为系统中的 curl 版本过老导致, 可以通过使用  <code>Homebrew</code> 安装最新版来解决:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>curl
+</code></pre></div>
+
+<p>安装完成后会提示一些信息, 按照提示的信息将 <code>curl</code> 加入到 PATH 路径, 参考:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=&quot;/usr/local/opt/curl/bin:$PATH&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc
+</code></pre></div>
+
+<p>如果使用的非 zsh 则将上面替换为:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=&quot;/usr/local/opt/curl/bin:$PATH&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+</code></pre></div>
+
+<p>完成后重新初始化 shell:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/.zshrc
+</code></pre></div>
+
+<p>然后禁用 <code>pip</code> 缓存重新安装 <code>pycurl</code>:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>pip<span class="w"> </span>uninstall<span class="w"> </span>pycurl
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>pycurl<span class="w"> </span>--no-cache-dir
+</code></pre></div>
+
+<p>如果使用 <code>tox</code> 可以使用  <code>-r</code> 参数重建 <code>virtualenv</code>:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>tox<span class="w"> </span>-r<span class="w"> </span>-e<span class="w"> </span>py36
+</code></pre></div>
+
+<p>若依然存在问题可以手动删除 <code>pip</code> 缓存目录重试:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>~/Library/Caches/pip/
+</code></pre></div>
+
+<p>如遇到下面问题：</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nv">__main__</span>.<span class="nv">ConfigurationError</span>:<span class="w"> </span><span class="nv">Curl</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">configured</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">use</span><span class="w"> </span><span class="nv">SSL</span>,<span class="w"> </span><span class="nv">but</span><span class="w"> </span><span class="nv">we</span><span class="w"> </span><span class="nv">have</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">been</span><span class="w"> </span><span class="nv">able</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">determine</span><span class="w"> </span><span class="nv">which</span><span class="w"> </span><span class="nv">SSL</span><span class="w"> </span><span class="nv">backend</span><span class="w"> </span><span class="nv">it</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">using</span>.<span class="w"> </span><span class="nv">Please</span><span class="w"> </span><span class="nv">see</span><span class="w"> </span><span class="nv">PycURL</span><span class="w"> </span><span class="nv">documentation</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">how</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">specify</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">SSL</span><span class="w"> </span><span class="nv">backend</span><span class="w"> </span><span class="nv">manually</span>.
+</code></pre></div>
+
+<p>可以通过如下命令重新安装 <code>curl</code></p>
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>reinstall<span class="w"> </span>curl<span class="w"> </span>--with-openssl
+</code></pre></div>
+
+<p>然后重新安装 <code>pycurl</code>，如果还不行可以尝试重启 Shell。</p>
+<p>如果通过 <code>tox</code> 依然不行可以设置如下环境变量：</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span>-L/usr/local/opt/openssl/lib
+<span class="nb">export</span><span class="w"> </span><span class="nv">CPPFLAGS</span><span class="o">=</span>-I/usr/local/opt/openssl/include
+</code></pre></div>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=解决 macOS 下安装 pycurl 后导入错误&amp;url=https://www.linuxzen.com/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/pycurl.html">pycurl</a><a href="https://www.linuxzen.com/tag/macos.html">macOS</a><a href="https://www.linuxzen.com/tag/osx.html">OSX</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html';
+                    var disqus_url = 'https://www.linuxzen.com/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/jie-jue-macos-xia-an-zhuang-pycurl-hou-dao-ru-cuo-wu.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>使用 Vimwiki + git 做知识管理</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="一直在找一个合适的知识管理工具, 用过 Evernote, 但是不支持 Markdown, 用了一段时间也放弃了. 最近 python-cn 列表里也在讨论这个问题, 看到 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="vim">
+    <meta name="tags" content="vimwiki">
+    <meta name="tags" content="wiki">
+    <meta name="tags" content="知识">
+    <meta name="tags" content="管理">
+    <meta name="tags" content="git">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="使用 Vimwiki + git 做知识管理"/>
+<meta property="og:description" content="一直在找一个合适的知识管理工具, 用过 Evernote, 但是不支持 Markdown, 用了一段时间也放弃了. 最近 python-cn 列表里也在讨论这个问题, 看到 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-12-26 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Vim"/>
+<meta property="article:tag" content="vim"/>
+<meta property="article:tag" content="vimwiki"/>
+<meta property="article:tag" content="wiki"/>
+<meta property="article:tag" content="知识"/>
+<meta property="article:tag" content="管理"/>
+<meta property="article:tag" content="git"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="使用 Vimwiki + git 做知识管理">
+    <meta name="twitter:url" content="https://www.linuxzen.com/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="一直在找一个合适的知识管理工具, 用过 Evernote, 但是不支持 Markdown, 用了一段时间也放弃了. 最近 python-cn 列表里也在讨论这个问题, 看到 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "使用 Vimwiki + git 做知识管理",
+  "headline": "使用 Vimwiki + git 做知识管理",
+  "datePublished": "2013-12-26 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html",
+  "description": "一直在找一个合适的知识管理工具, 用过 Evernote, 但是不支持 Markdown, 用了一段时间也放弃了. 最近 python-cn 列表里也在讨论这个问题, 看到 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li class="nav-vim active" role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">使用 Vimwiki + git 做知识管理</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Thu 26 December 2013">Thu 26 December 2013</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>一直在找一个合适的知识管理工具, 用过 Evernote, 但是不支持 Markdown, 用了一段时间也放弃了.
+最近 python-cn 列表里也在讨论这个问题, 看到有人使用 Vimwiki, 所以就尝试了一下.</p>
+<p>安装后,试着写了点东西, 发现很方便做知识管理和记录笔记, 可以生成HTML, 可以定制模板,
+这里不讨论如何使用, Vimwiki 的文档介绍的很详细,</p>
+<p>我使用<a href="http://bootcss.com">bootstrap</a>和 jquery 对模板进行了一些定制:</p>
+<ul>
+<li>添加导航</li>
+<li>将toc移动到左侧</li>
+</ul>
+<p>下面将介绍我是如何做的, 并在最后附上如何部署的</p>
+<h3 id="_1">指定模板</h3>
+<p>首先需要更改默认模板</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">let</span> <span class="k">g</span>:vimwiki_list <span class="p">=</span> [{<span class="s1">&#39;path&#39;</span>: <span class="s1">&#39;~/vimwiki&#39;</span><span class="p">,</span>
+    \    <span class="s1">&#39;path_html&#39;</span>: <span class="s1">&#39;~/vimwiki_html&#39;</span><span class="p">,</span>
+    \    <span class="s1">&#39;template_path&#39;</span>: <span class="s1">&#39;~/vimwiki/template&#39;</span><span class="p">,</span>
+    \    <span class="s1">&#39;template_default&#39;</span>: <span class="s2">&quot;default.tpl&quot;</span>}]
+</code></pre></div>
+
+<p>并将默认的模板作为模板进行修改</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>~/vimwiki/template
+cp<span class="w"> </span>~/.vim/bundle/vimwiki/autoload/vimwiki/default.tpl<span class="w"> </span>~/vimwiki/template
+</code></pre></div>
+
+<h3 id="_2">添加静态文件</h3>
+<p>将jqeury和bootstrap的js和css文件放到 ~/vimwik_html目录下,</p>
+<p>为了统一修改和发布 Wiki, 我将静态文件放在 ~/vimwiki 的 static 目录下, 
+并在 ~/vimwiki_html 创建一个软链链接到这个目录, 下面是我 static 目录的一个快照</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>tree<span class="w"> </span>~/vimwiki/static<span class="w"> </span>
+~/vimwiki/static
+├──<span class="w"> </span>bootstrap
+│<span class="w">   </span>├──<span class="w"> </span>css
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>bootstrap.min.css
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>bootstrap-theme.min.css
+│<span class="w">   </span>├──<span class="w"> </span>fonts
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>glyphicons-halflings-regular.eot
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>glyphicons-halflings-regular.svg
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>glyphicons-halflings-regular.ttf
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>glyphicons-halflings-regular.woff
+│<span class="w">   </span>└──<span class="w"> </span>js
+│<span class="w">       </span>└──<span class="w"> </span>bootstrap.min.js
+├──<span class="w"> </span>css
+│<span class="w">   </span>└──<span class="w"> </span>wiki.css
+└──<span class="w"> </span>js
+<span class="w">    </span>├──<span class="w"> </span>jquery-1.8.3.min.js
+<span class="w">    </span>└──<span class="w"> </span>wiki.js
+
+<span class="m">6</span><span class="w"> </span>directories,<span class="w"> </span><span class="m">10</span><span class="w"> </span>files
+</code></pre></div>
+
+<p>其中<code>wiki.js</code>和<code>wiki.css</code>分别是自定义的Javascript和CSS
+然后在~/vimwiki_html中创建链接</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>~/vimwiki/static<span class="w"> </span>~/vimwiki_html/static
+</code></pre></div>
+
+<h3 id="_3">在模板中引用静态文件</h3>
+<p>结合 <code>%root_path%</code>模板变量引入静态文件</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;Stylesheet&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;%root_path%static/css/wiki.css&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;Stylesheet&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;%root_path%static/bootstrap/css/bootstrap.min.css&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;%root_path%static/js/jquery-1.8.3.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;%root_path%static/bootstrap/js/bootstrap.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;%root_path%static/js/wiki.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<h3 id="_4">创建导航</h3>
+<p>根据 Boostrap 文档中的例子很容易就可以创建一个好看的导航</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">nav</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar navbar-default navbar-inverse&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;navigation&quot;</span><span class="p">&gt;</span>
+ <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-header&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">button</span> <span class="na">data-target</span><span class="o">=</span><span class="s">&quot;.bs-navbar-collapse&quot;</span> <span class="na">data-toggle</span><span class="o">=</span><span class="s">&quot;collapse&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-toggle&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;sr-only&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;icon-bar&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;icon-bar&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;icon-bar&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-brand&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/index.html&quot;</span><span class="p">&gt;</span>cold&#39;s wiki<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;collapse navbar-collapse&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">ul</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav navbar-nav&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;%root_path%index.html&quot;</span><span class="p">&gt;</span>首页<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;%root_path%diary/diary.html&quot;</span><span class="p">&gt;</span>日记<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;%root_path%TODO.html&quot;</span><span class="p">&gt;</span>TODO<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+ <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>然后将 content 变量放在 'contaniner' 中</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container content-body&quot;</span><span class="p">&gt;</span>
+    %content%
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<h3 id="toc">替换样式和将 toc 移动到左侧</h3>
+<p>替换表格样式</p>
+<div class="highlight"><pre><span></span><code><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;table table-bordered table-striped table-hover&quot;</span><span class="p">);</span>
+</code></pre></div>
+
+<p>然后将 <code>toc</code> 移动到右侧, 并使用 <code>affix</code> 效果</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 生成左侧toc导航</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.toc&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">().</span><span class="nx">trim</span><span class="p">()){</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.content-body&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">toc_html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;div class=&quot;toc&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.toc&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;&lt;/div&gt;&quot;</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">html</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">toc_html</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;div class=&quot;col-md-3&quot;&gt;\n&#39;</span><span class="o">+</span><span class="nx">toc_html</span><span class="o">+</span><span class="s1">&#39;\n&lt;/div&gt;\n&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">html</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s1">&#39;&lt;div class=&quot;col-md-9&quot;&gt;\n&#39;</span><span class="o">+</span><span class="nx">content</span><span class="o">+</span><span class="s1">&#39;\n&lt;/div&gt;\n&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">html</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/blockquote/g</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pre&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.content-body&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.toc&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;bs-sidebar&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* $(&quot;.toc&quot;).attr(&quot;role&quot;, &quot;complementary&quot;); */</span>
+<span class="w">    </span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.toc&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;data-spy&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;affix&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* $(&quot;.toc&quot;).attr(&quot;data-offset-top&quot;, &quot;200&quot;) */</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">uls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.toc&quot;</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;ul&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">uls</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="nx">ul</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">uls</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">ul</span><span class="p">).</span><span class="nx">parent</span><span class="p">(),</span><span class="w"> </span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.toc&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">ul</span><span class="p">).</span><span class="nx">parent</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.toc&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">ul</span><span class="p">).</span><span class="nx">parent</span><span class="p">().</span><span class="nx">hasClass</span><span class="p">(</span><span class="s2">&quot;toc&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">ul</span><span class="p">).</span><span class="nx">parent</span><span class="p">().</span><span class="nx">hasClass</span><span class="p">(</span><span class="s2">&quot;toc&quot;</span><span class="p">))</span>
+<span class="w">            </span><span class="nx">$</span><span class="p">(</span><span class="nx">ul</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;nav bs-sidenav&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="nx">$</span><span class="p">(</span><span class="nx">ul</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;nav&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>完整的<a href="http://wiki.linuxzen.com/static/js/wiki.js">wiki.js</a></p>
+<h2 id="_5">自定义样式</h2>
+<p>我同时还用 Vimwiki 做TODO管理, 原有的样式感觉挺不错的, 就拷贝了一份, 
+还有一点是从 bootcss.com 文档页面扒下来的,
+可以在<a href="http://wiki.linuxzen.com/static/css/wiki.css">这里</a>看到.</p>
+<h2 id="_6">部署</h2>
+<p>我将我的vimwiki上传到了 <a href="https://bitbucket.org">bitbucket</a>, 然后添加了一个定义更新的脚本,
+下面是脚本内容:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="nv">PWD</span><span class="o">=</span><span class="s2">&quot;/home/yourusername/vimwiki&quot;</span>
+<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PWD</span><span class="s2">&quot;</span>
+git<span class="w"> </span>pull<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Allready up-to-date.&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span>
+<span class="w">    </span>vim<span class="w"> </span>+VimwikiIndex<span class="w"> </span>+VimwikiAll2HTML<span class="w"> </span>+qa
+<span class="k">fi</span>
+<span class="nb">cd</span><span class="w"> </span>-
+</code></pre></div>
+
+<p>上面脚本命名为 <code>update.sh</code> 保存在 <code>~/vimwiki</code> 下, 通过 <code>crontab</code> 进行定时调用</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>crontab<span class="w"> </span>-l
+*/30<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/bin/bash<span class="w"> </span>/home/yourusername/vimwiki/update.sh<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null
+</code></pre></div>
+
+<h3 id="disqus">使用 Disqus 评论系统</h3>
+<p>我在 <code>template/default.tpl</code> 添加了代码来使用 <code>Disqus</code> 评论系统, 这里不在详述</p>
+<h3 id="wiki">已经上线的Wiki</h3>
+<p>当然现在我已经部署了自己的wiki, 猛击<a href="http://wiki.linuxzen.com">这里</a>进入</p>
+<h3 id="_7">接下来</h3>
+<p>现在wiki还没有代码高亮, 我不想使用那个js的高亮, 想通过 <code>pygments</code> 来做代码高亮,
+所以接下想通过 <code>pygments</code> 对代码进行高亮</p>
+<h3 id="_8">参考</h3>
+<ul>
+<li><a href="http://www.berlinix.com/vim/vimwiki_with_bootstrap_jquery.php">用jQuery和Bootstrap美化VimWiki输出</a></li>
+</ul>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=使用 Vimwiki + git 做知识管理&amp;url=https://www.linuxzen.com/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/vim.html">vim</a><a href="https://www.linuxzen.com/tag/vimwiki.html">vimwiki</a><a href="https://www.linuxzen.com/tag/wiki.html">wiki</a><a href="https://www.linuxzen.com/tag/zhi-shi.html">知识</a><a href="https://www.linuxzen.com/tag/guan-li.html">管理</a><a href="https://www.linuxzen.com/tag/git.html">git</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html';
+                    var disqus_url = 'https://www.linuxzen.com/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/shi-yong-vimwiki-git-zuo-zhi-shi-guan-li.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

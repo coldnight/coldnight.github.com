@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>用python发带附件的邮件用来定时备份mysql数据库</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="最近迁移了wordpress,系统升级为CentOS 6,很奇怪的一个问题,在原来CentOS 5.8下用的很正常的定时备份数据库并通过邮件发送的脚本不能发送附件,其他都正常,邮件内容也是uuencode生成的文件编码,但是就是不产生附件.而且 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="附件">
+    <meta name="tags" content="邮件">
+    <meta name="tags" content="定时">
+    <meta name="tags" content="备份">
+    <meta name="tags" content="python">
+    <meta name="tags" content="pymail">
+    <meta name="tags" content="MySQL">
+    <meta name="tags" content="mail">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="用python发带附件的邮件用来定时备份mysql数据库"/>
+<meta property="og:description" content="最近迁移了wordpress,系统升级为CentOS 6,很奇怪的一个问题,在原来CentOS 5.8下用的很正常的定时备份数据库并通过邮件发送的脚本不能发送附件,其他都正常,邮件内容也是uuencode生成的文件编码,但是就是不产生附件.而且 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-04-21 18:26:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="附件"/>
+<meta property="article:tag" content="邮件"/>
+<meta property="article:tag" content="定时"/>
+<meta property="article:tag" content="备份"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="pymail"/>
+<meta property="article:tag" content="MySQL"/>
+<meta property="article:tag" content="mail"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="用python发带附件的邮件用来定时备份mysql数据库">
+    <meta name="twitter:url" content="https://www.linuxzen.com/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="最近迁移了wordpress,系统升级为CentOS 6,很奇怪的一个问题,在原来CentOS 5.8下用的很正常的定时备份数据库并通过邮件发送的脚本不能发送附件,其他都正常,邮件内容也是uuencode生成的文件编码,但是就是不产生附件.而且 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "用python发带附件的邮件用来定时备份mysql数据库",
+  "headline": "用python发带附件的邮件用来定时备份mysql数据库",
+  "datePublished": "2012-04-21 18:26:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html",
+  "description": "最近迁移了wordpress,系统升级为CentOS 6,很奇怪的一个问题,在原来CentOS 5.8下用的很正常的定时备份数据库并通过邮件发送的脚本不能发送附件,其他都正常,邮件内容也是uuencode生成的文件编码,但是就是不产生附件.而且 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">用python发带附件的邮件用来定时备份mysql数据库</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Sat 21 April 2012">Sat 21 April 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>最近迁移了wordpress,系统升级为CentOS 6,很奇怪的一个问题,在原来CentOS 5.8下用的很正常的定时备份数据库并通过邮件发送的脚本不能发送附件,其他都正常,邮件内容也是uuencode生成的文件编码,但是就是不产生附件.而且找不出原因,望有知道的不吝赐教.</p>
+<p>为了解决这一问题,我用Python写了一个mail客户端,可以发送附件,是一个命令行程序.废话不多说.贴代码:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">#-*- coding: utf8 -*-</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">#=============================================================================</span>
+<span class="sd">#     FileName: mail.py</span>
+<span class="sd">#         Desc: To send email</span>
+<span class="sd">#       Author: cold</span>
+<span class="sd">#        Email: wh_linux@126.com</span>
+<span class="sd">#     HomePage: http://www.linuxzen.com</span>
+<span class="sd">#      Version: 0.0.1</span>
+<span class="sd">#   LastChange: 2012-04-21 16:37:20</span>
+<span class="sd">#      History:</span>
+<span class="sd">#=============================================================================</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">用于发送邮件,可以发送附件</span>
+<span class="sd">命令行程序</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="kn">import</span> <span class="n">MIMEText</span>
+<span class="kn">from</span> <span class="nn">email.mime.multipart</span> <span class="kn">import</span> <span class="n">MIMEMultipart</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+
+<span class="c1"># 打印帮助信息</span>
+<span class="k">def</span> <span class="nf">helpinfo</span><span class="p">():</span>
+    <span class="nb">print</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    Useage: pymail -u user@domain -p passwd -h smtp server host -t to who [-a attachment file path] [-n attachment name]</span>
+<span class="s1">    Useage: email content use . to end</span>
+<span class="s1">    -h  specify smtp server host</span>
+<span class="s1">    -u  which user you login the smtp server,and must with it domain</span>
+<span class="s1">    -p  the password of the smtp user</span>
+<span class="s1">    -t  The email recipient,multiple addresses can use &#39;,&#39; split</span>
+<span class="s1">    -a  Add attachment</span>
+<span class="s1">    -n  Secify attachment name in the email</span>
+
+<span class="s1">    Author:cold(wh_linux@126.com)</span>
+<span class="s1">    Homepge:http://www.linuxzen.com</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+
+
+<span class="c1"># 所有选项</span>
+<span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-t&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s1">&#39;-s&#39;</span><span class="p">]</span>
+
+<span class="c1"># 获取选项长度</span>
+<span class="n">argvnum</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+
+<span class="c1"># 检测命令行参数</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">argvnum</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">i</span> <span class="o">%</span><span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">):</span>
+            <span class="nb">print</span> <span class="s1">&#39;Unknow option &#39;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">,</span> <span class="s1">&#39;, Please use -h see help!&#39;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># 如果是-h或者没有命令行参数则显示帮助</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-h&#39;</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">helpinfo</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">helpinfo</span><span class="p">()</span>
+
+
+<span class="c1"># 检测-n参数</span>
+<span class="k">if</span> <span class="p">(</span><span class="s1">&#39;-n&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;-a&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="s1">&#39;Error:option &quot;-n&quot; must use after -a&#39;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># 下面则是获取各个参数内容</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">tmpmailto</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;-t&#39;</span><span class="p">)</span>  <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;,&#39;</span> <span class="ow">in</span> <span class="n">tmpmailto</span><span class="p">:</span>
+        <span class="n">mailto</span> <span class="o">=</span> <span class="n">tmpmailto</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mailto</span> <span class="o">=</span> <span class="p">[</span><span class="n">tmpmailto</span><span class="p">,]</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="s1">&#39;Error: need Mail Recipient&#39;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">haveattr</span><span class="o">=</span><span class="kc">True</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">attrpath</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;-a&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">attrname</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;-n&#39;</span><span class="p">)</span> <span class="o">+</span><span class="mi">1</span> <span class="p">]</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">attrname</span> <span class="o">=</span> <span class="n">attrpath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">attrname</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">haveattr</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">attrpath</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">mail_host</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;-h&#39;</span><span class="p">)</span> <span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="s1">&#39;Waring: No specify smtp server use 127.0.0.1&#39;</span>
+    <span class="n">mail_host</span> <span class="o">=</span> <span class="s1">&#39;127.0.0.1&#39;</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">mail_useremail</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;-u&#39;</span><span class="p">)</span> <span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="s1">&#39;Waring: No specify user, use root&#39;</span>
+    <span class="n">mail_useremail</span> <span class="o">=</span> <span class="s1">&#39;root@localhost&#39;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">mail_sub</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">mail_sub</span> <span class="o">=</span> <span class="s1">&#39;No Subject&#39;</span>
+
+<span class="n">mail_user</span> <span class="o">=</span> <span class="n">mail_useremail</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mail_postfix</span> <span class="o">=</span> <span class="n">mail_useremail</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">mail_pass</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">)</span> <span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="n">mail_pass</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+
+
+
+<span class="c1"># 定义邮件发送函数</span>
+<span class="k">def</span> <span class="nf">send_mail</span><span class="p">(</span><span class="n">to_list</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">haveattr</span><span class="p">,</span> <span class="n">attrpath</span><span class="p">,</span> <span class="n">attrname</span><span class="p">):</span>
+    <span class="n">me</span> <span class="o">=</span> <span class="n">mail_user</span> <span class="o">+</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="n">mail_user</span><span class="o">+</span><span class="s2">&quot;@&quot;</span><span class="o">+</span><span class="n">mail_postfix</span> <span class="o">+</span><span class="s2">&quot;&gt;&quot;</span>
+
+    <span class="c1"># 判断是否有附件</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">haveattr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">attrpath</span><span class="p">):</span>
+            <span class="nb">print</span> <span class="s1">&#39;Error : no input file of attachments&#39;</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># 有附件则创建一个带附件的实例</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEMultipart</span><span class="p">()</span>
+
+        <span class="c1"># 构造附件</span>
+        <span class="n">att</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">attrpath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span><span class="s1">&#39;base64&#39;</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+        <span class="n">att</span><span class="p">[</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;application/octest-stream&#39;</span>
+        <span class="n">att</span><span class="p">[</span><span class="s2">&quot;Content-Disposition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;attachment;filename=&quot;&#39;</span><span class="o">+</span> <span class="n">attrname</span> <span class="o">+</span><span class="s1">&#39;&quot;&#39;</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 无责创建一个文本的实例</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+
+    <span class="c1"># 邮件头</span>
+    <span class="n">msg</span><span class="p">[</span><span class="s1">&#39;Subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub</span>
+    <span class="n">msg</span><span class="p">[</span><span class="s1">&#39;From&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">me</span>
+    <span class="n">msg</span><span class="p">[</span><span class="s1">&#39;To&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">to_list</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 发送邮件</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">()</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">mail_host</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mail_host</span> <span class="o">!=</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">):</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">mail_user</span><span class="p">,</span> <span class="n">mail_pass</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="n">to_list</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;.&#39;</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="n">c</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="n">line</span>
+    <span class="k">if</span> <span class="n">send_mail</span><span class="p">(</span><span class="n">mailto</span><span class="p">,</span> <span class="n">mail_sub</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">haveattr</span><span class="p">,</span> <span class="n">attrpath</span><span class="p">,</span> <span class="n">attrname</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="s2">&quot;Success&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="s2">&quot;Failed&quot;</span>
+</code></pre></div>
+
+<p>将这个脚本保存为pymail放到/usr/bin/下,并赋予其执行权限:</p>
+<div class="highlight"><pre><span></span><code>chmod +x /usr/bin/pymail
+</code></pre></div>
+
+<p>可以使用 -h指定smtp发件服务器,默认认为指定-h需要认证, 所以就需要smtp服务器支持认证,同时需要-u指定用户名(需加"@域名"),-p指定密码.
+如果不指定-h就会使用本地smtp服务器,默认不需要认证,所以本地的smtp服务器就不能支持认证,同时不需指定-u,-p参数</p>
+<div class="highlight"><pre><span></span><code>-t 指定收件人多个可用,号分割.
+-a 指定附件路径
+-n 指定附件名(可省略)
+-h 显示帮助信息.
+-s 指定邮件主题
+</code></pre></div>
+
+<p>执行后会要求输入邮件内容,写完用.结束
+也可以用管道下面给出几个实例:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#使用本地smtp服务发送</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;linuxzen.com backup&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>pymail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;Linuxzen backup&quot;</span><span class="w"> </span>-t<span class="w"> </span><span class="m">123456</span>@qq.com<span class="w"> </span>-a<span class="w"> </span>/tmp/linuxzen.tar.gz
+<span class="c1"># 使用126邮箱发送</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;linuxzen.com backup&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>pymail<span class="w"> </span>-u<span class="w"> </span>linuxzen@126.com<span class="w"> </span>-p<span class="w"> </span>linuxzen.com<span class="w"> </span>-h<span class="w"> </span>smtp.126.com<span class="w"> </span>-s<span class="w"> </span><span class="s1">&#39;Linuxzen backup &quot; -t 123456@qq.com -a /tmp/linuxzen.tar.gz </span>
+
+<span class="s1"># 不使用管道发送</span>
+<span class="s1">pymail -u linuxzen@126.com -p linuxzen.com -h smtp.126.com -s &#39;</span>hello<span class="w"> </span>world<span class="err">&#39;</span><span class="w"> </span>-t<span class="w"> </span><span class="m">123456</span>@qq.com<span class="w"> </span>-a<span class="w"> </span>/tmp/linuxzen.tar.gz
+Hello
+this<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span><span class="nb">test</span><span class="w"> </span>mail
+.
+</code></pre></div>
+
+<p>下面之前使用的mysql定时备份的脚本:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+<span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span>date<span class="w"> </span>+%Y%m%d<span class="sb">`</span>
+mysqldump<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>blogdata<span class="w"> </span>&gt;<span class="w"> </span>/tmp/blogdate.<span class="s2">&quot;</span><span class="nv">$DATE</span><span class="s2">&quot;</span>.sql
+<span class="nb">cd</span><span class="w"> </span>/tmp
+tar<span class="w"> </span>-zcf<span class="w"> </span>blogdata.<span class="s2">&quot;</span><span class="nv">$DATE</span><span class="s2">&quot;</span>.sql.tar.gz<span class="w"> </span>blogdata.<span class="s2">&quot;</span><span class="nv">$DATE</span><span class="s2">&quot;</span>.sql
+uuencode<span class="w"> </span>blogdata.<span class="s2">&quot;</span><span class="nv">$DATE</span><span class="s2">&quot;</span>.sql.tar.gz<span class="w"> </span>blogdata.<span class="s2">&quot;</span><span class="nv">$DATE</span><span class="s2">&quot;</span>.sql.tar.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s1">&#39;MySQL Backup&#39;</span><span class="w"> </span><span class="m">123456</span>@qq.com
+</code></pre></div>
+
+<p>没有命令uuencode安装sharutils包即可</p>
+<div class="highlight"><pre><span></span><code>yum -y install sharutils
+</code></pre></div>
+
+<p>然后使用crontab调用这个脚本定时执行,前面说了 这个脚本在CentOS5.x下正常工作,但是放到CentOS6下就不带附件,所以使用我们自己编写的python脚本脚本内容如下:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+<span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span>date<span class="w"> </span>+%Y%m%d<span class="sb">`</span>
+mysqldump<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>blogdata<span class="w"> </span>&gt;<span class="w"> </span>/tmp/myblog.<span class="s2">&quot;</span><span class="nv">$DATE</span><span class="s2">&quot;</span>.sql
+<span class="nb">cd</span><span class="w"> </span>/tmp
+tar<span class="w"> </span>-zcf<span class="w"> </span>blogdata.<span class="s2">&quot;</span><span class="nv">$DATE</span><span class="s2">&quot;</span>.sql.tar.gz<span class="w"> </span>myblog.<span class="s2">&quot;</span><span class="nv">$DATE</span><span class="s2">&quot;</span>.sql
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;MySQL backup&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>pymail<span class="w"> </span>-u<span class="w"> </span>linuzen@126.com<span class="w"> </span>-p<span class="w"> </span>linuxzen.com<span class="w"> </span>-h<span class="w"> </span>smtp.126.com<span class="w"> </span>-s<span class="w"> </span><span class="s1">&#39;MySQL backup&#39;</span><span class="w"> </span>-a<span class="w"> </span>/tmp/blogdata.<span class="s2">&quot;</span><span class="nv">$DATE</span><span class="s2">&quot;</span>.sql.tar.gz<span class="w"> </span>-t<span class="w"> </span><span class="m">123456</span>@qq.com
+</code></pre></div>
+
+<p>我们使用126邮箱来发送 这样就可以把自带的sendmail 停掉:</p>
+<div class="highlight"><pre><span></span><code>service sendmail stop
+chkonfig --del sendmail
+</code></pre></div>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=用python发带附件的邮件用来定时备份mysql数据库&amp;url=https://www.linuxzen.com/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/fu-jian.html">附件</a><a href="https://www.linuxzen.com/tag/you-jian.html">邮件</a><a href="https://www.linuxzen.com/tag/ding-shi.html">定时</a><a href="https://www.linuxzen.com/tag/bei-fen.html">备份</a><a href="https://www.linuxzen.com/tag/python.html">python</a><a href="https://www.linuxzen.com/tag/pymail.html">pymail</a><a href="https://www.linuxzen.com/tag/mysql.html">MySQL</a><a href="https://www.linuxzen.com/tag/mail.html">mail</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html';
+                    var disqus_url = 'https://www.linuxzen.com/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/yong-pythonfa-dai-fu-jian-de-you-jian-yong-lai-ding-shi-bei-fen-mysqlshu-ju-ku.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>CentOS下搭建python web生产环境(nginx+web.py+uwsgi)</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="前面都一篇文章介绍介绍了Ubuntu下web.py的开发环境搭建,这篇文章主要来介绍如何让web.py结合nginx来实现生产环境 首先使用环境介绍: 系统: CentOS 5.5 32位 Python版本:2.7.2 nginx:1.0.13 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="web.py">
+    <meta name="tags" content="web">
+    <meta name="tags" content="uwsgi">
+    <meta name="tags" content="spawn-fcgi">
+    <meta name="tags" content="python">
+    <meta name="tags" content="nginx">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="CentOS下搭建python web生产环境(nginx+web.py+uwsgi)"/>
+<meta property="og:description" content="前面都一篇文章介绍介绍了Ubuntu下web.py的开发环境搭建,这篇文章主要来介绍如何让web.py结合nginx来实现生产环境 首先使用环境介绍: 系统: CentOS 5.5 32位 Python版本:2.7.2 nginx:1.0.13 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-04-19 17:59:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="web.py"/>
+<meta property="article:tag" content="web"/>
+<meta property="article:tag" content="uwsgi"/>
+<meta property="article:tag" content="spawn-fcgi"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="nginx"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="CentOS下搭建python web生产环境(nginx+web.py+uwsgi)">
+    <meta name="twitter:url" content="https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="前面都一篇文章介绍介绍了Ubuntu下web.py的开发环境搭建,这篇文章主要来介绍如何让web.py结合nginx来实现生产环境 首先使用环境介绍: 系统: CentOS 5.5 32位 Python版本:2.7.2 nginx:1.0.13 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "CentOS下搭建python web生产环境(nginx+web.py+uwsgi)",
+  "headline": "CentOS下搭建python web生产环境(nginx+web.py+uwsgi)",
+  "datePublished": "2012-04-19 17:59:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html",
+  "description": "前面都一篇文章介绍介绍了Ubuntu下web.py的开发环境搭建,这篇文章主要来介绍如何让web.py结合nginx来实现生产环境 首先使用环境介绍: 系统: CentOS 5.5 32位 Python版本:2.7.2 nginx:1.0.13 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">CentOS下搭建python web生产环境(nginx+web.py+uwsgi)</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Thu 19 April 2012">Thu 19 April 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>前面都一篇文章介绍介绍了Ubuntu下web.py的开发环境搭建,这篇文章主要来介绍如何让web.py结合nginx来实现生产环境</p>
+<p>首先使用环境介绍:
+系统: CentOS 5.5 32位</p>
+<p>Python版本:2.7.2</p>
+<p>nginx:1.0.13</p>
+<p>ip:192.168.3.3/24</p>
+<p>由于CentOS默认自带都python(2.4.3)版本较低,所以我们采用手动编译安装python的方式来使用python 2.7.2</p>
+<p>首先安装python 2.7.2</p>
+<div class="highlight"><pre><span></span><code>cd /usr/src/
+mkdir python
+cd python
+#下载python2.7.2
+wget http://www.python.org/ftp/python/2.7.2/Python-2.7.2.tar.bz2
+tar -jvxf Python-2.7.2.tar.bz2
+cd Python-2.7.2
+./configure --prefix=/usr/local/python27 --enable-unicode=ucs4
+</code></pre></div>
+
+<p>先别急着安装,为什么后面的步骤能顺利进行我们需要我们的python支持zlib模块,</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>Modules/Setup
+<span class="c1">#在454行左右找到:#zlib zlibmodule.c -I$(prefix)/include -L$(exec_prefix)/lib -lz</span>
+<span class="c1"># 去掉注释</span>
+zlib<span class="w"> </span>zlibmodule.c<span class="w"> </span>-I<span class="k">$(</span>prefix<span class="k">)</span>/include<span class="w"> </span>-L<span class="k">$(</span>exec_prefix<span class="k">)</span>/lib<span class="w"> </span>-lz
+然后接着编译
+make<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+
+<p>安装完成后我们想更方面的使用我们新安装的Python我们做如下更改.</p>
+<div class="highlight"><pre><span></span><code>mv<span class="w"> </span>/usr/bin/python<span class="w"> </span>/usr/bin/python24
+ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/python27/bin/python<span class="w"> </span>/usr/bin/python
+ln<span class="w"> </span>-s<span class="w"> </span>/usr/local/python27/bin/python2.7<span class="w"> </span>/usr/bin/python2.7
+</code></pre></div>
+
+<p>这样改完我们的yum就无法工作了,我们要修改yum来使yum工作:</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/usr/bin/yum
+</code></pre></div>
+
+<p>将/#!/usr/bin/python改为#!/usr/bin/python2.4即可正常工作(版本可能不一样需查看自己系统自带的版本是什么)</p>
+<p>现在我们执行python -V查看应该就是我们刚刚安装的2.7.2版本:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-V
+Python<span class="w"> </span><span class="m">2</span>.7.2
+</code></pre></div>
+
+<p>我们安装了python下面我们就来武装我们的新python,</p>
+<p>我们先为新的Python安装python的setuptools,配备easy_install.easy_install用于安装Python第三方扩展包而且只要一个命令即可完成:</p>
+<p>下载:</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg#md5<span class="o">=</span>fe1f997bc722265116870bc7919059ea
+</code></pre></div>
+
+<p>然后直接执行安装:</p>
+<div class="highlight"><pre><span></span><code><span class="n">sh</span><span class="w"> </span><span class="n">setuptools</span><span class="o">-</span><span class="mf">0.6</span><span class="n">c11</span><span class="o">-</span><span class="n">py2</span><span class="o">.</span><span class="mf">7.</span><span class="n">egg</span>
+</code></pre></div>
+
+<p>安装好之后我们做一个软链接方便我们使用:</p>
+<div class="highlight"><pre><span></span><code>ln -s /usr/local/python27/bin/easy_install* /usr/bin/
+</code></pre></div>
+
+<p>然后我们来使用easy_install来安装Python第三方扩展</p>
+<p>安装本文所需要的web.py</p>
+<div class="highlight"><pre><span></span><code>easy_install web.py
+</code></pre></div>
+
+<p>然后我们打开Python shell输入</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">web</span>
+</code></pre></div>
+
+<p>如果没有报错则说明我们安装成功
+安装flup:</p>
+<div class="highlight"><pre><span></span><code>easy_install flup
+</code></pre></div>
+
+<p>安装Spawn-fcgi :</p>
+<div class="highlight"><pre><span></span><code><span class="n">wegt</span><span class="w"> </span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">lighttpd</span><span class="o">.</span><span class="n">net</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">spawn</span><span class="o">-</span><span class="n">fcgi</span><span class="o">-</span><span class="mf">1.6</span><span class="o">.</span><span class="mf">3.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">tar</span><span class="w"> </span><span class="o">-</span><span class="n">zxvf</span><span class="w"> </span><span class="n">spawn</span><span class="o">-</span><span class="n">fcgi</span><span class="o">-</span><span class="mf">1.6</span><span class="o">.</span><span class="mf">3.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">cd</span><span class="w"> </span><span class="n">spawn</span><span class="o">-</span><span class="n">fcgi</span><span class="o">-</span><span class="mf">1.6</span><span class="o">.</span><span class="mi">3</span>
+<span class="o">./</span><span class="n">configure</span><span class="w"> </span><span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">spawn</span><span class="o">-</span><span class="n">fcgi</span>
+<span class="n">make</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">install</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">spawn</span><span class="o">-</span><span class="n">fcgi</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">spawn</span><span class="o">-</span><span class="n">fcgi</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span>
+</code></pre></div>
+
+<p>到这里我们就完成了Python的所有包安装,下面我们来部署nginx(本博有大量文章来介绍安装nginx,这里还是再来一遍吧..)</p>
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>zlib-devel<span class="w"> </span>pcre-devel<span class="w"> </span>openssl-devel<span class="w">  </span><span class="c1"># 安装依赖</span>
+wget<span class="w"> </span>http://nginx.org/download/nginx-1.0.13.tar.gz<span class="w"> </span><span class="c1"># 下载</span>
+tar<span class="w"> </span>-zxvf<span class="w"> </span>nginx-1.0.13.tar.gz
+<span class="nb">cd</span><span class="w"> </span>nginx-1.0.13
+<span class="w"> </span>./configure<span class="w"> </span>--prefix<span class="o">=</span>/usr/local/nginx<span class="se">\ </span><span class="w">  </span><span class="c1"># 指定安装目录为/usr/local/nginx</span>
+--with-openssl<span class="o">=</span>/usr/include/openssl<span class="se">\ </span><span class="w"> </span><span class="c1"># 启用ssl</span>
+--with-pcre<span class="se">\ </span><span class="w">                         </span><span class="c1"># 启用正规表达式</span>
+--with-http_stub_status_module<span class="w">        </span><span class="c1"># 安装可以查看nginx状态的程序</span>
+make<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+
+<p>我们修改nginx的配置文件:</p>
+<div class="highlight"><pre><span></span><code><span class="w">        </span><span class="nt">location</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">{</span>
+<span class="err">#</span><span class="w">           </span><span class="err">root</span><span class="w">   </span><span class="err">html</span><span class="p">;</span>
+<span class="err">#</span><span class="w">          </span><span class="err">index</span><span class="w">  </span><span class="err">index.html</span><span class="w"> </span><span class="err">index.htm</span><span class="p">;</span>
+<span class="w">            </span><span class="err">include</span><span class="w"> </span><span class="err">fastcgi_params</span><span class="p">;</span>
+<span class="w">            </span><span class="err">fastcgi_param</span><span class="w"> </span><span class="err">SCRIPT_FILENAME</span><span class="w"> </span><span class="err">$fastcgi_script_name</span><span class="p">;</span>
+<span class="w">            </span><span class="err">fastcgi_param</span><span class="w"> </span><span class="err">PATH_INFO</span><span class="w"> </span><span class="err">$fastcgi_script_name</span><span class="p">;</span>
+<span class="w">            </span><span class="err">fastcgi_pass</span><span class="w"> </span><span class="n">unix</span><span class="p">:</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">pyweb</span><span class="o">.</span><span class="n">sock</span><span class="p">;</span>
+<span class="w">            </span><span class="err">fastcgi_param</span><span class="w"> </span><span class="err">SERVER_ADDR</span><span class="w"> </span><span class="err">$server_addr</span><span class="p">;</span>
+<span class="w">            </span><span class="err">fastcgi_param</span><span class="w"> </span><span class="err">SERVER_PORT</span><span class="w"> </span><span class="err">$server_port</span><span class="p">;</span>
+<span class="w">            </span><span class="err">fastcgi_param</span><span class="w"> </span><span class="err">SERVER_NAME</span><span class="w"> </span><span class="err">$server_name</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+</code></pre></div>
+
+<p>然后创建一个web.py程序:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">#-*-coding:utf8-*-</span>
+<span class="kn">import</span> <span class="nn">web</span>
+<span class="n">urls</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/.*&quot;</span><span class="p">,</span> <span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
+
+<span class="k">class</span> <span class="nc">hello</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s1">&#39;Hello, world!&#39;</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+        <span class="n">web</span><span class="o">.</span><span class="n">wsgi</span><span class="o">.</span><span class="n">runwsgi</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">func</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="kc">None</span><span class="p">:</span> <span class="n">web</span><span class="o">.</span><span class="n">wsgi</span><span class="o">.</span><span class="n">runfcgi</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+
+<p>将内容保存到/usr/local/nginx/html/下命名为index.py(或任意你喜欢的名字)
+然后赋予其执行权限:</p>
+<div class="highlight"><pre><span></span><code>chmod +x /usr/local/nginx/html/index.py
+</code></pre></div>
+
+<p>通过命令创建spawn-fcgi进程:</p>
+<div class="highlight"><pre><span></span><code>spawn-fcgi -d /usr/local/nginx/html/ -f /usr/local/nginx/html/index.py  -s /tmp/pyweb.sock -u nobody -g nobody
+</code></pre></div>
+
+<p>我们使用unix socket,并用nginx的用户来创建.现在我们访问http://192.168.3.3/就可以看到:<code>Hello, world!</code></p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=CentOS下搭建python web生产环境(nginx+web.py+uwsgi)&amp;url=https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/webpy.html">web.py</a><a href="https://www.linuxzen.com/tag/web.html">web</a><a href="https://www.linuxzen.com/tag/uwsgi.html">uwsgi</a><a href="https://www.linuxzen.com/tag/spawn-fcgi.html">spawn-fcgi</a><a href="https://www.linuxzen.com/tag/python.html">python</a><a href="https://www.linuxzen.com/tag/nginx.html">nginx</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html';
+                    var disqus_url = 'https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

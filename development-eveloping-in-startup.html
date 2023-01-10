@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>创业公司技术进化之路</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/development-eveloping-in-startup.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="本文分享创业公司在技术层面的进化之路。包括技术选型、技术迁移和 CI/CD。">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="技术选型">
+    <meta name="tags" content="CI/CD">
+    <meta name="tags" content="GitLab">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="创业公司技术进化之路"/>
+<meta property="og:description" content="本文分享创业公司在技术层面的进化之路。包括技术选型、技术迁移和 CI/CD。"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/development-eveloping-in-startup.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-08-04 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="技术选型"/>
+<meta property="article:tag" content="CI/CD"/>
+<meta property="article:tag" content="GitLab"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="创业公司技术进化之路">
+    <meta name="twitter:url" content="https://www.linuxzen.com/development-eveloping-in-startup.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="本文分享创业公司在技术层面的进化之路。包括技术选型、技术迁移和 CI/CD。">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "创业公司技术进化之路",
+  "headline": "创业公司技术进化之路",
+  "datePublished": "2018-08-04 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/development-eveloping-in-startup.html",
+  "description": "本文分享创业公司在技术层面的进化之路。包括技术选型、技术迁移和 CI/CD。"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">创业公司技术进化之路</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Sat 04 August 2018">Sat 04 August 2018</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>TL;DR</p>
+<p>4 年前我有幸加入到现在这家公司，成为了公司早期员工之一，后来在开发上慢慢的得到了一些主动权，然后我就开始凭借着自己的摸索慢慢的完善了一些技术层面相关的东西。
+这篇文章主要分享一下这其中的过程，前面的一些文章也有涉及但不全面，这里进行一个总结。其实这篇文章也可以叫作《我在创业公司这 4 年》。</p>
+<div class="section" id="section-2">
+<h2>面向招聘的技术选型</h2>
+<p>开始公司的业务主要是车载物联网硬件，涉及大量 TCP 连接建立和数据传输，所以此时的技术选型主要是 Tornado，主要用于以下两个方面：</p>
+<ul class="simple">
+<li>TCP Server 处理硬件 TCP 连接</li>
+<li>Web 框架，实现客户端 API</li>
+</ul>
+<p>中间也尝试使用 Flask 实现管理后台，但当时的我对 Tornado 有非常执着的爱，所以在后面的项目中技术选型依然采用 Tornado 作为主要框架。
+所以当时的技术选型是：</p>
+<ul class="simple">
+<li>Tornado 作为 TCP Server 和客户端 API Web 框架</li>
+<li>采用 Flask 作为后台管理的框架</li>
+<li>前端采用 Bootstrap 3 + jQuery</li>
+</ul>
+<p>后面公司转型做互联网车险 SaaS 平台也一直沿用这些选型，直到后来业务开始增长需要招人的时候才发现市面上熟悉 Tornado 的人员比较难招，
+这时候又面临公司业务拆分，同时当下前后端分离也比较火，后端模板渲染的情况下需要后端了解一些基本的前端知识，而且这种情况下同前端工程师并不太好协同，
+所以这时候新的产品线开始采用如下技术选型</p>
+<ul class="simple">
+<li>Django 作为 Web 框架</li>
+<li>前端使用 React</li>
+</ul>
+<p>选择 React 完全是是出于对 React 社区和 JSX 的喜爱，但是做完一个项目之后发现了一个相同的问题，就是招人非常困难，特别对于小公司来说就更难了。
+所以后续就把一些新项目改为采用 Vue，招人也从 React 调整为 Vue。所以就目前来讲最终采用的技术选型就是：</p>
+<ul class="simple">
+<li>后端使用 Django 作为 Web 框架</li>
+<li>前端使用 Vue 作为开发框架</li>
+</ul>
+<p>从这些就能看出来小公司在技术选型时就不能完全靠喜好，需要结合市面上的人才占比来选择合适的技术。</p>
+<p>采用前后端分离架构之后好处是便是对后端的前端相关知识不再是硬性要求，前后端开发可以并行进行，同时前端代码的质量也比较好把控。
+我们就出现很多后端工程师连 Bootstrap 都用不好的情况。</p>
+<p>但是后端框架使用 Django 好处就是对于人事来说可以更好的筛选简历，因为人事看来简历上出现 Tornado 关键字的实在是太少了，
+所以我们当前年度的 3、4 月份招聘旺季算是基本完成招聘任务的。同时也对 Django 有一个全新的认识，纠正了我很多偏见也学到了很多东西。</p>
+</div>
+<div class="section" id="git">
+<h2>基于 Git 的内部包管理</h2>
+<p>由于后期的业务转型的时候项目拆分比较细，所以从这时候起就开始有意识的提取一些公共逻辑放在单独的包里，
+早期这个包是通过拷贝的方式放在不同的项目里，这样更新就比较麻烦，后续了解到 <tt class="docutils literal">pip</tt> 是可以通过 <cite>git</cite> 来安装包的，
+所以后来就将这个包放在单独的仓库，每个项目通过在 <tt class="docutils literal">requirements.txt</tt> 增加类似下面的内容来引用：</p>
+<div class="highlight"><pre><span></span>git+ssh://git@github.com/Owner/foobar@v2.14
+</pre></div>
+<p>这样有好处也有一些坏处，好处就是更新迭代方便，坏处就是增加部署成本。</p>
+</div>
+<div class="section" id="section-3">
+<h2>部署</h2>
+<div class="section" id="fabric">
+<h3>Fabric</h3>
+<p>早期项目只有一个所以部署基本是手动，后期项目开始变得多起来，手动部署就变得麻烦起来，这时候开始使用 Fabric 写一些部署脚本。
+后来就写了一套通用的规则，然后暴漏出一些配置接口，配置诸如仓库 URL，Supervisor 启动项等等，然后将之放在通用库里，
+同时编写一套 <tt class="docutils literal">Makefile</tt> 的规则放在通用库里，我们的通用库取名是 <tt class="docutils literal">allspark</tt>。</p>
+<p>这样直接在项目中放一个 <tt class="docutils literal">Makefile</tt> 添加类似下面的内容：</p>
+<div class="highlight"><pre><span></span><span class="nv">ALLSPARK_PTH</span><span class="o">=</span><span class="k">$(</span>shell<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import os; import allspark;print(os.path.dirname(allspark.__file__))&#39;</span><span class="k">)</span>
+<span class="cp">include $(ALLSPARK_PTH)/mkrules.mk</span>
+</pre></div>
+<p>这样就可以通过 <tt class="docutils literal">make</tt> 进行一键部署，这套机制用了很长时间，目前还有部分维护较少的项目还再使用。</p>
+</div>
+<div class="section" id="ansible">
+<h3>Ansible</h3>
+<p>后来开始立项 Django 的项目，由于 <tt class="docutils literal">fabric</tt> 相关的封装都在 Tornado 的通用库里，再继续使用就比较麻烦，这时候我就开始寻求新的解决方案，
+所以我又开始研究 Ansible，经过简单的了解和尝试我发现只要定义几个简单 role 就可以满足需求，所以我新建了一个仓库存放这些角色，
+Ansible 提供了 <tt class="docutils literal"><span class="pre">ansible-galaxy</span></tt> 来安装依赖，所以再每个项目下都有如下 Ansible 配置文件：</p>
+<ul>
+<li><p class="first">ansible.cfg -- 指定 hosts 位置</p>
+</li>
+<li><p class="first">deploy/ansible/hosts -- 配置主机</p>
+</li>
+<li><p class="first">deploy/ansible/requirements.yml -- 指定依赖</p>
+<p>内容如下</p>
+<div class="highlight"><pre><span></span>- src: git@gitlab.example.com:username/ansible-roles
+  scm: git
+  name: ansible-roles
+</pre></div>
+</li>
+<li><p class="first">deploy/ansible/dev-playbook.yml  -- 测试环境部署规则，指定变量和角色实现部署</p>
+</li>
+<li><p class="first">deploy/ansible/prod-playbook.yml -- 生产环境部署，指定变量和角色实现部署</p>
+</li>
+</ul>
+<p>现在部署相关的就都开始使用 Ansible，部署命令如下：</p>
+<div class="highlight"><pre><span></span><span class="c1"># 需要在控制机上安装依赖</span>
+$<span class="w"> </span>ansible-galaxy<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>deploy/ansible/requirements.yml
+$<span class="w"> </span>ansible-playbook<span class="w"> </span>deploy/ansible/dev-playbook.yml
+</pre></div>
+<p>这里 ansible-galaxy 有个坑，就是不支持更新，要想更新已安装的 ansible 角色需要手动删除并重新安装：</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>rm<span class="w"> </span>~/.ansible/roles/ansible-roles
+$<span class="w"> </span>ansible-galaxy<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>deploy/ansible/requirements.yml
+</pre></div>
+</div>
+<div class="section" id="deploy-key-ssh-agent-forwarding">
+<h3>Deploy Key 到 SSH agent forwarding</h3>
+<p>在部署的过程中需要在服务器上拉取代码，就涉及到仓库权限的问题我们一开始的解决办法是部署之前通过 <tt class="docutils literal">Fabric</tt> 上传一个 Deploy Key
+到目标服务器，在部署完成之后再将对应的 Deploy Key 删除。</p>
+<p>一个 Deploy Key 只对应一个仓库的只读权限，这种模式在前期是没有问题的，但是到了后期我们把通用库拆分到独立的仓库通过 <tt class="docutils literal">pip</tt> 进行安装时就遇到了问题，
+这个时候我们开始抛弃 Deploy Key 改为使用 SSH agent forwarding，具体请参见 <a class="reference external" href="https://developer.github.com/v3/guides/using-ssh-agent-forwarding/">Using SSH agent forwarding</a> 。</p>
+</div>
+</div>
+<div class="section" id="orm">
+<h2>ORM 使用</h2>
+<div class="section" id="sql">
+<h3>手写 SQL</h3>
+<p>早期我们使用手写 SQL 的方式与数据库交互，慢慢的我们发现这种方式存在一些问题：</p>
+<ul class="simple">
+<li>大块 SQL 语句在代码中异常丑陋</li>
+<li>非常容易编写错误的 SQL 语句</li>
+<li>代码 Review 过程中要额外注意 SQL 注入相关问题</li>
+<li>为了防止注入，根据条件拼接 SQL 语句比较困难同时拼接代码看起来丑陋并且难以理解</li>
+</ul>
+</div>
+<div class="section" id="sqlalchemy-core">
+<h3>SQLAlchemy Core</h3>
+<p>后来发现 SQLAlchemy 对外提供的接口是分为两层的：</p>
+<ul class="simple">
+<li>Core -- 语句生成引擎</li>
+<li>ORM -- 基于语句生成引擎的 ORM</li>
+</ul>
+<p>发现只使用 Core 和手写 SQL 并无太大区别，但是解决了上面的所有问题，请看下面示例：</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="k">as</span> <span class="nn">sa</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">db_engine</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Table</span>
+
+
+<span class="k">with</span> <span class="n">db_engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">Table</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">where</span><span class="p">(</span>
+             <span class="p">(</span><span class="n">Table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+             <span class="o">&amp;</span>
+             <span class="p">(</span><span class="n">Table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">sex</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span><span class="p">)</span>
+             <span class="o">&amp;</span>
+             <span class="n">Table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">is_valid</span>
+        <span class="p">)</span>
+        <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">desc</span><span class="p">(</span><span class="n">Table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+    <span class="p">)</span>
+</pre></div>
+<p>同时也可以支持复杂的 SQL 语句，具体请参见 <a class="reference external" href="https://docs.sqlalchemy.org/en/latest/core/tutorial.html">文档</a> 。</p>
+</div>
+<div class="section" id="django-orm">
+<h3>Django ORM</h3>
+<p>再后来的新项目都采用了 Django 并使用 Django 自带的 ORM。</p>
+</div>
+</div>
+<div class="section" id="section-4">
+<h2>本地开发</h2>
+<p>我们应用的服务依赖较少，目前只依赖 MySQL 和 Redis。一开始大家都通过统一连接内网的同一服务进行本地开发，
+这种开发模式会带来一个问题：</p>
+<ol class="arabic simple">
+<li>假设其中一名开发人员删除了一个字段，并调整了对应的代码但是没有提交</li>
+<li>由于我们基本上是 TDD 的开发模式，此时就会导致其他人的单元测试无法正常运行</li>
+</ol>
+<p>基于这种模式我们本地开发引入 Docker，使用 Docker 在本地启动 MySQL 和 Redis 服务，在我们的通用库里提供以下两个文件：</p>
+<ul>
+<li><p class="first">docker-compose.yml</p>
+<div class="highlight"><pre><span></span>version: &#39;3&#39;
+services:
+    mysql:
+        image: mysql:5.6
+        restart: always
+        ports:
+            - &quot;3306:3306&quot;
+        volumes:
+            - ~/.botpy/etc/mysql/conf.d:/etc/mysql/conf.d
+            - ~/.botpy/data/mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root-password-you-should-replace
+
+    redis:
+        image: redis
+        restart: always
+        ports:
+            - &quot;6379:6379&quot;
+</pre></div>
+</li>
+<li><p class="first">init-db.py -- 包装 mysqldump 和 mysql 命令实现同步内网数据库的脚本</p>
+</li>
+</ul>
+<p>数据库迁移最终流程就变为：</p>
+<ol class="arabic simple">
+<li>在本地编写并调试，并先应用到本地</li>
+<li>提交 MR 在内网的测试数据库进行验证</li>
+<li>验证通过后合并 MR 触发部署<ol class="arabic">
+<li>迁移应用到内网的开发数据库</li>
+<li>部署到测试数据库</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="section-5">
+<h2>数据库迁移</h2>
+<div class="section" id="sqlalchemy-migrate">
+<h3>SQLAlchemy Migrate</h3>
+<p>早期我们是通过手动收集变更的 SQL 语句到指定文件下，然后在上线之前手动在数据库进行执行。后来这块就导致了很多上线问题，
+主要是忘记收集和忘记执行，后面在找这方面的解决方案时发现了 <a class="reference external" href="http://sqlalchemy-migrate.readthedocs.io/en/latest/">SQLAlchemy Migrate</a> ，经过简单的改造之后用起来还算舒心。</p>
+<p>我们在用的过程中遇到的主要问题中文编码问题，经过排查是由于 sqlparse 库导致的，由于没有暴漏相关接口加上 <a class="reference external" href="http://sqlalchemy-migrate.readthedocs.io/en/latest/">SQLAlchemy Migrate</a>
+是由 OpenStack 维护，想要贡献代码非常困难，所以就通过在 <tt class="docutils literal">manage.py</tt> 增加如下代码来解决：</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">sqlparse</span>
+
+
+<span class="c1"># HACK!!: 替换原函数修复 sqlalchemy-migrate 的编码 bug</span>
+<span class="n">sqlparse</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">sqlparse</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="alembic">
+<h3>Alembic</h3>
+<p>虽然 <a class="reference external" href="http://sqlalchemy-migrate.readthedocs.io/en/latest/">SQLAlchemy Migrate</a> 已经满足需求，但是在用的过程中发现会有两个问题：</p>
+<ol class="arabic simple">
+<li>社区更新不积极，</li>
+<li>由于 <a class="reference external" href="http://sqlalchemy-migrate.readthedocs.io/en/latest/">SQLAlchemy Migrate</a> 仅记录最后一个版本号，不便于多人开发，考虑如下场景：<ol class="arabic">
+<li>A 增加了版本 001-foo</li>
+<li>B 没有拉取代码也进行迁移就会也增加一个 001-bar</li>
+<li>A 的代码合并并部署，001-foo 会被执行（数据库标记 001 已执行）</li>
+<li>B 的代码合并并部署，由于 001 被标记为已执行 001-bar 不会进行执行</li>
+</ol>
+</li>
+</ol>
+<p>这时候发现 SQLAlchemy 的作者推出了 <a class="reference external" href="http://alembic.zzzcomputing.com/en/latest/">Alembic</a>，经过简单的尝试发现该工具更加强大支持类似 Git 的版本控制，
+开发也比较活跃，解决了上面两个问题。所以在后续就使用 <a class="reference external" href="http://alembic.zzzcomputing.com/en/latest/">Alembic</a> 替换了 <a class="reference external" href="http://sqlalchemy-migrate.readthedocs.io/en/latest/">SQLAlchemy Migrate</a> 。</p>
+</div>
+<div class="section" id="django-migrate">
+<h3>Django Migrate</h3>
+<p>后续 Django 的新项目就开始采用 Django 自带的数据库迁移方案，这里就不再细述。</p>
+</div>
+</div>
+<div class="section" id="section-6">
+<h2>单元测试</h2>
+<div class="section" id="section-7">
+<h3>测试数据库</h3>
+<p>我觉的我们之所以能成功的推行了单元测试，并将之作为日常开发中衡量代码的标准之一，最大的功劳就是解决了测试数据库相关问题，
+就像我之前的文章提到的:</p>
+<blockquote>
+很长一段时间以来写单元测试都类似写执行脚本，运行一下然后看一下结果。</blockquote>
+<p>很大的原因就是没有解决测试数据库相关的问题，比如我写了一个测试然后在我本地数据库填充了数据，测试通过了。然后后面数据再变动测试就失败了。
+为了解决这个问题我自己首先实现了一个基于 unittest 的测试收集和运行器，然后在测试运行开始之前插入一段代码做如下事情：</p>
+<ol class="arabic simple">
+<li>连接配置文件中的数据库并读取表结构信息</li>
+<li>根据一定规则生成创建一个新的数据库</li>
+<li>将读取的表结构信息应用到新数据库</li>
+<li>加载测试包下的一些 SQL 文件并在新的数据库中执行</li>
+<li>Patch 配置文件，将数据库名调整到新的数据库</li>
+</ol>
+<p>后面我们切换到 pytest 作为 test runner 后将这一块逻辑封装成了一个 pytest 的插件。加上后面上的 mock 我们的单元测试才真正的完善。
+这也造就了我们大部分项目都达到了 80% ~ 95% 的单元测试覆盖率，同时也为我们之后迁移 Python 3 打下了很好的基础。</p>
+</div>
+<div class="section" id="pytest-test-runner">
+<h3>pytest 作为 test runner</h3>
+<p>前面也提到了，一开始我们用的是基于 unittest 自己实现的测试发现、收集和运行的工具，这一块也是我受之前一家公司的影响，
+后来发现 pytest 除了是一个强大的测试框架，同时也可以单独用来作为 test runner 使用，我不太喜欢 pytest 这种函数式方式
+编写测试，很多 fixture markup 感觉太过隐式，所以我只拿 pytest 作为 test runner，单元测试还是使用 unittest 那一套。</p>
+<p>pytest 作为 test runner 对比 unittest 的好处是：</p>
+<ul class="simple">
+<li>社区活跃</li>
+<li>生态好，插件多</li>
+<li>结合插件系统非常容易扩展和自定义</li>
+</ul>
+</div>
+<div class="section" id="mock">
+<h3>mock</h3>
+<p>参见之前的 <a class="reference external" href="/python-mock-shi-yong-xin-de.html">博文</a> 。</p>
+</div>
+<div class="section" id="tox">
+<h3>tox</h3>
+<p>开始每次运行测试构建测试相关的 Python 环境会比较麻烦，后面接触了 <a class="reference external" href="http://tox.readthedocs.io/en/latest/">tox</a> 可以很方便的构建测试环境，
+同时支持多个 Python 版本环境构建。</p>
+</div>
+</div>
+<div class="section" id="ci-cd">
+<h2>CI/CD</h2>
+<div class="section" id="bors-homu">
+<h3>结识 bors 和 homu</h3>
+<p>有一段时间我特别关注 Rust 社区，看到他们有一个机器人专门跑单元测试和合并 PR，我就开始思考能不能用到我们的项目中，
+经过简单的观察我首先接触到了 <a class="reference external" href="https://github.com/graydon/bors">bors</a> ，初次使用后感觉真心酷炫，但是由于它是采用轮询会有如下两个问题：</p>
+<ol class="arabic simple">
+<li>时效性不好</li>
+<li>容易达到 GitHub 接口请求次数上限</li>
+<li>还有其他一些功能上的不全</li>
+</ol>
+<p>这时候我就发现 Rust 社区早一不使用 <a class="reference external" href="https://github.com/graydon/bors">bors</a> 而是改为使用 <a class="reference external" href="https://github.com/barosl/homu">homu</a> 了，具体的信息可以参见之前的一篇
+<a class="reference external" href="/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html">文章</a> 。</p>
+</div>
+<div class="section" id="github">
+<h3>GitHub</h3>
+<p>参见 <a class="reference external" href="/python-github-si-you-xiang-mu-tong-guo-buildbot-jin-xing-review.html">Python github 私有项目通过 buildbot 进行 Review</a> 。
+后面也尝试迁移到 buildbot 0.9，具体方案参见 <a class="reference external" href="https://github.com/servo/homu/pull/119">Add buildbot 0.9 support steps in README.md #119</a> 。</p>
+</div>
+<div class="section" id="gitlab">
+<h3>GitLab</h3>
+<div class="section" id="pipelines">
+<h4>Pipelines</h4>
+<p>迁移到 GitLab 之后就弃用了 buildbot 改用 GitLab 自身的那一套 CI/CD。具体参见 <a class="reference external" href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab CI/CD</a> 。</p>
+<p>我们 CI 构建用的自己构建的 Docker 镜像，里面集成了一些基础依赖包和部署需要的相关信息。</p>
+</div>
+<div class="section" id="homu-gitlab">
+<h4>homu-gitlab</h4>
+<p>由于业务扩张 GitHub 上的私有仓库成本开始提升，所以就开始考虑迁移自建的 GitLab，这时面临一个问题就是怎么保持现有的工作流不变，
+首先就是要找到一个 <a class="reference external" href="https://github.com/barosl/homu">homu</a> 的 GitLab 版实现，经过自己的搜寻后并没有发现合适的，所以我就尝试 Fork 了一份尝试自己迁移到 GitLab，
+最终成功的迁移并应用到 GitLab 中来，参见 <a class="reference external" href="https://github.com/coldnight/homu-gitlab">coldnight/homu-gitlab</a> 。</p>
+<p>一些不完美的地方</p>
+<ol class="arabic">
+<li><p class="first">需要依赖 SSH 私玥</p>
+<p>由于 GitLab 的接口并没有 GitHub 那么完善，没有相关合并 MR 的接口，所以将之前主要依赖 GitHub 接口的部分都统一改成了通过 git 命令操作。</p>
+</li>
+<li><p class="first">同步功能未实现，每次同步需要通过重启实现</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="section-8">
+<h3>持续进化</h3>
+<p>在上面完成之后最近还做了一些调整和优化：</p>
+<ol class="arabic simple">
+<li>启用 GitLab CI/CD 缓存来加速和优化 CI 构建</li>
+<li>内网搭建 Docker Registry 统一托管和构建 CI Docker 镜像（这部分也是自动化的）</li>
+<li>通过一个仓库托管 homu 的配置文件，每次调整提交后自动重启 homu 服务</li>
+</ol>
+</div>
+<div class="section" id="pre-commit">
+<h3>pre-commit</h3>
+<p>我们一开始代码检测主要利用 Git 的 pre-commit 自己编写 shell 脚本来组合，后来发现 <a class="reference external" href="https://github.com/pre-commit/pre-commit">pre-commit</a> 后开始统一替换为 <a class="reference external" href="https://github.com/pre-commit/pre-commit">pre-commit</a> 。
+<a class="reference external" href="https://github.com/pre-commit/pre-commit">pre-commit</a> 的作者也推出了其他很多代码检测相关的工具，我也应用到了我们自己的项目上。</p>
+</div>
+</div>
+<div class="section" id="python">
+<h2>Python</h2>
+<p>参见 <a class="reference external" href="/qian-yi-dao-python-3.html">迁移到 Python 3</a> 。</p>
+</div>
+<div class="section" id="section-9">
+<h2>总结</h2>
+<p>简单总结一下目前整个技术栈：</p>
+<ul class="simple">
+<li>Python 3<ul>
+<li>Django/Tornado</li>
+<li>SQLAlchemy</li>
+<li>pytest</li>
+<li>tox</li>
+<li>Alembic</li>
+<li>Celery</li>
+</ul>
+</li>
+<li>Ansible</li>
+<li>GitLab<ul>
+<li>CI/CD</li>
+<li>homu-gitlab</li>
+<li>pre-commit</li>
+</ul>
+</li>
+<li>Docker<ul>
+<li>docker-compose</li>
+</ul>
+</li>
+<li>Vue</li>
+<li>Sentry</li>
+</ul>
+</div>
+
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=创业公司技术进化之路&amp;url=https://www.linuxzen.com/development-eveloping-in-startup.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/development-eveloping-in-startup.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/development-eveloping-in-startup.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/python.html">Python</a><a href="https://www.linuxzen.com/tag/ji-zhu-xuan-xing.html">技术选型</a><a href="https://www.linuxzen.com/tag/cicd.html">CI/CD</a><a href="https://www.linuxzen.com/tag/gitlab.html">GitLab</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/development-eveloping-in-startup.html';
+                    var disqus_url = 'https://www.linuxzen.com/development-eveloping-in-startup.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/development-eveloping-in-startup.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

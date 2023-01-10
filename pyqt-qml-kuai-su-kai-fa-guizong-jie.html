@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>PyQt + QML 快速开发GUI总结</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/pyqt-qml-kuai-su-kai-fa-guizong-jie.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="最近结束一个使用PyQt+QML开发的项目, 在此对一些经验做出总结分享出来. 结合QML确实可以快速的构建出GUI程序, 但是相关资料太少, 特别是中文资料, 而且坑太多, 特别 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="QML">
+    <meta name="tags" content="PyQt">
+    <meta name="tags" content="Gui">
+    <meta name="tags" content="Python">
+    <meta name="tags" content="Qt">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="PyQt + QML 快速开发GUI总结"/>
+<meta property="og:description" content="最近结束一个使用PyQt+QML开发的项目, 在此对一些经验做出总结分享出来. 结合QML确实可以快速的构建出GUI程序, 但是相关资料太少, 特别是中文资料, 而且坑太多, 特别 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/pyqt-qml-kuai-su-kai-fa-guizong-jie.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-11-06 15:25:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="PyQt"/>
+<meta property="article:tag" content="QML"/>
+<meta property="article:tag" content="PyQt"/>
+<meta property="article:tag" content="Gui"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Qt"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="PyQt + QML 快速开发GUI总结">
+    <meta name="twitter:url" content="https://www.linuxzen.com/pyqt-qml-kuai-su-kai-fa-guizong-jie.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="最近结束一个使用PyQt+QML开发的项目, 在此对一些经验做出总结分享出来. 结合QML确实可以快速的构建出GUI程序, 但是相关资料太少, 特别是中文资料, 而且坑太多, 特别 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "PyQt + QML 快速开发GUI总结",
+  "headline": "PyQt + QML 快速开发GUI总结",
+  "datePublished": "2013-11-06 15:25:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/pyqt-qml-kuai-su-kai-fa-guizong-jie.html",
+  "description": "最近结束一个使用PyQt+QML开发的项目, 在此对一些经验做出总结分享出来. 结合QML确实可以快速的构建出GUI程序, 但是相关资料太少, 特别是中文资料, 而且坑太多, 特别 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li class="nav-pyqt active" role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">PyQt + QML 快速开发GUI总结</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Wed 06 November 2013">Wed 06 November 2013</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>最近结束一个使用PyQt+QML开发的项目, 在此对一些经验做出总结分享出来.
+结合QML确实可以快速的构建出GUI程序, 但是相关资料太少, 特别是中文资料,
+而且坑太多, 特别是和后端PyQt结合的时候有很多莫名奇妙的问题.
+这篇文章会总结这些问题, 避免以后碰到无从下手.</p>
+<p>PS:QML的一些基础问题不会在这里讨论, 本篇文章仅讨论一些经验性的问题, 本篇文章使用PyQt4</p>
+<p><em>请留意文章中间的&quot;注意&quot;</em></p>
+<div class="section" id="pyqt">
+<h2>如何和PyQt交互</h2>
+<p>QML和PyQt交互主要有三种方法: PyQt渲染数据, 信号传递, QML提供接口</p>
+<div class="section" id="pyqtqml">
+<h3>使用PyQt显示QML</h3>
+<p>要想在Python里使用PyQt来调用QML显示, 需要用到 <tt class="docutils literal">PyQt4.QtDeclarative.QDeclarativeView</tt> 实例的 <tt class="docutils literal">setSource</tt> 将一个 <tt class="docutils literal">PyQt4.QtCore.QUrl</tt> 对象传递进去, 然后调用 <tt class="docutils literal">PyQt4.QtDeclarative.QDeclarativeView</tt> 对象的 <tt class="docutils literal">show</tt> 方法, 下面是一个例子:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyQt4.QtDeclarative</span> <span class="kn">import</span> <span class="n">QDeclarativeView</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtGui</span> <span class="kn">import</span> <span class="n">QApplication</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">QDeclarativeView</span><span class="p">()</span>
+<span class="n">view</span><span class="o">.</span><span class="n">setSource</span><span class="p">(</span><span class="n">QUrl</span><span class="p">(</span><span class="s2">&quot;/path/to/demo.qml&quot;</span><span class="p">))</span>
+<span class="n">view</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="pyqtqml-1">
+<h3>通过PyQt渲染数据到QML</h3>
+<p>渲染QML变量有两种方法, 一种是QML中没有定义的变量, 一种是在QML中已经定义好的变量,
+第一种是预定义变量, 第二种是设置变量</p>
+<div class="section" id="section-1">
+<h4>预定义变量</h4>
+<p><tt class="docutils literal">PyQt4.QtDeclarative.QDeclarativeView</tt> 的 <tt class="docutils literal">rootContext</tt> 方法会返回一个QML上下文, 通过这个对象可以对QML进行一些变量的预定义</p>
+<p><em>注意</em>, 预定义变量必须在 <tt class="docutils literal">setSource</tt> 调用之前进行, 还有如果是字符串类型如要使用 <tt class="docutils literal">PyQt4.QtCore.QString</tt> 进行转换,
+数字可以不用转换, 如果是列表或字典需要使用 <tt class="docutils literal">PyQt4.QtCore.QVariant</tt> 进行转换, 下面是一个例子:</p>
+<p>test.qml:</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="kd">id: test</span>
+    <span class="k">width:</span> <span class="mi">100</span><span class="p">;</span> <span class="k">height:</span> <span class="mi">30</span>
+
+    <span class="nx">Text</span> <span class="p">{</span>
+        <span class="k">anchors.fill:</span><span class="nx">parent</span><span class="p">;</span>
+        <span class="k">text:</span> <span class="nx">textData</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>test.py:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyQt4.QtDeclarative</span> <span class="kn">import</span> <span class="n">QDeclarativeView</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtGui</span> <span class="kn">import</span> <span class="n">QApplication</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">QString</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">QDeclarativeView</span><span class="p">()</span>
+<span class="n">rootContext</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">rootContext</span><span class="p">()</span>
+<span class="n">rootContext</span><span class="o">.</span><span class="n">setContextProperty</span><span class="p">(</span><span class="s2">&quot;textData&quot;</span><span class="p">,</span> <span class="n">QString</span><span class="p">(</span><span class="s2">&quot;hi&quot;</span><span class="p">))</span>
+<span class="n">view</span><span class="o">.</span><span class="n">setSource</span><span class="p">(</span><span class="n">QUrl</span><span class="p">(</span><span class="s2">&quot;test.qml&quot;</span><span class="p">))</span>
+<span class="n">view</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+</pre></div>
+<p>如果将 <tt class="docutils literal">rootContext</tt> 两行移到 <tt class="docutils literal">view.setSource</tt> 下面, QML里将找不到对 <tt class="docutils literal">textData</tt> 的引用</p>
+</div>
+<div class="section" id="section-2">
+<h4>设置变量</h4>
+<p>如果QML里已经定义好了变量, 而我们就可以在PyQt里对它进行更改, 对QML里的变量更改需要使用 <tt class="docutils literal">PyQt4.QtDeclarative.QDeclarativeView</tt> 对象的 <tt class="docutils literal">rootObject</tt> 方法返回的 <tt class="docutils literal">rootObject</tt> 对象, 调用 <tt class="docutils literal">rootObject</tt> 对象的 <tt class="docutils literal">setProperty</tt> 方法即可对QML里变量做出更改</p>
+<p><em>注意</em>, 使用 <tt class="docutils literal">rootObject</tt> 对QML的更改必须在 <tt class="docutils literal">setSource</tt> 之后, 否则 <tt class="docutils literal">rootObject</tt> 方法将返回 <em>None</em>, 下面是一个例子</p>
+<p>test.qml:</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="kd">id: test</span>
+    <span class="nx">property</span> <span class="nx">string</span> <span class="nx">textData</span><span class="p">;</span>
+    <span class="k">width:</span> <span class="mi">100</span><span class="p">;</span> <span class="k">height:</span> <span class="mi">30</span>
+
+    <span class="nx">Text</span> <span class="p">{</span>
+        <span class="k">anchors.fill:</span><span class="nx">parent</span><span class="p">;</span>
+        <span class="k">text:</span> <span class="nx">textData</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>test.py:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyQt4.QtDeclarative</span> <span class="kn">import</span> <span class="n">QDeclarativeView</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtGui</span> <span class="kn">import</span> <span class="n">QApplication</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">QString</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">QDeclarativeView</span><span class="p">()</span>
+<span class="n">view</span><span class="o">.</span><span class="n">setSource</span><span class="p">(</span><span class="n">QUrl</span><span class="p">(</span><span class="s2">&quot;test.qml&quot;</span><span class="p">))</span>
+<span class="n">rootObject</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">rootObject</span><span class="p">()</span>
+<span class="n">rootObject</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s2">&quot;textData&quot;</span><span class="p">,</span> <span class="n">QString</span><span class="p">(</span><span class="s2">&quot;hi&quot;</span><span class="p">))</span>
+<span class="n">view</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+</pre></div>
+<p>上面例子我们在QML定义了 <tt class="docutils literal">textData</tt> 变量, 并在 <tt class="docutils literal">setSource</tt> 之后使用 <tt class="docutils literal">rootObject</tt> 的 <tt class="docutils literal">setProperty</tt> 对 <tt class="docutils literal">textData</tt> 变量进行了更改</p>
+</div>
+</div>
+<div class="section" id="qml">
+<h3>QML信号的传递</h3>
+<p>QML有信号机制, 可以在QML之间使用JavaScript进行触发和接收, 当然也可以将信号传递给后端的PyQt,
+我们在此不讨论QML内部的信号, 我们仅讨论QML信号传递到PyQt这部分, QML使用signal创建信号, 信号可以携带参数,
+使用调用函数的方法可以触发信号, 下面是一个例子:</p>
+<p>test.qml</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="kd">id: test</span><span class="p">;</span>
+
+    <span class="nx">signal</span> <span class="nx">mclicked</span><span class="p">;</span>   <span class="c1">// 定义信号</span>
+
+    <span class="nx">Text</span> <span class="p">{</span>
+        <span class="k">anchors.fill:</span><span class="nx">parent</span><span class="p">;</span>
+        <span class="k">text:</span> <span class="s2">&quot;Click Me&quot;</span>
+    <span class="p">}</span>
+
+    <span class="nx">MouseArea</span> <span class="p">{</span>
+        <span class="k">onClicked:</span> <span class="p">{</span>
+            <span class="nx">mclicked</span><span class="p">();</span>  <span class="c1">// 触发信号</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>上面我们定义了一个 <tt class="docutils literal">mclicked</tt> 的信号, 并且在点击时会触发这个信号, PyQt 可以通过 <tt class="docutils literal">rootObject</tt> 获取这个信号, 并为这个信号绑定槽:</p>
+<p>test.py</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyQt4.QtDeclarative</span> <span class="kn">import</span> <span class="n">QDeclarativeView</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtGui</span> <span class="kn">import</span> <span class="n">QApplication</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">QString</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">QDeclarativeView</span><span class="p">()</span>
+<span class="n">view</span><span class="o">.</span><span class="n">setSource</span><span class="p">(</span><span class="n">QUrl</span><span class="p">(</span><span class="s2">&quot;test.qml&quot;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">on_click</span><span class="p">():</span>
+    <span class="nb">print</span> <span class="s2">&quot;hi&quot;</span>
+
+<span class="n">rootObject</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">rootObject</span><span class="p">()</span>
+<span class="n">rootObject</span><span class="o">.</span><span class="n">mclicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">on_click</span><span class="p">)</span>
+<span class="n">view</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+</pre></div>
+<p>上面为QML的 <tt class="docutils literal">mclicked</tt> 信号绑定了一个函数, 当点击QML窗体时, 控制台就会输出 hi</p>
+</div>
+<div class="section" id="qml-1">
+<h3>QML提供接口</h3>
+<p>上面我们定义了信号, 如果响应信号仅仅在控制台输出没有意义, 我们可以通过QML在顶级元素定义JavaScript函数
+向PyQt提供接口, 下面是例子:</p>
+<p>test.qml</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="kd">id: test</span><span class="p">;</span>
+
+    <span class="nx">signal</span> <span class="nx">mclicked</span><span class="p">;</span>   <span class="c1">// 定义信号</span>
+
+    <span class="nx">Text</span> <span class="p">{</span>
+        <span class="kd">id: testText</span>
+        <span class="k">anchors.fill:</span><span class="nx">parent</span><span class="p">;</span>
+        <span class="k">text:</span> <span class="s2">&quot;Click Me&quot;</span>
+    <span class="p">}</span>
+
+    <span class="nx">MouseArea</span> <span class="p">{</span>
+        <span class="k">onClicked:</span> <span class="p">{</span>
+            <span class="nx">mclicked</span><span class="p">();</span>  <span class="c1">// 触发信号</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">set_text</span><span class="p">(</span><span class="nx">text</span><span class="p">){</span>
+        <span class="nx">testText</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">text</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>上面我们在QML顶级元素定义了一个 <tt class="docutils literal">set_text</tt> 函数, 接下来我们就可以通过 <tt class="docutils literal">rootObject</tt> 进行调用</p>
+<p>test.py</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyQt4.QtDeclarative</span> <span class="kn">import</span> <span class="n">QDeclarativeView</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtGui</span> <span class="kn">import</span> <span class="n">QApplication</span>
+<span class="kn">from</span> <span class="nn">PyQt4.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">QString</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">QDeclarativeView</span><span class="p">()</span>
+<span class="n">view</span><span class="o">.</span><span class="n">setSource</span><span class="p">(</span><span class="n">QUrl</span><span class="p">(</span><span class="s2">&quot;test.qml&quot;</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">on_click</span><span class="p">():</span>
+    <span class="n">rootObject</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s2">&quot;Clicked&quot;</span><span class="p">)</span>
+
+<span class="n">rootObject</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">rootObject</span><span class="p">()</span>
+<span class="n">rootObject</span><span class="o">.</span><span class="n">mclicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">on_click</span><span class="p">)</span>
+<span class="n">view</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+</pre></div>
+<p>上面我们用响应信号的槽, 通过 <tt class="docutils literal">rootObject</tt> 调用QML提供的函数接口, 当点击窗体时, 显示文字会从 <tt class="docutils literal">Click Me</tt> 变成 <tt class="docutils literal">Clicked</tt>,
+当然这仅仅是个例子, 这种响应可以在QML里直接完成</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="kd">id: test</span><span class="p">;</span>
+
+    <span class="nx">signal</span> <span class="nx">mclicked</span><span class="p">;</span>   <span class="c1">// 定义信号</span>
+
+    <span class="nx">Text</span> <span class="p">{</span>
+        <span class="kd">id: testText</span>
+        <span class="k">anchors.fill:</span><span class="nx">parent</span><span class="p">;</span>
+        <span class="k">text:</span> <span class="s2">&quot;Click Me&quot;</span>
+    <span class="p">}</span>
+
+    <span class="nx">MouseArea</span> <span class="p">{</span>
+        <span class="k">onClicked:</span> <span class="p">{</span>
+            <span class="nx">mclicked</span><span class="p">();</span>  <span class="c1">// 触发信号</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">set_text</span><span class="p">(){</span>
+        <span class="nx">testText</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="s2">&quot;Clicked&quot;</span>
+    <span class="p">}</span>
+
+    <span class="k">Component.onCompleted :</span> <span class="p">{</span>
+        <span class="nx">mclicked</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">set_text</span><span class="p">);</span>  <span class="c1">// 在加载完成后为mclicked信号绑定槽</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="section-3">
+<h2>一些坑</h2>
+<div class="section" id="qml-2">
+<h3>QML全部变量内部状态更改</h3>
+<p>QML定义使用 <tt class="docutils literal">property</tt> 定义的变量是全局的, 这些变量是无法对其内部状态进行更改的,
+当然数字和字符串没有这方面问题, 但是数组和对象的更改就不行, 比如下面的更改是无效的</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="kd">id: test</span><span class="p">;</span>
+    <span class="nx">property</span> <span class="nx">variant</span> <span class="k">testData:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="o">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="o">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}</span>
+
+    <span class="nx">Repeater</span> <span class="p">{</span>
+        <span class="k">model:</span><span class="nx">testData</span><span class="p">;</span>
+
+        <span class="nx">Text</span> <span class="p">{</span>
+            <span class="k">text:</span> <span class="nx">modelData</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">MouseArea</span> <span class="p">{</span>
+        <span class="kd">id: testArea</span>
+        <span class="nx">anchors</span><span class="p">.</span><span class="nx">fill</span><span class="p">;</span>
+        <span class="k">onClicked:</span> <span class="p">{</span>
+            <span class="nx">testData</span><span class="p">.</span><span class="nx">a</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+            <span class="nx">testData</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>上面是无法更改testData的内部状态的, 解决办法是先将全局变量赋值给局部变量, 更改完毕后覆盖全局变量</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="kd">id: test</span><span class="p">;</span>
+    <span class="nx">property</span> <span class="nx">variant</span> <span class="k">testData:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="o">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="o">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}</span>
+
+    <span class="nx">Repeater</span> <span class="p">{</span>
+        <span class="k">model:</span><span class="nx">testData</span><span class="p">;</span>
+
+        <span class="nx">Text</span> <span class="p">{</span>
+            <span class="k">text:</span> <span class="nx">modelData</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">MouseArea</span> <span class="p">{</span>
+        <span class="kd">id: testArea</span>
+        <span class="nx">anchors</span><span class="p">.</span><span class="nx">fill</span><span class="p">;</span>
+        <span class="k">onClicked:</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="nx">testData</span><span class="p">;</span>  <span class="c1">// 赋值给局部变量</span>
+            <span class="nx">tmp</span><span class="p">.</span><span class="nx">a</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+            <span class="nx">tmp</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+            <span class="nx">testData</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>上面即可成功更改 <tt class="docutils literal">testData</tt> 的内部状态</p>
+</div>
+<div class="section" id="section-4">
+<h3>空列表引发的段错误</h3>
+<p>从PyQt向QML中渲染数据, 难免会渲染空列表, 但是这在某些平台(Windows)会引发段错误, 搞得人莫名其妙,
+解决办法就是将空列表转换为 <em>None</em></p>
+</div>
+</div>
+<div class="section" id="section-5">
+<h2>一些技巧</h2>
+<div class="section" id="js">
+<h3>结合js</h3>
+<p>给元素的属性赋值是可以使用js语句的, 当然复杂的语句可以写成函数,指定这个函数, 使用函数的返回值,
+下面是一个隔行变色的例子:</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="k">width:</span> <span class="mi">100</span><span class="p">;</span> <span class="k">height:</span> <span class="mi">400</span><span class="p">;</span>
+    <span class="nx">Repeater</span><span class="p">{</span>
+        <span class="k">model:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="nx">Rectangle</span> <span class="p">{</span>
+            <span class="k">width:</span> <span class="mi">100</span><span class="p">;</span> <span class="k">height:</span> <span class="mi">100</span><span class="p">;</span>
+            <span class="k">color:</span> <span class="nx">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="s2">&quot;blue&quot;</span> <span class="o">:</span> <span class="s2">&quot;black&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="section-6">
+<h3>自定义元素</h3>
+<p>多处都使用的内容, 可以提取出来放在一个以大写开头的文件名的文件里, 然后同目录使用文件名就可以引用这个元素,
+其他目录可以使用 <tt class="docutils literal">import</tt> 导入这个目录(相对路径导入), 就可以使用目录里的元素了,</p>
+<p>比如我在 <tt class="docutils literal">Demo.qml</tt>  定义了一些内容,  同目录或导入这个目录的其他QML文件我就可以直接使用 <tt class="docutils literal">Demo</tt> 元素了</p>
+</div>
+<div class="section" id="section-7">
+<h3>自定义元素属性</h3>
+<p>为了更好的可重用, 定义一些属性是必须的 可以用通过  <tt class="docutils literal">property alias source:target</tt> 定义属性别名, 当别人引用
+这个元素, 并在元素内定义 <tt class="docutils literal">source</tt> 属性, 就会自动映射到 <tt class="docutils literal">target</tt> 上, 下面是一个例子</p>
+<p>Demo.qml</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="kd">id: demo</span>
+    <span class="k">width:</span> <span class="mi">100</span><span class="p">;</span> <span class="k">height:</span> <span class="mi">50</span><span class="p">;</span>
+
+    <span class="nx">property</span> <span class="nx">alias</span> <span class="k">text:</span> <span class="nx">demoText</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+
+    <span class="nx">Text</span><span class="p">{</span>
+        <span class="kd">id: demoText</span><span class="p">;</span>
+        <span class="k">text:</span> <span class="s2">&quot;Demo&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>test.qml</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Demo</span> <span class="p">{</span>
+    <span class="k">text:</span> <span class="s2">&quot;Nice Demo&quot;</span>
+<span class="p">}</span>
+</pre></div>
+<p>使用qmlviwer 查看 test.qml, 会显示 &quot;Nice Demo&quot; 文字</p>
+<p>当然也可以直接在自定义元素使用 <tt class="docutils literal">property</tt> 定义变量, 在使用该元素时定义该属性:</p>
+<p>Demo.qml</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Rectangle</span> <span class="p">{</span>
+    <span class="kd">id: demo</span>
+    <span class="k">width:</span> <span class="mi">100</span><span class="p">;</span> <span class="k">height:</span> <span class="mi">50</span><span class="p">;</span>
+
+    <span class="nx">property</span> <span class="nx">string</span> <span class="k">textData:</span><span class="s2">&quot;Demo&quot;</span><span class="p">;</span>
+
+    <span class="nx">Text</span><span class="p">{</span>
+        <span class="kd">id: demoText</span><span class="p">;</span>
+        <span class="k">text:</span> <span class="nx">textData</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>test.qml</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">Qt</span> <span class="mf">4.7</span>
+
+<span class="nx">Demo</span> <span class="p">{</span>
+    <span class="k">textData:</span> <span class="s2">&quot;Nice Demo&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=PyQt + QML 快速开发GUI总结&amp;url=https://www.linuxzen.com/pyqt-qml-kuai-su-kai-fa-guizong-jie.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/pyqt-qml-kuai-su-kai-fa-guizong-jie.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/pyqt-qml-kuai-su-kai-fa-guizong-jie.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/qml.html">QML</a><a href="https://www.linuxzen.com/tag/pyqt.html">PyQt</a><a href="https://www.linuxzen.com/tag/gui.html">Gui</a><a href="https://www.linuxzen.com/tag/python.html">Python</a><a href="https://www.linuxzen.com/tag/qt.html">Qt</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/pyqt-qml-kuai-su-kai-fa-guizong-jie.html';
+                    var disqus_url = 'https://www.linuxzen.com/pyqt-qml-kuai-su-kai-fa-guizong-jie.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/pyqt-qml-kuai-su-kai-fa-guizong-jie.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

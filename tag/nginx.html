@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>cold's world - Tag nginx</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="blog-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Tag nginx</h1>
+        <span class="blog-description">Posts: 8</span>
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+<div id="index" class="container">
+  <main class="content" role="main">
+    <div class="extra-pagination">
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <span class="pagination-info">Page 1 / 1</span>
+    <div class="clear"></div>
+  </div>
+</nav>
+    </div>
+
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/bu-shu-tornadoshi-iptablesyin-fa-de-de-yi-ge-wen-ti.html" rel="bookmark" title="Permalink to 部署Tornado时iptables引发的的一个问题">部署Tornado时iptables引发的的一个问题</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Sat 29 September 2012">Sat 29 September 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        今天在CentOS上部署了一个Tornado,使用nginx做代理, tornado使用8888,端口,使用nginx作为反向代理,配置文件如下: server { listen 80; server_name www.linuxzen.com; location / { proxy_pass_header Server; proxy_redirect off; proxy_set_header X-Real_IP $remote_addr; proxy_set_header...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/bu-shu-tornadoshi-iptablesyin-fa-de-de-yi-ge-wen-ti.html" href="https://www.linuxzen.com/bu-shu-tornadoshi-iptablesyin-fa-de-de-yi-ge-wen-ti.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html" rel="bookmark" title="Permalink to Gentoo下搭建python web环境(nginx+bottle+virtualenv+uwsgi)">Gentoo下搭建python web环境(nginx+bottle+virtualenv+uwsgi)</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Wed 16 May 2012">Wed 16 May 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        最近根据Gentoo官方文档整了一台Gentoo的虚拟机,感觉还是不错的,决定放弃CentOS投奔Gentoo,这几天研究NoSQL mongodb和python的bottle框架,web.py效率不是很好,而且是类级,bottle使用装饰器(虽然对她还是懵懂阶段,但是貌似很强大).感 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html" href="https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html" rel="bookmark" title="Permalink to CentOS下搭建python web生产环境(nginx+web.py+uwsgi)">CentOS下搭建python web生产环境(nginx+web.py+uwsgi)</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Thu 19 April 2012">Thu 19 April 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        前面都一篇文章介绍介绍了Ubuntu下web.py的开发环境搭建,这篇文章主要来介绍如何让web.py结合nginx来实现生产环境 首先使用环境介绍: 系统: CentOS 5.5 32位 Python版本:2.7.2 nginx:1.0.13 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html" href="https://www.linuxzen.com/centosxia-da-jian-python-websheng-chan-huan-jing-nginxwebpyuwsgi.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html" rel="bookmark" title="Permalink to lnmp环境搭建完全手册(四)——lnmp搭建(源码安装)">lnmp环境搭建完全手册(四)——lnmp搭建(源码安装)</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Tue 13 March 2012">Tue 13 March 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        上面3篇我们主要对系统进行了安装和配置,并且配置了yum包管理器,安装了几个常用的工具,这篇我们就来介绍如何来搭建lnmp环境.这里的LNMP环境是指Linux下搭建Nginx+MySQL+PHP.Nginx是一个高性能的 HTTP 和 反向代理 服务器，也 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html" href="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-si-lnmpda-jian-yuan-ma-an-zhuang.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-san-ying-yong-an-zhuang-yumpei-zhi-he-bao-an-zhuang.html" rel="bookmark" title="Permalink to lnmp环境搭建完全手册(三)——应用安装(yum配置和包安装)">lnmp环境搭建完全手册(三)——应用安装(yum配置和包安装)</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Tue 13 March 2012">Tue 13 March 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        上两篇文章我给大家讲解了系统的安装,网络和ssh的配置和连接,这篇就给大家讲一下Linux如何安装包.CentOS使用rpm包管理,rpm包安装使用rpm命令 比如你有一个包为: abc-0.1.3-el5.centos.rpm 包的名称 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/lnmphuan-jing-da-jian-wan-quan-shou-ce-san-ying-yong-an-zhuang-yumpei-zhi-he-bao-an-zhuang.html" href="https://www.linuxzen.com/lnmphuan-jing-da-jian-wan-quan-shou-ce-san-ying-yong-an-zhuang-yumpei-zhi-he-bao-an-zhuang.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html" rel="bookmark" title="Permalink to nginx平台搭建nagios监控系统">nginx平台搭建nagios监控系统</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Sun 26 February 2012">Sun 26 February 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        Nagios是一款开源的免费网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html" href="https://www.linuxzen.com/nginxping-tai-da-jian-nagiosjian-kong-xi-tong.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/bian-xie-linux-shelljiao-ben-lai-shi-xian-nginxri-zhi-fen-ge.html" rel="bookmark" title="Permalink to 编写Linux shell脚本来实现nginx日志分割">编写Linux shell脚本来实现nginx日志分割</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Fri 17 February 2012">Fri 17 February 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        nginx的accss日志每天都会产生大量的日志,不过不进行切割会使查看日志变得异常艰难,这里编写一个脚本结合crond来实现nginx的日志切割,切割的格式为日志后缀的数字越小表示离当 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/bian-xie-linux-shelljiao-ben-lai-shi-xian-nginxri-zhi-fen-ge.html" href="https://www.linuxzen.com/bian-xie-linux-shelljiao-ben-lai-shi-xian-nginxri-zhi-fen-ge.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html" rel="bookmark" title="Permalink to nginx+keepalived配置高可用HTTP群集">nginx+keepalived配置高可用HTTP群集</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Thu 09 February 2012">Thu 09 February 2012</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        Nginx不仅是一款优秀的WEB服务器,同时可以根据nginx的反代理可以配置成强大的负载均衡器.这里就介绍如何把nginx配置成负载均衡器,并结合keepalived配置高可用的集群. 一般集群主要架构为: 前端为负载均衡器两个:主/备,两种工作方式,一种 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html" href="https://www.linuxzen.com/nginxkeepalivedpei-zhi-gao-ke-yong-httpqun-ji.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <span class="pagination-info">Page 1 / 1</span>
+    <div class="clear"></div>
+  </div>
+</nav>
+  </main>
+</div>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

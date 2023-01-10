@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>使用 Pygments 对 Vimwiki 进行代码高亮</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Vimwiki 推荐的代码高亮机制是通过一个 JavaScript 插件来完成的, 那样需要加载很多 js, 所以不想使用, 比较倾向使用 Pygments 在 Vimwiki 生成 HTML 的 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="vim">
+    <meta name="tags" content="vimwiki">
+    <meta name="tags" content="pygments">
+    <meta name="tags" content="python">
+    <meta name="tags" content="highlight">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="使用 Pygments 对 Vimwiki 进行代码高亮"/>
+<meta property="og:description" content="Vimwiki 推荐的代码高亮机制是通过一个 JavaScript 插件来完成的, 那样需要加载很多 js, 所以不想使用, 比较倾向使用 Pygments 在 Vimwiki 生成 HTML 的 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-12-27 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Vim"/>
+<meta property="article:tag" content="vim"/>
+<meta property="article:tag" content="vimwiki"/>
+<meta property="article:tag" content="pygments"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="highlight"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="使用 Pygments 对 Vimwiki 进行代码高亮">
+    <meta name="twitter:url" content="https://www.linuxzen.com/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Vimwiki 推荐的代码高亮机制是通过一个 JavaScript 插件来完成的, 那样需要加载很多 js, 所以不想使用, 比较倾向使用 Pygments 在 Vimwiki 生成 HTML 的 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "使用 Pygments 对 Vimwiki 进行代码高亮",
+  "headline": "使用 Pygments 对 Vimwiki 进行代码高亮",
+  "datePublished": "2013-12-27 00:00:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html",
+  "description": "Vimwiki 推荐的代码高亮机制是通过一个 JavaScript 插件来完成的, 那样需要加载很多 js, 所以不想使用, 比较倾向使用 Pygments 在 Vimwiki 生成 HTML 的 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li class="nav-vim active" role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">使用 Pygments 对 Vimwiki 进行代码高亮</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Fri 27 December 2013">Fri 27 December 2013</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Vimwiki 推荐的代码高亮机制是通过一个 JavaScript 插件来完成的, 那样需要加载很多 js,
+所以不想使用, 比较倾向使用 Pygments 在 Vimwiki 生成 HTML 的时候对代码进行高亮.</p>
+<h1 id="_1">尝试</h1>
+<h2 id="custom_wiki2html">使用 custom_wiki2html 选项</h2>
+<p>仔细的看了 Vimwiki 的帮助文档, 发现有一个 custom_wiki2html 
+(<code>:h vimwiki-option-custom_wiki2html</code>) 的选项可以指定自己
+的脚本来处理 wiki2html, 尝试了一下, 发现这个脚本是在生成 HTML 之前调用,
+而且如果对 wiki 文件处理之后无法替换回原来的内容(后来发现这个仅仅是对使用 Markdown
+语法作为 Wiki 语法设定的), 所以放弃了.</p>
+<h2 id="fork">Fork 仓库, 更改代码</h2>
+<p>后来想想既然原生的没有解决办法, 所以就干脆在 github 上 fork 了仓库
+clone 到本地进行修改, 通过直接 hack 代码在 Vimwiki 处理之前对代码进行高亮.</p>
+<h3 id="_2">思路</h3>
+<p>粗略的看了下代码, Vimwiki 是将文件读入, 然后逐行处理, 看来只能在文件读取之后
+对内容做一些操作.</p>
+<p>Vimscript 的 readfile 返回一个列表, 每一个元素代表一行, 编写一个函数处理这个
+列表, 并返回, 在 autoload/vimwiki/html.vim 里的 第 1350 行找到
+<code>vimwiki#html#CustomWiki2HTML</code> 函数, 并在其上面添加一个函数</p>
+<div class="highlight"><pre><span></span><code><span class="k">function</span><span class="p">!</span> s:highlight_code_with_pygments<span class="p">(</span>lsource<span class="p">)</span> <span class="c">&quot;{{{</span>
+  <span class="k">if</span> <span class="p">!</span>has<span class="p">(</span><span class="s1">&#39;python&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">a</span>:lsource
+  <span class="k">endif</span>
+  <span class="k">let</span> s:lsource <span class="p">=</span> deepcopy<span class="p">(</span><span class="k">a</span>:lsource<span class="p">)</span>
+  <span class="k">let</span> s:content <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+<span class="k">python</span> <span class="o">&lt;&lt;</span>EOF
+<span class="k">def</span> <span class="nf">handle</span><span class="p">():</span>
+  <span class="kn">import</span> <span class="nn">vim</span>
+
+  <span class="kn">import</span> <span class="nn">re</span>
+  <span class="kn">import</span> <span class="nn">os</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pygments</span>
+  <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">vim</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;echoerr &#39;Cannot import pygments library, please install it.&#39;&quot;</span><span class="p">)</span>
+    <span class="k">return</span>
+
+  <span class="kn">from</span> <span class="nn">pygments.lexers</span> <span class="kn">import</span> <span class="n">get_lexer_by_name</span>
+  <span class="kn">from</span> <span class="nn">pygments.formatters</span> <span class="kn">import</span> <span class="n">HtmlFormatter</span>
+  <span class="kn">from</span> <span class="nn">pygments</span> <span class="kn">import</span> <span class="n">highlight</span>
+  <span class="kn">from</span> <span class="nn">pygments.util</span> <span class="kn">import</span> <span class="n">ClassNotFound</span>
+
+  <span class="n">CODE_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n({{{(\w*?)\s(.*?)\s}}})&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="o">|</span><span class="n">re</span><span class="o">.</span><span class="n">U</span><span class="o">|</span><span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+
+  <span class="n">data</span> <span class="o">=</span> <span class="n">vim</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;s:lsource&quot;</span><span class="p">)</span>
+  <span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <span class="n">new</span> <span class="o">=</span> <span class="kc">False</span>
+  <span class="n">css_class</span> <span class="o">=</span> <span class="n">vim</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;VimwikiGet(&#39;pygments_class&#39;)&quot;</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">lang_type</span><span class="p">,</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">CODE_RE</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+    <span class="n">lang_type</span> <span class="o">=</span> <span class="n">lang_type</span> <span class="ow">or</span> <span class="s2">&quot;text&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">lexer</span> <span class="o">=</span> <span class="n">get_lexer_by_name</span><span class="p">(</span><span class="n">lang_type</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">ClassNotFound</span><span class="p">:</span>
+      <span class="n">lexer</span> <span class="o">=</span> <span class="n">get_lexer_by_name</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">HtmlFormatter</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">,</span> <span class="n">cssclass</span><span class="o">=</span><span class="n">css_class</span><span class="p">,</span>
+                              <span class="n">noclasses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
+                              <span class="n">linenos</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">nowrap</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">hcode</span> <span class="o">=</span> <span class="n">highlight</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">lexer</span><span class="p">,</span> <span class="n">formatter</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">hcode</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">new</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+      <span class="n">new</span> <span class="o">=</span> <span class="kc">True</span>
+
+  <span class="k">if</span> <span class="n">new</span><span class="p">:</span>
+    <span class="n">vim</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;let s:content=&#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2">&quot;</span><span class="p">))</span>
+
+<span class="n">handle</span><span class="p">()</span>
+
+EOF
+
+  <span class="k">if</span> s:content <span class="p">!=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">let</span> s:lsource <span class="p">=</span> split<span class="p">(</span>s:content<span class="p">,</span> <span class="s1">&#39;\n&#39;</span><span class="p">)</span>
+  <span class="k">endif</span>
+
+  <span class="k">return</span> s:lsource
+<span class="k">endfunction</span> <span class="c">&quot;}}}</span>
+</code></pre></div>
+
+<p>然后在 <code>vimwiki#html#Wiki2HTML</code> 函数内读取文件的下面调用此函数</p>
+<div class="highlight"><pre><span></span><code>...
+    <span class="k">let</span> lsource <span class="p">=</span> readfile<span class="p">(</span>wikifile<span class="p">)</span>
+
+    <span class="k">let</span> lsource <span class="p">=</span> s:highlight_code_with_pygments<span class="p">(</span>lsource<span class="p">)</span>
+...
+</code></pre></div>
+
+<p>当然需要还需要拷贝 css 文件, 修改模板等, 这里不一一详述</p>
+<h3 id="_3">结果</h3>
+<p>好吧, 确实工作了, 但是新的问题出来了, 高亮后替换成HTML的内容会被 Vimwiki 第二次处理
+所以 HTML 的格式全乱了,  CSS 样式也肯定不行了. 找了一下没有办法能避免 Vimwiki 不
+处理一段内容(为什么已经是 HTMl 了 Vimwiki 还要处理呢)</p>
+<p>上述方法不行, 那只能再想想办法了</p>
+<h3 id="nowiki">使用特殊的注释: %nowiki</h3>
+<p>为了解决上面重复处理已转化成 HTML 内容的问题, 我添加 %nowiki 语法,
+以 %nowiki 这个开头的行将不处理. 然后将高亮的代码替换成 %nowiki 开始的行,
+将上面 Python 相关代码加上如下内容:</p>
+<div class="highlight"><pre><span></span><code><span class="o">...</span>
+<span class="n">hcode</span> <span class="o">=</span> <span class="n">highlight</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">lexer</span><span class="p">,</span> <span class="n">formatter</span><span class="p">)</span>
+
+<span class="c1"># 添加以下语句</span>
+<span class="n">hcode</span> <span class="o">=</span> <span class="s2">&quot;%nowiki&quot;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">%nowiki&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hcode</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+
+<span class="n">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">hcode</span><span class="p">)</span>
+<span class="o">..</span>
+</code></pre></div>
+
+<p>然后找到 <code>s:parse_line</code> 函数, 在处理 toc 的下面添加</p>
+<div class="highlight"><pre><span></span><code><span class="c">  &quot; toc -- placeholder &quot;{{{</span>
+  <span class="k">if</span> <span class="p">!</span>processed
+    <span class="k">if</span> line <span class="p">=~</span> <span class="s1">&#39;^\s*%toc&#39;</span>
+      <span class="k">let</span> processed <span class="p">=</span> <span class="m">1</span>
+      <span class="k">let</span> param <span class="p">=</span> matchstr<span class="p">(</span>line<span class="p">,</span> <span class="s1">&#39;^\s*%toc\s\zs.*&#39;</span><span class="p">)</span>
+      <span class="k">let</span> state.placeholder <span class="p">=</span> [<span class="s1">&#39;toc&#39;</span><span class="p">,</span> param]
+    <span class="k">endif</span>
+  <span class="k">endif</span>
+<span class="c">  &quot;}}}</span>
+
+<span class="c">  &quot; 添加处理 nowiki</span>
+<span class="c">  &quot; nowiki &quot;{{{</span>
+  <span class="k">if</span> <span class="p">!</span>processed
+    <span class="k">if</span> line<span class="p">=~</span> <span class="s1">&#39;^\s*%nowiki&#39;</span>
+      <span class="k">let</span> processed <span class="p">=</span> <span class="m">1</span>
+      <span class="k">call</span> add<span class="p">(</span>res_lines<span class="p">,</span> substitute<span class="p">(</span>line<span class="p">,</span> <span class="s1">&#39;^\s*%nowiki&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+    <span class="k">endif</span>
+  <span class="k">endif</span> <span class="c">&quot;}}}</span>
+</code></pre></div>
+
+<p>然后找到 <code>s:safe_html</code> 函数, 添加如下语句</p>
+<div class="highlight"><pre><span></span><code><span class="k">function</span><span class="p">!</span> s:safe_html<span class="p">(</span>line<span class="p">)</span> <span class="c">&quot;{{{</span>
+<span class="c">  &quot; 不处理 %nowiki </span>
+  <span class="k">if</span> <span class="k">a</span>:line<span class="p">=~</span> <span class="s1">&#39;^\s*%nowiki&#39;</span>
+    <span class="k">return</span> <span class="k">a</span>:line
+  <span class="k">endif</span>
+
+  ...
+<span class="k">endfunction</span>
+</code></pre></div>
+
+<p>大功告成, 这样就可以正常的使用 pygments 进行高亮代码</p>
+<h1 id="_4">成果</h1>
+<p>修改后的代码放在了 github 上, 在 <a href="https://github.com/coldnight/vimwiki">这里</a>, 
+有需要的可以安装, 但这个更改仅仅是对我个人使用, 可能不会跟随主线程版本的更新.</p>
+<p>当然我添加了一些选项来开启/关闭使用pygments, 安装后在 Vim 中执行 <code>:h vimwiki-option-use_pygments</code></p>
+<p>大家通过代码也看到了, 要使用改变之后的插件 Vim 需要编译 +python 并且需要安装 pygments Python 库.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=使用 Pygments 对 Vimwiki 进行代码高亮&amp;url=https://www.linuxzen.com/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/vim.html">vim</a><a href="https://www.linuxzen.com/tag/vimwiki.html">vimwiki</a><a href="https://www.linuxzen.com/tag/pygments.html">pygments</a><a href="https://www.linuxzen.com/tag/python.html">python</a><a href="https://www.linuxzen.com/tag/highlight.html">highlight</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html';
+                    var disqus_url = 'https://www.linuxzen.com/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/shi-yong-pygments-dui-vimwiki-jin-xing-dai-ma-gao-liang.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

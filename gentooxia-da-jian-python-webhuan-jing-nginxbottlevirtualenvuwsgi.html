@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Gentoo下搭建python web环境(nginx+bottle+virtualenv+uwsgi)</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="最近根据Gentoo官方文档整了一台Gentoo的虚拟机,感觉还是不错的,决定放弃CentOS投奔Gentoo,这几天研究NoSQL mongodb和python的bottle框架,web.py效率不是很好,而且是类级,bottle使用装饰器(虽然对她还是懵懂阶段,但是貌似很强大).感 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="web">
+    <meta name="tags" content="virtualenv">
+    <meta name="tags" content="uwsgi">
+    <meta name="tags" content="python">
+    <meta name="tags" content="Gentoo">
+    <meta name="tags" content="bottle">
+    <meta name="tags" content="nginx">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="Gentoo下搭建python web环境(nginx+bottle+virtualenv+uwsgi)"/>
+<meta property="og:description" content="最近根据Gentoo官方文档整了一台Gentoo的虚拟机,感觉还是不错的,决定放弃CentOS投奔Gentoo,这几天研究NoSQL mongodb和python的bottle框架,web.py效率不是很好,而且是类级,bottle使用装饰器(虽然对她还是懵懂阶段,但是貌似很强大).感 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-05-16 11:05:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="web"/>
+<meta property="article:tag" content="virtualenv"/>
+<meta property="article:tag" content="uwsgi"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="Gentoo"/>
+<meta property="article:tag" content="bottle"/>
+<meta property="article:tag" content="nginx"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="Gentoo下搭建python web环境(nginx+bottle+virtualenv+uwsgi)">
+    <meta name="twitter:url" content="https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="最近根据Gentoo官方文档整了一台Gentoo的虚拟机,感觉还是不错的,决定放弃CentOS投奔Gentoo,这几天研究NoSQL mongodb和python的bottle框架,web.py效率不是很好,而且是类级,bottle使用装饰器(虽然对她还是懵懂阶段,但是貌似很强大).感 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Gentoo下搭建python web环境(nginx+bottle+virtualenv+uwsgi)",
+  "headline": "Gentoo下搭建python web环境(nginx+bottle+virtualenv+uwsgi)",
+  "datePublished": "2012-05-16 11:05:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html",
+  "description": "最近根据Gentoo官方文档整了一台Gentoo的虚拟机,感觉还是不错的,决定放弃CentOS投奔Gentoo,这几天研究NoSQL mongodb和python的bottle框架,web.py效率不是很好,而且是类级,bottle使用装饰器(虽然对她还是懵懂阶段,但是貌似很强大).感 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Gentoo下搭建python web环境(nginx+bottle+virtualenv+uwsgi)</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Wed 16 May 2012">Wed 16 May 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>最近根据Gentoo官方文档整了一台Gentoo的虚拟机,感觉还是不错的,决定放弃CentOS投奔Gentoo,这几天研究NoSQL mongodb和python的bottle框架,web.py效率不是很好,而且是类级,bottle使用装饰器(虽然对她还是懵懂阶段,但是貌似很强大).感觉bottle更加强大和接近python,没有封装太多东西,django只能依照她的思想来做自己的事,最后还是选择了bottle来进入python的web世界,web服务器同样选择nginx.virtualenv可以让一个应用有一个相对独立的环境,特别用于多解释器环境或者经常变更的环境.uwsgi是web和python的中间件(可以这么解释吧).</p>
+<h2 id="_1">环境:</h2>
+<p>系统:Gentoo
+ip:192.168.3.1</p>
+<p>好吧废话不多说,Gentoo安装过程这里不再详述,官方文档很详细,下面记录安装配置过程.
+首先Gentoo没有默认安装vim,先安装vim:</p>
+<div class="highlight"><pre><span></span><code><span class="n">emerge</span> <span class="n">vim</span>
+</code></pre></div>
+
+<h3 id="python">安装配置Python</h3>
+<p>最新版的Gentoo安装完毕后默认使用python3.2,而我惯用Python2.7.先首先安装python2.7.
+Gentoo使用emerge包管理,安装Python2.7:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/usr/portage/dev-lang/python/
+emerge<span class="w"> </span>python-2.7.2-r3.ebuild
+</code></pre></div>
+
+<p>等待安装完成后使系统默认使用python2.7,先查看默认项</p>
+<div class="highlight"><pre><span></span><code>eselect python list
+Available Python interpreters:
+  [1]   python2.7 
+  [2]   python3.2 *
+</code></pre></div>
+
+<p>默认使用3.2,选择python2.7</p>
+<div class="highlight"><pre><span></span><code>eselect<span class="w"> </span>python<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+
+<p>选择过后别忘记执行:</p>
+<div class="highlight"><pre><span></span><code>python-updater
+</code></pre></div>
+
+<p>好了我已经将python换成了常用的python2.7,下面来安装easy_install:</p>
+<div class="highlight"><pre><span></span><code>emerge<span class="w"> </span>setuptools
+</code></pre></div>
+
+<p>安装完后使用easy_install安装bottle框架和mongodb驱动:</p>
+<div class="highlight"><pre><span></span><code>easy_install<span class="w"> </span>bottle
+easy_install<span class="w"> </span>pymogon
+</code></pre></div>
+
+<p>安装uwsgi/nginx/virtualenv:</p>
+<div class="highlight"><pre><span></span><code>emerge<span class="w"> </span>nginx
+emerge<span class="w"> </span>uwsgi
+emerge<span class="w"> </span>virtualenv
+</code></pre></div>
+
+<h3 id="virtualenv">使用virtualenv创建应用</h3>
+<p>我们使用virtualenv创建一个应用:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>/code/python
+virtualenv<span class="w"> </span>/code/python
+<span class="nb">source</span><span class="w"> </span>bin/activate
+</code></pre></div>
+
+<p>然后查看应用目录下会多出几个目录.</p>
+<h3 id="uwsgi">配置uWSGI</h3>
+<p>首先创建一个uwsgi配置文件,并编辑它:</p>
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>/etc/conf.d/uwsgi<span class="w"> </span>/etc/conf.d/uwsgi.py
+vi<span class="w"> </span>/etc/conf.d/uwsgi.py
+</code></pre></div>
+
+<p>改成内如如下:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Distributed under the terms of the GNU General Public License v2</span>
+<span class="c1"># $Header: /var/cvsroot/gentoo-x86/www-servers/uwsgi/files/uwsgi.confd,v 1.1 2011/05/31 19:49:07 maksbotan Exp $</span>
+
+<span class="c1"># DO NOT MODIFY THIS FILE DIRECTLY! CREATE A COPY AND MODIFY THAT INSTEAD!</span>
+
+<span class="c1"># Path (or name) of UNIX/TCP socket to bind to</span>
+<span class="c1">#</span>
+<span class="n">UWSGI_SOCKET</span><span class="o">=/</span><span class="k">var</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bottle</span><span class="o">.</span><span class="n">sock</span><span class="w">            </span><span class="c1"># 使用unix socket</span>
+
+<span class="c1"># Enable threads?</span>
+<span class="c1">#</span>
+<span class="n">UWSGI_THREADS</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="c1"># The path to your uWSGI application.</span>
+<span class="c1">#</span>
+<span class="c1">#UWSGI_PROGRAM=</span>
+
+<span class="c1"># The path to your uWSGI xml config file.</span>
+<span class="c1">#</span>
+<span class="n">UWSGI_XML_CONFIG</span><span class="o">=/</span><span class="n">code</span><span class="o">/</span><span class="n">bottle</span><span class="o">.</span><span class="n">xml</span><span class="w">               </span><span class="c1"># 使用xml配置文件</span>
+
+<span class="c1"># The number of child processes to spawn. The default is 1.</span>
+<span class="c1">#</span>
+<span class="n">UWSGI_CHILDREN</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="c1"># The log file path. If empty logging is disabled</span>
+<span class="c1">#</span>
+<span class="n">UWSGI_LOG_FILE</span><span class="o">=/</span><span class="k">var</span><span class="o">/</span><span class="nb">log</span><span class="o">/</span><span class="n">uwsgi</span><span class="o">.</span><span class="n">log</span><span class="w">                    </span><span class="c1"># 定义日志</span>
+
+<span class="c1"># If you want to run your application inside a chroot then specify the</span>
+<span class="c1"># directory here. Leave this blank otherwise.</span>
+<span class="c1">#</span>
+<span class="c1">#UWSGI_CHROOT=/code/python</span>
+
+<span class="c1"># If you want to run your application from a specific directiory specify</span>
+<span class="c1"># it here. Leave this blank otherwise.</span>
+<span class="c1">#</span>
+<span class="c1"># UWSGI_DIR=</span>
+
+<span class="c1"># The user and group to run your application as. If you do not specify these,</span>
+<span class="c1"># the application will be run as root:root.</span>
+<span class="c1">#</span>
+<span class="n">UWSGI_USER</span><span class="o">=</span>
+
+<span class="c1"># Additional options you might want to pass to uWSGI</span>
+<span class="c1">#</span>
+<span class="c1">#UWSGI_EXTRA_OPTIONS=</span>
+</code></pre></div>
+
+<p>然后创建bottle.xml配置文件:</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/code/bottle.xml
+</code></pre></div>
+
+<p>内容如下:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;uwsgi&gt;</span>
+<span class="w">        </span><span class="nt">&lt;socket&gt;</span>/var/tmp/bottle.sock<span class="nt">&lt;/socket&gt;</span>
+<span class="w">        </span><span class="nt">&lt;home&gt;</span>/code/python<span class="nt">&lt;/home&gt;</span>
+<span class="w">        </span><span class="nt">&lt;chdir&gt;</span>/code/python<span class="nt">&lt;/chdir&gt;</span>
+<span class="w">        </span><span class="nt">&lt;python-path&gt;</span>/code/python<span class="nt">&lt;/python-path&gt;</span>
+<span class="w">        </span><span class="nt">&lt;module&gt;</span>index<span class="nt">&lt;/module&gt;</span>
+<span class="w">        </span><span class="nt">&lt;master/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;memory/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;logto&gt;</span>/var/log/bottle.log<span class="nt">&lt;/logto&gt;</span>
+<span class="w">        </span><span class="nt">&lt;daemonize&gt;</span>/var/log/uwsgi.log<span class="nt">&lt;/daemonize&gt;</span>
+<span class="nt">&lt;/uwsgi&gt;</span>
+</code></pre></div>
+
+<p>其中<module></module>定义的就是你的web程序,也就是/code/python下要有一个index.py.</p>
+<p>配置完毕后创建启动脚本:</p>
+<div class="highlight"><pre><span></span><code>ln -sf /etc/init.d/uwsgi /etc/init.d/uwsgi.py
+</code></pre></div>
+
+<p>并加入开机启动:</p>
+<div class="highlight"><pre><span></span><code>rc-update add uwsgi.py default
+</code></pre></div>
+
+<h3 id="nginx">配置nginx</h3>
+<p>编辑配置文件:</p>
+<div class="highlight"><pre><span></span><code>vi /etc/nginx/nginx.conf
+</code></pre></div>
+
+<p>修改内容如下:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">listen</span><span class="w"> </span><span class="mf">192.168</span><span class="o">.</span><span class="mf">3.1</span><span class="p">:</span><span class="mi">80</span><span class="p">;</span>
+<span class="w">        </span><span class="n">server_name</span><span class="w"> </span><span class="n">linuxzen</span><span class="o">.</span><span class="n">com</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">access_log</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="nb">log</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">localhost</span><span class="o">.</span><span class="n">access_log</span><span class="w"> </span><span class="n">main</span><span class="p">;</span>
+<span class="w">        </span><span class="n">error_log</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="nb">log</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">localhost</span><span class="o">.</span><span class="n">error_log</span><span class="w"> </span><span class="n">info</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">root</span><span class="w"> </span><span class="o">/</span><span class="n">code</span><span class="o">/</span><span class="n">python</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">            </span><span class="n">include</span><span class="w"> </span><span class="n">uwsgi_params</span><span class="p">;</span>
+<span class="w">            </span><span class="n">uwsgi_param</span><span class="w"> </span><span class="n">UWSGI_PYTHOME</span><span class="w"> </span><span class="o">/</span><span class="n">code</span><span class="o">/</span><span class="n">python</span><span class="p">;</span>
+<span class="w">            </span><span class="n">uwsgi_param</span><span class="w"> </span><span class="n">UWSGI_CHDIR</span><span class="w"> </span><span class="o">/</span><span class="n">code</span><span class="o">/</span><span class="n">python</span><span class="p">;</span><span class="w">                               </span>
+<span class="w">            </span><span class="n">uwsgi_param</span><span class="w"> </span><span class="n">UWSGI_SCRIPT</span><span class="w">    </span><span class="n">index</span><span class="p">;</span>
+<span class="w">            </span><span class="n">uwsgi_pass</span><span class="w">  </span><span class="n">unix</span><span class="p">:</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">bottle</span><span class="o">.</span><span class="n">sock</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w">   </span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+
+<p>同样将nginx作为开机启动:</p>
+<div class="highlight"><pre><span></span><code>rc-update add nginx default
+</code></pre></div>
+
+<h2 id="_2">测试</h2>
+<p>首先创建一个bottle程序供测试:</p>
+<div class="highlight"><pre><span></span><code><span class="n">vi</span> <span class="o">/</span><span class="n">code</span><span class="o">/</span><span class="n">python</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">py</span>
+<span class="n">参考内容如下</span><span class="p">:</span>
+<span class="c1">#!/usr/bin/env python</span>
+<span class="c1">#-*- coding: utf8 -*-</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd"># Author    : cold night</span>
+<span class="sd"># Filename  : index.py                                                          </span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">bottle</span> <span class="kn">import</span> <span class="n">run</span><span class="p">,</span> <span class="n">route</span><span class="p">,</span> <span class="n">default_app</span>
+
+<span class="nd">@route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot;Hello world!&quot;</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8888</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">default_app</span><span class="p">()</span>
+</code></pre></div>
+
+<p>然后启动nginx和uwsgi:</p>
+<div class="highlight"><pre><span></span><code>/etc/init.d/nginx start
+/etc/init.d/uwsgi.py start
+</code></pre></div>
+
+<p>然后通过浏览器访问即可看到<code>Hello world!</code></p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Gentoo下搭建python web环境(nginx+bottle+virtualenv+uwsgi)&amp;url=https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/web.html">web</a><a href="https://www.linuxzen.com/tag/virtualenv.html">virtualenv</a><a href="https://www.linuxzen.com/tag/uwsgi.html">uwsgi</a><a href="https://www.linuxzen.com/tag/python.html">python</a><a href="https://www.linuxzen.com/tag/gentoo.html">Gentoo</a><a href="https://www.linuxzen.com/tag/bottle.html">bottle</a><a href="https://www.linuxzen.com/tag/nginx.html">nginx</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html';
+                    var disqus_url = 'https://www.linuxzen.com/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/gentooxia-da-jian-python-webhuan-jing-nginxbottlevirtualenvuwsgi.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

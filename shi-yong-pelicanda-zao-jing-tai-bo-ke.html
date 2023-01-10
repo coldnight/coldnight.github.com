@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>使用Pelican打造静态博客</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="前面有文章介绍本站采用了Python编写的Pelican静态生成博客系统, 之所以没有使用当前很火的Jekyll, 是因为它是Ruby编写, 而我又对 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="静态">
+    <meta name="tags" content="生成">
+    <meta name="tags" content="Pelican">
+    <meta name="tags" content="博客">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="使用Pelican打造静态博客"/>
+<meta property="og:description" content="前面有文章介绍本站采用了Python编写的Pelican静态生成博客系统, 之所以没有使用当前很火的Jekyll, 是因为它是Ruby编写, 而我又对 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2013-04-18 09:40:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="静态"/>
+<meta property="article:tag" content="生成"/>
+<meta property="article:tag" content="Pelican"/>
+<meta property="article:tag" content="博客"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="使用Pelican打造静态博客">
+    <meta name="twitter:url" content="https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="前面有文章介绍本站采用了Python编写的Pelican静态生成博客系统, 之所以没有使用当前很火的Jekyll, 是因为它是Ruby编写, 而我又对 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "使用Pelican打造静态博客",
+  "headline": "使用Pelican打造静态博客",
+  "datePublished": "2013-04-18 09:40:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html",
+  "description": "前面有文章介绍本站采用了Python编写的Pelican静态生成博客系统, 之所以没有使用当前很火的Jekyll, 是因为它是Ruby编写, 而我又对 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">使用Pelican打造静态博客</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Thu 18 April 2013">Thu 18 April 2013</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>前面有文章介绍本站采用了<code>Python</code>编写的<code>Pelican</code>静态生成博客系统, 之所以没有使用当前很火的<code>Jekyll</code>, 是因为它是<code>Ruby</code>编写, 而我又对<code>Ruby</code>没有啥兴趣, 所以还是选择了使用了我熟悉的Python编写的这套系统, 我用了一段时间,打算将使用经验分享出来</p>
+<h2 id="_1">介绍</h2>
+<p><code>Pelican</code>是一套开源的使用Python编写的博客静态生成, 可以添加文章和和创建页面, 可以使用<code>MarkDown</code> <code>reStructuredText</code> 和 <code>AsiiDoc</code> 的格式来抒写, 同时使用 <code>Disqus</code>评论系统, 支持 <code>RSS</code>和<code>Atom</code>输出, 插件, 主题, 代码高亮等功能, 采用<code>Jajin2</code>模板引擎, 可以很容易的更改模板</p>
+<h2 id="_2">安装</h2>
+<p>可以从<code>github</code>克隆最新的代码安装, 并且建议在<code>virtualenv</code>下使用:</p>
+<h3 id="virtualenv">建立 virtualenv</h3>
+<div class="highlight"><pre><span></span><code>virtualenv<span class="w"> </span>pelican<span class="w">      </span><span class="c1"># 创建</span>
+<span class="nb">cd</span><span class="w"> </span>pelican
+sh<span class="w"> </span>bin/activate<span class="w">            </span><span class="c1"># 激活虚拟环境</span>
+</code></pre></div>
+
+<p>上面建立了一个Python的虚拟环境(这个命令不是内置可以使用 <code>easy_install virtualenv</code> 安装)</p>
+<h3 id="githubpelican">从github克隆最新代码安装Pelican</h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>git://github.com/getpelican/pelican.git<span class="w">            </span><span class="c1"># 代码</span>
+<span class="nb">cd</span><span class="w"> </span>pelican
+python<span class="w"> </span>setup.py<span class="w"> </span>install
+</code></pre></div>
+
+<p>上面步骤完成后就安装了Pelican</p>
+<h2 id="_3">开始一个博客</h2>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>/path/to/your/blog
+<span class="nb">cd</span><span class="w"> </span>/path/to/your/blog
+pelican-quickstart
+</code></pre></div>
+
+<p>在回答一系列问题过后你的博客就建成的, 主要生成下列文件:</p>
+<div class="highlight"><pre><span></span><code>.
+<span class="p">|</span>--<span class="w"> </span>content<span class="w">                </span><span class="c1"># 所有文章放于此目录</span>
+<span class="p">|</span>--<span class="w"> </span>develop_server.sh<span class="w">      </span><span class="c1"># 用于开启测试服务器</span>
+<span class="p">|</span>--<span class="w"> </span>Makefile<span class="w">               </span><span class="c1"># 方便管理博客的Makefile</span>
+<span class="p">|</span>--<span class="w"> </span>output<span class="w">                 </span><span class="c1"># 静态生成文件</span>
+<span class="p">|</span>--<span class="w"> </span>pelicanconf.py<span class="w">         </span><span class="c1"># 配置文件</span>
+<span class="p">|</span>--<span class="w"> </span>publishconf.py<span class="w">         </span><span class="c1"># 配置文件</span>
+</code></pre></div>
+
+<h3 id="_4">写一篇文章</h3>
+<p>在 <code>content</code> 目录新建一个 <code>test.md</code>文件, 填入一下内容:</p>
+<div class="highlight"><pre><span></span><code>Title: 文章标题
+Date: 2013-04-18
+Category: 文章类别
+Tag: 标签1, 标签2
+
+这里是内容
+</code></pre></div>
+
+<p>然后执行:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>html
+</code></pre></div>
+
+<p>用以生成html</p>
+<p>然后执行</p>
+<div class="highlight"><pre><span></span><code>./develop_server.sh<span class="w"> </span>start
+</code></pre></div>
+
+<p>开启一个测试服务器, 这会在本地 8000 端口建立一个测试web服务器, 可以使用浏览器打开:<code>http://localhost:8000</code>来访问这个测试服务器, 然后就可以欣赏到你的博客了</p>
+<h3 id="_5">创建一个页面</h3>
+<p>这里以创建 <code>About</code>页面为例</p>
+<p>在<code>content</code>目录创建<code>pages</code>目录</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>content/pages
+</code></pre></div>
+
+<p>然后创建<code>About.md</code>并填入下面内容</p>
+<div class="highlight"><pre><span></span><code>Title:<span class="w"> </span>About<span class="w"> </span>Me
+Date:<span class="w"> </span><span class="m">2013</span>-04-18
+
+About<span class="w"> </span>me<span class="w"> </span>content
+</code></pre></div>
+
+<p>执行 <code>make html</code> 生成html, 然后打开 <code>http://localhost:8000</code>查看效果</p>
+<h3 id="pelican">让Pelican支持评论</h3>
+<p>Pelican 使用<code>Disqus</code>评论, 可以申请在<a href="https://disqus.com/">Disqus</a>上申请一个站点, 然后在<code>pelicanconf.py</code>里添加或修改<code>DISQUS_SITENAME</code>项:</p>
+<div class="highlight"><pre><span></span><code><span class="n">DISQUS_SITENAME</span> <span class="o">=</span> <span class="sa">u</span><span class="s2">&quot;linuxzen&quot;</span>
+</code></pre></div>
+
+<p>执行</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>html
+</code></pre></div>
+
+<p>浏览器打开 <code>http://localhost:8000</code>查看效果</p>
+<h3 id="_6">更换主题</h3>
+<p>Pelican本身也提供了一些主题可供选择, 可以从github克隆下来</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>git://github.com/getpelican/pelican-themes.git<span class="w">     </span><span class="c1"># 主题</span>
+</code></pre></div>
+
+<p>然后在里面找到想要的主题, 然后拷到博客项目当前目录, 这里已<code>neat</code>为例</p>
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>-r<span class="w"> </span>/path/to/themes/from/github/neat<span class="w"> </span>.
+</code></pre></div>
+
+<p>然后在 <code>pelicanconf.py</code> 配置文件里添加或修改 <code>THEME</code>项为 <code>neat</code></p>
+<div class="highlight"><pre><span></span><code><span class="n">THEME</span> <span class="o">=</span> <span class="s2">&quot;neat&quot;</span>
+</code></pre></div>
+
+<p>重新执行 </p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>html
+</code></pre></div>
+
+<p>然后打开 <code>http://localhost:8000</code> 查看效果</p>
+<h3 id="_7">使用插件</h3>
+<p>Pelican 一开始是将插件内置的, 但是新版本 Pelican将插件隔离了出来, 所以我们要到github上 克隆一份新的插件, 在博客目录执行</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>git://github.com/getpelican/pelican-plugins.git<span class="w">    </span><span class="c1"># 插件</span>
+</code></pre></div>
+
+<p>现在我们博客目录就新添了一个 <code>pelican-plugins</code>目录, 我们已配置<code>sitemap</code>插件为例,
+<code>sitemap</code>插件可以生成 <code>sitemap.xml</code> 供搜索引擎使用</p>
+<p>在<code>pelicanconf.py</code>配置文件里加上如下项:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="sa">u</span><span class="s2">&quot;pelican-plugins&quot;</span>
+
+<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sitemap&quot;</span><span class="p">]</span>
+
+<span class="c1">## 配置sitemap 插件</span>
+<span class="n">SITEMAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;xml&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;priorities&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;articles&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="s2">&quot;indexes&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="s2">&quot;pages&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;changefreqs&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;articles&quot;</span><span class="p">:</span> <span class="s2">&quot;monthly&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;indexes&quot;</span><span class="p">:</span> <span class="s2">&quot;daily&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pages&quot;</span><span class="p">:</span> <span class="s2">&quot;monthly&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>然后再执行</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>html
+</code></pre></div>
+
+<p>打开浏览器请求 <code>http://localhost:8000/sitemap.xml</code>即可看到生成的 Sitemap 了</p>
+<h3 id="_8">拷贝静态文件</h3>
+<p>如果我们定义静态的文件, 该如何将它在每次生成的时候拷贝到 output 目录呢, 我们以<code>robots.txt</code> 为例, 在我们的 content/extra 下面我们放了一个定义好的 <code>robots.txt</code>文件, 在<code>pelicanconf.py</code>更改或添加 <code>FILES_TO_COPY</code>项:</p>
+<div class="highlight"><pre><span></span><code><span class="n">FILES_TO_COPY</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s2">&quot;extra/robots.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;robots.txt&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>这样在每次生成html的时候都会把 <code>content/extra</code>下的 <code>robots.txt</code> 拷贝到 <code>output</code>目录下</p>
+<h3 id="_9">拷贝静态目录</h3>
+<p>如果是一个静目录怎么办? 我们可以在<code>pelicanconf.py</code>里添加或修改 <code>STATIC_PATHS</code>项, 比如我们有个<code>img</code>目录用来放文章所使用的图片, 我们可以在<code>pelicanconf.py</code>添加</p>
+<div class="highlight"><pre><span></span><code><span class="n">STATIC_PATHS</span> <span class="o">=</span> <span class="p">[</span><span class="sa">u</span><span class="s2">&quot;img&quot;</span><span class="p">]</span>
+</code></pre></div>
+
+<p>然后执行 </p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>html
+</code></pre></div>
+
+<p>然后 Pelican 就会将 <code>img</code>目录拷贝到 <code>output/static/</code> 下</p>
+<h2 id="_10">部署</h2>
+<p>上面都弄完之后你就可以得到一个功能健全的博客系统, 接下来就是部署到服务器, 上传到服务器并结合nginx或者apache等web服务器部署这里就不在详述</p>
+<h2 id="_11">参考</h2>
+<p>如果还有其他问题请参考<a href="http://docs.getpelican.com/">官方手册</a></p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=使用Pelican打造静态博客&amp;url=https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/python.html">Python</a><a href="https://www.linuxzen.com/tag/jing-tai.html">静态</a><a href="https://www.linuxzen.com/tag/sheng-cheng.html">生成</a><a href="https://www.linuxzen.com/tag/pelican.html">Pelican</a><a href="https://www.linuxzen.com/tag/bo-ke.html">博客</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/shi-yong-pelicanda-zao-jing-tai-bo-ke.html';
+                    var disqus_url = 'https://www.linuxzen.com/shi-yong-pelicanda-zao-jing-tai-bo-ke.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/shi-yong-pelicanda-zao-jing-tai-bo-ke.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

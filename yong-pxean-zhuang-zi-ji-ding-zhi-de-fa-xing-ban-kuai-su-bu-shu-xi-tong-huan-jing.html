@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>用pxe安装自己定制的发行版快速部署系统环境</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="自己的发行版出来之后如何快速应用到企业中,可以使用PXE网络安装实现无人值守安装. 先解释下PXE安装,这是由Intel开发的一项技术,支持通过网络从远程服务器下载启动 …">
+
+    <meta name="author" content="cold">
+
+    <meta name="tags" content="网络安装">
+    <meta name="tags" content="网卡启动">
+    <meta name="tags" content="无人值守">
+    <meta name="tags" content="pxe">
+    <meta name="tags" content="Linux">
+    <meta name="tags" content="cfengine">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="cold's world"/>
+<meta property="og:title" content="用pxe安装自己定制的发行版快速部署系统环境"/>
+<meta property="og:description" content="自己的发行版出来之后如何快速应用到企业中,可以使用PXE网络安装实现无人值守安装. 先解释下PXE安装,这是由Intel开发的一项技术,支持通过网络从远程服务器下载启动 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.linuxzen.com/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2012-02-02 11:37:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.linuxzen.com/author/cold.html">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="网络安装"/>
+<meta property="article:tag" content="网卡启动"/>
+<meta property="article:tag" content="无人值守"/>
+<meta property="article:tag" content="pxe"/>
+<meta property="article:tag" content="Linux"/>
+<meta property="article:tag" content="cfengine"/>
+<meta property="og:image" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@grayking_w">
+    <meta name="twitter:title" content="用pxe安装自己定制的发行版快速部署系统环境">
+    <meta name="twitter:url" content="https://www.linuxzen.com/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html">
+
+        <meta name="twitter:image:src" content="https://www.linuxzen.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="自己的发行版出来之后如何快速应用到企业中,可以使用PXE网络安装实现无人值守安装. 先解释下PXE安装,这是由Intel开发的一项技术,支持通过网络从远程服务器下载启动 …">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "用pxe安装自己定制的发行版快速部署系统环境",
+  "headline": "用pxe安装自己定制的发行版快速部署系统环境",
+  "datePublished": "2012-02-02 11:37:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cold",
+    "url": "https://www.linuxzen.com/author/cold.html"
+  },
+  "image": "https://www.linuxzen.com/theme/images/post-bg.jpg",
+  "url": "https://www.linuxzen.com/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html",
+  "description": "自己的发行版出来之后如何快速应用到企业中,可以使用PXE网络安装实现无人值守安装. 先解释下PXE安装,这是由Intel开发的一项技术,支持通过网络从远程服务器下载启动 …"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li class="nav-linux active" role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">用pxe安装自己定制的发行版快速部署系统环境</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+            | <time datetime="Thu 02 February 2012">Thu 02 February 2012</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>自己的发行版出来之后如何快速应用到企业中,可以使用PXE网络安装实现无人值守安装. 先解释下PXE安装,这是由Intel开发的一项技术,支持通过网络从远程服务器下载启动文件系统本机,从而实现网络安装操作系统.</p>
+<p>这里需要网络传输就需要ip,所以需要DHCP服务器,传输文件需要简单的传输协议就需要tftp服务器,安装的过程中需要传输安装文件就需要一个文件服务器(ftp/http/nfs等)
+基本流程就是通过DHCP获取ip并获取下一步的服务器地址(也就是tftp),然后下载启动文件,通过启动文件获取指定的下一个服务器的地址(安装文件的远程路径)</p>
+<p>使用环境:CentOS 5.5 32位</p>
+<p>使用系统:根据CentOS定制的发行版ColdOS 0.1 32位</p>
+<p>ip: 静态ip192.168.3.1</p>
+<p>本文使用dhcpd分配ip,使用tftp-server提供下载启动文件,apache提供下载安装文件
+1.安装配置tftp</p>
+<p>安装tftp-server</p>
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>tftp-server
+</code></pre></div>
+
+<p>配置tftp-server,编辑/etc/xinetd.d/tftp</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/etc/xinetd.d/tftp
+</code></pre></div>
+
+<p>修改配置文件</p>
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span><code>service<span class="w"> </span>tftp
+<span class="o">{</span>
+<span class="w">        </span><span class="nv">socket_type</span><span class="w">             </span><span class="o">=</span><span class="w"> </span>dgram
+<span class="w">        </span><span class="nv">protocol</span><span class="w">                </span><span class="o">=</span><span class="w"> </span>udp
+<span class="w">        </span><span class="nb">wait</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span>yes
+<span class="w">        </span><span class="nv">user</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span>root
+<span class="w">        </span><span class="nv">server</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span>/usr/sbin/in.tftpd
+<span class="w">        </span><span class="nv">server_args</span><span class="w">             </span><span class="o">=</span><span class="w"> </span>-s<span class="w"> </span>/tftpboot<span class="w">      </span><span class="c1"># 根目录</span>
+<span class="w">        </span><span class="nv">disable</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span>no<span class="w">                </span><span class="c1"># 把yes改为no启动tftp</span>
+<span class="w">        </span><span class="nv">per_source</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="m">11</span>
+<span class="w">        </span><span class="nv">cps</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">2</span>
+<span class="w">        </span><span class="nv">flags</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span>IPv4
+<span class="o">}</span>
+</code></pre></div>
+
+<p>启动tftp</p>
+<div class="highlight"><pre><span></span><code>service<span class="w"> </span>xinetd<span class="w"> </span>restart
+Stopping<span class="w"> </span>xinetd:<span class="w"> </span><span class="o">[</span><span class="w">  </span>OK<span class="w">  </span><span class="o">]</span>
+Starting<span class="w"> </span>xinetd:<span class="w"> </span><span class="o">[</span><span class="w">  </span>OK<span class="w">  </span><span class="o">]</span>
+</code></pre></div>
+
+<p>2.在tftp根目录下创建启动文件供客户端下载:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 复制网卡启动文件</span>
+cp<span class="w"> </span>/usr/lib/syslinux/pxelinux.0<span class="w"> </span>/tftpboot
+</code></pre></div>
+
+<p>将安装光盘上/image/pxeboot/initrd.img和vmlinux复制到/tftpboot/中</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 挂载光盘</span>
+mount<span class="w"> </span>/dev/hdc<span class="w"> </span>/mnt
+<span class="c1"># 复制文件</span>
+cp<span class="w"> </span>/mnt/isolinux/vmlinuz<span class="w"> </span>/tftpboot/
+cp<span class="w"> </span>/mnt/isolinux/initrd.img<span class="w"> </span>/tftpboot/
+</code></pre></div>
+
+<p>创建pxe启动菜单:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 创建存放启动菜单的目录</span>
+<span class="nb">cd</span><span class="w"> </span>/tftpboot
+mkdir<span class="w"> </span>pxelinux.cfg
+<span class="c1"># 从安装光盘内复制启动菜单命名为default</span>
+cp<span class="w"> </span>/mnt/isolinux/isolinux.cfg<span class="w"> </span>/tftpboot/pxelinux.cfg/default
+</code></pre></div>
+
+<p>编辑启动菜单:</p>
+<div class="highlight"><pre><span></span><code>vi<span class="w"> </span>/tftpboot/pxelinux.cfg/default
+default<span class="w"> </span>ColdOS
+prompt<span class="w"> </span><span class="m">1</span>
+timeout<span class="w"> </span><span class="m">600</span>
+label<span class="w"> </span>ColdOS
+<span class="w">  </span>kernel<span class="w"> </span>vmlinuz
+<span class="w">  </span>append<span class="w"> </span><span class="nv">ks</span><span class="o">=</span>http://192.168.3.1/cold/isolinux/ks.cfg<span class="w"> </span><span class="nv">initrd</span><span class="o">=</span>initrd.img<span class="w"> </span>text<span class="w"> </span><span class="c1"># 指定ks文件位置</span>
+</code></pre></div>
+
+<p>3.安装配置dhcp服务器
+安装</p>
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>dhcp
+</code></pre></div>
+
+<p>配置</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 创建配置文件</span>
+cp<span class="w"> </span>/usr/share/doc/dhcp-3.0.5/dhcpd.conf.sample<span class="w"> </span>/etc/dhcpd.conf
+<span class="c1"># 编辑配置文件</span>
+vi<span class="w"> </span>/etc/dhcpd.conf
+<span class="c1"># 修改配置文件:</span>
+ddns-update-style<span class="w"> </span>interim<span class="p">;</span>
+ignore<span class="w"> </span>client-updates<span class="p">;</span>
+next-server<span class="w"> </span><span class="m">192</span>.168.3.1<span class="p">;</span><span class="w">             </span><span class="c1"># 指定tftp服务器</span>
+filename<span class="w"> </span><span class="s2">&quot;/pxelinux.0&quot;</span><span class="p">;</span><span class="w">              </span><span class="c1"># 指定启动文件</span>
+
+subnet<span class="w"> </span><span class="m">192</span>.168.3.0<span class="w"> </span>netmask<span class="w"> </span><span class="m">255</span>.255.255.0<span class="w"> </span><span class="o">{</span>
+
+<span class="w">        </span>option<span class="w"> </span>routers<span class="w">                  </span><span class="m">192</span>.168.3.1<span class="p">;</span>
+<span class="w">        </span>option<span class="w"> </span>subnet-mask<span class="w">              </span><span class="m">255</span>.255.255.0<span class="p">;</span>
+
+<span class="w">        </span>option<span class="w"> </span>nis-domain<span class="w">               </span><span class="s2">&quot;domain.org&quot;</span><span class="p">;</span>
+<span class="w">        </span>option<span class="w"> </span>domain-name<span class="w">              </span><span class="s2">&quot;domain.org&quot;</span><span class="p">;</span>
+<span class="w">        </span>option<span class="w"> </span>domain-name-servers<span class="w">      </span><span class="m">192</span>.168.1.1<span class="p">;</span>
+
+<span class="w">        </span>option<span class="w"> </span>time-offset<span class="w">              </span>-18000<span class="p">;</span><span class="w"> </span><span class="c1"># Eastern Standard Time</span>
+
+<span class="w">        </span>range<span class="w"> </span>dynamic-bootp<span class="w"> </span><span class="m">192</span>.168.3.128<span class="w"> </span><span class="m">192</span>.168.3.254<span class="p">;</span>
+<span class="w">        </span>default-lease-time<span class="w"> </span><span class="m">21600</span><span class="p">;</span>
+<span class="w">        </span>max-lease-time<span class="w"> </span><span class="m">43200</span><span class="p">;</span>
+
+<span class="o">}</span>
+<span class="c1"># 启动dhcp服务器</span>
+service<span class="w"> </span>dhcpd<span class="w"> </span>start
+Starting<span class="w"> </span>dhcpd:<span class="w"> </span><span class="o">[</span><span class="w"> </span>OK<span class="w"> </span><span class="o">]</span>
+</code></pre></div>
+
+<p>4.安装配置http服务器
+安装:</p>
+<div class="highlight"><pre><span></span><code>yum<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>httpd
+</code></pre></div>
+
+<p>首先把安装光盘里的内容拷到本地服务器上:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 创建目录</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>/pxe/cold/
+<span class="c1"># 复制文件</span>
+<span class="o">(</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/mnt/<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>tar<span class="w"> </span>-cf<span class="w"> </span>-<span class="w"> </span>.<span class="w"> </span><span class="o">)</span><span class="w"> </span>¦<span class="w"> </span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>/pxe/cold<span class="w"> </span><span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span><span class="w"> </span>tar<span class="w"> </span>-xvf<span class="w"> </span>-<span class="w"> </span><span class="o">)</span>
+</code></pre></div>
+
+<p>配置apache</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 编辑配置文件:</span>
+vi<span class="w"> </span>/etc/httpd/conf/httpd.conf
+<span class="c1"># 更改apache根目录(将配置文件中的两处/var/www改成/pxe)</span>
+DocumentRoot<span class="w"> </span><span class="s2">&quot;/pxe&quot;</span>
+<span class="p">&amp;</span>lt<span class="p">;</span>Directory<span class="w"> </span>/<span class="p">&amp;</span>gt<span class="p">;</span>
+<span class="w">    </span>Options<span class="w"> </span>FollowSymLinks
+<span class="w">    </span>AllowOverride<span class="w"> </span>None
+<span class="p">&amp;</span>lt<span class="p">;</span>/Directory<span class="p">&amp;</span>gt<span class="p">;</span>
+<span class="p">&amp;</span>lt<span class="p">;</span>Directory<span class="w"> </span><span class="s2">&quot;/pxe&quot;</span><span class="p">&amp;</span>gt<span class="p">;</span>
+<span class="w">    </span>Options<span class="w"> </span>Indexes<span class="w"> </span>FollowSymLinks
+<span class="w">    </span>AllowOverride<span class="w"> </span>None
+<span class="w">    </span>Order<span class="w"> </span>allow,deny
+<span class="w">    </span>Allow<span class="w"> </span>from<span class="w"> </span>all
+<span class="p">&amp;</span>lt<span class="p">;</span>/Directory<span class="p">&amp;</span>gt<span class="p">;</span>
+</code></pre></div>
+
+<p>配置完成后启动apache</p>
+<div class="highlight"><pre><span></span><code>service<span class="w"> </span>httpd<span class="w"> </span>start
+</code></pre></div>
+
+<p>5.更改ks文件(ks文件可在CentOS图形界面下用kickstart程序直接生成,这里不做介绍)</p>
+<p>因为网络安装,又需要部署cfengine的话,就需要更改cfengine的获取方式,首先要将文件夹打包:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/pxe/cold
+tar<span class="w"> </span>-cvf<span class="w"> </span>cfengine.tar<span class="w"> </span>cfengine/
+</code></pre></div>
+
+<p>然后编辑ks文件</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 编辑ks文件</span>
+vi<span class="w"> </span>/pxe/cold/isolinux/ks.cfg
+install
+cdrom
+lang<span class="w"> </span>en_US.UTF-8
+keyboard<span class="w"> </span>us
+rootpw<span class="w"> </span>--iscrypted<span class="w"> </span><span class="nv">$1$OKNHES6P$tPdz9HxIp6</span>.QUvulqxNwa.
+firewall<span class="w"> </span>--disable
+authconfig<span class="w"> </span>--enableshadow<span class="w"> </span>--enablemd5
+selinux<span class="w"> </span>--disabled
+timezone<span class="w"> </span>--utc<span class="w"> </span>Asia/Chongqing
+bootloader<span class="w"> </span>--location<span class="o">=</span>mbr<span class="w"> </span>--driveorder<span class="o">=</span>sda
+url<span class="w"> </span>--url<span class="w"> </span>http://192.168.3.1/cold/<span class="w">              </span><span class="c1"># 添加指定安装文件的语句</span>
+<span class="c1"># The following is the partition information you requested</span>
+<span class="c1"># Note that any partitions you deleted are not expressed</span>
+<span class="c1"># here so unless you clear all partitions first, this is</span>
+<span class="c1"># not guaranteed to work</span>
+clearpart<span class="w"> </span>--linux<span class="w"> </span>--drives<span class="o">=</span>sda
+part<span class="w"> </span>/<span class="w"> </span>--fstype<span class="w"> </span>ext3<span class="w"> </span>--size<span class="o">=</span><span class="m">1</span><span class="w"> </span>--grow<span class="w"> </span>--maxsize<span class="o">=</span><span class="m">4096</span>
+part<span class="w"> </span>/usr<span class="w"> </span>--fstype<span class="w"> </span>ext3<span class="w"> </span>--size<span class="o">=</span><span class="m">1</span><span class="w"> </span>--grow
+part<span class="w"> </span>swap<span class="w"> </span>--size<span class="o">=</span><span class="m">1</span><span class="w"> </span>--grow<span class="w"> </span>--maxsize<span class="o">=</span><span class="m">512</span>
+
+%packages
+@core
+@useful
+@cfengine
+
+%post<span class="w"> </span>--nochroot
+mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/sysimage/var/cfengine/masterfiles
+mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/sysimage/var/cfengine/inputs
+mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/sysimage/var/cfengine/outputs
+mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/sysimage/var/cfengine/bin
+
+wget<span class="w">  </span>http://192.168.3.1/cold/cfengine.tar<span class="w">    </span><span class="c1"># 更改cfengine获取方式</span>
+tar<span class="w"> </span>-xvf<span class="w"> </span>cfengine.tar
+cp<span class="w"> </span>/cfengine/sbin/cf-*<span class="w"> </span>/mnt/sysimage/var/cfengine/bin/
+cp<span class="w"> </span>-r<span class="w"> </span>/cfengine<span class="w"> </span>/mnt/sysimage/usr/local/
+</code></pre></div>
+
+<p>6.测试
+开启另一台设备测试,机器启动时一般按F12即可进入网卡启动.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=用pxe安装自己定制的发行版快速部署系统环境&amp;url=https://www.linuxzen.com/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.linuxzen.com/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.linuxzen.com/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.linuxzen.com/tag/wang-luo-an-zhuang.html">网络安装</a><a href="https://www.linuxzen.com/tag/wang-qia-qi-dong.html">网卡启动</a><a href="https://www.linuxzen.com/tag/wu-ren-zhi-shou.html">无人值守</a><a href="https://www.linuxzen.com/tag/pxe.html">pxe</a><a href="https://www.linuxzen.com/tag/linux.html">Linux</a><a href="https://www.linuxzen.com/tag/cfengine.html">cfengine</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://s.gravatar.com/avatar/4d0bc04ed0e44ab750ba32b5224101d7?s=200" alt="Gray King" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.linuxzen.com/author/cold.html">Gray King</a></h4>
+                            <p class="post-author-about">纸上得来终觉浅，绝知此事要躬行</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Beijing</span>
+                            <span class="post-author-website"><a href="https://github.com/coldnight"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'linuxzen';
+                    var disqus_shortname = 'linuxzen';
+                    var disqus_identifier = '/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html';
+                    var disqus_url = 'https://www.linuxzen.com/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/yong-pxean-zhuang-zi-ji-ding-zhi-de-fa-xing-ban-kuai-su-bu-shu-xi-tong-huan-jing.html" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>cold's world - Go</title><link href="https://www.linuxzen.com/" rel="alternate"></link><link href="https://www.linuxzen.com/feeds/go.atom.xml" rel="self"></link><id>https://www.linuxzen.com/</id><updated>2019-02-23T00:00:00+08:00</updated><subtitle>纸上得来终觉浅，绝知此事要躬行</subtitle><entry><title>译文：Go 内存分配器可视化指南</title><link href="https://www.linuxzen.com/go-memory-allocator-visual-guide.html" rel="alternate"></link><published>2019-02-23T00:00:00+08:00</published><updated>2019-02-23T00:00:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2019-02-23:/go-memory-allocator-visual-guide.html</id><summary type="html">&lt;p&gt;当我第一次开始尝试理解 Go 语言的内存分配器时，整个过程让我抓狂。一切看起来都像一个神秘的黑盒子。因为几乎所有 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;当我第一次开始尝试理解 Go 语言的内存分配器时，整个过程让我抓狂。一切看起来都像一个神秘的黑盒子。因为几乎所有技术魔法（technical wizardry）都隐藏在抽象之下，所以你需要一层一层的剥离才能去理解它。&lt;/p&gt;
+&lt;p&gt;我们将通过这篇文章来一层层的剥离这些细节。如果你想学习所有关于 Go 内存分配器的知识，那么这篇文章正适合你。&lt;/p&gt;
+&lt;h2 id="_1"&gt;物理内存和虚拟内存&lt;/h2&gt;
+&lt;p&gt;每一个内存分配器都需要运行在由底层操作系统管理的虚拟内存空间（Virtual Memory Space）之上。&lt;/p&gt;
+&lt;p&gt;下图是一个物理内存单元（Physical Memory Cell）的简要说明（非精准）&lt;/p&gt;
+&lt;p&gt;&lt;img alt="A simple illustration of a Physical Memory Cell" src="static/upload/go-memory-allocator-visual-guide/5c6f9646b9048569f7000001.png"&gt;&lt;/p&gt;
+&lt;p&gt;一个内存单元的概述经过大大简化之后描述如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;地址线（Address line）（晶体管做的开关）用于访问电容器（数据到数据线（Data Lines））。&lt;/li&gt;
+&lt;li&gt;如果地址线有电流流动（显式为红色），数据线可以写入到电容器，所以电容器带电，逻辑值表示 “1”。&lt;/li&gt;
+&lt;li&gt;如果地址线没有电流流动（显式为绿色），数据线不可以写入到电容器，所以电容器不带电，逻辑值表示 “0”&lt;/li&gt;
+&lt;li&gt;当 CPU 需要从 RAM 中“读取”值，则顺着“地址线（ADDRESS LINE）”（关闭开关）发送一个电流。如果电容器带电，则电流流向“数据线（DATA LINE）”（值为 1）；否则没有电流流向数据线，所以电容器保持不带电（值为 0）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;下图简单的描述 CPU 和物理内存单元如何交互&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Simple Illustration of how a Physical Memory Cell interacts with CPU" src="static/upload/go-memory-allocator-visual-guide/5c6fa15bb9048569f7000002.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;数据总线（Data Bus）&lt;/strong&gt;：用于在 CPU 和内存中间传输数据。&lt;/p&gt;
+&lt;p&gt;还有一点关于&lt;strong&gt;地址线（Address line）&lt;/strong&gt;和&lt;strong&gt;按字节寻址（Addressable bytes）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;下图是 CPU 和物理内存之间地址线的说明&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Illustrative Representation of an Address Line between CPU and Physical Memory." src="static/upload/go-memory-allocator-visual-guide/5c6fa25eb9048569f7000003.png"&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://zh.wikipedia.org/zh/%E5%8A%A8%E6%80%81%E9%9A%8F%E6%9C%BA%E5%AD%98%E5%8F%96%E5%AD%98%E5%82%A8%E5%99%A8"&gt;DRAM&lt;/a&gt; 中的每一个字节都分配了一个唯一的数字标识符（地址）。“&lt;strong&gt;物理字节 != 地址线的数量（Physical bytes present != Number of address line）&lt;/strong&gt;”（e.g. 16 位 Intel 8088、&lt;a href="https://zh.wikipedia.org/wiki/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%89%A9%E5%B1%95"&gt;PAE&lt;/a&gt;）&lt;/li&gt;
+&lt;li&gt;每一个“地址线”可以发送 1-bit 的值，用于表示给定字节地址中的“一个位（SINGLE BIT）”&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在我们的上面给出的图中，我们有 32 个地址线。所以每个 &lt;strong&gt;字节（BYTE）&lt;/strong&gt; 都有“32 位”作为地址。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;[ 00000000000000000000000000000000 ]&lt;/code&gt; — 低内存地址&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;[ 11111111111111111111111111111111 ]&lt;/code&gt; — 高内存地址&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;由于我们每字节都有一个 32 位的地址，所以我们的地址空间包含 2 的 32 次方个可寻址字节（bytes）（4GB）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;综上所述，可寻址的字节数量取决于地址总线的数量，所以对于 64 个地址线最大可寻址 2 的 64 次方个字节数（16 &lt;a href="https://zh.wikipedia.org/wiki/%E8%89%BE%E5%AD%97%E8%8A%82"&gt;EB&lt;/a&gt;），但是由于大部分架构实际上仅使用 48-bit 地址线（AMD）和 42-bit 地址线（Intel）作为 64-bit 指针，所以理论上允许 256TB 物理内存（Linux 在 x86-64 下通过 &lt;a href="https://www.kernel.org/doc/Documentation/x86/x86_64/mm.txt"&gt;with 4 level page tables&lt;/a&gt; 允许每个处理器 128TB 地址空间，Windows 192TB）。&lt;/p&gt;
+&lt;p&gt;由于物理内存的大小是受限制的，所以进程运行在自身的内存沙盒内 -- “虚拟内存地址（virtual address space）”，称作 &lt;strong&gt;虚拟内存（Virtual Memory）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;字节的地址在这个虚拟地址空间内不再和处理器放在地址总线上的地址相同&lt;/strong&gt;。因此必须建立转换数据结构和系统将虚拟地址空间中的字节映射到物理字节。&lt;/p&gt;
+&lt;p&gt;虚拟地址表示参见下图（&lt;code&gt;/proc/$PID/maps&lt;/code&gt;）：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Virtual Address Space Representation" src="static/upload/go-memory-allocator-visual-guide/5c6fbf14b9048569f7000004.png"&gt;&lt;/p&gt;
+&lt;p&gt;综上所述当 CPU 执行一个指令需要引用内存地址时。首先将在 VMA（Virtual Memory Areas）中的逻辑地址转换为线性地址。这个转换通过 &lt;a href="https://zh.wikipedia.org/wiki/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8D%95%E5%85%83"&gt;MMU&lt;/a&gt; 完成。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="This is not a physical diagram, only a depiction. address translation process not included for simplicity" src="static/upload/go-memory-allocator-visual-guide/5c6fc2c1b9048569f7000005.png"&gt;&lt;/p&gt;
+&lt;p&gt;由于逻辑地址太大几乎很难独立的管理，所以引入术语 &lt;strong&gt;页（pages）&lt;/strong&gt; 进行管理。当必要的分页操作被激活后，&lt;strong&gt;虚拟地址空间被分成更小的称作页的区域&lt;/strong&gt;（大部分操作系统下是 4KB，可以修改）。页是虚拟内存中数据内存管理的最小单元。虚拟内存不存储任何内容，只是简单的将程序地址空间映射到底层物理内存之上。&lt;/p&gt;
+&lt;p&gt;独立的进程只能使用 VMA  作为他们的地址。&lt;strong&gt;所以当我们的程序需要更多 “堆内存（heap memory）时发生了什么？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;下图是简单的汇编代码用于分配更多的堆内存&lt;/p&gt;
+&lt;p&gt;&lt;img alt="A simple assembly code asking for more heap memory." src="static/upload/go-memory-allocator-visual-guide/5c6fc4f9b9048569f7000006.png"&gt;&lt;/p&gt;
+&lt;p&gt;下图描述堆内存的增长&lt;/p&gt;
+&lt;p&gt;&lt;img alt="heap memory increment" src="static/upload/go-memory-allocator-visual-guide/5c6fc53bb9048569f7000007.png"&gt;&lt;/p&gt;
+&lt;p&gt;应用程序通过系统调用 &lt;a href="http://man7.org/linux/man-pages/man2/brk.2.html"&gt;brk&lt;/a&gt;（&lt;code&gt;sbrk&lt;/code&gt;/&lt;code&gt;mmap&lt;/code&gt; 等）获得内存。内核仅更新堆 VMA 并调用它。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当前时间点实际上不分配页帧且新页在物理内存中并不存在。这也是 VSZ 和 RSS 大小的不同点。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="_2"&gt;内存分配器&lt;/h2&gt;
+&lt;p&gt;通过对“虚拟地址空间”基本了解和它对在堆分配的意义，内存分配器现在变得更加容易解释。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果堆上有足够的空间的满足我们代码的内存申请，内存分配器可以完成内存申请无需内核参与，否则将通过操作系统调用（&lt;code&gt;brk&lt;/code&gt;）进行扩展堆，通常是申请一大块内存。（对于 &lt;code&gt;malloc&lt;/code&gt; 大默认指的是大于 &lt;code&gt;MMAP_THRESHOLD&lt;/code&gt; 个字节 - 128KB）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;但是，内存分配器除了更新 &lt;code&gt;brk address&lt;/code&gt; 还有其他职责。其中主要的一项就是如何&lt;strong&gt;减少&lt;/strong&gt; &lt;code&gt;内部（internal）&lt;/code&gt;和&lt;code&gt;外部（external）&lt;/code&gt;碎片和如何快速分配当前块。考虑我们的程序以串行的方式（p1 到 p4）通过 &lt;code&gt;malloc(size)&lt;/code&gt; 函数申请一块连续的内存然后通过 &lt;code&gt;free(pointer)&lt;/code&gt; 函数进行释放。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="An external fragmentation demonstration" src="static/upload/go-memory-allocator-visual-guide/5c6fcc0db9048569f7000008.png"&gt;&lt;/p&gt;
+&lt;p&gt;在 p4 阶段由于内存碎片化即使我们有足够的内存块依然无法满足申请的 6 个连续的内存块。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;所以我们该如何减少内存碎片化呢&lt;/strong&gt; ？答案取决是使用哪种内存分配算法，也就是使用哪个底层库。&lt;/p&gt;
+&lt;p&gt;我们将简单看一下一个和 Go 内存分配器建模相近的内存分配器： &lt;code&gt;TCMalloc&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id="tcmalloc"&gt;TCMalloc&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://goog-perftools.sourceforge.net/doc/tcmalloc.html"&gt;TCMalloc&lt;/a&gt; 的核心思想是将内存分为多个级别缩小锁的粒度。在 TCMalloc 内存管理内部分为两个部分：&lt;strong&gt;线程内存（thread memory)&lt;/strong&gt;和&lt;strong&gt;页堆（page heap）&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id="_3"&gt;线程内存&lt;/h3&gt;
+&lt;p&gt;每一个内存页都被分为多个固定分配大小规格的空闲列表（&lt;code&gt;free list&lt;/code&gt;） 用于减少碎片化。这样每一个线程都可以获得一个用于无锁分配小对象的缓存，这样可以让并行程序分配小对象（&amp;lt;=32KB）非常高效。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Thread Cache (Each Thread gets this Thread Local Thread Cache)" src="static/upload/go-memory-allocator-visual-guide/5c6fd07bb9048569f7000009.png"&gt;&lt;/p&gt;
+&lt;h3 id="_4"&gt;页堆&lt;/h3&gt;
+&lt;p&gt;TCMalloc 管理的堆由一组页组成，&lt;strong&gt;一组连续的页面被表示为 span&lt;/strong&gt;。当分配的对象大于 32KB，将使用页堆（Page Heap）进行内存分配。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Page Heap (for span management)" src="static/upload/go-memory-allocator-visual-guide/5c6fd167b9048569f700000a.png"&gt;&lt;/p&gt;
+&lt;p&gt;当没有足够的空间分配小对象则会到页堆获取内存。如果页堆页没有足够的内存，则页堆会向操作系统申请更多的内存。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: 即使 Go 的内存分配器最初是基于 TCMalloc，但是现在已经有很大的不同。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="go"&gt;Go 内存分配器&lt;/h2&gt;
+&lt;p&gt;我们知道 Go 运行时（Go Runtime）调度器在调度时会将 &lt;strong&gt;Goroutines(G)&lt;/strong&gt; 绑定到 &lt;strong&gt;逻辑处理器（P）(Logical Processors）&lt;/strong&gt; 运行。类似的，Go 实现的 TCMalloc 将内存页（Memory Pages）分为 67 种不同大小规格的块。 &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你不熟悉 Go 的调度器可以先参见《&lt;a href="https://povilasv.me/go-scheduler/"&gt;
+Go scheduler: Ms, Ps &amp;amp; Gs
+&lt;/a&gt;》,然后继续阅读。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img alt="Size Classes in Go" src="static/upload/go-memory-allocator-visual-guide/5c6fd34eb9048569f700000b.png"&gt;&lt;/p&gt;
+&lt;p&gt;如果页的规格大小为 1KB 那么 Go 管理粒度为 &lt;strong&gt;8192B&lt;/strong&gt; 内存将被切分为 8 个像下图这样的块。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="8 KB page divided into a size class of 1KB (In Go pages are maintained at the granularity of 8KB)" src="static/upload/go-memory-allocator-visual-guide/5c6fd4f7b9048569f700000c.png"&gt;&lt;/p&gt;
+&lt;p&gt;Go 中这些页通过 &lt;strong&gt;mspan&lt;/strong&gt; 结构体进行管理。&lt;/p&gt;
+&lt;h3 id="mspan"&gt;mspan&lt;/h3&gt;
+&lt;p&gt;简单的说，&lt;code&gt;mspan&lt;/code&gt; 是一个包含页起始地址、页的 span 规格和页的数量的双端链表。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Illustrative Representation of a mspan in Go memory allocator" src="static/upload/go-memory-allocator-visual-guide/5c6fd878b9048569f700000d.png"&gt;&lt;/p&gt;
+&lt;h3 id="mcache"&gt;mcache&lt;/h3&gt;
+&lt;p&gt;Go 像 TCMalloc 一样为每一个 &lt;strong&gt;逻辑处理器（P）（Logical Processors）&lt;/strong&gt; 提供一个本地线程缓存（Local Thread Cache）称作 &lt;strong&gt;mcache&lt;/strong&gt;，所以如果 Goroutine 需要内存可以直接从 &lt;strong&gt;mcache&lt;/strong&gt; 中获取，由于在同一时间只有一个 Goroutine 运行在 &lt;strong&gt;逻辑处理器（P）（Logical Processors）&lt;/strong&gt; 上，所以中间不需要任何锁的参与。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;mcache&lt;/strong&gt; 包含所有大小规格的 &lt;strong&gt;mspan&lt;/strong&gt; 作为缓存。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Illustrative Representation of a Relationship between P, mcache, and mspan in Go." src="static/upload/go-memory-allocator-visual-guide/5c6fda2eb9048569f700000e.png"&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;由于每个 P 都拥有各自的 mcache，所以从 mcache 分配内存无需持有锁。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对于每一种大小规格都有两个类型：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;scan&lt;/strong&gt; -- 包含指针的对象。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;noscan&lt;/strong&gt; -- 不包含指针的对象。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;采用这种方法的好处之一就是进行垃圾回收时 &lt;strong&gt;noscan&lt;/strong&gt; 对象无需进一步扫描是否引用其他活跃的对象。&lt;/p&gt;
+&lt;h4 id="mcache_1"&gt;mcache 的作用是什么？&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;=32K&lt;/code&gt; 字节的对象直接使用相应大小规格的 &lt;strong&gt;mspan&lt;/strong&gt; 通过 &lt;code&gt;mcache&lt;/code&gt; 分配&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="mcache_2"&gt;当 mcache 没有可用空间时会发生什么？&lt;/h4&gt;
+&lt;p&gt;从 &lt;strong&gt;mcentral&lt;/strong&gt; 的 mspans 列表获取一个新的所需大小规格的 &lt;code&gt;mspan&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id="mcentral"&gt;mcentral&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;mcentral&lt;/code&gt; 对象收集所有给定规格大小的 span。每一个 &lt;code&gt;mcentral&lt;/code&gt; 都包含两个 mspan 的列表：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;empty&lt;/strong&gt; mspanList -- 没有空闲对象或 span 已经被 mcache 缓存的 span 列表&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;nonempty&lt;/strong&gt; mspanList -- 有空闲对象的 span 列表&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="Illustrative Representation of a mcentral" src="static/upload/go-memory-allocator-visual-guide/5c6fdd13b9048569f700000f.png"&gt;&lt;/p&gt;
+&lt;p&gt;每一个 mcentral 结构体都维护在 &lt;strong&gt;mheap&lt;/strong&gt; 结构体内。&lt;/p&gt;
+&lt;h3 id="mheap"&gt;mheap&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Go 使用 mheap 对象管理堆，只有一个全局变量。持有虚拟地址空间。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img alt="Illustrative Representation of a mheap." src="static/upload/go-memory-allocator-visual-guide/5c6fdd76b9048569f7000010.png"&gt;&lt;/p&gt;
+&lt;p&gt;就上我们从上图看到的：&lt;strong&gt;mheap 存储了 mcentral 的数组&lt;/strong&gt;。&lt;strong&gt;这个数组包含了各个的 span 的 mcentral&lt;/strong&gt;。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nx"&gt;central&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;numSpanClasses&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="kd"&gt;struct&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;mcentral&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;mcentral&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nx"&gt;pad&lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;sys&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;CacheLineSize&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;unsafe&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;mcentral&lt;/span&gt;&lt;span class="p"&gt;{})&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nx"&gt;sys&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;CacheLineSize&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="kt"&gt;byte&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;由于我们有各个规格的 span 的 mcentral，当一个 &lt;strong&gt;mcache&lt;/strong&gt; 从 mcentral 申请 &lt;strong&gt;mspan&lt;/strong&gt; 时，只需要在独立的 &lt;strong&gt;mcentral&lt;/strong&gt; 级别中使用锁，所以其它任何 &lt;strong&gt;mcache&lt;/strong&gt; 在同一时间申请不同大小规格的 &lt;strong&gt;mspan&lt;/strong&gt; 将互不受影响可以正常申请。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对齐填充（Padding）用于确保 mcentrals 以 &lt;em&gt;CacheLineSize&lt;/em&gt; 个字节数分隔，所以每一个 &lt;em&gt;MCentral.lock&lt;/em&gt; 都可以获取自己的缓存行（cache line），以避免&lt;a href="https://en.wikipedia.org/wiki/False_sharing"&gt;伪共享（false sharing）&lt;/a&gt;问题。&lt;/p&gt;
+&lt;p&gt;当 &lt;strong&gt;mcentral&lt;/strong&gt; 列表空的时候会发生什么？&lt;strong&gt;mcentral&lt;/strong&gt; 从 &lt;strong&gt;mheap&lt;/strong&gt; 获取一系列页用于需要的大小规格的 span。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;free[_MaxMHeapList]mSpanList&lt;/strong&gt;：一个 &lt;code&gt;spanList&lt;/code&gt; 数组。每一个 &lt;code&gt;spanList&lt;/code&gt; 中的 &lt;strong&gt;mspan&lt;/strong&gt; 包含 1 ~ 127（_MaxMHeapList - 1）个页。例如，&lt;code&gt;free[3]&lt;/code&gt; 是一个包含 3 个页的 &lt;strong&gt;mspan&lt;/strong&gt; 链表。&lt;code&gt;free&lt;/code&gt; 表示 &lt;code&gt;free list&lt;/code&gt;，表示未分配。对应 &lt;code&gt;busy list&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;freelarge mSpanList&lt;/strong&gt;：一个 &lt;strong&gt;mspan&lt;/strong&gt; 的列表。每一个元素(mspan)的页数大于 127。通过 &lt;code&gt;mtreap&lt;/code&gt; 结构体管理。对应 &lt;code&gt;busylarge&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;大于 32K 的对象被定义为大对象，直接通过 mheap 分配。这些大对象的申请是以一个全局锁为代价的，因此任何给定的时间点只能同时供一个 P 申请。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="_5"&gt;对象分配流程&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;大于 32K 的大对象直接从 &lt;strong&gt;mheap&lt;/strong&gt; 分配。&lt;/li&gt;
+&lt;li&gt;小于 16B 的使用 &lt;strong&gt;mcache&lt;/strong&gt; 的微型分配器分配&lt;/li&gt;
+&lt;li&gt;对象大小在 16B ~ 32K 之间的的，首先通过计算使用的大小规格，然后使用 &lt;strong&gt;mcache&lt;/strong&gt; 中对应大小规格的块分配&lt;/li&gt;
+&lt;li&gt;如果对应的大小规格在 &lt;strong&gt;mcache&lt;/strong&gt; 中没有可用的块，则向 &lt;strong&gt;mcentral&lt;/strong&gt; 申请&lt;/li&gt;
+&lt;li&gt;如果 &lt;strong&gt;mcentral&lt;/strong&gt; 中没有可用的块，则向 &lt;strong&gt;mheap&lt;/strong&gt; 申请，并&lt;strong&gt;根据 BestFit 算法找到最合适的 mspan&lt;/strong&gt;。如果申请到的 &lt;strong&gt;mspan&lt;/strong&gt; 超出申请大小，将会根据需求进行切分，以返回用户所需的页数。剩余的页构成一个新的 &lt;strong&gt;mspan&lt;/strong&gt; 放回 &lt;strong&gt;mheap&lt;/strong&gt; 的空闲列表。&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果 &lt;strong&gt;mheap&lt;/strong&gt; 中没有可用 span，则向操作系统申请一系列新的页（最小 1MB）。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;但是 Go 会在操作系统分配超大的页（称作 arena）。分配一大批页会减少和操作系统通信的成本。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;所有在堆上的内存申请都来自 arena&lt;/strong&gt;。让我们看看 arena 是什么。&lt;/p&gt;
+&lt;h2 id="go_1"&gt;Go 虚拟内存&lt;/h2&gt;
+&lt;p&gt;让我们看一个简单的 Go 程序的内存情况&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kd"&gt;func&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="process stats for a program" src="static/upload/go-memory-allocator-visual-guide/5c6fefc5b9048569f7000011.png"&gt;&lt;/p&gt;
+&lt;p&gt;从上面可以即使是一个简单的程序虚拟空间占用页大概 &lt;code&gt;~100MB&lt;/code&gt; 左右，但是 RSS 仅仅占用 &lt;code&gt;696KB&lt;/code&gt;。让我们先搞清楚这之间的差异。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="map and smap stats." src="static/upload/go-memory-allocator-visual-guide/5c6ff023b9048569f7000012.png"&gt;&lt;/p&gt;
+&lt;p&gt;这里有一块内存区域大小在 ~ &lt;code&gt;2MB&lt;/code&gt;、&lt;code&gt;64MB&lt;/code&gt; 和 &lt;code&gt;32MB&lt;/code&gt;。这些是什么？&lt;/p&gt;
+&lt;h3 id="arena"&gt;Arena&lt;/h3&gt;
+&lt;p&gt;事实证明 Go 的虚拟内存布局中包含一系列 &lt;strong&gt;arenas&lt;/strong&gt;。初始的堆映射是一个 &lt;strong&gt;arena&lt;/strong&gt;，如 &lt;code&gt;64MB&lt;/code&gt;（基于 go 1.11.5）。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="current incremental arena size on a different system." src="static/upload/go-memory-allocator-visual-guide/5c6ff112b9048569f7000013.png"&gt;&lt;/p&gt;
+&lt;p&gt;所以当前内存根据我们的程序需要以小增量映射，并且初始于一个 arena（~64MB）。&lt;/p&gt;
+&lt;p&gt;请首先记住这些数字。主题开始改变。早期 Go 需要预先保留一个连续的虚拟地址，在一个 64-bit 的系统 arena 的大小是 512GB。（如果分配的足够大且 &lt;strong&gt;被 mmap 拒绝&lt;/strong&gt; 会发生什么？）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;这些 arenas 就是我们所说的堆&lt;/strong&gt;。在 Go 中每一个 arena 都以 &lt;code&gt;8192B&lt;/code&gt; 的粒度的页进行管理。&lt;/p&gt;
+&lt;p&gt;下图表示一个 64MB 的 arena&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Single arena ( 64 MB )." src="static/upload/go-memory-allocator-visual-guide/5c701deab9048569f7000014.png"&gt;&lt;/p&gt;
+&lt;p&gt;Go 同时存在其他两个块：&lt;strong&gt;span&lt;/strong&gt; 和 &lt;strong&gt;bitmap&lt;/strong&gt;。&lt;strong&gt;两者都在堆外分配并且包含每个 arena 的元数据&lt;/strong&gt;。大多用于垃圾回收期间（所以我们就讨论到这）。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;在我们刚刚讨论的 Go 的内存分配策略种类里，只涉及到内存分配奇妙且多样性的冰山一角。&lt;/p&gt;
+&lt;p&gt;然而，Go 内存管理的一般思想是使用不同的内存结构为不同大小的对象使用不同的内存缓存级别来分配内存。将一个从操作系统接收的连续地址的块切分到多级缓存来减少锁的使用，同时根据指定的大小分配内存减少内存碎片以提高内存分配的效率和在内存释放之后加快 GC 运行的速度。&lt;/p&gt;
+&lt;p&gt;现在我们将通过下图结束 Go 内存分配可视化指南。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Visual Overview of Runtime Memory Allocator." src="static/upload/go-memory-allocator-visual-guide/5c70206cb9048569f7000015.png"&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;翻译参考：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://share.onlinesjtu.com/mod/tab/view.php?id=253"&gt;总线内部结构&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zh.wikipedia.org/zh/%E5%8A%A8%E6%80%81%E9%9A%8F%E6%9C%BA%E5%AD%98%E5%8F%96%E5%AD%98%E5%82%A8%E5%99%A8"&gt;DRAM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zh.wikipedia.org/wiki/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%89%A9%E5%B1%95"&gt;PAE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.wikiwand.com/en/Byte_addressing"&gt;Byte addressing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.csie.ntu.edu.tw/~wcchen/asm98/asm/proj/b85506061/chap2/overview.html"&gt;内存管理&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 &lt;a href="https://blog.learngoprogramming.com/a-visual-guide-to-golang-memory-allocator-from-ground-up-e132258453ed"&gt;A visual guide to Go Memory Allocator from scratch (Golang)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub 地址：&lt;a href="https://github.com/coldnight/go-memory-allocator-visual-guide"&gt;go-memory-allocator-visual-guide&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Go"></category><category term="Go"></category><category term="memory"></category><category term="allocator"></category></entry><entry><title>Go 1.5 内存清除汇编源码注释</title><link href="https://www.linuxzen.com/golang-105-memclr-assembly-comment.html" rel="alternate"></link><published>2019-02-11T00:00:00+08:00</published><updated>2019-02-11T00:00:00+08:00</updated><author><name>cold</name></author><id>tag:www.linuxzen.com,2019-02-11:/golang-105-memclr-assembly-comment.html</id><summary type="html">&lt;p class="first last"&gt;Go 为了实现内存复用会将已经回收到 cache 的内存清除，清除逻辑使用汇编实现，本文是基于自己的理解进行的注释。&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;最近在阅读 Go1.5 的源码，发现源码中多处调用了了 &lt;tt class="docutils literal"&gt;memclr&lt;/tt&gt; ，进一步深入了解发现原来 Go 为了实现内存复用会将已经回收到 &lt;tt class="docutils literal"&gt;cache&lt;/tt&gt; 的内存清除，清除逻辑使用汇编实现，本文是基于自己的理解进行的注释。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;最新版的 Go 中（1.11）该函数已经改名为 &lt;tt class="docutils literal"&gt;memclrNoHeapPointers&lt;/tt&gt;&lt;/li&gt;
+&lt;li&gt;我自己添加的注释以 &lt;tt class="docutils literal"&gt;//#&lt;/tt&gt; 开始&lt;/li&gt;
+&lt;li&gt;Go 针对不同的平台实现了不同的内存清除，这里仅对 &lt;tt class="docutils literal"&gt;amd64&lt;/tt&gt; 平台下的实现进行注释：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;源文件: &lt;a class="reference external" href="https://github.com/golang/go/blob/release-branch.go1.5/src/runtime/memclr_amd64.s"&gt;https://github.com/golang/go/blob/release-branch.go1.5/src/runtime/memclr_amd64.s&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// +build !plan9
+
+#include &amp;quot;textflag.h&amp;quot;
+
+// NOTE: Windows externalthreadhandler expects memclr to preserve DX.
+
+// void runtime·memclr(void* ptr, uintptr n)
+
+//# - TEXT 在 Plan9 中用于声明函数
+//# - runtime·memclr 为函数名，中间的·不是普通的点在 Mac 下通过 Option+Shift+9 打出，· 前是包名后面是函数名
+//# - SB（伪寄存器）全局静态基指针，用来声明函数或全局变量（此处用来声明函数）
+//# - NOSPLIT 定义在 https://github.com/golang/go/blob/master/src/runtime/textflag.h
+//# - $0-16：
+//#   + $0 栈帧大小为0（局部变量+可能需要的额外调用函数的参数空间总大小，不包括调用其他函数时的 ret address 的大小）
+//#   + 16 参数基返回值的大小（16 表示两个双四字的参数）
+TEXT runtime·memclr(SB), NOSPLIT, $0-16
+     //# FP（伪寄存器）：通过 `symbol+offset(FP)` 的方式引用输入参数
+     //# symbol 没有任何用，只是增加可读性，但不能省略
+     //# FP 指向整个栈帧的底部的 BP 寄存器
+     MOVQ    ptr+0(FP), DI   //# 第一个参数移动到 DI 寄存器（DI 目标索引寄存器）
+     MOVQ    n+8(FP), BX     //# 第二个参数移动到 BX 寄存器（BX 为基址寄存器，用于内存寻址）
+     XORQ    AX, AX          //# 清零 AX 寄存器（AX 为累加寄存器）
+
+// MOVOU seems always faster than REP STOSQ.
+tail:
+     TESTQ   BX, BX          // set ZF to 1 if n is 0
+     JEQ     _0              // jump to _0 if ZF == 1(returns)
+     CMPQ    BX, $2
+     JBE     _1or2           // jump to _1or2 if n &amp;lt;= 2
+     CMPQ    BX, $4
+     JBE     _3or4           // jump to _3or4 if n &amp;gt; 2 and n &amp;lt;= 4
+     CMPQ    BX, $8
+     // ...
+     JBE     _5through8
+     CMPQ    BX, $16
+     JBE     _9through16
+
+     //# 大于 16 开始使用 128 位寄存器 X0，
+     //# PXOR 将 X0 寄存器置为 0
+     PXOR    X0, X0
+     CMPQ    BX, $32
+     JBE     _17through32
+     CMPQ    BX, $64
+     JBE     _33through64
+     CMPQ    BX, $128
+     JBE     _65through128
+     CMPQ    BX, $256
+     JBE     _129through256
+     // TODO: use branch table and BSR to make this just a single dispatch
+     // TODO: for really big clears, use MOVNTDQ.
+
+//# 大于 256 则通过循环
+loop:
+     //# MOVOU 相当于 AT&amp;amp;T/Intel 的 MOVDQU -- 移动非对齐的双四字
+     //# X0 相当与 AT&amp;amp;T/Intel 的 SSE 新增的 %xmm0(128位元暂存器)
+     //# 参见 https://zh.wikipedia.org/wiki/SSE
+     MOVOU   X0, 0(DI)
+     MOVOU   X0, 16(DI)
+     MOVOU   X0, 32(DI)
+     MOVOU   X0, 48(DI)
+     MOVOU   X0, 64(DI)
+     MOVOU   X0, 80(DI)
+     MOVOU   X0, 96(DI)
+     MOVOU   X0, 112(DI)
+     MOVOU   X0, 128(DI)
+     MOVOU   X0, 144(DI)
+     MOVOU   X0, 160(DI)
+     MOVOU   X0, 176(DI)
+     MOVOU   X0, 192(DI)
+     MOVOU   X0, 208(DI)
+     MOVOU   X0, 224(DI)
+     MOVOU   X0, 240(DI)
+     SUBQ    $256, BX  //# 递减 BX
+     ADDQ    $256, DI  //# 递增 DI
+     CMPQ    BX, $256
+     JAE     loop      //# 如果 BX 依然大于 256 则继续循环
+     JMP     tail      //# 否则进入 tail
+
+_1or2:
+     MOVB    AX, (DI)
+     MOVB    AX, -1(DI)(BX*1)
+     RET
+_0:
+     RET
+_3or4:
+     MOVW    AX, (DI)
+     MOVW    AX, -2(DI)(BX*1)
+     RET
+_5through8:
+     MOVL    AX, (DI)
+     MOVL    AX, -4(DI)(BX*1)
+     RET
+_9through16:
+     MOVQ    AX, (DI)
+     MOVQ    AX, -8(DI)(BX*1)
+     RET
+_17through32:
+     MOVOU   X0, (DI)
+     MOVOU   X0, -16(DI)(BX*1)
+     RET
+_33through64:
+     MOVOU   X0, (DI)
+     MOVOU   X0, 16(DI)
+     MOVOU   X0, -32(DI)(BX*1)
+     MOVOU   X0, -16(DI)(BX*1)
+     RET
+_65through128:
+     MOVOU   X0, (DI)
+     MOVOU   X0, 16(DI)
+     MOVOU   X0, 32(DI)
+     MOVOU   X0, 48(DI)
+     MOVOU   X0, -64(DI)(BX*1)
+     MOVOU   X0, -48(DI)(BX*1)
+     MOVOU   X0, -32(DI)(BX*1)
+     MOVOU   X0, -16(DI)(BX*1)
+     RET
+_129through256:
+     MOVOU   X0, (DI)
+     MOVOU   X0, 16(DI)
+     MOVOU   X0, 32(DI)
+     MOVOU   X0, 48(DI)
+     MOVOU   X0, 64(DI)
+     MOVOU   X0, 80(DI)
+     MOVOU   X0, 96(DI)
+     MOVOU   X0, 112(DI)
+     MOVOU   X0, -128(DI)(BX*1)
+     MOVOU   X0, -112(DI)(BX*1)
+     MOVOU   X0, -96(DI)(BX*1)
+     MOVOU   X0, -80(DI)(BX*1)
+     MOVOU   X0, -64(DI)(BX*1)
+     MOVOU   X0, -48(DI)(BX*1)
+     MOVOU   X0, -32(DI)(BX*1)
+     MOVOU   X0, -16(DI)(BX*1)
+     RET
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;在此期间参阅了大量的资料，最大的坑就是 Go 使用的汇编是 Plan9而非常见的 x86 汇编，参考资料如下：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://quasilyte.github.io/blog/post/go-asm-complementary-reference/"&gt;https://quasilyte.github.io/blog/post/go-asm-complementary-reference/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gocn.vip/article/733"&gt;https://gocn.vip/article/733&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/golang/arch/blob/master/x86/x86.csv"&gt;https://github.com/golang/arch/blob/master/x86/x86.csv&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://golang.org/doc/asm"&gt;https://golang.org/doc/asm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="Go"></category><category term="golang"></category><category term="go"></category><category term="源码"></category><category term="plan9 汇编"></category><category term="内存清除"></category><category term="memclr"></category></entry></feed>

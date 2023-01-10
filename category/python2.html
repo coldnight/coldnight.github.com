@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>cold's world - Articles in the Python category</title>
+
+  <meta name="description" content="博主一个爱好开源技术的人，对 Python 比较熟悉，也喜欢用 Python 捣腾一些东西，本博主要分享一些开源技术，其中包括但不限于 Linux/Python/Vim。" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<link href="https://www.linuxzen.com/" rel="canonical" />
+  <!-- Feed -->
+      <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="cold's world Full Atom Feed" />
+
+  <link href="https://www.linuxzen.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.linuxzen.com/theme/css/code_blocks/tomorrow.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.linuxzen.com/static/css/wide.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.cnpmjs.org/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.cnpmjs.org/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/notes/" role="presentation">Zettelkasten</a></li>
+
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/git.html">Git</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/go.html">Go</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/linux.html">Linux</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/other.html">Other</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/pyqt.html">PyQt</a></li>
+                  <li class="nav-python active" role="presentation"><a href="https://www.linuxzen.com/category/python.html">Python</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/rust.html">Rust</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/tech.html">Tech</a></li>
+                  <li role="presentation"><a href="https://www.linuxzen.com/category/vim.html">Vim</a></li>
+
+        <li class="nav-rss"><a href="/feeds/all.atom.xml"><i class="ic ic-rss"></i> Subscribe</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="blog-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.linuxzen.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Category Python</h1>
+        <span class="blog-description">Posts: 50</span>
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+<div id="index" class="container">
+  <main class="content" role="main">
+    <div class="extra-pagination">
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <a class="pagination-next" href="https://www.linuxzen.com/category/python.html"><i class="ic ic-arrow-left"></i> <span class="pagination-label">Newer Posts</span></a>
+    <span class="pagination-info">Page 2 / 5</span>
+    <a class="pagination-prev" href="https://www.linuxzen.com/category/python3.html"><span class="pagination-label">Older Posts</span> <i class="ic ic-arrow-right"></i></a>
+    <div class="clear"></div>
+  </div>
+</nav>
+    </div>
+
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/ji-yu-python-sheng-cheng-qi-de-tornado-xie-cheng-yi-bu.html" rel="bookmark" title="Permalink to 基于 Python 生成器的 Tornado 协程异步">基于 Python 生成器的 Tornado 协程异步</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Fri 19 December 2014">Fri 19 December 2014</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        Tornado 4.0 已经发布了很长一段时间了, 新版本广泛的应用了协程(Future)特性. 我们目前已经将 Tornado 升级到最新版本, 而且也大量的 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/ji-yu-python-sheng-cheng-qi-de-tornado-xie-cheng-yi-bu.html" href="https://www.linuxzen.com/ji-yu-python-sheng-cheng-qi-de-tornado-xie-cheng-yi-bu.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/python-ru-men-zhi-nan.html" rel="bookmark" title="Permalink to Python 入门指南">Python 入门指南</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Fri 23 May 2014">Fri 23 May 2014</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        引子 经常能在 Python 群里看到很多新人在问一些非常基础的问题, 基本每天都在重复的问这些问题, 在这里就总结一下这些 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/python-ru-men-zhi-nan.html" href="https://www.linuxzen.com/python-ru-men-zhi-nan.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/tornado-duo-jin-cheng-shi-xian-fen-xi.html" rel="bookmark" title="Permalink to Tornado 多进程实现分析">Tornado 多进程实现分析</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Fri 11 April 2014">Fri 11 April 2014</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        引子 Tornado 是一个网络异步的的web开发框架, 并且可以利用多进程进行提高效率, 下面是创建一个多进程 tornado 程序的例子. #!/usr/bin/env python # -*- coding:utf-8 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/tornado-duo-jin-cheng-shi-xian-fen-xi.html" href="https://www.linuxzen.com/tornado-duo-jin-cheng-shi-xian-fen-xi.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html" rel="bookmark" title="Permalink to 将Pelican版本更新到3.3">将Pelican版本更新到3.3</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Tue 24 December 2013">Tue 24 December 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        记录升级Pelican到3.3的过程和一些吐槽,
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/jiang-pelicanban-ben-geng-xin-dao-33.html" href="https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/linux-xia-python-shi-xian-an-ren-yi-jian-tui-chu.html" rel="bookmark" title="Permalink to Linux 下 Python 实现按任意键退出">Linux 下 Python 实现按任意键退出</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Tue 20 August 2013">Tue 20 August 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        初学Python时在总想实现一个按任意键继续/退出的程序(受.bat毒害), 奈何一直写不出来, 最近学习Unix C时发现可以通过termios.h库来实现, 尝试一下发现Python也有这个库, 所以终于写出一个这样的程序 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/linux-xia-python-shi-xian-an-ren-yi-jian-tui-chu.html" href="https://www.linuxzen.com/linux-xia-python-shi-xian-an-ren-yi-jian-tui-chu.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html" rel="bookmark" title="Permalink to 发布一个基于Tornado的高效异步的HTTP客户端库">发布一个基于Tornado的高效异步的HTTP客户端库</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Thu 01 August 2013">Thu 01 August 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        前面的博文提到过使用tornado进行网络异步编程, 也使用tornado实现了一个高效的WebQQ机器人, 由于tornado内置的AsyncHTTPClient功能过于单一, 所以自己写了一个基于Tornado的HTTP客户端库, 鉴于自己多处使用了这个库, 所以 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html" href="https://www.linuxzen.com/fa-bu-yi-ge-ji-yu-tornadode-gao-xiao-yi-bu-de-httpke-hu-duan-ku.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/pual-geng-xin-zhi-chi-simsimike-yi-jin-xing-hu-dong.html" rel="bookmark" title="Permalink to Pual 更新支持SimSimi可以进行互动">Pual 更新支持SimSimi可以进行互动</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Thu 30 May 2013">Thu 30 May 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        Pual 跑了许久, 通过一段时间的修改现在Pual主要支持以下功能: 英汉互译 为每个用户分配一个session的含有上下文的Python shell 贴代码 总而言之就是一个被动型的辅助机 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/pual-geng-xin-zhi-chi-simsimike-yi-jin-xing-hu-dong.html" href="https://www.linuxzen.com/pual-geng-xin-zhi-chi-simsimike-yi-jin-xing-hu-dong.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/shuo-shuo-pythonzhuang-shi-qi.html" rel="bookmark" title="Permalink to 说说Python装饰器">说说Python装饰器</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Mon 20 May 2013">Mon 20 May 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        装饰器对与Python新手以至于熟悉Python的人都是一个难理解, 难写的东西. 那么今天就分享一下我对Python 装饰器的理解 所谓装饰器仅仅是一种语法糖, 可作用的对象可以 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/shuo-shuo-pythonzhuang-shi-qi.html" href="https://www.linuxzen.com/shuo-shuo-pythonzhuang-shi-qi.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/clubotgeng-xin-shi-yong-sqlalchemyzhong-xie-shu-ju-ku-bu-fen-he-gai-yong-tornado-mainloop.html" rel="bookmark" title="Permalink to clubot更新: 使用SQLAlchemy重写数据库部分和改用Tornado MainLoop">clubot更新: 使用SQLAlchemy重写数据库部分和改用Tornado MainLoop</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Fri 26 April 2013">Fri 26 April 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        clubot在我的vps上跑了有一段时间了, 最近接触了SQLAlchemy 然后反观clubot的数据库代码部分, 感觉代码又遭有乱实在看不过眼, 所以就使用SQLAlchemy重写了数据库 …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/clubotgeng-xin-shi-yong-sqlalchemyzhong-xie-shu-ju-ku-bu-fen-he-gai-yong-tornado-mainloop.html" href="https://www.linuxzen.com/clubotgeng-xin-shi-yong-sqlalchemyzhong-xie-shu-ju-ku-bu-fen-he-gai-yong-tornado-mainloop.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html" rel="bookmark" title="Permalink to SQLAlchemy MySQL数据库乱码解决">SQLAlchemy MySQL数据库乱码解决</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.linuxzen.com/author/cold.html">Gray King</a>
+                     | <time datetime="Fri 26 April 2013">Fri 26 April 2013</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        今天对clubot进行了升级, 但是导入数据后中文乱码, 一开是找资料说是在创建引擎的时候添加编码信息: engine = create_engine("mysql://root:@localhost:3306/clubot?charset …
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html" href="https://www.linuxzen.com/sqlalchemy-mysqlshu-ju-ku-luan-ma-jie-jue.html#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <a class="pagination-next" href="https://www.linuxzen.com/category/python.html"><i class="ic ic-arrow-left"></i> <span class="pagination-label">Newer Posts</span></a>
+    <span class="pagination-info">Page 2 / 5</span>
+    <a class="pagination-prev" href="https://www.linuxzen.com/category/python3.html"><span class="pagination-label">Older Posts</span> <i class="ic ic-arrow-right"></i></a>
+    <div class="clear"></div>
+  </div>
+</nav>
+  </main>
+</div>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.cnpmjs.org/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+  <script type="text/javascript" src="https://www.linuxzen.com/theme/js/script.js"></script>
+
+    <script type="text/javascript">
+        var pkBaseURL = "piwik.linuxzen.com";
+    var _paq = _paq || [];
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http")+"://"+pkBaseURL+"/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "2"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'linuxzen';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
